@@ -1,0 +1,42 @@
+custom-drops:
+  enabled: true
+
+  1:
+    material: COAL_ORE
+    xp: 100
+    drops:
+      - torch
+  2:
+    material: IRON_ORE
+    xp: 150
+    drops:
+      - iron_ingot
+  3:
+    material: GOLD_ORE
+    xp: 200
+    drops:
+      - golden_ingot
+  4:
+    material: REDSTONE_ORE
+    xp: 230
+    drops:
+      - nether_wart
+      - brewing_stand
+      - glowstone_dust
+      - sugar
+      - blaze_powder
+  5:
+    material: LAPIS_ORE
+    xp: 230
+    drops:
+      - book
+      - lapis_lazuli
+  6:
+    material: DIAMOND_ORE
+    xp: 250
+    drops:
+      - diamond
+  7:
+    material: EMERALD_ORE
+    xp: 300
+    drops:

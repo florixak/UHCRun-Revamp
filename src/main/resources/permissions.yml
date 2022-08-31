@@ -1,0 +1,12 @@
+permissions:
+
+  creator-mode: "uhcrun.creator"
+  start-item: "uhcrun.start"
+
+  workbench-command: "uhcrun.workbench"
+  anvil-command: "uhcrun.anvil"
+
+  kits:
+    starter: "uhcrun.kit.starter"
+    miner: "uhcrun.kit.miner"
+    enchanter: "uhcrun.kit.enchanter"

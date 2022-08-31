@@ -1,0 +1,68 @@
+
+#----------------#
+#      Kits      #
+#----------------#
+slots: 36
+
+# Title
+title: "Vote"
+
+# Automatic refresh
+refresh:
+  enabled: false
+  rate: 40
+
+# Items in inventory
+items:
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    slot: -1 # -1 is empty slot, others are places
+    display_name: ' '
+  hp:
+    material: REDSTONE
+    slot: 10
+    amount: 1
+    glow: false
+    display_name: '&340 HP'
+    lore:
+      - '&fYou voted? %voted-hp%'
+      - '&fVotes: %votes-hp%'
+    actions:
+      - '[CLOSE]'
+      - "[VOTE] doubled-hp"
+  random-drops:
+    material: GRASS_BLOCK
+    slot: 11
+    amount: 1
+    glow: false
+    display_name: '&3Random Drops'
+    lore:
+      - '&fYou voted? %voted-ran-drops%'
+      - '&fVotes: %votes-ran-drops%'
+    actions:
+      - '[CLOSE]'
+      - "[VOTE] random-drops"
+  no-enchant:
+    material: ENCHANTED_BOOK
+    slot: 12
+    amount: 1
+    glow: false
+    display_name: '&3No Enchants'
+    lore:
+      - '&fYou voted? %voted-no-ench%'
+      - '&fVotes: %votes-no-ench%'
+    actions:
+      - '[CLOSE]'
+      - "[VOTE] no-enchants"
+  no-potions:
+    material: GLASS_BOTTLE
+    slot: 13
+    amount: 1
+    glow: false
+    display_name: '&3No Potions'
+    lore:
+      - '&fYou voted? %voted-no-pots%'
+      - '&fVotes: %votes-no-pots%'
+    actions:
+      - '[CLOSE]'
+      - "[VOTE] no-potions"

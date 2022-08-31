@@ -1,0 +1,69 @@
+scoreboard:
+  title: "&2&lUHC&a&lRun"
+
+  waiting:
+    - ""
+    - "&fWaiting for players..."
+    - ""
+    - "&fPlayers: &a%online%&f/&2%max-online%"
+    - ""
+    - "&fKit: &a%kit%"
+    - "&fPerk: &a%perk%"
+    - ""
+    - "&7www.florixak.tk"
+
+  starting:
+    - ""
+    - "&fStart: &a%time%"
+    - ""
+    - "&fPlayers: &a%online%&f/&2%max-online%"
+    - ""
+    - "&fKit: &a%kit%"
+    - "&fPerk: &a%perk%"
+    - ""
+    - "&7www.florixak.tk"
+
+  mining:
+    - ""
+    - "&fPVP: &a%time%"
+    - ""
+    - "&fBorder: &a%border%"
+    - ""
+    - "&fPlayers left: &a%alive%"
+    - ""
+    - "&fKills: &a%kills%"
+    - ""
+    - "&7www.florixak.tk"
+
+  fighting:
+    - ""
+    - "&fDeathmatch: &a%time%"
+    - ""
+    - "&fBorder: &a%border%"
+    - ""
+    - "&fPlayers left: &a%alive%"
+    - ""
+    - "&fKills: &a%kills%"
+    - ""
+    - "&7www.florixak.tk"
+
+  deathmatch:
+    - ""
+    - "&fEnd: &a%time%"
+    - ""
+    - "&fBorder: &a%border%"
+    - ""
+    - "&fPlayers left: &a%alive%"
+    - ""
+    - "&fKills: &a%kills%"
+    - ""
+    - "&7www.florixak.tk"
+
+  ending:
+    - ""
+    - "&fRestarting..."
+    - ""
+    - "&aWinner:"
+    - "%winner%"
+    - ""
+    - "&7www.florixak.tk"

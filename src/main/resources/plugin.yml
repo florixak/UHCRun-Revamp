@@ -1,0 +1,12 @@
+name: UHCRun
+version: '${project.version}'
+main: me.florixak.uhcrun.UHCRun
+api-version: 1.18
+authors: [ FloriXak ]
+softdepend: [ Vault, LuckPerms ]
+
+commands:
+  creator:
+  workbench:
+  wb:
+  anvil:

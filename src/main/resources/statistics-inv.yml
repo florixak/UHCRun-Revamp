@@ -1,0 +1,77 @@
+
+#----------------#
+#      Kits      #
+#----------------#
+slots: 45
+
+# Title
+title: "Statistics"
+
+# Automatic refresh
+refresh:
+  enabled: false
+  rate: 40
+
+# Items in inventory
+items:
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    slot: -1 # -1 is empty slot, others are places
+    display_name: ' '
+  level:
+    material: PLAYER_HEAD
+    username: '%player%'
+    slot: 12
+    amount: 1
+    glow: false
+    display_name: '&aLevel'
+    lore:
+      - '&f'
+      - '&fYour level: %stats-level%'
+      - '&fRequired XP: %requiredXP%'
+    items:
+    actions:
+  money:
+    material: GOLD_INGOT
+    slot: 14
+    amount: 1
+    glow: false
+    display_name: '&aCoins'
+    lore:
+      - '&f'
+      - '&fYour coins: %money%'
+    items:
+    actions:
+  wins:
+    material: DIAMOND
+    slot: 29
+    amount: 1
+    glow: false
+    display_name: '&aWins'
+    lore:
+      - '&f'
+      - '&fYour wins: %stats-wins%'
+    items:
+    actions:
+  kills:
+    material: IRON_SWORD
+    slot: 31
+    amount: 1
+    glow: false
+    display_name: '&aKills'
+    lore:
+      - '&f'
+      - '&fYour kills: %stats-kills%'
+    items:
+    actions:
+  deaths:
+    material: SKELETON_SKULL
+    slot: 33
+    amount: 1
+    glow: false
+    display_name: '&aDeaths'
+    lore:
+      - '&f'
+      - '&fYour deaths: %stats-deaths%'
+    items:
+    actions:

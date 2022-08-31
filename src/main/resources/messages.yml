@@ -1,0 +1,82 @@
+# Here you can edit game messages
+Messages:
+  prefix: "&2UHC&aRun"
+
+  invalid-command: "&c[!] &fInvalid command!"
+  no-perm: "&c[!] &fYou do not have permissions!"
+  offline-player: "&c[!] &fThis player is offline!"
+  not-player: "%prefix% This can use only player!"
+  no-money: "&c[!] &fYou do not have enough money!"
+  restarting: "%prefix% &fGame is restarting!"
+
+  cant_break: "&c[!] &fYou can not break blocks here!"
+  cant_place: "&c[!] &fYou can not place blocks here!"
+
+  join: "&a[+] &f%player% joined!"
+  quit: "&c[-] &f%player% left!"
+
+  kill: "&6[†] &f%player% wak killed by %killer%!"
+  death: "&6[†] &f%player% died!"
+
+  voted: "&a[!] &fYou voted for %voted%!"
+
+  shot-hp: "&6[🏹] &f%player% has %hp%❤"
+
+  game-starting: "&6[!] &fGame starts in %countdown%!"
+  game-already-starting: "&c[!] &fGame is already about to start!"
+  game-starting-canceled: "&c[!] &fGame starting has been canceled!"
+  game-started: "&a[!] &fGame has started!"
+  game-ended: "&c[!] &fGame has ended!"
+
+  border-shrink: "&c[!] &fThe border began to shrink! Be careful!"
+  players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
+
+  mining: "&a[!] &fYou have %countdown% to mine!"
+  pvp: "&6[!] &fPVP has been allowed!"
+  deathmatch: "&6[!] &fDeathmatch has started!"
+  winner: "&6[♕] &f%winner% &6has won the game!"
+
+  kits:
+    selected: "&a[!] &fKit %kit% was selected!"
+
+  perks:
+    selected: "&a[!] &fPerk %perk% was selected!"
+
+  inv:
+    click-to-buy: "&6Buy (%price%)"
+    click-to-select: "&cUnselected"
+    selected: "&aSelected"
+    disabled: "&cDisabled"
+
+  win-rewards:
+    - "&3---------- %prefix% &3----------"
+    - "&f+%coins-for-win% coins for win"
+    - "&f+%coins-for-kills% coins for kills"
+    - "&f+%level-xp-for-win% XP for win"
+    - "&f+%level-xp-for-kills% XP for kills"
+    - "&3--------------------------------"
+  lose-rewards:
+    - "&3---------- %prefix% &3----------"
+    - "&f+%coins-for-lose% coins for lose"
+    - "&f+%coins-for-kills% coins for kills"
+    - "&f+%level-xp-for-lose% XP for lose"
+    - "&f+%level-xp-for-kills% XP for kills"
+    - "&3--------------------------------"
+
+  rewards-per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
+
+  level-up: "&a[!] &fLEVEL UP! (%previousLevel% → %newLevel%)"
+
+  auto-messages:
+    - "%prefix% &fCreated by FloriXak!"
+    - "%prefix% &fwww.florixak.tk"
+    - "%prefix% &fwww.github.com/florixak"
+    - "%prefix% &fIf you found bug contact admin staff!"
+
+  setlobby:
+    waiting: "%prefix% &fWaiting lobby was set!"
+    ending: "%prefix% &fEnding lobby was set!"
+
+  creator-on: "%prefix% &8× &fMode CREATOR on!"
+  creator-off: "%prefix% &8× &fMode CREATOR off!"
+  creator-before-start: "%prefix% &8× Mode CREATOR can be only used before start!"

@@ -1,0 +1,146 @@
+
+#----------------#
+#      Kits      #
+#----------------#
+slots: 27
+
+# Title
+title: "Kits"
+
+# Automatic refresh
+refresh:
+  enabled: false
+  rate: 40
+
+# Items in inventory
+items:
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    slot: -1 # -1 is empty slot, others are places
+    display_name: ' '
+  none:
+    material: BARRIER
+    slot: 10
+    amount: 1
+    glow: false
+    display_name: '&aNone'
+    price: 0
+    permissions: ""
+    lore:
+      - '&f'
+      - '&fNothing...'
+      - '&f'
+      - '&f%price-none%'
+    items:
+    actions:
+      - '[CLOSE]'
+      - "[KIT] none"
+  starter:
+    material: WOODEN_PICKAXE
+    slot: 11
+    amount: 1
+    glow: false
+    display_name: '&aStarter'
+    price: 0
+    permissions: ""
+    lore:
+      - '&f'
+      - '&f1x Wooden Axe (Eff3,Unb3)'
+      - '&f1x Wooden Pickaxe (Eff3,Unb3)'
+      - '&f1x Wooden Shovel (Eff3,Unb3)'
+      - '&f16x Cooked Beef'
+      - '&f'
+      - '&f%price-starter%'
+    items:
+      - WOODEN_AXE
+      - WOODEN_PICKAXE
+      - WOODEN_SHOVEL
+    actions:
+      - '[CLOSE]'
+      - "[KIT] starter"
+  miner:
+    material: DIAMOND_PICKAXE
+    slot: 12
+    amount: 1
+    glow: false
+    display_name: '&aMiner'
+    price: 10000
+    permissions: "kits.miner"
+    lore:
+      - '&f'
+      - '&f1x Diamond Axe (Eff3,Unb3)'
+      - '&f1x Diamond Pickaxe (Eff3,Unb3)'
+      - '&f1x Diamond Shovel (Eff3,Unb3)'
+      - '&f16x Cooked Beef'
+      - '&f'
+      - '&f%price-miner%'
+    items:
+    actions:
+      - '[CLOSE]'
+      - "[KIT] miner"
+  enchanter:
+    material: ENCHANTING_TABLE
+    slot: 13
+    amount: 1
+    glow: false
+    display_name: '&aEnchanter'
+    price: 10000
+    permissions: "kits.enchanter"
+    lore:
+      - '&f'
+      - '&f1x Wooden Axe (Eff3,Unb3)'
+      - '&f1x Wooden Pickaxe (Eff3,Unb3)'
+      - '&f1x Enchanting Table'
+      - '&f8x Bookshelf'
+      - '&f32x Exp. Bottle'
+      - '&f16x Cooked Beef'
+      - '&f'
+      - '&f%price-enchanter%'
+    items:
+    actions:
+      - '[CLOSE]'
+      - "[KIT] enchanter"
+  healer:
+    material: GOLDEN_APPLE
+    slot: 14
+    amount: 1
+    glow: false
+    display_name: '&aHealer'
+    price: 8500
+    permissions: "kits.healer"
+    lore:
+      - '&f'
+      - '&f1x Stone Axe (Eff3,Unb3)'
+      - '&f1x Stone Pickaxe (Eff3,Unb3)'
+      - '&f12x Golden Carrot'
+      - '&f3x Golden Apple'
+      - '&f16x Cooked Beef'
+      - '&f'
+      - '&f%price-healer%'
+    items:
+    actions:
+      - '[CLOSE]'
+      - "[KIT] healer"
+  horse_rider:
+    material: HORSE_SPAWN_EGG
+    slot: 15
+    amount: 1
+    glow: false
+    display_name: '&aHorse Rider'
+    price: 8500
+    permissions: "kits.horse-rider"
+    lore:
+      - '&f'
+      - '&f1x Iron Sword'
+      - '&f1x Stone Pickaxe (Eff3,Unb3)'
+      - '&f1x Stone Axe (Eff3,Unb3)'
+      - '&f1x Horse Spawn Egg'
+      - '&f1x Saddle'
+      - '&f1x Iron Horse Armor'
+      - '&f16x Cooked Beef'
+      - '&f'
+      - '&f%price-horse_rider%'
+    items:
+    actions:
+      - '[CLOSE]'
+      - "[KIT] horse_rider"
