@@ -18,10 +18,12 @@ min-players-to-start: 2
 starting-warning-time: 10 # start at <_> seconds
 
 starting-countdown: 20 # seconds
-mining-countdown: 60 # seconds
-fighting-countdown: 120 # seconds
+mining-countdown: 15 # seconds
+fighting-countdown: 15 # seconds
 deathmatch-countdown: 60 # seconds
-ending-countdown: 10 # seconds
+ending-countdown: 15 # seconds
+
+teleport-after-mining: false
 
 auto-broadcast:
   enabled: false
@@ -45,19 +47,23 @@ coins-per-kill: 20
 coins-per-win: 450
 coins-per-lose: 100
 
+gg-reward:
+  coins: 30
+  level-xp: 50
+
 arrow-hit-hp: true
 
 custom-ore-drops: true
 random-drops: false # in development
 
-xp-per-coal-ore: 100
-xp-per-iron-ore: 200
-xp-per-gold-ore: 210
-xp-per-redstone-ore: 230
-xp-per-lapis-ore: 200
-xp-per-emerald-ore: 500
-xp-per-diamond-ore: 300
-xp-per-gravel: 50
+xp-per-coal-ore: 20
+xp-per-iron-ore: 60
+xp-per-gold-ore: 100
+xp-per-redstone-ore: 120
+xp-per-lapis-ore: 120
+xp-per-emerald-ore: 250
+xp-per-diamond-ore: 130
+xp-per-gravel: 10
 
 lobby-items:
   kits:

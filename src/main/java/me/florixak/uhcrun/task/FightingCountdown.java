@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class FightingCountdown extends BukkitRunnable {
 
     private GameManager gameManager;
@@ -35,15 +37,14 @@ public class FightingCountdown extends BukkitRunnable {
         }
 
         if (count <= 10) {
-            Bukkit.broadcastMessage(Messages.DEATHMATCH.toString().replace("%count%", "" + TimeConvertor.convertCountdown(count)));
+            Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(count)));
+            for (UUID uuid : PlayerManager.online) {
+                UHCRun.plugin.getSoundManager().playDeathmatchStarts(Bukkit.getPlayer(uuid));
+            }
         }
 
-        if (PlayerManager.online.size() < config.getInt("min-players-to-start")) {
-            cancel();
-            gameManager.setGameState(GameState.ENDING);
-            return;
-        }
-        UHCRun.plugin.getUtilities().checkGame();
+
+        gameManager.checkGame();
         borderManager.setSize(borderManager.getSize()-borderManager.getSpeed());
         count--;
     }

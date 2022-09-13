@@ -31,12 +31,7 @@ public class DeathmatchCountdown extends BukkitRunnable {
             return;
         }
 
-        if (PlayerManager.online.size() < config.getInt("min-players-to-start")) {
-            cancel();
-            gameManager.setGameState(GameState.ENDING);
-            return;
-        }
-        UHCRun.plugin.getUtilities().checkGame();
+//        gameManager.checkGame();
         count--;
     }
 }

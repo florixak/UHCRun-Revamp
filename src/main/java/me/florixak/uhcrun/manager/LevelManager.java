@@ -68,7 +68,7 @@ public class LevelManager {
         return totalExpRequiredForLevel;
     }
 
-    public double getPreviousLevel(UUID uuid) {
+    public int getPreviousLevel(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
             return plugin.data.getPlayerLevel(uuid)-1;
         }
@@ -89,11 +89,7 @@ public class LevelManager {
         Bukkit.getPlayer(uuid).sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(uuid)))
                 .replace("%previousLevel%", String.valueOf(getPreviousLevel(uuid))));
-        Bukkit.getPlayer(uuid)
-                .playSound(Bukkit.getPlayer(uuid).getLocation(),
-                        Sound.ENTITY_PLAYER_LEVELUP,
-                        0.1f,
-                        0.1f);
+        plugin.getSoundManager().playLevelUP(Bukkit.getPlayer(uuid));
     }
 
 }

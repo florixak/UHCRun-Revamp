@@ -30,7 +30,7 @@ items:
       - '&f'
       - '&fNothing...'
       - '&f'
-      - '&f%price-none%'
+      - '&f%kits-none%'
     items:
     actions:
       - '[CLOSE]'
@@ -50,7 +50,7 @@ items:
       - '&f1x Wooden Shovel (Eff3,Unb3)'
       - '&f16x Cooked Beef'
       - '&f'
-      - '&f%price-starter%'
+      - '&f%kits-starter%'
     items:
       - WOODEN_AXE
       - WOODEN_PICKAXE
@@ -73,7 +73,7 @@ items:
       - '&f1x Diamond Shovel (Eff3,Unb3)'
       - '&f16x Cooked Beef'
       - '&f'
-      - '&f%price-miner%'
+      - '&f%kits-miner%'
     items:
     actions:
       - '[CLOSE]'
@@ -95,7 +95,7 @@ items:
       - '&f32x Exp. Bottle'
       - '&f16x Cooked Beef'
       - '&f'
-      - '&f%price-enchanter%'
+      - '&f%kits-enchanter%'
     items:
     actions:
       - '[CLOSE]'
@@ -116,7 +116,7 @@ items:
       - '&f3x Golden Apple'
       - '&f16x Cooked Beef'
       - '&f'
-      - '&f%price-healer%'
+      - '&f%kits-healer%'
     items:
     actions:
       - '[CLOSE]'
@@ -139,7 +139,7 @@ items:
       - '&f1x Iron Horse Armor'
       - '&f16x Cooked Beef'
       - '&f'
-      - '&f%price-horse_rider%'
+      - '&f%kits-horse_rider%'
     items:
     actions:
       - '[CLOSE]'

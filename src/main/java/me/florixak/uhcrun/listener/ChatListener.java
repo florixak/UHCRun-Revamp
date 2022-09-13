@@ -7,6 +7,7 @@ import me.florixak.uhcrun.manager.LevelManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.StatisticsManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.task.StartingCountdown;
 import me.florixak.uhcrun.utility.TextUtil;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -67,7 +68,6 @@ public class ChatListener implements Listener {
         User user = null;
         String format;
         String prefix = "";
-        DecimalFormat level_format = new DecimalFormat("##,###,##0");
         String color = "&8";
         String level = "";
 
@@ -99,15 +99,25 @@ public class ChatListener implements Listener {
             level = color + lvl.getPlayerLevel(player.getUniqueId());
         }
 
-        if (plugin.getGame().gameState == GameState.WAITING ||
-                plugin.getGame().gameState == GameState.STARTING ||
-                plugin.getGame().gameState == GameState.ENDING) {
+        if (!plugin.getGame().isPlaying()) {
             for (UUID uuid : PlayerManager.online) {
                 Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(format
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)));
+                if (plugin.getGame().isEnding()) {
+                    if (event.getMessage().toLowerCase().contains("gg")
+                            || event.getMessage().toLowerCase().contains("good game")) {
+                        int gg_coins = config.getInt("gg-reward.coins");
+                        int gg_xp = config.getInt("gg-reward.level-xp");
+                        if (gg_coins != 0) statistic.addMoney(player, gg_coins);
+                        if (gg_xp != 0) lvl.addPlayerLevel(uuid, gg_xp);
+                        player.sendMessage(Messages.GG_REWARD.toString()
+                                .replace("%coins-for-gg%", String.valueOf(gg_coins))
+                                .replace("%level-xp-for-gg%", String.valueOf(gg_coins)));
+                    }
+                }
             }
         } else {
 

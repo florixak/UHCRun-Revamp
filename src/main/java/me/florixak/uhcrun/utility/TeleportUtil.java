@@ -37,9 +37,9 @@ public class TeleportUtil {
         Random random = new Random();
 
         World world = Bukkit.getWorld(config.getString("game-world"));
-        double x = random.nextDouble(config.getDouble("border.size")-15);
+        double x = random.nextInt((config.getInt("border.size")/2)-10);
         double y = 150.0;
-        double z = random.nextDouble(config.getDouble("border.size")-15);
+        double z = random.nextInt((config.getInt("border.size")/2)-10);
 
         Location randomLocation = new Location(world, x, y, z);
         y = randomLocation.getWorld().getHighestBlockYAt(randomLocation);

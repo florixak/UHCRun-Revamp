@@ -40,14 +40,26 @@ public class SoundManager {
     }
 
     public void playKillSound(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1f, 1f);
+//        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1f, 1f);
     }
 
     public void playWinSound(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
+//        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
     }
 
     public void playInvOpenSound(Player player) {
-        player.playSound(player.getLocation(), Sound.BLOCK_BARREL_OPEN, 1f, 1f);
+        player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1f, 1f);
+    }
+
+    public void playDeathmatchBegan(Player player) {
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
+    }
+
+    public void playDeathmatchStarts(Player player) {
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1f, 1f);
+    }
+
+    public void playLevelUP(Player player) {
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
     }
 }

@@ -9,9 +9,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class RecipeManager {
 
     public int recipes = 0;
+    public HashMap<String, Material> recipe = new HashMap<String, Material>();
 
     public void goldenApple() {
 
@@ -23,6 +27,7 @@ public class RecipeManager {
         shapedRecipe.setIngredient('A', Material.APPLE);
 
         Bukkit.addRecipe(shapedRecipe);
+        recipe.put("Golden Apple", Material.GOLDEN_APPLE);
         recipes += 1;
 
     }
@@ -37,6 +42,7 @@ public class RecipeManager {
         shapedRecipe.setIngredient('I', Material.IRON_INGOT);
 
         Bukkit.addRecipe(shapedRecipe);
+        recipe.put("Light Anvil", Material.ANVIL);
         recipes += 1;
     }
 
@@ -50,6 +56,7 @@ public class RecipeManager {
         shapedRecipe.setIngredient('S', Material.STRING);
 
         Bukkit.addRecipe(shapedRecipe);
+        recipe.put("Light Fishing Rod", Material.FISHING_ROD);
         recipes += 1;
     }
 
@@ -235,40 +242,40 @@ public class RecipeManager {
         Bukkit.addRecipe(shapedRecipe3);
         recipes += 1;
     }
-    public void netheriteTools() {
-
-        ItemStack itemStack1 = new ItemStack(XMaterial.NETHERITE_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
-
-        ItemStack itemStack2 = new ItemStack(XMaterial.NETHERITE_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
-
-        ItemStack itemStack3 = new ItemStack(XMaterial.NETHERITE_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
-
-        ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("netherite-axe"), itemStack1);
-        shapedRecipe1.shape("NN ", "NS ", " S ");
-        shapedRecipe1.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-        shapedRecipe1.setIngredient('S', XMaterial.STICK.parseMaterial());
-
-        ShapedRecipe shapedRecipe2 = new ShapedRecipe(NamespacedKey.minecraft("netherite-pickaxe"), itemStack2);
-        shapedRecipe2.shape("NNN", " S ", " S ");
-        shapedRecipe2.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-        shapedRecipe2.setIngredient('S', XMaterial.STICK.parseMaterial());
-
-        ShapedRecipe shapedRecipe3 = new ShapedRecipe(NamespacedKey.minecraft("netherite-shovel"), itemStack3);
-        shapedRecipe3.shape(" N ", " S ", " S ");
-        shapedRecipe3.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-        shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
-
-        Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
-        Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
-        Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
-    }
+//    public void netheriteTools() {
+//
+//        ItemStack itemStack1 = new ItemStack(XMaterial.NETHERITE_AXE.parseItem());
+//        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+//        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+//
+//        ItemStack itemStack2 = new ItemStack(XMaterial.NETHERITE_PICKAXE.parseItem());
+//        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+//        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+//
+//        ItemStack itemStack3 = new ItemStack(XMaterial.NETHERITE_SHOVEL.parseItem());
+//        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+//        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+//
+//        ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("netherite-axe"), itemStack1);
+//        shapedRecipe1.shape("NN ", "NS ", " S ");
+//        shapedRecipe1.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+//        shapedRecipe1.setIngredient('S', XMaterial.STICK.parseMaterial());
+//
+//        ShapedRecipe shapedRecipe2 = new ShapedRecipe(NamespacedKey.minecraft("netherite-pickaxe"), itemStack2);
+//        shapedRecipe2.shape("NNN", " S ", " S ");
+//        shapedRecipe2.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+//        shapedRecipe2.setIngredient('S', XMaterial.STICK.parseMaterial());
+//
+//        ShapedRecipe shapedRecipe3 = new ShapedRecipe(NamespacedKey.minecraft("netherite-shovel"), itemStack3);
+//        shapedRecipe3.shape(" N ", " S ", " S ");
+//        shapedRecipe3.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+//        shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
+//
+//        Bukkit.addRecipe(shapedRecipe1);
+//        recipes += 1;
+//        Bukkit.addRecipe(shapedRecipe2);
+//        recipes += 1;
+//        Bukkit.addRecipe(shapedRecipe3);
+//        recipes += 1;
+//    }
 }

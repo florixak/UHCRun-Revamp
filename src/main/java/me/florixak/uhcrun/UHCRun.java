@@ -30,7 +30,6 @@ import java.sql.SQLException;
 
 public final class UHCRun extends JavaPlugin {
 
-
     /*
     TODO:
         - spectator teleport
@@ -89,18 +88,18 @@ public final class UHCRun extends JavaPlugin {
 
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
             if (!setupEconomy()) {
-                System.out.println(TextUtil.color("&cNo economy plugin found. Disabling UHCRun."));
+                getLogger().info(TextUtil.color("&cNo economy plugin found. Disabling UHCRun."));
             }
             else {
-                System.out.println(TextUtil.color("&aVault plugin found."));
+                getLogger().info(TextUtil.color("&aVault plugin found."));
             }
         }
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
             if (!setupLuckPerms()) {
-                System.out.println(TextUtil.color("&cLuckPerms plugin not found."));
+                getLogger().info(TextUtil.color("&cLuckPerms plugin not found."));
             }
             else {
-                System.out.println(TextUtil.color("&aLuckPerms plugin found."));
+                getLogger().info(TextUtil.color("&aLuckPerms plugin found."));
             }
         }
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
@@ -146,7 +145,7 @@ public final class UHCRun extends JavaPlugin {
             recipeManager.goldenTools();
             recipeManager.ironTools();
             recipeManager.diamondTools();
-            recipeManager.netheriteTools();
+//            recipeManager.netheriteTools();
             getLogger().info(TextUtil.color("&aAll recipes are loaded! (" + recipeManager.recipes + ")"));
         } catch (Exception e) {
             getLogger().info(TextUtil.color("&cThere is error in recipes!"));

@@ -4,18 +4,20 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.task.*;
 import me.florixak.uhcrun.utility.Cuboid;
 import me.florixak.uhcrun.utility.OreUtility;
+import me.florixak.uhcrun.utility.TeleportUtil;
 import me.florixak.uhcrun.utility.TimeConvertor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class GameManager {
 
@@ -31,7 +33,7 @@ public class GameManager {
     private Cuboid cuboid;
     private BroadcastMessageAction broadcastMessageAction;
 
-    public static int wereAlive;
+    public int wereAlive;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
@@ -70,22 +72,22 @@ public class GameManager {
                 plugin.getUtilities().removeScoreboard();
                 this.startingCountdown = new StartingCountdown(this);
                 this.startingCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(StartingCountdown.count)));
                 break;
 
             case MINING:
                 plugin.getUtilities().removeScoreboard();
-//                plugin.getUtilities().setPlayersForGame();
-                Bukkit.getOnlinePlayers().forEach(player -> plugin.getUtilities().setPlayersForGame(player));
+                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
+                teleportPlayers();
                 this.miningCountdown = new MiningCountdown(this);
                 this.miningCountdown.runTaskTimer(plugin, 0, 20);
                 Bukkit.broadcastMessage(Messages.GAME_STARTED.toString());
-                UHCRun.plugin.getSoundManager().playGameStarted(null, true);
+                plugin.getSoundManager().playGameStarted(null, true);
                 Bukkit.broadcastMessage(Messages.MINING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(MiningCountdown.count)));
                 break;
 
             case FIGHTING:
                 plugin.getUtilities().removeScoreboard();
+                Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
                 this.fightingCountdown = new FightingCountdown(this);
                 this.fightingCountdown.runTaskTimer(plugin, 0, 20);
                 Bukkit.broadcastMessage(Messages.PVP.toString());
@@ -96,17 +98,61 @@ public class GameManager {
                 plugin.getUtilities().removeScoreboard();
                 this.deathmatchCountdown = new DeathmatchCountdown(this);
                 this.deathmatchCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.DEATHMATCH.toString());
+                Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTED.toString());
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playDeathmatchBegan(player));
                 break;
 
             case ENDING:
                 plugin.getUtilities().removeScoreboard();
-                plugin.getUtilities().end();
                 this.endingCountdown = new EndingCountdown(this);
                 this.endingCountdown.runTaskTimer(plugin, 0, 20);
                 Bukkit.broadcastMessage(Messages.GAME_ENDED.toString());
+                plugin.getUtilities().end();
                 break;
         }
+    }
+
+    public void checkGame() {
+
+        if (isWaiting()) {
+            int min = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("min-players-to-start");
+            if (PlayerManager.online.size() >= min) {
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playStartingSound(player));
+                setGameState(GameState.STARTING);
+                Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(StartingCountdown.count)));
+            }
+            return;
+        }
+//        if (isStarting()) {
+//            int min = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("min-players-to-start");
+//            if (PlayerManager.online.size() < min) {
+//                setGameState(GameState.WAITING);
+//                Bukkit.broadcastMessage(Messages.GAME_STARTING_CANCELED.toString());
+//            }
+//            return;
+//        }
+//        if (isPlaying()) {
+//            if (PlayerManager.alive.size() < 2) { // vrátit 2
+//                Bukkit.getScheduler().getPendingTasks().clear();
+//                Bukkit.getScheduler().getActiveWorkers().clear();
+//                setGameState(GameState.ENDING);
+//            }
+//        }
+
+
+    }
+
+    public boolean isWaiting() {
+        return gameState == GameState.WAITING;
+    }
+    public boolean isStarting() {
+        return gameState == GameState.STARTING;
+    }
+    public boolean isPlaying() {
+        return (gameState == GameState.MINING) || (gameState == GameState.FIGHTING) || (gameState == GameState.DEATHMATCH);
+    }
+    public boolean isEnding() {
+        return gameState == GameState.ENDING;
     }
 
     public void setOreSpawn() {
@@ -179,5 +225,44 @@ public class GameManager {
             world.getBlockAt(loc).setType(Material.OBSIDIAN);
             oreUtility.generateVein(Material.OBSIDIAN, world.getBlockAt(loc), amount);
         }
+    }
+
+    public void setPlayersForGame(Player p) {
+
+        if (PlayerManager.isCreator(p)) {
+            PlayerManager.creator.remove(p.getUniqueId());
+        }
+        PlayerManager.alive.add(p.getUniqueId());
+        PlayerManager.kills.put(p.getUniqueId(), 0);
+        p.setGameMode(GameMode.SURVIVAL);
+        p.setHealth(p.getHealthScale());
+        p.setFoodLevel(20);
+        p.getInventory().clear();
+
+        wereAlive = PlayerManager.alive.size();
+
+        KitsManager.getKits();
+    }
+    public void teleportPlayers() {
+        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtil.teleportToSafeLocation()));
+    }
+    public void teleportPlayersAfterMining(Player p) {
+
+        double x, y, z;
+
+        World world = Bukkit.getWorld(p.getLocation().getWorld().getName());
+        x = p.getLocation().getX();
+        y = 150;
+        z = p.getLocation().getZ();
+
+
+        Location location = new Location(world, x, y, z);
+        y = location.getWorld().getHighestBlockYAt(location);
+        location.setY(y);
+        p.teleport(location);
+    }
+
+    public int getWereAlive() {
+        return wereAlive;
     }
 }

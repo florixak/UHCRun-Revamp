@@ -33,7 +33,8 @@ Messages:
 
   mining: "&a[!] &fYou have %countdown% to mine!"
   pvp: "&6[!] &fPVP has been allowed!"
-  deathmatch: "&6[!] &fDeathmatch has started!"
+  deathmatch-started: "&6[!] &fDeathmatch has started!"
+  deathmatch-starting: "&6[!] &fDeathmatch starts in %countdown%!"
   winner: "&6[♕] &f%winner% &6has won the game!"
 
   kits:
@@ -64,6 +65,8 @@ Messages:
     - "&3--------------------------------"
 
   rewards-per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
+
+  gg-rewards: "&6[+] &f%coins-for-gg% coins and %level-xp-for-gg% XP for gg!"
 
   level-up: "&a[!] &fLEVEL UP! (%previousLevel% → %newLevel%)"
 

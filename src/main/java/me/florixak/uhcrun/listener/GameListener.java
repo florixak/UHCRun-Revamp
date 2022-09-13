@@ -5,7 +5,9 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryItem;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.utility.CustomDropUtil;
 import me.florixak.uhcrun.utility.ItemStackBuilder;
+import me.florixak.uhcrun.utility.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -45,180 +47,156 @@ public class GameListener implements Listener {
         Random ran = new Random();
         int amount = 1;
 
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+        if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
+        CustomDropUtil.dropItem(p, event);
 
-        if (config.getBoolean("custom-ore-drops", true)) {
-            if (block.getType() == Material.COAL_ORE || block.getType() == Material.DEEPSLATE_COAL_ORE) {
-                event.setDropItems(false);
-                amount = ran.nextInt(8)+2;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.TORCH, amount));
-                p.giveExp(config.getInt("xp-per-coal-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.IRON_ORE || block.getType() == Material.DEEPSLATE_IRON_ORE) {
-                event.setDropItems(false);
-                amount = ran.nextInt(1)+2;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.IRON_INGOT, amount));
-                p.giveExp(config.getInt("xp-per-iron-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.GOLD_ORE || block.getType() == Material.DEEPSLATE_GOLD_ORE) {
-                event.setDropItems(false);
-                amount = ran.nextInt(1)+2;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, amount));
-                p.giveExp(config.getInt("xp-per-gold-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.DEEPSLATE_REDSTONE_ORE) {
-                event.setDropItems(false);
-                int random = ran.nextInt(5);
-
-                switch (random) {
-                    case 0:
-                        amount = ran.nextInt(4)+2;
-                        loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.NETHER_WART, amount));
-                        break;
-                    case 1:
-                        amount = ran.nextInt(1)+2;
-                        loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BLAZE_POWDER, amount));
-                        break;
-                    case 2:
-                        amount = ran.nextInt(2)+2;
-                        loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.SUGAR, amount));
-                        break;
-                    case 3:
-                        amount = ran.nextInt(2)+2;
-                        loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.GLOWSTONE_DUST, amount));
-                        break;
-                    default:
-                        amount = ran.nextInt(4)+2;
-                        loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BREWING_STAND, amount));
-                        break;
-                }
-                p.giveExp(config.getInt("xp-per-redstone-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.DIAMOND_ORE || block.getType() == Material.DEEPSLATE_DIAMOND_ORE) {
-                event.setDropItems(false);
-                amount = ran.nextInt(2)+2;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, amount));
-                p.giveExp(config.getInt("xp-per-diamond-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.EMERALD_ORE || block.getType() == Material.DEEPSLATE_EMERALD_ORE) {
-                event.setDropItems(false);
-                p.giveExp(config.getInt("xp-per-emerald-ore"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-
-            if (block.getType() == Material.OAK_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-            if (block.getType() == Material.BIRCH_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-            if (block.getType() == Material.JUNGLE_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-            if (block.getType() == Material.ACACIA_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-            if (block.getType() == Material.DARK_OAK_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-            if (block.getType() == Material.SPRUCE_LEAVES) {
-                int random = ran.nextInt(100);
-
-                if (random <= 40) {
-                    amount = ran.nextInt(1)+1;
-                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
-                }
-            }
-
-            if (block.getType() == Material.GRAVEL) {
-                event.setDropItems(false);
-                amount = ran.nextInt(8)+4;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.ARROW, amount));
-                p.giveExp(config.getInt("xp-per-gravel"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-            if (block.getType() == Material.SAND) {
-                event.setDropItems(false);
-                amount = ran.nextInt(2)+2;
-                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.GLASS, amount));
-                p.giveExp(config.getInt("xp-per-gravel"));
-                plugin.getSoundManager().playOreDestroySound(p);
-            }
-
-//            FileConfiguration cd = plugin.getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-
-
-
-
-
+//        if (config.getBoolean("custom-ore-drops", true)) {
+//            if (block.getType() == XMaterial.COAL_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_COAL_ORE*/) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(8)+2;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.TORCH.parseMaterial(), amount));
+//                p.giveExp(config.getInt("xp-per-coal-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == XMaterial.IRON_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_IRON_ORE*/) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(1)+2;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.IRON_INGOT.parseMaterial(), amount));
+//                p.giveExp(config.getInt("xp-per-iron-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == XMaterial.GOLD_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_GOLD_ORE*/) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(1)+2;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.GOLD_INGOT.parseMaterial(), amount));
+//                p.giveExp(config.getInt("xp-per-gold-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == XMaterial.REDSTONE_ORE.parseMaterial()/*|| block.getType() == XMaterial.DEEPSLATE_REDSTONE_ORE*/) {
+//                event.setDropItems(false);
+//                int random = ran.nextInt(5);
+//
+//                switch (random) {
+//                    case 0:
+//                        amount = ran.nextInt(4)+2;
+//                        loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.NETHER_WART.parseMaterial(), amount));
+//                        break;
+//                    case 1:
+//                        amount = ran.nextInt(1)+2;
+//                        loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.BLAZE_POWDER.parseMaterial(), amount));
+//                        break;
+//                    case 2:
+//                        amount = ran.nextInt(2)+2;
+//                        loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.SUGAR.parseMaterial(), amount));
+//                        break;
+//                    case 3:
+//                        amount = ran.nextInt(2)+2;
+//                        loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.GLOWSTONE_DUST.parseMaterial(), amount));
+//                        break;
+//                    default:
+//                        amount = ran.nextInt(4)+2;
+//                        loc.getWorld().dropItemNaturally(loc, new ItemStack(XMaterial.BREWING_STAND.parseMaterial(), amount));
+//                        break;
+//                }
+//                p.giveExp(config.getInt("xp-per-redstone-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == XMaterial.DIAMOND_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_DIAMOND_ORE*/) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(2)+2;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.DIAMOND, amount));
+//                p.giveExp(config.getInt("xp-per-diamond-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == XMaterial.EMERALD_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_EMERALD_ORE*/) {
+//                event.setDropItems(false);
+//                p.giveExp(config.getInt("xp-per-emerald-ore"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//
+//            if (block.getType() == XMaterial.OAK_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//            if (block.getType() == XMaterial.BIRCH_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//            if (block.getType() == XMaterial.JUNGLE_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//            if (block.getType() == XMaterial.ACACIA_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//            if (block.getType() == XMaterial.DARK_OAK_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//            if (block.getType() == XMaterial.SPRUCE_LEAVES.parseMaterial()) {
+//                int random = ran.nextInt(100);
+//
+//                if (random <= 40) {
+//                    amount = ran.nextInt(1)+1;
+//                    loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, amount));
+//                }
+//            }
+//
+//            if (block.getType() == Material.GRAVEL) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(8)+4;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.ARROW, amount));
+//                p.giveExp(config.getInt("xp-per-gravel"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//            if (block.getType() == Material.SAND) {
+//                event.setDropItems(false);
+//                amount = ran.nextInt(2)+2;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.GLASS, amount));
+//                p.giveExp(config.getInt("xp-per-gravel"));
+//                plugin.getSoundManager().playOreDestroySound(p);
+//            }
+//
+//            if ((block.getType() == XMaterial.ANDESITE.parseMaterial())
+//                    || (block.getType() == XMaterial.DIORITE.parseMaterial())
+//                    || (block.getType() == XMaterial.GRANITE.parseMaterial())) {
+//                event.setDropItems(false);
+//                amount = 1;
+//                loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.COBBLESTONE, amount));
+////                p.giveExp(config.getInt("xp-per-gravel"));
+////                plugin.getSoundManager().playOreDestroySound(p);
+//            }
     }
 
     @EventHandler
     public void blockPlace(BlockPlaceEvent event) {
         Player p = event.getPlayer();
-        if ((plugin.getGame().gameState == GameState.WAITING)
-                || (plugin.getGame().gameState == GameState.STARTING)
-                || (plugin.getGame().gameState == GameState.ENDING)) {
+        if (!plugin.getGame().isPlaying()) {
             p.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
             return;
@@ -269,9 +247,7 @@ public class GameListener implements Listener {
 
         if (!(event.getEntity() instanceof Player)) return;
 
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+        if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
         }
 
@@ -290,9 +266,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+        if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
         }
         if (plugin.getGame().gameState == GameState.MINING) {
@@ -306,9 +280,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void hunger(FoodLevelChangeEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+        if (!plugin.getGame().isPlaying()) {
             Player p = (Player) event.getEntity();
             p.setFoodLevel(20);
             event.setCancelled(true);
@@ -365,7 +337,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void noTarget(EntityTargetEvent event) {
-        if (event.getEntity() instanceof Mob) {
+        if (event.getEntity() instanceof Monster) {
             if (event.getTarget() instanceof Player) {
                 event.setCancelled(true);
             }

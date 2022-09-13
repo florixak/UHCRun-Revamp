@@ -21,7 +21,7 @@ public class TextUtil {
 
                 hexString = "#" + hexString.substring(2, hexString.length() - 1);
 
-                final ChatColor hex = ChatColor.of(hexString);
+                final ChatColor hex = ChatColor.valueOf(hexString);
                 final String before = message.substring(0, matcher.start());
                 final String after = message.substring(matcher.end());
 

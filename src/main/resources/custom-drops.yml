@@ -1,41 +1,47 @@
 custom-drops:
-  enabled: true
+#  enabled: true
 
   1:
     material: COAL_ORE
     xp: 100
+    max-drop: 8
     drops:
-      - torch
+      - TORCH
   2:
     material: IRON_ORE
     xp: 150
+    max-drop: 3
     drops:
-      - iron_ingot
+      - IRON_INGOT
   3:
     material: GOLD_ORE
     xp: 200
+    max-drop: 3
     drops:
-      - golden_ingot
+      - GOLD_INGOT
   4:
     material: REDSTONE_ORE
     xp: 230
+    max-drop: 3
     drops:
-      - nether_wart
-      - brewing_stand
-      - glowstone_dust
-      - sugar
-      - blaze_powder
+      - NETHER_WART
+      - BREWING_STAND
+      - GLOWSTONE
+      - SUGAR
+      - BLAZE_POWDER
   5:
     material: LAPIS_ORE
     xp: 230
+    max-drop: 3
     drops:
-      - book
-      - lapis_lazuli
+      - BOOK
+      - LAPIS_LAZULI
   6:
     material: DIAMOND_ORE
     xp: 250
+    max-drop: 3
     drops:
-      - diamond
+      - DIAMOND
   7:
     material: EMERALD_ORE
     xp: 300

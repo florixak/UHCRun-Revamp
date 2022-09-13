@@ -29,18 +29,19 @@ public class PlaceholderUtil {
         StatisticsManager statisticManager = UHCRun.plugin.getStatisticManager();
         LevelManager levelManager = UHCRun.plugin.getLevelManager();
         String replace = "";
+        UHCRun plugin = UHCRun.plugin;
 
-        FileConfiguration config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        FileConfiguration kits = UHCRun.plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
-        FileConfiguration perks = UHCRun.plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
-        FileConfiguration stats = UHCRun.plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
-        FileConfiguration chat = UHCRun.plugin.getConfigManager().getFile(ConfigType.CHAT).getConfig();
+        FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
+        FileConfiguration perks = plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
+        FileConfiguration stats = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
+        FileConfiguration chat = plugin.getConfigManager().getFile(ConfigType.CHAT).getConfig();
 
         if (text.contains("%player%") && player != null)
             text = text.replace("%player%", player.getDisplayName());
 
-        if (text.contains("%ping%"))
-            text = text.replace("%ping%", "" + player.getPing() + " ms");
+//        if (text.contains("%ping%"))
+//            text = text.replace("%ping%", "" + player.getP + " ms");
 
         if (text.contains("%online%"))
             text = text.replace("%online%", String.valueOf(PlayerManager.online.size()));
@@ -130,119 +131,121 @@ public class PlaceholderUtil {
 
         if (text.contains("%alive%")) text = text.replace("%alive%", "" + PlayerManager.alive.size());
 
-        if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + GameManager.wereAlive);
+        if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + plugin.getGame().getWereAlive());
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
-            if (text.contains("%price-none%")) {
+            if (text.contains("%kits-none%")) {
                 if (KitsManager.haveNoKit(player)) {
-                    text = text.replace("%price-none%", Messages.SELECTED_INV.toString());
+                    text = text.replace("%kits-none%", Messages.SELECTED_INV.toString());
                 } else {
-                    text = text.replace("%price-none%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-none%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.none.price")));
                 }
             }
-            if (text.contains("%price-starter%")) {
+            if (text.contains("%kits-starter%")) {
                 if (KitsManager.haveStarter(player)) {
-                    text = text.replace("%price-starter%", Messages.SELECTED_INV.toString());
-                } else if (UHCRun.plugin.getStatisticManager().haveStarter(player.getUniqueId()) == true
+                    text = text.replace("%kits-starter%", Messages.SELECTED_INV.toString());
+                } else if (plugin.getStatisticManager().haveStarter(player.getUniqueId()) == true
                         || kits.getDouble("items.starter.price") == 0) {
-                    text = text.replace("%price-starter%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-starter%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.starter.price")));
                 } else {
-                    text = text.replace("%price-starter%", Messages.CLICK_BUY_INV.toString()
+                    text = text.replace("%kits-starter%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.starter.price")));
                 }
             }
-            if (text.contains("%price-miner%")) {
+            if (text.contains("%kits-miner%")) {
                 if (KitsManager.haveMiner(player)) {
-                    text = text.replace("%price-miner%", Messages.SELECTED_INV.toString());
+                    text = text.replace("%kits-miner%", Messages.SELECTED_INV.toString());
 
-                } else if (UHCRun.plugin.getStatisticManager().haveMiner(player.getUniqueId()) == true
+                } else if (plugin.getStatisticManager().haveMiner(player.getUniqueId()) == true
                         || kits.getDouble("items.miner.price") == 0) {
-                    text = text.replace("%price-miner%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-miner%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.miner.price")));
                 } else {
-                    text = text.replace("%price-miner%", Messages.CLICK_BUY_INV.toString()
+                    text = text.replace("%kits-miner%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.miner.price")));
                 }
             }
-            if (text.contains("%price-enchanter%")) {
+            if (text.contains("%kits-enchanter%")) {
                 if (KitsManager.haveEnchanter(player)) {
-                    text = text.replace("%price-enchanter%", Messages.SELECTED_INV.toString());
-                } else if (UHCRun.plugin.getStatisticManager().haveEnchanter(player.getUniqueId()) == true
+                    text = text.replace("%kits-enchanter%", Messages.SELECTED_INV.toString());
+                } else if (plugin.getStatisticManager().haveEnchanter(player.getUniqueId()) == true
                         || kits.getDouble("items.enchanter.price") == 0) {
-                    text = text.replace("%price-enchanter%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-enchanter%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.enchanter.price")));
                 } else {
-                    text = text.replace("%price-enchanter%", Messages.CLICK_BUY_INV.toString()
+                    text = text.replace("%kits-enchanter%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.enchanter.price")));
                 }
             }
-            if (text.contains("%price-healer%")) {
+            if (text.contains("%kits-healer%")) {
                 if (KitsManager.haveHealer(player)) {
-                    text = text.replace("%price-healer%", Messages.SELECTED_INV.toString());
-                } else if (UHCRun.plugin.getStatisticManager().haveHealer(player.getUniqueId()) == true
+                    text = text.replace("%kits-healer%", Messages.SELECTED_INV.toString());
+                } else if (plugin.getStatisticManager().haveHealer(player.getUniqueId()) == true
                         || kits.getDouble("items.healer.price") == 0) {
-                    text = text.replace("%price-healer%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-healer%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.healer.price")));
                 } else {
-                    text = text.replace("%price-healer%", Messages.CLICK_BUY_INV.toString()
+                    text = text.replace("%kits-healer%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.healer.price")));
                 }
             }
-            if (text.contains("%price-horse_rider%")) {
+            if (text.contains("%kits-horse_rider%")) {
                 if (KitsManager.haveHorseRider(player)) {
-                    text = text.replace("%price-horse_rider%", Messages.SELECTED_INV.toString());
-                } else if (UHCRun.plugin.getStatisticManager().haveHorseRider(player.getUniqueId()) == true
+                    text = text.replace("%kits-horse_rider%", Messages.SELECTED_INV.toString());
+                } else if (plugin.getStatisticManager().haveHorseRider(player.getUniqueId()) == true
                         || kits.getDouble("items.horse_rider.price") == 0) {
-                    text = text.replace("%price-horse_rider%", Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%kits-horse_rider%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.horse_rider.price")));
                 } else {
-                    text = text.replace("%price-horse_rider%", Messages.CLICK_BUY_INV.toString()
+                    text = text.replace("%kits-horse_rider%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.horse_rider.price")));
                 }
             }
         }
         else {
-            if (text.contains("%price-none%")) text = text.replace("%price-none%", Messages.DISABLED.toString());
-            if (text.contains("%price-starter%")) text = text.replace("%price-starter%", Messages.DISABLED.toString());
-            if (text.contains("%price-miner%")) text = text.replace("%price-miner%", Messages.DISABLED.toString());
-            if (text.contains("%price-enchanter%")) text = text.replace("%price-enchanter%", Messages.DISABLED.toString());
-            if (text.contains("%price-healer%")) text = text.replace("%price-healer%", Messages.DISABLED.toString());
-            if (text.contains("%price-horse_rider%")) text = text.replace("%price-horse_rider%", Messages.DISABLED.toString());
+            if (text.contains("%kits-none%")) text = text.replace("%kits-none%", Messages.DISABLED.toString());
+            if (text.contains("%kits-starter%")) text = text.replace("%kits-starter%", Messages.DISABLED.toString());
+            if (text.contains("%kits-miner%")) text = text.replace("%kits-miner%", Messages.DISABLED.toString());
+            if (text.contains("%kits-enchanter%")) text = text.replace("%kits-enchanter%", Messages.DISABLED.toString());
+            if (text.contains("%kits-healer%")) text = text.replace("%kits-healer%", Messages.DISABLED.toString());
+            if (text.contains("%kits-horse_rider%")) text = text.replace("%kits-horse_rider%", Messages.DISABLED.toString());
         }
 
         if (config.getBoolean("lobby-items.perks.enabled")) {
-            replace = "%price-none%";
-            if (text.contains(replace)) {
+            if (text.contains("%perks-none%")) {
                 if (PerksManager.haveNoPerk(player)) {
-                    text = text.replace(replace, Messages.SELECTED_INV.toString());
+                    text = text.replace("%perks-none%", Messages.SELECTED_INV.toString());
                 } else {
-                    text = text.replace(replace, Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%perks-none%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.none.price")));
                 }
             }
-            replace = "%price-strength%";
-            if (text.contains(replace)) {
+            if (text.contains("%perks-strength%")) {
                 if (PerksManager.haveStrength(player)) {
-                    text = text.replace(replace, Messages.SELECTED_INV.toString());
+                    text = text.replace("%perks-strength%", Messages.SELECTED_INV.toString());
                 } else {
-                    text = text.replace(replace, Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%perks-strength%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.strength.price")));
                 }
             }
-            replace = "%price-speed%";
-            if (text.contains(replace)) {
+            if (text.contains("%perks-speed%")) {
                 if (PerksManager.haveSpeed(player)) {
-                    text = text.replace(replace, Messages.SELECTED_INV.toString());
+                    text = text.replace("%perks-speed%", Messages.SELECTED_INV.toString());
                 } else {
-                    text = text.replace(replace, Messages.CLICK_SELECT_INV.toString()
+                    text = text.replace("%perks-speed%", Messages.CLICK_SELECT_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.speed.price")));
                 }
             }
         }
         else {
-
+            if (text.contains("%perks-none%")) text = text.replace("%perks-none%", Messages.DISABLED.toString());
+            if (text.contains("%perks-strength%")) text = text.replace("%perks-strength%", Messages.DISABLED.toString());
+            if (text.contains("%perks-regeneration%")) text = text.replace("%perks-regeneration%", Messages.DISABLED.toString());
+            if (text.contains("%perks-speed%")) text = text.replace("%perks-speed%", Messages.DISABLED.toString());
+            if (text.contains("%perks-resistance%")) text = text.replace("%perks-resistance%", Messages.DISABLED.toString());
+            if (text.contains("%perks-fire_resistance%")) text = text.replace("%perks-fire_resistance%", Messages.DISABLED.toString());
         }
 
         if (text.contains("%stats-wins%")) {
@@ -263,7 +266,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", UHCRun.plugin.getUtilities().getWinner().getDisplayName());
+            text = text.replace("%winner%", UHCRun.plugin.getUtilities().getWinnerName());
         }
 
         String voted = "&aYES";

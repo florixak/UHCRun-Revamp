@@ -37,9 +37,6 @@ public class StartingCountdown extends BukkitRunnable {
         if (count <= 0) {
             cancel();
             gameManager.setGameState(GameState.MINING);
-//            for (UUID uuid : PlayerManager.online) {
-//                UHCRun.plugin.getUtilities().preparePlayers(Bukkit.getPlayer(uuid));
-//            }
             return;
         }
 
@@ -51,12 +48,7 @@ public class StartingCountdown extends BukkitRunnable {
             }
         }
 
-        if (PlayerManager.online.size() < config.getInt("min-players-to-start")) {
-            cancel();
-            gameManager.setGameState(GameState.WAITING);
-            Bukkit.broadcastMessage(Messages.GAME_STARTING_CANCELED.toString());
-            return;
-        }
+        gameManager.checkGame();
 
         count--;
     }

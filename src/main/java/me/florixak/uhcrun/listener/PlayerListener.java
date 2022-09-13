@@ -40,9 +40,14 @@ public class PlayerListener implements Listener {
 
         PlayerManager.online.add(p.getUniqueId());
         KitsManager.noKit.add(p.getUniqueId());
+        PerksManager.noPerk.add(p.getUniqueId());
 
-        if (!(plugin.getGame().gameState.equals(GameState.WAITING)
-                || plugin.getGame().gameState.equals(GameState.STARTING))) {
+        if (plugin.getGame().isEnding()) {
+            p.kickPlayer("UHCRun is restarting!");
+            return;
+        }
+
+        if (plugin.getGame().isPlaying()) {
             p.setHealth(p.getHealthScale());
             p.setFoodLevel(20);
             p.getInventory().clear();
@@ -54,18 +59,19 @@ public class PlayerListener implements Listener {
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
         p.getInventory().clear();
-        p.giveExp((int) -(1*Math.pow(10, 1000000000)));
+//        p.giveExp((int) -(1*Math.pow(10, 1000000000)));
+        p.setLevel(0);
+        p.setTotalExperience(0);
+        p.giveExp(-p.getTotalExperience());
         p.setFlying(false);
         p.setAllowFlight(false);
 
         KitsManager.getWaitingKit(p);
 
-        if (plugin.getGame().gameState.equals(GameState.WAITING))
-            Bukkit.broadcastMessage(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
+        Bukkit.broadcastMessage(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
         p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
 
-        utilities.checkGame();
-
+        plugin.getGame().checkGame();
     }
 
     @EventHandler
@@ -91,8 +97,7 @@ public class PlayerListener implements Listener {
         KitsManager.disbandKits(p);
         PerksManager.disbandPerks(p);
 
-        if (plugin.getGame().gameState.equals(GameState.WAITING)
-                || plugin.getGame().gameState.equals(GameState.STARTING))
+        if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
             Bukkit.broadcastMessage(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
     }
 
@@ -100,19 +105,14 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
 
+        Player p = event.getEntity().getPlayer();
 
-        if ((plugin.getGame().gameState == GameState.WAITING)
-                || (plugin.getGame().gameState == GameState.STARTING)
-                || (plugin.getGame().gameState == GameState.ENDING)) {
-            Player p = event.getEntity().getPlayer();
+        if (!plugin.getGame().isPlaying() || !PlayerManager.isAlive(p)) {
             event.setKeepInventory(true);
             p.setHealth(p.getMaxHealth());
             p.setFoodLevel(20);
-            p.teleport(plugin.getLobbyManager().getWaitingLobbyLocation());
             return;
         }
-
-        Player p = event.getEntity().getPlayer();
 
         if (event.getEntity().getKiller() instanceof Player) {
 
@@ -120,10 +120,11 @@ public class PlayerListener implements Listener {
 
             p.setHealth(p.getMaxHealth());
             p.setFoodLevel(20);
+            p.setLevel(0);
+            p.setTotalExperience(0);
             p.giveExp(-p.getTotalExperience());
             p.getInventory().clear();
 
-            plugin.getUtilities().setSpectator(p);
             plugin.getUtilities().kill(k);
             plugin.getUtilities().death(p);
 
@@ -141,7 +142,7 @@ public class PlayerListener implements Listener {
             Bukkit.broadcastMessage(Messages.DEATH.toString().replace("%player%", p.getDisplayName()));
 
         }
-        plugin.getUtilities().checkGame();
+        plugin.getGame().checkGame();
 
     }
 
@@ -149,13 +150,14 @@ public class PlayerListener implements Listener {
     public void onItemDrop(PlayerDropItemEvent event) {
         if (plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+                || plugin.getGame().gameState == GameState.ENDING
+                || !PlayerManager.isAlive(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void onItemDrop(PlayerPickupItemEvent event) {
+    public void onItemPickUp(PlayerPickupItemEvent event) {
         if (plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING
                 || plugin.getGame().gameState == GameState.ENDING) {

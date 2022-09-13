@@ -28,7 +28,7 @@ items:
       - '&f'
       - '&fNothing...'
       - '&f'
-      - '&f%price-none%'
+      - '&f%perks-none%'
     actions:
       - '[CLOSE]'
       - "[PERK] none"
@@ -42,7 +42,7 @@ items:
       - '&fYou will receive strength I'
       - '&ffor kill on %time%'
       - '&f'
-      - '&f%price-strength%'
+      - '&f%perks-strength%'
     actions:
       - '[CLOSE]'
       - "[PERK] strength"
@@ -56,7 +56,7 @@ items:
       - '&fYou will receive regeneration I'
       - '&for kill on %time%'
       - '&f'
-      - '&f%price-regeneration%'
+      - '&f%perks-regeneration%'
     actions:
       - '[CLOSE]'
       - "[PERK] regeneration"
@@ -70,7 +70,7 @@ items:
       - '&fYou will receive speed 2'
       - '&for kill on %time%'
       - '&f'
-      - '&f%price-speed%'
+      - '&f%perks-speed%'
     actions:
       - '[CLOSE]'
       - "[PERK] speed"
@@ -84,7 +84,7 @@ items:
       - '&fYou will receive invisible 5'
       - '&for kill on %time%'
       - '&f'
-      - '&f%price-invisible%'
+      - '&f%perks-invisible%'
     actions:
       - '[CLOSE]'
       - "[PERK] speed"
@@ -98,7 +98,7 @@ items:
       - '&fYou will receive fire resistance 1'
       - '&for kill on %time%'
       - '&f'
-      - '&f%price-invisible%'
+      - '&f%perks-invisible%'
     actions:
       - '[CLOSE]'
       - "[PERK] fire_resistance"
@@ -112,7 +112,7 @@ items:
       - '&fYou will receive 1x ender pearl'
       - '&for kill'
       - '&f'
-      - '&f%price-ender_pearl%'
+      - '&f%perks-ender_pearl%'
     actions:
       - '[CLOSE]'
       - "[PERK] ender_pearl"
@@ -126,7 +126,7 @@ items:
       - '&fYou will receive resistance 1'
       - '&for kill on %time%'
       - '&f'
-      - '&f%price-resistance%'
+      - '&f%perks-resistance%'
     actions:
       - '[CLOSE]'
       - "[PERK] ender_resistance"

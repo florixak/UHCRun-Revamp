@@ -24,7 +24,8 @@ public enum Messages {
     BORDER_SHRINK("border-shrink"),
     PVP("pvp"),
     MINING("mining"),
-    DEATHMATCH("deathmatch"),
+    DEATHMATCH_STARTED("deathmatch-started"),
+    DEATHMATCH_STARTING("deathmatch-starting"),
     WINNER("winner"),
 
     PLAYERS_TO_START("players-to-start"),
@@ -44,6 +45,7 @@ public enum Messages {
     DISABLED("inv.disabled"),
 
     REWARDS_PER_TIME("rewards-per-time"),
+    GG_REWARD("gg-rewards"),
 
     LEVEL_UP("level-up"),
 

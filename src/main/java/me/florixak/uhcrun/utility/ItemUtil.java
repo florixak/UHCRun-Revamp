@@ -1,35 +1,41 @@
 package me.florixak.uhcrun.utility;
 
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemUtil {
 
-    public static ItemStack item(ItemStack item, String name, int amount, boolean glow){
+    public static ItemStack item(ItemStack item, String name, int amount){
         ItemMeta meta = item.getItemMeta();
         if (name != null) meta.setDisplayName(TextUtil.color(name));
         if (amount == 0) amount = 1;
-        if (glow == true) {
-            meta.addEnchant(Enchantment.DURABILITY, 1, false);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
         item.setItemMeta(meta);
         item.setAmount(amount);
         return item;
     }
 
-    public static void setArmorItemMeta(ItemStack item, String name, Color armorColor){
+    public static ItemStack monsterEgg(EntityType entityType) {
+        ItemStack item = new ItemStack(Material.MONSTER_EGG);
+        SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
+        meta.setSpawnedType(entityType);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static void setArmorItemMeta(ItemStack item, Color armorColor){
 
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-        if (name != null) meta.setDisplayName(TextUtil.color(name));
         if (armorColor != null) meta.setColor(armorColor);
         item.setItemMeta(meta);
     }

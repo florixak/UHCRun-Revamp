@@ -31,16 +31,7 @@ public class MiningCountdown extends BukkitRunnable {
             return;
         }
 
-        if (count == count/2) {
-            Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%count%", "" + TimeConvertor.convertCountdown(count)));
-        }
-
-        if (PlayerManager.online.size() < config.getInt("min-players-to-start")) {
-            cancel();
-            gameManager.setGameState(GameState.ENDING);
-            return;
-        }
-        UHCRun.plugin.getUtilities().checkGame();
+        gameManager.checkGame();
 
         count--;
     }
