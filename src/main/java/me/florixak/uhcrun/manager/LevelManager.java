@@ -3,9 +3,7 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.sql.SQLGetter;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.UUID;

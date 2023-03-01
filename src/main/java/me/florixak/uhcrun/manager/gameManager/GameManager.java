@@ -7,12 +7,12 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
-import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.task.*;
 import me.florixak.uhcrun.utility.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,17 +74,17 @@ public class GameManager {
 
             case WAITING:
                 if (!this.startingCountdown.isCancelled()) this.startingCountdown.cancel();
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 break;
 
             case STARTING:
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 this.startingCountdown = new StartingCountdown(this);
                 this.startingCountdown.runTaskTimer(plugin, 0, 20);
                 break;
 
             case MINING:
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
                 teleportPlayers();
                 this.miningCountdown = new MiningCountdown(this);
@@ -95,7 +95,7 @@ public class GameManager {
                 break;
 
             case FIGHTING:
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
                 this.fightingCountdown = new FightingCountdown(this);
                 this.fightingCountdown.runTaskTimer(plugin, 0, 20);
@@ -104,7 +104,7 @@ public class GameManager {
                 break;
 
             case DEATHMATCH:
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 this.deathmatchCountdown = new DeathmatchCountdown(this);
                 this.deathmatchCountdown.runTaskTimer(plugin, 0, 20);
                 Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTED.toString());
@@ -112,7 +112,7 @@ public class GameManager {
                 break;
 
             case ENDING:
-                plugin.getUtilities().removeScoreboard();
+                plugin.getGame().removeScoreboard();
                 this.endingCountdown = new EndingCountdown(this);
                 this.endingCountdown.runTaskTimer(plugin, 0, 20);
                 Bukkit.broadcastMessage(Messages.GAME_ENDED.toString());
@@ -432,5 +432,36 @@ public class GameManager {
     public String getWinnerName() {
         if (getWinner() == null) return "NOBODY";
         return getWinner().getDisplayName();
+    }
+
+    public void runActivityRewards() {
+        if (config.getBoolean("rewards-per-time.enabled", true)) {
+            int interval = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("rewards-per-time.interval")*20;
+            new ActivityRewards(plugin).runTaskTimer(plugin, 0, interval);
+        }
+    }
+    public void runAutoBroadcast() {
+        if (config.getBoolean("auto-broadcast.enabled", true)) {
+            int interval = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("auto-broadcast.interval")*20;
+            new AutoBroadcastMessages(plugin).runTaskTimer(plugin, 0, interval);
+        }
+    }
+    public void checkBorder() {
+        if (!plugin.getBorderManager().exist()) {
+            plugin.getLogger().info(TextUtil.color("&aBorder was succesfully created!"));
+            plugin.getBorderManager().removeBorder();
+            plugin.getBorderManager().createBorder();
+        }
+    }
+    public void updateScoreboard(){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::updateScoreboard);
+            }
+        }.runTaskTimer(plugin, 0, 20);
+    }
+    public void removeScoreboard(){
+        Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::removeScoreboard);
     }
 }

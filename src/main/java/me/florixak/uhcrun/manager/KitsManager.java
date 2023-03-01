@@ -12,19 +12,18 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class KitsManager {
 
-    public static ArrayList<UUID> noKit = new ArrayList<UUID>();
-    public static ArrayList<UUID> starter = new ArrayList<UUID>();
-    public static ArrayList<UUID> miner = new ArrayList<UUID>();
-    public static ArrayList<UUID> enchanter = new ArrayList<UUID>();
-    public static ArrayList<UUID> healer = new ArrayList<UUID>();
-    public static ArrayList<UUID> horse_rider = new ArrayList<UUID>();
+    public static ArrayList<UUID> noKit = new ArrayList<>();
+    public static ArrayList<UUID> starter = new ArrayList<>();
+    public static ArrayList<UUID> miner = new ArrayList<>();
+    public static ArrayList<UUID> enchanter = new ArrayList<>();
+    public static ArrayList<UUID> healer = new ArrayList<>();
+    public static ArrayList<UUID> horse_rider = new ArrayList<>();
 
     public static boolean haveNoKit(Player p) { return noKit.contains(p.getUniqueId()); }
     public static boolean haveStarter(Player p) { return starter.contains(p.getUniqueId()); }

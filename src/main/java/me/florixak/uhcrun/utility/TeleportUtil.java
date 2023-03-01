@@ -14,13 +14,13 @@ import java.util.Random;
 
 public class TeleportUtil {
 
-    static FileConfiguration config;
+    private static FileConfiguration config;
+
+    public static HashSet<Material> bad_blocks = new HashSet<>();
 
     public TeleportUtil(UHCRun plugin) {
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
-
-    public static HashSet<Material> bad_blocks = new HashSet<>();
 
     static {
 //        bad_blocks.add(Material.LAVA);

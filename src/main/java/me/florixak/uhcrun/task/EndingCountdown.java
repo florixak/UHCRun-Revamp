@@ -4,7 +4,6 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.manager.BorderManager;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
-import me.florixak.uhcrun.utility.Utilities;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 

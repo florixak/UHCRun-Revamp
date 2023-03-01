@@ -35,7 +35,7 @@ public final class UHCRun extends JavaPlugin {
         - spectator teleport
         - custom craft menu
         - celkově doladit
-        */
+    */
 
 
     private static Economy econ = null;
@@ -124,10 +124,10 @@ public final class UHCRun extends JavaPlugin {
             e.printStackTrace();
         }
 
-        getUtilities().runActivityRewards();
-        getUtilities().runAutoBroadcast();
-        getUtilities().updateScoreboard();
-        getUtilities().checkBorder();
+        getGame().runActivityRewards();
+        getGame().runAutoBroadcast();
+        getGame().updateScoreboard();
+        getGame().checkBorder();
 
         try {
             gameManager.setOreSpawn();

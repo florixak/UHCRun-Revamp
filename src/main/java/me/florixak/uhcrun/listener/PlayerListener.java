@@ -79,7 +79,7 @@ public class PlayerListener implements Listener {
         Player p = event.getPlayer();
         event.setQuitMessage(null);
 
-        plugin.getUtilities().removeScoreboard();
+        plugin.getGame().removeScoreboard();
 
         if (PlayerManager.isOnline(p)){
             PlayerManager.online.remove(p.getUniqueId());
