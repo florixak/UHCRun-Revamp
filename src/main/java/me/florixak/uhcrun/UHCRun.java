@@ -86,36 +86,8 @@ public final class UHCRun extends JavaPlugin {
 
         this.teleportUtil = new TeleportUtil(this);
 
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
-            if (!setupEconomy()) {
-                getLogger().info(TextUtil.color("&cNo economy plugin found. Disabling UHCRun."));
-            }
-            else {
-                getLogger().info(TextUtil.color("&aVault plugin found."));
-            }
-        }
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
-            if (!setupLuckPerms()) {
-                getLogger().info(TextUtil.color("&cLuckPerms plugin not found."));
-            }
-            else {
-                getLogger().info(TextUtil.color("&aLuckPerms plugin found."));
-            }
-        }
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            try {
-                SQL.connect();
-            } catch (ClassNotFoundException | SQLException e) {
-                getLogger().info(TextUtil.color("&cDabatase is not connected!"));
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
-
-            if (SQL.isConnected()) {
-                getLogger().info(TextUtil.color("&aDabatase is connected!"));
-                data.createTable();
-            }
-        }
+        registerAddons();
+        connectToDatabase();
 
         try {
             new CreatorModeCommand(this);
@@ -173,6 +145,41 @@ public final class UHCRun extends JavaPlugin {
         this.data = new SQLGetter(this);
 
         SQL.disconnect();
+    }
+
+    private void registerAddons() {
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
+            if (!setupEconomy()) {
+                getLogger().info(TextUtil.color("&cNo economy plugin found. Disabling UHCRun."));
+            }
+            else {
+                getLogger().info(TextUtil.color("&aVault plugin found."));
+            }
+        }
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
+            if (!setupLuckPerms()) {
+                getLogger().info(TextUtil.color("&cLuckPerms plugin not found."));
+            }
+            else {
+                getLogger().info(TextUtil.color("&aLuckPerms plugin found."));
+            }
+        }
+    }
+    private void connectToDatabase() {
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
+            try {
+                SQL.connect();
+            } catch (ClassNotFoundException | SQLException e) {
+                getLogger().info(TextUtil.color("&cDabatase is not connected!"));
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
+
+            if (SQL.isConnected()) {
+                getLogger().info(TextUtil.color("&aDabatase is connected!"));
+                data.createTable();
+            }
+        }
     }
 
     private boolean setupEconomy() {

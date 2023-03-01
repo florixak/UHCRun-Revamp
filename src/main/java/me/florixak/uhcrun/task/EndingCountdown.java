@@ -13,7 +13,6 @@ public class EndingCountdown extends BukkitRunnable {
     private GameManager gameManager;
     private FileConfiguration config;
     private BorderManager borderManager;
-    private Utilities utilities;
     public static int count;
 
     public EndingCountdown(GameManager gameManager) {
@@ -21,7 +20,6 @@ public class EndingCountdown extends BukkitRunnable {
         this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("ending-countdown");
         this.borderManager = UHCRun.plugin.getBorderManager();
-        this.utilities = UHCRun.plugin.getUtilities();
     }
 
     @Override
@@ -29,7 +27,7 @@ public class EndingCountdown extends BukkitRunnable {
         if (count <= 0) {
             cancel();
             borderManager.resetBorder();
-            utilities.resetGame();
+            gameManager.resetGame();
             return;
         }
         count--;

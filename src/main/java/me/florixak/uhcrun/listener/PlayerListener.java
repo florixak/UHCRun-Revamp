@@ -125,8 +125,8 @@ public class PlayerListener implements Listener {
             p.giveExp(-p.getTotalExperience());
             p.getInventory().clear();
 
-            plugin.getUtilities().kill(k);
-            plugin.getUtilities().death(p);
+            plugin.getGame().kill(k);
+            plugin.getGame().death(p);
 
             Bukkit.broadcastMessage(Messages.KILL.toString().replace("%player%", p.getDisplayName()).replace("%killer%", k.getDisplayName()));
 
@@ -137,7 +137,7 @@ public class PlayerListener implements Listener {
             p.giveExp(-p.getTotalExperience());
             p.getInventory().clear();
 
-            plugin.getUtilities().death(p);
+            plugin.getGame().death(p);
 
             Bukkit.broadcastMessage(Messages.DEATH.toString().replace("%player%", p.getDisplayName()));
 

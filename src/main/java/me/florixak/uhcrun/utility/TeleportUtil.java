@@ -14,11 +14,9 @@ import java.util.Random;
 
 public class TeleportUtil {
 
-    private UHCRun plugin;
     static FileConfiguration config;
 
     public TeleportUtil(UHCRun plugin) {
-        this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 

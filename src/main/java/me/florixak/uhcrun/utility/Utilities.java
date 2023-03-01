@@ -29,136 +29,12 @@ import java.util.stream.Collectors;
 public class Utilities {
 
     private UHCRun plugin;
-    private FileConfiguration config, statistics, messages, permissions;
-    private World world;
-    private BroadcastMessageAction broadcastMessageAction;
-    private String prefix;
-    private TitleAction titleAction;
+    private FileConfiguration config;
 
     public Utilities(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
-        this.messages = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
-        this.permissions = plugin.getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
-        this.world = Bukkit.getWorld(config.getString("game-world"));
-        this.broadcastMessageAction = new BroadcastMessageAction();
-        this.prefix = messages.getString("Messages.prefix");
-        this.titleAction = new TitleAction();
     }
-
-    public void setSpectator(Player p) {
-
-        p.getInventory().clear();
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-
-        p.setGameMode(GameMode.SURVIVAL);
-
-        for (UUID uuid : PlayerManager.online) {
-            if (PlayerManager.isDead(Bukkit.getPlayer(uuid))) {
-                p.hidePlayer(plugin, Bukkit.getPlayer(uuid));
-            }
-        }
-
-        KitsManager.getSpectatorKit(p);
-
-        p.setAllowFlight(true);
-        p.setFlying(true);
-
-        p.teleport(new Location(
-                Bukkit.getWorld(config.getString("game-world")),
-                p.getLocation().getX()+0,
-                p.getLocation().getY()+10,
-                p.getLocation().getZ()+0));
-
-    }
-
-    public void kill(Player p) {
-        plugin.getStatisticManager().addKill(p.getUniqueId(), 1);
-
-        PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
-
-        p.giveExp(config.getInt("xp-per-kill"));
-    }
-    public void death(Player p) {
-        PlayerManager.alive.remove(p.getUniqueId());
-        PlayerManager.dead.add(p.getUniqueId());
-        plugin.getStatisticManager().addDeath(p.getUniqueId(), 1);
-        setSpectator(p);
-    }
-    public void end() {
-        List<String> win_rewards = messages.getStringList("Messages.win-rewards");
-        List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
-
-        double money_for_win;
-        double money_for_kills;
-        double level_xp_for_win;
-        double level_xp_for_kills;
-        double money_for_lose;
-        double level_xp_for_lose;
-
-        broadcastMessageAction.execute(plugin, null, Messages.WINNER.toString().replace("%winner%", getWinnerName()));
-
-        for (UUID uuid : PlayerManager.online) {
-
-            money_for_kills = config.getDouble("coins-per-kill")*PlayerManager.kills.get(uuid);
-            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*PlayerManager.kills.get(uuid);
-            money_for_win = config.getDouble("coins-per-win");
-            level_xp_for_win = config.getDouble("player-level.level-xp-per-win");
-
-            money_for_lose = config.getDouble("coins-per-lose");
-            level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
-
-            if (getWinner() != null) {
-                if (uuid == getWinner().getUniqueId()) {
-                    plugin.getStatisticManager().addWin(uuid, 1);
-                    plugin.getStatisticManager().addMoney(Bukkit.getPlayer(uuid), money_for_win + money_for_kills);
-                    plugin.getLevelManager().addPlayerLevel(uuid, level_xp_for_win + level_xp_for_kills);
-                    titleAction.execute(plugin, Bukkit.getPlayer(uuid), "Victory!");
-                    for (String reward : win_rewards) {
-                        Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(reward
-                                        .replace("%coins-for-win%", String.valueOf(money_for_win))
-                                        .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                        .replace("%level-xp-for-win%", String.valueOf(level_xp_for_win))
-                                        .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                        .replace("%prefix%", prefix)
-                                )
-                        );
-                    }
-                }
-                return;
-            }
-            plugin.getStatisticManager().addMoney(Bukkit.getPlayer(uuid), money_for_lose+money_for_kills);
-            plugin.getLevelManager().addPlayerLevel(uuid, level_xp_for_lose+level_xp_for_kills);
-            titleAction.execute(plugin, Bukkit.getPlayer(uuid), "Game Over!");
-            for (String reward : lose_rewards) {
-                Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(reward
-                                .replace("%coins-for-lose%", String.valueOf(money_for_lose))
-                                .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                .replace("%level-xp-for-lose%", String.valueOf(level_xp_for_lose))
-                                .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                .replace("%prefix%", prefix)
-                        )
-                );
-            }
-            if (PlayerManager.isDead(Bukkit.getPlayer(uuid))) {
-                Bukkit.getPlayer(uuid).showPlayer(plugin, Bukkit.getPlayer(uuid));
-            }
-        }
-    }
-    public Player getWinner() {
-        for (UUID uuid : PlayerManager.alive) {
-            if (uuid == null) return null;
-            return Bukkit.getPlayer(uuid);
-        }
-        return null;
-    }
-    public String getWinnerName() {
-        if (getWinner() == null) return "NOBODY";
-        return getWinner().getDisplayName();
-    }
-
 
     @SuppressWarnings("deprecation")
     public ItemStack getPlayerHead(String player, String name) {
@@ -236,54 +112,6 @@ public class Utilities {
             plugin.getBorderManager().removeBorder();
             plugin.getBorderManager().createBorder();
         }
-    }
-    public void resetGame() {
-
-        for (Player all : Bukkit.getOnlinePlayers()) {
-            all.giveExp(-all.getTotalExperience());
-            all.kickPlayer(Messages.RESTARTING.toString());
-        }
-
-        PlayerManager.kills.clear();
-
-        PlayerManager.alive.clear();
-        PlayerManager.dead.clear();
-        PlayerManager.creator.clear();
-        PlayerManager.online.clear();
-
-        KitsManager.noKit.clear();
-        KitsManager.starter.clear();
-        KitsManager.miner.clear();
-        KitsManager.enchanter.clear();
-
-        if (config.getBoolean("auto-map-reset", true)) {
-                File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
-                try (FileInputStream stream = new FileInputStream(propertiesFile)) {
-                    Properties properties = new Properties();
-                    properties.load(stream);
-
-                    // Getting and deleting the main world
-                    File world = new File(Bukkit.getWorldContainer(), properties.getProperty("level-name"));
-
-                    File nether = new File(Bukkit.getWorldContainer(), "world_nether");
-                    // Creating needed directories
-                    world.mkdirs();
-                    new File(world, "data").mkdirs();
-                    new File(world, "datapacks").mkdirs();
-                    new File(world, "playerdata").mkdirs();
-                    new File(world, "poi").mkdirs();
-                    new File(world, "region").mkdirs();
-
-                    new File(nether, "data").mkdirs();
-                    new File(nether, "datapacks").mkdirs();
-                    new File(nether, "playerdata").mkdirs();
-                    new File(nether, "poi").mkdirs();
-                    new File(nether, "region").mkdirs();
-                } catch (IOException ignored) {
-                }
-        }
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
     }
     public void updateScoreboard(){
         new BukkitRunnable() {

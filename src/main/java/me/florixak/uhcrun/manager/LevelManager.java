@@ -24,16 +24,14 @@ public class LevelManager {
     public void addPlayerLevel(UUID uuid, double xp_level) {
         if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addRequiredXP(uuid,-xp_level);
-            if (getRequiredExp(uuid) <= 0) {
-                levelUP(uuid);
-            }
+
         }
         else {
             statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid)-xp_level);
             plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
-            if (getRequiredExp(uuid) <= 0) {
-                levelUP(uuid);
-            }
+        }
+        if (getRequiredExp(uuid) <= 0) {
+            levelUP(uuid);
         }
     }
 
