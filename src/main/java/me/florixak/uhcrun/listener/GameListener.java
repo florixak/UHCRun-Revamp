@@ -3,16 +3,10 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.inventory.InventoryItem;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.utility.CustomDropUtil;
-import me.florixak.uhcrun.utility.ItemStackBuilder;
-import me.florixak.uhcrun.utility.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -52,7 +46,7 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
-        CustomDropUtil.dropItem(p, event);
+        //CustomDropUtil.dropItem(p, event);
 
 //        if (config.getBoolean("custom-ore-drops", true)) {
 //            if (block.getType() == XMaterial.COAL_ORE.parseMaterial()/*|| block.getType() == Material.DEEPSLATE_COAL_ORE*/) {

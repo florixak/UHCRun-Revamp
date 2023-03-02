@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.config;
 
-import me.florixak.uhcrun.utility.PlaceholderUtil;
 import me.florixak.uhcrun.utility.TextUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.scoreboard;
 
-import me.florixak.uhcrun.utility.PlaceholderUtil;
 import me.florixak.uhcrun.utility.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

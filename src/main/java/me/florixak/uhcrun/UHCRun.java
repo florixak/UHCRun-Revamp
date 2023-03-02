@@ -19,6 +19,7 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.utility.TeleportUtil;
 import me.florixak.uhcrun.utility.TextUtil;
 import me.florixak.uhcrun.utility.Utilities;
+import me.florixak.uhcrun.utility.VanishUtil;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -51,11 +52,12 @@ public final class UHCRun extends JavaPlugin {
     private Utilities utilities;
     private ActionManager actionManager;
     private InventoryManager inventoryManager;
-    private RecipeManager recipeManager;
     private StatisticsManager statisticManager;
     private LevelManager levelManager;
     private TeleportUtil teleportUtil;
     private SoundManager soundManager;
+    private TeamManager teamManager;
+    private VanishUtil vanishUtil;
 
     @Override
     public void onEnable() {
@@ -76,10 +78,11 @@ public final class UHCRun extends JavaPlugin {
         this.actionManager = new ActionManager(this);
         this.inventoryManager = new InventoryManager();
         this.inventoryManager.onEnable(this);
-        this.recipeManager = new RecipeManager();
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.soundManager = new SoundManager(this);
+        this.teamManager = new TeamManager(this);
+        this.vanishUtil = new VanishUtil();
 
         this.SQL = new MySQL();
         this.data = new SQLGetter(this);
@@ -88,6 +91,7 @@ public final class UHCRun extends JavaPlugin {
 
         registerAddons();
         connectToDatabase();
+        registerRecipes();
 
         try {
             new CreatorModeCommand(this);
@@ -105,22 +109,6 @@ public final class UHCRun extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         } catch (Exception e) {
             getLogger().info(TextUtil.color("&cThere is error in listeners!"));
-            e.printStackTrace();
-        }
-
-        try {
-            recipeManager.goldenApple();
-            recipeManager.anvil();
-            recipeManager.fishingRod();
-            recipeManager.woodenTools();
-            recipeManager.stoneTools();
-            recipeManager.goldenTools();
-            recipeManager.ironTools();
-            recipeManager.diamondTools();
-//            recipeManager.netheriteTools();
-            getLogger().info(TextUtil.color("&aAll recipes are loaded! (" + recipeManager.recipes + ")"));
-        } catch (Exception e) {
-            getLogger().info(TextUtil.color("&cThere is error in recipes!"));
             e.printStackTrace();
         }
 
@@ -181,6 +169,15 @@ public final class UHCRun extends JavaPlugin {
             }
         }
     }
+    private void registerRecipes() {
+        try {
+            new RecipeManager();
+            getLogger().info(TextUtil.color("&aAll recipes are loaded! (" + RecipeManager.recipes + ")"));
+        } catch (Exception e) {
+            getLogger().info(TextUtil.color("&cThere is error in recipes!"));
+            e.printStackTrace();
+        }
+    }
 
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
@@ -232,9 +229,6 @@ public final class UHCRun extends JavaPlugin {
     public InventoryManager getInventoryManager() {
         return inventoryManager;
     }
-    public RecipeManager getRecipeManager() {
-        return recipeManager;
-    }
     public StatisticsManager getStatisticManager() {
         return statisticManager;
     }
@@ -243,5 +237,8 @@ public final class UHCRun extends JavaPlugin {
     }
     public SoundManager getSoundManager() {
         return soundManager;
+    }
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
 }

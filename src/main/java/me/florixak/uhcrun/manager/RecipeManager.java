@@ -14,8 +14,19 @@ import java.util.HashMap;
 
 public class RecipeManager {
 
-    public int recipes = 0;
-    public HashMap<String, Material> recipe = new HashMap<String, Material>();
+    public static int recipes = 0;
+    public HashMap<String, Material> recipe = new HashMap<>();
+
+    public RecipeManager() {
+        goldenApple();
+        anvil();
+        fishingRod();
+        woodenTools();
+        stoneTools();
+        goldenTools();
+        ironTools();
+        diamondTools();
+    }
 
     public void goldenApple() {
 

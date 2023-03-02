@@ -6,8 +6,6 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.LevelManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.StatisticsManager;
-import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.task.StartingCountdown;
 import me.florixak.uhcrun.utility.TextUtil;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -19,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 

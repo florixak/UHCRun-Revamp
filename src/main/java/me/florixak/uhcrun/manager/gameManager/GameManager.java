@@ -298,6 +298,7 @@ public class GameManager {
 
         KitsManager.getKits();
     }
+
     public void teleportPlayers() {
         Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtil.teleportToSafeLocation()));
     }

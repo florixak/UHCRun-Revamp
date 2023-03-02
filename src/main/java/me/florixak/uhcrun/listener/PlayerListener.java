@@ -20,14 +20,11 @@ import org.bukkit.event.player.*;
 public class PlayerListener implements Listener {
 
     private UHCRun plugin;
-    private Utilities utilities;
-    private FileConfiguration config, statistics;
+    private FileConfiguration config;
 
     public PlayerListener(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
-        this.utilities = plugin.getUtilities();
     }
 
     @EventHandler

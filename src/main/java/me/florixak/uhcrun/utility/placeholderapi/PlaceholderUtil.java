@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utility.placeholderapi;
 
 import me.florixak.uhcrun.UHCRun;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -11,6 +11,7 @@ import me.florixak.uhcrun.task.DeathmatchCountdown;
 import me.florixak.uhcrun.task.FightingCountdown;
 import me.florixak.uhcrun.task.MiningCountdown;
 import me.florixak.uhcrun.task.StartingCountdown;
+import me.florixak.uhcrun.utility.TimeConvertor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -81,21 +82,21 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%kit%")) {
-            if (config.getBoolean("lobby-items.perks.enabled", true)) {
+            if (config.getBoolean("lobby-items.kits.enabled", true)) {
                 if (KitsManager.haveNoKit(player))
-                    text = text.replace("%kit%", kits.getString("items.none.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.1.display_name"));
                 else if (KitsManager.haveStarter(player))
-                    text = text.replace("%kit%", kits.getString("items.starter.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.2.display_name"));
                 else if (KitsManager.haveEnchanter(player))
-                    text = text.replace("%kit%", kits.getString("items.enchanter.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.4.display_name"));
                 else if (KitsManager.haveMiner(player))
-                    text = text.replace("%kit%", kits.getString("items.miner.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.3.display_name"));
                 else if (KitsManager.haveHealer(player))
-                    text = text.replace("%kit%", kits.getString("items.healer.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.5.display_name"));
                 else if (KitsManager.haveHorseRider(player))
-                    text = text.replace("%kit%", kits.getString("items.horse_rider.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.6.display_name"));
                 else
-                    text = text.replace("%kit%", kits.getString("items.none.display_name"));
+                    text = text.replace("%kit%", kits.getString("items.1.display_name"));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
@@ -266,7 +267,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", UHCRun.plugin.getGame().getWinnerName());
+            text = text.replace("%winner%", UHCRun.plugin.getUtilities().getWinnerName());
         }
 
         String voted = "&aYES";
