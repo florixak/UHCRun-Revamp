@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.utility.XSeries.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -40,11 +41,11 @@ public class SoundManager {
     }
 
     public void playKillSound(Player player) {
-//        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1f, 1f);
+        XSound.ENTITY_LIGHTNING_BOLT_IMPACT.play(player.getLocation(), 1f, 1f);
     }
 
     public void playWinSound(Player player) {
-//        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
+        XSound.ENTITY_FIREWORK_ROCKET_BLAST.play(player.getLocation(), 1f, 1f);
     }
 
     public void playInvOpenSound(Player player) {
@@ -60,6 +61,6 @@ public class SoundManager {
     }
 
     public void playLevelUP(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+        XSound.ENTITY_PLAYER_LEVELUP.play(player.getLocation(), 1f, 1f);
     }
 }

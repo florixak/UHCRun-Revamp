@@ -12,6 +12,7 @@ waiting-world: "waiting-lobby"
 game-world: "world"
 ending-world: "ending-lobby"
 auto-map-reset: true
+developer-mode: false
 
 min-players-to-start: 2
 
@@ -116,16 +117,9 @@ border:
 
 # MySQL database
 MySQL:
-  enabled: true
+  enabled: false
   host: "167.86.104.34"
   port: "3306"
   database: "s93_uhcrun"
   username: "u93_OzwcaKVTCJ"
   password: "VQou=xt@gDOVCE.45c2qLl+w"
-
-
-
-
-
-
-

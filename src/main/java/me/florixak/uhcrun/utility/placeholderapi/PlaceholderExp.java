@@ -5,7 +5,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.florixak.uhcrun.UHCRun;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class PlaceholderExp extends PlaceholderExpansion {
 
@@ -16,17 +15,17 @@ public class PlaceholderExp extends PlaceholderExpansion {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public String getIdentifier() {
         return "uhcrun";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public String getAuthor() {
         return "FloriXak";
     }
 
     @Override
-    public @NotNull String getVersion() {
+    public String getVersion() {
         return "alpha";
     }
 
