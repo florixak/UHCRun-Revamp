@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.utility;
 
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.utility.placeholderapi.PlaceholderUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;

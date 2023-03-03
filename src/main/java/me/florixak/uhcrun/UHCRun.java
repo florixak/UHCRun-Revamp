@@ -20,6 +20,7 @@ import me.florixak.uhcrun.utility.TeleportUtil;
 import me.florixak.uhcrun.utility.TextUtil;
 import me.florixak.uhcrun.utility.Utilities;
 import me.florixak.uhcrun.utility.VanishUtil;
+import me.florixak.uhcrun.utility.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -54,6 +55,7 @@ public final class UHCRun extends JavaPlugin {
     private InventoryManager inventoryManager;
     private StatisticsManager statisticManager;
     private LevelManager levelManager;
+    private KitsManager kitsManager;
     private TeleportUtil teleportUtil;
     private SoundManager soundManager;
     private TeamManager teamManager;
@@ -80,6 +82,7 @@ public final class UHCRun extends JavaPlugin {
         this.inventoryManager.onEnable(this);
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
+        this.kitsManager = new KitsManager();
         this.soundManager = new SoundManager(this);
         this.teamManager = new TeamManager(this);
         this.vanishUtil = new VanishUtil();
@@ -111,6 +114,8 @@ public final class UHCRun extends JavaPlugin {
             getLogger().info(TextUtil.color("&cThere is error in listeners!"));
             e.printStackTrace();
         }
+
+        // getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         getGame().runActivityRewards();
         getGame().runAutoBroadcast();
@@ -144,6 +149,7 @@ public final class UHCRun extends JavaPlugin {
                 getLogger().info(TextUtil.color("&aVault plugin found."));
             }
         }
+
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
             if (!setupLuckPerms()) {
                 getLogger().info(TextUtil.color("&cLuckPerms plugin not found."));
@@ -151,6 +157,10 @@ public final class UHCRun extends JavaPlugin {
             else {
                 getLogger().info(TextUtil.color("&aLuckPerms plugin found."));
             }
+        }
+
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderExp(this).register();
         }
     }
     private void connectToDatabase() {
@@ -240,5 +250,8 @@ public final class UHCRun extends JavaPlugin {
     }
     public TeamManager getTeamManager() {
         return teamManager;
+    }
+    public KitsManager getKitsManager() {
+        return kitsManager;
     }
 }

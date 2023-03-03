@@ -267,7 +267,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", UHCRun.plugin.getUtilities().getWinnerName());
+            text = text.replace("%winner%", UHCRun.plugin.getGame().getWinnerName());
         }
 
         String voted = "&aYES";

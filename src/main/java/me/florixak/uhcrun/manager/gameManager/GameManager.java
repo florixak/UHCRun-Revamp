@@ -86,6 +86,8 @@ public class GameManager {
             case MINING:
                 plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
+                plugin.getKitsManager().getKits();
+                plugin.getTeamManager().addToTeam();
                 teleportPlayers();
                 this.miningCountdown = new MiningCountdown(this);
                 this.miningCountdown.runTaskTimer(plugin, 0, 20);
@@ -296,7 +298,7 @@ public class GameManager {
         p.setFoodLevel(20);
         p.getInventory().clear();
 
-        KitsManager.getKits();
+        // wereAlive = PlayerManager.alive.size();
     }
 
     public void teleportPlayers() {
@@ -344,9 +346,7 @@ public class GameManager {
 
     public void kill(Player p) {
         plugin.getStatisticManager().addKill(p.getUniqueId(), 1);
-
         PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
-
         p.giveExp(config.getInt("xp-per-kill"));
     }
     public void death(Player p) {
