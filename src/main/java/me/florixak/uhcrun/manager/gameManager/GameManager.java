@@ -32,7 +32,6 @@ public class GameManager {
     private TitleAction titleAction;
     private String prefix;
 
-    private StartingCd startingCountdown;
     private MiningCd miningCountdown;
     private FightingCd fightingCountdown;
     private DeathMCd deathmatchCountdown;
@@ -74,14 +73,12 @@ public class GameManager {
         switch (gameState) {
 
             case WAITING:
-                if (!this.startingCountdown.isCancelled()) this.startingCountdown.cancel();
                 plugin.getGame().removeScoreboard();
                 break;
 
             case STARTING:
                 plugin.getGame().removeScoreboard();
-                this.startingCountdown = new StartingCd(this);
-                this.startingCountdown.runTaskTimer(plugin, 0, 20);
+                new StartingCd(plugin).startCountdown();
                 break;
 
             case MINING:
@@ -90,8 +87,7 @@ public class GameManager {
                 plugin.getKitsManager().getKits();
                 plugin.getTeamManager().addToTeam();
                 teleportPlayers();
-                this.miningCountdown = new MiningCd(this);
-                this.miningCountdown.runTaskTimer(plugin, 0, 20);
+                new MiningCd(plugin).startCountdown();
                 plugin.getUtilities().broadcast(Messages.GAME_STARTED.toString());
                 SoundManager.playGameStarted(null, true);
                 plugin.getUtilities().broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));

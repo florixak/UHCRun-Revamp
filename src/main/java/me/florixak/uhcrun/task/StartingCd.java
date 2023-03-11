@@ -16,40 +16,46 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class StartingCd extends BukkitRunnable {
+public class StartingCd {
 
-    private GameManager gameManager;
+    private UHCRun plugin;
     private FileConfiguration config;
     public static int count;
     private int startWarning;
     private TitleAction titleAction;
 
-    public StartingCd(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public StartingCd(UHCRun plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("starting-countdown");
         this.startWarning = config.getInt("starting-warning-time");
         this.titleAction = new TitleAction();
     }
 
-    @Override
-    public void run() {
-        if (count <= 0) {
-            cancel();
-            gameManager.setGameState(GameState.MINING);
-            return;
-        }
+    public void startCountdown() {
 
-        if (count <= startWarning) {
-            Utils.broadcast(Messages.GAME_STARTING.toString()
-                    .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
-            for (UUID uuid : PlayerManager.online) {
-                SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (count <= 0) {
+                    cancel();
+                    plugin.getGame().setGameState(GameState.MINING);
+                    return;
+                }
+
+                if (count <= startWarning) {
+                    Utils.broadcast(Messages.GAME_STARTING.toString()
+                            .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
+                    for (UUID uuid : PlayerManager.online) {
+                        SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
+                    }
+                }
+
+                plugin.getGame().checkGame();
+
+                count--;
             }
-        }
-
-        gameManager.checkGame();
-
-        count--;
+        }.runTaskTimer(plugin, 20L, 20L);
     }
+
 }
