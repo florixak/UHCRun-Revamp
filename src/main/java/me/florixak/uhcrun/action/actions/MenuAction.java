@@ -20,7 +20,7 @@ public class MenuAction implements Action {
 
         if (inventory != null) {
             inventory.openInventory(player);
-            UHCRun.plugin.getSoundManager().playInvOpenSound(player);
+            SoundManager.playInvOpenSound(player);
         } else {
             plugin.getLogger().warning("[MENU] Action Failed: Menu '" + data + "' not found.");
         }

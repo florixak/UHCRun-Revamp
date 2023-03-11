@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.inventory;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.utility.ItemStackBuilder;
+import me.florixak.uhcrun.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
@@ -12,13 +12,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashSet;
 import java.util.Random;
 
-public class TeleportUtil {
+public class TeleportUtils {
 
     private static FileConfiguration config;
 
     public static HashSet<Material> bad_blocks = new HashSet<>();
 
-    public TeleportUtil(UHCRun plugin) {
+    public TeleportUtils(UHCRun plugin) {
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 

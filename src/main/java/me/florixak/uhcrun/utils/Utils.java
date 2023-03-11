@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
@@ -15,12 +15,12 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Utilities {
+public class Utils {
 
     private UHCRun plugin;
     private FileConfiguration config;
 
-    public Utilities(UHCRun plugin) {
+    public Utils(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -36,7 +36,7 @@ public class Utilities {
         if (!isNewVersion) item.setDurability((short) 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        if (name != null) meta.setDisplayName(TextUtil.color(name));
+        if (name != null) meta.setDisplayName(TextUtils.color(name));
         meta.setOwner(player);
 
         item.setItemMeta(meta);
@@ -57,6 +57,10 @@ public class Utilities {
                 }
             }
         }
+    }
+
+    public static void broadcast(String msg) {
+        Bukkit.broadcastMessage(TextUtils.color(msg));
     }
 
     public void addPotion(Player p, PotionEffectType effect, int duration, int power) {

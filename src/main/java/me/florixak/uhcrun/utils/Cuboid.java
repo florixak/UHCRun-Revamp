@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -14,11 +14,11 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemUtil {
+public class ItemUtils {
 
     public static ItemStack item(ItemStack item, String name, int amount){
         ItemMeta meta = item.getItemMeta();
-        if (name != null) meta.setDisplayName(TextUtil.color(name));
+        if (name != null) meta.setDisplayName(TextUtils.color(name));
         if (amount == 0) amount = 1;
         item.setItemMeta(meta);
         item.setAmount(amount);
@@ -67,9 +67,9 @@ public class ItemUtil {
 
     public static void addLore(ItemStack item, String line1, String line2, String line3){
         List<String> lore = new ArrayList<>();
-        if (line1 != null) lore.add(TextUtil.color(line1));
-        if (line2 != null) lore.add(TextUtil.color(line2));
-        if (line3 != null) lore.add(TextUtil.color(line3));
+        if (line1 != null) lore.add(TextUtils.color(line1));
+        if (line2 != null) lore.add(TextUtils.color(line2));
+        if (line3 != null) lore.add(TextUtils.color(line3));
 
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);

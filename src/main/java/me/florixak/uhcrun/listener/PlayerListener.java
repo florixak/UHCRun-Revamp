@@ -7,7 +7,7 @@ import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.manager.PerksManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.utility.Utilities;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -125,7 +125,7 @@ public class PlayerListener implements Listener {
             plugin.getGame().kill(k);
             plugin.getGame().death(p);
 
-            Bukkit.broadcastMessage(Messages.KILL.toString().replace("%player%", p.getDisplayName()).replace("%killer%", k.getDisplayName()));
+            Utils.broadcast(Messages.KILL.toString().replace("%player%", p.getDisplayName()).replace("%killer%", k.getDisplayName()));
 
         } else {
 
@@ -136,7 +136,7 @@ public class PlayerListener implements Listener {
 
             plugin.getGame().death(p);
 
-            Bukkit.broadcastMessage(Messages.DEATH.toString().replace("%player%", p.getDisplayName()));
+            plugin.getUtilities().broadcast(Messages.DEATH.toString().replace("%player%", p.getDisplayName()));
 
         }
         plugin.getGame().checkGame();

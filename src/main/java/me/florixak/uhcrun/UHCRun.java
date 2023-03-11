@@ -16,11 +16,11 @@ import me.florixak.uhcrun.manager.gameManager.GameManager;
 import me.florixak.uhcrun.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
-import me.florixak.uhcrun.utility.TeleportUtil;
-import me.florixak.uhcrun.utility.TextUtil;
-import me.florixak.uhcrun.utility.Utilities;
-import me.florixak.uhcrun.utility.VanishUtil;
-import me.florixak.uhcrun.utility.placeholderapi.PlaceholderExp;
+import me.florixak.uhcrun.utils.TeleportUtils;
+import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.Utils;
+import me.florixak.uhcrun.utils.VanishUtils;
+import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -50,16 +50,15 @@ public final class UHCRun extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
     private LobbyManager lobbyManager;
     private BorderManager borderManager;
-    private Utilities utilities;
+    private Utils utilities;
     private ActionManager actionManager;
     private InventoryManager inventoryManager;
     private StatisticsManager statisticManager;
     private LevelManager levelManager;
     private KitsManager kitsManager;
-    private TeleportUtil teleportUtil;
-    private SoundManager soundManager;
+    private TeleportUtils teleportUtil;
     private TeamManager teamManager;
-    private VanishUtil vanishUtil;
+    private VanishUtils vanishUtil;
 
     @Override
     public void onEnable() {
@@ -76,21 +75,20 @@ public final class UHCRun extends JavaPlugin {
         this.scoreboardManager = new ScoreboardManager(this);
         this.lobbyManager = new LobbyManager(this);
         this.borderManager = new BorderManager(this);
-        this.utilities = new Utilities(this);
+        this.utilities = new Utils(this);
         this.actionManager = new ActionManager(this);
         this.inventoryManager = new InventoryManager();
         this.inventoryManager.onEnable(this);
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager();
-        this.soundManager = new SoundManager(this);
         this.teamManager = new TeamManager(this);
-        this.vanishUtil = new VanishUtil();
+        this.vanishUtil = new VanishUtils();
 
         this.SQL = new MySQL();
         this.data = new SQLGetter(this);
 
-        this.teleportUtil = new TeleportUtil(this);
+        this.teleportUtil = new TeleportUtils(this);
 
         registerAddons();
         connectToDatabase();
@@ -101,7 +99,7 @@ public final class UHCRun extends JavaPlugin {
             new WorkbenchCommand(this);
             new AnvilCommand(this);
         } catch (Exception e) {
-            getLogger().info(TextUtil.color("&cThere is error in commands!"));
+            getLogger().info(TextUtils.color("&cThere is error in commands!"));
             e.printStackTrace();
         }
 
@@ -111,7 +109,7 @@ public final class UHCRun extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new InteractListener(this), this);
             getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         } catch (Exception e) {
-            getLogger().info(TextUtil.color("&cThere is error in listeners!"));
+            getLogger().info(TextUtils.color("&cThere is error in listeners!"));
             e.printStackTrace();
         }
 
@@ -124,9 +122,9 @@ public final class UHCRun extends JavaPlugin {
 
         try {
             gameManager.setOreSpawn();
-            getLogger().info(TextUtil.color("&aAll ores are set!"));
+            getLogger().info(TextUtils.color("&aAll ores are set!"));
         } catch (Exception e) {
-            getLogger().info(TextUtil.color("&cThere is error in ore spawn!"));
+            getLogger().info(TextUtils.color("&cThere is error in ore spawn!"));
             e.printStackTrace();
         }
 
@@ -143,19 +141,19 @@ public final class UHCRun extends JavaPlugin {
     private void registerAddons() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
             if (!setupEconomy()) {
-                getLogger().info(TextUtil.color("&cNo economy plugin found. Disabling UHCRun."));
+                getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
             }
             else {
-                getLogger().info(TextUtil.color("&aVault plugin found."));
+                getLogger().info(TextUtils.color("&aVault plugin found."));
             }
         }
 
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
             if (!setupLuckPerms()) {
-                getLogger().info(TextUtil.color("&cLuckPerms plugin not found."));
+                getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
             }
             else {
-                getLogger().info(TextUtil.color("&aLuckPerms plugin found."));
+                getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
             }
         }
 
@@ -168,13 +166,13 @@ public final class UHCRun extends JavaPlugin {
             try {
                 SQL.connect();
             } catch (ClassNotFoundException | SQLException e) {
-                getLogger().info(TextUtil.color("&cDabatase is not connected!"));
+                getLogger().info(TextUtils.color("&cDabatase is not connected!"));
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }
 
             if (SQL.isConnected()) {
-                getLogger().info(TextUtil.color("&aDabatase is connected!"));
+                getLogger().info(TextUtils.color("&aDabatase is connected!"));
                 data.createTable();
             }
         }
@@ -182,9 +180,9 @@ public final class UHCRun extends JavaPlugin {
     private void registerRecipes() {
         try {
             new RecipeManager();
-            getLogger().info(TextUtil.color("&aAll recipes are loaded! (" + RecipeManager.recipes + ")"));
+            getLogger().info(TextUtils.color("&aAll recipes are loaded! (" + RecipeManager.recipes + ")"));
         } catch (Exception e) {
-            getLogger().info(TextUtil.color("&cThere is error in recipes!"));
+            getLogger().info(TextUtils.color("&cThere is error in recipes!"));
             e.printStackTrace();
         }
     }
@@ -230,7 +228,7 @@ public final class UHCRun extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }
-    public Utilities getUtilities() { return utilities; }
+    public Utils getUtilities() { return utilities; }
     public LobbyManager getLobbyManager() { return lobbyManager; }
     public BorderManager getBorderManager() { return borderManager; }
     public ActionManager getActionManager() {
@@ -244,9 +242,6 @@ public final class UHCRun extends JavaPlugin {
     }
     public LevelManager getLevelManager() {
         return levelManager;
-    }
-    public SoundManager getSoundManager() {
-        return soundManager;
     }
     public TeamManager getTeamManager() {
         return teamManager;

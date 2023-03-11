@@ -7,7 +7,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +17,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -74,15 +73,15 @@ public class InteractListener implements Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 
                 // LOBBY
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.kits.display-name")))) {
                     menuAction.execute(plugin, p, "kits-inv");
                 }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.perks.display-name")))) {
                     menuAction.execute(plugin, p, "perks-inv");
                 }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.start.display-name")))) {
                     if (plugin.getGame().gameState != GameState.WAITING) {
                         p.sendMessage(Messages.GAME_ALREADY_STARTING.toString());
@@ -90,11 +89,11 @@ public class InteractListener implements Listener {
                     }
                     plugin.getGame().setGameState(GameState.STARTING);
                 }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.vote.display-name")))) {
                     menuAction.execute(plugin, p, "vote-inv");
                 }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.statistics.display-name")))) {
                     menuAction.execute(plugin, p, "statistics-inv");
                 }
@@ -117,7 +116,7 @@ public class InteractListener implements Listener {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("spectator-items.spectator.display-name")))) {
 
                     Inventory inv = Bukkit.createInventory(null, 35, "Teleporter");
@@ -129,7 +128,7 @@ public class InteractListener implements Listener {
                     p.openInventory(inv);
                 }
 
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtil.color(plugin.getConfigManager()
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("spectator-items.leave.display-name")))) {
                     new BungeeAction().execute(plugin, p, "lobby");
                 }

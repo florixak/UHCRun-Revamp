@@ -1,66 +1,57 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.utility.XSeries.XSound;
+import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public class SoundManager {
 
-    private UHCRun plugin;
-
-    public SoundManager(UHCRun plugin) {
-        this.plugin = plugin;
+    public static void playSound(Player player, Location location, XSound sound, float volume, float pitch) {
+        sound.play(player, volume, pitch);
     }
 
-    public void playSound(Player player, Location location, Sound sound, float volume, float pitch) {
-        player.playSound(location, sound, volume, pitch);
+    public static void playOreDestroySound(Player player) {
+        XSound.ENTITY_EXPERIENCE_ORB_PICKUP.play(player, 0.5f, 1f);
     }
 
-    public void playOreDestroySound(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5f, 1f);
+    public static void playStartingSound(Player player) {
+        XSound.BLOCK_STONE_BUTTON_CLICK_ON.play(player, 1f, 1f);
     }
 
-    public void playStartingSound(Player player) {
-        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1f, 1f);
-    }
-
-    public void playGameStarted(Player player, boolean toAll) {
+    public static void playGameStarted(Player player, boolean toAll) {
         if (!toAll) {
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+            XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
             return;
         }
         for (UUID uuid : PlayerManager.online) {
-            Bukkit.getPlayer(uuid).playSound(Bukkit.getPlayer(uuid).getLocation(),
-                    Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+            XSound.ENTITY_PLAYER_LEVELUP.play(Bukkit.getPlayer(uuid), 1f, 1f);
         }
     }
 
-    public void playKillSound(Player player) {
+    public static void playKillSound(Player player) {
         XSound.ENTITY_LIGHTNING_BOLT_IMPACT.play(player.getLocation(), 1f, 1f);
     }
 
-    public void playWinSound(Player player) {
+    public static void playWinSound(Player player) {
         XSound.ENTITY_FIREWORK_ROCKET_BLAST.play(player.getLocation(), 1f, 1f);
     }
 
-    public void playInvOpenSound(Player player) {
-        player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1f, 1f);
+    public static void playInvOpenSound(Player player) {
+        XSound.BLOCK_CHEST_OPEN.play(player, 1f, 1f);
     }
 
-    public void playDeathmatchBegan(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
+    public static void playDMBegan(Player player) {
+        XSound.ENTITY_ENDER_DRAGON_GROWL.play(player.getLocation(), 1f, 1f);
     }
 
-    public void playDeathmatchStarts(Player player) {
-        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1f, 1f);
+    public static void playDMStarts(Player player) {
+        XSound.BLOCK_STONE_BUTTON_CLICK_ON.play(player.getLocation(), 1f, 1f);
     }
 
-    public void playLevelUP(Player player) {
-        XSound.ENTITY_PLAYER_LEVELUP.play(player.getLocation(), 1f, 1f);
+    public static void playLevelUP(Player player) {
+        XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
     }
 }

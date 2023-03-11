@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.scoreboard;
 
-import me.florixak.uhcrun.utility.TextUtil;
-import me.florixak.uhcrun.utility.placeholderapi.PlaceholderUtil;
+import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -59,7 +59,7 @@ public class ScoreHelper {
     }
 
     public String setPlaceholders(String text) {
-        return TextUtil.color(PlaceholderUtil.setPlaceholders(text, this.player));
+        return TextUtils.color(PlaceholderUtil.setPlaceholders(text, this.player));
     }
 
     public void setSlotsFromList(List<String> list) {

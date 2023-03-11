@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.config;
 
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public enum Messages {
@@ -85,7 +85,7 @@ public enum Messages {
         }
 
         String prefix = config.getString("Messages." + PREFIX.getPath());
-        return TextUtil.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
+        return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
     }
 
     public String getPath() {

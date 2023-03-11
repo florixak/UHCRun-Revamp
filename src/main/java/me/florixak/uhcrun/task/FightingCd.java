@@ -5,23 +5,24 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.BorderManager;
 import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.utility.TimeConvertor;
+import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class FightingCountdown extends BukkitRunnable {
+public class FightingCd extends BukkitRunnable {
 
     private GameManager gameManager;
     private BorderManager borderManager;
     private FileConfiguration config;
     public static int count;
 
-    public FightingCountdown(GameManager gameManager) {
+    public FightingCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("fighting-countdown");
@@ -37,9 +38,9 @@ public class FightingCountdown extends BukkitRunnable {
         }
 
         if (count <= 10) {
-            Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(count)));
+            Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
             for (UUID uuid : PlayerManager.online) {
-                UHCRun.plugin.getSoundManager().playDeathmatchStarts(Bukkit.getPlayer(uuid));
+                SoundManager.playDMStarts(Bukkit.getPlayer(uuid));
             }
         }
 

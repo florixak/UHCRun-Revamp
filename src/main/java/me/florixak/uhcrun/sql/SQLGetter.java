@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.sql;
 
-
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import org.bukkit.entity.Player;
@@ -42,8 +41,7 @@ public class SQLGetter {
             ResultSet results = ps.executeQuery();
             results.next();
             if (!exists(uuid)) {
-                PreparedStatement ps2 = plugin.SQL.getConnection().prepareStatement("INSERT IGNORE INTO uhcrun"
-                        + " (NAME,UUID) VALUES (?,?)");
+                PreparedStatement ps2 = plugin.SQL.getConnection().prepareStatement("INSERT IGNORE INTO uhcrun (NAME,UUID) VALUES (?,?)");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();

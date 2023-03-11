@@ -6,8 +6,8 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
 import me.florixak.uhcrun.manager.PerksManager;
-import me.florixak.uhcrun.utility.MoneyUtil;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.MoneyUtils;
+import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,7 +33,7 @@ public class PerkAction implements Action {
             if (PerksManager.haveNoPerk(player)) return;
 
             PerksManager.disbandPerks(player);
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
 
@@ -81,7 +81,7 @@ public class PerkAction implements Action {
             PerksManager.fire_resistance.remove(player.getUniqueId());
             PerksManager.invisible.remove(player.getUniqueId());
             PerksManager.resistance.remove(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("regeneration")) {
@@ -90,7 +90,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveRegeneration(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.regeneration.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -99,7 +99,7 @@ public class PerkAction implements Action {
 
             PerksManager.disbandPerks(player);
             PerksManager.regeneration.add(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("speed")) {
@@ -108,7 +108,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveSpeed(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.speed.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -123,7 +123,7 @@ public class PerkAction implements Action {
             PerksManager.fire_resistance.remove(player.getUniqueId());
             PerksManager.invisible.remove(player.getUniqueId());
             PerksManager.resistance.remove(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("invisible")) {
@@ -132,7 +132,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveInvisible(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.invisible.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -141,7 +141,7 @@ public class PerkAction implements Action {
 
             PerksManager.disbandPerks(player);
             PerksManager.invisible.add(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("fire_resistance")) {
@@ -150,7 +150,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveFireResistance(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.fire_resistance.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -159,7 +159,7 @@ public class PerkAction implements Action {
 
             PerksManager.disbandPerks(player);
             PerksManager.fire_resistance.add(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("ender_pearl")) {
@@ -168,7 +168,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveEnderPearl(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.ender_pearl.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -177,7 +177,7 @@ public class PerkAction implements Action {
 
             PerksManager.disbandPerks(player);
             PerksManager.ender_pearl.add(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("resistance")) {
@@ -186,7 +186,7 @@ public class PerkAction implements Action {
 
             if (plugin.getStatisticManager().haveResistance(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.resistance.price");
-                MoneyUtil.takeMoney(player, amount);
+                MoneyUtils.takeMoney(player, amount);
             }
 
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
@@ -195,7 +195,7 @@ public class PerkAction implements Action {
 
             PerksManager.disbandPerks(player);
             PerksManager.resistance.add(player.getUniqueId());
-            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
     }
 }

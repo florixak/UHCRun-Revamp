@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
@@ -6,7 +6,7 @@ import org.bukkit.Color;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextUtil {
+public class TextUtils {
 
     private static final int CENTER_PX = 154;
     private static final Pattern HEX_PATTERN = Pattern.compile("#<([A-Fa-f0-9]){6}>");

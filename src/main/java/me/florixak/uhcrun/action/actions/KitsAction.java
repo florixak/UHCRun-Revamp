@@ -6,7 +6,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
 import me.florixak.uhcrun.manager.KitsManager;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,7 +37,7 @@ public class KitsAction implements Action {
             KitsManager.enchanter.remove(player.getUniqueId());
             KitsManager.starter.remove(player.getUniqueId());
             KitsManager.miner.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("starter")) {
@@ -82,7 +82,7 @@ public class KitsAction implements Action {
             KitsManager.enchanter.remove(player.getUniqueId());
             KitsManager.miner.remove(player.getUniqueId());
             KitsManager.noKit.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
         if (data.equals("miner")) {
 
@@ -126,7 +126,7 @@ public class KitsAction implements Action {
             KitsManager.enchanter.remove(player.getUniqueId());
             KitsManager.starter.remove(player.getUniqueId());
             KitsManager.noKit.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("enchanter")) {
@@ -171,7 +171,7 @@ public class KitsAction implements Action {
             KitsManager.starter.remove(player.getUniqueId());
             KitsManager.miner.remove(player.getUniqueId());
             KitsManager.noKit.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("healer")) {
@@ -216,7 +216,7 @@ public class KitsAction implements Action {
             KitsManager.starter.remove(player.getUniqueId());
             KitsManager.miner.remove(player.getUniqueId());
             KitsManager.noKit.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("horse_rider")) {
@@ -261,7 +261,7 @@ public class KitsAction implements Action {
             KitsManager.starter.remove(player.getUniqueId());
             KitsManager.miner.remove(player.getUniqueId());
             KitsManager.noKit.remove(player.getUniqueId());
-            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtil.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
+            player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
     }
 }

@@ -8,15 +8,15 @@ import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.utility.TimeConvertor;
+import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class StartingCountdown extends BukkitRunnable {
+public class StartingCd extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
@@ -24,7 +24,7 @@ public class StartingCountdown extends BukkitRunnable {
     private int startWarning;
     private TitleAction titleAction;
 
-    public StartingCountdown(GameManager gameManager) {
+    public StartingCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("starting-countdown");
@@ -41,10 +41,10 @@ public class StartingCountdown extends BukkitRunnable {
         }
 
         if (count <= startWarning) {
-            Bukkit.broadcastMessage(Messages.GAME_STARTING.toString()
-                    .replace("%countdown%", "" + TimeConvertor.convertCountdown(count)));
+            Utils.broadcast(Messages.GAME_STARTING.toString()
+                    .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
             for (UUID uuid : PlayerManager.online) {
-                UHCRun.plugin.getSoundManager().playStartingSound(Bukkit.getPlayer(uuid));
+                SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
             }
         }
 

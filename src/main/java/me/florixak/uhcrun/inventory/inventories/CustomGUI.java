@@ -5,8 +5,8 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.inventory.AbstractInventory;
 import me.florixak.uhcrun.inventory.InventoryBuilder;
 import me.florixak.uhcrun.inventory.InventoryItem;
-import me.florixak.uhcrun.utility.ItemStackBuilder;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.ItemStackBuilder;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 
@@ -23,7 +23,7 @@ public class CustomGUI extends AbstractInventory {
     @Override
     public void onEnable() {
 
-        InventoryBuilder inventoryBuilder = new InventoryBuilder(config.getInt("slots"), TextUtil.color(config.getString("title")));
+        InventoryBuilder inventoryBuilder = new InventoryBuilder(config.getInt("slots"), TextUtils.color(config.getString("title")));
 
         if (config.contains("refresh") && config.getBoolean("refresh.enabled")) {
             setInventoryRefresh(config.getLong("refresh.rate"));

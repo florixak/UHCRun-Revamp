@@ -2,36 +2,33 @@ package me.florixak.uhcrun.task;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.manager.BorderManager;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
-import me.florixak.uhcrun.manager.gameManager.GameState;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DeathmatchCountdown extends BukkitRunnable {
+public class EndingCd extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
+    private BorderManager borderManager;
     public static int count;
 
-    public DeathmatchCountdown(GameManager gameManager) {
+    public EndingCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("deathmatch-countdown");
+        this.count = config.getInt("ending-countdown");
+        this.borderManager = UHCRun.plugin.getBorderManager();
     }
 
     @Override
     public void run() {
-
         if (count <= 0) {
             cancel();
-            gameManager.setGameState(GameState.ENDING);
+            borderManager.resetBorder();
+            gameManager.resetGame();
             return;
         }
-
-//        gameManager.checkGame();
         count--;
     }
 }

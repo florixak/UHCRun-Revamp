@@ -1,9 +1,9 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class TimeConvertor {
+public class TimeUtils {
 
     public static String convert(int secs) {
         int h = secs / 3600, i = secs - h * 3600, m = i / 60, s = i - m * 60;

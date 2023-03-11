@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 
-public class MoneyUtil {
+public class MoneyUtils {
 
     public static String displayMoney(Player p){
 

@@ -1,17 +1,16 @@
-package me.florixak.uhcrun.utility.placeholderapi;
+package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.florixak.uhcrun.UHCRun;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.*;
-import me.florixak.uhcrun.manager.gameManager.GameManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.task.DeathmatchCountdown;
-import me.florixak.uhcrun.task.FightingCountdown;
-import me.florixak.uhcrun.task.MiningCountdown;
-import me.florixak.uhcrun.task.StartingCountdown;
-import me.florixak.uhcrun.utility.TimeConvertor;
+import me.florixak.uhcrun.task.DeathMCd;
+import me.florixak.uhcrun.task.FightingCd;
+import me.florixak.uhcrun.task.MiningCd;
+import me.florixak.uhcrun.task.StartingCd;
+import me.florixak.uhcrun.utils.TimeUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -67,13 +66,13 @@ public class PlaceholderUtil {
 
         if (text.contains("%time%")) {
             if (UHCRun.plugin.getGame().gameState == GameState.STARTING)
-                text = text.replace("%time%", TimeConvertor.convertCountdown(StartingCountdown.count));
+                text = text.replace("%time%", TimeUtils.convertCountdown(StartingCd.count));
             if (UHCRun.plugin.getGame().gameState == GameState.MINING)
-                text = text.replace("%time%", TimeConvertor.convertCountdown(MiningCountdown.count));
+                text = text.replace("%time%", TimeUtils.convertCountdown(MiningCd.count));
             if (UHCRun.plugin.getGame().gameState == GameState.FIGHTING)
-                text = text.replace("%time%", TimeConvertor.convertCountdown(FightingCountdown.count));
+                text = text.replace("%time%", TimeUtils.convertCountdown(FightingCd.count));
             if (UHCRun.plugin.getGame().gameState == GameState.DEATHMATCH)
-                text = text.replace("%time%", TimeConvertor.convertCountdown(DeathmatchCountdown.count));
+                text = text.replace("%time%", TimeUtils.convertCountdown(DeathMCd.count));
         }
 
         if (text.contains("%border%")) {

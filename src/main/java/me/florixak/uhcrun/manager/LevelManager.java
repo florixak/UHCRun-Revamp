@@ -85,7 +85,7 @@ public class LevelManager {
         Bukkit.getPlayer(uuid).sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(uuid)))
                 .replace("%previousLevel%", String.valueOf(getPreviousLevel(uuid))));
-        plugin.getSoundManager().playLevelUP(Bukkit.getPlayer(uuid));
+        SoundManager.playLevelUP(Bukkit.getPlayer(uuid));
     }
 
 }

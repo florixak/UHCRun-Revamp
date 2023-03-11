@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility;
+package me.florixak.uhcrun.utils;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,7 +8,7 @@ import org.bukkit.block.BlockFace;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OreUtility {
+public class OreUtils {
 
     // https://www.spigotmc.org/threads/how-do-i-artificially-generate-ores-around-the-world.405941/
 
@@ -22,7 +22,7 @@ public class OreUtility {
 
     public List<Block> getAdjacentsBlocks(final Block startBlock, final int nbrBlocks) {
         int failedAttempts = 0;
-        final List<Block> adjacentBlocks = new ArrayList<Block>();
+        final List<Block> adjacentBlocks = new ArrayList<>();
         adjacentBlocks.add(startBlock);
         while (adjacentBlocks.size() < nbrBlocks && failedAttempts < 25) {
             final Block block = adjacentBlocks.get(RandomUtils.randomInteger(0, adjacentBlocks.size() - 1));

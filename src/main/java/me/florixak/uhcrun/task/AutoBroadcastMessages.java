@@ -3,7 +3,7 @@ package me.florixak.uhcrun.task;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -52,7 +52,7 @@ public class AutoBroadcastMessages extends BukkitRunnable {
             message = messages.get(nextMessage);
             lastMessage = nextMessage;
         }
-        broadcastMessageAction.execute(plugin, null, TextUtil.color(message
+        broadcastMessageAction.execute(plugin, null, TextUtils.color(message
                 .replace("%prefix%", messages_config.getString("Messages.prefix")))
         );
 

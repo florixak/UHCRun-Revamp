@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.utility.ItemUtil;
-import me.florixak.uhcrun.utility.XMaterial;
+import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -9,7 +9,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RecipeManager {
@@ -74,16 +73,16 @@ public class RecipeManager {
     public void woodenTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.WOODEN_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack2 = new ItemStack(XMaterial.WOODEN_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack3 = new ItemStack(XMaterial.WOODEN_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
 
         ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("wood-axe"), itemStack1);
         shapedRecipe1.shape("WW ", "WS ", " S ");
@@ -111,16 +110,16 @@ public class RecipeManager {
     public void stoneTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.STONE_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack2 = new ItemStack(XMaterial.STONE_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack3 = new ItemStack(XMaterial.STONE_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
 
         ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("stone-axe"), itemStack1);
         shapedRecipe1.shape("CC ", "CS ", " S ");
@@ -148,16 +147,16 @@ public class RecipeManager {
     public void goldenTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.GOLDEN_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack2 = new ItemStack(XMaterial.GOLDEN_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack3 = new ItemStack(XMaterial.GOLDEN_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
 
         ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("gold-axe"), itemStack1);
         shapedRecipe1.shape("GG ", "GS ", " S ");
@@ -184,16 +183,16 @@ public class RecipeManager {
     public void ironTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.IRON_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack2 = new ItemStack(XMaterial.IRON_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack3 = new ItemStack(XMaterial.IRON_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
 
         ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("iron-axe"), itemStack1);
         shapedRecipe1.shape("II ", "IS ", " S ");
@@ -220,16 +219,16 @@ public class RecipeManager {
     public void diamondTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.DIAMOND_AXE.parseItem());
-        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack2 = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseItem());
-        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
 
         ItemStack itemStack3 = new ItemStack(XMaterial.DIAMOND_SHOVEL.parseItem());
-        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
 
         ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("diamond-axe"), itemStack1);
         shapedRecipe1.shape("DD ", "DS ", " S ");

@@ -7,8 +7,9 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.task.*;
-import me.florixak.uhcrun.utility.*;
+import me.florixak.uhcrun.utils.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,11 +32,11 @@ public class GameManager {
     private TitleAction titleAction;
     private String prefix;
 
-    private StartingCountdown startingCountdown;
-    private MiningCountdown miningCountdown;
-    private FightingCountdown fightingCountdown;
-    private DeathmatchCountdown deathmatchCountdown;
-    private EndingCountdown endingCountdown;
+    private StartingCd startingCountdown;
+    private MiningCd miningCountdown;
+    private FightingCd fightingCountdown;
+    private DeathMCd deathmatchCountdown;
+    private EndingCd endingCountdown;
 
     // private Cuboid cuboid;
     private BroadcastMessageAction broadcastMessageAction;
@@ -79,7 +80,7 @@ public class GameManager {
 
             case STARTING:
                 plugin.getGame().removeScoreboard();
-                this.startingCountdown = new StartingCountdown(this);
+                this.startingCountdown = new StartingCd(this);
                 this.startingCountdown.runTaskTimer(plugin, 0, 20);
                 break;
 
@@ -89,35 +90,35 @@ public class GameManager {
                 plugin.getKitsManager().getKits();
                 plugin.getTeamManager().addToTeam();
                 teleportPlayers();
-                this.miningCountdown = new MiningCountdown(this);
+                this.miningCountdown = new MiningCd(this);
                 this.miningCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.GAME_STARTED.toString());
-                plugin.getSoundManager().playGameStarted(null, true);
-                Bukkit.broadcastMessage(Messages.MINING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(MiningCountdown.count)));
+                plugin.getUtilities().broadcast(Messages.GAME_STARTED.toString());
+                SoundManager.playGameStarted(null, true);
+                plugin.getUtilities().broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));
                 break;
 
             case FIGHTING:
                 plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
-                this.fightingCountdown = new FightingCountdown(this);
+                this.fightingCountdown = new FightingCd(this);
                 this.fightingCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.PVP.toString());
-                Bukkit.broadcastMessage(Messages.BORDER_SHRINK.toString());
+                plugin.getUtilities().broadcast(Messages.PVP.toString());
+                plugin.getUtilities().broadcast(Messages.BORDER_SHRINK.toString());
                 break;
 
             case DEATHMATCH:
                 plugin.getGame().removeScoreboard();
-                this.deathmatchCountdown = new DeathmatchCountdown(this);
+                this.deathmatchCountdown = new DeathMCd(this);
                 this.deathmatchCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.DEATHMATCH_STARTED.toString());
-                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playDeathmatchBegan(player));
+                plugin.getUtilities().broadcast(Messages.DEATHMATCH_STARTED.toString());
+                Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playDMBegan(player));
                 break;
 
             case ENDING:
                 plugin.getGame().removeScoreboard();
-                this.endingCountdown = new EndingCountdown(this);
+                this.endingCountdown = new EndingCd(this);
                 this.endingCountdown.runTaskTimer(plugin, 0, 20);
-                Bukkit.broadcastMessage(Messages.GAME_ENDED.toString());
+                plugin.getUtilities().broadcast(Messages.GAME_ENDED.toString());
                 plugin.getGame().end();
                 break;
         }
@@ -128,9 +129,9 @@ public class GameManager {
         if (isWaiting()) {
             int min = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("min-players-to-start");
             if (PlayerManager.online.size() >= min) {
-                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playStartingSound(player));
+                Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playStartingSound(player));
                 setGameState(GameState.STARTING);
-                Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeConvertor.convertCountdown(StartingCountdown.count)));
+                Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(StartingCd.count)));
             }
             return;
         }
@@ -215,7 +216,7 @@ public class GameManager {
     }
 
     public void setOreSpawn() {
-        OreUtility oreUtility = new OreUtility();
+        OreUtils oreUtility = new OreUtils();
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         World world = Bukkit.getWorld(config.getString("game-world"));
         Random random = new Random();
@@ -302,7 +303,7 @@ public class GameManager {
     }
 
     public void teleportPlayers() {
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtil.teleportToSafeLocation()));
+        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtils.teleportToSafeLocation()));
     }
     public void teleportPlayersAfterMining(Player p) {
 
@@ -336,7 +337,7 @@ public class GameManager {
         p.setFoodLevel(20);
 
         p.getInventory().clear();
-        new VanishUtil().toggleVanish(p);
+        new VanishUtils().toggleVanish(p);
 
         KitsManager.getSpectatorKit(p);
 
@@ -385,7 +386,7 @@ public class GameManager {
                 plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_win + level_xp_for_kills);
                 titleAction.execute(plugin, p, "Victory!");
                 for (String reward : win_rewards) {
-                    p.sendMessage(TextUtil.color(reward
+                    p.sendMessage(TextUtils.color(reward
                                     .replace("%coins-for-win%", String.valueOf(money_for_win))
                                     .replace("%coins-for-kills%", String.valueOf(money_for_kills))
                                     .replace("%level-xp-for-win%", String.valueOf(level_xp_for_win))
@@ -400,7 +401,7 @@ public class GameManager {
                 plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_lose+level_xp_for_kills);
                 titleAction.execute(plugin, p, "Game Over!");
                 for (String reward : lose_rewards) {
-                    p.sendMessage(TextUtil.color(reward
+                    p.sendMessage(TextUtils.color(reward
                                     .replace("%coins-for-lose%", String.valueOf(money_for_lose))
                                     .replace("%coins-for-kills%", String.valueOf(money_for_kills))
                                     .replace("%level-xp-for-lose%", String.valueOf(level_xp_for_lose))
@@ -443,7 +444,7 @@ public class GameManager {
     }
     public void checkBorder() {
         if (!plugin.getBorderManager().exist()) {
-            plugin.getLogger().info(TextUtil.color("&aBorder was succesfully created!"));
+            plugin.getLogger().info(TextUtils.color("&aBorder was succesfully created!"));
             plugin.getBorderManager().removeBorder();
             plugin.getBorderManager().createBorder();
         }

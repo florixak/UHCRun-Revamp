@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utility.placeholderapi;
+package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

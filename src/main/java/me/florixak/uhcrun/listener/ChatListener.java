@@ -6,7 +6,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.LevelManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.StatisticsManager;
-import me.florixak.uhcrun.utility.TextUtil;
+import me.florixak.uhcrun.utils.TextUtils;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
@@ -98,7 +98,7 @@ public class ChatListener implements Listener {
 
         if (!plugin.getGame().isPlaying()) {
             for (UUID uuid : PlayerManager.online) {
-                Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(format
+                Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
@@ -120,7 +120,7 @@ public class ChatListener implements Listener {
 
             if (PlayerManager.isAlive(player)) {
                 for (UUID uuid : PlayerManager.online) {
-                    Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(format
+                    Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                             .replace("%player%", player.getName())
                             .replace("%message%", event.getMessage())
                             .replace("%luckperms-prefix%", prefix)
@@ -129,7 +129,7 @@ public class ChatListener implements Listener {
             }
             else {
                 for (UUID uuid : PlayerManager.dead) {
-                    Bukkit.getPlayer(uuid).sendMessage(TextUtil.color(format
+                    Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                             .replace("%player%", player.getName())
                             .replace("%message%", event.getMessage())
                             .replace("%luckperms-prefix%", prefix)
