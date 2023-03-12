@@ -79,7 +79,7 @@ public class GameManager {
 
             case STARTING:
                 plugin.getGame().removeScoreboard();
-                new StartingCd(plugin).startCountdown();
+                new StartingCd(plugin).startCountdown(); // TODO CHANGE
                 break;
 
             case MINING:
@@ -88,7 +88,8 @@ public class GameManager {
                 plugin.getKitsManager().getKits();
                 plugin.getTeamManager().addToTeam();
                 teleportPlayers();
-                new MiningCd(plugin).startCountdown();
+                this.miningCd = new MiningCd(this);
+                this.miningCd.runTaskTimer(plugin, 20L, 20L);
                 plugin.getUtilities().broadcast(Messages.GAME_STARTED.toString());
                 SoundManager.playGameStarted(null, true);
                 plugin.getUtilities().broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));
@@ -97,7 +98,7 @@ public class GameManager {
             case FIGHTING:
                 plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
-                new FightingCd(plugin).startCountdown();
+                new FightingCd(plugin).startCountdown(); // TODO CHANGE
                 plugin.getUtilities().broadcast(Messages.PVP.toString());
                 plugin.getUtilities().broadcast(Messages.BORDER_SHRINK.toString());
                 break;
