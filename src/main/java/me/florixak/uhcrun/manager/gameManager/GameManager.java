@@ -96,8 +96,7 @@ public class GameManager {
             case FIGHTING:
                 plugin.getGame().removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
-                this.fightingCountdown = new FightingCd(this);
-                this.fightingCountdown.runTaskTimer(plugin, 0, 20);
+                new FightingCd(plugin).startCountdown();
                 plugin.getUtilities().broadcast(Messages.PVP.toString());
                 plugin.getUtilities().broadcast(Messages.BORDER_SHRINK.toString());
                 break;
