@@ -56,8 +56,10 @@ public final class UHCRun extends JavaPlugin {
     private StatisticsManager statisticManager;
     private LevelManager levelManager;
     private KitsManager kitsManager;
-    private TeleportUtils teleportUtil;
+    private TaskManager taskManager;
     private TeamManager teamManager;
+
+    private TeleportUtils teleportUtil;
     private VanishUtils vanishUtil;
 
     @Override
@@ -75,7 +77,6 @@ public final class UHCRun extends JavaPlugin {
         this.scoreboardManager = new ScoreboardManager(this);
         this.lobbyManager = new LobbyManager(this);
         this.borderManager = new BorderManager(this);
-        this.utilities = new Utils(this);
         this.actionManager = new ActionManager(this);
         this.inventoryManager = new InventoryManager();
         this.inventoryManager.onEnable(this);
@@ -83,6 +84,9 @@ public final class UHCRun extends JavaPlugin {
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager();
         this.teamManager = new TeamManager(this);
+        this.taskManager = new TaskManager(this);
+
+        this.utilities = new Utils(this);
         this.vanishUtil = new VanishUtils();
 
         this.SQL = new MySQL();
@@ -248,5 +252,8 @@ public final class UHCRun extends JavaPlugin {
     }
     public KitsManager getKitsManager() {
         return kitsManager;
+    }
+    public TaskManager getTasks() {
+        return taskManager;
     }
 }

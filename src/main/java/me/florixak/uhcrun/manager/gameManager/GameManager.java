@@ -32,12 +32,6 @@ public class GameManager {
     private TitleAction titleAction;
     private String prefix;
 
-    private StartingCd startingCd;
-    private MiningCd miningCd;
-    private FightingCd fightingCd;
-    private DeathMCd deathmatchCd;
-    private EndingCd endingCd;
-
     // private Cuboid cuboid;
     private BroadcastMessageAction broadcastMessageAction;
 
@@ -74,48 +68,46 @@ public class GameManager {
         switch (gameState) {
 
             case WAITING:
+                plugin.getTasks().stopStartingCD();
                 plugin.getGame().removeScoreboard();
                 break;
 
             case STARTING:
                 plugin.getGame().removeScoreboard();
-                new StartingCd(plugin).startCountdown(); // TODO CHANGE
+                plugin.getTasks().startStartingCD();
                 break;
 
             case MINING:
-                plugin.getGame().removeScoreboard();
+                removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
                 plugin.getKitsManager().getKits();
                 plugin.getTeamManager().addToTeam();
                 teleportPlayers();
-                this.miningCd = new MiningCd(this);
-                this.miningCd.runTaskTimer(plugin, 20L, 20L);
-                plugin.getUtilities().broadcast(Messages.GAME_STARTED.toString());
+                plugin.getTasks().startMiningCD();
                 SoundManager.playGameStarted(null, true);
-                plugin.getUtilities().broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));
+                Utils.broadcast(Messages.GAME_STARTED.toString());
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));
                 break;
 
             case FIGHTING:
-                plugin.getGame().removeScoreboard();
+                removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
-                new FightingCd(plugin).startCountdown(); // TODO CHANGE
-                plugin.getUtilities().broadcast(Messages.PVP.toString());
-                plugin.getUtilities().broadcast(Messages.BORDER_SHRINK.toString());
+                plugin.getTasks().startFightingCD();
+                Utils.broadcast(Messages.PVP.toString());
+                Utils.broadcast(Messages.BORDER_SHRINK.toString());
                 break;
 
             case DEATHMATCH:
-                plugin.getGame().removeScoreboard();
-                this.deathmatchCountdown = new DeathMCd(this);
-                this.deathmatchCountdown.runTaskTimer(plugin, 0, 20);
-                plugin.getUtilities().broadcast(Messages.DEATHMATCH_STARTED.toString());
+                removeScoreboard();
+                plugin.getTasks().startDeathmatchCD();
+                Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playDMBegan(player));
                 break;
 
             case ENDING:
-                plugin.getGame().removeScoreboard();
-                this.endingCountdown = new EndingCd(this);
-                this.endingCountdown.runTaskTimer(plugin, 0, 20);
-                plugin.getUtilities().broadcast(Messages.GAME_ENDED.toString());
+                removeScoreboard();
+                plugin.getTasks().startEndingCD();
+                Utils.broadcast(Messages.GAME_ENDED.toString());
                 plugin.getGame().end();
                 break;
         }
@@ -128,7 +120,7 @@ public class GameManager {
             if (PlayerManager.online.size() >= min) {
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playStartingSound(player));
                 setGameState(GameState.STARTING);
-                Bukkit.broadcastMessage(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(StartingCd.count)));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(StartingCd.count)));
             }
             return;
         }

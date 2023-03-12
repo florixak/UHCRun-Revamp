@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class StartingCd {
+public class StartingCd extends BukkitRunnable {
 
     private UHCRun plugin;
     private FileConfiguration config;
@@ -28,29 +28,23 @@ public class StartingCd {
         this.startWarning = config.getInt("starting-warning-time");
     }
 
-    public void startCountdown() {
+    @Override
+    public void run() {
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (count <= 0) {
-                    cancel();
-                    plugin.getGame().setGameState(GameState.MINING);
-                    return;
-                }
-
-                if (count <= startWarning) {
-                    Utils.broadcast(Messages.GAME_STARTING.toString()
-                            .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
-                    for (UUID uuid : PlayerManager.online) {
-                        SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
-                    }
-                }
-
-                plugin.getGame().checkGame();
-
-                count--;
+        if (count <= 0) {
+            cancel();
+            plugin.getGame().setGameState(GameState.MINING);
+            return;
+        }
+        if (count <= startWarning) {
+            Utils.broadcast(Messages.GAME_STARTING.toString()
+                    .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
+            for (UUID uuid : PlayerManager.online) {
+                SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
             }
-        }.runTaskTimer(plugin, 20L, 20L);
+        }
+        plugin.getGame().checkGame();
+        count--;
     }
+
 }

@@ -9,13 +9,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MiningCd extends BukkitRunnable {
 
-    private GameManager gameManager;
+    private UHCRun plugin;
     private FileConfiguration config;
     public static int count;
 
-    public MiningCd(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public MiningCd(UHCRun plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("mining-countdown");
     }
 
@@ -24,10 +24,10 @@ public class MiningCd extends BukkitRunnable {
 
         if (count <= 0) {
             cancel();
-            gameManager.setGameState(GameState.FIGHTING);
+            plugin.getGame().setGameState(GameState.FIGHTING);
             return;
         }
-        gameManager.checkGame();
+        plugin.getGame().checkGame();
         count--;
     }
 

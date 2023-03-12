@@ -9,22 +9,23 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathMCd extends BukkitRunnable {
 
-    private GameManager gameManager;
+    private UHCRun plugin;
     private FileConfiguration config;
     public static int count;
 
-    public DeathMCd(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public DeathMCd(UHCRun plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("deathmatch-countdown");
     }
+
 
     @Override
     public void run() {
 
         if (count <= 0) {
             cancel();
-            gameManager.setGameState(GameState.ENDING);
+            plugin.getGame().setGameState(GameState.ENDING);
             return;
         }
 
