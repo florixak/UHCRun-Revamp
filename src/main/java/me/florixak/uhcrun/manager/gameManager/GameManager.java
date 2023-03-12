@@ -32,10 +32,11 @@ public class GameManager {
     private TitleAction titleAction;
     private String prefix;
 
-    private MiningCd miningCountdown;
-    private FightingCd fightingCountdown;
-    private DeathMCd deathmatchCountdown;
-    private EndingCd endingCountdown;
+    private StartingCd startingCd;
+    private MiningCd miningCd;
+    private FightingCd fightingCd;
+    private DeathMCd deathmatchCd;
+    private EndingCd endingCd;
 
     // private Cuboid cuboid;
     private BroadcastMessageAction broadcastMessageAction;

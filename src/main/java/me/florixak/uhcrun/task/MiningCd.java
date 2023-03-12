@@ -6,19 +6,17 @@ import me.florixak.uhcrun.manager.gameManager.GameState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MiningCd  {
+public class MiningCd extends BukkitRunnable{
 
     private UHCRun plugin;
     private FileConfiguration config;
     public static int count;
 
     public MiningCd(UHCRun plugin) {
-        this.config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.plugin = plugin;
+        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("mining-countdown");
     }
-
-    public void startCountdown() {
-        new BukkitRunnable() {
             @Override
             public void run() {
                 if (count <= 0) {
@@ -31,7 +29,6 @@ public class MiningCd  {
 
                 count--;
             }
-        }.runTaskTimer(plugin, 20L, 20L);
     }
 
 }
