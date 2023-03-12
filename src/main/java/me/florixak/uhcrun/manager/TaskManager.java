@@ -7,8 +7,8 @@ public class TaskManager {
 
     private UHCRun plugin;
 
-    private long delay = 20L;
-    private long period = 20L;
+    private final long delay = 20L;
+    private final long period = 20L;
 
     private StartingCd startingCd;
     private MiningCd miningCd;
