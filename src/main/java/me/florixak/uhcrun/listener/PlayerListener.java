@@ -3,6 +3,7 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.manager.PerksManager;
 import me.florixak.uhcrun.manager.PlayerManager;
@@ -36,7 +37,7 @@ public class PlayerListener implements Listener {
         plugin.getStatisticManager().setStatistics(p);
 
         PlayerManager.online.add(p.getUniqueId());
-        KitsManager.noKit.add(p.getUniqueId());
+        KitsManager.kits.put(p.getUniqueId(), Kits.NONE);
         PerksManager.noPerk.add(p.getUniqueId());
 
         if (plugin.getGame().isEnding()) {
@@ -91,7 +92,7 @@ public class PlayerListener implements Listener {
             PlayerManager.dead.remove(p.getUniqueId());
         }
 
-        KitsManager.disbandKits(p);
+        KitsManager.kits.remove(p);
         PerksManager.disbandPerks(p);
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())

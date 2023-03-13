@@ -5,6 +5,7 @@ import me.florixak.uhcrun.action.Action;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
+import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.manager.KitsManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -29,20 +30,15 @@ public class KitsAction implements Action {
         Economy economy = UHCRun.getEconomy();
 
         if (data.equals("none")) {
-            if (KitsManager.haveNoKit(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.NONE) return;
 
-            KitsManager.noKit.add(player.getUniqueId());
-            KitsManager.healer.remove(player.getUniqueId());
-            KitsManager.horse_rider.remove(player.getUniqueId());
-            KitsManager.enchanter.remove(player.getUniqueId());
-            KitsManager.starter.remove(player.getUniqueId());
-            KitsManager.miner.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.NONE);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("starter")) {
 
-            if (KitsManager.haveStarter(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.STARTER) return;
 
             if (plugin.getStatisticManager().haveStarter(player.getUniqueId()) == false) {
                 int amount = kits.getInt("items.starter.price");
@@ -76,17 +72,12 @@ public class KitsAction implements Action {
                 plugin.getStatisticManager().addStarter(player.getUniqueId());
             }
 
-            KitsManager.starter.add(player.getUniqueId());
-            KitsManager.healer.remove(player.getUniqueId());
-            KitsManager.horse_rider.remove(player.getUniqueId());
-            KitsManager.enchanter.remove(player.getUniqueId());
-            KitsManager.miner.remove(player.getUniqueId());
-            KitsManager.noKit.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.STARTER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
         if (data.equals("miner")) {
 
-            if (KitsManager.haveMiner(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.MINER) return;
 
             if (plugin.getStatisticManager().haveMiner(player.getUniqueId()) == false) {
                 int amount = kits.getInt("items.miner.price");
@@ -120,18 +111,13 @@ public class KitsAction implements Action {
                 plugin.getStatisticManager().addMiner(player.getUniqueId());
             }
 
-            KitsManager.miner.add(player.getUniqueId());
-            KitsManager.healer.remove(player.getUniqueId());
-            KitsManager.horse_rider.remove(player.getUniqueId());
-            KitsManager.enchanter.remove(player.getUniqueId());
-            KitsManager.starter.remove(player.getUniqueId());
-            KitsManager.noKit.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.MINER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("enchanter")) {
 
-            if (KitsManager.haveEnchanter(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.ENCHANTER) return;
 
             if (plugin.getStatisticManager().haveEnchanter(player.getUniqueId()) == false) {
                 int amount = kits.getInt("items.enchanter.price");
@@ -165,18 +151,14 @@ public class KitsAction implements Action {
                 plugin.getStatisticManager().addEnchanter(player.getUniqueId());
             }
 
-            KitsManager.enchanter.add(player.getUniqueId());
-            KitsManager.healer.remove(player.getUniqueId());
-            KitsManager.horse_rider.remove(player.getUniqueId());
-            KitsManager.starter.remove(player.getUniqueId());
-            KitsManager.miner.remove(player.getUniqueId());
-            KitsManager.noKit.remove(player.getUniqueId());
+            KitsManager.kits.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.ENCHANTER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("healer")) {
 
-            if (KitsManager.haveHealer(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.HEALER) return;
 
             if (plugin.getStatisticManager().haveHealer(player.getUniqueId()) == false) {
                 int amount = kits.getInt("items.healer.price");
@@ -210,18 +192,13 @@ public class KitsAction implements Action {
                 plugin.getStatisticManager().addHealer(player.getUniqueId());
             }
 
-            KitsManager.healer.add(player.getUniqueId());
-            KitsManager.horse_rider.remove(player.getUniqueId());
-            KitsManager.enchanter.remove(player.getUniqueId());
-            KitsManager.starter.remove(player.getUniqueId());
-            KitsManager.miner.remove(player.getUniqueId());
-            KitsManager.noKit.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.HEALER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("horse_rider")) {
 
-            if (KitsManager.haveHorseRider(player)) return;
+            if (KitsManager.getKit(player.getUniqueId()) == Kits.HORSE_RIDER) return;
 
             if (plugin.getStatisticManager().haveHorseRider(player.getUniqueId()) == false) {
                 int amount = kits.getInt("items.horse_rider.price");
@@ -255,12 +232,7 @@ public class KitsAction implements Action {
                 plugin.getStatisticManager().addHorseRider(player.getUniqueId());
             }
 
-            KitsManager.horse_rider.add(player.getUniqueId());
-            KitsManager.healer.remove(player.getUniqueId());
-            KitsManager.enchanter.remove(player.getUniqueId());
-            KitsManager.starter.remove(player.getUniqueId());
-            KitsManager.miner.remove(player.getUniqueId());
-            KitsManager.noKit.remove(player.getUniqueId());
+            KitsManager.kits.put(player.getUniqueId(), Kits.HORSE_RIDER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
     }

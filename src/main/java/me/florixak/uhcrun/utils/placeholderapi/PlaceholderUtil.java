@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.task.DeathMCd;
@@ -82,20 +83,7 @@ public class PlaceholderUtil {
 
         if (text.contains("%kit%")) {
             if (config.getBoolean("lobby-items.kits.enabled", true)) {
-                if (KitsManager.haveNoKit(player))
-                    text = text.replace("%kit%", kits.getString("items.none.display_name"));
-                else if (KitsManager.haveStarter(player))
-                    text = text.replace("%kit%", kits.getString("items.starter.display_name"));
-                else if (KitsManager.haveEnchanter(player))
-                    text = text.replace("%kit%", kits.getString("items.enchanter.display_name"));
-                else if (KitsManager.haveMiner(player))
-                    text = text.replace("%kit%", kits.getString("items.miner.display_name"));
-                else if (KitsManager.haveHealer(player))
-                    text = text.replace("%kit%", kits.getString("items.healer.display_name"));
-                else if (KitsManager.haveHorseRider(player))
-                    text = text.replace("%kit%", kits.getString("items.horse_rider.display_name"));
-                else
-                    text = text.replace("%kit%", kits.getString("items.none.display_name"));
+                text = text.replace("%kit%", String.valueOf(KitsManager.getKit(player.getUniqueId())));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
@@ -135,7 +123,7 @@ public class PlaceholderUtil {
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
             if (text.contains("%kits-none%")) {
-                if (KitsManager.haveNoKit(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.NONE) {
                     text = text.replace("%kits-none%", Messages.SELECTED_INV.toString());
                 } else {
                     text = text.replace("%kits-none%", Messages.CLICK_SELECT_INV.toString()
@@ -143,7 +131,7 @@ public class PlaceholderUtil {
                 }
             }
             if (text.contains("%kits-starter%")) {
-                if (KitsManager.haveStarter(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.STARTER) {
                     text = text.replace("%kits-starter%", Messages.SELECTED_INV.toString());
                 } else if (plugin.getStatisticManager().haveStarter(player.getUniqueId()) == true
                         || kits.getDouble("items.starter.price") == 0) {
@@ -155,7 +143,7 @@ public class PlaceholderUtil {
                 }
             }
             if (text.contains("%kits-miner%")) {
-                if (KitsManager.haveMiner(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.MINER) {
                     text = text.replace("%kits-miner%", Messages.SELECTED_INV.toString());
 
                 } else if (plugin.getStatisticManager().haveMiner(player.getUniqueId()) == true
@@ -168,7 +156,7 @@ public class PlaceholderUtil {
                 }
             }
             if (text.contains("%kits-enchanter%")) {
-                if (KitsManager.haveEnchanter(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.ENCHANTER) {
                     text = text.replace("%kits-enchanter%", Messages.SELECTED_INV.toString());
                 } else if (plugin.getStatisticManager().haveEnchanter(player.getUniqueId()) == true
                         || kits.getDouble("items.enchanter.price") == 0) {
@@ -180,7 +168,7 @@ public class PlaceholderUtil {
                 }
             }
             if (text.contains("%kits-healer%")) {
-                if (KitsManager.haveHealer(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.HEALER) {
                     text = text.replace("%kits-healer%", Messages.SELECTED_INV.toString());
                 } else if (plugin.getStatisticManager().haveHealer(player.getUniqueId()) == true
                         || kits.getDouble("items.healer.price") == 0) {
@@ -192,7 +180,7 @@ public class PlaceholderUtil {
                 }
             }
             if (text.contains("%kits-horse_rider%")) {
-                if (KitsManager.haveHorseRider(player)) {
+                if (KitsManager.getKit(player.getUniqueId()) == Kits.HORSE_RIDER) {
                     text = text.replace("%kits-horse_rider%", Messages.SELECTED_INV.toString());
                 } else if (plugin.getStatisticManager().haveHorseRider(player.getUniqueId()) == true
                         || kits.getDouble("items.horse_rider.price") == 0) {

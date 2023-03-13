@@ -2,10 +2,10 @@ package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -14,38 +14,47 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class KitsManager {
 
-    public static ArrayList<UUID> noKit = new ArrayList<UUID>();
-    public static ArrayList<UUID> starter = new ArrayList<UUID>();
-    public static ArrayList<UUID> miner = new ArrayList<UUID>();
-    public static ArrayList<UUID> enchanter = new ArrayList<UUID>();
-    public static ArrayList<UUID> healer = new ArrayList<UUID>();
-    public static ArrayList<UUID> horse_rider = new ArrayList<UUID>();
+    public static HashMap<UUID, Kits> kits = new HashMap<>();
 
-    public static boolean haveNoKit(Player p) { return noKit.contains(p.getUniqueId()); }
-    public static boolean haveStarter(Player p) { return starter.contains(p.getUniqueId()); }
-    public static boolean haveMiner(Player p) { return miner.contains(p.getUniqueId()); }
-    public static boolean haveEnchanter(Player p) { return enchanter.contains(p.getUniqueId()); }
-    public static boolean haveHealer(Player p) { return healer.contains(p.getUniqueId()); }
-    public static boolean haveHorseRider(Player p) { return horse_rider.contains(p.getUniqueId()); }
+    public static void giveKits(Player p) {
+        p.sendMessage("You chose " + getKit(p.getUniqueId()) + " kit");
 
-    public void getKits() {
-        Bukkit.getOnlinePlayers().stream().filter(player -> haveStarter(player)).forEach(this::getStarter);
-        Bukkit.getOnlinePlayers().stream().filter(player -> haveMiner(player)).forEach(this::getMiner);
-        Bukkit.getOnlinePlayers().stream().filter(player -> haveEnchanter(player)).forEach(this::getEnchanter);
-        Bukkit.getOnlinePlayers().stream().filter(player -> haveHealer(player)).forEach(this::getHealer);
-        Bukkit.getOnlinePlayers().stream().filter(player -> haveHorseRider(player)).forEach(this::getHorseRider);
+        switch (kits.get(p.getUniqueId())) {
+            case NONE:
+                break;
+            case STARTER:
+                getStarter(p);
+                break;
+            case MINER:
+                getMiner(p);
+                break;
+            case ENCHANTER:
+                getEnchanter(p);
+                break;
+            case HEALER:
+                getHealer(p);
+                break;
+            case HORSE_RIDER:
+                getHorseRider(p);
+                break;
+            default:
+                p.sendMessage("ERROR with kits");
+                break;
+        }
+    }
+    public static Kits getKit(UUID uuid) {
+        return kits.get(uuid);
     }
 
     public static void getCreatorKit(Player p) {
         p.getInventory().addItem(ItemUtils.item(new ItemStack(Material.STICK), "Set Waiting Lobby", 1));
         p.getInventory().addItem(ItemUtils.item(new ItemStack(Material.BLAZE_ROD), "Set Ending Lobby", 1));
     }
-
     public static void getWaitingKit(Player p) {
         FileConfiguration config = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         FileConfiguration permissions = UHCRun.plugin.getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
@@ -88,54 +97,9 @@ public class KitsManager {
         }
     }
 
-    public static void getKit(Player p) {
-        FileConfiguration config = UHCRun.plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
-        for (String kit : config.getConfigurationSection("items").getKeys(false)) {
-            if (kit.length() > 0) return;
-
-
-        }
-    }
-
-    public static void disbandKits(Player p) {
-        if (KitsManager.haveStarter(p)) {
-            KitsManager.starter.remove(p.getUniqueId());
-        }
-        if (KitsManager.haveMiner(p)) {
-            KitsManager.miner.remove(p.getUniqueId());
-        }
-        if (KitsManager.haveEnchanter(p)) {
-            KitsManager.enchanter.remove(p.getUniqueId());
-        }
-        if (KitsManager.haveHealer(p)) {
-            KitsManager.healer.remove(p.getUniqueId());
-        }
-        if (KitsManager.haveHorseRider(p)) {
-            KitsManager.horse_rider.remove(p.getUniqueId());
-        }
-        if (!KitsManager.haveNoKit(p)) {
-            KitsManager.noKit.add(p.getUniqueId());
-        }
-    }
-
-    private void getStarter(Player p) {
+    private static void getStarter(Player p) {
 
         ItemStack item;
-
-//        ItemStack axe = new ItemStack(XMaterial.WOODEN_AXE.parseMaterial());
-//        ItemStack pickaxe = new ItemStack(XMaterial.WOODEN_PICKAXE.parseMaterial());
-//        ItemStack shovel = new ItemStack(XMaterial.WOODEN_SHOVEL.parseMaterial());
-//        ItemStack food = new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), 16);
-//
-//        ItemUtil.addEnchant(axe, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(axe, Enchantment.DURABILITY, 3, false);
-//
-//        ItemUtil.addEnchant(pickaxe, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(pickaxe, Enchantment.DURABILITY, 3, false);
-//
-//        ItemUtil.addEnchant(shovel, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(shovel, Enchantment.DURABILITY, 3, false);
-
         FileConfiguration config = UHCRun.plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
 
         for (String kit : config.getConfigurationSection("items").getKeys(false)) {
@@ -151,12 +115,8 @@ public class KitsManager {
                 p.getInventory().addItem(item);
             }
         }
-//        p.getInventory().addItem(axe);
-//        p.getInventory().addItem(pickaxe);
-//        p.getInventory().addItem(shovel);
-//        p.getInventory().addItem(food);
     }
-    private void getMiner(Player p) {
+    private static void getMiner(Player p) {
 
         ItemStack axe = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
@@ -177,7 +137,7 @@ public class KitsManager {
         p.getInventory().addItem(shovel);
         p.getInventory().addItem(food);
     }
-    private void getEnchanter(Player p) {
+    private static void getEnchanter(Player p) {
 
         ItemStack axe = new ItemStack(XMaterial.WOODEN_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.WOODEN_PICKAXE.parseMaterial());
@@ -199,7 +159,7 @@ public class KitsManager {
         p.getInventory().addItem(exp_bottle);
         p.getInventory().addItem(food);
     }
-    private void getHealer(Player p) {
+    private static void getHealer(Player p) {
         ItemStack axe = new ItemStack(XMaterial.STONE_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.STONE_PICKAXE.parseMaterial());
         ItemStack food = new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), 16);
@@ -218,7 +178,7 @@ public class KitsManager {
         p.getInventory().addItem(gcarrot);
         p.getInventory().addItem(gapple);
     }
-    private void getHorseRider(Player p) {
+    private static void getHorseRider(Player p) {
         ItemStack sword = new ItemStack(XMaterial.IRON_SWORD.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.STONE_PICKAXE.parseMaterial());
         ItemStack axe = new ItemStack(XMaterial.STONE_AXE.parseMaterial());

@@ -80,7 +80,7 @@ public class GameManager {
             case MINING:
                 removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
-                plugin.getKitsManager().getKits();
+                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(KitsManager::giveKits);
                 plugin.getTeamManager().addToTeam();
                 teleportPlayers();
                 plugin.getTasks().startMiningCD();
@@ -156,10 +156,7 @@ public class GameManager {
         PlayerManager.creator.clear();
         PlayerManager.online.clear();
 
-        KitsManager.noKit.clear();
-        KitsManager.starter.clear();
-        KitsManager.miner.clear();
-        KitsManager.enchanter.clear();
+        KitsManager.kits.clear();
 
         if (config.getBoolean("auto-map-reset", true)) {
             File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
