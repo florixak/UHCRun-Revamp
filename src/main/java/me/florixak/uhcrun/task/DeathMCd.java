@@ -19,7 +19,6 @@ public class DeathMCd extends BukkitRunnable {
         this.count = config.getInt("deathmatch-countdown");
     }
 
-
     @Override
     public void run() {
 
