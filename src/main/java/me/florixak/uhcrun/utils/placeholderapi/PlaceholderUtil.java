@@ -5,8 +5,10 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.kits.Kits;
+import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.task.DeathMCd;
 import me.florixak.uhcrun.task.FightingCd;
 import me.florixak.uhcrun.task.MiningCd;
@@ -25,12 +27,13 @@ public class PlaceholderUtil {
 
     public static String setPlaceholders(String text, Player player) {
 
-        Economy economy = UHCRun.getEconomy();
-        BorderManager borderManager = UHCRun.plugin.getBorderManager();
-        StatisticsManager statisticManager = UHCRun.plugin.getStatisticManager();
-        LevelManager levelManager = UHCRun.plugin.getLevelManager();
-        String replace = "";
         UHCRun plugin = UHCRun.plugin;
+        Economy economy = UHCRun.getEconomy();
+        BorderManager borderManager = plugin.getBorderManager();
+        StatisticsManager statisticManager = plugin.getStatisticManager();
+        LevelManager levelManager = plugin.getLevelManager();
+        String replace = "";
+
 
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
@@ -92,29 +95,11 @@ public class PlaceholderUtil {
 
         if (text.contains("%perk%")) {
             if (config.getBoolean("lobby-items.perks.enabled", true)) {
-                if (PerksManager.haveNoPerk(player))
-                    text = text.replace("%perk%", perks.getString("items.none.display_name"));
-                else if (PerksManager.haveStrength(player))
-                    text = text.replace("%perk%", perks.getString("items.strength.display_name"));
-                else if (PerksManager.haveRegeneration(player))
-                    text = text.replace("%perk%", perks.getString("items.regeneration.display_name"));
-                else if (PerksManager.haveSpeed(player))
-                    text = text.replace("%perk%", perks.getString("items.speed.display_name"));
-                else if (PerksManager.haveInvisible(player))
-                    text = text.replace("%perk%", perks.getString("items.invisible.display_name"));
-                else if (PerksManager.haveResistance(player))
-                    text = text.replace("%perk%", perks.getString("items.resistance.display_name"));
-                else if (PerksManager.haveEnderPearl(player))
-                    text = text.replace("%perk%", perks.getString("items.ender_pearl.display_name"));
-                else if (PerksManager.haveFireResistance(player))
-                    text = text.replace("%perk%", perks.getString("items.fire_resistance.display_name"));
-                else
-                    text = text.replace("%perk%", perks.getString("items.none.display_name"));
+                text = text.replace("%perk%", String.valueOf(PerksManager.getPerk(player.getUniqueId())));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
             }
-
         }
 
         if (text.contains("%alive%")) text = text.replace("%alive%", "" + PlayerManager.alive.size());
@@ -202,30 +187,30 @@ public class PlaceholderUtil {
         }
 
         if (config.getBoolean("lobby-items.perks.enabled")) {
-            if (text.contains("%perks-none%")) {
-                if (PerksManager.haveNoPerk(player)) {
-                    text = text.replace("%perks-none%", Messages.SELECTED_INV.toString());
-                } else {
-                    text = text.replace("%perks-none%", Messages.CLICK_SELECT_INV.toString()
-                            .replace("%price%", "" + kits.getDouble("items.none.price")));
-                }
-            }
-            if (text.contains("%perks-strength%")) {
-                if (PerksManager.haveStrength(player)) {
-                    text = text.replace("%perks-strength%", Messages.SELECTED_INV.toString());
-                } else {
-                    text = text.replace("%perks-strength%", Messages.CLICK_SELECT_INV.toString()
-                            .replace("%price%", "" + kits.getDouble("items.strength.price")));
-                }
-            }
-            if (text.contains("%perks-speed%")) {
-                if (PerksManager.haveSpeed(player)) {
-                    text = text.replace("%perks-speed%", Messages.SELECTED_INV.toString());
-                } else {
-                    text = text.replace("%perks-speed%", Messages.CLICK_SELECT_INV.toString()
-                            .replace("%price%", "" + kits.getDouble("items.speed.price")));
-                }
-            }
+//            if (text.contains("%perks-none%")) {
+//                if (PerksManager.haveNoPerk(player)) {
+//                    text = text.replace("%perks-none%", Messages.SELECTED_INV.toString());
+//                } else {
+//                    text = text.replace("%perks-none%", Messages.CLICK_SELECT_INV.toString()
+//                            .replace("%price%", "" + kits.getDouble("items.none.price")));
+//                }
+//            }
+//            if (text.contains("%perks-strength%")) {
+//                if (PerksManager.haveStrength(player)) {
+//                    text = text.replace("%perks-strength%", Messages.SELECTED_INV.toString());
+//                } else {
+//                    text = text.replace("%perks-strength%", Messages.CLICK_SELECT_INV.toString()
+//                            .replace("%price%", "" + kits.getDouble("items.strength.price")));
+//                }
+//            }
+//            if (text.contains("%perks-speed%")) {
+//                if (PerksManager.haveSpeed(player)) {
+//                    text = text.replace("%perks-speed%", Messages.SELECTED_INV.toString());
+//                } else {
+//                    text = text.replace("%perks-speed%", Messages.CLICK_SELECT_INV.toString()
+//                            .replace("%price%", "" + kits.getDouble("items.speed.price")));
+//                }
+//            }
         }
         else {
             if (text.contains("%perks-none%")) text = text.replace("%perks-none%", Messages.DISABLED.toString());

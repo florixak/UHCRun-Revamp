@@ -5,7 +5,8 @@ import me.florixak.uhcrun.action.Action;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
-import me.florixak.uhcrun.manager.PerksManager;
+import me.florixak.uhcrun.perks.Perks;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.utils.MoneyUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -30,16 +31,16 @@ public class PerkAction implements Action {
 
         if (data.equals("none")) {
 
-            if (PerksManager.haveNoPerk(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.NONE) return;
 
-            PerksManager.disbandPerks(player);
+            PerksManager.registerPerk(player, Perks.NONE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
 
         if (data.equals("strength")) {
 
-            if (PerksManager.haveStrength(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.STRENGTH) return;
 
             if (plugin.getStatisticManager().haveStrength(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.strength.price");
@@ -72,21 +73,13 @@ public class PerkAction implements Action {
             if (config.getBoolean("lobby-items.perks.always-buy") == false) {
                 plugin.getStatisticManager().addStrength(player.getUniqueId());
             }
-
-            PerksManager.strength.add(player.getUniqueId());
-            PerksManager.regeneration.remove(player.getUniqueId());
-            PerksManager.speed.remove(player.getUniqueId());
-            PerksManager.noPerk.remove(player.getUniqueId());
-            PerksManager.ender_pearl.remove(player.getUniqueId());
-            PerksManager.fire_resistance.remove(player.getUniqueId());
-            PerksManager.invisible.remove(player.getUniqueId());
-            PerksManager.resistance.remove(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.STRENGTH);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("regeneration")) {
 
-            if (PerksManager.haveRegeneration(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.REGENERATION) return;
 
             if (plugin.getStatisticManager().haveRegeneration(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.regeneration.price");
@@ -97,14 +90,13 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addRegeneration(player.getUniqueId());
             }
 
-            PerksManager.disbandPerks(player);
-            PerksManager.regeneration.add(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.REGENERATION);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("speed")) {
 
-            if (PerksManager.haveSpeed(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.SPEED) return;
 
             if (plugin.getStatisticManager().haveSpeed(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.speed.price");
@@ -115,20 +107,13 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addSpeed(player.getUniqueId());
             }
 
-            PerksManager.speed.add(player.getUniqueId());
-            PerksManager.strength.remove(player.getUniqueId());
-            PerksManager.regeneration.remove(player.getUniqueId());
-            PerksManager.noPerk.remove(player.getUniqueId());
-            PerksManager.ender_pearl.remove(player.getUniqueId());
-            PerksManager.fire_resistance.remove(player.getUniqueId());
-            PerksManager.invisible.remove(player.getUniqueId());
-            PerksManager.resistance.remove(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.SPEED);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("invisible")) {
 
-            if (PerksManager.haveInvisible(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.INVISIBLE) return;
 
             if (plugin.getStatisticManager().haveInvisible(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.invisible.price");
@@ -139,14 +124,13 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addInvisible(player.getUniqueId());
             }
 
-            PerksManager.disbandPerks(player);
-            PerksManager.invisible.add(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.INVISIBLE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("fire_resistance")) {
 
-            if (PerksManager.haveFireResistance(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.FIRE_RESISTANCE) return;
 
             if (plugin.getStatisticManager().haveFireResistance(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.fire_resistance.price");
@@ -157,14 +141,13 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addFireResistance(player.getUniqueId());
             }
 
-            PerksManager.disbandPerks(player);
-            PerksManager.fire_resistance.add(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.FIRE_RESISTANCE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("ender_pearl")) {
 
-            if (PerksManager.haveEnderPearl(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.ENDER_PEARL) return;
 
             if (plugin.getStatisticManager().haveEnderPearl(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.ender_pearl.price");
@@ -175,14 +158,13 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addEnderPearl(player.getUniqueId());
             }
 
-            PerksManager.disbandPerks(player);
-            PerksManager.ender_pearl.add(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.ENDER_PEARL);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("resistance")) {
 
-            if (PerksManager.haveResistance(player)) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == Perks.RESISTANCE) return;
 
             if (plugin.getStatisticManager().haveResistance(player.getUniqueId()) == false) {
                 int amount = perks.getInt("items.resistance.price");
@@ -193,8 +175,7 @@ public class PerkAction implements Action {
                 plugin.getStatisticManager().addResistance(player.getUniqueId());
             }
 
-            PerksManager.disbandPerks(player);
-            PerksManager.resistance.add(player.getUniqueId());
+            PerksManager.registerPerk(player, Perks.RESISTANCE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
     }

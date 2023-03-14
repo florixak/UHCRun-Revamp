@@ -5,9 +5,11 @@ import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.action.actions.TitleAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.manager.KitsManager;
+import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
+import me.florixak.uhcrun.perks.Perks;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.task.*;
 import me.florixak.uhcrun.utils.*;
 import org.bukkit.*;
@@ -335,6 +337,8 @@ public class GameManager {
         plugin.getStatisticManager().addKill(p.getUniqueId(), 1);
         PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
         p.giveExp(config.getInt("xp-per-kill"));
+
+        PerksManager.givePerk(p);
     }
     public void death(Player p) {
         PlayerManager.alive.remove(p.getUniqueId());
@@ -400,7 +404,6 @@ public class GameManager {
                     p.showPlayer(plugin, p);
                 }
             }
-
         }
     }
 

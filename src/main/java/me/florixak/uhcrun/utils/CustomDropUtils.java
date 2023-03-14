@@ -3,6 +3,7 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.manager.SoundManager;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

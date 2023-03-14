@@ -6,7 +6,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
 import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.manager.KitsManager;
+import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;

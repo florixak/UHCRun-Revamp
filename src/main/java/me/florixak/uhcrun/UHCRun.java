@@ -6,6 +6,7 @@ import me.florixak.uhcrun.commands.CreatorModeCommand;
 import me.florixak.uhcrun.commands.WorkbenchCommand;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.listener.ChatListener;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.inventory.InventoryManager;

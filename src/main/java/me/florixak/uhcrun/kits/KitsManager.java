@@ -1,8 +1,7 @@
-package me.florixak.uhcrun.manager;
+package me.florixak.uhcrun.kits;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;

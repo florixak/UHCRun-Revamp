@@ -4,8 +4,9 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.manager.KitsManager;
-import me.florixak.uhcrun.manager.PerksManager;
+import me.florixak.uhcrun.kits.KitsManager;
+import me.florixak.uhcrun.perks.Perks;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.utils.Utils;
@@ -38,7 +39,7 @@ public class PlayerListener implements Listener {
 
         PlayerManager.online.add(p.getUniqueId());
         KitsManager.kits.put(p.getUniqueId(), Kits.NONE);
-        PerksManager.noPerk.add(p.getUniqueId());
+        PerksManager.perks.put(p.getUniqueId(), Perks.NONE);
 
         if (plugin.getGame().isEnding()) {
             p.kickPlayer("UHCRun is restarting!");
@@ -93,7 +94,7 @@ public class PlayerListener implements Listener {
         }
 
         KitsManager.kits.remove(p);
-        PerksManager.disbandPerks(p);
+        PerksManager.perks.remove(p);
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
             Bukkit.broadcastMessage(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
