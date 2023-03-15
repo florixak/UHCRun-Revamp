@@ -29,8 +29,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLException;
-
 public final class UHCRun extends JavaPlugin {
 
     /*
@@ -44,7 +42,7 @@ public final class UHCRun extends JavaPlugin {
     private static Economy econ = null;
     private static LuckPerms luckPerms = null;
     public static UHCRun plugin;
-    public MySQL SQL;
+    public MySQL mysql;
     public SQLGetter data;
     private GameManager gameManager;
     private ConfigManager configManager;
@@ -90,9 +88,6 @@ public final class UHCRun extends JavaPlugin {
         this.utilities = new Utils(this);
         this.vanishUtil = new VanishUtils();
 
-        this.SQL = new MySQL();
-        this.data = new SQLGetter(this);
-
         this.teleportUtil = new TeleportUtils(this);
 
         registerAddons();
@@ -137,10 +132,7 @@ public final class UHCRun extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.SQL = new MySQL();
-        this.data = new SQLGetter(this);
-
-        SQL.disconnect();
+        mysql.disconnect();
     }
 
     private void registerAddons() {
@@ -168,18 +160,9 @@ public final class UHCRun extends JavaPlugin {
     }
     private void connectToDatabase() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            try {
-                SQL.connect();
-            } catch (ClassNotFoundException | SQLException e) {
-                getLogger().info(TextUtils.color("&cDabatase is not connected!"));
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
-
-            if (SQL.isConnected()) {
-                getLogger().info(TextUtils.color("&aDabatase is connected!"));
-                data.createTable();
-            }
+            mysql = new MySQL("localhost", 3306, null, null, null);
+            data = new SQLGetter(plugin);
+            data.createTable();
         }
     }
     private void registerRecipes() {

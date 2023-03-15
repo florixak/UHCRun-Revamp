@@ -1,43 +1,53 @@
 package me.florixak.uhcrun.sql;
 
-import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.ConfigType;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQL {
 
-    private String host = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getString("MySQL.host");
-    private String port = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getString("MySQL.port");
-    private String database = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getString("MySQL.database");
-    private String username = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getString("MySQL.username");
-    private String password = UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getString("MySQL.password");
+    private Connection con;
 
-    private Connection connection;
+    private String host;
+    private int port;
+    private String database;
+    private String user;
+    private String password;
 
-    public boolean isConnected() {
-        return (connection == null ? false : true);
+    public MySQL(String host, int port, String database, String user, String password) {
+        this.host = host;
+        this.port = port;
+        this.database = database;
+        this.user = user;
+        this.password = password;
+
+        connect();
     }
 
-    public void connect() throws ClassNotFoundException, SQLException {
-        if (!isConnected()) {
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
+    public void connect() {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("MySQL disconnected!");
         }
     }
 
-    public void disconnect(){
-        if (isConnected()){
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public void disconnect() {
+        try {
+            if (this.hasConnection()) {
+                this.con.close();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    public boolean hasConnection() {
+        return this.con != null ? true : false;
     }
 
     public Connection getConnection() {
-        return connection;
+        return this.con;
     }
 }
