@@ -37,7 +37,7 @@ public class PerkAction implements Action {
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
-
+/*
         if (data.equals("strength")) {
 
             if (PerksManager.getPerk(player.getUniqueId()) == Perks.STRENGTH) return;
@@ -178,5 +178,8 @@ public class PerkAction implements Action {
             PerksManager.registerPerk(player, Perks.RESISTANCE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
+
+ */
     }
+
 }

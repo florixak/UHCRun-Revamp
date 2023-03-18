@@ -20,7 +20,6 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
-import me.florixak.uhcrun.utils.VanishUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
@@ -59,7 +58,6 @@ public final class UHCRun extends JavaPlugin {
     private TeamManager teamManager;
 
     private TeleportUtils teleportUtil;
-    private VanishUtils vanishUtil;
 
     @Override
     public void onEnable() {
@@ -86,7 +84,6 @@ public final class UHCRun extends JavaPlugin {
         this.taskManager = new TaskManager(this);
 
         this.utilities = new Utils(this);
-        this.vanishUtil = new VanishUtils();
 
         this.teleportUtil = new TeleportUtils(this);
 
@@ -127,12 +124,14 @@ public final class UHCRun extends JavaPlugin {
             getLogger().info(TextUtils.color("&cThere is error in ore spawn!"));
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onDisable() {
-        mysql.disconnect();
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
+            mysql.disconnect();
+        }
+
     }
 
     private void registerAddons() {

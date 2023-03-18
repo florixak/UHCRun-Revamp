@@ -14,7 +14,6 @@ import me.florixak.uhcrun.task.FightingCd;
 import me.florixak.uhcrun.task.MiningCd;
 import me.florixak.uhcrun.task.StartingCd;
 import me.florixak.uhcrun.utils.TimeUtils;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -28,24 +27,20 @@ public class PlaceholderUtil {
     public static String setPlaceholders(String text, Player player) {
 
         UHCRun plugin = UHCRun.plugin;
-        Economy economy = UHCRun.getEconomy();
         BorderManager borderManager = plugin.getBorderManager();
         StatisticsManager statisticManager = plugin.getStatisticManager();
         LevelManager levelManager = plugin.getLevelManager();
-        String replace = "";
 
 
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
         FileConfiguration perks = plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
-        FileConfiguration stats = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
-        FileConfiguration chat = plugin.getConfigManager().getFile(ConfigType.CHAT).getConfig();
 
         if (text.contains("%player%") && player != null)
             text = text.replace("%player%", player.getDisplayName());
 
-//        if (text.contains("%ping%"))
-//            text = text.replace("%ping%", "" + player.getP + " ms");
+        /*if (text.contains("%ping%"))
+            text = text.replace("%ping%", "" + player.getPing() + " ms");*/
 
         if (text.contains("%online%"))
             text = text.replace("%online%", String.valueOf(PlayerManager.online.size()));
@@ -115,6 +110,7 @@ public class PlaceholderUtil {
                             .replace("%price%", "" + kits.getDouble("items.none.price")));
                 }
             }
+            /*
             if (text.contains("%kits-starter%")) {
                 if (KitsManager.getKit(player.getUniqueId()) == Kits.STARTER) {
                     text = text.replace("%kits-starter%", Messages.SELECTED_INV.toString());
@@ -175,7 +171,7 @@ public class PlaceholderUtil {
                     text = text.replace("%kits-horse_rider%", Messages.CLICK_BUY_INV.toString()
                             .replace("%price%", "" + kits.getDouble("items.horse_rider.price")));
                 }
-            }
+            }*/
         }
         else {
             if (text.contains("%kits-none%")) text = text.replace("%kits-none%", Messages.DISABLED.toString());
@@ -242,10 +238,7 @@ public class PlaceholderUtil {
             text = text.replace("%winner%", UHCRun.plugin.getGame().getWinnerName());
         }
 
-        String voted = "&aYES";
-        String didnt_vote = "&cNO";
-
-        if (text.contains("%voted-hp%")) {
+        /*if (text.contains("%voted-hp%")) {
             if (VoteManager.votedHP(player)) text = text.replace("%voted-hp%", voted);
             else text = text.replace("%voted-hp%", didnt_vote);
         }
@@ -260,8 +253,9 @@ public class PlaceholderUtil {
         if (text.contains("%voted-no-pots%")) {
             if (VoteManager.votedNoPots(player)) text = text.replace("%voted-no-pots%", voted);
             else text = text.replace("%voted-no-pots%", didnt_vote);
-        }
+        }*/
 
+        /*
         if (text.contains("%votes-hp%")) {
             text = text.replace("%votes-hp%", String.valueOf(VoteManager.hp.size()));
         }
@@ -273,9 +267,7 @@ public class PlaceholderUtil {
         }
         if (text.contains("%votes-no-pots%")) {
             text = text.replace("%votes-no-pots%", String.valueOf(VoteManager.no_pots.size()));
-        }
-
-
+        }*/
 
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";

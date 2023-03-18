@@ -3,6 +3,7 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.events.GameKillEvent;
 import me.florixak.uhcrun.kits.Kits;
 import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.perks.Perks;
@@ -54,11 +55,11 @@ public class PlayerListener implements Listener {
             p.setGameMode(GameMode.SPECTATOR);
             return;
         }
+
         p.setGameMode(GameMode.ADVENTURE);
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
         p.getInventory().clear();
-//        p.giveExp((int) -(1*Math.pow(10, 1000000000)));
         p.setLevel(0);
         p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
@@ -97,52 +98,13 @@ public class PlayerListener implements Listener {
         PerksManager.perks.remove(p);
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
-            Bukkit.broadcastMessage(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
+            Utils.broadcast(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-
-        Player p = event.getEntity().getPlayer();
-
-        if (!plugin.getGame().isPlaying() || !PlayerManager.isAlive(p)) {
-            event.setKeepInventory(true);
-            p.setHealth(p.getMaxHealth());
-            p.setFoodLevel(20);
-            return;
-        }
-
-        if (event.getEntity().getKiller() instanceof Player) {
-
-            Player k = event.getEntity().getKiller();
-
-            p.setHealth(p.getMaxHealth());
-            p.setFoodLevel(20);
-            p.setLevel(0);
-            p.setTotalExperience(0);
-            p.giveExp(-p.getTotalExperience());
-            p.getInventory().clear();
-
-            plugin.getGame().kill(k);
-            plugin.getGame().death(p);
-
-            Utils.broadcast(Messages.KILL.toString().replace("%player%", p.getDisplayName()).replace("%killer%", k.getDisplayName()));
-
-        } else {
-
-            p.setHealth(p.getMaxHealth());
-            p.setFoodLevel(20);
-            p.giveExp(-p.getTotalExperience());
-            p.getInventory().clear();
-
-            plugin.getGame().death(p);
-
-            plugin.getUtilities().broadcast(Messages.DEATH.toString().replace("%player%", p.getDisplayName()));
-
-        }
-        plugin.getGame().checkGame();
-
+        plugin.getServer().getPluginManager().callEvent(new GameKillEvent(event.getEntity().getKiller(), event.getEntity().getPlayer()));
     }
 
     @EventHandler

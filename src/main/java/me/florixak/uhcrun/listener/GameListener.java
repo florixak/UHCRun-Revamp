@@ -1,10 +1,18 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.action.actions.TitleAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.events.GameEndEvent;
+import me.florixak.uhcrun.events.GameKillEvent;
+import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.utils.CustomDropUtils;
+import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -18,18 +26,115 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Random;
 
 public class GameListener implements Listener {
 
     private UHCRun plugin;
-    private FileConfiguration config;
+    private FileConfiguration config, messages;
     private String world;
+    private TitleAction titleAction;
+    private String prefix;
 
     public GameListener(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.messages = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
         this.world = config.getString("game-world");
+        this.prefix = messages.getString("Messages.prefix");
+        this.titleAction = new TitleAction();
+    }
+
+    @EventHandler
+    public void onGameEnd(GameEndEvent event) {
+        Player winner = event.getWinner();
+
+        List<String> win_rewards = messages.getStringList("Messages.win-rewards");
+        List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
+
+        double money_for_win;
+        double money_for_kills;
+        double level_xp_for_win;
+        double level_xp_for_kills;
+        double money_for_lose;
+        double level_xp_for_lose;
+
+        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getDisplayName()));
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+
+            money_for_kills = config.getDouble("coins-per-kill") * PlayerManager.kills.get(p.getUniqueId());
+            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*PlayerManager.kills.get(p.getUniqueId());
+            money_for_win = config.getDouble("coins-per-win");
+            level_xp_for_win = config.getDouble("player-level.level-xp-per-win");
+
+            money_for_lose = config.getDouble("coins-per-lose");
+            level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
+
+            if (p == winner) {
+                plugin.getStatisticManager().addWin(p.getUniqueId(), 1);
+                plugin.getStatisticManager().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_win + money_for_kills);
+                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_win + level_xp_for_kills);
+                titleAction.execute(plugin, p, "Victory!");
+                for (String reward : win_rewards) {
+                    p.sendMessage(TextUtils.color(reward
+                                    .replace("%coins-for-win%", String.valueOf(money_for_win))
+                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
+                                    .replace("%level-xp-for-win%", String.valueOf(level_xp_for_win))
+                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
+                                    .replace("%prefix%", prefix)
+                            )
+                    );
+                }
+            }
+            else {
+                plugin.getStatisticManager().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_lose+money_for_kills);
+                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_lose+level_xp_for_kills);
+                titleAction.execute(plugin, p, "Game Over!");
+                for (String reward : lose_rewards) {
+                    p.sendMessage(TextUtils.color(reward
+                                    .replace("%coins-for-lose%", String.valueOf(money_for_lose))
+                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
+                                    .replace("%level-xp-for-lose%", String.valueOf(level_xp_for_lose))
+                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
+                                    .replace("%prefix%", prefix)
+                            )
+                    );
+                }
+                if (PlayerManager.isDead(p)) {
+                    p.showPlayer(plugin, p);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onGameKill(GameKillEvent event) {
+        Player killer = event.getKiller();
+        Player victim = event.getVictim();
+
+        victim.setHealth(20);
+        victim.setFoodLevel(20);
+        victim.setLevel(0);
+        victim.setTotalExperience(0);
+        victim.giveExp(-victim.getTotalExperience());
+        victim.getInventory().clear();
+
+        plugin.getGame().setSpectator(victim);
+
+        if (killer instanceof Player) {
+            plugin.getGame().addKillTo(killer);
+            PerksManager.givePerk(killer);
+
+            killer.giveExp(config.getInt("xp-per-kill"));
+
+            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getDisplayName()).replace("%killer%", killer.getDisplayName()));
+        } else {
+            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getDisplayName()));
+        }
+        plugin.getGame().addDeathTo(victim);
+        plugin.getGame().checkGame();
     }
 
     @EventHandler

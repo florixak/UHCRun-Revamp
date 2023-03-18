@@ -5,6 +5,7 @@ import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.action.actions.TitleAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
@@ -110,7 +111,7 @@ public class GameManager {
                 removeScoreboard();
                 plugin.getTasks().startEndingCD();
                 Utils.broadcast(Messages.GAME_ENDED.toString());
-                plugin.getGame().end();
+                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getWinner()));
                 break;
         }
     }
@@ -321,10 +322,6 @@ public class GameManager {
                 p.getLocation().getY()+10,
                 p.getLocation().getZ()+0));
 
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-
-        p.getInventory().clear();
         new VanishUtils().toggleVanish(p);
 
         KitsManager.getSpectatorKit(p);
@@ -333,20 +330,16 @@ public class GameManager {
         p.setFlying(true);
     }
 
-    public void kill(Player p) {
+    public void addKillTo(Player p) {
         plugin.getStatisticManager().addKill(p.getUniqueId(), 1);
         PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
-        p.giveExp(config.getInt("xp-per-kill"));
-
-        PerksManager.givePerk(p);
     }
-    public void death(Player p) {
+    public void addDeathTo(Player p) {
         PlayerManager.alive.remove(p.getUniqueId());
         PlayerManager.dead.add(p.getUniqueId());
         plugin.getStatisticManager().addDeath(p.getUniqueId(), 1);
-        setSpectator(p);
     }
-    public void end() {
+    /*public void end() {
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");
         List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
 
@@ -405,7 +398,7 @@ public class GameManager {
                 }
             }
         }
-    }
+    }*/
 
     public Player getWinner() {
         for (UUID uuid : PlayerManager.alive) {

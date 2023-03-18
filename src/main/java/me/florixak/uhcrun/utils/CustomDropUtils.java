@@ -36,11 +36,13 @@ public class CustomDropUtils {
                 size = config.getStringList("custom-drops." + block + ".drops").size();
                 amount = config.getInt("custom-drops." + block + ".max-drop");
                 drop_item = XMaterial.matchXMaterial(config.getConfigurationSection("custom-drops." + block).getStringList("drops").get(ran.nextInt(size)).toUpperCase()).get().parseMaterial();
-                drop = new ItemStack(drop_item, ran.nextInt(amount)+1);
+                if (drop_item != null) {
+                    drop = new ItemStack(drop_item, ran.nextInt(amount)+1);
+                    loc.getWorld().dropItemNaturally(loc, drop);
+                }
                 xp = config.getInt("custom-drops." + block + ".xp");
-
-                loc.getWorld().dropItemNaturally(loc, drop);
                 p.giveExp(xp);
+
                 SoundManager.playOreDestroySound(p);
                 break;
             }

@@ -101,7 +101,7 @@ public class ChatListener implements Listener {
                 Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
-                        .replace("%luckperms-prefix%", prefix)
+                        .replace("%luckperms-prefix%", prefix != null ? prefix : "")
                         .replace("%level%", level)));
                 if (plugin.getGame().isEnding()) {
                     if (event.getMessage().toLowerCase().contains("gg")

@@ -164,7 +164,7 @@ public class StatisticsManager {
             plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
         }
     }
-
+    /*
     public void addStarter(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
             sqlGetter.addStarter(uuid);
@@ -429,7 +429,7 @@ public class StatisticsManager {
             return statistics.getBoolean("statistics." + p.getUniqueId() + ".perks.strength");
         }
     }
-
+    */
 
 
 }

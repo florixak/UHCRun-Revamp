@@ -45,4 +45,5 @@ custom-drops:
   7:
     material: EMERALD_ORE
     xp: 300
+    max-drop: 0
     drops:
