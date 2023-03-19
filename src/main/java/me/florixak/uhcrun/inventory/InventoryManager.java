@@ -32,10 +32,58 @@ public class InventoryManager {
         plugin.getServer().getPluginManager().registerEvents(new InventoryListener(), plugin);
     }
 
+    private void createFile(String path, String name) {
+        File file = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + path, name + ".yml");
+        try {
+            file.createNewFile();
+            InputStream inputStream = this.plugin.getResource(name + ".yml");
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            OutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    private void loadMenus(String path) {
+        File[] yamlFiles = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + path).listFiles((dir, name) -> name.toLowerCase().contains("inv"));
+        if (yamlFiles == null) return;
+        for (File file : yamlFiles) {
+            String name = file.getName().replace(".yml", "");
+            if (inventories.containsKey(name)) {
+                plugin.getLogger().warning("Inventory with name '" + file.getName() + "' already exists, skipping duplicate..");
+                continue;
+            }
+
+            CustomGUI customGUI;
+            try {
+                customGUI = new CustomGUI(plugin, YamlConfiguration.loadConfiguration(file));
+            } catch (Exception e) {
+                plugin.getLogger().severe("Could not load file '" + name + "' (YAML error).");
+                e.printStackTrace();
+                continue;
+            }
+
+            inventories.put(name, customGUI);
+            plugin.getLogger().info("Loaded custom menu '" + name + "'.");
+        }
+    }
+
     private void loadCustomMenus() {
+        createFile("", "statistics-inv");
+        createFile("", "perks-inv");
+        createFile("", "kits-inv");
+        createFile("", "vote-inv");
+
+        loadMenus("");
+    }
+
+    /*private void loadCustomMenus() {
 
         // CREATE
-        File file0 = new File(plugin.getDataFolder().getAbsolutePath() + File.separator , "kits-inv.yml");
+        File file0 = new File(plugin.getDataFolder().getAbsolutePath() + File.separator, "kits-inv.yml");
         try {
             file0.createNewFile();
             InputStream inputStream0 = this.plugin.getResource("kits-inv.yml");
@@ -107,7 +155,7 @@ public class InventoryManager {
             inventories.put(name, customGUI);
             plugin.getLogger().info("Inventory '" + name + "' loaded. ✔");
         }
-    }
+    }*/
 
     public void addInventory(String key, AbstractInventory inventory) {
         inventories.put(key, inventory);

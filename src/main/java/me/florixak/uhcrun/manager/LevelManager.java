@@ -16,7 +16,7 @@ public class LevelManager {
     public LevelManager(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
+        this.statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
     }
 
     public void addPlayerLevel(UUID uuid, double xp_level) {
@@ -26,7 +26,7 @@ public class LevelManager {
         }
         else {
             statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid)-xp_level);
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
         if (getRequiredExp(uuid) <= 0) {
             levelUP(uuid);
@@ -80,7 +80,7 @@ public class LevelManager {
         }
         else {
             statistics.set("statistics." + uuid.toString() + ".level", getPlayerLevel(uuid)+1);
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
         Bukkit.getPlayer(uuid).sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(uuid)))

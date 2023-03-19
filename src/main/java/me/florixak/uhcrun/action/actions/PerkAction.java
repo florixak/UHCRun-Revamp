@@ -25,7 +25,7 @@ public class PerkAction implements Action {
     public void execute(UHCRun plugin, Player player, String data) {
 
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        FileConfiguration statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
+        FileConfiguration statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
         FileConfiguration perks = plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
         Economy economy = UHCRun.getEconomy();
 

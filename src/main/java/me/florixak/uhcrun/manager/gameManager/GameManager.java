@@ -84,7 +84,7 @@ public class GameManager {
                 removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(KitsManager::giveKits);
-                plugin.getTeamManager().addToTeam();
+                plugin.getTeams().addToTeam();
                 teleportPlayers();
                 plugin.getTasks().startMiningCD();
                 SoundManager.playGameStarted(null, true);
@@ -331,13 +331,13 @@ public class GameManager {
     }
 
     public void addKillTo(Player p) {
-        plugin.getStatisticManager().addKill(p.getUniqueId(), 1);
+        plugin.getStatisticManager().addKill(p.getUniqueId());
         PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
     }
     public void addDeathTo(Player p) {
         PlayerManager.alive.remove(p.getUniqueId());
         PlayerManager.dead.add(p.getUniqueId());
-        plugin.getStatisticManager().addDeath(p.getUniqueId(), 1);
+        plugin.getStatisticManager().addDeath(p.getUniqueId());
     }
     /*public void end() {
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");

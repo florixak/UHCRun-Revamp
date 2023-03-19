@@ -21,7 +21,7 @@ public class ConfigManager {
         registerFile(ConfigType.SETTINGS, new ConfigHandler(plugin, "config"));
         registerFile(ConfigType.MESSAGES, new ConfigHandler(plugin, "messages"));
         registerFile(ConfigType.SCOREBOARD, new ConfigHandler(plugin, "scoreboard"));
-        registerFile(ConfigType.STATISTICS, new ConfigHandler(plugin, "statistics"));
+        registerFile(ConfigType.PLAYER_DATA, new ConfigHandler(plugin, "player-data"));
         registerFile(ConfigType.KITS, new ConfigHandler(plugin, "kits-inv"));
         registerFile(ConfigType.PERKS, new ConfigHandler(plugin, "perks-inv"));
         registerFile(ConfigType.LOBBY, new ConfigHandler(plugin, "lobby"));

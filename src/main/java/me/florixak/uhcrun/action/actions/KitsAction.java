@@ -25,7 +25,7 @@ public class KitsAction implements Action {
     public void execute(UHCRun plugin, Player player, String data) {
 
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        FileConfiguration statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
+        FileConfiguration statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
         FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
         Economy economy = UHCRun.getEconomy();
 

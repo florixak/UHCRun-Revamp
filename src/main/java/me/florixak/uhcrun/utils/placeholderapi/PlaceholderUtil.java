@@ -238,6 +238,8 @@ public class PlaceholderUtil {
             text = text.replace("%winner%", UHCRun.plugin.getGame().getWinnerName());
         }
 
+        if (text.contains("%team%")) text = text.replace("%team%", plugin.getTeams().getTeam(player));
+
         /*if (text.contains("%voted-hp%")) {
             if (VoteManager.votedHP(player)) text = text.replace("%voted-hp%", voted);
             else text = text.replace("%voted-hp%", didnt_vote);

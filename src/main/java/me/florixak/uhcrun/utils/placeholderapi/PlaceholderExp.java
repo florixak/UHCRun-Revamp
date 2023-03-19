@@ -39,7 +39,6 @@ public class PlaceholderExp extends PlaceholderExpansion {
         if (player != null && player.isOnline()){
             return onPlaceholderRequest(player.getPlayer(), params);
         }
-
         return null; // Placeholder is unknown by the Expansion
     }
 
@@ -52,7 +51,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("team")) {
             if (plugin.getGame().isWaiting() || plugin.getGame().isStarting()) return PlaceholderAPI.setPlaceholders(p, "%luckperms_prefix%");
 
-            return plugin.getTeamManager().getTeam(p) + " | ";
+            return plugin.getTeams().getTeam(p) + " | ";
         }
         return null;
     }

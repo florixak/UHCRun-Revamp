@@ -73,7 +73,7 @@ public class GameListener implements Listener {
             level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
 
             if (p == winner) {
-                plugin.getStatisticManager().addWin(p.getUniqueId(), 1);
+                plugin.getStatisticManager().addWin(p.getUniqueId());
                 plugin.getStatisticManager().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_win + money_for_kills);
                 plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_win + level_xp_for_kills);
                 titleAction.execute(plugin, p, "Victory!");

@@ -80,7 +80,7 @@ public final class UHCRun extends JavaPlugin {
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager();
-        this.teamManager = new TeamManager(this);
+        this.teamManager = new TeamManager();
         this.taskManager = new TaskManager(this);
 
         this.utilities = new Utils(this);
@@ -131,7 +131,7 @@ public final class UHCRun extends JavaPlugin {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
             mysql.disconnect();
         }
-
+        inventoryManager.onDisable();
     }
 
     private void registerAddons() {
@@ -230,7 +230,7 @@ public final class UHCRun extends JavaPlugin {
     public LevelManager getLevelManager() {
         return levelManager;
     }
-    public TeamManager getTeamManager() {
+    public TeamManager getTeams() {
         return teamManager;
     }
     public KitsManager getKitsManager() {

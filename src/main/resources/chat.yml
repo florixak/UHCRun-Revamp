@@ -5,7 +5,7 @@ chat:
   # %message% - Sent message
   # %level% - Player level
 
-  format: "%level% %luckperms-prefix% &f%player% &7» &f%message%"
+  format: "%level%&f%luckperms-prefix% %team% %player% &7» &f%message%"
   level-with-brackets: true
   level-color:
     toNine: "&8"

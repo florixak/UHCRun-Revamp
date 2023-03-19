@@ -1,24 +1,15 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.UHCRun;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-
 public class TeamManager {
-
-    private UHCRun plugin;
 
     char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
     char[] colors = "123456789abcdefl".toCharArray();
 
     public HashMap<UUID, String> teams = new HashMap<>();
-
-    public TeamManager(UHCRun plugin) {
-        this.plugin = plugin;
-    }
 
     public void addToTeam() {
         UUID uuid = null;

@@ -19,7 +19,7 @@ public class MoneyUtils {
         Economy economy = UHCRun.getEconomy();
         if (UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig()
                 .getBoolean("use-Vault", true)) formatted = format.format(economy.getBalance(p));
-        else formatted = format.format(UHCRun.plugin.getConfigManager().getFile(ConfigType.STATISTICS)
+        else formatted = format.format(UHCRun.plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA)
                     .getConfig().getInt(p.getUniqueId() + ".money"));
         return formatted;
     }
@@ -55,7 +55,7 @@ public class MoneyUtils {
                 return;
             } else {
                 statistics.set("statistics." + player.getUniqueId() + ".money", UHCRun.plugin.getStatisticManager().getMoney(player.getUniqueId())-amount);
-                UHCRun.plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+                UHCRun.plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
             }
         }
     }

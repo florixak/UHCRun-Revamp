@@ -21,7 +21,7 @@ public class StatisticsManager {
     public StatisticsManager(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.statistics = plugin.getConfigManager().getFile(ConfigType.STATISTICS).getConfig();
+        this.statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
         this.sqlGetter = new SQLGetter(plugin);
     }
 
@@ -38,6 +38,7 @@ public class StatisticsManager {
         statistics.set("statistics." + p.getUniqueId().toString() + ".kills", 0);
         statistics.set("statistics." + p.getUniqueId().toString() + ".deaths", 0);
 
+        /*
         statistics.set("statistics." + p.getUniqueId().toString() + ".kits.starter", true);
         statistics.set("statistics." + p.getUniqueId().toString() + ".kits.miner", false);
         statistics.set("statistics." + p.getUniqueId().toString() + ".kits.enchanter", false);
@@ -51,8 +52,9 @@ public class StatisticsManager {
         statistics.set("statistics." + p.getUniqueId().toString() + ".perks.fire-res", false);
         statistics.set("statistics." + p.getUniqueId().toString() + ".perks.end-pearl", false);
         statistics.set("statistics." + p.getUniqueId().toString() + ".perks.resist", false);
+        */
 
-        plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+        plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public double getMoney(UUID uuid) {
@@ -73,14 +75,14 @@ public class StatisticsManager {
         if (config.getBoolean("use-Vault", true)) {
             economy.depositPlayer(p, amount);
             statistics.set("statistics." + p.getUniqueId() + ".money", economy.getBalance(p));
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         } else if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addMoney(p.getUniqueId(), amount);
             statistics.set("statistics." + p.getUniqueId() + ".money", plugin.data.getMoney(p.getUniqueId()));
         } else {
             statistics.set("statistics." + p.getUniqueId() + ".money", plugin.getStatisticManager().getMoney(p.getUniqueId())+amount);
         }
-        plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+        plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
     public void takeMoney(Player p, double amount) {
         Economy economy = UHCRun.getEconomy();
@@ -91,7 +93,7 @@ public class StatisticsManager {
                 return;
             }
             statistics.set("statistics." + p.getUniqueId() + ".money", economy.getBalance(p));
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         } else if (config.getBoolean("MySQL.enabled", true)) {
             if (plugin.data.getMoney(p.getUniqueId()) < amount) {
                 p.sendMessage(Messages.NO_MONEY.toString());
@@ -103,7 +105,7 @@ public class StatisticsManager {
                 p.sendMessage(Messages.NO_MONEY.toString());
             } else {
                 statistics.set("statistics." + p.getUniqueId() + ".money", plugin.getStatisticManager().getMoney(p.getUniqueId())-amount);
-                plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+                plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
             }
         }
     }
@@ -117,13 +119,13 @@ public class StatisticsManager {
             return statistics.getInt("statistics." + p.getUniqueId() + ".wins");
         }
     }
-    public void addWin(UUID uuid, int wins) {
+    public void addWin(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addWin(uuid, wins);
+            plugin.data.addWin(uuid, 1);
         }
         else {
-            statistics.set("statistics." + uuid.toString() + ".wins", getWins(uuid)+wins);
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            statistics.set("statistics." + uuid.toString() + ".wins", getWins(uuid)+1);
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
     }
 
@@ -136,13 +138,13 @@ public class StatisticsManager {
             return statistics.getInt("statistics." + p.getUniqueId() + ".kills");
         }
     }
-    public void addKill(UUID uuid, int kills) {
+    public void addKill(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addKill(uuid, kills);
+            plugin.data.addKill(uuid, 1);
         }
         else {
-            statistics.set("statistics." + uuid.toString() + ".kills", getKills(uuid)+kills);
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            statistics.set("statistics." + uuid.toString() + ".kills", getKills(uuid)+1);
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
     }
 
@@ -155,13 +157,13 @@ public class StatisticsManager {
             return statistics.getInt("statistics." + p.getUniqueId() + ".deaths");
         }
     }
-    public void addDeath(UUID uuid, int deaths) {
+    public void addDeath(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addDeath(uuid, deaths);
+            plugin.data.addDeath(uuid, 1);
         }
         else {
-            statistics.set("statistics." + uuid.toString() + ".deaths", getDeaths(uuid)+deaths);
-            plugin.getConfigManager().getFile(ConfigType.STATISTICS).save();
+            statistics.set("statistics." + uuid.toString() + ".deaths", getDeaths(uuid)+1);
+            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
     }
     /*

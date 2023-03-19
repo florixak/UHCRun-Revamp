@@ -27,14 +27,16 @@ public class ChatListener implements Listener {
     private UHCRun plugin;
     private FileConfiguration config, chat;
     private LevelManager lvl;
-    private StatisticsManager statistic;
+
+    private String format;
 
     public ChatListener(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.chat = plugin.getConfigManager().getFile(ConfigType.CHAT).getConfig();
         this.lvl = plugin.getLevelManager();
-        this.statistic = plugin.getStatisticManager();
+
+        this.format = chat.getString("chat.format");
     }
 
     @EventHandler
@@ -63,12 +65,9 @@ public class ChatListener implements Listener {
 
         Player player = event.getPlayer();
         User user = null;
-        String format;
-        String prefix = "";
+        String prefix = null;
         String color = "&8";
-        String level = "";
-
-        format = chat.getString("chat.format");
+        String level = null;
 
         event.setCancelled(true);
 
@@ -87,14 +86,9 @@ public class ChatListener implements Listener {
         else if (lvl.getPlayerLevel(player.getUniqueId()) < 80) color = chat.getString("chat.level-color.toSeventyNine");
         else color = chat.getString("chat.level-color.toInfinity");
 
-        if (chat.getBoolean("chat.level-with-brackets", true)) {
-//            level = color + "[" + level_format.format(lvl.getPlayerLevel(player.getUniqueId())) + "]";
-            level = color + "[" + lvl.getPlayerLevel(player.getUniqueId()) + "]";
-        }
-        else {
-//            level = color + level_format.format(lvl.getPlayerLevel(player.getUniqueId()));
-            level = color + lvl.getPlayerLevel(player.getUniqueId());
-        }
+        level = chat.getBoolean("chat.level-with-brackets", true)
+                ? color + "[" + lvl.getPlayerLevel(player.getUniqueId()) + "]"
+                : color + lvl.getPlayerLevel(player.getUniqueId());
 
         if (!plugin.getGame().isPlaying()) {
             for (UUID uuid : PlayerManager.online) {
@@ -102,13 +96,14 @@ public class ChatListener implements Listener {
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix != null ? prefix : "")
-                        .replace("%level%", level)));
+                        .replace("%level%", level)
+                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
                 if (plugin.getGame().isEnding()) {
                     if (event.getMessage().toLowerCase().contains("gg")
                             || event.getMessage().toLowerCase().contains("good game")) {
                         int gg_coins = config.getInt("gg-reward.coins");
                         int gg_xp = config.getInt("gg-reward.level-xp");
-                        if (gg_coins != 0) statistic.addMoney(player, gg_coins);
+                        if (gg_coins != 0) plugin.getStatisticManager().addMoney(player, gg_coins);
                         if (gg_xp != 0) lvl.addPlayerLevel(uuid, gg_xp);
                         player.sendMessage(Messages.GG_REWARD.toString()
                                 .replace("%coins-for-gg%", String.valueOf(gg_coins))
@@ -123,8 +118,9 @@ public class ChatListener implements Listener {
                     Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                             .replace("%player%", player.getName())
                             .replace("%message%", event.getMessage())
-                            .replace("%luckperms-prefix%", prefix)
-                            .replace("%level%", level)));
+                            .replace("%luckperms-prefix%", prefix != null ? prefix : "")
+                            .replace("%level%", level)
+                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
                 }
             }
             else {
@@ -132,8 +128,9 @@ public class ChatListener implements Listener {
                     Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
                             .replace("%player%", player.getName())
                             .replace("%message%", event.getMessage())
-                            .replace("%luckperms-prefix%", prefix)
-                            .replace("%level%", level)));
+                            .replace("%luckperms-prefix%", prefix != null ? prefix : "")
+                            .replace("%level%", level)
+                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
                 }
             }
         }
