@@ -34,9 +34,10 @@ public class CustomDropUtils {
                 event.setExpToDrop(0);
 
                 size = config.getStringList("custom-drops." + block + ".drops").size();
+
                 amount = config.getInt("custom-drops." + block + ".max-drop");
                 drop_item = XMaterial.matchXMaterial(config.getConfigurationSection("custom-drops." + block).getStringList("drops").get(ran.nextInt(size)).toUpperCase()).get().parseMaterial();
-                if (drop_item != null) {
+                if (drop_item != null && amount != 0) {
                     drop = new ItemStack(drop_item, ran.nextInt(amount)+1);
                     loc.getWorld().dropItemNaturally(loc, drop);
                 }

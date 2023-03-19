@@ -26,7 +26,7 @@ custom-drops:
     drops:
       - NETHER_WART
       - BREWING_STAND
-      - GLOWSTONE
+      - GLOWSTONE_DUST
       - SUGAR
       - BLAZE_POWDER
   5:
@@ -47,3 +47,16 @@ custom-drops:
     xp: 300
     max-drop: 0
     drops:
+      - AIR
+  8:
+    material: GRAVEL
+    xp: 20
+    max-drop: 8
+    drops:
+      - ARROW
+  9:
+    material: SAND
+    xp: 20
+    max-drop: 8
+    drops:
+      - ARROW

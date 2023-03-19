@@ -112,7 +112,7 @@ public class ChatListener implements Listener {
                         if (gg_xp != 0) lvl.addPlayerLevel(uuid, gg_xp);
                         player.sendMessage(Messages.GG_REWARD.toString()
                                 .replace("%coins-for-gg%", String.valueOf(gg_coins))
-                                .replace("%level-xp-for-gg%", String.valueOf(gg_coins)));
+                                .replace("%level-xp-for-gg%", String.valueOf(gg_xp)));
                     }
                 }
             }

@@ -114,14 +114,13 @@ public class GameListener implements Listener {
         Player killer = event.getKiller();
         Player victim = event.getVictim();
 
-        victim.setHealth(20);
+        victim.getInventory().clear();
+
+        victim.setHealth(victim.getMaxHealth());
         victim.setFoodLevel(20);
         victim.setLevel(0);
         victim.setTotalExperience(0);
         victim.giveExp(-victim.getTotalExperience());
-        victim.getInventory().clear();
-
-        plugin.getGame().setSpectator(victim);
 
         if (killer instanceof Player) {
             plugin.getGame().addKillTo(killer);
@@ -133,6 +132,9 @@ public class GameListener implements Listener {
         } else {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getDisplayName()));
         }
+
+        plugin.getGame().setSpectator(victim);
+
         plugin.getGame().addDeathTo(victim);
         plugin.getGame().checkGame();
     }

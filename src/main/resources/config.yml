@@ -65,7 +65,7 @@ lobby-items:
     material: NETHER_STAR
     slot: 0
   perks:
-    enabled: true
+    enabled: false
     always-buy: false
     display-name: "&fPerks"
     material: ARROW

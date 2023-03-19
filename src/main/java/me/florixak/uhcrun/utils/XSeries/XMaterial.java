@@ -881,7 +881,7 @@ public enum XMaterial {
      * @see #REDSTONE_TORCH
      */
     REDSTONE_LAMP("REDSTONE_LAMP_ON", "REDSTONE_LAMP_OFF"),
-    REDSTONE_ORE("GLOWING_REDSTONE_ORE"),
+    REDSTONE_ORE("GLOWING_REDSTONE_ORE", "REDSTONE_ORE", "LIT_REDSTONE_ORE"),
     /**
      * REDSTONE_TORCH_OFF isn't an item, but a block.
      * But REDSTONE_TORCH_ON is the item.
