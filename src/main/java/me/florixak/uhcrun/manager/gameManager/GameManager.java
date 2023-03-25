@@ -42,16 +42,16 @@ public class GameManager {
 
             case WAITING:
                 plugin.getTasks().stopStartingCD();
-                plugin.getGame().removeScoreboard();
+                // removeScoreboard();
                 break;
 
             case STARTING:
-                plugin.getGame().removeScoreboard();
+                // removeScoreboard();
                 plugin.getTasks().startStartingCD();
                 break;
 
             case MINING:
-                removeScoreboard();
+                // removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getKitsManager()::giveKits);
                 plugin.getTeams().addToTeam();
@@ -63,7 +63,7 @@ public class GameManager {
                 break;
 
             case FIGHTING:
-                removeScoreboard();
+                // removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
                 plugin.getTasks().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
@@ -71,14 +71,14 @@ public class GameManager {
                 break;
 
             case DEATHMATCH:
-                removeScoreboard();
+                // removeScoreboard();
                 plugin.getTasks().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playDMBegan(player));
                 break;
 
             case ENDING:
-                removeScoreboard();
+                // removeScoreboard();
                 plugin.getTasks().startEndingCD();
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getWinner()));
@@ -350,8 +350,5 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::updateScoreboard);
             }
         }.runTaskTimer(plugin, 0L, 20L);
-    }
-    public void removeScoreboard(){
-        Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::removeScoreboard);
     }
 }

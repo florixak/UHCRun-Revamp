@@ -46,6 +46,7 @@ public class ScoreboardManager {
 
 
     public void createWaitingSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateWaitingSb(p.getUniqueId()));
     }
     public ScoreHelper updateWaitingSb(UUID uuid){
@@ -68,6 +69,7 @@ public class ScoreboardManager {
     }
 
     public void createStartingSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateStartingSb(p.getUniqueId()));
     }
     public ScoreHelper updateStartingSb(UUID uuid) {
@@ -90,6 +92,7 @@ public class ScoreboardManager {
     }
 
     public void createMiningSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateMiningSb(p.getUniqueId()));
     }
     public ScoreHelper updateMiningSb(UUID uuid){
@@ -112,6 +115,7 @@ public class ScoreboardManager {
     }
 
     public void createFightingSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateFightingSb(p.getUniqueId()));
     }
     public ScoreHelper updateFightingSb(UUID uuid){
@@ -134,6 +138,7 @@ public class ScoreboardManager {
     }
 
     public void createDeathmatchSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateDeathmatchSb(p.getUniqueId()));
     }
     public ScoreHelper updateDeathmatchSb(UUID uuid){
@@ -156,6 +161,7 @@ public class ScoreboardManager {
     }
 
     public void createEndingSb(Player p){
+        removeFromMap(p);
         players.put(p.getUniqueId(), updateEndingSb(p.getUniqueId()));
     }
     public ScoreHelper updateEndingSb(UUID uuid){
@@ -177,31 +183,37 @@ public class ScoreboardManager {
         return helper;
     }
 
-
     public void updateScoreboard(Player p) {
-        if (plugin.getGame().gameState == GameState.WAITING) {
-            createWaitingSb(p);
-        }
-        if (plugin.getGame().gameState == GameState.STARTING) {
-            createStartingSb(p);
-        }
-        if (plugin.getGame().gameState == GameState.MINING) {
-            createMiningSb(p);
-        }
-        if (plugin.getGame().gameState == GameState.FIGHTING) {
-            createFightingSb(p);
-        }
-        if (plugin.getGame().gameState == GameState.DEATHMATCH) {
-            createDeathmatchSb(p);
-        }
-        if (plugin.getGame().gameState == GameState.ENDING) {
-            createEndingSb(p);
+        switch (plugin.getGame().gameState) {
+            case WAITING:
+                createWaitingSb(p);
+                break;
+            case STARTING:
+                createStartingSb(p);
+                break;
+            case MINING:
+                createMiningSb(p);
+                break;
+            case FIGHTING:
+                createFightingSb(p);
+                break;
+            case DEATHMATCH:
+                createDeathmatchSb(p);
+                break;
+            case ENDING:
+                createEndingSb(p);
+                break;
         }
     }
 
+    private void removeFromMap(Player p) {
+        if (players.containsKey(p.getUniqueId())) {
+            players.remove(p.getUniqueId());
+        }
+    }
 
     public void removeScoreboard(Player p) {
-        if (players.containsKey(p.getUniqueId())){
+        if (players.containsKey(p.getUniqueId())) {
             players.remove(p.getUniqueId());
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         }
