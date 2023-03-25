@@ -47,7 +47,7 @@ public class InteractListener implements Listener {
 
         Player p = (Player) event.getWhoClicked();
 
-        if (!PlayerManager.isDead(p)) return;
+        if (!PlayerManager.isSpectator(p)) return;
 
         if (event.getClickedInventory() == p.getInventory()){
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
@@ -113,7 +113,7 @@ public class InteractListener implements Listener {
             }
         }
 
-        if (PlayerManager.isDead(p)) {
+        if (PlayerManager.isSpectator(p)) {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {

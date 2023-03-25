@@ -20,6 +20,7 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
+import me.florixak.uhcrun.utils.VanishUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
@@ -109,6 +110,7 @@ public final class UHCRun extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new GameListener(this), this);
             getServer().getPluginManager().registerEvents(new InteractListener(this), this);
             getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+            getServer().getPluginManager().registerEvents(new VanishUtils(), this);
         } catch (Exception e) {
             getLogger().info(TextUtils.color("&cThere is error in listeners!"));
             e.printStackTrace();

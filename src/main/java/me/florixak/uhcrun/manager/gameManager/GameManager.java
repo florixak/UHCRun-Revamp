@@ -1,11 +1,9 @@
 package me.florixak.uhcrun.manager.gameManager;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.action.actions.TitleAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameEndEvent;
-import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.task.*;
@@ -127,7 +125,7 @@ public class GameManager {
         PlayerManager.kills.clear();
 
         PlayerManager.alive.clear();
-        PlayerManager.dead.clear();
+        PlayerManager.spectators.clear();
         PlayerManager.creator.clear();
         PlayerManager.online.clear();
 
@@ -288,18 +286,20 @@ public class GameManager {
 
     public void setSpectator(Player p) {
 
+        p.setAllowFlight(true);
+        p.setFlying(true);
+
+        PlayerManager.spectators.add(p.getUniqueId());
+        plugin.getKitsManager().getSpectatorKit(p);
+
+        new VanishUtils().toggleVanish(p);
+
         p.teleport(new Location(
                 Bukkit.getWorld(config.getString("game-world")),
                 p.getLocation().getX()+0,
                 p.getLocation().getY()+10,
                 p.getLocation().getZ()+0));
 
-        new VanishUtils().toggleVanish(p);
-
-        plugin.getKitsManager().getSpectatorKit(p);
-
-        p.setAllowFlight(true);
-        p.setFlying(true);
     }
 
     public void addKillTo(Player p) {
@@ -308,7 +308,7 @@ public class GameManager {
     }
     public void addDeathTo(Player p) {
         PlayerManager.alive.remove(p.getUniqueId());
-        PlayerManager.dead.add(p.getUniqueId());
+        PlayerManager.spectators.add(p.getUniqueId());
         plugin.getStatistics().addDeath(p.getUniqueId());
     }
 

@@ -102,7 +102,7 @@ public class GameListener implements Listener {
                             )
                     );
                 }
-                if (PlayerManager.isDead(p)) {
+                if (PlayerManager.isSpectator(p)) {
                     p.showPlayer(plugin, p);
                 }
             }
@@ -143,7 +143,7 @@ public class GameListener implements Listener {
         Player p = event.getPlayer();
 //        Block block = event.getBlock();
 
-        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
@@ -154,7 +154,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void blockPlace(BlockPlaceEvent event) {
         Player p = event.getPlayer();
-        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
             p.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
             return;
@@ -224,7 +224,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
-        if (!plugin.getGame().isPlaying() || PlayerManager.isDead((Player) event.getDamager())) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator((Player) event.getDamager())) {
             event.setCancelled(true);
         }
         if (plugin.getGame().gameState == GameState.MINING) {
@@ -239,7 +239,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void hunger(FoodLevelChangeEvent event) {
         Player p = (Player) event.getEntity();
-        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
             p.setFoodLevel(20);
             event.setCancelled(true);
         }

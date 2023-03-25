@@ -5,7 +5,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameKillEvent;
 import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.perks.Perks;
 import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.manager.PlayerManager;
@@ -32,7 +31,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+
         Player p = event.getPlayer();
+
+        if (plugin.getGame().isEnding()) {
+            p.kickPlayer("UHCRun is restarting!");
+            return;
+        }
+
         event.setJoinMessage(null);
 
         if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(p);
@@ -42,17 +48,15 @@ public class PlayerListener implements Listener {
         plugin.getKitsManager().kits.put(p.getUniqueId(), Kits.NONE);
         PerksManager.perks.put(p.getUniqueId(), Perks.NONE);
 
-        if (plugin.getGame().isEnding()) {
-            p.kickPlayer("UHCRun is restarting!");
-            return;
-        }
-
         if (plugin.getGame().isPlaying()) {
+            /*
             p.setHealth(p.getHealthScale());
             p.setFoodLevel(20);
             p.getInventory().clear();
             p.giveExp((int) -(1*Math.pow(10, 1000000000)));
             p.setGameMode(GameMode.SPECTATOR);
+            */
+            plugin.getGame().setSpectator(p);
             return;
         }
 
@@ -90,8 +94,8 @@ public class PlayerListener implements Listener {
         if (PlayerManager.isCreator(p)) {
             PlayerManager.creator.remove(p.getUniqueId());
         }
-        if (PlayerManager.isDead(p)){
-            PlayerManager.dead.remove(p.getUniqueId());
+        if (PlayerManager.isSpectator(p)){
+            PlayerManager.spectators.remove(p.getUniqueId());
         }
 
         plugin.getKitsManager().kits.remove(p);
