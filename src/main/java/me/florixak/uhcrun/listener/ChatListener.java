@@ -42,13 +42,13 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onPlayerCommandProcess(PlayerCommandPreprocessEvent event){
 
-        blockedCommands = chat.getStringList("chat.blocked-commands");
+        this.blockedCommands = chat.getStringList("chat.blocked-commands");
 
         Player p = event.getPlayer();
         String msg = event.getMessage();
         String args[] = msg.split(" ");
 
-        if (blockedCommands.contains(event.getMessage().toLowerCase())) {
+        if (this.blockedCommands.contains(event.getMessage().toLowerCase())) {
             event.setCancelled(true);
             p.sendMessage(Messages.NO_PERM.toString());
         }
@@ -56,7 +56,6 @@ public class ChatListener implements Listener {
         if (Bukkit.getServer().getHelpMap().getHelpTopic(args[0]) == null){
             event.setCancelled(true);
             p.sendMessage(Messages.NO_PERM.toString());
-
         }
     }
 

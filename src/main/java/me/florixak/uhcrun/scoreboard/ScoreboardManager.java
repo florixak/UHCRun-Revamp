@@ -3,7 +3,6 @@ package me.florixak.uhcrun.scoreboard;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.scoreboard.ScoreHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,19 +30,18 @@ public class ScoreboardManager {
 
     public ScoreboardManager(UHCRun plugin){
         this.plugin = plugin;
+        this.players = new HashMap<>();
 
-        players = new HashMap<>();
+        this.config = plugin.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
 
-        config = plugin.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
+        this.title = config.getString("scoreboard.title");
 
-        title = config.getString("scoreboard.title");
-
-        waiting = config.getStringList("scoreboard.waiting");
-        starting = config.getStringList("scoreboard.starting");
-        mining = config.getStringList("scoreboard.mining");
-        fighting = config.getStringList("scoreboard.fighting");
-        deathmatch = config.getStringList("scoreboard.deathmatch");
-        ending = config.getStringList("scoreboard.ending");
+        this.waiting = config.getStringList("scoreboard.waiting");
+        this.starting = config.getStringList("scoreboard.starting");
+        this.mining = config.getStringList("scoreboard.mining");
+        this.fighting = config.getStringList("scoreboard.fighting");
+        this.deathmatch = config.getStringList("scoreboard.deathmatch");
+        this.ending = config.getStringList("scoreboard.ending");
     }
 
 
@@ -202,7 +200,7 @@ public class ScoreboardManager {
     }
 
 
-    public void removeScoreboard(Player p){
+    public void removeScoreboard(Player p) {
         if (players.containsKey(p.getUniqueId())){
             players.remove(p.getUniqueId());
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());

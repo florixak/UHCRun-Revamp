@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.task;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.action.actions.AnvilAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import org.bukkit.command.Command;

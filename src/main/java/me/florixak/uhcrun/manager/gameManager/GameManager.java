@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.manager.gameManager;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.action.actions.BroadcastMessageAction;
 import me.florixak.uhcrun.action.actions.TitleAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
@@ -9,8 +8,6 @@ import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
-import me.florixak.uhcrun.perks.Perks;
-import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.task.*;
 import me.florixak.uhcrun.utils.*;
 import org.bukkit.*;
@@ -21,7 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;

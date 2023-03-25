@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class SoundManager {
 
-    public static void playSound(Player player, Location location, XSound sound, float volume, float pitch) {
+    public void playSound(Player player, Location location, XSound sound, float volume, float pitch) {
         sound.play(player, volume, pitch);
     }
 
