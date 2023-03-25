@@ -12,12 +12,10 @@ import org.bukkit.entity.Player;
 public class AnvilCommand implements CommandExecutor {
 
     private UHCRun plugin;
-    private AnvilAction anvilAction;
     private FileConfiguration permissions;
 
     public AnvilCommand(UHCRun plugin) {
         this.plugin = plugin;
-        this.anvilAction = new AnvilAction();
         this.permissions = plugin.getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
         plugin.getCommand("anvil").setExecutor(this);
     }
@@ -33,7 +31,7 @@ public class AnvilCommand implements CommandExecutor {
             return true;
         }
 
-        anvilAction.execute(plugin, p, null);
+        // anvilAction.execute(plugin, p, null);
         return false;
     }
 }

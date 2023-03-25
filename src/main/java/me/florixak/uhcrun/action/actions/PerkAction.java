@@ -7,10 +7,8 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
 import me.florixak.uhcrun.perks.Perks;
 import me.florixak.uhcrun.perks.PerksManager;
-import me.florixak.uhcrun.utils.MoneyUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 

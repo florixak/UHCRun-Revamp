@@ -26,7 +26,7 @@ public class PlaceholderUtil {
 
     public static String setPlaceholders(String text, Player player) {
 
-        UHCRun plugin = UHCRun.plugin;
+        UHCRun plugin = UHCRun.getInstance();
         BorderManager borderManager = plugin.getBorderManager();
         StatisticsManager statisticManager = plugin.getStatistics();
         LevelManager levelManager = plugin.getLevelManager();
@@ -64,13 +64,13 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%time%")) {
-            if (UHCRun.plugin.getGame().gameState == GameState.STARTING)
+            if (plugin.getGame().gameState == GameState.STARTING)
                 text = text.replace("%time%", TimeUtils.convertCountdown(StartingCd.count));
-            if (UHCRun.plugin.getGame().gameState == GameState.MINING)
+            if (plugin.getGame().gameState == GameState.MINING)
                 text = text.replace("%time%", TimeUtils.convertCountdown(MiningCd.count));
-            if (UHCRun.plugin.getGame().gameState == GameState.FIGHTING)
+            if (plugin.getGame().gameState == GameState.FIGHTING)
                 text = text.replace("%time%", TimeUtils.convertCountdown(FightingCd.count));
-            if (UHCRun.plugin.getGame().gameState == GameState.DEATHMATCH)
+            if (plugin.getGame().gameState == GameState.DEATHMATCH)
                 text = text.replace("%time%", TimeUtils.convertCountdown(DeathMCd.count));
         }
 
@@ -81,7 +81,7 @@ public class PlaceholderUtil {
 
         if (text.contains("%kit%")) {
             if (config.getBoolean("lobby-items.kits.enabled", true)) {
-                text = text.replace("%kit%", String.valueOf(KitsManager.getKit(player.getUniqueId())));
+                text = text.replace("%kit%", String.valueOf(plugin.getKitsManager().getKit(player.getUniqueId())));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
@@ -103,7 +103,7 @@ public class PlaceholderUtil {
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
             if (text.contains("%kits-none%")) {
-                if (KitsManager.getKit(player.getUniqueId()) == Kits.NONE) {
+                if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.NONE) {
                     text = text.replace("%kits-none%", Messages.SELECTED_INV.toString());
                 } else {
                     text = text.replace("%kits-none%", Messages.CLICK_SELECT_INV.toString()
@@ -235,7 +235,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", UHCRun.plugin.getGame().getWinnerName());
+            text = text.replace("%winner%", plugin.getGame().getWinnerName());
         }
 
         if (text.contains("%team%")) text = text.replace("%team%", plugin.getTeams().getTeam(player));

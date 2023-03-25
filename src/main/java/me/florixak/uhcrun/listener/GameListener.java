@@ -60,7 +60,7 @@ public class GameListener implements Listener {
         double money_for_lose;
         double level_xp_for_lose;
 
-        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getDisplayName()));
+        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getDisplayName() != null ? winner.getDisplayName() : "NONE"));
 
         for (Player p : Bukkit.getOnlinePlayers()) {
 
@@ -114,8 +114,6 @@ public class GameListener implements Listener {
         Player killer = event.getKiller();
         Player victim = event.getVictim();
 
-        victim.getInventory().clear();
-
         victim.setHealth(victim.getMaxHealth());
         victim.setFoodLevel(20);
         victim.setLevel(0);
@@ -133,6 +131,7 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getDisplayName()));
         }
 
+        victim.getInventory().clear();
         plugin.getGame().setSpectator(victim);
 
         plugin.getGame().addDeathTo(victim);
@@ -144,7 +143,7 @@ public class GameListener implements Listener {
         Player p = event.getPlayer();
 //        Block block = event.getBlock();
 
-        if (!plugin.getGame().isPlaying()) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
@@ -155,7 +154,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void blockPlace(BlockPlaceEvent event) {
         Player p = event.getPlayer();
-        if (!plugin.getGame().isPlaying()) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
             p.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
             return;
@@ -225,7 +224,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
-        if (!plugin.getGame().isPlaying()) {
+        if (!plugin.getGame().isPlaying() || PlayerManager.isDead((Player) event.getDamager())) {
             event.setCancelled(true);
         }
         if (plugin.getGame().gameState == GameState.MINING) {
@@ -239,8 +238,8 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void hunger(FoodLevelChangeEvent event) {
-        if (!plugin.getGame().isPlaying()) {
-            Player p = (Player) event.getEntity();
+        Player p = (Player) event.getEntity();
+        if (!plugin.getGame().isPlaying() || PlayerManager.isDead(p)) {
             p.setFoodLevel(20);
             event.setCancelled(true);
         }
@@ -280,6 +279,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void arrowHitHP(ProjectileHitEvent event) {
+
         if (event.getEntity().getShooter() instanceof Player) {
             if (event.getEntity() instanceof Arrow) {
                 Player shooter = (Player) event.getEntity().getShooter();

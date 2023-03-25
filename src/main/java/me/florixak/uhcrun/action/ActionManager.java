@@ -27,7 +27,6 @@ public class ActionManager {
 
     private void load() {
         registerAction(
-                new BroadcastMessageAction(),
                 new TitleAction(),
 //                new CommandAction(),
 //                new ConsoleCommandAction(),
@@ -38,8 +37,6 @@ public class ActionManager {
                 new MenuAction(),
                 new KitsAction(),
                 new PerkAction(),
-                new InfoAction(),
-                new AnvilAction(),
                 new WorkbenchAction(),
                 new VoteAction()
         );

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,9 +22,15 @@ public class Utils {
     private UHCRun plugin;
     private FileConfiguration config;
 
+    public static DecimalFormat format = new DecimalFormat("##,###,##0.00");
+
     public Utils(UHCRun plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    }
+
+    public static String formatMoney(UUID uuid){
+        return format.format(UHCRun.getInstance().getStatistics().getMoney(uuid));
     }
 
     @SuppressWarnings("deprecation")

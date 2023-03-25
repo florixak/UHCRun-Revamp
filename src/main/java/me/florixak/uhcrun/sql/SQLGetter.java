@@ -157,7 +157,7 @@ public class SQLGetter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return UHCRun.plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("string-coins");
+        return UHCRun.getInstance().getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("string-coins");
     }
 
     public void addKill(UUID uuid, int kills) {

@@ -39,7 +39,7 @@ public class PlayerListener implements Listener {
         plugin.getStatistics().setData(p);
 
         PlayerManager.online.add(p.getUniqueId());
-        KitsManager.kits.put(p.getUniqueId(), Kits.NONE);
+        plugin.getKitsManager().kits.put(p.getUniqueId(), Kits.NONE);
         PerksManager.perks.put(p.getUniqueId(), Perks.NONE);
 
         if (plugin.getGame().isEnding()) {
@@ -66,7 +66,7 @@ public class PlayerListener implements Listener {
         p.setFlying(false);
         p.setAllowFlight(false);
 
-        KitsManager.getWaitingKit(p);
+        plugin.getKitsManager().getWaitingKit(p);
 
         Bukkit.broadcastMessage(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
         p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
@@ -94,7 +94,7 @@ public class PlayerListener implements Listener {
             PlayerManager.dead.remove(p.getUniqueId());
         }
 
-        KitsManager.kits.remove(p);
+        plugin.getKitsManager().kits.remove(p);
         PerksManager.perks.remove(p);
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())

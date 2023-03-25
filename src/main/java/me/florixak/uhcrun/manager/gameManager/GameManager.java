@@ -55,7 +55,7 @@ public class GameManager {
             case MINING:
                 removeScoreboard();
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
-                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(KitsManager::giveKits);
+                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getKitsManager()::giveKits);
                 plugin.getTeams().addToTeam();
                 teleportPlayers();
                 plugin.getTasks().startMiningCD();
@@ -131,7 +131,7 @@ public class GameManager {
         PlayerManager.creator.clear();
         PlayerManager.online.clear();
 
-        KitsManager.kits.clear();
+        plugin.getKitsManager().kits.clear();
 
         if (config.getBoolean("auto-map-reset", true)) {
             File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
@@ -296,7 +296,7 @@ public class GameManager {
 
         new VanishUtils().toggleVanish(p);
 
-        KitsManager.getSpectatorKit(p);
+        plugin.getKitsManager().getSpectatorKit(p);
 
         p.setAllowFlight(true);
         p.setFlying(true);
@@ -349,7 +349,7 @@ public class GameManager {
             public void run() {
                 Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::updateScoreboard);
             }
-        }.runTaskTimer(plugin, 0, 20);
+        }.runTaskTimer(plugin, 0L, 20L);
     }
     public void removeScoreboard(){
         Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::removeScoreboard);

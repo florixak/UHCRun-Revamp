@@ -16,7 +16,7 @@ import java.util.Random;
 public class CustomDropUtils {
 
     public static void dropItem(Player p, BlockBreakEvent event) {
-        FileConfiguration config = UHCRun.plugin.getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
+        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
         Location loc = event.getBlock().getLocation();
 
         ItemStack drop;

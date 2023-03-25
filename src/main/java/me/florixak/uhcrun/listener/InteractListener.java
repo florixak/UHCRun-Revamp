@@ -8,6 +8,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -113,11 +114,11 @@ public class InteractListener implements Listener {
         }
 
         if (PlayerManager.isDead(p)) {
-            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR) return;
+            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("spectator-items.spectator.display-name")))) {
+
+                if (item.getType() == XMaterial.COMPASS.parseMaterial()) {
 
                     Inventory inv = Bukkit.createInventory(null, 35, "Teleporter");
 
@@ -128,8 +129,7 @@ public class InteractListener implements Listener {
                     p.openInventory(inv);
                 }
 
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("spectator-items.leave.display-name")))) {
+                if (item.getType() == XMaterial.RED_BED.parseMaterial()) {
                     new BungeeAction().execute(plugin, p, "lobby");
                 }
             }

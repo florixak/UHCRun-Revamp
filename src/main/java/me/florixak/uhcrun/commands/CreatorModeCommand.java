@@ -47,7 +47,7 @@ public class CreatorModeCommand implements CommandExecutor {
             p.sendMessage(Messages.CREATOR_OFF.toString());
             p.setGameMode(GameMode.ADVENTURE);
             p.getInventory().clear();
-            KitsManager.getWaitingKit(p);
+            plugin.getKitsManager().getWaitingKit(p);
             return true;
         }
 
@@ -56,7 +56,7 @@ public class CreatorModeCommand implements CommandExecutor {
 
         p.setGameMode(GameMode.CREATIVE);
         p.getInventory().clear();
-        KitsManager.getCreatorKit(p);
+        plugin.getKitsManager().getCreatorKit(p);
         return false;
     }
 }
