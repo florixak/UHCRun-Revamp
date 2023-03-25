@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.action.actions.WorkbenchAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.manager.TeamManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,6 @@ public class WorkbenchCommand implements CommandExecutor {
         plugin.getCommand("workbench").setExecutor(this);
         plugin.getCommand("wb").setExecutor(this);
     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

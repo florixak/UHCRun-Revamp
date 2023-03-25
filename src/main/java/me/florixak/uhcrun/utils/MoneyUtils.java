@@ -54,7 +54,7 @@ public class MoneyUtils {
                 player.sendMessage(Messages.NO_MONEY.toString());
                 return;
             } else {
-                statistics.set("statistics." + player.getUniqueId() + ".money", UHCRun.plugin.getStatisticManager().getMoney(player.getUniqueId())-amount);
+                statistics.set("statistics." + player.getUniqueId() + ".money", UHCRun.plugin.getStatistics().getMoney(player.getUniqueId())-amount);
                 UHCRun.plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
             }
         }

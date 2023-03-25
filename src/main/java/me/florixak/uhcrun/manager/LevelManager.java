@@ -22,14 +22,12 @@ public class LevelManager {
     public void addPlayerLevel(UUID uuid, double xp_level) {
         if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addRequiredXP(uuid,-xp_level);
-
-        }
-        else {
+        } else {
             statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid)-xp_level);
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
         if (getRequiredExp(uuid) <= 0) {
-            levelUP(uuid);
+            levelUp(uuid);
         }
     }
 
@@ -37,20 +35,14 @@ public class LevelManager {
         if (config.getBoolean("MySQL.enabled", true)) {
             return plugin.data.getPlayerLevel(uuid);
         }
-        else {
-            return statistics.getInt("statistics." + uuid.toString() + ".level");
-        }
+        return statistics.getInt("statistics." + uuid.toString() + ".level");
     }
 
     public double getRequiredExp(UUID uuid) {
-        double totalExpRequiredForLevel = 0;
         if (config.getBoolean("MySQL.enabled", true)) {
-            totalExpRequiredForLevel = plugin.data.getRequiredXP(uuid);
+            return plugin.data.getRequiredXP(uuid);
         }
-        else {
-            totalExpRequiredForLevel = statistics.getInt("statistics." + uuid.toString() + ".requiredXP");
-        }
-        return totalExpRequiredForLevel;
+        return statistics.getInt("statistics." + uuid.toString() + ".requiredXP");
     }
 
     public double setRequiredExp(UUID uuid) {
@@ -68,24 +60,24 @@ public class LevelManager {
         if (config.getBoolean("MySQL.enabled", true)) {
             return plugin.data.getPlayerLevel(uuid)-1;
         }
-        else {
-            return statistics.getInt("statistics." + uuid.toString() + ".level")-1;
-        }
+        return statistics.getInt("statistics." + uuid.toString() + ".level")-1;
     }
 
-    public void levelUP(UUID uuid) {
+    public void levelUp(UUID uuid) {
         if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addPlayerLevel(uuid);
             plugin.data.setRequiredXP(uuid);
         }
         else {
             statistics.set("statistics." + uuid.toString() + ".level", getPlayerLevel(uuid)+1);
+            statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid));
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
+
+        SoundManager.playLevelUP(Bukkit.getPlayer(uuid));
+
         Bukkit.getPlayer(uuid).sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(uuid)))
                 .replace("%previousLevel%", String.valueOf(getPreviousLevel(uuid))));
-        SoundManager.playLevelUP(Bukkit.getPlayer(uuid));
     }
-
 }

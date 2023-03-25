@@ -37,16 +37,16 @@ public final class UHCRun extends JavaPlugin {
         - celkově doladit
     */
 
-
+    private static UHCRun plugin;
     private static Economy econ = null;
     private static LuckPerms luckPerms = null;
-    public static UHCRun plugin;
+
     public MySQL mysql;
     public SQLGetter data;
     private GameManager gameManager;
     private ConfigManager configManager;
     private ScoreboardManager scoreboardManager;
-    private LobbyManager lobbyManager;
+    private LocationManager lobbyManager;
     private BorderManager borderManager;
     private Utils utilities;
     private ActionManager actionManager;
@@ -58,6 +58,10 @@ public final class UHCRun extends JavaPlugin {
     private TeamManager teamManager;
 
     private TeleportUtils teleportUtil;
+
+    public static UHCRun getInstance() {
+        return plugin;
+    }
 
     @Override
     public void onEnable() {
@@ -72,7 +76,7 @@ public final class UHCRun extends JavaPlugin {
         this.configManager.loadFiles(this);
         this.gameManager = new GameManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
-        this.lobbyManager = new LobbyManager(this);
+        this.lobbyManager = new LocationManager(this);
         this.borderManager = new BorderManager(this);
         this.actionManager = new ActionManager(this);
         this.inventoryManager = new InventoryManager();
@@ -128,15 +132,16 @@ public final class UHCRun extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            mysql.disconnect();
-        }
         inventoryManager.onDisable();
+        teamManager.onDisable();
+
+        disconnectDatabase();
+
     }
 
     private void registerAddons() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
-            if (!setupEconomy()) {
+            if (!setupVault()) {
                 getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
             }
             else {
@@ -157,6 +162,7 @@ public final class UHCRun extends JavaPlugin {
             new PlaceholderExp(this).register();
         }
     }
+
     private void connectToDatabase() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
             mysql = new MySQL("localhost", 3306, null, null, null);
@@ -164,6 +170,12 @@ public final class UHCRun extends JavaPlugin {
             data.createTable();
         }
     }
+    private void disconnectDatabase() {
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
+            mysql.disconnect();
+        }
+    }
+
     private void registerRecipes() {
         try {
             new RecipeManager();
@@ -174,7 +186,7 @@ public final class UHCRun extends JavaPlugin {
         }
     }
 
-    private boolean setupEconomy() {
+    private boolean setupVault() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -216,7 +228,7 @@ public final class UHCRun extends JavaPlugin {
         return scoreboardManager;
     }
     public Utils getUtilities() { return utilities; }
-    public LobbyManager getLobbyManager() { return lobbyManager; }
+    public LocationManager getLobbyManager() { return lobbyManager; }
     public BorderManager getBorderManager() { return borderManager; }
     public ActionManager getActionManager() {
         return actionManager;
@@ -224,7 +236,7 @@ public final class UHCRun extends JavaPlugin {
     public InventoryManager getInventoryManager() {
         return inventoryManager;
     }
-    public StatisticsManager getStatisticManager() {
+    public StatisticsManager getStatistics() {
         return statisticManager;
     }
     public LevelManager getLevelManager() {

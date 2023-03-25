@@ -6,12 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class LobbyManager {
+public class LocationManager {
 
     private UHCRun plugin;
     private FileConfiguration lobby;
 
-    public LobbyManager(UHCRun plugin){
+    public LocationManager(UHCRun plugin){
         this.plugin = plugin;
         this.lobby = plugin.getConfigManager().getFile(ConfigType.LOBBY).getConfig();
     }

@@ -28,7 +28,7 @@ public class PlaceholderUtil {
 
         UHCRun plugin = UHCRun.plugin;
         BorderManager borderManager = plugin.getBorderManager();
-        StatisticsManager statisticManager = plugin.getStatisticManager();
+        StatisticsManager statisticManager = plugin.getStatistics();
         LevelManager levelManager = plugin.getLevelManager();
 
 

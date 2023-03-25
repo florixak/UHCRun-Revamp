@@ -5,7 +5,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.LevelManager;
 import me.florixak.uhcrun.manager.PlayerManager;
-import me.florixak.uhcrun.manager.StatisticsManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -103,7 +102,7 @@ public class ChatListener implements Listener {
                             || event.getMessage().toLowerCase().contains("good game")) {
                         int gg_coins = config.getInt("gg-reward.coins");
                         int gg_xp = config.getInt("gg-reward.level-xp");
-                        if (gg_coins != 0) plugin.getStatisticManager().addMoney(player, gg_coins);
+                        if (gg_coins != 0) plugin.getStatistics().addMoney(player, gg_coins);
                         if (gg_xp != 0) lvl.addPlayerLevel(uuid, gg_xp);
                         player.sendMessage(Messages.GG_REWARD.toString()
                                 .replace("%coins-for-gg%", String.valueOf(gg_coins))
