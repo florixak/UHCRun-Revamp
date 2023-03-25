@@ -2,7 +2,6 @@ package me.florixak.uhcrun.scoreboard;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.manager.gameManager.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -44,9 +43,7 @@ public class ScoreboardManager {
         this.ending = config.getStringList("scoreboard.ending");
     }
 
-
     public void createWaitingSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateWaitingSb(p.getUniqueId()));
     }
     public ScoreHelper updateWaitingSb(UUID uuid){
@@ -69,7 +66,6 @@ public class ScoreboardManager {
     }
 
     public void createStartingSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateStartingSb(p.getUniqueId()));
     }
     public ScoreHelper updateStartingSb(UUID uuid) {
@@ -92,7 +88,6 @@ public class ScoreboardManager {
     }
 
     public void createMiningSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateMiningSb(p.getUniqueId()));
     }
     public ScoreHelper updateMiningSb(UUID uuid){
@@ -115,7 +110,6 @@ public class ScoreboardManager {
     }
 
     public void createFightingSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateFightingSb(p.getUniqueId()));
     }
     public ScoreHelper updateFightingSb(UUID uuid){
@@ -138,7 +132,6 @@ public class ScoreboardManager {
     }
 
     public void createDeathmatchSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateDeathmatchSb(p.getUniqueId()));
     }
     public ScoreHelper updateDeathmatchSb(UUID uuid){
@@ -161,7 +154,6 @@ public class ScoreboardManager {
     }
 
     public void createEndingSb(Player p){
-        removeFromMap(p);
         players.put(p.getUniqueId(), updateEndingSb(p.getUniqueId()));
     }
     public ScoreHelper updateEndingSb(UUID uuid){
@@ -184,6 +176,7 @@ public class ScoreboardManager {
     }
 
     public void updateScoreboard(Player p) {
+        removeFromMap(p);
         switch (plugin.getGame().gameState) {
             case WAITING:
                 createWaitingSb(p);

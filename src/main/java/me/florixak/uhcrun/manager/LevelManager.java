@@ -70,7 +70,7 @@ public class LevelManager {
         }
         else {
             statistics.set("statistics." + uuid.toString() + ".level", getPlayerLevel(uuid)+1);
-            statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid));
+            statistics.set("statistics." + uuid.toString() + ".requiredXP", setRequiredExp(uuid));
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
 
