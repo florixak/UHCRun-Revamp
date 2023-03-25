@@ -28,36 +28,12 @@ public class GameManager {
     public GameState gameState = GameState.WAITING;
 
     private FileConfiguration config, messages;
-    private TitleAction titleAction;
-    private String prefix;
-
-    // private Cuboid cuboid;
-    private BroadcastMessageAction broadcastMessageAction;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
-        this.broadcastMessageAction = new BroadcastMessageAction();
 
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
-        this.prefix = messages.getString("Messages.prefix");
-        this.titleAction = new TitleAction();
-
-//        World w = Bukkit.getWorld("world");
-//        int spawnx = (int) w.getSpawnLocation().getX();
-//        int spawnz = (int) w.getSpawnLocation().getZ();
-//        int y = w.getHighestBlockYAt(spawnx, spawnz)+4;
-//
-//        Cuboid cuboid1 = new Cuboid(new Location(w, spawnx, y, spawnz), new Location(w, spawnx-10, y+4, spawnz+10));
-//        Cuboid cuboid2 = new Cuboid(new Location(w, spawnx+1, y+1, spawnz+1), new Location(w, spawnx-9, y+4, spawnz+9));
-//
-//        this.cuboid = cuboid1;
-//        for (Block block : cuboid1.getBlocks()) {
-//            block.setType(Material.GLASS);
-//        }
-//        for (Block block : cuboid2.getBlocks()) {
-//            block.setType(Material.AIR);
-//        }
     }
 
     public void setGameState(GameState gameState){
@@ -327,74 +303,14 @@ public class GameManager {
     }
 
     public void addKillTo(Player p) {
-        plugin.getStatisticManager().addKill(p.getUniqueId());
+        plugin.getStatistics().addKill(p.getUniqueId());
         PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
     }
     public void addDeathTo(Player p) {
         PlayerManager.alive.remove(p.getUniqueId());
         PlayerManager.dead.add(p.getUniqueId());
-        plugin.getStatisticManager().addDeath(p.getUniqueId());
+        plugin.getStatistics().addDeath(p.getUniqueId());
     }
-    /*public void end() {
-        List<String> win_rewards = messages.getStringList("Messages.win-rewards");
-        List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
-
-        double money_for_win;
-        double money_for_kills;
-        double level_xp_for_win;
-        double level_xp_for_kills;
-        double money_for_lose;
-        double level_xp_for_lose;
-
-        broadcastMessageAction.execute(plugin, null, Messages.WINNER.toString().replace("%winner%", getWinnerName()));
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-
-            money_for_kills = config.getDouble("coins-per-kill")*PlayerManager.kills.get(p.getUniqueId());
-            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*PlayerManager.kills.get(p.getUniqueId());
-            money_for_win = config.getDouble("coins-per-win");
-            level_xp_for_win = config.getDouble("player-level.level-xp-per-win");
-
-            money_for_lose = config.getDouble("coins-per-lose");
-            level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
-
-
-            if (p == getWinner()) {
-                plugin.getStatisticManager().addWin(p.getUniqueId(), 1);
-                plugin.getStatisticManager().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_win + money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_win + level_xp_for_kills);
-                titleAction.execute(plugin, p, "Victory!");
-                for (String reward : win_rewards) {
-                    p.sendMessage(TextUtils.color(reward
-                                    .replace("%coins-for-win%", String.valueOf(money_for_win))
-                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                    .replace("%level-xp-for-win%", String.valueOf(level_xp_for_win))
-                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                    .replace("%prefix%", prefix)
-                            )
-                    );
-                }
-            }
-            else {
-                plugin.getStatisticManager().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_lose+money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_lose+level_xp_for_kills);
-                titleAction.execute(plugin, p, "Game Over!");
-                for (String reward : lose_rewards) {
-                    p.sendMessage(TextUtils.color(reward
-                                    .replace("%coins-for-lose%", String.valueOf(money_for_lose))
-                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                    .replace("%level-xp-for-lose%", String.valueOf(level_xp_for_lose))
-                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                    .replace("%prefix%", prefix)
-                            )
-                    );
-                }
-                if (PlayerManager.isDead(p)) {
-                    p.showPlayer(plugin, p);
-                }
-            }
-        }
-    }*/
 
     public Player getWinner() {
         for (UUID uuid : PlayerManager.alive) {

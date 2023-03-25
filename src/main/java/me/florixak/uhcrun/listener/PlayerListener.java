@@ -36,7 +36,7 @@ public class PlayerListener implements Listener {
         event.setJoinMessage(null);
 
         if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(p);
-        plugin.getStatisticManager().setStatistics(p);
+        plugin.getStatistics().setData(p);
 
         PlayerManager.online.add(p.getUniqueId());
         KitsManager.kits.put(p.getUniqueId(), Kits.NONE);

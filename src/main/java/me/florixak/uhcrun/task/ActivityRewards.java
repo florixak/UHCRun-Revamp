@@ -29,7 +29,7 @@ public class ActivityRewards extends BukkitRunnable {
                 double money = config.getDouble("rewards-per-time.money");
                 double level_xp = config.getDouble("rewards-per-time.level-xp");
 
-                plugin.getStatisticManager().addMoney(Bukkit.getPlayer(uuid), money);
+                plugin.getStatistics().addMoney(Bukkit.getPlayer(uuid), money);
                 plugin.getLevelManager().addPlayerLevel(Bukkit.getPlayer(uuid).getUniqueId(), level_xp);
 
                 Bukkit.getPlayer(uuid).sendMessage(Messages.REWARDS_PER_TIME.toString()

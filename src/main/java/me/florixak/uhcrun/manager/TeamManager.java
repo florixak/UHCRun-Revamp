@@ -6,8 +6,8 @@ import java.util.*;
 
 public class TeamManager {
 
-    char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
-    char[] colors = "123456789abcdefl".toCharArray();
+    private char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+    private char[] colors = "123456789abcdefl".toCharArray();
 
     public HashMap<UUID, String> teams = new HashMap<>();
 
@@ -22,7 +22,6 @@ public class TeamManager {
             color = "&" + colors[i];
             teams.put(uuid, color+team);
         }
-
     }
 
     public String getTeam(Player p) {
@@ -44,5 +43,9 @@ public class TeamManager {
         char helper = a[i];
         a[i] = a[change];
         a[change] = helper;
+    }
+
+    public void onDisable() {
+        teams.clear();
     }
 }

@@ -17,6 +17,8 @@ public class RecipeManager {
     public HashMap<String, Material> recipe = new HashMap<>();
 
     public RecipeManager() {
+        recipe.clear();
+
         goldenApple();
         anvil();
         fishingRod();

@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class BorderManager {
 
-    private UHCRun plugin;
     private FileConfiguration config;
 
     private World world;
@@ -17,16 +16,13 @@ public class BorderManager {
 
     private double size;
     private double damage;
-    private int warningDistance;
     private double speed;
 
     public BorderManager(UHCRun plugin) {
-        this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.size = config.getDouble("border.size");
         this.damage = config.getDouble("border.damage");
-        this.warningDistance = config.getInt("border.warning-distance");
         this.speed = config.getDouble("border.speed");
 
         this.world = Bukkit.getWorld("world");
