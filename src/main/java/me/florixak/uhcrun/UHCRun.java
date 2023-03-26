@@ -14,6 +14,7 @@ import me.florixak.uhcrun.listener.InteractListener;
 import me.florixak.uhcrun.listener.GameListener;
 import me.florixak.uhcrun.listener.PlayerListener;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
@@ -39,13 +40,14 @@ public final class UHCRun extends JavaPlugin {
     */
 
     private static UHCRun plugin;
-    private static Economy econ = null;
-    private static LuckPerms luckPerms = null;
+    private static Economy econ;
+    private static LuckPerms luckPerms;
 
     public MySQL mysql;
     public SQLGetter data;
     private GameManager gameManager;
     private ConfigManager configManager;
+    private PlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
     private LocationManager lobbyManager;
     private BorderManager borderManager;
@@ -76,6 +78,7 @@ public final class UHCRun extends JavaPlugin {
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(this);
         this.gameManager = new GameManager(this);
+        this.playerManager = new PlayerManager();
         this.scoreboardManager = new ScoreboardManager(this);
         this.lobbyManager = new LocationManager(this);
         this.borderManager = new BorderManager(this);
@@ -85,7 +88,7 @@ public final class UHCRun extends JavaPlugin {
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager();
-        this.teamManager = new TeamManager();
+        this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
 
         this.utilities = new Utils(this);
@@ -141,30 +144,6 @@ public final class UHCRun extends JavaPlugin {
 
     }
 
-    private void registerAddons() {
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
-            if (!setupVault()) {
-                getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
-            }
-            else {
-                getLogger().info(TextUtils.color("&aVault plugin found."));
-            }
-        }
-
-        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
-            if (!setupLuckPerms()) {
-                getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
-            }
-            else {
-                getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
-            }
-        }
-
-        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderExp(this).register();
-        }
-    }
-
     private void connectToDatabase() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
             mysql = new MySQL("localhost", 3306, null, null, null);
@@ -188,6 +167,29 @@ public final class UHCRun extends JavaPlugin {
         }
     }
 
+    private void registerAddons() {
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
+            if (!setupVault()) {
+                getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
+            }
+            else {
+                getLogger().info(TextUtils.color("&aVault plugin found."));
+            }
+        }
+
+        if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
+            if (!setupLuckPerms()) {
+                getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
+            }
+            else {
+                getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
+            }
+        }
+
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderExp(this).register();
+        }
+    }
     private boolean setupVault() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -214,7 +216,7 @@ public final class UHCRun extends JavaPlugin {
         return luckPerms != null;
     }
 
-    public static Economy getEconomy() {
+    public static Economy getVault() {
         return econ;
     }
     public static LuckPerms getLuckPerms() {
@@ -225,6 +227,9 @@ public final class UHCRun extends JavaPlugin {
     }
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;

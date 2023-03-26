@@ -3,6 +3,7 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.sql.SQLGetter;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -25,23 +26,23 @@ public class StatisticsManager {
         this.sqlGetter = plugin.data;
     }
 
-    public void setData(Player p) {
+    public void setData(UHCPlayer p) {
 
-        if (data.getConfigurationSection("statistics." + p.getUniqueId().toString()) != null) return;
+        if (data.getConfigurationSection("statistics." + p.getUUID().toString()) != null) return;
 
-        data.set("statistics." + p.getUniqueId().toString() + ".name", p.getName());
-        data.set("statistics." + p.getUniqueId().toString() + ".level", 1);
-        data.set("statistics." + p.getUniqueId().toString() + ".requiredXP", plugin.getLevelManager().setRequiredExp(p.getUniqueId()));
-        data.set("statistics." + p.getUniqueId().toString() + ".money", config.getDouble("string-coins"));
-        data.set("statistics." + p.getUniqueId().toString() + ".wins", 0);
-        data.set("statistics." + p.getUniqueId().toString() + ".kills", 0);
-        data.set("statistics." + p.getUniqueId().toString() + ".deaths", 0);
+        data.set("statistics." + p.getUUID().toString() + ".name", p.getName());
+        data.set("statistics." + p.getUUID().toString() + ".level", 1);
+        data.set("statistics." + p.getUUID().toString() + ".requiredXP", plugin.getLevelManager().setRequiredExp(p));
+        data.set("statistics." + p.getUUID().toString() + ".money", config.getDouble("string-coins"));
+        data.set("statistics." + p.getUUID().toString() + ".wins", 0);
+        data.set("statistics." + p.getUUID().toString() + ".kills", 0);
+        data.set("statistics." + p.getUUID().toString() + ".deaths", 0);
 
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public double getMoney(UUID uuid) {
-        Economy economy = UHCRun.getEconomy();
+        Economy economy = UHCRun.getVault();
         Player p = Bukkit.getPlayer(uuid);
         if (config.getBoolean("use-Vault", true)) {
             return economy.getBalance(p);
@@ -54,23 +55,24 @@ public class StatisticsManager {
         }
     }
 
-    public void addMoney(Player p, double amount) {
-        Economy economy = UHCRun.getEconomy();
+    public void addMoney(UHCPlayer p, double amount) {
         if (config.getBoolean("use-Vault", true)) {
-            economy.depositPlayer(p, amount);
-            data.set("statistics." + p.getUniqueId() + ".money", economy.getBalance(p));
+            Economy economy = UHCRun.getVault();
+            Player player = p.getPlayer();
+            economy.depositPlayer(player, amount);
+            data.set("statistics." + p.getUUID().toString() + ".money", economy.getBalance(player));
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         } else if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addMoney(p.getUniqueId(), amount);
-            data.set("statistics." + p.getUniqueId() + ".money", plugin.data.getMoney(p.getUniqueId()));
+            plugin.data.addMoney(p.getUUID(), amount);
+            data.set("statistics." + p.getUUID().toString() + ".money", plugin.data.getMoney(p.getUUID()));
         } else {
-            data.set("statistics." + p.getUniqueId() + ".money", plugin.getStatistics().getMoney(p.getUniqueId())+amount);
+            data.set("statistics." + p.getUUID().toString() + ".money", plugin.getStatistics().getMoney(p.getUUID())+amount);
         }
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public void takeMoney(Player p, double amount) {
-        Economy economy = UHCRun.getEconomy();
+        Economy economy = UHCRun.getVault();
         if (config.getBoolean("use-Vault", true)) {
             EconomyResponse r = economy.withdrawPlayer(p, amount);
             if (!r.transactionSuccess()) {
@@ -95,51 +97,51 @@ public class StatisticsManager {
         }
     }
 
-    public int getWins(UUID uuid) {
+    public int getWins(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return sqlGetter.getWins(uuid);
+            return sqlGetter.getWins(player.getUUID());
         }
-        return data.getInt("statistics." + uuid.toString() + ".wins");
+        return data.getInt("statistics." + player.getUUID().toString() + ".wins");
     }
 
-    public void addWin(UUID uuid) {
+    public void addWin(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addWin(uuid, 1);
+            plugin.data.addWin(player.getUUID(), 1);
             return;
         }
-        data.set("statistics." + uuid.toString() + ".wins", getWins(uuid)+1);
+        data.set("statistics." + player.getUUID().toString() + ".wins", getWins(player)+1);
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    public int getKills(UUID uuid) {
+    public int getKills(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return sqlGetter.getKills(uuid);
+            return sqlGetter.getKills(player.getUUID());
         }
-        return data.getInt("statistics." + uuid.toString() + ".kills");
+        return data.getInt("statistics." + player.getUUID().toString() + ".kills");
     }
 
-    public void addKill(UUID uuid) {
+    public void addKill(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addKill(uuid, 1);
+            plugin.data.addKill(player.getUUID(), 1);
             return;
         }
-        data.set("statistics." + uuid.toString() + ".kills", getKills(uuid)+1);
+        data.set("statistics." + player.getUUID().toString() + ".kills", getKills(player)+1);
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    public int getDeaths(UUID uuid) {
+    public int getDeaths(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return sqlGetter.getDeaths(uuid);
+            return sqlGetter.getDeaths(player.getUUID());
         }
-        return data.getInt("statistics." + uuid.toString() + ".deaths");
+        return data.getInt("statistics." + player.getUUID().toString() + ".deaths");
     }
 
-    public void addDeath(UUID uuid) {
+    public void addDeath(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addDeath(uuid, 1);
+            plugin.data.addDeath(player.getUUID(), 1);
             return;
         }
-        data.set("statistics." + uuid.toString() + ".deaths", getDeaths(uuid)+1);
+        data.set("statistics." + player.getUUID().toString() + ".deaths", getDeaths(player)+1);
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 }

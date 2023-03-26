@@ -3,7 +3,7 @@ package me.florixak.uhcrun.task;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.utils.TimeUtils;
@@ -38,7 +38,7 @@ public class StartingCd extends BukkitRunnable {
         }
         if (count <= startWarning) {
             Utils.broadcast(Messages.GAME_STARTING.toString()
-                    .replace("%countdown%", "" + TimeUtils.convertCountdown(count)));
+                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
             for (UUID uuid : PlayerManager.online) {
                 SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
             }

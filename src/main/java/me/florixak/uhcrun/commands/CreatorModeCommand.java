@@ -3,9 +3,9 @@ package me.florixak.uhcrun.commands;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.kits.KitsManager;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,9 +29,9 @@ public class CreatorModeCommand implements CommandExecutor {
 
         if (!(sender instanceof Player)) return true;
 
-        Player p = (Player) sender;
+        UHCPlayer p = (UHCPlayer) sender;
 
-        if (!p.hasPermission(permissions.getString("permissions.start-item"))) {
+        if (!p.getPlayer().hasPermission(permissions.getString("permissions.start-item"))) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
@@ -42,20 +42,20 @@ public class CreatorModeCommand implements CommandExecutor {
             return true;
         }
 
+        /*
+        TODO CREATOR
         if (PlayerManager.isCreator(p)) {
-            PlayerManager.creator.remove(p.getUniqueId());
             p.sendMessage(Messages.CREATOR_OFF.toString());
-            p.setGameMode(GameMode.ADVENTURE);
-            p.getInventory().clear();
+            p.getPlayer().setGameMode(GameMode.ADVENTURE);
+            p.getPlayer().getInventory().clear();
             plugin.getKitsManager().getWaitingKit(p);
             return true;
-        }
+        }*/
 
-        PlayerManager.creator.add(p.getUniqueId());
         p.sendMessage(Messages.CREATOR_ON.toString());
 
-        p.setGameMode(GameMode.CREATIVE);
-        p.getInventory().clear();
+        p.getPlayer().setGameMode(GameMode.CREATIVE);
+        p.getPlayer().getInventory().clear();
         plugin.getKitsManager().getCreatorKit(p);
         return false;
     }

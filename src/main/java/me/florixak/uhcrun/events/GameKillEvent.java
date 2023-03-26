@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.events;
 
-import org.bukkit.entity.Player;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -8,19 +8,19 @@ public class GameKillEvent extends Event {
 
     public static final HandlerList handlers = new HandlerList();
 
-    private Player killer;
-    private Player victim;
+    private UHCPlayer killer;
+    private UHCPlayer victim;
 
-    public GameKillEvent(Player killer, Player victim) {
+    public GameKillEvent(UHCPlayer killer, UHCPlayer victim) {
         this.killer = killer;
         this.victim = victim;
     }
 
-    public Player getKiller() {
+    public UHCPlayer getKiller() {
         return this.killer;
     }
 
-    public Player getVictim() {
+    public UHCPlayer getVictim() {
         return this.victim;
     }
 

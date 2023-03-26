@@ -5,7 +5,7 @@ import me.florixak.uhcrun.action.actions.BungeeAction;
 import me.florixak.uhcrun.action.actions.MenuAction;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;

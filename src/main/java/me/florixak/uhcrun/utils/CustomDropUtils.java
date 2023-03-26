@@ -3,6 +3,7 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.manager.SoundManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ import java.util.Random;
 
 public class CustomDropUtils {
 
-    public static void dropItem(Player p, BlockBreakEvent event) {
+    public static void dropItem(UHCPlayer p, BlockBreakEvent event) {
         FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
         Location loc = event.getBlock().getLocation();
 
@@ -42,9 +43,9 @@ public class CustomDropUtils {
                     loc.getWorld().dropItemNaturally(loc, drop);
                 }
                 xp = config.getInt("custom-drops." + block + ".xp");
-                p.giveExp(xp);
+                p.getPlayer().giveExp(xp);
 
-                SoundManager.playOreDestroySound(p);
+                // SoundManager.playOreDestroySound(p); TODO sounds
                 break;
             }
         }

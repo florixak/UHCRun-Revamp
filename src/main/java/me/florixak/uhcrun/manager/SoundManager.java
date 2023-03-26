@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.manager;
 
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

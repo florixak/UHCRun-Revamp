@@ -6,9 +6,10 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.events.GameKillEvent;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.perks.PerksManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.CustomDropUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -48,7 +49,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGameEnd(GameEndEvent event) {
-        Player winner = event.getWinner();
+        UHCPlayer winner = event.getWinner();
 
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");
         List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
@@ -60,12 +61,12 @@ public class GameListener implements Listener {
         double money_for_lose;
         double level_xp_for_lose;
 
-        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getDisplayName() != null ? winner.getDisplayName() : "NONE"));
+        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getName() != null ? winner.getName() : "NONE"));
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        for (UHCPlayer p : plugin.getPlayerManager().getPlayers()) {
 
-            money_for_kills = config.getDouble("coins-per-kill") * PlayerManager.kills.get(p.getUniqueId());
-            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*PlayerManager.kills.get(p.getUniqueId());
+            money_for_kills = config.getDouble("coins-per-kill") * p.getKills();
+            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*p.getKills();
             money_for_win = config.getDouble("coins-per-win");
             level_xp_for_win = config.getDouble("player-level.level-xp-per-win");
 
@@ -73,10 +74,10 @@ public class GameListener implements Listener {
             level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
 
             if (p == winner) {
-                plugin.getStatistics().addWin(p.getUniqueId());
-                plugin.getStatistics().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_win + money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_win + level_xp_for_kills);
-                titleAction.execute(plugin, p, "Victory!");
+                plugin.getStatistics().addWin(p);
+                plugin.getStatistics().addMoney(p, money_for_win + money_for_kills);
+                plugin.getLevelManager().addPlayerLevel(p, level_xp_for_win + level_xp_for_kills);
+                titleAction.execute(plugin, p.getPlayer(), "Victory!");
                 for (String reward : win_rewards) {
                     p.sendMessage(TextUtils.color(reward
                                     .replace("%coins-for-win%", String.valueOf(money_for_win))
@@ -89,9 +90,9 @@ public class GameListener implements Listener {
                 }
             }
             else {
-                plugin.getStatistics().addMoney(Bukkit.getPlayer(p.getUniqueId()), money_for_lose+money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p.getUniqueId(), level_xp_for_lose+level_xp_for_kills);
-                titleAction.execute(plugin, p, "Game Over!");
+                plugin.getStatistics().addMoney(p, money_for_lose+money_for_kills);
+                plugin.getLevelManager().addPlayerLevel(p, level_xp_for_lose+level_xp_for_kills);
+                titleAction.execute(plugin, p.getPlayer(), "Game Over!");
                 for (String reward : lose_rewards) {
                     p.sendMessage(TextUtils.color(reward
                                     .replace("%coins-for-lose%", String.valueOf(money_for_lose))
@@ -102,8 +103,8 @@ public class GameListener implements Listener {
                             )
                     );
                 }
-                if (PlayerManager.isSpectator(p)) {
-                    p.showPlayer(plugin, p);
+                if (p.isDead()) {
+                    p.getPlayer().showPlayer(plugin, p.getPlayer());
                 }
             }
         }
@@ -111,27 +112,30 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGameKill(GameKillEvent event) {
-        Player killer = event.getKiller();
-        Player victim = event.getVictim();
+        Player p1 = event.getKiller();
+        Player p2 = event.getVictim();
 
-        victim.setHealth(victim.getMaxHealth());
-        victim.setFoodLevel(20);
-        victim.setLevel(0);
-        victim.setTotalExperience(0);
-        victim.giveExp(-victim.getTotalExperience());
+        UHCPlayer killer = plugin.getPlayerManager().getUHCPlayer(p1.getUniqueId());
+        UHCPlayer victim = plugin.getPlayerManager().getUHCPlayer(p2.getUniqueId());
+
+        victim.getPlayer().setHealth(victim.getPlayer().getMaxHealth());
+        victim.getPlayer().setFoodLevel(20);
+        victim.getPlayer().setLevel(0);
+        victim.getPlayer().setTotalExperience(0);
+        victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
 
         if (killer instanceof Player) {
             plugin.getGame().addKillTo(killer);
-            PerksManager.givePerk(killer);
+            // PerksManager.givePerk(killer); TODO perk
 
-            killer.giveExp(config.getInt("xp-per-kill"));
+            killer.getPlayer().giveExp(config.getInt("xp-per-kill"));
 
-            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getDisplayName()).replace("%killer%", killer.getDisplayName()));
+            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
         } else {
-            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getDisplayName()));
+            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
-        victim.getInventory().clear();
+        victim.getPlayer().getInventory().clear();
         plugin.getGame().setSpectator(victim);
 
         plugin.getGame().addDeathTo(victim);
@@ -140,10 +144,10 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void blockDestroy(BlockBreakEvent event) {
-        Player p = event.getPlayer();
+        UHCPlayer p = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 //        Block block = event.getBlock();
 
-        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
+        if (!plugin.getGame().isPlaying() || p.isDead()) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
@@ -153,8 +157,8 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void blockPlace(BlockPlaceEvent event) {
-        Player p = event.getPlayer();
-        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
+        UHCPlayer p = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+        if (!plugin.getGame().isPlaying() || p.isDead()) {
             p.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
             return;
@@ -224,9 +228,15 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
-        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator((Player) event.getDamager())) {
+
+        Player damager = (Player) event.getDamager();
+        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
+
+        if (!plugin.getGame().isPlaying() || player.isDead()) {
             event.setCancelled(true);
+            return;
         }
+
         if (plugin.getGame().gameState == GameState.MINING) {
             if (event.getEntity() instanceof Player) {
                 if (event.getDamager() instanceof Player) {
@@ -239,7 +249,8 @@ public class GameListener implements Listener {
     @EventHandler
     public void hunger(FoodLevelChangeEvent event) {
         Player p = (Player) event.getEntity();
-        if (!plugin.getGame().isPlaying() || PlayerManager.isSpectator(p)) {
+        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        if (!plugin.getGame().isPlaying() || player.isDead()) {
             p.setFoodLevel(20);
             event.setCancelled(true);
         }

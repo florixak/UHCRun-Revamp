@@ -3,8 +3,9 @@ package me.florixak.uhcrun.task;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,14 +26,14 @@ public class ActivityRewards extends BukkitRunnable {
     public void run() {
         if (!(plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING)) {
-            for (UUID uuid : PlayerManager.online) {
+            for (UHCPlayer player : plugin.getPlayerManager().getAlive()) {
                 double money = config.getDouble("rewards-per-time.money");
                 double level_xp = config.getDouble("rewards-per-time.level-xp");
 
-                plugin.getStatistics().addMoney(Bukkit.getPlayer(uuid), money);
-                plugin.getLevelManager().addPlayerLevel(Bukkit.getPlayer(uuid).getUniqueId(), level_xp);
+                plugin.getStatistics().addMoney(player, money);
+                plugin.getLevelManager().addPlayerLevel(player, level_xp);
 
-                Bukkit.getPlayer(uuid).sendMessage(Messages.REWARDS_PER_TIME.toString()
+                player.sendMessage(Messages.REWARDS_PER_TIME.toString()
                         .replace("%money-per-time%", String.valueOf(money))
                         .replace("%xp-per-time%", String.valueOf(level_xp)));
             }

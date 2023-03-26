@@ -2,6 +2,7 @@ package me.florixak.uhcrun.kits;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
@@ -18,12 +19,10 @@ import java.util.UUID;
 
 public class KitsManager {
 
-    public HashMap<UUID, Kits> kits = new HashMap<>();
+    public void giveKits(UHCPlayer p) {
+        p.sendMessage("You chose " + p.getKit() + " kit");
 
-    public void giveKits(Player p) {
-        p.sendMessage("You chose " + getKit(p.getUniqueId()) + " kit");
-
-        switch (kits.get(p.getUniqueId())) {
+        switch (p.getKit()) {
             case NONE:
                 break;
             case STARTER:
@@ -46,40 +45,37 @@ public class KitsManager {
                 break;
         }
     }
-    public Kits getKit(UUID uuid) {
-        return kits.get(uuid);
-    }
 
-    public void getCreatorKit(Player p) {
-        p.getInventory().addItem(ItemUtils.item(new ItemStack(Material.STICK), "Set Waiting Lobby", 1));
-        p.getInventory().addItem(ItemUtils.item(new ItemStack(Material.BLAZE_ROD), "Set Ending Lobby", 1));
+    public void getCreatorKit(UHCPlayer p) {
+        p.getPlayer().getInventory().addItem(ItemUtils.item(new ItemStack(Material.STICK), "Set Waiting Lobby", 1));
+        p.getPlayer().getInventory().addItem(ItemUtils.item(new ItemStack(Material.BLAZE_ROD), "Set Ending Lobby", 1));
     }
-    public void getWaitingKit(Player p) {
+    public void getWaitingKit(UHCPlayer p) {
         FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         FileConfiguration permissions = UHCRun.getInstance().getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
         ItemStack item;
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.kits").getString("material").toUpperCase()).get().parseItem();
-            p.getInventory().setItem(config.getInt("lobby-items.kits.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.kits.display-name")), 1));
+            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.kits.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.kits.display-name")), 1));
         }
         if (config.getBoolean("lobby-items.perks.enabled", true)) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.perks").getString("material").toUpperCase()).get().parseItem();
-            p.getInventory().setItem(config.getInt("lobby-items.perks.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.perks.display-name")), 1));
+            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.perks.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.perks.display-name")), 1));
         }
-        if (p.hasPermission(permissions.getString("permissions.start-item"))) {
+        if (p.getPlayer().hasPermission(permissions.getString("permissions.start-item"))) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.start").getString("material").toUpperCase()).get().parseItem();
-            p.getInventory().setItem(config.getInt("lobby-items.start.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.start.display-name")), 1));
+            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.start.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.start.display-name")), 1));
         }
         if (config.getBoolean("lobby-items.vote.enabled", true)) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.vote").getString("material").toUpperCase()).get().parseItem();
-            p.getInventory().setItem(config.getInt("lobby-items.vote.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.vote.display-name")), 1));
+            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.vote.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.vote.display-name")), 1));
         }
         if (config.getBoolean("lobby-items.custom-crafts.enabled", true)) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.custom-crafts").getString("material").toUpperCase()).get().parseItem();
-            p.getInventory().setItem(config.getInt("lobby-items.custom-crafts.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.custom-crafts.display-name")), 1));
+            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.custom-crafts.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.custom-crafts.display-name")), 1));
         }
-        p.getInventory().setItem(config.getInt("lobby-items.statistics.slot"), ItemUtils.item(UHCRun.getInstance().getUtilities().getPlayerHead(p.getName(), p.getName()), TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));
+        p.getPlayer().getInventory().setItem(config.getInt("lobby-items.statistics.slot"), ItemUtils.item(UHCRun.getInstance().getUtilities().getPlayerHead(p.getName(), p.getName()), TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));
 
     }
     public void getSpectatorKit(Player p) {
@@ -98,7 +94,7 @@ public class KitsManager {
         }
     }
 
-    private void getStarter(Player p) {
+    private void getStarter(UHCPlayer p) {
 
         ItemStack item;
         FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.KITS).getConfig();
@@ -113,11 +109,11 @@ public class KitsManager {
                 }
                 item.setAmount(config.getInt("items." + kit + ".items." + items + ".amount"));
                 item.setItemMeta(meta);
-                p.getInventory().addItem(item);
+                p.getPlayer().getInventory().addItem(item);
             }
         }
     }
-    private void getMiner(Player p) {
+    private void getMiner(UHCPlayer p) {
 
         ItemStack axe = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
@@ -133,12 +129,12 @@ public class KitsManager {
         ItemUtils.addEnchant(shovel, Enchantment.DIG_SPEED, 3, false);
         ItemUtils.addEnchant(shovel, Enchantment.DURABILITY, 3, false);
 
-        p.getInventory().addItem(axe);
-        p.getInventory().addItem(pickaxe);
-        p.getInventory().addItem(shovel);
-        p.getInventory().addItem(food);
+        p.getPlayer().getInventory().addItem(axe);
+        p.getPlayer().getInventory().addItem(pickaxe);
+        p.getPlayer().getInventory().addItem(shovel);
+        p.getPlayer().getInventory().addItem(food);
     }
-    private void getEnchanter(Player p) {
+    private void getEnchanter(UHCPlayer p) {
 
         ItemStack axe = new ItemStack(XMaterial.WOODEN_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.WOODEN_PICKAXE.parseMaterial());
@@ -153,14 +149,14 @@ public class KitsManager {
         ItemUtils.addEnchant(pickaxe, Enchantment.DIG_SPEED, 3, false);
         ItemUtils.addEnchant(pickaxe, Enchantment.DURABILITY, 3, false);
 
-        p.getInventory().addItem(axe);
-        p.getInventory().addItem(pickaxe);
-        p.getInventory().addItem(enchant_table);
-        p.getInventory().addItem(bookshelf);
-        p.getInventory().addItem(exp_bottle);
-        p.getInventory().addItem(food);
+        p.getPlayer().getInventory().addItem(axe);
+        p.getPlayer().getInventory().addItem(pickaxe);
+        p.getPlayer().getInventory().addItem(enchant_table);
+        p.getPlayer().getInventory().addItem(bookshelf);
+        p.getPlayer().getInventory().addItem(exp_bottle);
+        p.getPlayer().getInventory().addItem(food);
     }
-    private void getHealer(Player p) {
+    private void getHealer(UHCPlayer p) {
         ItemStack axe = new ItemStack(XMaterial.STONE_AXE.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.STONE_PICKAXE.parseMaterial());
         ItemStack food = new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), 16);
@@ -173,13 +169,13 @@ public class KitsManager {
         ItemUtils.addEnchant(pickaxe, Enchantment.DIG_SPEED, 3, false);
         ItemUtils.addEnchant(pickaxe, Enchantment.DURABILITY, 3, false);
 
-        p.getInventory().addItem(axe);
-        p.getInventory().addItem(pickaxe);
-        p.getInventory().addItem(food);
-        p.getInventory().addItem(gcarrot);
-        p.getInventory().addItem(gapple);
+        p.getPlayer().getInventory().addItem(axe);
+        p.getPlayer().getInventory().addItem(pickaxe);
+        p.getPlayer().getInventory().addItem(food);
+        p.getPlayer().getInventory().addItem(gcarrot);
+        p.getPlayer().getInventory().addItem(gapple);
     }
-    private void getHorseRider(Player p) {
+    private void getHorseRider(UHCPlayer p) {
         ItemStack sword = new ItemStack(XMaterial.IRON_SWORD.parseMaterial());
         ItemStack pickaxe = new ItemStack(XMaterial.STONE_PICKAXE.parseMaterial());
         ItemStack axe = new ItemStack(XMaterial.STONE_AXE.parseMaterial());
@@ -194,12 +190,12 @@ public class KitsManager {
         ItemUtils.addEnchant(pickaxe, Enchantment.DIG_SPEED, 3, false);
         ItemUtils.addEnchant(pickaxe, Enchantment.DURABILITY, 3, false);
 
-        p.getInventory().addItem(sword);
-        p.getInventory().addItem(pickaxe);
-        p.getInventory().addItem(axe);
-        p.getInventory().addItem(food);
-        p.getInventory().addItem(horse);
-        p.getInventory().addItem(saddle);
-        p.getInventory().addItem(horse_armor);
+        p.getPlayer().getInventory().addItem(sword);
+        p.getPlayer().getInventory().addItem(pickaxe);
+        p.getPlayer().getInventory().addItem(axe);
+        p.getPlayer().getInventory().addItem(food);
+        p.getPlayer().getInventory().addItem(horse);
+        p.getPlayer().getInventory().addItem(saddle);
+        p.getPlayer().getInventory().addItem(horse_armor);
     }
 }

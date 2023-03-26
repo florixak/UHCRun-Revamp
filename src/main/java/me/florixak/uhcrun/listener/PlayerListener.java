@@ -4,11 +4,10 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameKillEvent;
-import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.perks.Perks;
 import me.florixak.uhcrun.perks.PerksManager;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -33,30 +32,20 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player p = event.getPlayer();
+        event.setJoinMessage(null);
 
         if (plugin.getGame().isEnding()) {
             p.kickPlayer("UHCRun is restarting!");
             return;
         }
 
-        event.setJoinMessage(null);
+        UHCPlayer player = new UHCPlayer(p.getUniqueId(), p.getName());
 
-        if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(p);
-        plugin.getStatistics().setData(p);
+        if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(player.getPlayer());
+        plugin.getStatistics().setData(player);
 
-        PlayerManager.online.add(p.getUniqueId());
-        plugin.getKitsManager().kits.put(p.getUniqueId(), Kits.NONE);
-        PerksManager.perks.put(p.getUniqueId(), Perks.NONE);
-
-        if (plugin.getGame().isPlaying()) {
-            /*
-            p.setHealth(p.getHealthScale());
-            p.setFoodLevel(20);
-            p.getInventory().clear();
-            p.giveExp((int) -(1*Math.pow(10, 1000000000)));
-            p.setGameMode(GameMode.SPECTATOR);
-            */
-            plugin.getGame().setSpectator(p);
+        if (plugin.getGame().isPlaying() || player.isDead()) {
+            plugin.getGame().setSpectator(player);
             return;
         }
 
@@ -70,7 +59,7 @@ public class PlayerListener implements Listener {
         p.setFlying(false);
         p.setAllowFlight(false);
 
-        plugin.getKitsManager().getWaitingKit(p);
+        plugin.getKitsManager().getWaitingKit(player);
 
         Bukkit.broadcastMessage(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
         p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
@@ -85,21 +74,12 @@ public class PlayerListener implements Listener {
 
         plugin.getScoreboardManager().removeScoreboard(p);
 
-        if (PlayerManager.isOnline(p)){
-            PlayerManager.online.remove(p.getUniqueId());
-        }
-        if (PlayerManager.kills.containsKey(p.getUniqueId())) {
-            PlayerManager.kills.remove(p.getUniqueId());
-        }
-        if (PlayerManager.isCreator(p)) {
+        /*if (PlayerManager.isCreator(p)) {
             PlayerManager.creator.remove(p.getUniqueId());
         }
         if (PlayerManager.isSpectator(p)){
             PlayerManager.spectators.remove(p.getUniqueId());
-        }
-
-        plugin.getKitsManager().kits.remove(p);
-        PerksManager.perks.remove(p);
+        }*/
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
             Utils.broadcast(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
@@ -108,7 +88,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        plugin.getServer().getPluginManager().callEvent(new GameKillEvent(event.getEntity().getKiller(), event.getEntity().getPlayer()));
+        UHCPlayer killer = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId());
+        UHCPlayer victim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
+
+        plugin.getServer().getPluginManager().callEvent(new GameKillEvent(killer, victim));
     }
 
     @EventHandler
@@ -116,7 +99,8 @@ public class PlayerListener implements Listener {
         if (plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING
                 || plugin.getGame().gameState == GameState.ENDING
-                || !PlayerManager.isAlive(event.getPlayer())) {
+                //|| !PlayerManager.isAlive(event.getPlayer())
+        ) {
             event.setCancelled(true);
         }
     }

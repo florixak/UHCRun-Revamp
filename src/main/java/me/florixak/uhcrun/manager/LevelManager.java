@@ -3,6 +3,7 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -19,65 +20,65 @@ public class LevelManager {
         this.statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
     }
 
-    public void addPlayerLevel(UUID uuid, double xp_level) {
+    public void addPlayerLevel(UHCPlayer player, double xp_level) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addRequiredXP(uuid,-xp_level);
+            plugin.data.addRequiredXP(player.getUUID(),-xp_level);
         } else {
-            statistics.set("statistics." + uuid.toString() + ".requiredXP", getRequiredExp(uuid)-xp_level);
+            statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", getRequiredExp(player)-xp_level);
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
-        if (getRequiredExp(uuid) <= 0) {
-            levelUp(uuid);
+        if (getRequiredExp(player) <= 0) {
+            levelUp(player);
         }
     }
 
-    public int getPlayerLevel(UUID uuid) {
+    public int getPlayerLevel(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getPlayerLevel(uuid);
+            return plugin.data.getPlayerLevel(player.getUUID());
         }
-        return statistics.getInt("statistics." + uuid.toString() + ".level");
+        return statistics.getInt("statistics." + player.getUUID().toString() + ".level");
     }
 
-    public double getRequiredExp(UUID uuid) {
+    public double getRequiredExp(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getRequiredXP(uuid);
+            return plugin.data.getRequiredXP(player.getUUID());
         }
-        return statistics.getInt("statistics." + uuid.toString() + ".requiredXP");
+        return statistics.getInt("statistics." + player.getUUID().toString() + ".requiredXP");
     }
 
-    public double setRequiredExp(UUID uuid) {
+    public double setRequiredExp(UHCPlayer player) {
         double totalExpRequiredForLevel = 0;
-        if (getPlayerLevel(uuid) <= 100) {
-            totalExpRequiredForLevel = 60000 * Math.pow(1.025, getPlayerLevel(uuid)) - 60000;
+        if (getPlayerLevel(player) <= 100) {
+            totalExpRequiredForLevel = 60000 * Math.pow(1.025, getPlayerLevel(player)) - 60000;
         }
-        if (getPlayerLevel(uuid) > 100) {
-            totalExpRequiredForLevel = (60000 * Math.pow(1.025, 100) * Math.pow(getPlayerLevel(uuid), 2.5)/Math.pow(100, 2.5));
+        if (getPlayerLevel(player) > 100) {
+            totalExpRequiredForLevel = (60000 * Math.pow(1.025, 100) * Math.pow(getPlayerLevel(player), 2.5)/Math.pow(100, 2.5));
         }
         return totalExpRequiredForLevel;
     }
 
-    public int getPreviousLevel(UUID uuid) {
+    public int getPreviousLevel(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getPlayerLevel(uuid)-1;
+            return plugin.data.getPlayerLevel(player.getUUID())-1;
         }
-        return statistics.getInt("statistics." + uuid.toString() + ".level")-1;
+        return statistics.getInt("statistics." + player.getUUID().toString() + ".level")-1;
     }
 
-    public void levelUp(UUID uuid) {
+    public void levelUp(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addPlayerLevel(uuid);
-            plugin.data.setRequiredXP(uuid);
+            plugin.data.addPlayerLevel(player.getUUID());
+            plugin.data.setRequiredXP(player.getUUID());
         }
         else {
-            statistics.set("statistics." + uuid.toString() + ".level", getPlayerLevel(uuid)+1);
-            statistics.set("statistics." + uuid.toString() + ".requiredXP", setRequiredExp(uuid));
+            statistics.set("statistics." + player.getUUID().toString() + ".level", getPlayerLevel(player)+1);
+            statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", setRequiredExp(player));
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
 
-        SoundManager.playLevelUP(Bukkit.getPlayer(uuid));
+        // SoundManager.playLevelUP(player);
 
-        Bukkit.getPlayer(uuid).sendMessage(Messages.LEVEL_UP.toString()
-                .replace("%newLevel%", String.valueOf(getPlayerLevel(uuid)))
-                .replace("%previousLevel%", String.valueOf(getPreviousLevel(uuid))));
+        player.sendMessage(Messages.LEVEL_UP.toString()
+                .replace("%newLevel%", String.valueOf(getPlayerLevel(player)))
+                .replace("%previousLevel%", String.valueOf(getPreviousLevel(player))));
     }
 }

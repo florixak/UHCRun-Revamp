@@ -4,10 +4,9 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.LevelManager;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -17,7 +16,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ChatListener implements Listener {
 
@@ -61,7 +59,7 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
 
-        Player player = event.getPlayer();
+        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
         String prefix = "";
         String color = "&8";
         String level = "";
@@ -73,62 +71,48 @@ public class ChatListener implements Listener {
                     .getCachedData().getMetaData().getPrefix();
         }
 
-        if (lvl.getPlayerLevel(player.getUniqueId()) < 10) color = chat.getString("chat.level-color.toNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 20) color = chat.getString("chat.level-color.toNineteen");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 30) color = chat.getString("chat.level-color.toTwentyNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 40) color = chat.getString("chat.level-color.toThirtyNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 50) color = chat.getString("chat.level-color.toFortyNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 60) color = chat.getString("chat.level-color.toFiftyNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 70) color = chat.getString("chat.level-color.toSixtyNine");
-        else if (lvl.getPlayerLevel(player.getUniqueId()) < 80) color = chat.getString("chat.level-color.toSeventyNine");
+        if (lvl.getPlayerLevel(player) < 10) color = chat.getString("chat.level-color.toNine");
+        else if (lvl.getPlayerLevel(player) < 20) color = chat.getString("chat.level-color.toNineteen");
+        else if (lvl.getPlayerLevel(player) < 30) color = chat.getString("chat.level-color.toTwentyNine");
+        else if (lvl.getPlayerLevel(player) < 40) color = chat.getString("chat.level-color.toThirtyNine");
+        else if (lvl.getPlayerLevel(player) < 50) color = chat.getString("chat.level-color.toFortyNine");
+        else if (lvl.getPlayerLevel(player) < 60) color = chat.getString("chat.level-color.toFiftyNine");
+        else if (lvl.getPlayerLevel(player) < 70) color = chat.getString("chat.level-color.toSixtyNine");
+        else if (lvl.getPlayerLevel(player) < 80) color = chat.getString("chat.level-color.toSeventyNine");
         else color = chat.getString("chat.level-color.toInfinity");
 
         level = chat.getBoolean("chat.level-with-brackets", true) ?
-                color + "[" + lvl.getPlayerLevel(player.getUniqueId()) + "]" : color + lvl.getPlayerLevel(player.getUniqueId());
+                color + "[" + lvl.getPlayerLevel(player) + "]" : color + lvl.getPlayerLevel(player);
 
         if (!plugin.getGame().isPlaying()) {
-            for (UUID uuid : PlayerManager.online) {
-                Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
+            for (UHCPlayer players : plugin.getPlayerManager().getPlayers()) {
+                players.sendMessage(TextUtils.color(format
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
+                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : "")));
 
-                if (plugin.getGame().isEnding()) {
-                    if (event.getMessage().toLowerCase().contains("gg")
-                            || event.getMessage().toLowerCase().contains("good game")) {
-                        int gg_coins = config.getInt("gg-reward.coins");
-                        int gg_xp = config.getInt("gg-reward.level-xp");
-                        if (gg_coins != 0) plugin.getStatistics().addMoney(player, gg_coins);
-                        if (gg_xp != 0) lvl.addPlayerLevel(uuid, gg_xp);
-                        player.sendMessage(Messages.GG_REWARD.toString()
-                                .replace("%coins-for-gg%", String.valueOf(gg_coins))
-                                .replace("%level-xp-for-gg%", String.valueOf(gg_xp)));
-                    }
-                }
+                // TODO - gg odměna
             }
         } else {
 
-            if (PlayerManager.isAlive(player)) {
-                for (UUID uuid : PlayerManager.online) {
-                    Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
-                            .replace("%player%", player.getName())
-                            .replace("%message%", event.getMessage())
+            for (UHCPlayer players : plugin.getPlayerManager().getPlayers()) {
+                if (players.isDead()) {
+                    players.sendMessage("&7[DEAD] " + format
+                            .replace("%player%", "&7" + player.getName())
+                            .replace("%message%", "&8" + event.getMessage())
                             .replace("%luckperms-prefix%", prefix)
                             .replace("%level%", level)
-                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
+                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : ""));
+                    return;
                 }
-            }
-            else {
-                for (UUID uuid : PlayerManager.spectators) {
-                    Bukkit.getPlayer(uuid).sendMessage(TextUtils.color(format
-                            .replace("%player%", player.getName())
-                            .replace("%message%", event.getMessage())
-                            .replace("%luckperms-prefix%", prefix)
-                            .replace("%level%", level)
-                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? plugin.getTeams().getTeam(player) : "")));
-                }
+                players.sendMessage(format
+                        .replace("%player%", player.getName())
+                        .replace("%message%", event.getMessage())
+                        .replace("%luckperms-prefix%", prefix)
+                        .replace("%level%", level)
+                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : ""));
             }
         }
     }

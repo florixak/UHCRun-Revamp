@@ -1,32 +1,39 @@
 package me.florixak.uhcrun.manager;
 
+import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
 public class TeamManager {
 
-    private char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
-    private char[] colors = "123456789abcdefl".toCharArray();
+    private UHCRun plugin;
 
-    public HashMap<UUID, String> teams = new HashMap<>();
+    private char[] alphabet;
+    private char[] colors;
+
+    public HashMap<UHCPlayer, String> teams;
+
+    public TeamManager(UHCRun plugin) {
+        this.plugin = plugin;
+
+        this.alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+        this.colors = "123456789abcdefl".toCharArray();
+        this.teams = new HashMap<>();
+    }
 
     public void addToTeam() {
-        UUID uuid = null;
+        UHCPlayer uuid = null;
         char team = 0;
         String color;
         shuffleTeamColor(colors);
-        for (int i = 0; i<PlayerManager.online.size(); i++) {
-            uuid = PlayerManager.online.get(i);
+        for (int i = 0; i < plugin.getPlayerManager().getPlayers().size(); i++) {
+            uuid = plugin.getPlayerManager().getPlayers().get(i);
             team = alphabet[i];
             color = "&" + colors[i];
             teams.put(uuid, color+team);
         }
-    }
-
-    public String getTeam(Player p) {
-        if (!teams.containsKey(p.getUniqueId())) return "#";
-        return teams.get(p.getUniqueId());
     }
 
     public void shuffleTeamColor(char[] a) {

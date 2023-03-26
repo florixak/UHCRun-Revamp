@@ -4,8 +4,10 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameEndEvent;
-import me.florixak.uhcrun.manager.PlayerManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
+import me.florixak.uhcrun.player.PlayerState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.task.*;
 import me.florixak.uhcrun.utils.*;
 import org.bukkit.*;
@@ -18,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
-import java.util.UUID;
 
 public class GameManager {
 
@@ -42,28 +43,24 @@ public class GameManager {
 
             case WAITING:
                 plugin.getTasks().stopStartingCD();
-                // removeScoreboard();
                 break;
 
             case STARTING:
-                // removeScoreboard();
                 plugin.getTasks().startStartingCD();
                 break;
 
             case MINING:
-                // removeScoreboard();
-                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(this::setPlayersForGame);
-                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getKitsManager()::giveKits);
+                plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(this::setPlayersForGame);
+                plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getKitsManager()::giveKits);
                 plugin.getTeams().addToTeam();
                 teleportPlayers();
                 plugin.getTasks().startMiningCD();
                 SoundManager.playGameStarted(null, true);
                 Utils.broadcast(Messages.GAME_STARTED.toString());
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(MiningCd.count)));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
                 break;
 
             case FIGHTING:
-                // removeScoreboard();
                 Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
                 plugin.getTasks().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
@@ -71,14 +68,12 @@ public class GameManager {
                 break;
 
             case DEATHMATCH:
-                // removeScoreboard();
                 plugin.getTasks().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playDMBegan(player));
                 break;
 
             case ENDING:
-                // removeScoreboard();
                 plugin.getTasks().startEndingCD();
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getWinner()));
@@ -89,11 +84,12 @@ public class GameManager {
     public void checkGame() {
 
         if (isWaiting()) {
-            int min = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("min-players-to-start");
-            if (PlayerManager.online.size() >= min) {
+            int min = config.getInt("min-players-to-start");
+            if (plugin.getPlayerManager().getAlive().size() >= min) {
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playStartingSound(player));
                 setGameState(GameState.STARTING);
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.convertCountdown(StartingCd.count)));
+                Utils.broadcast(Messages.GAME_STARTING.toString()
+                        .replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCd.count)));
             }
             return;
         }
@@ -122,14 +118,9 @@ public class GameManager {
             all.kickPlayer(Messages.RESTARTING.toString());
         }
 
-        PlayerManager.kills.clear();
-
-        PlayerManager.alive.clear();
-        PlayerManager.spectators.clear();
-        PlayerManager.creator.clear();
-        PlayerManager.online.clear();
-
-        plugin.getKitsManager().kits.clear();
+        plugin.getPlayerManager().clearAlive();
+        plugin.getPlayerManager().clearDead();
+        plugin.getPlayerManager().clearPlayers();
 
         if (config.getBoolean("auto-map-reset", true)) {
             File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
@@ -246,17 +237,17 @@ public class GameManager {
         }
     }
 
-    public void setPlayersForGame(Player p) {
+    public void setPlayersForGame(UHCPlayer player) {
 
-        if (PlayerManager.isCreator(p)) {
-            PlayerManager.creator.remove(p.getUniqueId());
-        }
-        PlayerManager.alive.add(p.getUniqueId());
-        PlayerManager.kills.put(p.getUniqueId(), 0);
-        p.setGameMode(GameMode.SURVIVAL);
-        p.setHealth(p.getHealthScale());
-        p.setFoodLevel(20);
-        p.getInventory().clear();
+        /*if (PlayerManager.isCreator(player.getPlayer())) {
+            PlayerManager.creator.remove(player.getUUID());
+        }*/
+
+        player.setState(PlayerState.PLAYING);
+        player.getPlayer().setGameMode(GameMode.SURVIVAL);
+        player.getPlayer().setHealth(player.getPlayer().getHealthScale());
+        player.getPlayer().setFoodLevel(20);
+        player.getPlayer().getInventory().clear();
 
         // wereAlive = PlayerManager.alive.size();
     }
@@ -280,48 +271,43 @@ public class GameManager {
         p.teleport(location);
     }
 
-    public int getWereAlive() {
-        return PlayerManager.alive.size();
-    }
+    public void setSpectator(UHCPlayer p) {
 
-    public void setSpectator(Player p) {
+        p.setState(PlayerState.DEAD);
 
-        p.setAllowFlight(true);
-        p.setFlying(true);
+        p.getPlayer().setAllowFlight(true);
+        p.getPlayer().setFlying(true);
 
-        PlayerManager.spectators.add(p.getUniqueId());
-        plugin.getKitsManager().getSpectatorKit(p);
+        plugin.getKitsManager().getSpectatorKit(p.getPlayer());
 
-        new VanishUtils().toggleVanish(p);
+        new VanishUtils().toggleVanish(p.getPlayer());
 
-        p.teleport(new Location(
+        p.getPlayer().teleport(new Location(
                 Bukkit.getWorld(config.getString("game-world")),
-                p.getLocation().getX()+0,
-                p.getLocation().getY()+10,
-                p.getLocation().getZ()+0));
+                p.getPlayer().getLocation().getX()+0,
+                p.getPlayer().getLocation().getY()+10,
+                p.getPlayer().getLocation().getZ()+0));
 
     }
 
-    public void addKillTo(Player p) {
-        plugin.getStatistics().addKill(p.getUniqueId());
-        PlayerManager.kills.put(p.getUniqueId(), PlayerManager.kills.get(p.getUniqueId())+1);
+    public void addKillTo(UHCPlayer p) {
+        // plugin.getStatistics().addKill(p.getUUID()); TODO přidat na konec hry
+        p.addKill();
     }
-    public void addDeathTo(Player p) {
-        PlayerManager.alive.remove(p.getUniqueId());
-        PlayerManager.spectators.add(p.getUniqueId());
-        plugin.getStatistics().addDeath(p.getUniqueId());
+    public void addDeathTo(UHCPlayer p) {
+        plugin.getStatistics().addDeath(p);
     }
 
-    public Player getWinner() {
-        for (UUID uuid : PlayerManager.alive) {
-            if (uuid == null) return null;
-            return Bukkit.getPlayer(uuid);
+    public UHCPlayer getWinner() {
+        for (UHCPlayer p : plugin.getPlayerManager().getAlive()) {
+            if (!p.isOnline()) return null;
+            return p;
         }
         return null;
     }
     public String getWinnerName() {
         if (getWinner() == null) return "NONE";
-        return getWinner().getDisplayName();
+        return getWinner().getName();
     }
 
     public void runActivityRewards() {
@@ -347,7 +333,7 @@ public class GameManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.getOnlinePlayers().stream().filter(player -> PlayerManager.isOnline(player)).forEach(plugin.getScoreboardManager()::updateScoreboard);
+                Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getScoreboardManager()::updateScoreboard);
             }
         }.runTaskTimer(plugin, 0L, 20L);
     }

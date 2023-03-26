@@ -2,6 +2,7 @@ package me.florixak.uhcrun.action;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.action.actions.*;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
@@ -56,7 +57,7 @@ public class ActionManager {
                 item = item.contains(" ") ? item.split(" ", 2)[1] : "";
                 item = PlaceholderUtil.setPlaceholders(item, player);
 
-                action.execute(plugin, player, item);
+                action.execute(plugin, player.getPlayer(), item);
             }
         });
     }

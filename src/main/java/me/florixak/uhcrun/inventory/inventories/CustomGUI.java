@@ -1,10 +1,10 @@
 package me.florixak.uhcrun.inventory.inventories;
 
-
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.inventory.AbstractInventory;
 import me.florixak.uhcrun.inventory.InventoryBuilder;
 import me.florixak.uhcrun.inventory.InventoryItem;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemStackBuilder;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,7 +39,7 @@ public class CustomGUI extends AbstractInventory {
                 if (!config.contains("items." + entry + ".actions")) {
                     inventoryItem = new InventoryItem(builder.build());
                 } else {
-                    inventoryItem = new InventoryItem(builder.build()).addClickAction(p -> getPlugin().getActionManager().executeActions(p, config.getStringList("items." + entry + ".actions")));
+                    inventoryItem = new InventoryItem(builder.build()).addClickAction(player -> getPlugin().getActionManager().executeActions(player, config.getStringList("items." + entry + ".actions")));
                 }
 
                 if (config.contains("items." + entry + ".slots")) {
