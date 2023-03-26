@@ -6,6 +6,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -39,8 +40,8 @@ public class StartingCd extends BukkitRunnable {
         if (count <= startWarning) {
             Utils.broadcast(Messages.GAME_STARTING.toString()
                     .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
-            for (UUID uuid : PlayerManager.online) {
-                SoundManager.playStartingSound(Bukkit.getPlayer(uuid));
+            for (UHCPlayer player : plugin.getPlayerManager().getPlayers()) {
+                SoundManager.playStartingSound(player.getPlayer());
             }
         }
         plugin.getGame().checkGame();

@@ -111,7 +111,7 @@ public class SQLGetter {
     public void setRequiredXP(UUID uuid) {
         try {
             PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET REQUIRED_XP=? WHERE 'uuid'=?");
-            ps.setDouble(1, plugin.getLevelManager().setRequiredExp(uuid));
+            ps.setDouble(1, plugin.getLevelManager().setRequiredExp(plugin.getPlayerManager().getUHCPlayer(uuid)));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -123,7 +123,7 @@ public class SQLGetter {
             PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT REQUIRED_XP FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            double level = plugin.getLevelManager().setRequiredExp(uuid);
+            double level = 0;
             if (rs.next()) {
                 level = rs.getInt("REQUIRED_XP");
                 return level;
@@ -131,7 +131,7 @@ public class SQLGetter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return plugin.getLevelManager().setRequiredExp(uuid);
+        return 0;
     }
 
     public void addMoney(UUID uuid, double money) {

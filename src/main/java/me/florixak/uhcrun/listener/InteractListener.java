@@ -7,6 +7,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
@@ -46,8 +47,9 @@ public class InteractListener implements Listener {
     public void onTeleporterClick(InventoryClickEvent event) {
 
         Player p = (Player) event.getWhoClicked();
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        if (!PlayerManager.isSpectator(p)) return;
+        if (!uhcPlayer.isDead()) return;
 
         if (event.getClickedInventory() == p.getInventory()){
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
@@ -100,7 +102,7 @@ public class InteractListener implements Listener {
                 }
 
                 // CREATOR
-                if (PlayerManager.isCreator(p)) {
+                /*if (PlayerManager.isCreator(p)) {
                     if (item.getType() == Material.STICK) {
                         plugin.getLobbyManager().setWaitingLobby(p.getLocation());
                         p.sendMessage(Messages.SETLOBBY_WAITING.toString());
@@ -109,11 +111,11 @@ public class InteractListener implements Listener {
                         plugin.getLobbyManager().setEndingLobby(p.getLocation());
                         p.sendMessage(Messages.SETLOBBY_ENDING.toString());
                     }
-                }
+                }*/
             }
         }
 
-        if (PlayerManager.isSpectator(p)) {
+       /* if (PlayerManager.isSpectator(p)) {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -133,6 +135,6 @@ public class InteractListener implements Listener {
                     new BungeeAction().execute(plugin, p, "lobby");
                 }
             }
-        }
+        }*/
     }
 }

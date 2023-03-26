@@ -44,6 +44,8 @@ public class PlayerListener implements Listener {
         if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(player.getPlayer());
         plugin.getStatistics().setData(player);
 
+        plugin.getPlayerManager().addPlayer(player);
+
         if (plugin.getGame().isPlaying() || player.isDead()) {
             plugin.getGame().setSpectator(player);
             return;
@@ -70,9 +72,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
+        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
         event.setQuitMessage(null);
 
         plugin.getScoreboardManager().removeScoreboard(p);
+        plugin.getPlayerManager().removePlayer(player);
 
         /*if (PlayerManager.isCreator(p)) {
             PlayerManager.creator.remove(p.getUniqueId());
@@ -88,7 +92,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        UHCPlayer killer = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId());
+
+        UHCPlayer killer = event.getEntity().getKiller() != null ?
+                plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId()) :
+                null;
         UHCPlayer victim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
         plugin.getServer().getPluginManager().callEvent(new GameKillEvent(killer, victim));

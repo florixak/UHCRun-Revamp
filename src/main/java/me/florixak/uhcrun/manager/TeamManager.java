@@ -24,15 +24,16 @@ public class TeamManager {
     }
 
     public void addToTeam() {
-        UHCPlayer uuid = null;
+        UHCPlayer uhcPlayer = null;
         char team = 0;
         String color;
         shuffleTeamColor(colors);
         for (int i = 0; i < plugin.getPlayerManager().getPlayers().size(); i++) {
-            uuid = plugin.getPlayerManager().getPlayers().get(i);
+            uhcPlayer = plugin.getPlayerManager().getPlayers().get(i);
             team = alphabet[i];
             color = "&" + colors[i];
-            teams.put(uuid, color+team);
+            teams.put(uhcPlayer, color+team);
+            uhcPlayer.setTeam(teams.get(uhcPlayer));
         }
     }
 

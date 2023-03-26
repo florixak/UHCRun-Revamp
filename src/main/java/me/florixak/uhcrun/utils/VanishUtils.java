@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.utils;
 
-import me.florixak.uhcrun.player.PlayerManager;
+import me.florixak.uhcrun.UHCRun;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,13 +20,12 @@ public class VanishUtils implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        PlayerManager.spectators.forEach(hidden -> event.getPlayer().hidePlayer(Bukkit.getPlayer(hidden)));
+        UHCRun.getInstance().getPlayerManager().getDead().forEach(hidden -> event.getPlayer().hidePlayer(hidden.getPlayer()));
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-        PlayerManager.spectators.remove(player.getUniqueId());
     }
 }

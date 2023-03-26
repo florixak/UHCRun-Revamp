@@ -45,13 +45,13 @@ public final class UHCRun extends JavaPlugin {
 
     public MySQL mysql;
     public SQLGetter data;
+
     private GameManager gameManager;
     private ConfigManager configManager;
     private PlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
     private LocationManager lobbyManager;
     private BorderManager borderManager;
-    private Utils utilities;
     private ActionManager actionManager;
     private InventoryManager inventoryManager;
     private StatisticsManager statisticManager;
@@ -60,6 +60,7 @@ public final class UHCRun extends JavaPlugin {
     private TaskManager taskManager;
     private TeamManager teamManager;
 
+    private Utils utilities;
     private TeleportUtils teleportUtil;
 
     public static UHCRun getInstance() {
@@ -92,7 +93,6 @@ public final class UHCRun extends JavaPlugin {
         this.taskManager = new TaskManager(this);
 
         this.utilities = new Utils(this);
-
         this.teleportUtil = new TeleportUtils(this);
 
         registerAddons();

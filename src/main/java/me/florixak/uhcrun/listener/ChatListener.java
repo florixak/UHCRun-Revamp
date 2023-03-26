@@ -91,7 +91,7 @@ public class ChatListener implements Listener {
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : "")));
+                        .replace("%team%", player.getTeam() != null ? player.getTeam() : "")));
 
                 // TODO - gg odměna
             }
@@ -104,7 +104,7 @@ public class ChatListener implements Listener {
                             .replace("%message%", "&8" + event.getMessage())
                             .replace("%luckperms-prefix%", prefix)
                             .replace("%level%", level)
-                            .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : ""));
+                            .replace("%team%", player.getTeam() != null ? player.getTeam() : ""));
                     return;
                 }
                 players.sendMessage(format
@@ -112,7 +112,7 @@ public class ChatListener implements Listener {
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", !plugin.getTeams().teams.isEmpty() ? player.getTeam() : ""));
+                        .replace("%team%", player.getTeam() != null ? player.getTeam() : ""));
             }
         }
     }

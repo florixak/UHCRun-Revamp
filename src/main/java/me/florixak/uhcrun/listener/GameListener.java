@@ -15,6 +15,7 @@ import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -61,8 +62,6 @@ public class GameListener implements Listener {
         double money_for_lose;
         double level_xp_for_lose;
 
-        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner.getName() != null ? winner.getName() : "NONE"));
-
         for (UHCPlayer p : plugin.getPlayerManager().getPlayers()) {
 
             money_for_kills = config.getDouble("coins-per-kill") * p.getKills();
@@ -78,6 +77,7 @@ public class GameListener implements Listener {
                 plugin.getStatistics().addMoney(p, money_for_win + money_for_kills);
                 plugin.getLevelManager().addPlayerLevel(p, level_xp_for_win + level_xp_for_kills);
                 titleAction.execute(plugin, p.getPlayer(), "Victory!");
+                Utils.broadcast(Messages.WINNER.toString().replace("%winner%", p != null ? p.getName() : "NONE"));
                 for (String reward : win_rewards) {
                     p.sendMessage(TextUtils.color(reward
                                     .replace("%coins-for-win%", String.valueOf(money_for_win))
@@ -112,33 +112,31 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGameKill(GameKillEvent event) {
-        Player p1 = event.getKiller();
-        Player p2 = event.getVictim();
-
-        UHCPlayer killer = plugin.getPlayerManager().getUHCPlayer(p1.getUniqueId());
-        UHCPlayer victim = plugin.getPlayerManager().getUHCPlayer(p2.getUniqueId());
-
-        victim.getPlayer().setHealth(victim.getPlayer().getMaxHealth());
-        victim.getPlayer().setFoodLevel(20);
-        victim.getPlayer().setLevel(0);
-        victim.getPlayer().setTotalExperience(0);
-        victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
+        UHCPlayer killer = event.getKiller();
+        UHCPlayer victim = event.getVictim();
 
         if (killer instanceof Player) {
             plugin.getGame().addKillTo(killer);
             // PerksManager.givePerk(killer); TODO perk
 
-            killer.getPlayer().giveExp(config.getInt("xp-per-kill"));
+            killer.getPlayer().giveExp(victim.getPlayer().getTotalExperience()/3);
 
             Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
         } else {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
+        victim.getPlayer().setHealth(20);
+        victim.getPlayer().setFoodLevel(20);
+        victim.getPlayer().setLevel(0);
+        victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
+        victim.getPlayer().setTotalExperience(0);
+
         victim.getPlayer().getInventory().clear();
-        plugin.getGame().setSpectator(victim);
 
         plugin.getGame().addDeathTo(victim);
+        plugin.getGame().setSpectator(victim);
+
         plugin.getGame().checkGame();
     }
 

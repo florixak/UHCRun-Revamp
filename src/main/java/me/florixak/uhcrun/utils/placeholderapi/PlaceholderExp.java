@@ -51,7 +51,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("team")) {
             if (plugin.getGame().isWaiting() || plugin.getGame().isStarting()) return PlaceholderAPI.setPlaceholders(p, "%luckperms_prefix%");
 
-            return plugin.getTeams().getTeam(p) + " | ";
+            return plugin.getPlayerManager().getUHCPlayer(p.getUniqueId()).getTeam() + " | ";
         }
         return null;
     }

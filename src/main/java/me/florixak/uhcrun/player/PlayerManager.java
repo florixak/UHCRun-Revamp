@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.player;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -23,7 +22,12 @@ public class PlayerManager {
 
     public void addPlayer(UHCPlayer p) {
         if (players.contains(p)) return;
-        players.add(p);
+        this.players.add(p);
+    }
+
+    public void removePlayer(UHCPlayer p) {
+        if (!players.contains(p)) return;
+        this.players.remove(p);
     }
 
     public List<UHCPlayer> getPlayers() {
@@ -35,25 +39,26 @@ public class PlayerManager {
         alive.add(p);
     }
 
-    public int getNumberOfAlive() {
-        return this.alive.size();
+    public void removeAlive(UHCPlayer p) {
+        if (!alive.contains(p)) return;
+        alive.remove(p);
     }
 
     public List<UHCPlayer> getAlive() {
         return this.alive;
     }
 
-    public UHCPlayer newUHCPlayer(Player p) {
-        return new UHCPlayer(p.getUniqueId(), p.getName());
+    public void addDead(UHCPlayer p) {
+        if (dead.contains(p)) return;
+        dead.add(p);
     }
 
-    public UHCPlayer getUHCPlayer(String name) {
-        for (UHCPlayer uhcPlayer : getPlayers()) {
-            if (uhcPlayer.getName().equals(name)) {
-                return uhcPlayer;
-            }
-        }
-        return null;
+    public List<UHCPlayer> getDead() {
+        return this.alive;
+    }
+
+    public UHCPlayer newUHCPlayer(Player p) {
+        return new UHCPlayer(p.getUniqueId(), p.getName());
     }
 
     public UHCPlayer getUHCPlayer(UUID uuid) {
@@ -68,11 +73,9 @@ public class PlayerManager {
     public void clearAlive() {
         this.alive.clear();
     }
-
     public void clearPlayers() {
         this.players.clear();
     }
-
     public void clearDead() {
         this.dead.clear();
     }

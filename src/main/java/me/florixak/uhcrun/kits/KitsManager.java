@@ -14,12 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 public class KitsManager {
 
-    public void giveKits(UHCPlayer p) {
+    public void giveKit(UHCPlayer p) {
         p.sendMessage("You chose " + p.getKit() + " kit");
 
         switch (p.getKit()) {

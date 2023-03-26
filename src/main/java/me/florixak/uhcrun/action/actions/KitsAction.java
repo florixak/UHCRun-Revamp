@@ -5,6 +5,7 @@ import me.florixak.uhcrun.action.Action;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
 import me.florixak.uhcrun.kits.Kits;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.entity.Player;
 
@@ -18,49 +19,51 @@ public class KitsAction implements Action {
     @Override
     public void execute(UHCRun plugin, Player player, String data) {
 
-        if (data.equals("none")) {
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.NONE) return;
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(player.getUniqueId());
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.NONE);
+        if (data.equals("none")) {
+            if (uhcPlayer.getKit() == Kits.NONE) return;
+
+            uhcPlayer.setKit(Kits.NONE);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("starter")) {
 
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.STARTER) return;
+            if (uhcPlayer.getKit() == Kits.STARTER) return;
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.STARTER);
+            uhcPlayer.setKit(Kits.STARTER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
         if (data.equals("miner")) {
 
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.MINER) return;
+            if (uhcPlayer.getKit() == Kits.MINER) return;
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.MINER);
+            uhcPlayer.setKit(Kits.MINER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("enchanter")) {
 
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.ENCHANTER) return;
+            if (uhcPlayer.getKit() == Kits.ENCHANTER) return;
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.ENCHANTER);
+            uhcPlayer.setKit(Kits.ENCHANTER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("healer")) {
 
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.HEALER) return;
+            if (uhcPlayer.getKit() == Kits.HEALER) return;
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.HEALER);
+            uhcPlayer.setKit(Kits.HEALER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 
         if (data.equals("horse_rider")) {
 
-            if (plugin.getKitsManager().getKit(player.getUniqueId()) == Kits.HORSE_RIDER) return;
+            if (uhcPlayer.getKit() == Kits.HORSE_RIDER) return;
 
-            plugin.getKitsManager().kits.put(player.getUniqueId(), Kits.HORSE_RIDER);
+            uhcPlayer.setKit(Kits.HORSE_RIDER);
             player.sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
     }

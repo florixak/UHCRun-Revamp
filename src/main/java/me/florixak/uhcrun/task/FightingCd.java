@@ -6,6 +6,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.SoundManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -37,8 +38,8 @@ public class FightingCd extends BukkitRunnable {
         if (count <= 10) {
             Utils.broadcast(Messages.DEATHMATCH_STARTING.toString()
                     .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
-            for (UUID uuid : PlayerManager.online) {
-                SoundManager.playDMStarts(Bukkit.getPlayer(uuid));
+            for (UHCPlayer player : plugin.getPlayerManager().getPlayers()) {
+                SoundManager.playDMStarts(player.getPlayer());
             }
         }
         plugin.getGame().checkGame();

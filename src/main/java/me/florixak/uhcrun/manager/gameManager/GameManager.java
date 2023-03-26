@@ -51,11 +51,11 @@ public class GameManager {
 
             case MINING:
                 plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(this::setPlayersForGame);
-                plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getKitsManager()::giveKits);
+                // plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getKitsManager()::giveKits);
                 plugin.getTeams().addToTeam();
                 teleportPlayers();
                 plugin.getTasks().startMiningCD();
-                SoundManager.playGameStarted(null, true);
+                // SoundManager.playGameStarted(null, true);
                 Utils.broadcast(Messages.GAME_STARTED.toString());
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
                 break;
@@ -244,10 +244,14 @@ public class GameManager {
         }*/
 
         player.setState(PlayerState.PLAYING);
+        plugin.getPlayerManager().addAlive(player);
+
+        player.getPlayer().getInventory().clear();
         player.getPlayer().setGameMode(GameMode.SURVIVAL);
         player.getPlayer().setHealth(player.getPlayer().getHealthScale());
         player.getPlayer().setFoodLevel(20);
-        player.getPlayer().getInventory().clear();
+
+        plugin.getKitsManager().giveKit(player);
 
         // wereAlive = PlayerManager.alive.size();
     }
@@ -278,9 +282,10 @@ public class GameManager {
         p.getPlayer().setAllowFlight(true);
         p.getPlayer().setFlying(true);
 
-        plugin.getKitsManager().getSpectatorKit(p.getPlayer());
+        p.getPlayer().setGameMode(GameMode.SPECTATOR);
 
-        new VanishUtils().toggleVanish(p.getPlayer());
+        // plugin.getKitsManager().getSpectatorKit(p.getPlayer());
+        // new VanishUtils().toggleVanish(p.getPlayer());
 
         p.getPlayer().teleport(new Location(
                 Bukkit.getWorld(config.getString("game-world")),
@@ -291,11 +296,14 @@ public class GameManager {
     }
 
     public void addKillTo(UHCPlayer p) {
-        // plugin.getStatistics().addKill(p.getUUID()); TODO přidat na konec hry
+        plugin.getStatistics().addKill(p); // TODO přidat na konec hry
         p.addKill();
     }
     public void addDeathTo(UHCPlayer p) {
         plugin.getStatistics().addDeath(p);
+        plugin.getPlayerManager().removeAlive(p);
+        plugin.getPlayerManager().addDead(p);
+        p.setTeam(null);
     }
 
     public UHCPlayer getWinner() {

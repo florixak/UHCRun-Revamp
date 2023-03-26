@@ -4,10 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.UHCPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.util.UUID;
 
 public class LevelManager {
 

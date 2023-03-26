@@ -1,12 +1,8 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.utils.XSeries.XSound;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class SoundManager {
 
@@ -22,14 +18,8 @@ public class SoundManager {
         XSound.BLOCK_STONE_BUTTON_CLICK_ON.play(player, 1f, 1f);
     }
 
-    public static void playGameStarted(Player player, boolean toAll) {
-        if (!toAll) {
-            XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
-            return;
-        }
-        for (UUID uuid : PlayerManager.online) {
-            XSound.ENTITY_PLAYER_LEVELUP.play(Bukkit.getPlayer(uuid), 1f, 1f);
-        }
+    public static void playGameStarted(Player player) {
+        XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
     }
 
     public static void playKillSound(Player player) {
