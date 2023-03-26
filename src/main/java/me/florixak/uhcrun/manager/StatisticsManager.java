@@ -71,7 +71,7 @@ public class StatisticsManager {
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    public void takeMoney(Player p, double amount) {
+    /*public void takeMoney(UHCPlayer p, double amount) {
         Economy economy = UHCRun.getVault();
         if (config.getBoolean("use-Vault", true)) {
             EconomyResponse r = economy.withdrawPlayer(p, amount);
@@ -95,7 +95,7 @@ public class StatisticsManager {
                 plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
             }
         }
-    }
+    }*/
 
     public int getWins(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {

@@ -92,6 +92,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
+        // event.getDrops().clear(); TODO drops from kill
 
         UHCPlayer killer = event.getEntity().getKiller() != null ?
                 plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId()) :
