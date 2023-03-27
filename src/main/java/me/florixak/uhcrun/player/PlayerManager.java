@@ -56,7 +56,7 @@ public class PlayerManager {
     }
 
     public List<UHCPlayer> getDead() {
-        return this.alive;
+        return this.dead;
     }
 
     public UHCPlayer newUHCPlayer(Player p) {
