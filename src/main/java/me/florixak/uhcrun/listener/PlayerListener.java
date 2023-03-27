@@ -39,15 +39,15 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        UHCPlayer player = new UHCPlayer(p.getUniqueId(), p.getName());
+        UHCPlayer uhcPlayer = new UHCPlayer(p.getUniqueId(), p.getName());
 
-        if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(player.getPlayer());
-        plugin.getStatistics().setData(player);
+        if (config.getBoolean("MySQL.enabled", true)) plugin.data.createPlayer(uhcPlayer.getPlayer());
+        plugin.getStatistics().setData(uhcPlayer);
 
-        plugin.getPlayerManager().addPlayer(player);
+        plugin.getPlayerManager().addPlayer(uhcPlayer);
 
-        if (plugin.getGame().isPlaying() || player.isDead()) {
-            plugin.getGame().setSpectator(player);
+        if (plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
+            plugin.getGame().setSpectator(uhcPlayer);
             return;
         }
 
@@ -61,7 +61,7 @@ public class PlayerListener implements Listener {
         p.setFlying(false);
         p.setAllowFlight(false);
 
-        plugin.getKitsManager().getWaitingKit(player);
+        plugin.getKitsManager().getWaitingKit(uhcPlayer);
 
         Utils.broadcast(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
         p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
@@ -71,15 +71,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        Player p = event.getPlayer();
-        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
         event.setQuitMessage(null);
 
-        plugin.getScoreboardManager().removeScoreboard(p);
-        plugin.getPlayerManager().removePlayer(player);
+        plugin.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
+        plugin.getPlayerManager().removePlayer(uhcPlayer);
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
-            Utils.broadcast(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
+            Utils.broadcast(Messages.QUIT.toString().replace("%player%", uhcPlayer.getName()));
     }
 
     @EventHandler

@@ -26,17 +26,17 @@ public class StatisticsManager {
         this.sqlGetter = plugin.data;
     }
 
-    public void setData(UHCPlayer p) {
+    public void setData(UHCPlayer uhcPlayer) {
 
-        if (data.getConfigurationSection("statistics." + p.getUUID().toString()) != null) return;
+        if (data.getConfigurationSection("statistics." + uhcPlayer.getUUID().toString()) != null) return;
 
-        data.set("statistics." + p.getUUID().toString() + ".name", p.getName());
-        data.set("statistics." + p.getUUID().toString() + ".level", 1);
-        data.set("statistics." + p.getUUID().toString() + ".requiredXP", plugin.getLevelManager().setRequiredExp(p));
-        data.set("statistics." + p.getUUID().toString() + ".money", config.getDouble("string-coins"));
-        data.set("statistics." + p.getUUID().toString() + ".wins", 0);
-        data.set("statistics." + p.getUUID().toString() + ".kills", 0);
-        data.set("statistics." + p.getUUID().toString() + ".deaths", 0);
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".name", uhcPlayer.getName());
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".level", 1);
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".requiredXP", plugin.getLevelManager().setRequiredExp(uhcPlayer));
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".money", config.getDouble("string-coins"));
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".wins", 0);
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".kills", 0);
+        data.set("statistics." + uhcPlayer.getUUID().toString() + ".deaths", 0);
 
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
