@@ -88,7 +88,7 @@ public final class UHCRun extends JavaPlugin {
         this.inventoryManager.onEnable(this);
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
-        this.kitsManager = new KitsManager();
+        this.kitsManager = new KitsManager(this);
         this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
 

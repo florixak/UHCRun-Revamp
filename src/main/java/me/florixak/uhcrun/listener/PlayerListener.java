@@ -71,7 +71,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+        Player p = event.getPlayer();
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
         event.setQuitMessage(null);
 
         plugin.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
@@ -86,12 +87,12 @@ public class PlayerListener implements Listener {
         event.setDeathMessage(null);
         // event.getDrops().clear(); TODO drops from kill
 
-        UHCPlayer killer = event.getEntity().getKiller() != null ?
+        UHCPlayer uhcKiller = event.getEntity().getKiller() != null ?
                 plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId()) :
                 null;
-        UHCPlayer victim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
+        UHCPlayer uhcVictim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
-        plugin.getServer().getPluginManager().callEvent(new GameKillEvent(killer, victim));
+        plugin.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
     }
 
     @EventHandler

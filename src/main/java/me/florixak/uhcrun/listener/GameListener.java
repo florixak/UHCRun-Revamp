@@ -227,21 +227,18 @@ public class GameListener implements Listener {
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
 
-        Player damager = (Player) event.getDamager();
-        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
-
-        if (!plugin.getGame().isPlaying() || player.isDead()) {
+        if (!plugin.getGame().isPlaying() || plugin.getGame().gameState == GameState.MINING) {
             event.setCancelled(true);
             return;
         }
 
-        if (plugin.getGame().gameState == GameState.MINING) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    event.setCancelled(true);
-                }
-            }
+        Player damager = (Player) event.getDamager();
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
+
+        if (damager instanceof Player && uhcPlayer.isDead()) {
+            event.setCancelled(true);
         }
+
     }
 
     @EventHandler

@@ -1,6 +1,8 @@
 package me.florixak.uhcrun.player;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,19 @@ public class PlayerManager {
         }
         return null;
     }
+
+    public void clearPlayerInventory(Player player) {
+        player.getInventory().clear();
+
+        //clear player armor
+        ItemStack[] emptyArmor = new ItemStack[4];
+        for(int i=0 ; i<emptyArmor.length ; i++){
+            emptyArmor[i] = new ItemStack(Material.AIR);
+        }
+        player.getInventory().setArmorContents(emptyArmor);
+
+    }
+
 
     public void clearAlive() {
         this.alive.clear();

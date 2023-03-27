@@ -16,29 +16,36 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class KitsManager {
 
-    public void giveKit(UHCPlayer p) {
-        p.sendMessage("You chose " + p.getKit() + " kit");
+    private UHCRun plugin;
 
-        switch (p.getKit()) {
+    public KitsManager(UHCRun plugin) {
+        this.plugin = plugin;
+    }
+
+    public void giveKit(UHCPlayer uhcPlayer) {
+
+        uhcPlayer.sendMessage("You chose " + uhcPlayer.getKit() + " kit");
+
+        switch (uhcPlayer.getKit()) {
             case NONE:
                 break;
             case STARTER:
-                getStarter(p);
+                getStarter(uhcPlayer);
                 break;
             case MINER:
-                getMiner(p);
+                getMiner(uhcPlayer);
                 break;
             case ENCHANTER:
-                getEnchanter(p);
+                getEnchanter(uhcPlayer);
                 break;
             case HEALER:
-                getHealer(p);
+                getHealer(uhcPlayer);
                 break;
             case HORSE_RIDER:
-                getHorseRider(p);
+                getHorseRider(uhcPlayer);
                 break;
             default:
-                p.sendMessage("ERROR with kits");
+                uhcPlayer.sendMessage("ERROR with kits");
                 break;
         }
     }

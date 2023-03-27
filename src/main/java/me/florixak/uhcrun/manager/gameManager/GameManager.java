@@ -237,21 +237,21 @@ public class GameManager {
         }
     }
 
-    public void setPlayersForGame(UHCPlayer player) {
+    public void setPlayersForGame(UHCPlayer uhcPlayer) {
 
         /*if (PlayerManager.isCreator(player.getPlayer())) {
             PlayerManager.creator.remove(player.getUUID());
         }*/
 
-        player.setState(PlayerState.PLAYING);
-        plugin.getPlayerManager().addAlive(player);
+        uhcPlayer.setState(PlayerState.PLAYING);
+        plugin.getPlayerManager().addAlive(uhcPlayer);
 
-        player.getPlayer().getInventory().clear();
-        player.getPlayer().setGameMode(GameMode.SURVIVAL);
-        player.getPlayer().setHealth(player.getPlayer().getHealthScale());
-        player.getPlayer().setFoodLevel(20);
+        uhcPlayer.getPlayer().getInventory().clear();
+        uhcPlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
+        uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getHealthScale());
+        uhcPlayer.getPlayer().setFoodLevel(20);
 
-        plugin.getKitsManager().giveKit(player);
+        plugin.getKitsManager().giveKit(uhcPlayer);
 
         // wereAlive = PlayerManager.alive.size();
     }

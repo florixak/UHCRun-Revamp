@@ -33,14 +33,14 @@ public class PlaceholderUtil {
         StatisticsManager statisticManager = plugin.getStatistics();
         LevelManager levelManager = plugin.getLevelManager();
 
-        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
         FileConfiguration perks = plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
 
-        if (text.contains("%player%") && player != null)
-            text = text.replace("%player%", player.getName());
+        if (text.contains("%player%") && uhcPlayer != null)
+            text = text.replace("%player%", uhcPlayer.getName());
 
         /*if (text.contains("%ping%"))
             text = text.replace("%ping%", "" + player.getPing() + " ms");*/
@@ -55,12 +55,12 @@ public class PlaceholderUtil {
             text = text.replace("%min_online%", String.valueOf(config.getInt("min-players")));
 
         if (text.contains("%money%")) {
-            String formatted = Utils.formatMoney(player.getUUID());
+            String formatted = Utils.formatMoney(uhcPlayer.getUUID());
             text = text.replace("%money%", String.valueOf(formatted));
         }
 
         if (text.contains("%kills%")) {
-            text = text.replace("%kills%", String.valueOf(player.getKills()));
+            text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
         }
 
         if (text.contains("%time%")) {
@@ -83,7 +83,7 @@ public class PlaceholderUtil {
 
         if (text.contains("%kit%")) {
             if (config.getBoolean("lobby-items.kits.enabled", true)) {
-                text = text.replace("%kit%", String.valueOf(player.getKit()));
+                text = text.replace("%kit%", String.valueOf(uhcPlayer.getKit()));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
@@ -92,7 +92,7 @@ public class PlaceholderUtil {
 
         if (text.contains("%perk%")) {
             if (config.getBoolean("lobby-items.perks.enabled", true)) {
-                text = text.replace("%perk%", String.valueOf(player.getPerk()));
+                text = text.replace("%perk%", String.valueOf(uhcPlayer.getPerk()));
             }
             else {
                 text = text.replace("%perk%", "DISABLED");
@@ -113,27 +113,27 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%stats-wins%")) {
-            text = text.replace("%stats-wins%", String.valueOf(statisticManager.getWins(player)));
+            text = text.replace("%stats-wins%", String.valueOf(statisticManager.getWins(uhcPlayer)));
         }
         if (text.contains("%stats-kills%")) {
-            text = text.replace("%stats-kills%", String.valueOf(statisticManager.getKills(player)));
+            text = text.replace("%stats-kills%", String.valueOf(statisticManager.getKills(uhcPlayer)));
         }
         if (text.contains("%stats-deaths%")) {
-            text = text.replace("%stats-deaths%", String.valueOf(statisticManager.getDeaths(player)));
+            text = text.replace("%stats-deaths%", String.valueOf(statisticManager.getDeaths(uhcPlayer)));
         }
         if (text.contains("%stats-level%")) {
-            text = text.replace("%stats-level%", String.valueOf(levelManager.getPlayerLevel(player)));
+            text = text.replace("%stats-level%", String.valueOf(levelManager.getPlayerLevel(uhcPlayer)));
         }
         if (text.contains("%requiredXP%")) {
             DecimalFormat format = new DecimalFormat("#######0");
-            text = text.replace("%requiredXP%", format.format(levelManager.getRequiredExp(player)));
+            text = text.replace("%requiredXP%", format.format(levelManager.getRequiredExp(uhcPlayer)));
         }
 
         if (text.contains("%winner%")) {
             text = text.replace("%winner%", plugin.getGame().getWinnerName());
         }
 
-        if (text.contains("%team%")) text = text.replace("%team%", player.getTeam());
+        if (text.contains("%team%")) text = text.replace("%team%", uhcPlayer.getTeam());
 
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";
@@ -146,7 +146,7 @@ public class PlaceholderUtil {
             ex.printStackTrace();
         }*/
 
-        if (PAPI && player != null) text = PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
+        if (PAPI && uhcPlayer != null) text = PlaceholderAPI.setPlaceholders(uhcPlayer.getPlayer(), text);
 
         return text;
 
