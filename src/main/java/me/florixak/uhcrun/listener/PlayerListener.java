@@ -35,7 +35,7 @@ public class PlayerListener implements Listener {
         event.setJoinMessage(null);
 
         if (plugin.getGame().isEnding()) {
-            p.kickPlayer("UHCRun is restarting!");
+            p.kickPlayer("UHC Run is restarting!");
             return;
         }
 
@@ -63,7 +63,7 @@ public class PlayerListener implements Listener {
 
         plugin.getKitsManager().getWaitingKit(player);
 
-        Bukkit.broadcastMessage(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
+        Utils.broadcast(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
         p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
 
         plugin.getGame().checkGame();
@@ -77,13 +77,6 @@ public class PlayerListener implements Listener {
 
         plugin.getScoreboardManager().removeScoreboard(p);
         plugin.getPlayerManager().removePlayer(player);
-
-        /*if (PlayerManager.isCreator(p)) {
-            PlayerManager.creator.remove(p.getUniqueId());
-        }
-        if (PlayerManager.isSpectator(p)){
-            PlayerManager.spectators.remove(p.getUniqueId());
-        }*/
 
         if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
             Utils.broadcast(Messages.QUIT.toString().replace("%player%", p.getDisplayName()));
@@ -107,7 +100,7 @@ public class PlayerListener implements Listener {
         if (plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING
                 || plugin.getGame().gameState == GameState.ENDING
-                //|| !PlayerManager.isAlive(event.getPlayer())
+                || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
         ) {
             event.setCancelled(true);
         }
@@ -117,7 +110,9 @@ public class PlayerListener implements Listener {
     public void onItemPickUp(PlayerPickupItemEvent event) {
         if (plugin.getGame().gameState == GameState.WAITING
                 || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+                || plugin.getGame().gameState == GameState.ENDING
+                || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
+        ) {
             event.setCancelled(true);
         }
     }
