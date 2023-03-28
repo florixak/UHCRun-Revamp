@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.perks;
 
-public enum Perks {
+public enum PerkType {
 
     NONE,
     STRENGTH,

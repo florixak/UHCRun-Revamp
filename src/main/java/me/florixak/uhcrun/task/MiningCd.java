@@ -2,7 +2,6 @@ package me.florixak.uhcrun.task;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.manager.gameManager.GameManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;

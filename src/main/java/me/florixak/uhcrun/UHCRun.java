@@ -138,8 +138,8 @@ public final class UHCRun extends JavaPlugin {
     @Override
     public void onDisable() {
         inventoryManager.onDisable();
-        teamManager.onDisable();
 
+        gameManager.onDisable();
         disconnectDatabase();
 
     }

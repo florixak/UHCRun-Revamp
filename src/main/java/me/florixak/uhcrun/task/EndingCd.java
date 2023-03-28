@@ -2,6 +2,7 @@ package me.florixak.uhcrun.task;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,8 +22,7 @@ public class EndingCd extends BukkitRunnable {
     public void run() {
         if (count <= 0) {
             cancel();
-            plugin.getBorderManager().resetBorder();
-            plugin.getGame().resetGame();
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
             return;
         }
         count--;

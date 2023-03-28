@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class PerksManager {
 
-    public static HashMap<UUID, Perks> perks = new HashMap<>();
+    public static HashMap<UUID, PerkType> perks = new HashMap<>();
 
     public static void givePerk(Player p) {
         p.sendMessage("Received " + getPerk(p.getUniqueId()) + " kit");
@@ -48,14 +48,14 @@ public class PerksManager {
         }
     }
 
-    public static void registerPerk(Player p, Perks perk) {
+    public static void registerPerk(Player p, PerkType perk) {
         // add security for reregister perk
 
         perks.remove(p.getUniqueId());
         perks.put(p.getUniqueId(), perk);
     }
 
-    public static Perks getPerk(UUID uuid) {
+    public static PerkType getPerk(UUID uuid) {
         return perks.get(uuid);
     }
 

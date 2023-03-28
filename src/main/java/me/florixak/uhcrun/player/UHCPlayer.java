@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.player;
 
-import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.perks.Perks;
+import me.florixak.uhcrun.kits.KitType;
+import me.florixak.uhcrun.perks.PerkType;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,8 +18,8 @@ public class UHCPlayer {
     private String team;
 
     private int kills;
-    private Kits kit;
-    private Perks perk;
+    private KitType kit;
+    private PerkType perk;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -28,8 +28,8 @@ public class UHCPlayer {
         setState(PlayerState.WAITING);
 
         this.kills = 0;
-        this.kit = Kits.NONE;
-        this.perk = Perks.NONE;
+        this.kit = KitType.NONE;
+        this.perk = PerkType.NONE;
     }
 
     public UUID getUUID() {
@@ -87,11 +87,11 @@ public class UHCPlayer {
         return this.kit != null;
     }
 
-    public Kits getKit() {
+    public KitType getKit() {
         return this.kit;
     }
 
-    public void setKit(Kits kit) {
+    public void setKit(KitType kit) {
         this.kit = kit;
     }
 
@@ -99,11 +99,11 @@ public class UHCPlayer {
         return this.perk != null;
     }
 
-    public Perks getPerk() {
+    public PerkType getPerk() {
         return this.perk;
     }
 
-    public void setPerk(Perks perk) {
+    public void setPerk(PerkType perk) {
         this.perk = perk;
     }
 

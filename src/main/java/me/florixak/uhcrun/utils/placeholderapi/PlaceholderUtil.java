@@ -3,12 +3,8 @@ package me.florixak.uhcrun.utils.placeholderapi;
 import me.florixak.uhcrun.UHCRun;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.kits.Kits;
-import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.task.DeathMCd;
 import me.florixak.uhcrun.task.FightingCd;
@@ -79,7 +75,7 @@ public class PlaceholderUtil {
             text = text.replace("%border%", "+" + format.format(borderManager.getSize()) + " -" + format.format(borderManager.getSize()));
         }
 
-        if (text.contains("%alive%")) text = text.replace("%alive%", String.valueOf(plugin.getPlayerManager().getAlive().size()));
+        if (text.contains("%alive%")) text = text.replace("%alive%", String.valueOf(plugin.getPlayerManager().getAliveList().size()));
 
         if (text.contains("%kit%")) {
             if (config.getBoolean("lobby-items.kits.enabled", true)) {

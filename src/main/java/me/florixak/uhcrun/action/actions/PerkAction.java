@@ -5,7 +5,7 @@ import me.florixak.uhcrun.action.Action;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.inventory.InventoryListener;
-import me.florixak.uhcrun.perks.Perks;
+import me.florixak.uhcrun.perks.PerkType;
 import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -29,9 +29,9 @@ public class PerkAction implements Action {
 
         if (data.equals("none")) {
 
-            if (PerksManager.getPerk(player.getUniqueId()) == Perks.NONE) return;
+            if (PerksManager.getPerk(player.getUniqueId()) == PerkType.NONE) return;
 
-            PerksManager.registerPerk(player, Perks.NONE);
+            PerksManager.registerPerk(player, PerkType.NONE);
             player.sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", TextUtils.color(InventoryListener.itemStack.getItemMeta().getDisplayName() + "&f")));
         }
 

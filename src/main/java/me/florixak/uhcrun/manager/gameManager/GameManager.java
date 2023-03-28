@@ -24,7 +24,9 @@ import java.util.Random;
 public class GameManager {
 
     private final UHCRun plugin;
-    public GameState gameState = GameState.WAITING;
+    private GameState gameState = GameState.WAITING;
+
+    // TODO managery sem
 
     private FileConfiguration config, messages;
 
@@ -80,12 +82,15 @@ public class GameManager {
                 break;
         }
     }
+    public GameState getGameState() {
+        return this.gameState;
+    }
 
     public void checkGame() {
 
         if (isWaiting()) {
             int min = config.getInt("min-players-to-start");
-            if (plugin.getPlayerManager().getAlive().size() >= min) {
+            if (plugin.getPlayerManager().getAliveList().size() >= min) {
                 Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playStartingSound(player));
                 setGameState(GameState.STARTING);
                 Utils.broadcast(Messages.GAME_STARTING.toString()
@@ -111,7 +116,7 @@ public class GameManager {
 
 
     }
-    public void resetGame() {
+    public void onDisable() {
 
         for (Player all : Bukkit.getOnlinePlayers()) {
             all.giveExp(-all.getTotalExperience());
@@ -121,8 +126,9 @@ public class GameManager {
         plugin.getPlayerManager().clearAlive();
         plugin.getPlayerManager().clearDead();
         plugin.getPlayerManager().clearPlayers();
+        plugin.getTeams().onDisable();
 
-        if (config.getBoolean("auto-map-reset", true)) {
+        /*if (config.getBoolean("auto-map-reset", true)) {
             File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
             try (FileInputStream stream = new FileInputStream(propertiesFile)) {
                 Properties properties = new Properties();
@@ -147,9 +153,7 @@ public class GameManager {
                 new File(nether, "region").mkdirs();
             } catch (IOException ignored) {
             }
-        }
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+        }*/
     }
 
     public boolean isWaiting() {
@@ -307,7 +311,7 @@ public class GameManager {
     }
 
     public UHCPlayer getWinner() {
-        for (UHCPlayer p : plugin.getPlayerManager().getAlive()) {
+        for (UHCPlayer p : plugin.getPlayerManager().getAliveList()) {
             if (!p.isOnline()) return null;
             return p;
         }

@@ -126,13 +126,13 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
+        plugin.getPlayerManager().clearPlayerInventory(victim.getPlayer());
+
         victim.getPlayer().setHealth(20);
         victim.getPlayer().setFoodLevel(20);
         victim.getPlayer().setLevel(0);
         victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
         victim.getPlayer().setTotalExperience(0);
-
-        victim.getPlayer().getInventory().clear();
 
         plugin.getGame().addDeathTo(victim);
         plugin.getGame().setSpectator(victim);
@@ -211,7 +211,7 @@ public class GameListener implements Listener {
             event.setCancelled(true);
         }
 
-        if (plugin.getGame().gameState == GameState.MINING) {
+        if (plugin.getGame().getGameState() == GameState.MINING) {
             if (event.getCause() == DamageCause.FIRE) {
                 event.setCancelled(true);
             }
@@ -227,7 +227,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void entityHitEntity(EntityDamageByEntityEvent event) {
 
-        if (!plugin.getGame().isPlaying() || plugin.getGame().gameState == GameState.MINING) {
+        if (!plugin.getGame().isPlaying() || plugin.getGame().getGameState() == GameState.MINING) {
             event.setCancelled(true);
             return;
         }
@@ -253,10 +253,10 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING
-                || plugin.getGame().gameState == GameState.DEATHMATCH
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING
+                || plugin.getGame().getGameState() == GameState.ENDING
+                || plugin.getGame().getGameState() == GameState.DEATHMATCH
         ) {
             event.setCancelled(true);
         }
@@ -264,10 +264,10 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBucketFill(PlayerBucketFillEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING
-                || plugin.getGame().gameState == GameState.DEATHMATCH
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING
+                || plugin.getGame().getGameState() == GameState.ENDING
+                || plugin.getGame().getGameState() == GameState.DEATHMATCH
         ) {
             event.setCancelled(true);
         }

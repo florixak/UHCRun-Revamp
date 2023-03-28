@@ -97,9 +97,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING
+                || plugin.getGame().getGameState() == GameState.ENDING
                 || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
         ) {
             event.setCancelled(true);
@@ -108,9 +108,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onItemPickUp(PlayerPickupItemEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING
+                || plugin.getGame().getGameState() == GameState.ENDING
                 || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
         ) {
             event.setCancelled(true);

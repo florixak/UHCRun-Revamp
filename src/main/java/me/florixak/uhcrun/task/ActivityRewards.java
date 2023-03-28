@@ -24,9 +24,9 @@ public class ActivityRewards extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (!(plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING)) {
-            for (UHCPlayer player : plugin.getPlayerManager().getAlive()) {
+        if (!(plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING)) {
+            for (UHCPlayer player : plugin.getPlayerManager().getAliveList()) {
                 double money = config.getDouble("rewards-per-time.money");
                 double level_xp = config.getDouble("rewards-per-time.level-xp");
 

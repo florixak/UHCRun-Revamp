@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.kits;
 
-public enum Kits {
+public enum KitType {
 
     NONE,
     STARTER,

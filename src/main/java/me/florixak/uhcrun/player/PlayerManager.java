@@ -12,7 +12,7 @@ public class PlayerManager {
 
     private List<UHCPlayer> players;
     private List<UHCPlayer> alive;
-    private List<UHCPlayer> dead;
+    private List<UHCPlayer> dead; // TODO rožlišoat speactatory of dead hráčů
     private List<UHCPlayer> creators; // TODO creator
 
     public PlayerManager() {
@@ -46,7 +46,7 @@ public class PlayerManager {
         alive.remove(p);
     }
 
-    public List<UHCPlayer> getAlive() {
+    public List<UHCPlayer> getAliveList() {
         return this.alive;
     }
 
@@ -55,7 +55,7 @@ public class PlayerManager {
         dead.add(p);
     }
 
-    public List<UHCPlayer> getDead() {
+    public List<UHCPlayer> getDeadList() {
         return this.dead;
     }
 
