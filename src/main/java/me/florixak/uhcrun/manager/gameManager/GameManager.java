@@ -52,7 +52,7 @@ public class GameManager {
                 break;
 
             case MINING:
-                plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(this::setPlayersForGame);
+                plugin.getPlayerManager().getPlayersList().stream().filter(player -> player.isOnline()).forEach(this::setPlayersForGame);
                 // plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getKitsManager()::giveKits);
                 plugin.getTeams().addToTeam();
                 teleportPlayers();

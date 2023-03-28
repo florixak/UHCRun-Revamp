@@ -62,7 +62,7 @@ public class GameListener implements Listener {
         double money_for_lose;
         double level_xp_for_lose;
 
-        for (UHCPlayer p : plugin.getPlayerManager().getPlayers()) {
+        for (UHCPlayer p : plugin.getPlayerManager().getPlayersList()) {
 
             money_for_kills = config.getDouble("coins-per-kill") * p.getKills();
             level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*p.getKills();

@@ -28,8 +28,8 @@ public class TeamManager {
         char team = 0;
         String color;
         shuffleTeamColor(colors);
-        for (int i = 0; i < plugin.getPlayerManager().getPlayers().size(); i++) {
-            uhcPlayer = plugin.getPlayerManager().getPlayers().get(i);
+        for (int i = 0; i < plugin.getPlayerManager().getPlayersList().size(); i++) {
+            uhcPlayer = plugin.getPlayerManager().getPlayersList().get(i);
             team = alphabet[i];
             color = "&" + colors[i];
             teams.put(uhcPlayer, color+team);

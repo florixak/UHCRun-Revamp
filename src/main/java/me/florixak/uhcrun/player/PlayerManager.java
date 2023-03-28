@@ -32,7 +32,7 @@ public class PlayerManager {
         this.players.remove(p);
     }
 
-    public List<UHCPlayer> getPlayers() {
+    public List<UHCPlayer> getPlayersList() {
         return this.players;
     }
 
@@ -64,7 +64,7 @@ public class PlayerManager {
     }
 
     public UHCPlayer getUHCPlayer(UUID uuid) {
-        for (UHCPlayer uhcPlayer : getPlayers()) {
+        for (UHCPlayer uhcPlayer : getPlayersList()) {
             if (uhcPlayer.getUUID().equals(uuid)) {
                 return uhcPlayer;
             }

@@ -85,7 +85,7 @@ public class ChatListener implements Listener {
                 color + "[" + lvl.getPlayerLevel(player) + "]" : color + lvl.getPlayerLevel(player);
 
         if (!plugin.getGame().isPlaying()) {
-            for (UHCPlayer players : plugin.getPlayerManager().getPlayers()) {
+            for (UHCPlayer players : plugin.getPlayerManager().getPlayersList()) {
                 players.sendMessage(TextUtils.color(format
                         .replace("%player%", player.getName())
                         .replace("%message%", event.getMessage())
@@ -97,7 +97,7 @@ public class ChatListener implements Listener {
             }
         } else {
 
-            for (UHCPlayer players : plugin.getPlayerManager().getPlayers()) {
+            for (UHCPlayer players : plugin.getPlayerManager().getPlayersList()) {
                 if (players.isDead()) {
                     players.sendMessage("&7[DEAD] " + format
                             .replace("%player%", "&7" + player.getName())

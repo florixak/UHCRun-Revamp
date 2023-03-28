@@ -42,7 +42,7 @@ public class PlaceholderUtil {
             text = text.replace("%ping%", "" + player.getPing() + " ms");*/
 
         if (text.contains("%online%"))
-            text = text.replace("%online%", String.valueOf(plugin.getPlayerManager().getPlayers().size()));
+            text = text.replace("%online%", String.valueOf(plugin.getPlayerManager().getPlayersList().size()));
 
         if (text.contains("%max-online%"))
             text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
