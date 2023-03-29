@@ -54,13 +54,13 @@ public class PlayerListener implements Listener {
         p.setGameMode(GameMode.ADVENTURE);
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
-        p.getInventory().clear();
         p.setLevel(0);
         p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
         p.setFlying(false);
         p.setAllowFlight(false);
 
+        plugin.getPlayerManager().clearPlayerInventory(p);
         plugin.getKitsManager().getWaitingKit(uhcPlayer);
 
         Utils.broadcast(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));

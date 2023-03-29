@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,6 +32,12 @@ public class Utils {
 
     public static String formatMoney(UUID uuid){
         return format.format(UHCRun.getInstance().getStatistics().getMoney(uuid));
+    }
+
+    public static String getLuckPermsPrefix(Player player) {
+        String prefix = LuckPermsProvider.get().getUserManager().getUser(player.getName())
+                .getCachedData().getMetaData().getPrefix();
+        return prefix;
     }
 
     @SuppressWarnings("deprecation")

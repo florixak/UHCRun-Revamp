@@ -4,9 +4,10 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.manager.LevelManager;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
-import net.luckperms.api.LuckPermsProvider;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +24,6 @@ public class ChatListener implements Listener {
 
     private UHCRun plugin;
     private FileConfiguration config, chat;
-    private LevelManager lvl;
 
     private String format;
 
@@ -31,7 +31,6 @@ public class ChatListener implements Listener {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.chat = plugin.getConfigManager().getFile(ConfigType.CHAT).getConfig();
-        this.lvl = plugin.getLevelManager();
 
         this.format = chat.getString("chat.format");
     }
@@ -59,7 +58,11 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
 
-        UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+        PlayerManager pm = plugin.getPlayerManager();
+        LevelManager lm = plugin.getLevelManager();
+
+        UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
+
         String prefix = "";
         String color = "&8";
         String level = "";
@@ -67,53 +70,53 @@ public class ChatListener implements Listener {
         event.setCancelled(true);
 
         if (config.getBoolean("use-LuckPerms", true)) {
-            prefix = LuckPermsProvider.get().getUserManager().getUser(player.getName())
-                    .getCachedData().getMetaData().getPrefix();
+            prefix = Utils.getLuckPermsPrefix(uhcPlayer.getPlayer());
         }
 
-        if (lvl.getPlayerLevel(player) < 10) color = chat.getString("chat.level-color.toNine");
-        else if (lvl.getPlayerLevel(player) < 20) color = chat.getString("chat.level-color.toNineteen");
-        else if (lvl.getPlayerLevel(player) < 30) color = chat.getString("chat.level-color.toTwentyNine");
-        else if (lvl.getPlayerLevel(player) < 40) color = chat.getString("chat.level-color.toThirtyNine");
-        else if (lvl.getPlayerLevel(player) < 50) color = chat.getString("chat.level-color.toFortyNine");
-        else if (lvl.getPlayerLevel(player) < 60) color = chat.getString("chat.level-color.toFiftyNine");
-        else if (lvl.getPlayerLevel(player) < 70) color = chat.getString("chat.level-color.toSixtyNine");
-        else if (lvl.getPlayerLevel(player) < 80) color = chat.getString("chat.level-color.toSeventyNine");
+        if (lm.getPlayerLevel(uhcPlayer) < 10) color = chat.getString("chat.level-color.toNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 20) color = chat.getString("chat.level-color.toNineteen");
+        else if (lm.getPlayerLevel(uhcPlayer) < 30) color = chat.getString("chat.level-color.toTwentyNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 40) color = chat.getString("chat.level-color.toThirtyNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 50) color = chat.getString("chat.level-color.toFortyNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 60) color = chat.getString("chat.level-color.toFiftyNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 70) color = chat.getString("chat.level-color.toSixtyNine");
+        else if (lm.getPlayerLevel(uhcPlayer) < 80) color = chat.getString("chat.level-color.toSeventyNine");
         else color = chat.getString("chat.level-color.toInfinity");
 
         level = chat.getBoolean("chat.level-with-brackets", true) ?
-                color + "[" + lvl.getPlayerLevel(player) + "]" : color + lvl.getPlayerLevel(player);
+                color + "[" + lm.getPlayerLevel(uhcPlayer) + "]" : color + lm.getPlayerLevel(uhcPlayer);
 
         if (!plugin.getGame().isPlaying()) {
-            for (UHCPlayer players : plugin.getPlayerManager().getPlayersList()) {
+            for (UHCPlayer players : pm.getPlayersList()) {
                 players.sendMessage(TextUtils.color(format
-                        .replace("%player%", player.getName())
+                        .replace("%player%", uhcPlayer.getName())
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", player.getTeam() != null ? player.getTeam() : "")));
+                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam() : "")));
 
                 // TODO - gg odměna
             }
-        } else {
+            return;
+        }
 
-            for (UHCPlayer players : plugin.getPlayerManager().getPlayersList()) {
-                if (players.isDead()) {
-                    players.sendMessage("&7[DEAD] " + format
-                            .replace("%player%", "&7" + player.getName())
-                            .replace("%message%", "&8" + event.getMessage())
-                            .replace("%luckperms-prefix%", prefix)
-                            .replace("%level%", level)
-                            .replace("%team%", player.getTeam() != null ? player.getTeam() : ""));
-                    return;
-                }
-                players.sendMessage(format
-                        .replace("%player%", player.getName())
-                        .replace("%message%", event.getMessage())
+        for (UHCPlayer players : pm.getPlayersList()) {
+            if (players.isDead()) {
+                players.sendMessage("&7[DEAD] " + format
+                        .replace("%player%", "&7" + uhcPlayer.getName())
+                        .replace("%message%", "&8" + event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", player.getTeam() != null ? player.getTeam() : ""));
+                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam() : ""));
+                return;
             }
+            players.sendMessage(format
+                    .replace("%player%", uhcPlayer.getName())
+                    .replace("%message%", event.getMessage())
+                    .replace("%luckperms-prefix%", prefix)
+                    .replace("%level%", level)
+                    .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam() : ""));
         }
+
     }
 }
