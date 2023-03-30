@@ -72,6 +72,10 @@ public class GameListener implements Listener {
             money_for_lose = config.getDouble("coins-per-lose");
             level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
 
+            if (p.isDead()) {
+                p.getPlayer().showPlayer(plugin, p.getPlayer());
+            }
+
             if (p == winner) {
                 plugin.getStatistics().addWin(p);
                 plugin.getStatistics().addMoney(p, money_for_win + money_for_kills);
@@ -102,9 +106,6 @@ public class GameListener implements Listener {
                                     .replace("%prefix%", prefix)
                             )
                     );
-                }
-                if (p.isDead()) {
-                    p.getPlayer().showPlayer(plugin, p.getPlayer());
                 }
             }
         }

@@ -74,7 +74,7 @@ public class SQLGetter {
     // STATISTICS
     public void addPlayerLevel(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET LEVEL=? WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'level'=? WHERE 'uuid'=?");
             ps.setInt(1, (getPlayerLevel(uuid) + 1));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -84,12 +84,12 @@ public class SQLGetter {
     }
     public int getPlayerLevel(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT LEVEL FROM uhcrun WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'level' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             int level = 1;
             if (rs.next()) {
-                level = rs.getInt("LEVEL");
+                level = rs.getInt("'level'");
                 return level;
             }
         } catch (SQLException e) {
@@ -100,7 +100,7 @@ public class SQLGetter {
 
     public void addRequiredXP(UUID uuid, double level_xp) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET REQUIRED_XP=? WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'required_xp'=? WHERE 'uuid'=?");
             ps.setDouble(1, (getRequiredXP(uuid) + level_xp));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -110,7 +110,7 @@ public class SQLGetter {
     }
     public void setRequiredXP(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET REQUIRED_XP=? WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'required_xp'=? WHERE 'uuid'=?");
             ps.setDouble(1, plugin.getLevelManager().setRequiredExp(plugin.getPlayerManager().getUHCPlayer(uuid)));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -120,12 +120,12 @@ public class SQLGetter {
     }
     public double getRequiredXP(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT REQUIRED_XP FROM uhcrun WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'required_xp' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             double level = 0;
             if (rs.next()) {
-                level = rs.getInt("REQUIRED_XP");
+                level = rs.getInt("'required_xp'");
                 return level;
             }
         } catch (SQLException e) {
@@ -136,7 +136,7 @@ public class SQLGetter {
 
     public void addMoney(UUID uuid, double money) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET MONEY=? WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'money'=? WHERE 'uuid'=?");
             ps.setDouble(1, (getMoney(uuid) + money));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -146,12 +146,12 @@ public class SQLGetter {
     }
     public double getMoney(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT MONEY FROM uhcrun WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'money' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             double money = 0.0;
             if (rs.next()) {
-                money = rs.getDouble("MONEY");
+                money = rs.getDouble("'money'");
                 return money;
             }
         } catch (SQLException e) {
@@ -162,7 +162,7 @@ public class SQLGetter {
 
     public void addKill(UUID uuid, int kills) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET KILLS=? WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'kills'=? WHERE 'uuid'=?");
             ps.setInt(1, (getKills(uuid) + kills));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -172,12 +172,12 @@ public class SQLGetter {
     }
     public int getKills(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT KILLS FROM uhcrun WHERE 'uuid'=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'kills' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             int kills = 0;
             if (rs.next()) {
-                kills = rs.getInt("KILLS");
+                kills = rs.getInt("'kills'");
                 return kills;
             }
         } catch (SQLException e) {
@@ -188,7 +188,7 @@ public class SQLGetter {
 
     public void addWin(UUID uuid, int wins) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET WINS=? WHERE UUID=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'wins'=? WHERE 'uuid'=?");
             ps.setInt(1, (getWins(uuid) + wins));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -198,12 +198,12 @@ public class SQLGetter {
     }
     public int getWins(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT WINS FROM uhcrun WHERE UUID=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'wins' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             int wins = 0;
             if (rs.next()) {
-                wins = rs.getInt("WINS");
+                wins = rs.getInt("'wins'");
                 return wins;
             }
         } catch (SQLException e) {
@@ -214,7 +214,7 @@ public class SQLGetter {
 
     public void addDeath(UUID uuid, int deaths) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET DEATHS=? WHERE UUID=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("UPDATE uhcrun SET 'deaths'=? WHERE 'uuid'=?");
             ps.setInt(1, (getDeaths(uuid) + deaths));
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -224,12 +224,12 @@ public class SQLGetter {
     }
     public int getDeaths(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT DEATHS FROM uhcrun WHERE UUID=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'deaths' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             int wins = 0;
             if (rs.next()) {
-                wins = rs.getInt("DEATHS");
+                wins = rs.getInt("'deaths'");
                 return wins;
             }
         } catch (SQLException e) {
@@ -250,7 +250,7 @@ public class SQLGetter {
 
     public void remove(UUID uuid) {
         try {
-            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("DELETE FROM uhcrun WHERE UUID=?");
+            PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("DELETE FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ps.executeUpdate();
         } catch (SQLException e) {
