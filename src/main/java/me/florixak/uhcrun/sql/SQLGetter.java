@@ -23,12 +23,12 @@ public class SQLGetter {
             ps = plugin.mysql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS uhcrun "
                     + "('uuid' VARCHAR(100) PRIMARY KEY,"
                     + "'name' VARCHAR(100),"
-                    + "'level' INT(100),"
-                    + "'required_xp' INT(100),"
-                    + "'money' DECIMAL(24,9),"
-                    + "'wins' INT(100),"
-                    + "'kills' INT(100),"
-                    + "'deaths' INT(100))");
+                    + "'level' INT(100) DEFAULT '0',"
+                    + "'required_xp' INT(100) DEFAULT '0',"
+                    + "'money' DECIMAL(24,9) DEFAULT '0',"
+                    + "'wins' INT(100) DEFAULT '0',"
+                    + "'kills' INT(100) DEFAULT '0',"
+                    + "'deaths' INT(100) DEFAULT '0')");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,15 +149,15 @@ public class SQLGetter {
             PreparedStatement ps = plugin.mysql.getConnection().prepareStatement("SELECT 'money' FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            double money = 0.0;
+            int money = 0;
             if (rs.next()) {
-                money = rs.getDouble("'money'");
+                money = rs.getInt("'money'");
                 return money;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return UHCRun.getInstance().getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getInt("string-coins");
+        return 0;
     }
 
     public void addKill(UUID uuid, int kills) {

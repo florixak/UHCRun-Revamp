@@ -58,10 +58,8 @@ public class StatisticsManager {
     public void addMoney(UHCPlayer p, double amount) {
         if (config.getBoolean("use-Vault", true)) {
             Economy economy = UHCRun.getVault();
-            Player player = p.getPlayer();
-            economy.depositPlayer(player, amount);
-            data.set("statistics." + p.getUUID().toString() + ".money", economy.getBalance(player));
-            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+            economy.depositPlayer(p.getPlayer(), amount);
+            data.set("statistics." + p.getUUID().toString() + ".money", economy.getBalance(p.getPlayer()));
         } else if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addMoney(p.getUUID(), amount);
             data.set("statistics." + p.getUUID().toString() + ".money", plugin.data.getMoney(p.getUUID()));
