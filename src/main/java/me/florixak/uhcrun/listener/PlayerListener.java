@@ -4,7 +4,6 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameKillEvent;
-import me.florixak.uhcrun.manager.gameManager.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.GameMode;
@@ -84,7 +83,7 @@ public class PlayerListener implements Listener {
         event.setDeathMessage(null);
         // event.getDrops().clear(); TODO drops from kill
 
-        UHCPlayer uhcKiller = event.getEntity().getKiller() != null ?
+        UHCPlayer uhcKiller = !(event.getEntity().getKiller() instanceof Player) ?
                 plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId()) :
                 null;
         UHCPlayer uhcVictim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
@@ -94,22 +93,18 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (plugin.getGame().getGameState() == GameState.WAITING
-                || plugin.getGame().getGameState() == GameState.STARTING
-                || plugin.getGame().getGameState() == GameState.ENDING
-                || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
-        ) {
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+
+        if (!plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onItemPickUp(PlayerPickupItemEvent event) {
-        if (plugin.getGame().getGameState() == GameState.WAITING
-                || plugin.getGame().getGameState() == GameState.STARTING
-                || plugin.getGame().getGameState() == GameState.ENDING
-                || plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId()).isDead()
-        ) {
+        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+
+        if (!plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
             event.setCancelled(true);
         }
     }

@@ -21,6 +21,8 @@ public class UHCPlayer {
     private KitType kit;
     private PerkType perk;
 
+    private String customNick;
+
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
@@ -42,6 +44,7 @@ public class UHCPlayer {
     }
 
     public String getName() {
+        if (hasCustomNick()) return this.customNick;
         return this.name;
     }
 
@@ -105,6 +108,25 @@ public class UHCPlayer {
 
     public void setPerk(PerkType perk) {
         this.perk = perk;
+    }
+
+    public boolean hasCustomNick() {
+        return this.customNick != null;
+    }
+
+    public void setCustomNick(String customNick) {
+
+        if (customNick == null) {
+            this.customNick = null;
+            return;
+        }
+
+        if (customNick.length() <= 3) {
+            sendMessage("Custom nick should have more than 3 symbols!");
+            return;
+        }
+
+        this.customNick = customNick;
     }
 
     public void sendMessage(String message) {

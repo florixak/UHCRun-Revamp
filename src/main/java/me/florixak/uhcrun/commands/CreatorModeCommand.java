@@ -36,8 +36,8 @@ public class CreatorModeCommand implements CommandExecutor {
             return true;
         }
 
-        if (!(plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING)) {
+        if (!(plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING)) {
             p.sendMessage(Messages.CREATOR_BEFORE_START.toString());
             return true;
         }

@@ -3,6 +3,7 @@ package me.florixak.uhcrun;
 import me.florixak.uhcrun.action.ActionManager;
 import me.florixak.uhcrun.commands.AnvilCommand;
 import me.florixak.uhcrun.commands.CreatorModeCommand;
+import me.florixak.uhcrun.commands.CustomNickCommand;
 import me.florixak.uhcrun.commands.WorkbenchCommand;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
@@ -103,6 +104,7 @@ public final class UHCRun extends JavaPlugin {
             new CreatorModeCommand(this);
             new WorkbenchCommand(this);
             new AnvilCommand(this);
+            getCommand("nick").setExecutor(new CustomNickCommand(playerManager));
         } catch (Exception e) {
             getLogger().info(TextUtils.color("&cThere is error in commands!"));
             e.printStackTrace();

@@ -30,6 +30,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class GameListener implements Listener {
 
@@ -49,7 +50,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onGameEnd(GameEndEvent event) {
+    public void handleGameEnd(GameEndEvent event) {
         UHCPlayer winner = event.getWinner();
 
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");
@@ -112,7 +113,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onGameKill(GameKillEvent event) {
+    public void handleGameKill(GameKillEvent event) {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
 
@@ -142,7 +143,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void blockDestroy(BlockBreakEvent event) {
+    public void handleBlockDestroy(BlockBreakEvent event) {
         UHCPlayer p = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 //        Block block = event.getBlock();
 
@@ -155,7 +156,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void blockPlace(BlockPlaceEvent event) {
+    public void handleBlockPlace(BlockPlaceEvent event) {
         UHCPlayer p = plugin.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
         if (!plugin.getGame().isPlaying() || p.isDead()) {
             p.sendMessage(Messages.CANT_PLACE.toString());
@@ -165,7 +166,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void entityDrop(EntityDeathEvent event) {
+    public void handleEntityDrop(EntityDeathEvent event) {
         Random ran = new Random();
         int amount = 1;
 
@@ -199,12 +200,12 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void timber(BlockBreakEvent event) {
+    public void handleTimber(BlockBreakEvent event) {
         plugin.getUtilities().timber(event.getBlock());
     }
 
     @EventHandler
-    public void damage(EntityDamageEvent event) {
+    public void handleDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof Player)) return;
 
@@ -226,24 +227,25 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void entityHitEntity(EntityDamageByEntityEvent event) {
-
-        if (!plugin.getGame().isPlaying() || plugin.getGame().getGameState() == GameState.MINING) {
-            event.setCancelled(true);
-            return;
-        }
+    public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
 
         Player damager = (Player) event.getDamager();
         UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
 
-        if (damager instanceof Player && uhcPlayer.isDead()) {
+        if (!plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
             event.setCancelled(true);
+            return;
         }
 
+        if (plugin.getGame().getGameState().equals(GameState.MINING) || plugin.getGame().isEnding()) {
+            if (!(event.getEntity() instanceof Player)) return;
+            event.setCancelled(true);
+            return;
+        }
     }
 
     @EventHandler
-    public void hunger(FoodLevelChangeEvent event) {
+    public void handleHunger(FoodLevelChangeEvent event) {
         Player p = (Player) event.getEntity();
         UHCPlayer player = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
         if (!plugin.getGame().isPlaying() || player.isDead()) {
@@ -253,7 +255,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onBucketEmpty(PlayerBucketEmptyEvent event) {
+    public void handleBucketEmpty(PlayerBucketEmptyEvent event) {
         if (plugin.getGame().getGameState() == GameState.WAITING
                 || plugin.getGame().getGameState() == GameState.STARTING
                 || plugin.getGame().getGameState() == GameState.ENDING
@@ -264,7 +266,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onBucketFill(PlayerBucketFillEvent event) {
+    public void handleBucketFill(PlayerBucketFillEvent event) {
         if (plugin.getGame().getGameState() == GameState.WAITING
                 || plugin.getGame().getGameState() == GameState.STARTING
                 || plugin.getGame().getGameState() == GameState.ENDING
@@ -275,7 +277,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void healthRegain(EntityRegainHealthEvent event) {
+    public void handleHealthRegain(EntityRegainHealthEvent event) {
         if (event.getEntity() instanceof Player) {
             if (event.getRegainReason() == EntityRegainHealthEvent.RegainReason.SATIATED) {
                 event.setCancelled(true);
@@ -285,7 +287,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void arrowHitHP(ProjectileHitEvent event) {
+    public void handleArrowHitHP(ProjectileHitEvent event) {
 
         if (event.getEntity().getShooter() instanceof Player) {
             if (event.getEntity() instanceof Arrow) {
@@ -302,7 +304,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void noTarget(EntityTargetEvent event) {
+    public void handleNoMonsterTarget(EntityTargetEvent event) {
         if (event.getEntity() instanceof Monster) {
             if (event.getTarget() instanceof Player) {
                 event.setCancelled(true);
@@ -311,7 +313,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void monsterSpawning(CreatureSpawnEvent event) {
+    public void handleMonsterSpawning(CreatureSpawnEvent event) {
         if (event.getEntity() instanceof Monster) {
             if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
                 event.setCancelled(true);
