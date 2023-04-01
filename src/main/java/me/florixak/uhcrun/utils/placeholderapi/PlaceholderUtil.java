@@ -60,13 +60,13 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%time%")) {
-            if (plugin.getGame().gameState == GameState.STARTING)
+            if (plugin.getGame().getGameState() == GameState.STARTING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCd.count));
-            if (plugin.getGame().gameState == GameState.MINING)
+            if (plugin.getGame().getGameState() == GameState.MINING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCd.count));
-            if (plugin.getGame().gameState == GameState.FIGHTING)
+            if (plugin.getGame().getGameState() == GameState.FIGHTING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCd.count));
-            if (plugin.getGame().gameState == GameState.DEATHMATCH)
+            if (plugin.getGame().getGameState() == GameState.DEATHMATCH)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(DeathMCd.count));
         }
 

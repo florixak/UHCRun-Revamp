@@ -37,8 +37,8 @@ public class WorkbenchCommand implements CommandExecutor {
             return true;
         }
 
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING || plugin.getGame().gameState == GameState.ENDING) {
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING || plugin.getGame().getGameState() == GameState.ENDING) {
             return true;
         }
 

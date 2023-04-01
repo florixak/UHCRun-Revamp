@@ -20,7 +20,7 @@ public class VanishUtils implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        UHCRun.getInstance().getPlayerManager().getDead().forEach(hidden -> event.getPlayer().hidePlayer(hidden.getPlayer()));
+        // UHCRun.getInstance().getPlayerManager().getDead().forEach(hidden -> event.getPlayer().hidePlayer(hidden.getPlayer()));
     }
 
     @EventHandler

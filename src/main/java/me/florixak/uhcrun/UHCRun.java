@@ -105,6 +105,7 @@ public final class UHCRun extends JavaPlugin {
             new WorkbenchCommand(this);
             new AnvilCommand(this);
             getCommand("nick").setExecutor(new CustomNickCommand(playerManager));
+            getCommand("unnick").setExecutor(new CustomNickCommand(playerManager));
         } catch (Exception e) {
             getLogger().info(TextUtils.color("&cThere is error in commands!"));
             e.printStackTrace();

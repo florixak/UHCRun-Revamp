@@ -8,6 +8,7 @@ Messages:
   not-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
   restarting: "%prefix% &fGame is restarting!"
+  use-help: "&c[!] &fUse help! (/help)"
 
   cant_break: "&c[!] &fYou can not break blocks here!"
   cant_place: "&c[!] &fYou can not place blocks here!"
@@ -48,6 +49,11 @@ Messages:
     click-to-select: "&cUnselected"
     selected: "&aSelected"
     disabled: "&cDisabled"
+
+  custom-nick:
+    nick: "&a[!] &fYour nick is %nick%!"
+    unnick: "&a[!] &fYou unnicked!"
+    no-nick: "&c[!] &fYou are not nicked!"
 
   win-rewards:
     - "&3---------- %prefix% &3----------"

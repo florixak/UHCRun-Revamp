@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.kits.KitType;
 import me.florixak.uhcrun.perks.PerkType;
 import me.florixak.uhcrun.utils.TextUtils;
@@ -121,11 +122,13 @@ public class UHCPlayer {
             return;
         }
 
+        if (this.customNick == customNick) return;
+
         if (customNick.length() <= 3) {
             sendMessage("Custom nick should have more than 3 symbols!");
             return;
         }
-
+        sendMessage(Messages.NICK.toString().replace("%nick%", customNick));
         this.customNick = customNick;
     }
 

@@ -177,7 +177,7 @@ public class ScoreboardManager {
 
     public void updateScoreboard(Player p) {
         removeFromMap(p);
-        switch (plugin.getGame().gameState) {
+        switch (plugin.getGame().getGameState()) {
             case WAITING:
                 createWaitingSb(p);
                 break;

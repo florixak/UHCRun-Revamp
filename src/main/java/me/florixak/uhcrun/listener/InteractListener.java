@@ -36,9 +36,9 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void inventoryClickEvent(InventoryClickEvent event) {
-        if (plugin.getGame().gameState == GameState.WAITING
-                || plugin.getGame().gameState == GameState.STARTING
-                || plugin.getGame().gameState == GameState.ENDING) {
+        if (plugin.getGame().getGameState() == GameState.WAITING
+                || plugin.getGame().getGameState() == GameState.STARTING
+                || plugin.getGame().getGameState() == GameState.ENDING) {
             event.setCancelled(true);
         }
     }
@@ -70,7 +70,7 @@ public class InteractListener implements Listener {
         Player p = event.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
 
-        if (plugin.getGame().gameState == GameState.WAITING || plugin.getGame().gameState == GameState.STARTING) {
+        if (plugin.getGame().getGameState() == GameState.WAITING || plugin.getGame().getGameState() == GameState.STARTING) {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -86,7 +86,7 @@ public class InteractListener implements Listener {
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
                         .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.start.display-name")))) {
-                    if (plugin.getGame().gameState != GameState.WAITING) {
+                    if (plugin.getGame().getGameState() != GameState.WAITING) {
                         p.sendMessage(Messages.GAME_ALREADY_STARTING.toString());
                         return;
                     }
