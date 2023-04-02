@@ -2,13 +2,12 @@
 Messages:
   prefix: "&2UHC&aRun"
 
-  invalid-command: "&c[!] &fInvalid command!"
+  invalid-command: "&c[!] &fInvalid command! Use help: /help"
   no-perm: "&c[!] &fYou do not have permissions!"
   offline-player: "&c[!] &fThis player is offline!"
   not-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
   restarting: "%prefix% &fGame is restarting!"
-  use-help: "&c[!] &fUse help! (/help)"
 
   cant_break: "&c[!] &fYou can not break blocks here!"
   cant_place: "&c[!] &fYou can not place blocks here!"
@@ -54,6 +53,7 @@ Messages:
     nick: "&a[!] &fYour nick is %nick%!"
     unnick: "&a[!] &fYou unnicked!"
     no-nick: "&c[!] &fYou are not nicked!"
+    min-chars: "&c[!] &fNick must have minimum of 4 letters!"
 
   win-rewards:
     - "&3---------- %prefix% &3----------"

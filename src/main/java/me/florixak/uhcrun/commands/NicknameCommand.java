@@ -8,11 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CustomNickCommand implements CommandExecutor {
+public class NicknameCommand implements CommandExecutor {
 
     private PlayerManager playerManager;
 
-    public CustomNickCommand(PlayerManager playerManager) {
+    public NicknameCommand(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 
@@ -33,19 +33,18 @@ public class CustomNickCommand implements CommandExecutor {
                 uhcPlayer.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args.length == 1) {
                 String nick = args[0];
-                uhcPlayer.setCustomNick(nick);
+                uhcPlayer.setNickname(nick);
             } else {
                 uhcPlayer.sendMessage(Messages.INVALID_CMD.toString());
             }
         }
 
         if (command.getName().equalsIgnoreCase("unnick")) {
-            if (!uhcPlayer.hasCustomNick()) {
-                uhcPlayer.sendMessage(Messages.NO_NICK.toString());
+            if (!uhcPlayer.hasNickname()) {
+                uhcPlayer.sendMessage(Messages.NICK_NOT_NICKED.toString());
                 return true;
             }
-            uhcPlayer.sendMessage(Messages.UNNICK.toString());
-            uhcPlayer.setCustomNick(null);
+            uhcPlayer.setNickname(null);
         }
         return true;
     }

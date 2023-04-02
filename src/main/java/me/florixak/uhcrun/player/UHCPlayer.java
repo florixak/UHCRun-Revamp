@@ -22,7 +22,7 @@ public class UHCPlayer {
     private KitType kit;
     private PerkType perk;
 
-    private String customNick;
+    private String nickname;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -33,6 +33,7 @@ public class UHCPlayer {
         this.kills = 0;
         this.kit = KitType.NONE;
         this.perk = PerkType.NONE;
+        this.nickname = null;
     }
 
     public UUID getUUID() {
@@ -45,7 +46,7 @@ public class UHCPlayer {
     }
 
     public String getName() {
-        if (hasCustomNick()) return this.customNick;
+        if (hasNickname()) return this.nickname;
         return this.name;
     }
 
@@ -111,25 +112,25 @@ public class UHCPlayer {
         this.perk = perk;
     }
 
-    public boolean hasCustomNick() {
-        return this.customNick != null;
+    public boolean hasNickname() {
+        return this.nickname != null;
     }
 
-    public void setCustomNick(String customNick) {
-
-        if (customNick == null) {
-            this.customNick = null;
+    public void setNickname(String nickname) {
+        if (nickname == null) {
+            sendMessage(Messages.NICK_UNNICKED.toString());
+            this.nickname = null;
             return;
         }
 
-        if (this.customNick == customNick) return;
+        if (this.nickname == nickname) return;
 
-        if (customNick.length() <= 3) {
-            sendMessage("Custom nick should have more than 3 symbols!");
+        if (nickname.length() < 4) {
+            sendMessage(Messages.NICK_MIN_CHARS.toString());
             return;
         }
-        sendMessage(Messages.NICK.toString().replace("%nick%", customNick));
-        this.customNick = customNick;
+        sendMessage(Messages.NICK_NICKED.toString().replace("%nick%", nickname));
+        this.nickname = nickname;
     }
 
     public void sendMessage(String message) {

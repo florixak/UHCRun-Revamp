@@ -13,7 +13,6 @@ public enum Messages {
     NOT_PLAYER("not-player"),
     NO_MONEY("no-money"),
     MONEY("money"),
-    USE_HELP("use-help"),
 
     JOIN("join"),
     QUIT("quit"),
@@ -44,9 +43,10 @@ public enum Messages {
     SELECTED_INV("inv.selected"),
     DISABLED("inv.disabled"),
 
-    NICK("custom-nick.nick"),
-    UNNICK("custom-nick.unnick"),
-    NO_NICK("custom-nick.no-nick"),
+    NICK_NICKED("nick.nicked"),
+    NICK_UNNICKED("nick.unnicked"),
+    NICK_NOT_NICKED("nick.not-nicked"),
+    NICK_MIN_CHARS("nick.min-chars"),
 
     REWARDS_PER_TIME("rewards-per-time"),
     GG_REWARD("gg-rewards"),
