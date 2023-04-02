@@ -18,6 +18,7 @@ public class NicknameCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
         if (!(sender instanceof Player)) return true;
 
         Player player = (Player) sender;

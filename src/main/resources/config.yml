@@ -48,6 +48,10 @@ coins-per-kill: 20
 coins-per-win: 450
 coins-per-lose: 100
 
+nick:
+  enabled: true
+  min-chars: 4 # < x
+
 gg-reward:
   coins: 30
   level-xp: 50

@@ -50,9 +50,9 @@ Messages:
     disabled: "&cDisabled"
 
   custom-nick:
-    nick: "&a[!] &fYour nick is %nick%!"
-    unnick: "&a[!] &fYou unnicked!"
-    no-nick: "&c[!] &fYou are not nicked!"
+    nicked: "&a[!] &fYour nick is %nick%!"
+    unnicked: "&a[!] &fYou unnicked!"
+    not-nicked: "&c[!] &fYou are not nicked!"
     min-chars: "&c[!] &fNick must have minimum of 4 letters!"
 
   win-rewards:
