@@ -18,15 +18,14 @@ Messages:
   kill: "&6[†] &f%player% wak killed by %killer%!"
   death: "&6[†] &f%player% died!"
 
-  voted: "&a[!] &fYou voted for %voted%!"
-
   shot-hp: "&6[🏹] &f%player% has %hp%❤"
 
-  game-starting: "&6[!] &fGame starts in %countdown%!"
-  game-already-starting: "&c[!] &fGame is already about to start!"
-  game-starting-canceled: "&c[!] &fGame starting has been canceled!"
-  game-started: "&a[!] &fGame has started!"
-  game-ended: "&c[!] &fGame has ended!"
+  game-phase:
+    starting: "&6[!] &fGame starts in %countdown%!"
+    already-starting: "&c[!] &fGame is already about to start!"
+    starting-canceled: "&c[!] &fGame starting has been canceled!"
+    started: "&a[!] &fGame has started!"
+    ended: "&c[!] &fGame has ended!"
 
   border-shrink: "&c[!] &fThe border began to shrink! Be careful!"
   players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
@@ -85,7 +84,3 @@ Messages:
   setlobby:
     waiting: "%prefix% &fWaiting lobby was set!"
     ending: "%prefix% &fEnding lobby was set!"
-
-  creator-on: "%prefix% &8× &fMode CREATOR on!"
-  creator-off: "%prefix% &8× &fMode CREATOR off!"
-  creator-before-start: "%prefix% &8× Mode CREATOR can be only used before start!"

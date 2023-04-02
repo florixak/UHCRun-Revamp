@@ -14,6 +14,9 @@ public enum Messages {
     NO_MONEY("no-money"),
     MONEY("money"),
 
+    CANT_PLACE("cant_place"),
+    CANT_BREAK("cant_break"),
+
     JOIN("join"),
     QUIT("quit"),
 
@@ -29,11 +32,11 @@ public enum Messages {
 
     PLAYERS_TO_START("players-to-start"),
 
-    GAME_STARTING("game-starting"),
-    GAME_ALREADY_STARTING("game-already-starting"),
-    GAME_STARTING_CANCELED("game-starting-canceled"),
-    GAME_STARTED("game-started"),
-    GAME_ENDED("game-ended"),
+    GAME_STARTING("game-phase.starting"),
+    GAME_ALREADY_STARTING("game-phase.already-starting"),
+    GAME_STARTING_CANCELED("game-phase.starting-canceled"),
+    GAME_STARTED("game-phase.started"),
+    GAME_ENDED("game-phase.ended"),
 
     KITS_SELECTED("kits.selected"),
     PERKS_SELECTED("perks.selected"),
@@ -53,21 +56,12 @@ public enum Messages {
 
     LEVEL_UP("level-up"),
 
-    VOTED("voted"),
-
     SHOT_HP("shot-hp"),
 
     RESTARTING("restarting"),
 
-    CREATOR_ON("creator-on"),
-    CREATOR_OFF("creator-off"),
-    CREATOR_BEFORE_START("creator-before-start"),
-
     SETLOBBY_WAITING("setlobby.waiting"),
-    SETLOBBY_ENDING("setlobby.ending"),
-
-    CANT_PLACE("cant_place"),
-    CANT_BREAK("cant_break");
+    SETLOBBY_ENDING("setlobby.ending");
 
 
     private static FileConfiguration config;
