@@ -49,7 +49,7 @@ Messages:
     disabled: "&cDisabled"
 
   custom-nick:
-    nicked: "&a[!] &fYour nick is %nick%!"
+    nicked: "&a[!] &fYou are now %nick%!"
     unnicked: "&a[!] &fYou unnicked!"
     not-nicked: "&c[!] &fYou are not nicked!"
     min-chars: "&c[!] &fNick must have minimum of 4 letters!"
