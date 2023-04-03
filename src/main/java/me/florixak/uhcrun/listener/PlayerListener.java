@@ -59,8 +59,11 @@ public class PlayerListener implements Listener {
         plugin.getPlayerManager().clearPlayerInventory(p);
         plugin.getKitsManager().getWaitingKit(uhcPlayer);
 
-        Utils.broadcast(Messages.JOIN.toString().replace("%player%", p.getDisplayName()));
-        p.sendMessage(Messages.PLAYERS_TO_START.toString().replace("%min-players%", "" + config.getInt("min-players-to-start")));
+        Utils.broadcast(Messages.JOIN.toString()
+                .replace("%player%", p.getDisplayName())
+                .replace("%online%", String.valueOf(plugin.getPlayerManager().getPlayersList().size())));
+        p.sendMessage(Messages.PLAYERS_TO_START.toString()
+                .replace("%min-players%", "" + config.getInt("min-players-to-start")));
 
         plugin.getGame().checkGame();
     }
@@ -74,8 +77,11 @@ public class PlayerListener implements Listener {
         plugin.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
         plugin.getPlayerManager().removePlayer(uhcPlayer);
 
-        if (!plugin.getGame().isPlaying() || plugin.getGame().isStarting())
-            Utils.broadcast(Messages.QUIT.toString().replace("%player%", uhcPlayer.getName()));
+        if (plugin.getGame().isWaiting() || plugin.getGame().isStarting()) {
+            Utils.broadcast(Messages.QUIT.toString()
+                    .replace("%player%", uhcPlayer.getName())
+                    .replace("%online%", String.valueOf(plugin.getPlayerManager().getPlayersList().size())));
+        }
     }
 
     @EventHandler

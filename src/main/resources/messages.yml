@@ -12,8 +12,8 @@ Messages:
   cant_break: "&c[!] &fYou can not break blocks here!"
   cant_place: "&c[!] &fYou can not place blocks here!"
 
-  join: "&a[+] &f%player% joined!"
-  quit: "&c[-] &f%player% left!"
+  join: "&a[+] &f%player% joined! (%online%)"
+  quit: "&c[-] &f%player% left! (%online%)"
 
   kill: "&6[†] &f%player% wak killed by %killer%!"
   death: "&6[†] &f%player% died!"
