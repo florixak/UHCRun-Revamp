@@ -50,6 +50,7 @@ public enum Messages {
     NICK_UNNICKED("nick.unnicked"),
     NICK_NOT_NICKED("nick.not-nicked"),
     NICK_MIN_CHARS("nick.min-chars"),
+    NICK_OCCUPIED("nick.occupied"),
 
     REWARDS_PER_TIME("rewards-per-time"),
     GG_REWARD("gg-rewards"),

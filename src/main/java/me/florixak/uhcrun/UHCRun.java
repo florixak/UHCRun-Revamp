@@ -2,7 +2,6 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.action.ActionManager;
 import me.florixak.uhcrun.commands.AnvilCommand;
-import me.florixak.uhcrun.commands.CreatorModeCommand;
 import me.florixak.uhcrun.commands.NicknameCommand;
 import me.florixak.uhcrun.commands.WorkbenchCommand;
 import me.florixak.uhcrun.config.ConfigManager;

@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.kits.KitType;
 import me.florixak.uhcrun.perks.PerkType;
@@ -117,6 +118,7 @@ public class UHCPlayer {
     }
 
     public void setNickname(String nickname) {
+
         if (nickname == null) {
             sendMessage(Messages.NICK_UNNICKED.toString());
             this.nickname = null;

@@ -48,11 +48,12 @@ Messages:
     selected: "&aSelected"
     disabled: "&cDisabled"
 
-  custom-nick:
+  nick:
     nicked: "&a[!] &fYou are now %nick%!"
     unnicked: "&a[!] &fYou unnicked!"
     not-nicked: "&c[!] &fYou are not nicked!"
     min-chars: "&c[!] &fNick must have minimum of 4 letters!"
+    occupied: "&c[!] &fThis nick is already occupied!"
 
   win-rewards:
     - "&3---------- %prefix% &3----------"

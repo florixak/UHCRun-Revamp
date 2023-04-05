@@ -38,8 +38,7 @@ public class ActionManager {
                 new MenuAction(),
                 new KitsAction(),
                 new PerkAction(),
-                new WorkbenchAction(),
-                new VoteAction()
+                new WorkbenchAction()
         );
     }
 

@@ -6,7 +6,6 @@ authors: [ FloriXak ]
 softdepend: [ Vault, LuckPerms, PlaceholderAPI ]
 
 commands:
-  creator:
   workbench:
   wb:
   anvil:

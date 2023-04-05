@@ -88,10 +88,10 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
         // event.getDrops().clear(); TODO drops from kill
-
-        UHCPlayer uhcKiller = !(event.getEntity().getKiller() instanceof Player) ?
-                plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId()) :
-                null;
+        UHCPlayer uhcKiller = null;
+        if (event.getEntity().getKiller() instanceof Player) {
+            uhcKiller = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId());
+        }
         UHCPlayer uhcVictim = plugin.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
         plugin.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
