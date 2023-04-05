@@ -98,7 +98,7 @@ public final class UHCRun extends JavaPlugin {
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
 
-        registerAddons();
+        registerDependency();
         connectToDatabase();
 
         registerListeners();
@@ -176,29 +176,29 @@ public final class UHCRun extends JavaPlugin {
         }
     }
 
-    private void registerAddons() {
+    private void registerDependency() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
             if (!setupVault()) {
                 getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
+                return;
             }
-            else {
-                getLogger().info(TextUtils.color("&aVault plugin found."));
-            }
+            getLogger().info(TextUtils.color("&aVault plugin found."));
+
         }
 
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-LuckPerms", true)) {
             if (!setupLuckPerms()) {
                 getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
+                return;
             }
-            else {
-                getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
-            }
+            getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
         }
 
-        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderExp(this).register();
         }
     }
+
     private boolean setupVault() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -210,6 +210,7 @@ public final class UHCRun extends JavaPlugin {
         econ = rsp.getProvider();
         return econ != null;
     }
+
     private boolean setupLuckPerms() {
         for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
             if (plugin.getName().contains("LuckPerms")) {
