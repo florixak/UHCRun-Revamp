@@ -2,6 +2,7 @@ package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -66,5 +67,12 @@ public class BorderManager {
     public int getWarningDistance() { return wb.getWarningDistance(); }
     public double getSpeed() {
         return speed;
+    }
+
+    public void checkBorder() {
+        if (!exist()) {
+            removeBorder();
+            createBorder();
+        }
     }
 }

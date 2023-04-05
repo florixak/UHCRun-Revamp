@@ -6,16 +6,11 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.events.GameKillEvent;
-import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.manager.gameManager.GameState;
-import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.CustomDropUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Statistic;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -30,13 +25,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class GameListener implements Listener {
 
     private UHCRun plugin;
     private FileConfiguration config, messages;
-    private String world;
     private TitleAction titleAction;
     private String prefix;
 
@@ -44,7 +37,6 @@ public class GameListener implements Listener {
         this.plugin = plugin;
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
-        this.world = config.getString("game-world");
         this.prefix = messages.getString("Messages.prefix");
         this.titleAction = new TitleAction();
     }
@@ -118,8 +110,8 @@ public class GameListener implements Listener {
         UHCPlayer victim = event.getVictim();
 
         if (killer instanceof Player) {
-            plugin.getGame().addKillTo(killer);
-            // PerksManager.givePerk(killer); TODO perk
+            plugin.getStatistics().addKill(killer);
+            plugin.getPerksManager().givePerk(killer);
 
             killer.getPlayer().giveExp(victim.getPlayer().getTotalExperience()/3);
 
@@ -136,8 +128,8 @@ public class GameListener implements Listener {
         victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
         victim.getPlayer().setTotalExperience(0);
 
-        plugin.getGame().addDeathTo(victim);
-        plugin.getGame().setSpectator(victim);
+        plugin.getStatistics().addDeath(victim);
+        plugin.getPlayerManager().setSpectator(victim);
 
         plugin.getGame().checkGame();
     }
@@ -152,7 +144,7 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
-        CustomDropUtils.dropItem(p, event);
+        Utils.dropItem(p, event);
     }
 
     @EventHandler
@@ -173,29 +165,29 @@ public class GameListener implements Listener {
         if (event.getEntity() instanceof Cow) {
             event.getDrops().clear();
             amount = ran.nextInt(3)+1;
-            event.getDrops().add(new ItemStack(Material.COOKED_BEEF, amount));
+            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
         }
         if (event.getEntity() instanceof Pig) {
             event.getDrops().clear();
             amount = ran.nextInt(3)+1;
-            event.getDrops().add(new ItemStack(Material.COOKED_BEEF, amount));
+            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
         }
         if (event.getEntity() instanceof Sheep) {
             event.getDrops().clear();
             amount = ran.nextInt(3)+1;
-            event.getDrops().add(new ItemStack(Material.COOKED_MUTTON, amount));
-            event.getDrops().add(new ItemStack(Material.STRING, amount));
+            event.getDrops().add(new ItemStack(XMaterial.COOKED_MUTTON.parseMaterial(), amount));
+            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
         }
         if (event.getEntity() instanceof Chicken) {
             event.getDrops().clear();
             amount = ran.nextInt(3)+1;
-            event.getDrops().add(new ItemStack(Material.COOKED_CHICKEN, amount));
-            event.getDrops().add(new ItemStack(Material.STRING, amount));
+            event.getDrops().add(new ItemStack(XMaterial.COOKED_CHICKEN.parseMaterial(), amount));
+            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
         }
         if (event.getEntity() instanceof Rabbit) {
             event.getDrops().clear();
             amount = ran.nextInt(3)+1;
-            event.getDrops().add(new ItemStack(Material.COOKED_RABBIT, amount));
+            event.getDrops().add(new ItemStack(XMaterial.COOKED_RABBIT.parseMaterial(), amount));
         }
     }
 
@@ -211,16 +203,12 @@ public class GameListener implements Listener {
 
         if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
+            return;
         }
 
+        DamageCause cause = event.getCause();
         if (plugin.getGame().getGameState() == GameState.MINING) {
-            if (event.getCause() == DamageCause.FIRE) {
-                event.setCancelled(true);
-            }
-            if (event.getCause() == DamageCause.LAVA) {
-                event.setCancelled(true);
-            }
-            if (event.getCause() == DamageCause.DROWNING) {
+            if (cause.equals(DamageCause.FIRE) || cause.equals(DamageCause.LAVA) || cause.equals(DamageCause.DROWNING)) {
                 event.setCancelled(true);
             }
         }
@@ -256,22 +244,14 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleBucketEmpty(PlayerBucketEmptyEvent event) {
-        if (plugin.getGame().getGameState() == GameState.WAITING
-                || plugin.getGame().getGameState() == GameState.STARTING
-                || plugin.getGame().getGameState() == GameState.ENDING
-                || plugin.getGame().getGameState() == GameState.DEATHMATCH
-        ) {
+        if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void handleBucketFill(PlayerBucketFillEvent event) {
-        if (plugin.getGame().getGameState() == GameState.WAITING
-                || plugin.getGame().getGameState() == GameState.STARTING
-                || plugin.getGame().getGameState() == GameState.ENDING
-                || plugin.getGame().getGameState() == GameState.DEATHMATCH
-        ) {
+        if (!plugin.getGame().isPlaying()) {
             event.setCancelled(true);
         }
     }
@@ -282,7 +262,6 @@ public class GameListener implements Listener {
             if (event.getRegainReason() == EntityRegainHealthEvent.RegainReason.SATIATED) {
                 event.setCancelled(true);
             }
-
         }
     }
 
@@ -304,7 +283,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void handleNoMonsterTarget(EntityTargetEvent event) {
+    public void handleMonsterTargeting(EntityTargetEvent event) {
         if (event.getEntity() instanceof Monster) {
             if (event.getTarget() instanceof Player) {
                 event.setCancelled(true);

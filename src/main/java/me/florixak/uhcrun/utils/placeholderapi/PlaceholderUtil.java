@@ -126,7 +126,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", plugin.getGame().getWinnerName());
+            text = text.replace("%winner%", plugin.getPlayerManager().getWinnerName());
         }
 
         if (text.contains("%team%")) text = text.replace("%team%", uhcPlayer.getTeam());

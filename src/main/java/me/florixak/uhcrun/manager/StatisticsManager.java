@@ -69,32 +69,6 @@ public class StatisticsManager {
         plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    /*public void takeMoney(UHCPlayer p, double amount) {
-        Economy economy = UHCRun.getVault();
-        if (config.getBoolean("use-Vault", true)) {
-            EconomyResponse r = economy.withdrawPlayer(p, amount);
-            if (!r.transactionSuccess()) {
-                p.sendMessage(Messages.NO_MONEY.toString());
-                return;
-            }
-            data.set("statistics." + p.getUniqueId() + ".money", economy.getBalance(p));
-            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-        } else if (config.getBoolean("MySQL.enabled", true)) {
-            if (plugin.data.getMoney(p.getUniqueId()) < amount) {
-                p.sendMessage(Messages.NO_MONEY.toString());
-            } else {
-                plugin.data.addMoney(p.getUniqueId(), -amount);
-            }
-        } else {
-            if (data.getInt("statistics." + p.getUniqueId() + ".money") < amount) {
-                p.sendMessage(Messages.NO_MONEY.toString());
-            } else {
-                data.set("statistics." + p.getUniqueId() + ".money", plugin.getStatistics().getMoney(p.getUniqueId())-amount);
-                plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-            }
-        }
-    }*/
-
     public int getWins(UHCPlayer player) {
         if (config.getBoolean("MySQL.enabled", true)) {
             return sqlGetter.getWins(player.getUUID());
@@ -119,6 +93,8 @@ public class StatisticsManager {
     }
 
     public void addKill(UHCPlayer player) {
+        player.addKill(); // TODO přidat na konec hry
+
         if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addKill(player.getUUID(), 1);
             return;
@@ -135,6 +111,10 @@ public class StatisticsManager {
     }
 
     public void addDeath(UHCPlayer player) {
+        plugin.getPlayerManager().removeAlive(player);
+        plugin.getPlayerManager().addDead(player);
+        player.setTeam(null);
+
         if (config.getBoolean("MySQL.enabled", true)) {
             plugin.data.addDeath(player.getUUID(), 1);
             return;

@@ -15,6 +15,7 @@ import me.florixak.uhcrun.listener.InteractListener;
 import me.florixak.uhcrun.listener.GameListener;
 import me.florixak.uhcrun.listener.PlayerListener;
 import me.florixak.uhcrun.manager.gameManager.GameManager;
+import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.sql.MySQL;
@@ -22,27 +23,25 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
-import me.florixak.uhcrun.utils.VanishUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class UHCRun extends JavaPlugin {
 
-    /*
-    TODO:
-        - spectator teleport
-        - custom craft menu
-        - celkově doladit
-    */
-
     private static UHCRun plugin;
-    private static Economy econ;
-    private static LuckPerms luckPerms;
+    private static Economy econ = null;
+    private static LuckPerms luckPerms = null;
 
     public MySQL mysql;
     public SQLGetter data;
@@ -58,8 +57,10 @@ public final class UHCRun extends JavaPlugin {
     private StatisticsManager statisticManager;
     private LevelManager levelManager;
     private KitsManager kitsManager;
+    private PerksManager perksManager;
     private TaskManager taskManager;
     private TeamManager teamManager;
+    private SoundManager soundManager;
 
     private Utils utilities;
     private TeleportUtils teleportUtil;
@@ -90,52 +91,28 @@ public final class UHCRun extends JavaPlugin {
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager(this);
+        this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
+        this.soundManager = new SoundManager();
 
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
 
         registerAddons();
         connectToDatabase();
+
+        registerListeners();
+        registerCommands();
+
         registerRecipes();
-
-        try {
-            new CreatorModeCommand(this);
-            new WorkbenchCommand(this);
-            new AnvilCommand(this);
-            getCommand("nick").setExecutor(new NicknameCommand(playerManager));
-            getCommand("unnick").setExecutor(new NicknameCommand(playerManager));
-        } catch (Exception e) {
-            getLogger().info(TextUtils.color("&cThere is error in commands!"));
-            e.printStackTrace();
-        }
-
-        try {
-            getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-            getServer().getPluginManager().registerEvents(new GameListener(this), this);
-            getServer().getPluginManager().registerEvents(new InteractListener(this), this);
-            getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-            getServer().getPluginManager().registerEvents(new VanishUtils(), this);
-        } catch (Exception e) {
-            getLogger().info(TextUtils.color("&cThere is error in listeners!"));
-            e.printStackTrace();
-        }
-
-        // getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         getGame().runActivityRewards();
         getGame().runAutoBroadcast();
         getGame().updateScoreboard();
-        getGame().checkBorder();
+        getBorderManager().checkBorder();
 
-        try {
-            gameManager.setOreSpawn();
-            getLogger().info(TextUtils.color("&aAll ores are set!"));
-        } catch (Exception e) {
-            getLogger().info(TextUtils.color("&cThere is error in ore spawn!"));
-            e.printStackTrace();
-        }
+        getGame().setOreSpawn();
     }
 
     @Override
@@ -145,6 +122,36 @@ public final class UHCRun extends JavaPlugin {
         gameManager.onDisable();
         disconnectDatabase();
 
+    }
+
+    private void registerListeners() {
+        List<Listener> listeners = new ArrayList<>();
+        listeners.add(new GameListener(this));
+        listeners.add(new PlayerListener(this));
+        listeners.add(new ChatListener(this));
+        listeners.add(new InteractListener(this));
+//        listeners.add(new VanishUtils());
+
+        for (Listener listener : listeners) {
+            Bukkit.getServer().getPluginManager().registerEvents(listener, this);
+        }
+    }
+
+    private void registerCommands() {
+        registerCommand("workbench", new WorkbenchCommand(this));
+        registerCommand("anvil", new AnvilCommand(this)); // TODO make anvil command
+        registerCommand("nick", new NicknameCommand(playerManager));
+        registerCommand("unnick", new NicknameCommand(playerManager));
+    }
+
+    private void registerCommand(String commandN, CommandExecutor executor) {
+         PluginCommand command = UHCRun.getInstance().getCommand(commandN);
+
+         if (command == null) {
+             getLogger().info("Error in registering command! (" + command + ")");
+             return;
+         }
+         command.setExecutor(executor);
     }
 
     private void connectToDatabase() {
@@ -257,6 +264,12 @@ public final class UHCRun extends JavaPlugin {
     }
     public KitsManager getKitsManager() {
         return kitsManager;
+    }
+    public PerksManager getPerksManager() {
+        return perksManager;
+    }
+    public SoundManager getSoundManager() {
+        return soundManager;
     }
     public TaskManager getTasks() {
         return taskManager;

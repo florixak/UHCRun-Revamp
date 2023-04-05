@@ -43,7 +43,7 @@ public class PlayerListener implements Listener {
         plugin.getPlayerManager().addPlayer(uhcPlayer);
 
         if (plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
-            plugin.getGame().setSpectator(uhcPlayer);
+            plugin.getPlayerManager().setSpectator(uhcPlayer);
             return;
         }
 

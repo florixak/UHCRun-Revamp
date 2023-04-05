@@ -52,18 +52,16 @@ public class GameManager {
                 break;
 
             case MINING:
-                plugin.getPlayerManager().getPlayersList().stream().filter(player -> player.isOnline()).forEach(this::setPlayersForGame);
-                // plugin.getPlayerManager().getPlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getKitsManager()::giveKits);
+                plugin.getPlayerManager().getPlayersList().forEach(plugin.getPlayerManager()::setPlayersForGame);
+                plugin.getPlayerManager().getPlayersList().forEach(plugin.getKitsManager()::giveKit);
                 plugin.getTeams().addToTeam();
-                teleportPlayers();
+                plugin.getPlayerManager().teleportPlayers();
                 plugin.getTasks().startMiningCD();
-                // SoundManager.playGameStarted(null, true);
-                Utils.broadcast(Messages.GAME_STARTED.toString());
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
                 break;
 
             case FIGHTING:
-                Bukkit.getOnlinePlayers().forEach(player -> teleportPlayersAfterMining(player));
+                plugin.getPlayerManager().getPlayersList().forEach(player -> plugin.getPlayerManager().teleportPlayersAfterMining(player));
                 plugin.getTasks().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
@@ -72,13 +70,13 @@ public class GameManager {
             case DEATHMATCH:
                 plugin.getTasks().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
-                Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playDMBegan(player));
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playDMBegan(player));
                 break;
 
             case ENDING:
                 plugin.getTasks().startEndingCD();
                 Utils.broadcast(Messages.GAME_ENDED.toString());
-                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getWinner()));
+                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(plugin.getPlayerManager().getWinner()));
                 break;
         }
     }
@@ -91,7 +89,7 @@ public class GameManager {
         if (isWaiting()) {
             int min = config.getInt("min-players-to-start");
             if (plugin.getPlayerManager().getAliveList().size() >= min) {
-                Bukkit.getOnlinePlayers().forEach(player -> SoundManager.playStartingSound(player));
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playStartingSound(player));
                 setGameState(GameState.STARTING);
                 Utils.broadcast(Messages.GAME_STARTING.toString()
                         .replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCd.count)));
@@ -107,7 +105,7 @@ public class GameManager {
 //            return;
 //        }
 //        if (isPlaying()) {
-//            if (PlayerManager.alive.size() < 2) { // vrátit 2
+//            if (PlayerManager.alive.size() < 2) {
 //                Bukkit.getScheduler().getPendingTasks().clear();
 //                Bukkit.getScheduler().getActiveWorkers().clear();
 //                setGameState(GameState.ENDING);
@@ -116,6 +114,7 @@ public class GameManager {
 
 
     }
+
     public void onDisable() {
 
         for (Player all : Bukkit.getOnlinePlayers()) {
@@ -241,86 +240,6 @@ public class GameManager {
         }
     }
 
-    public void setPlayersForGame(UHCPlayer uhcPlayer) {
-
-        /*if (PlayerManager.isCreator(player.getPlayer())) {
-            PlayerManager.creator.remove(player.getUUID());
-        }*/
-
-        uhcPlayer.setState(PlayerState.PLAYING);
-        plugin.getPlayerManager().addAlive(uhcPlayer);
-
-        uhcPlayer.getPlayer().getInventory().clear();
-        uhcPlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
-        uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getHealthScale());
-        uhcPlayer.getPlayer().setFoodLevel(20);
-
-        plugin.getKitsManager().giveKit(uhcPlayer);
-
-        // wereAlive = PlayerManager.alive.size();
-    }
-
-    public void teleportPlayers() {
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtils.teleportToSafeLocation()));
-    }
-    public void teleportPlayersAfterMining(Player p) {
-
-        double x, y, z;
-
-        World world = Bukkit.getWorld(p.getLocation().getWorld().getName());
-        x = p.getLocation().getX();
-        y = 150;
-        z = p.getLocation().getZ();
-
-
-        Location location = new Location(world, x, y, z);
-        y = location.getWorld().getHighestBlockYAt(location);
-        location.setY(y);
-        p.teleport(location);
-    }
-
-    public void setSpectator(UHCPlayer p) {
-
-        p.setState(PlayerState.DEAD);
-
-        p.getPlayer().setAllowFlight(true);
-        p.getPlayer().setFlying(true);
-
-        p.getPlayer().setGameMode(GameMode.SPECTATOR);
-
-        // plugin.getKitsManager().getSpectatorKit(p.getPlayer());
-        // new VanishUtils().toggleVanish(p.getPlayer());
-
-        p.getPlayer().teleport(new Location(
-                Bukkit.getWorld(config.getString("game-world")),
-                p.getPlayer().getLocation().getX()+0,
-                p.getPlayer().getLocation().getY()+10,
-                p.getPlayer().getLocation().getZ()+0));
-
-    }
-
-    public void addKillTo(UHCPlayer p) {
-        plugin.getStatistics().addKill(p); // TODO přidat na konec hry
-        p.addKill();
-    }
-    public void addDeathTo(UHCPlayer p) {
-        plugin.getStatistics().addDeath(p);
-        plugin.getPlayerManager().removeAlive(p);
-        plugin.getPlayerManager().addDead(p);
-        p.setTeam(null);
-    }
-
-    public UHCPlayer getWinner() {
-        for (UHCPlayer p : plugin.getPlayerManager().getAliveList()) {
-            if (!p.isOnline()) return null;
-            return p;
-        }
-        return null;
-    }
-    public String getWinnerName() {
-        if (getWinner() == null) return "NONE";
-        return getWinner().getName();
-    }
 
     public void runActivityRewards() {
         if (config.getBoolean("rewards-per-time.enabled", true)) {
@@ -334,13 +253,7 @@ public class GameManager {
             new AutoBroadcastMessages(plugin).runTaskTimer(plugin, 0, interval);
         }
     }
-    public void checkBorder() {
-        if (!plugin.getBorderManager().exist()) {
-            plugin.getLogger().info(TextUtils.color("&aBorder was succesfully created!"));
-            plugin.getBorderManager().removeBorder();
-            plugin.getBorderManager().createBorder();
-        }
-    }
+
     public void updateScoreboard(){
         new BukkitRunnable() {
             @Override

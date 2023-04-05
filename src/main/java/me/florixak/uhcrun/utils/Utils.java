@@ -3,12 +3,15 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.XSeries.XPotion;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
@@ -78,8 +81,45 @@ public class Utils {
         Bukkit.broadcastMessage(TextUtils.color(msg));
     }
 
-    public void addPotion(Player p, PotionEffectType effect, int duration, int power) {
-        p.addPotionEffect(new PotionEffect(effect, duration, power));
+    public void addPotion(Player p, XPotion potion, int duration, int power) {
+        p.addPotionEffect(potion.buildPotionEffect(duration, power));
+    }
+
+    public static void dropItem(UHCPlayer p, BlockBreakEvent event) {
+        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
+        Location loc = event.getBlock().getLocation();
+
+        ItemStack drop;
+        Material drop_item;
+        Random ran = new Random();
+        int size;
+        int xp;
+        int amount;
+
+        for (String block : config.getConfigurationSection("custom-drops").getKeys(false)) {
+            Material material = XMaterial.matchXMaterial(config.getConfigurationSection("custom-drops." + block).getString("material").toUpperCase()).get().parseMaterial();
+            if (event.getBlock().getType() == material) {
+
+                event.setDropItems(false);
+                event.setExpToDrop(0);
+
+                size = config.getStringList("custom-drops." + block + ".drops").size();
+
+                amount = config.getInt("custom-drops." + block + ".max-drop");
+                drop_item = XMaterial.matchXMaterial(config.getConfigurationSection("custom-drops." + block).getStringList("drops").get(ran.nextInt(size)).toUpperCase()).get().parseMaterial();
+                if (drop_item != null && amount != 0) {
+                    drop = new ItemStack(drop_item, ran.nextInt(amount)+1);
+                    loc.getWorld().dropItemNaturally(loc, drop);
+                }
+                xp = config.getInt("custom-drops." + block + ".xp");
+                p.getPlayer().giveExp(xp);
+                if (xp > 0) {
+                    UHCRun.getInstance().getSoundManager().playOreDestroySound(p.getPlayer());
+                }
+
+                break;
+            }
+        }
     }
 
     public void timber(Block block) {

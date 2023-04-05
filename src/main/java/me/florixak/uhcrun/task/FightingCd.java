@@ -34,9 +34,7 @@ public class FightingCd extends BukkitRunnable {
         if (count <= 10) {
             Utils.broadcast(Messages.DEATHMATCH_STARTING.toString()
                     .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
-            for (UHCPlayer player : plugin.getPlayerManager().getPlayersList()) {
-                SoundManager.playDMStarts(player.getPlayer());
-            }
+            plugin.getPlayerManager().getPlayersList().forEach(uhcPlayer -> plugin.getSoundManager().playDMStarts(uhcPlayer.getPlayer()));
         }
         plugin.getGame().checkGame();
         plugin.getBorderManager().setSize(plugin.getBorderManager().getSize()-plugin.getBorderManager().getSpeed());

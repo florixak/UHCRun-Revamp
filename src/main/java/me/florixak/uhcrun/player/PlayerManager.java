@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.player;
 
-import org.bukkit.Material;
+import me.florixak.uhcrun.utils.TeleportUtils;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -72,6 +73,70 @@ public class PlayerManager {
         return null;
     }
 
+    public UHCPlayer getWinner() {
+        for (UHCPlayer p : getAliveList()) {
+            if (!p.isOnline()) return null;
+            return p;
+        }
+        return null;
+    }
+    public String getWinnerName() {
+        if (getWinner() == null) return "NONE";
+        return getWinner().getName();
+    }
+
+    public void setPlayersForGame(UHCPlayer uhcPlayer) {
+
+        uhcPlayer.setState(PlayerState.PLAYING);
+        addAlive(uhcPlayer);
+
+        uhcPlayer.getPlayer().getInventory().clear();
+        uhcPlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
+        uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getHealthScale());
+        uhcPlayer.getPlayer().setFoodLevel(20);
+
+        // wereAlive = PlayerManager.alive.size();
+    }
+
+    public void setSpectator(UHCPlayer uhcPlayer) {
+
+        Location playerLoc = uhcPlayer.getPlayer().getLocation();
+
+        uhcPlayer.setState(PlayerState.DEAD);
+
+        uhcPlayer.getPlayer().setAllowFlight(true);
+        uhcPlayer.getPlayer().setFlying(true);
+
+        uhcPlayer.getPlayer().setGameMode(GameMode.SPECTATOR);
+
+        uhcPlayer.getPlayer().teleport(new Location(
+                Bukkit.getWorld(playerLoc.getWorld().getName()),
+                playerLoc.getX()+0,
+                playerLoc.getY()+10,
+                playerLoc.getZ()+0));
+
+    }
+
+    public void teleportPlayers() {
+        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtils.teleportToSafeLocation()));
+    }
+
+    public void teleportPlayersAfterMining(UHCPlayer uhcPlayer) {
+        Player p = uhcPlayer.getPlayer();
+        double x, y, z;
+
+        World world = Bukkit.getWorld(p.getLocation().getWorld().getName());
+        x = p.getLocation().getX();
+        y = 150;
+        z = p.getLocation().getZ();
+
+        Location location = new Location(world, x, y, z);
+        y = location.getWorld().getHighestBlockYAt(location);
+        location.setY(y);
+
+        p.teleport(location);
+    }
+
     public void clearPlayerInventory(Player player) {
         player.getInventory().clear();
 
@@ -83,7 +148,6 @@ public class PlayerManager {
         player.getInventory().setArmorContents(emptyArmor);
 
     }
-
 
     public void clearAlive() {
         this.alive.clear();

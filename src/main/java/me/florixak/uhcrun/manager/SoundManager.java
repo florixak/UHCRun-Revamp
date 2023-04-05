@@ -10,39 +10,39 @@ public class SoundManager {
         sound.play(player, volume, pitch);
     }
 
-    public static void playOreDestroySound(Player player) {
+    public void playOreDestroySound(Player player) {
         XSound.ENTITY_EXPERIENCE_ORB_PICKUP.play(player, 0.5f, 1f);
     }
 
-    public static void playStartingSound(Player player) {
+    public void playStartingSound(Player player) {
         XSound.BLOCK_STONE_BUTTON_CLICK_ON.play(player, 1f, 1f);
     }
 
-    public static void playGameStarted(Player player) {
+    public void playGameStarted(Player player) {
         XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
     }
 
-    public static void playKillSound(Player player) {
+    public void playKillSound(Player player) {
         XSound.ENTITY_LIGHTNING_BOLT_IMPACT.play(player.getLocation(), 1f, 1f);
     }
 
-    public static void playWinSound(Player player) {
+    public void playWinSound(Player player) {
         XSound.ENTITY_FIREWORK_ROCKET_BLAST.play(player.getLocation(), 1f, 1f);
     }
 
-    public static void playInvOpenSound(Player player) {
+    public void playInvOpenSound(Player player) {
         XSound.BLOCK_CHEST_OPEN.play(player, 1f, 1f);
     }
 
-    public static void playDMBegan(Player player) {
+    public void playDMBegan(Player player) {
         XSound.ENTITY_ENDER_DRAGON_GROWL.play(player.getLocation(), 1f, 1f);
     }
 
-    public static void playDMStarts(Player player) {
+    public void playDMStarts(Player player) {
         XSound.BLOCK_STONE_BUTTON_CLICK_ON.play(player.getLocation(), 1f, 1f);
     }
 
-    public static void playLevelUP(Player player) {
+    public void playLevelUP(Player player) {
         XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
     }
 }

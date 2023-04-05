@@ -1,5 +1,8 @@
 package me.florixak.uhcrun.perks;
 
+import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,12 +13,18 @@ import java.util.UUID;
 
 public class PerksManager {
 
-    public static HashMap<UUID, PerkType> perks = new HashMap<>();
+    private UHCRun plugin;
 
-    public static void givePerk(Player p) {
-        p.sendMessage("Received " + getPerk(p.getUniqueId()) + " kit");
+    public PerksManager(UHCRun plugin) {
+        this.plugin = plugin;
+    }
 
-        switch (perks.get(p.getUniqueId())) {
+    public void givePerk(UHCPlayer uhcPlayer) {
+
+        Player p = uhcPlayer.getPlayer();
+        uhcPlayer.sendMessage("You chose " + uhcPlayer.getPerk() + " perk");
+
+        switch (uhcPlayer.getPerk()) {
             case NONE:
                 break;
             case STRENGTH:
@@ -47,21 +56,4 @@ public class PerksManager {
                 break;
         }
     }
-
-    public static void registerPerk(Player p, PerkType perk) {
-        // add security for reregister perk
-
-        perks.remove(p.getUniqueId());
-        perks.put(p.getUniqueId(), perk);
-    }
-
-    public static PerkType getPerk(UUID uuid) {
-        return perks.get(uuid);
-    }
-
-    private static void getStrength(Player p) {
-
-    }
-
-
 }
