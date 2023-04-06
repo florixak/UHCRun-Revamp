@@ -218,9 +218,9 @@ public class GameListener implements Listener {
     public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
 
         Player damager = (Player) event.getDamager();
-        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
+        UHCPlayer uhcPlayerD = plugin.getPlayerManager().getUHCPlayer(damager.getUniqueId());
 
-        if (!plugin.getGame().isPlaying() || uhcPlayer.isDead()) {
+        if (!plugin.getGame().isPlaying() || uhcPlayerD.isDead()) {
             event.setCancelled(true);
             return;
         }
@@ -229,6 +229,14 @@ public class GameListener implements Listener {
             if (!(event.getEntity() instanceof Player)) return;
             event.setCancelled(true);
             return;
+        }
+
+        Player entity = (Player) event.getEntity();
+        UHCPlayer uhcPlayerE = plugin.getPlayerManager().getUHCPlayer(entity.getUniqueId());
+
+        if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam()) {
+            event.setCancelled(true);
+            uhcPlayerD.sendMessage("Baka, this is your teammate...");
         }
     }
 
