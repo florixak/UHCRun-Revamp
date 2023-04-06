@@ -72,7 +72,7 @@ public class LevelManager {
             plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
 
-        // SoundManager.playLevelUP(player);
+        plugin.getSoundManager().playLevelUP(player.getPlayer());
 
         player.sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(player)))

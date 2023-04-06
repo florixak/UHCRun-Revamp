@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.inventory;
 
-
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.inventory.inventories.CustomGUI;
 import org.bukkit.Bukkit;
@@ -18,12 +17,9 @@ public class InventoryManager {
 
     private Map<String, AbstractInventory> inventories;
 
-    public InventoryManager() {
-        inventories = new HashMap<>();
-    }
-
-    public void onEnable(UHCRun plugin) {
+    public InventoryManager(UHCRun plugin) {
         this.plugin = plugin;
+        inventories = new HashMap<>();
 
         loadCustomMenus();
 

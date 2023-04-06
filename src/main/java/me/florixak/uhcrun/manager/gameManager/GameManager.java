@@ -63,6 +63,8 @@ public class GameManager {
 
             case STARTING:
                 plugin.getTasks().startStartingCD();
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playStartingSound(player));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCd.count)));
                 break;
 
             case MINING:
@@ -89,6 +91,7 @@ public class GameManager {
 
             case ENDING:
                 plugin.getTasks().startEndingCD();
+                Bukkit.getOnlinePlayers().forEach(player -> plugin.getSoundManager().playGameEnd(player));
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(plugin.getPlayerManager().getWinner()));
                 break;
@@ -124,6 +127,10 @@ public class GameManager {
 //        }
     }
 
+    public void endGame() {
+
+    }
+
     public void onDisable() {
 
         for (Player all : Bukkit.getOnlinePlayers()) {
@@ -138,7 +145,11 @@ public class GameManager {
 
         if (config.getBoolean("auto-map-reset", true)) {
             File world = Bukkit.getWorldContainer();
-            world.delete();
+            try {
+                world.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

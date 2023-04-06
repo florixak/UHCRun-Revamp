@@ -21,6 +21,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -189,6 +190,11 @@ public class GameListener implements Listener {
             amount = ran.nextInt(3)+1;
             event.getDrops().add(new ItemStack(XMaterial.COOKED_RABBIT.parseMaterial(), amount));
         }
+    }
+
+    @EventHandler
+    public void handleWeatherChange(WeatherChangeEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

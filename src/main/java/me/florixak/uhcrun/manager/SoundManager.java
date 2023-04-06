@@ -22,6 +22,10 @@ public class SoundManager {
         XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
     }
 
+    public void playGameEnd(Player player) {
+        XSound.ENTITY_PLAYER_LEVELUP.play(player, 1f, 1f);
+    }
+
     public void playKillSound(Player player) {
         XSound.ENTITY_LIGHTNING_BOLT_IMPACT.play(player.getLocation(), 1f, 1f);
     }

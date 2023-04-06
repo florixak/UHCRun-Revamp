@@ -80,14 +80,13 @@ public final class UHCRun extends JavaPlugin {
         plugin = this;
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(this);
-        this.gameManager = new GameManager(this);
+        this.recipeManager = new RecipeManager();
         this.playerManager = new PlayerManager();
         this.scoreboardManager = new ScoreboardManager(this);
         this.lobbyManager = new LocationManager(this);
         this.borderManager = new BorderManager(this);
         this.actionManager = new ActionManager(this);
-        this.inventoryManager = new InventoryManager();
-        this.inventoryManager.onEnable(this);
+        this.inventoryManager = new InventoryManager(this);
         this.statisticManager = new StatisticsManager(this);
         this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager(this);
@@ -95,7 +94,7 @@ public final class UHCRun extends JavaPlugin {
         this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
-        this.recipeManager = new RecipeManager();
+        this.gameManager = new GameManager(this);
 
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
@@ -133,7 +132,6 @@ public final class UHCRun extends JavaPlugin {
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
     }
-
     private void registerCommand(String commandN, CommandExecutor executor) {
          PluginCommand command = UHCRun.getInstance().getCommand(commandN);
 
@@ -146,9 +144,9 @@ public final class UHCRun extends JavaPlugin {
 
     private void connectToDatabase() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            mysql = new MySQL("localhost", 3306, null, null, null);
-            data = new SQLGetter(plugin);
-            data.createTable();
+            this.mysql = new MySQL("localhost", 3306, null, null, null);
+            this.data = new SQLGetter(plugin);
+            this.data.createTable();
         }
     }
     private void disconnectDatabase() {
@@ -191,7 +189,6 @@ public final class UHCRun extends JavaPlugin {
         econ = rsp.getProvider();
         return econ != null;
     }
-
     private boolean setupLuckPerms() {
         for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
             if (plugin.getName().contains("LuckPerms")) {
@@ -213,6 +210,7 @@ public final class UHCRun extends JavaPlugin {
     public static LuckPerms getLuckPerms() {
         return luckPerms;
     }
+
     public GameManager getGame() {
         return gameManager;
     }
