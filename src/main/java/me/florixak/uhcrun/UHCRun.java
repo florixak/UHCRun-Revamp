@@ -60,6 +60,7 @@ public final class UHCRun extends JavaPlugin {
     private TaskManager taskManager;
     private TeamManager teamManager;
     private SoundManager soundManager;
+    private RecipeManager recipeManager;
 
     private Utils utilities;
     private TeleportUtils teleportUtil;
@@ -94,6 +95,7 @@ public final class UHCRun extends JavaPlugin {
         this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
+        this.recipeManager = new RecipeManager();
 
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
@@ -103,24 +105,13 @@ public final class UHCRun extends JavaPlugin {
 
         registerListeners();
         registerCommands();
-
-        registerRecipes();
-
-        getGame().runActivityRewards();
-        getGame().runAutoBroadcast();
-        getGame().updateScoreboard();
-        getBorderManager().checkBorder();
-
-        getGame().setOreSpawn();
     }
 
     @Override
     public void onDisable() {
-        inventoryManager.onDisable();
-
-        gameManager.onDisable();
+        getInventoryManager().onDisable();
+        getGame().onDisable();
         disconnectDatabase();
-
     }
 
     private void registerListeners() {
@@ -163,16 +154,6 @@ public final class UHCRun extends JavaPlugin {
     private void disconnectDatabase() {
         if (configManager.getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
             mysql.disconnect();
-        }
-    }
-
-    private void registerRecipes() {
-        try {
-            new RecipeManager();
-            getLogger().info(TextUtils.color("&aAll recipes are loaded! (" + RecipeManager.recipes + ")"));
-        } catch (Exception e) {
-            getLogger().info(TextUtils.color("&cThere is error in recipes!"));
-            e.printStackTrace();
         }
     }
 
@@ -273,5 +254,8 @@ public final class UHCRun extends JavaPlugin {
     }
     public TaskManager getTasks() {
         return taskManager;
+    }
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
     }
 }

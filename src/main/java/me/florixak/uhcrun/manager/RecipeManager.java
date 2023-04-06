@@ -13,10 +13,13 @@ import java.util.HashMap;
 
 public class RecipeManager {
 
-    public static int recipes = 0;
-    public HashMap<String, Material> recipe = new HashMap<>();
+    public HashMap<String, Material> recipe;
 
     public RecipeManager() {
+        this.recipe = new HashMap<>();
+    }
+
+    public void registerRecipes() {
         recipe.clear();
 
         goldenApple();
@@ -29,7 +32,7 @@ public class RecipeManager {
         diamondTools();
     }
 
-    public void goldenApple() {
+    private void goldenApple() {
 
         ItemStack itemStack = new ItemStack(Material.GOLDEN_APPLE);
         ShapedRecipe shapedRecipe = new ShapedRecipe(NamespacedKey.minecraft("light-gapple"), itemStack);
@@ -40,11 +43,9 @@ public class RecipeManager {
 
         Bukkit.addRecipe(shapedRecipe);
         recipe.put("Golden Apple", Material.GOLDEN_APPLE);
-        recipes += 1;
-
     }
 
-    public void anvil() {
+    private void anvil() {
 
         ItemStack itemStack = new ItemStack(Material.ANVIL);
         ShapedRecipe shapedRecipe = new ShapedRecipe(NamespacedKey.minecraft("light-anvil"), itemStack);
@@ -55,10 +56,9 @@ public class RecipeManager {
 
         Bukkit.addRecipe(shapedRecipe);
         recipe.put("Light Anvil", Material.ANVIL);
-        recipes += 1;
     }
 
-    public void fishingRod() {
+    private void fishingRod() {
 
         ItemStack itemStack = new ItemStack(Material.FISHING_ROD);
         ShapedRecipe shapedRecipe = new ShapedRecipe(NamespacedKey.minecraft("light-rod"), itemStack);
@@ -69,10 +69,9 @@ public class RecipeManager {
 
         Bukkit.addRecipe(shapedRecipe);
         recipe.put("Light Fishing Rod", Material.FISHING_ROD);
-        recipes += 1;
     }
 
-    public void woodenTools() {
+    private void woodenTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.WOODEN_AXE.parseItem());
         ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
@@ -103,13 +102,10 @@ public class RecipeManager {
 
 
         Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
     }
-    public void stoneTools() {
+    private void stoneTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.STONE_AXE.parseItem());
         ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
@@ -140,13 +136,10 @@ public class RecipeManager {
 
 
         Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
     }
-    public void goldenTools() {
+    private void goldenTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.GOLDEN_AXE.parseItem());
         ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
@@ -176,13 +169,10 @@ public class RecipeManager {
         shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
 
         Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
     }
-    public void ironTools() {
+    private void ironTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.IRON_AXE.parseItem());
         ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
@@ -212,13 +202,10 @@ public class RecipeManager {
         shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
 
         Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
     }
-    public void diamondTools() {
+    private void diamondTools() {
 
         ItemStack itemStack1 = new ItemStack(XMaterial.DIAMOND_AXE.parseItem());
         ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
@@ -248,46 +235,40 @@ public class RecipeManager {
         shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
 
         Bukkit.addRecipe(shapedRecipe1);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe2);
-        recipes += 1;
         Bukkit.addRecipe(shapedRecipe3);
-        recipes += 1;
     }
-//    public void netheriteTools() {
-//
-//        ItemStack itemStack1 = new ItemStack(XMaterial.NETHERITE_AXE.parseItem());
-//        ItemUtil.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
-//
-//        ItemStack itemStack2 = new ItemStack(XMaterial.NETHERITE_PICKAXE.parseItem());
-//        ItemUtil.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
-//
-//        ItemStack itemStack3 = new ItemStack(XMaterial.NETHERITE_SHOVEL.parseItem());
-//        ItemUtil.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
-//        ItemUtil.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
-//
-//        ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("netherite-axe"), itemStack1);
-//        shapedRecipe1.shape("NN ", "NS ", " S ");
-//        shapedRecipe1.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-//        shapedRecipe1.setIngredient('S', XMaterial.STICK.parseMaterial());
-//
-//        ShapedRecipe shapedRecipe2 = new ShapedRecipe(NamespacedKey.minecraft("netherite-pickaxe"), itemStack2);
-//        shapedRecipe2.shape("NNN", " S ", " S ");
-//        shapedRecipe2.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-//        shapedRecipe2.setIngredient('S', XMaterial.STICK.parseMaterial());
-//
-//        ShapedRecipe shapedRecipe3 = new ShapedRecipe(NamespacedKey.minecraft("netherite-shovel"), itemStack3);
-//        shapedRecipe3.shape(" N ", " S ", " S ");
-//        shapedRecipe3.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
-//        shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
-//
-//        Bukkit.addRecipe(shapedRecipe1);
-//        recipes += 1;
-//        Bukkit.addRecipe(shapedRecipe2);
-//        recipes += 1;
-//        Bukkit.addRecipe(shapedRecipe3);
-//        recipes += 1;
-//    }
+    private void netheriteTools() {
+
+        ItemStack itemStack1 = new ItemStack(XMaterial.NETHERITE_AXE.parseItem());
+        ItemUtils.addEnchant(itemStack1, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack1, Enchantment.DURABILITY, 3, false);
+
+        ItemStack itemStack2 = new ItemStack(XMaterial.NETHERITE_PICKAXE.parseItem());
+        ItemUtils.addEnchant(itemStack2, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack2, Enchantment.DURABILITY, 3, false);
+
+        ItemStack itemStack3 = new ItemStack(XMaterial.NETHERITE_SHOVEL.parseItem());
+        ItemUtils.addEnchant(itemStack3, Enchantment.DIG_SPEED, 3, false);
+        ItemUtils.addEnchant(itemStack3, Enchantment.DURABILITY, 3, false);
+
+        ShapedRecipe shapedRecipe1 = new ShapedRecipe(NamespacedKey.minecraft("netherite-axe"), itemStack1);
+        shapedRecipe1.shape("NN ", "NS ", " S ");
+        shapedRecipe1.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+        shapedRecipe1.setIngredient('S', XMaterial.STICK.parseMaterial());
+
+        ShapedRecipe shapedRecipe2 = new ShapedRecipe(NamespacedKey.minecraft("netherite-pickaxe"), itemStack2);
+        shapedRecipe2.shape("NNN", " S ", " S ");
+        shapedRecipe2.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+        shapedRecipe2.setIngredient('S', XMaterial.STICK.parseMaterial());
+
+        ShapedRecipe shapedRecipe3 = new ShapedRecipe(NamespacedKey.minecraft("netherite-shovel"), itemStack3);
+        shapedRecipe3.shape(" N ", " S ", " S ");
+        shapedRecipe3.setIngredient('N', XMaterial.NETHERITE_INGOT.parseMaterial());
+        shapedRecipe3.setIngredient('S', XMaterial.STICK.parseMaterial());
+
+        Bukkit.addRecipe(shapedRecipe1);
+        Bukkit.addRecipe(shapedRecipe2);
+        Bukkit.addRecipe(shapedRecipe3);
+    }
 }

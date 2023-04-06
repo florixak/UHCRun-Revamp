@@ -35,6 +35,20 @@ public class GameManager {
 
         this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
+
+        plugin.getRecipeManager().registerRecipes();
+
+        plugin.getScoreboardManager().updateScoreboard();
+        plugin.getBorderManager().checkBorder();
+
+        setOreSpawn();
+
+        runActivityRewards();
+        runAutoBroadcast();
+    }
+
+    public GameState getGameState() {
+        return this.gameState;
     }
 
     public void setGameState(GameState gameState){
@@ -80,9 +94,6 @@ public class GameManager {
                 break;
         }
     }
-    public GameState getGameState() {
-        return this.gameState;
-    }
 
     public void checkGame() {
 
@@ -111,8 +122,6 @@ public class GameManager {
 //                setGameState(GameState.ENDING);
 //            }
 //        }
-
-
     }
 
     public void onDisable() {
@@ -127,32 +136,10 @@ public class GameManager {
         plugin.getPlayerManager().clearPlayers();
         plugin.getTeams().onDisable();
 
-        /*if (config.getBoolean("auto-map-reset", true)) {
-            File propertiesFile = new File(Bukkit.getWorldContainer(), "server.properties");
-            try (FileInputStream stream = new FileInputStream(propertiesFile)) {
-                Properties properties = new Properties();
-                properties.load(stream);
-
-                // Getting and deleting the main world
-                File world = new File(Bukkit.getWorldContainer(), properties.getProperty("level-name"));
-
-                File nether = new File(Bukkit.getWorldContainer(), "world_nether");
-                // Creating needed directories
-                world.mkdirs();
-                new File(world, "data").mkdirs();
-                new File(world, "datapacks").mkdirs();
-                new File(world, "playerdata").mkdirs();
-                new File(world, "poi").mkdirs();
-                new File(world, "region").mkdirs();
-
-                new File(nether, "data").mkdirs();
-                new File(nether, "datapacks").mkdirs();
-                new File(nether, "playerdata").mkdirs();
-                new File(nether, "poi").mkdirs();
-                new File(nether, "region").mkdirs();
-            } catch (IOException ignored) {
-            }
-        }*/
+        if (config.getBoolean("auto-map-reset", true)) {
+            File world = Bukkit.getWorldContainer();
+            world.delete();
+        }
     }
 
     public boolean isWaiting() {
@@ -254,12 +241,5 @@ public class GameManager {
         }
     }
 
-    public void updateScoreboard(){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getScoreboardManager()::updateScoreboard);
-            }
-        }.runTaskTimer(plugin, 0L, 20L);
-    }
+
 }

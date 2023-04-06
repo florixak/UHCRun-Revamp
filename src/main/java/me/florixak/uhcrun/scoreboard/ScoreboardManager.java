@@ -5,6 +5,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ScoreboardManager {
     private List<String> waiting;
     private List<String> starting;
     private List<String> mining;
-    private List<String> fighting;
+    private List<String> pvp;
     private List<String> deathmatch;
     private List<String> ending;
 
@@ -38,7 +39,7 @@ public class ScoreboardManager {
         this.waiting = config.getStringList("scoreboard.waiting");
         this.starting = config.getStringList("scoreboard.starting");
         this.mining = config.getStringList("scoreboard.mining");
-        this.fighting = config.getStringList("scoreboard.fighting");
+        this.pvp = config.getStringList("scoreboard.fighting");
         this.deathmatch = config.getStringList("scoreboard.deathmatch");
         this.ending = config.getStringList("scoreboard.ending");
     }
@@ -109,22 +110,22 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createFightingSb(Player p){
-        players.put(p.getUniqueId(), updateFightingSb(p.getUniqueId()));
+    public void createPvPSb(Player p){
+        players.put(p.getUniqueId(), updatePvPSb(p.getUniqueId()));
     }
-    public ScoreHelper updateFightingSb(UUID uuid){
+    public ScoreHelper updatePvPSb(UUID uuid){
 
         Player p = Bukkit.getPlayer(uuid);
 
         if (p == null) return null;
 
-        int sb = this.fighting.size();
+        int sb = this.pvp.size();
 
         ScoreHelper helper = players.get(p.getUniqueId());
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.fighting){
+        for (String text : this.pvp){
             helper.setSlot(sb, text);
             sb--;
         }
@@ -175,7 +176,16 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void updateScoreboard(Player p) {
+    public void updateScoreboard(){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getScoreboardManager()::setScoreboard);
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
+    }
+
+    public void setScoreboard(Player p) {
         removeFromMap(p);
         switch (plugin.getGame().getGameState()) {
             case WAITING:
@@ -188,7 +198,7 @@ public class ScoreboardManager {
                 createMiningSb(p);
                 break;
             case FIGHTING:
-                createFightingSb(p);
+                createPvPSb(p);
                 break;
             case DEATHMATCH:
                 createDeathmatchSb(p);
