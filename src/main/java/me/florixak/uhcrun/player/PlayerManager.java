@@ -13,7 +13,7 @@ public class PlayerManager {
 
     private List<UHCPlayer> players;
     private List<UHCPlayer> alive;
-    private List<UHCPlayer> dead; // TODO rožlišoat speactatory of dead hráčů
+    private List<UHCPlayer> dead; // TODO rozlišovat speactatory od dead hráčů
     private List<UHCPlayer> creators; // TODO creator
 
     public PlayerManager() {
@@ -146,7 +146,6 @@ public class PlayerManager {
             emptyArmor[i] = new ItemStack(Material.AIR);
         }
         player.getInventory().setArmorContents(emptyArmor);
-
     }
 
     public void clearAlive() {
