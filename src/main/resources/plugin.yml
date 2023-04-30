@@ -11,9 +11,9 @@ commands:
     description: Force game start
   workbench:
     aliases: [ wb, craftingtable ]
-    description: Opens remotly workbench
+    description: Opens remotely workbench
   anvil:
-    description: Opens remotly anvil
+    description: Opens remotely anvil
   nick:
     description: Use custom nick
   unnick:

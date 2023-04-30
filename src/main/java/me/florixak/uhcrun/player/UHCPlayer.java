@@ -16,6 +16,7 @@ public class UHCPlayer {
     private final UUID uuid;
     private final String name;
 
+    private PlayerData data;
     private PlayerState state;
 
     private UHCTeam team;
@@ -23,15 +24,18 @@ public class UHCPlayer {
     private int kills;
     private KitType kit;
     private PerkType perk;
+    private boolean hasWon;
 
     private String nickname;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
+        this.data = new PlayerData(this);
 
         setState(PlayerState.LOBBY);
 
+        this.hasWon = false;
         this.kills = 0;
         this.kit = KitType.NONE;
         this.perk = PerkType.NONE;
@@ -63,6 +67,14 @@ public class UHCPlayer {
     }
     public PlayerState getState() {
         return this.state;
+    }
+
+    public PlayerData getData() {
+        return this.data;
+    }
+
+    public boolean isWinner() {
+        return this.hasWon;
     }
 
     public boolean isAlive() {

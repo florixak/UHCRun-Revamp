@@ -1,8 +1,8 @@
 package me.florixak.uhcrun.utils.placeholderapi;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -48,11 +48,51 @@ public class PlaceholderExp extends PlaceholderExpansion {
             return null;
         }
 
-        if (params.equalsIgnoreCase("team")) {
-            if (!plugin.getGameManager().isPlaying())
-                return PlaceholderAPI.setPlaceholders(p, "%luckperms_prefix%");
+        UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
+        if (params.equalsIgnoreCase("uhc-author")) {
+            return getAuthor();
+        }
+
+        if (params.equalsIgnoreCase("winner")) {
+            if (plugin.getGameManager().getPlayerManager().getUHCWinner() != null) return "NONE";
+            if (plugin.getGameManager().isTeamMode()) {
+                return plugin.getGameManager().getTeamManager().getGameWinner().getName();
+            }
+            return plugin.getGameManager().getPlayerManager().getUHCWinner().getName();
+        }
+
+        if (params.equalsIgnoreCase("team")) {
+            if (!uhcPlayer.hasTeam()) return "";
             return plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId()).getTeam() + " | ";
+        }
+
+        if (params.equalsIgnoreCase("kills")) {
+            return String.valueOf(uhcPlayer.getKills());
+        }
+
+        if (params.equalsIgnoreCase("kills")) {
+            return String.valueOf(uhcPlayer.getKills());
+        }
+
+        if (params.equalsIgnoreCase("uhc-level")) {
+            return String.valueOf(uhcPlayer.getData().getLevel());
+        }
+
+        if (params.equalsIgnoreCase("uhc-kills")) {
+            return String.valueOf(uhcPlayer.getData().getKills());
+        }
+
+        if (params.equalsIgnoreCase("uhc-wins")) {
+            return String.valueOf(uhcPlayer.getData().getWins());
+        }
+
+        if (params.equalsIgnoreCase("uhc-deaths")) {
+            return String.valueOf(uhcPlayer.getData().getDeaths());
+        }
+
+        if (params.equalsIgnoreCase("uhc-money")) {
+            return String.valueOf(uhcPlayer.getData().getMoney());
         }
         return null;
     }

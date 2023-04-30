@@ -75,11 +75,11 @@ public class PlayerManager {
     }
 
     public UHCPlayer getUHCWinner() {
+        UHCPlayer winner = getAlivePlayers().get(0);
         for (UHCPlayer p : getAlivePlayers()) {
-            if (!p.isOnline()) return null;
-            return p;
+            if (p.isWinner()) winner = p;
         }
-        return null;
+        return winner;
     }
 
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
@@ -97,19 +97,22 @@ public class PlayerManager {
     }
 
     public void setSpectator(UHCPlayer uhcPlayer) {
-
-        Location playerLoc = uhcPlayer.getPlayer().getLocation();
+        Player p = uhcPlayer.getPlayer();
+        Location playerLoc = p.getLocation();
 
         uhcPlayer.setState(PlayerState.DEAD);
 
-        uhcPlayer.getPlayer().setGameMode(GameMode.SPECTATOR);
+        p.setHealth(p.getMaxHealth());
+        p.setFoodLevel(20);
+        clearPlayerInventory(p);
 
-        uhcPlayer.getPlayer().teleport(new Location(
+        p.setGameMode(GameMode.SPECTATOR);
+
+        p.teleport(new Location(
                 Bukkit.getWorld(playerLoc.getWorld().getName()),
                 playerLoc.getX()+0,
                 playerLoc.getY()+10,
                 playerLoc.getZ()+0));
-
     }
 
     public void teleportPlayers() {

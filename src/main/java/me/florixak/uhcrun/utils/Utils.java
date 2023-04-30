@@ -10,6 +10,8 @@ import me.florixak.uhcrun.utils.XSeries.XPotion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +37,16 @@ public class Utils {
 
     public static String formatMoney(UUID uuid){
         return format.format(GameManager.getGameManager().getStatistics().getMoney(uuid));
+    }
+
+    public static void clearDrops() {
+        List<Entity> entList = Bukkit.getWorld("world").getEntities();//get all entities in the world
+
+        for(Entity current : entList) {//loop through the list
+            if (current instanceof Item) {//make sure we aren't deleting mobs/players
+                current.remove();//remove it
+            }
+        }
     }
 
     public static void sendHotBarMessage(Player player, String message) {
@@ -84,7 +96,6 @@ public class Utils {
             e.printStackTrace();
         }
     }
-
 
     @SuppressWarnings("deprecation")
     public static ItemStack getPlayerHead(String player, String name) {

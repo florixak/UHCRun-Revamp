@@ -17,9 +17,12 @@ import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.scoreboard.ScoreboardManager;
+import me.florixak.uhcrun.sql.MySQL;
+import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.utils.*;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -33,11 +36,13 @@ import java.util.Random;
 public class GameManager {
 
     private UHCRun plugin;
+    private FileConfiguration config, messages;
 
     private static GameManager gameManager;
     private GameState gameState;
 
-    private FileConfiguration config, messages;
+    private MySQL mysql;
+    private SQLGetter data;
 
     private boolean teamMode;
     private boolean forceStarted;
@@ -49,7 +54,6 @@ public class GameManager {
     private LocationManager lobbyManager;
     private BorderManager borderManager;
     private StatisticsManager statisticManager;
-    private LevelManager levelManager;
     private KitsManager kitsManager;
     private PerksManager perksManager;
     private TaskManager taskManager;
@@ -77,7 +81,6 @@ public class GameManager {
         this.lobbyManager = new LocationManager(this);
         this.borderManager = new BorderManager(this);
         this.statisticManager = new StatisticsManager(this);
-        this.levelManager = new LevelManager(this);
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
@@ -86,26 +89,25 @@ public class GameManager {
 
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
-
-        getBorderManager().checkBorder();
-
-        setOreSpawn();
-
-        getTaskManager().runActivityRewards();
-        getTaskManager().runAutoBroadcast();
     }
 
-    private void loadNewGame() {
+    public void loadNewGame() {
         setGameState(GameState.LOBBY);
 
         registerCommands();
         registerListeners();
 
         this.forceStarted = false;
+        this.teamMode = config.getBoolean("settings.game.team-mode");
 
+        connectToDatabase();
+        getBorderManager().checkBorder();
         getRecipeManager().registerRecipes();
+        spawnOre();
 
         getTaskManager().runScoreboardUpdate();
+        getTaskManager().runActivityRewards();
+        getTaskManager().runAutoBroadcast();
     }
 
     public GameState getGameState() {
@@ -162,18 +164,31 @@ public class GameManager {
         getPlayerManager().clearPlayers();
         getTeamManager().onDisable();
         getTaskManager().onDisable();
+        disconnectDatabase();
     }
 
     public boolean isForceStarted() {
         return this.forceStarted;
     }
-
     public boolean isTeamMode() {
-        return config.getBoolean("settings.game.team-mode");
+        return teamMode;
     }
 
     public boolean isPlaying() {
         return (gameState == GameState.MINING) || (gameState == GameState.FIGHTING) || (gameState == GameState.DEATHMATCH);
+    }
+
+    private void connectToDatabase() {
+        if (config.getBoolean("MySQL.enabled", true)) {
+            this.mysql = new MySQL("localhost", 3306, null, null, null);
+            this.data = new SQLGetter(plugin);
+            this.data.createTable();
+        }
+    }
+    private void disconnectDatabase() {
+        if (config.getBoolean("MySQL.enabled", true)) {
+            mysql.disconnect();
+        }
     }
 
     private void registerListeners() {
@@ -206,63 +221,62 @@ public class GameManager {
         command.setExecutor(executor);
     }
 
-
-    public void setOreSpawn() {
+    public void spawnOre() {
         OreUtils oreUtility = new OreUtils();
         World world = Bukkit.getWorld(config.getString("game-world"));
         Random random = new Random();
         int border = config.getInt("border.size");
         Location loc;
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 300; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.DIAMOND_ORE);
             oreUtility.generateVein(Material.DIAMOND_ORE, world.getBlockAt(loc), amount);
         }
-        for (int i = 0; i < 600; i++) {
+        for (int i = 0; i < 300; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.IRON_ORE);
             oreUtility.generateVein(Material.IRON_ORE, world.getBlockAt(loc), amount);
         }
-        for (int i = 0; i < 600; i++) {
+        for (int i = 0; i < 400; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.COAL_ORE);
             oreUtility.generateVein(Material.COAL_ORE, world.getBlockAt(loc), amount);
         }
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 300; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.EMERALD_ORE);
             oreUtility.generateVein(Material.EMERALD_ORE, world.getBlockAt(loc), amount);
         }
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 300; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.GOLD_ORE);
             oreUtility.generateVein(Material.GOLD_ORE, world.getBlockAt(loc), amount);
         }
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 300; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.REDSTONE_ORE);
@@ -271,12 +285,19 @@ public class GameManager {
         for (int i = 0; i < 200; i++) {
             int amount = random.nextInt(3) + 2;
             loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (world.getBlockAt(loc).getType().equals(Material.WATER)) {
+            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
                 loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
             }
             world.getBlockAt(loc).setType(Material.OBSIDIAN);
             oreUtility.generateVein(Material.OBSIDIAN, world.getBlockAt(loc), amount);
         }
+    }
+
+    public MySQL getSQL() {
+        return this.mysql;
+    }
+    public SQLGetter getData() {
+        return this.data;
     }
 
     public static GameManager getGameManager() {
@@ -298,9 +319,6 @@ public class GameManager {
     public BorderManager getBorderManager() { return borderManager; }
     public StatisticsManager getStatistics() {
         return statisticManager;
-    }
-    public LevelManager getLevelManager() {
-        return levelManager;
     }
     public TeamManager getTeamManager() {
         return teamManager;

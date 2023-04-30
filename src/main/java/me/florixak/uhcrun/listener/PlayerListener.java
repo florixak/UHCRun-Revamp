@@ -31,10 +31,8 @@ public class PlayerListener implements Listener {
         Player p = event.getPlayer();
         event.setJoinMessage(null);
 
-        UHCPlayer uhcPlayer = new UHCPlayer(p.getUniqueId(), p.getName());
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateHOCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
-
-        // gameManager.getStatistics().setData(uhcPlayer);
 
         if (gameManager.getGameManager().isPlaying() || uhcPlayer.isDead()) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer);
@@ -47,6 +45,8 @@ public class PlayerListener implements Listener {
         p.setLevel(0);
         p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
+
+        // p.teleport(lobby location); TODO Join lobby location
 
         gameManager.getPlayerManager().clearPlayerInventory(p);
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);

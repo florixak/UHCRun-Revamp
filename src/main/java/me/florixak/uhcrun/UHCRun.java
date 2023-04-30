@@ -2,8 +2,6 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.sql.MySQL;
-import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
@@ -22,53 +20,45 @@ public final class UHCRun extends JavaPlugin {
     public static String nmsver;
     public static boolean useOldMethods;
 
-    public MySQL mysql;
-    public SQLGetter data;
-
     private GameManager gameManager;
 
     @Override
     public void onEnable() {
         plugin = this;
 
-        getLogger().info("Author: FloriXak");
+        getLogger().info(getDescription().getName());
+        getLogger().info("Author: " + getAuthors());
         getLogger().info("Web: www.florixak.tk");
         getLogger().info("Version: " + getDescription().getVersion());
-        getLogger().info("Created 4fun");
 
-        registerDependency();
-        connectToDatabase();
+        nmsver = Bukkit.getServer().getClass().getPackage().getName();
+        nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
+
+        if (nmsver.equalsIgnoreCase("v1_8_R1") || nmsver.startsWith("v1_7_")) {
+            useOldMethods = true;
+        }
 
         this.gameManager = new GameManager(plugin);
+        this.gameManager.loadNewGame();
 
-
+        registerDependency();
     }
 
     @Override
     public void onDisable() {
         getGameManager().onDisable();
-        disconnectDatabase();
     }
 
     public static UHCRun getInstance() {
         return plugin;
     }
 
-    public GameManager getGameManager() {
-        return gameManager;
+    public String getAuthors() {
+        return "FloriXak";
     }
 
-    private void connectToDatabase() {
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            this.mysql = new MySQL("localhost", 3306, null, null, null);
-            this.data = new SQLGetter(plugin);
-            this.data.createTable();
-        }
-    }
-    private void disconnectDatabase() {
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("MySQL.enabled", true)) {
-            mysql.disconnect();
-        }
+    public GameManager getGameManager() {
+        return gameManager;
     }
 
     private void registerDependency() {

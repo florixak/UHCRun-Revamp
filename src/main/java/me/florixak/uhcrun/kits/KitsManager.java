@@ -53,7 +53,6 @@ public class KitsManager {
     }
 
     public void getWaitingKit(UHCPlayer p) {
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         ItemStack item;
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
@@ -69,6 +68,7 @@ public class KitsManager {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.custom-crafts").getString("material").toUpperCase()).get().parseItem();
             p.getPlayer().getInventory().setItem(config.getInt("lobby-items.custom-crafts.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.custom-crafts.display-name")), 1));
         }
+
         p.getPlayer().getInventory().setItem(config.getInt("lobby-items.statistics.slot"),
                 ItemUtils.item(Utils.getPlayerHead(p.getName(), p.getName()),
                 TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));

@@ -27,7 +27,6 @@ public class PlaceholderUtil {
         GameManager gameManager = GameManager.getGameManager();
         BorderManager borderManager = gameManager.getBorderManager();
         StatisticsManager statisticManager = gameManager.getStatistics();
-        LevelManager levelManager = gameManager.getLevelManager();
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
@@ -95,8 +94,6 @@ public class PlaceholderUtil {
             }
         }
 
-
-
         // TODO were alive
         // if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + plugin.getGame().getWereAlive());
 
@@ -118,11 +115,11 @@ public class PlaceholderUtil {
             text = text.replace("%stats-deaths%", String.valueOf(statisticManager.getDeaths(uhcPlayer)));
         }
         if (text.contains("%stats-level%")) {
-            text = text.replace("%stats-level%", String.valueOf(levelManager.getPlayerLevel(uhcPlayer)));
+            text = text.replace("%stats-level%", String.valueOf(uhcPlayer.getData().getLevel()));
         }
         if (text.contains("%requiredXP%")) {
             DecimalFormat format = new DecimalFormat("#######0");
-            text = text.replace("%requiredXP%", format.format(levelManager.getRequiredExp(uhcPlayer)));
+            text = text.replace("%requiredXP%", format.format(uhcPlayer.getData().getRequiredExp()));
         }
 
         if (text.contains("%winner%")) {

@@ -3,7 +3,6 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.manager.LevelManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
