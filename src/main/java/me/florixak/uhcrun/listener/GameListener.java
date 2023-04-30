@@ -7,7 +7,6 @@ import me.florixak.uhcrun.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -46,60 +45,6 @@ public class GameListener implements Listener {
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");
         List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
 
-        double money_for_win;
-        double money_for_kills;
-        double level_xp_for_win;
-        double level_xp_for_kills;
-        double money_for_lose;
-        double level_xp_for_lose;
-
-        /*for (UHCPlayer p : gameManager.getPlayerManager().getPlayers()) {
-
-            money_for_kills = config.getDouble("coins-per-kill") * p.getKills();
-            level_xp_for_kills = config.getDouble("player-level.level-xp-per-kill")*p.getKills();
-            money_for_win = config.getDouble("coins-per-win");
-            level_xp_for_win = config.getDouble("player-level.level-xp-per-win");
-
-            money_for_lose = config.getDouble("coins-per-lose");
-            level_xp_for_lose = config.getDouble("player-level.level-xp-per-lose");
-
-            if (p.isDead()) {
-                p.getPlayer().showPlayer(plugin, p.getPlayer());
-            }
-
-            if (p == winner) {
-                plugin.getStatistics().addWin(p);
-                plugin.getStatistics().addMoney(p, money_for_win + money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p, level_xp_for_win + level_xp_for_kills);
-                titleAction.execute(plugin, p.getPlayer(), "Victory!");
-                Utils.broadcast(Messages.WINNER.toString().replace("%winner%", p != null ? p.getName() : "NONE"));
-                for (String reward : win_rewards) {
-                    p.sendMessage(TextUtils.color(reward
-                                    .replace("%coins-for-win%", String.valueOf(money_for_win))
-                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                    .replace("%level-xp-for-win%", String.valueOf(level_xp_for_win))
-                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                    .replace("%prefix%", prefix)
-                            )
-                    );
-                }
-            }
-            else {
-                plugin.getStatistics().addMoney(p, money_for_lose+money_for_kills);
-                plugin.getLevelManager().addPlayerLevel(p, level_xp_for_lose+level_xp_for_kills);
-                titleAction.execute(plugin, p.getPlayer(), "Game Over!");
-                for (String reward : lose_rewards) {
-                    p.sendMessage(TextUtils.color(reward
-                                    .replace("%coins-for-lose%", String.valueOf(money_for_lose))
-                                    .replace("%coins-for-kills%", String.valueOf(money_for_kills))
-                                    .replace("%level-xp-for-lose%", String.valueOf(level_xp_for_lose))
-                                    .replace("%level-xp-for-kills%", String.valueOf(level_xp_for_kills))
-                                    .replace("%prefix%", prefix)
-                            )
-                    );
-                }
-            }
-        } */
     }
 
     @EventHandler
@@ -107,11 +52,11 @@ public class GameListener implements Listener {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
 
-        if (killer instanceof Player) {
+        if (killer != null) {
             killer.addKill();
-            gameManager.getPerksManager().givePerk(killer);
 
-            killer.getPlayer().giveExp(victim.getPlayer().getTotalExperience()/3);
+            gameManager.getPerksManager().givePerk(killer);
+            killer.getPlayer().giveExp(config.getInt("settings.rewards.kill.exp"));
 
             Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
         } else {
@@ -119,20 +64,12 @@ public class GameListener implements Listener {
         }
 
         gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
-
-        victim.getPlayer().setHealth(20);
-        victim.getPlayer().setFoodLevel(20);
-        victim.getPlayer().setLevel(0);
-        victim.getPlayer().giveExp(-victim.getPlayer().getTotalExperience());
-        victim.getPlayer().setTotalExperience(0);
-
         gameManager.getPlayerManager().setSpectator(victim);
     }
 
     @EventHandler
     public void handleBlockDestroy(BlockBreakEvent event) {
         UHCPlayer p = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
-//        Block block = event.getBlock();
 
         if (!gameManager.isPlaying() || p.isDead()) {
             event.setCancelled(true);
@@ -235,7 +172,7 @@ public class GameListener implements Listener {
         Player entity = (Player) event.getEntity();
         UHCPlayer uhcPlayerE = gameManager.getPlayerManager().getUHCPlayer(entity.getUniqueId());
 
-        if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam()) {
+        if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && config.getBoolean("settings.teams.friendly-fire", true)) {
             event.setCancelled(true);
             uhcPlayerD.sendMessage("Baka, this is your teammate...");
         }
@@ -276,19 +213,16 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleArrowHitHP(ProjectileHitEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Arrow) && !(event.getEntity() instanceof Snowball)) return;
+        if (config.getBoolean("settings.game.projectile-hit-hp", false)) return;
 
-        if (event.getEntity().getShooter() instanceof Player) {
-            if (event.getEntity() instanceof Arrow) {
-                Player shooter = (Player) event.getEntity().getShooter();
-                Player enemy = (Player) event.getHitEntity();
+        Player shooter = (Player) event.getEntity().getShooter();
+        Player enemy = (Player) event.getHitEntity();
 
-                if (config.getBoolean("arrow-hit-hp", true)) {
-                    shooter.sendMessage(Messages.SHOT_HP.toString()
-                            .replace("%player%", enemy.getDisplayName())
-                            .replace("%hp%", String.valueOf(enemy.getHealth())));
-                }
-            }
-        }
+        shooter.sendMessage(Messages.SHOT_HP.toString()
+                .replace("%player%", enemy.getDisplayName())
+                .replace("%hp%", String.valueOf(enemy.getHealth())));
     }
 
     @EventHandler

@@ -33,18 +33,18 @@ public class GameChecking extends BukkitRunnable {
                 }
                 break;
             case STARTING:
-                if (gameManager.isForceStarted() || gameManager.isDeveloperMode()) {
+                if (gameManager.isForceStarted()) {
                     return;
                 }
                 if (Bukkit.getOnlinePlayers().size() < minPlayers) {
-                    gameManager.getTaskManager().stopStartingCooldown();
+                    gameManager.getTaskManager().stopStartingCD();
                     gameManager.setGameState(GameState.LOBBY);
                 }
                 break;
             case MINING:
                 break;
             case FIGHTING:
-                if (gameManager.isForceStarted() || gameManager.isDeveloperMode()) {
+                if (gameManager.isForceStarted()) {
                     return;
                 }
                 if (Bukkit.getOnlinePlayers().size() < minPlayers

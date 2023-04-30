@@ -26,7 +26,6 @@ public class PlaceholderUtil {
 
         GameManager gameManager = GameManager.getGameManager();
         BorderManager borderManager = gameManager.getBorderManager();
-        StatisticsManager statisticManager = gameManager.getStatistics();
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
@@ -47,10 +46,10 @@ public class PlaceholderUtil {
         if (text.contains("%min-online%"))
             text = text.replace("%min_online%", String.valueOf(config.getInt("min-players")));
 
-        if (text.contains("%money%")) {
-            String formatted = Utils.formatMoney(uhcPlayer.getUUID());
-            text = text.replace("%money%", String.valueOf(formatted));
-        }
+//        if (text.contains("%money%")) {
+//            String formatted = Utils.formatMoney(uhcPlayer.getUUID());
+//            text = text.replace("%money%", String.valueOf(formatted));
+//        }
 
         if (text.contains("%kills%")) {
             text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
@@ -106,13 +105,13 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%stats-wins%")) {
-            text = text.replace("%stats-wins%", String.valueOf(statisticManager.getWins(uhcPlayer)));
+            text = text.replace("%stats-wins%", String.valueOf(uhcPlayer.getData().getWins()));
         }
         if (text.contains("%stats-kills%")) {
-            text = text.replace("%stats-kills%", String.valueOf(statisticManager.getKills(uhcPlayer)));
+            text = text.replace("%stats-kills%", String.valueOf(uhcPlayer.getData().getKills()));
         }
         if (text.contains("%stats-deaths%")) {
-            text = text.replace("%stats-deaths%", String.valueOf(statisticManager.getDeaths(uhcPlayer)));
+            text = text.replace("%stats-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
         }
         if (text.contains("%stats-level%")) {
             text = text.replace("%stats-level%", String.valueOf(uhcPlayer.getData().getLevel()));

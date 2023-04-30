@@ -14,7 +14,7 @@ scoreboard:
 
   starting:
     - ""
-    - "&fStart: &a%time%"
+    - "&fStart in: &a%time%"
     - ""
     - "&fPlayers: &a%online%&f/&2%max-online%"
     - ""
@@ -25,7 +25,7 @@ scoreboard:
 
   mining:
     - ""
-    - "&fPVP: &a%time%"
+    - "&fPVP in: &a%time%"
     - ""
     - "&fBorder: &a%border%"
     - ""
@@ -37,7 +37,7 @@ scoreboard:
 
   fighting:
     - ""
-    - "&fDeathmatch: &a%time%"
+    - "&fDeathmatch in: &a%time%"
     - ""
     - "&fBorder: &a%border%"
     - ""
@@ -49,7 +49,7 @@ scoreboard:
 
   deathmatch:
     - ""
-    - "&fEnd: &a%time%"
+    - "&fEnd in: &a%time%"
     - ""
     - "&fBorder: &a%border%"
     - ""

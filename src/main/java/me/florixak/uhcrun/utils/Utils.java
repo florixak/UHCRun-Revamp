@@ -35,9 +35,9 @@ public class Utils {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
-    public static String formatMoney(UUID uuid){
-        return format.format(GameManager.getGameManager().getStatistics().getMoney(uuid));
-    }
+//    public static String formatMoney(UUID uuid){
+//        return format.format(GameManager.getGameManager().getStatistics().getMoney(uuid));
+//    }
 
     public static void clearDrops() {
         List<Entity> entList = Bukkit.getWorld("world").getEntities();//get all entities in the world

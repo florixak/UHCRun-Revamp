@@ -21,22 +21,21 @@ public class ChatListener implements Listener {
     private List<String> blockedCommands;
 
     private GameManager gameManager;
-    private FileConfiguration config, chat;
+    private FileConfiguration config;
 
     private String format;
 
     public ChatListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.chat = gameManager.getConfigManager().getFile(ConfigType.CHAT).getConfig();
 
-        this.format = chat.getString("chat.format");
+        this.format = config.getString("settings.chat.format");
     }
 
     @EventHandler
     public void onPlayerCommandProcess(PlayerCommandPreprocessEvent event){
 
-        this.blockedCommands = chat.getStringList("chat.blocked-commands");
+        this.blockedCommands = config.getStringList("settings.chat.blocked-commands");
 
         Player p = event.getPlayer();
         String msg = event.getMessage();
@@ -55,24 +54,21 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
-
         event.setCancelled(true);
 
         PlayerManager pm = gameManager.getPlayerManager();
-        LevelManager lm = gameManager.getLevelManager();
-
         UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
 
         String prefix = "";
         String color = "&7";
         String level = "";
 
-        if (config.getBoolean("use-LuckPerms", true)) {
+        if (config.getBoolean("settings.addons.use-LuckPerms", true)) {
             // prefix = Utils.getLuckPermsPrefix(uhcPlayer.getPlayer());
         }
 
-        level = chat.getBoolean("chat.level-with-brackets", true) ?
-                color + "[" + lm.getPlayerLevel(uhcPlayer) + "]" : color + lm.getPlayerLevel(uhcPlayer);
+        level = config.getBoolean("settings.chat.level-with-brackets", true) ?
+                color + "[" + uhcPlayer.getData().getLevel() + "]" : String.valueOf(uhcPlayer.getData().getLevel());
 
         if (!gameManager.isPlaying()) {
             for (UHCPlayer players : pm.getPlayers()) {

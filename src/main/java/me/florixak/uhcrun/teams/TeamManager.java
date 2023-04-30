@@ -2,7 +2,6 @@ package me.florixak.uhcrun.teams;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,6 +22,7 @@ public class TeamManager {
         this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
 
         this.teams = new ArrayList<>();
+        loadTeams();
     }
 
     public void loadTeams() {
@@ -33,7 +33,7 @@ public class TeamManager {
             return;
         }
 
-        for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
+        for (String teamName : teams_config.getStringList("teams")) {
 
             UHCTeam team = new UHCTeam(teamName);
             team.setSize(config.getInt("settings.teams.max-size"));
@@ -60,18 +60,24 @@ public class TeamManager {
     public void addTeam(UHCTeam team) {
         if (exists(team.getName()) || team == null) return;
 
+        List<String> teams_list = teams_config.getStringList("teams");
+        teams_list.add(team.getName());
+
         this.teams.add(team);
-        teams_config.set("teams." + team.getName() + ".display-name", team.getName());
+        teams_config.set("teams", teams_list);
         gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
     }
 
     public void removeTeam(String teamName) {
         if (!exists(teamName) || teamName == null) return;
 
+        List<String> teams_list = teams_config.getStringList("teams");
+        teams_list.remove(teamName);
+
         UHCTeam team = getTeam(teamName);
 
         this.teams.remove(team);
-        teams_config.set("teams." + team.getName(), null);
+        teams_config.set("teams", teams_list);
         gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
     }
 
@@ -86,14 +92,14 @@ public class TeamManager {
 
     public String getTeamsList() {
         StringBuilder teams = new StringBuilder();
-        List<UHCTeam> teamList = gameManager.getTeamManager().getTeams();
+        List<UHCTeam> teamsList = gameManager.getTeamManager().getTeams();
 
-        for (int i = 0; i < teamList.size(); i++) {
-            teams.append(teamList.get(i).getName());
-            if (i < teamList.size()-1) teams.append(", ");
+        for (int i = 0; i < teamsList.size(); i++) {
+            teams.append(teamsList.get(i).getName());
+            if (i < teamsList.size()-1) teams.append(", ");
         }
 
-        return teams.toString().isEmpty() ? Messages.TEAM_NO_TEAMS.toString() : teams.toString();
+        return teams.toString();
     }
 
     private UHCTeam getFreeTeam() {

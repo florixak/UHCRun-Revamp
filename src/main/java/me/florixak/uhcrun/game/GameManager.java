@@ -36,7 +36,7 @@ import java.util.Random;
 public class GameManager {
 
     private UHCRun plugin;
-    private FileConfiguration config, messages;
+    private FileConfiguration config;
 
     private static GameManager gameManager;
     private GameState gameState;
@@ -53,7 +53,6 @@ public class GameManager {
     private TabManager tabManager;
     private LocationManager lobbyManager;
     private BorderManager borderManager;
-    private StatisticsManager statisticManager;
     private KitsManager kitsManager;
     private PerksManager perksManager;
     private TaskManager taskManager;
@@ -63,32 +62,32 @@ public class GameManager {
 
     private Utils utilities;
     private TeleportUtils teleportUtil;
+    private OreGeneratorUtils oreUtils;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
         gameManager = this;
 
-        this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.messages = getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
-
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
 
-        this.recipeManager = new RecipeManager();
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
-        this.tabManager = new TabManager();
+        this.tabManager = new TabManager(this);
         this.lobbyManager = new LocationManager(this);
         this.borderManager = new BorderManager(this);
-        this.statisticManager = new StatisticsManager(this);
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
+        this.recipeManager = new RecipeManager();
 
         this.utilities = new Utils(this);
         this.teleportUtil = new TeleportUtils(this);
+        this.oreUtils = new OreGeneratorUtils();
+
+        this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     public void loadNewGame() {
@@ -105,6 +104,7 @@ public class GameManager {
         getRecipeManager().registerRecipes();
         spawnOre();
 
+        getTaskManager().runGameChecking();
         getTaskManager().runScoreboardUpdate();
         getTaskManager().runActivityRewards();
         getTaskManager().runAutoBroadcast();
@@ -181,7 +181,7 @@ public class GameManager {
     private void connectToDatabase() {
         if (config.getBoolean("MySQL.enabled", true)) {
             this.mysql = new MySQL("localhost", 3306, null, null, null);
-            this.data = new SQLGetter(plugin);
+            this.data = new SQLGetter(this);
             this.data.createTable();
         }
     }
@@ -222,75 +222,17 @@ public class GameManager {
     }
 
     public void spawnOre() {
-        OreUtils oreUtility = new OreUtils();
         World world = Bukkit.getWorld(config.getString("game-world"));
         Random random = new Random();
-        int border = config.getInt("border.size");
-        Location loc;
+        int border = (int) getBorderManager().getSize();
 
-        for (int i = 0; i < 300; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.DIAMOND_ORE);
-            oreUtility.generateVein(Material.DIAMOND_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 300; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.IRON_ORE);
-            oreUtility.generateVein(Material.IRON_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 400; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.COAL_ORE);
-            oreUtility.generateVein(Material.COAL_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 300; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.EMERALD_ORE);
-            oreUtility.generateVein(Material.EMERALD_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 300; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.GOLD_ORE);
-            oreUtility.generateVein(Material.GOLD_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 300; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.REDSTONE_ORE);
-            oreUtility.generateVein(Material.REDSTONE_ORE, world.getBlockAt(loc), amount);
-        }
-        for (int i = 0; i < 200; i++) {
-            int amount = random.nextInt(3) + 2;
-            loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial())) {
-                loc = new Location(world, random.nextInt(border), random.nextInt(55), random.nextInt(border));
-            }
-            world.getBlockAt(loc).setType(Material.OBSIDIAN);
-            oreUtility.generateVein(Material.OBSIDIAN, world.getBlockAt(loc), amount);
-        }
+        getOreUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(6)+3, 400, border);
+        getOreUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
+        getOreUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
+        getOreUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
+        getOreUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 250, border);
+        getOreUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+2, 300, border);
+        getOreUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 200, border);
     }
 
     public MySQL getSQL() {
@@ -317,9 +259,6 @@ public class GameManager {
     }
     public LocationManager getLocationManager() { return lobbyManager; }
     public BorderManager getBorderManager() { return borderManager; }
-    public StatisticsManager getStatistics() {
-        return statisticManager;
-    }
     public TeamManager getTeamManager() {
         return teamManager;
     }
@@ -344,5 +283,8 @@ public class GameManager {
     }
     public TeleportUtils getTeleportUtil() {
         return teleportUtil;
+    }
+    public OreGeneratorUtils getOreUtils() {
+        return oreUtils;
     }
 }

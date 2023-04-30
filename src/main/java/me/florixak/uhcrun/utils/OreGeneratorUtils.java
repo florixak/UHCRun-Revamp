@@ -1,18 +1,39 @@
 package me.florixak.uhcrun.utils;
 
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class OreUtils {
+public class OreGeneratorUtils {
 
     // https://www.spigotmc.org/threads/how-do-i-artificially-generate-ores-around-the-world.405941/
 
-    public void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
+    public void generateOre(Material material, World world, int amount, int chance, int border) {
+        Location loc;
+        for (int i = 0; i < chance; i++) {
+            loc = generateOreLocation(world, border);
+            world.getBlockAt(loc).setType(material);
+            generateVein(material, world.getBlockAt(loc), amount);
+        }
+    }
+
+    private Location generateOreLocation(World world, int border_size) {
+        Location loc;
+        Random random = new Random();
+        do {
+            loc = new Location(world, random.nextInt(border_size), random.nextInt(55), random.nextInt(border_size));
+        } while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial()));
+        return loc;
+    }
+
+    private void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
         final List<Block> blocks = this.getAdjacentsBlocks(startBlock, nbrBlocks);
 
         for (final Block block : blocks) {
@@ -20,7 +41,7 @@ public class OreUtils {
         }
     }
 
-    public List<Block> getAdjacentsBlocks(final Block startBlock, final int nbrBlocks) {
+    private List<Block> getAdjacentsBlocks(final Block startBlock, final int nbrBlocks) {
         int failedAttempts = 0;
         final List<Block> adjacentBlocks = new ArrayList<>();
         adjacentBlocks.add(startBlock);

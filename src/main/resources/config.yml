@@ -1,14 +1,18 @@
-# Hello, I just made this UHCRun for fun.
+# Hello, I have just made this UHCRun plugin for fun.
 # I am going to improve some things in the future.
 # I hope you will like it!
 # If you have problem contact me: www.florixak.tk
 
-# Expand plugins
+# This is main configuration file of UHCRun
+
 settings:
+
+  # Expand plugins
   addons:
     use-Vault: false
     use-LuckPerms: false
     use-ProtocolLib: true
+    use-PlaceholderAPI: true
 
   # Game
   game:
@@ -17,69 +21,103 @@ settings:
 
     min-players-to-start: 2
 
-    starting-warning-time: 10 # start at <_> seconds
-
-    starting-countdown: 20 # seconds
-    mining-countdown: 120 # seconds
-    fighting-countdown: 120 # seconds
-    deathmatch-countdown: 60 # seconds
-    ending-countdown: 15 # seconds
-
     teleport-after-mining: false
+    warning-time-at: 10 # start at <_> seconds
 
-    arrow-hit-hp: true
+    enable-deathmatch: true
+
+    # Countdowns
+    countdowns:
+      starting: 20 # seconds
+      mining: 120 # seconds
+      fighting: 120 # seconds
+      deathmatch: 60 # seconds
+      ending: 15 # seconds
+
+    projectile-hit-hp: true
 
     custom-ore-drops: true
     random-drops: false # in development
 
+  # Border
+  border:
+    size: 450 # <..> x <..>
+    damage: 1 # 2 = 1 HP, 4 = 2 HP ... 40 = 10HP
+    warning-distance: 10 # blocks
+    speed: 0.2 # blocks per second
+
+  # Teams
   teams:
     team-mode: true
     max-size: 3
+    friendly-fire: false
 
+  # Rewards
+  rewards:
+    kill:
+      money: 30
+      exp: 60
+      player-exp: 60
+    win:
+      money: 150
+      player-exp: 300
+
+  # Tablist
+  tablist:
+    # Works only with ProtocolLib
+    enabled: true
+    header: "&2&lUHC&a&lRun"
+    footer: "\n&8www.florixak.tk"
+
+  # Auto broadcast
   auto-broadcast:
     enabled: false
     random-messages: true
     interval: 360 # seconds
 
+  # Rewards per play time
   rewards-per-time:
     enabled: false
     money: 10
-    level-xp: 20
+    player-exp: 20
     interval: 60
 
-  player-level:
-    enabled: true
-    level-xp-per-win: 500
-    level-xp-per-lose: 100
-    level-xp-per-kill: 50
+  # Statistics
+  statistics:
+    # Players will gain their kills and deaths on game end
+    add-on-game-ends: true
 
+    player-level:
+      # Players will gain xp and increase their level
+      enabled: true
+
+  # Economy
   economy:
     string-coins: 0.0
-    coins-per-kill: 20
-    coins-per-win: 450
-    coins-per-lose: 100
 
+  # Custom nick
   custom-nick:
     enabled: true
     min-chars: 4 # < x
 
-  gg-reward:
-    coins: 30
-    level-xp: 50
-
-  lobby-items:
+  # Selectors
+  selectors:
+    teams:
+      display-name: "&fTeams"
+      material: NETHER_STAR
+      slot: 0
     kits:
       enabled: true
       always-buy: false
       display-name: "&fKits"
-      material: NETHER_STAR
-      slot: 0
+      material: IRON_PICKAXE
+      slot: 1
     perks:
       enabled: false
       always-buy: false
       display-name: "&fPerks"
       material: ARROW
-      slot: 1
+      slot: 2
     custom-crafts:
       enabled: true
       display-name: "&fCustom Crafts"
@@ -87,13 +125,8 @@ settings:
       slot: 7
     statistics:
       display-name: "&fStatistics"
+      material: PAPER # if null then player head
       slot: 8
-
-  border:
-    size: 450
-    damage: 1 # 2 = 1 HP, 4 = 2 HP ... 40 = 10HP
-    warning-distance: 10 # blocks
-    speed: 0.2 # blocks per second
 
   # MySQL database
   MySQL:
@@ -103,3 +136,54 @@ settings:
     database: ''
     username: ''
     password: ''
+
+  # Chat
+  chat:
+    # %player% - Name of player
+    # %luckperms-prefix% - If luckperms are allowed in config, displays player prefix
+    # %message% - Sent message
+    # %level% - Player level
+
+    format: "%level% &f%luckperms-prefix% %team% %player% &7» &f%message%"
+    level-with-brackets: true
+
+    blocked-commands:
+      - /pl
+      - /plugins
+      - /lp
+      - /lp help
+      - /lp editor
+      - /luckperms
+      - /luckperms editor
+      - /luckperms help
+      - /paper
+      - /plugins
+      - /paper
+      - /plugins
+      - /paper
+      - /gm
+      - /gmc
+      - /gms
+      - /gmsp
+      - /gma
+      - /gamemode
+      - /gamemode 0
+      - /gamemode 1
+      - /gamemode 2
+      - /gamemode 3
+      - /gamemode c
+      - /gamemode s
+      - /gamemode a
+      - /gamemode sp
+      - /gamemode creative
+      - /gamemode survival
+      - /gamemode adventure
+      - /gamemode spectator
+      - /gm c
+      - /gm s
+      - /gm a
+      - /gm sp
+      - /gm spec
+      - /give
+      - /kill
+      - /?

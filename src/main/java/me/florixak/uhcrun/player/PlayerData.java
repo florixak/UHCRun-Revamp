@@ -24,7 +24,6 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".money", 0);
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", 0);
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
@@ -47,7 +46,7 @@ public class PlayerData {
     }
 
     public int getLosses() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".losses");
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".deaths");
     }
 
     public int getKills() {

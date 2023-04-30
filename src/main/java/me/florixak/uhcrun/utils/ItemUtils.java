@@ -2,7 +2,6 @@ package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class ItemUtils {
 
-    public static ItemStack item(ItemStack item, String name, int amount){
+    public static ItemStack getItem(ItemStack item, String name, int amount){
         ItemMeta meta = item.getItemMeta();
         if (name != null) meta.setDisplayName(TextUtils.color(name));
         if (amount == 0) amount = 1;
@@ -27,7 +26,7 @@ public class ItemUtils {
     }
 
     public static ItemStack monsterEgg(EntityType entityType) {
-        ItemStack item = new ItemStack(Material.MONSTER_EGG);
+        ItemStack item = new ItemStack(XMaterial.HORSE_SPAWN_EGG.parseMaterial());
         SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
         meta.setSpawnedType(entityType);
         item.setItemMeta(meta);

@@ -83,16 +83,20 @@ public class PlayerManager {
     }
 
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
-
         Player p = uhcPlayer.getPlayer();
 
         uhcPlayer.setState(PlayerState.ALIVE);
 
-        p.getInventory().clear();
         p.setGameMode(GameMode.SURVIVAL);
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
 
+        clearPlayerInventory(p);
+
+        if (gameManager.isTeamMode() && !uhcPlayer.hasTeam()) {
+            gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
+            return;
+        }
         teleportPlayers();
     }
 

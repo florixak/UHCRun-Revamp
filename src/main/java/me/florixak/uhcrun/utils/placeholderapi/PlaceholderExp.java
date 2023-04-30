@@ -2,7 +2,10 @@ package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -44,7 +47,8 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player p, String params){
-        if (p == null){
+        if (p == null || GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS)
+                .getConfig().getBoolean("settings.addons.use-PlaceholderAPI", false)) {
             return null;
         }
 
@@ -71,11 +75,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
             return String.valueOf(uhcPlayer.getKills());
         }
 
-        if (params.equalsIgnoreCase("kills")) {
-            return String.valueOf(uhcPlayer.getKills());
-        }
-
-        if (params.equalsIgnoreCase("uhc-level")) {
+        if (params.equalsIgnoreCase("uhc-player-level")) {
             return String.valueOf(uhcPlayer.getData().getLevel());
         }
 
@@ -83,12 +83,20 @@ public class PlaceholderExp extends PlaceholderExpansion {
             return String.valueOf(uhcPlayer.getData().getKills());
         }
 
+        if (params.equalsIgnoreCase("uhc-deaths")) {
+            return String.valueOf(uhcPlayer.getData().getDeaths());
+        }
+
         if (params.equalsIgnoreCase("uhc-wins")) {
             return String.valueOf(uhcPlayer.getData().getWins());
         }
 
-        if (params.equalsIgnoreCase("uhc-deaths")) {
+        if (params.equalsIgnoreCase("uhc-losses")) {
             return String.valueOf(uhcPlayer.getData().getDeaths());
+        }
+
+        if (params.equalsIgnoreCase("uhc-games-played")) {
+            return String.valueOf((uhcPlayer.getData().getWins()+uhcPlayer.getData().getLosses()));
         }
 
         if (params.equalsIgnoreCase("uhc-money")) {

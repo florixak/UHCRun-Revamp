@@ -26,8 +26,8 @@ public class ActivityRewards extends BukkitRunnable {
                 double money = config.getDouble("rewards-per-time.money");
                 double level_xp = config.getDouble("rewards-per-time.level-xp");
 
-                gameManager.getStatistics().addMoney(player, money);
-                gameManager.getLevelManager().addPlayerLevel(player, level_xp);
+                // gameManager.getStatistics().addMoney(player, money);
+                // gameManager.getLevelManager().addPlayerLevel(player, level_xp);
 
                 player.sendMessage(Messages.REWARDS_PER_TIME.toString()
                         .replace("%money-per-time%", String.valueOf(money))

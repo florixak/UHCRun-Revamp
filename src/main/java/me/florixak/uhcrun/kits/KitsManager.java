@@ -4,13 +4,10 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
-import me.florixak.uhcrun.utils.TextUtils;
-import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -54,37 +51,12 @@ public class KitsManager {
 
     public void getWaitingKit(UHCPlayer p) {
         ItemStack item;
-
-        if (config.getBoolean("lobby-items.kits.enabled", true)) {
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.kits").getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.kits.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.kits.display-name")), 1));
-        }
-        if (config.getBoolean("lobby-items.perks.enabled", true)) {
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.perks").getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.perks.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.perks.display-name")), 1));
-        }
-
-        if (config.getBoolean("lobby-items.custom-crafts.enabled", true)) {
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.custom-crafts").getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.custom-crafts.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.custom-crafts.display-name")), 1));
-        }
-
-        p.getPlayer().getInventory().setItem(config.getInt("lobby-items.statistics.slot"),
-                ItemUtils.item(Utils.getPlayerHead(p.getName(), p.getName()),
-                TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));
-
-    }
-    public void getSpectatorKit(Player p) {
-
-        if (config.getBoolean("spectator-items.spectator.enabled", true)) {
-            // item = XMaterial.matchXMaterial(config.getConfigurationSection("spectator-items.spectator").getString("material").toUpperCase()).get().parseMaterial();
-//            p.getInventory().setItem(config.getInt("spectator-items.spectator.slot"), ItemUtils.item(new ItemStack(item), TextUtils.color(config.getString("spectator-items.spectator.display-name")), 1));
-            p.getInventory().addItem(ItemUtils.item(new ItemStack(XMaterial.COMPASS.parseMaterial()), TextUtils.color(config.getString("spectator-items.spectator.display-name")), 1));
-        }
-        if (config.getBoolean("spectator-items.leave.enabled", true)) {
-//            item = XMaterial.matchXMaterial(config.getConfigurationSection("spectator-items.leave").getString("material").toUpperCase()).get().parseMaterial();
-//            p.getInventory().setItem(config.getInt("spectator-items.leave.slot"), ItemUtils.item(new ItemStack(item), TextUtils.color(config.getString("spectator-items.leave.display-name")), 1));
-            p.getInventory().addItem(ItemUtils.item(new ItemStack(XMaterial.RED_BED.parseMaterial()), TextUtils.color(config.getString("spectator-items.spectator.display-name")), 1));
+        for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
+            if (config.getBoolean("settings.selectors." + selector + ".enabled", false)) return;
+            item = XMaterial.matchXMaterial(config.getConfigurationSection("settings.selectors." + selector)
+                    .getString("material").toUpperCase()).get().parseItem();
+            p.getPlayer().getInventory().setItem(config.getInt("settings.selectors." + selector + ".slot"),
+                    ItemUtils.getItem(item, config.getString("settings.selectors." + selector + ".display-name"), 1));
         }
     }
 

@@ -125,5 +125,4 @@ public final class UHCRun extends JavaPlugin {
         return luckPerms;
     }
 
-
 }

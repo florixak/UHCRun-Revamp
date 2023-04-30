@@ -26,7 +26,6 @@ public class ConfigManager {
         registerFile(ConfigType.KITS, new ConfigHandler(plugin, "kits"));
         registerFile(ConfigType.PERKS, new ConfigHandler(plugin, "perks"));
         registerFile(ConfigType.LOBBY, new ConfigHandler(plugin, "lobby"));
-        registerFile(ConfigType.CHAT, new ConfigHandler(plugin, "chat"));
         registerFile(ConfigType.CUSTOM_DROPS, new ConfigHandler(plugin, "custom-drops"));
 
         configurations.values().forEach(ConfigHandler::saveDefaultConfig);

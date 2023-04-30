@@ -21,6 +21,7 @@ public class TaskManager {
     private DeathMCd deathmatchCd;
     private EndingCd endingCd;
 
+    private GameChecking gameChecking;
     private ScoreboardUpdate scoreboardUpdate;
 
     public TaskManager(GameManager gameManager) {
@@ -79,6 +80,11 @@ public class TaskManager {
             int interval = config.getInt("auto-broadcast.interval")*20;
             new AutoBroadcastMessages(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
+    }
+
+    public void runGameChecking() {
+        this.gameChecking = new GameChecking(gameManager);
+        this.gameChecking.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
     }
 
     public void runScoreboardUpdate() {
