@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -8,19 +9,16 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PlayerManager {
 
+    private GameManager gameManager;
     private List<UHCPlayer> players;
-    private List<UHCPlayer> alive;
-    private List<UHCPlayer> dead; // TODO rozlišovat speactatory od dead hráčů
-    private List<UHCPlayer> creators; // TODO creator
 
-    public PlayerManager() {
+    public PlayerManager(GameManager gameManager) {
+        this.gameManager = gameManager;
         this.players = new ArrayList<>();
-        this.alive = new ArrayList<>();
-        this.dead = new ArrayList<>();
-        this.creators = new ArrayList<>();
     }
 
     public void addPlayer(UHCPlayer p) {
@@ -33,39 +31,24 @@ public class PlayerManager {
         this.players.remove(p);
     }
 
-    public List<UHCPlayer> getPlayersList() {
+    public List<UHCPlayer> getPlayers() {
         return this.players;
     }
 
-    public void addAlive(UHCPlayer p) {
-        if (alive.contains(p)) return;
-        alive.add(p);
+    public List<UHCPlayer> getAlivePlayers() {
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isAlive()).collect(Collectors.toList());
     }
 
-    public void removeAlive(UHCPlayer p) {
-        if (!alive.contains(p)) return;
-        alive.remove(p);
+    public List<UHCPlayer> getDeadPlayers() {
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isDead()).collect(Collectors.toList());
     }
 
-    public List<UHCPlayer> getAliveList() {
-        return this.alive;
-    }
-
-    public void addDead(UHCPlayer p) {
-        if (dead.contains(p)) return;
-        dead.add(p);
-    }
-
-    public List<UHCPlayer> getDeadList() {
-        return this.dead;
-    }
-
-    public UHCPlayer newUHCPlayer(Player p) {
-        return new UHCPlayer(p.getUniqueId(), p.getName());
+    public List<UHCPlayer> getSpectators() {
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isSpectator()).collect(Collectors.toList());
     }
 
     public UHCPlayer getUHCPlayer(UUID uuid) {
-        for (UHCPlayer uhcPlayer : getPlayersList()) {
+        for (UHCPlayer uhcPlayer : getPlayers()) {
             if (uhcPlayer.getUUID().equals(uuid)) {
                 return uhcPlayer;
             }
@@ -73,29 +56,44 @@ public class PlayerManager {
         return null;
     }
 
-    public UHCPlayer getWinner() {
-        for (UHCPlayer p : getAliveList()) {
+    public UHCPlayer getUHCPlayer(String name) {
+        for (UHCPlayer uhcPlayer : getPlayers()) {
+            if (uhcPlayer.getName().equals(name)) {
+                return uhcPlayer;
+            }
+        }
+        return null;
+    }
+
+    public UHCPlayer getOrCreateHOCPlayer(UUID uuid) {
+        for (UHCPlayer hocPlayer : getPlayers()) {
+            if (hocPlayer.getUUID().equals(uuid)) {
+                return hocPlayer;
+            }
+        }
+        return new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName());
+    }
+
+    public UHCPlayer getUHCWinner() {
+        for (UHCPlayer p : getAlivePlayers()) {
             if (!p.isOnline()) return null;
             return p;
         }
         return null;
     }
-    public String getWinnerName() {
-        if (getWinner() == null) return "NONE";
-        return getWinner().getName();
-    }
 
-    public void setPlayersForGame(UHCPlayer uhcPlayer) {
+    public void readyPlayerForGame(UHCPlayer uhcPlayer) {
 
-        uhcPlayer.setState(PlayerState.PLAYING);
-        addAlive(uhcPlayer);
+        Player p = uhcPlayer.getPlayer();
 
-        uhcPlayer.getPlayer().getInventory().clear();
-        uhcPlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
-        uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getHealthScale());
-        uhcPlayer.getPlayer().setFoodLevel(20);
+        uhcPlayer.setState(PlayerState.ALIVE);
 
-        // wereAlive = PlayerManager.alive.size();
+        p.getInventory().clear();
+        p.setGameMode(GameMode.SURVIVAL);
+        p.setHealth(p.getMaxHealth());
+        p.setFoodLevel(20);
+
+        teleportPlayers();
     }
 
     public void setSpectator(UHCPlayer uhcPlayer) {
@@ -103,9 +101,6 @@ public class PlayerManager {
         Location playerLoc = uhcPlayer.getPlayer().getLocation();
 
         uhcPlayer.setState(PlayerState.DEAD);
-
-        uhcPlayer.getPlayer().setAllowFlight(true);
-        uhcPlayer.getPlayer().setFlying(true);
 
         uhcPlayer.getPlayer().setGameMode(GameMode.SPECTATOR);
 
@@ -137,25 +132,18 @@ public class PlayerManager {
         p.teleport(location);
     }
 
-    public void clearPlayerInventory(Player player) {
-        player.getInventory().clear();
+    public void clearPlayerInventory(Player p) {
+        p.getInventory().clear();
 
         //clear player armor
         ItemStack[] emptyArmor = new ItemStack[4];
         for(int i=0 ; i<emptyArmor.length ; i++){
             emptyArmor[i] = new ItemStack(Material.AIR);
         }
-        player.getInventory().setArmorContents(emptyArmor);
+        p.getInventory().setArmorContents(emptyArmor);
     }
 
-    public void clearAlive() {
-        this.alive.clear();
-    }
     public void clearPlayers() {
         this.players.clear();
     }
-    public void clearDead() {
-        this.dead.clear();
-    }
-
 }

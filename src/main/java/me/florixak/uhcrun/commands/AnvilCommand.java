@@ -1,23 +1,18 @@
 package me.florixak.uhcrun.commands;
 
-import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class AnvilCommand implements CommandExecutor {
 
-    private UHCRun plugin;
-    private FileConfiguration permissions;
+    private GameManager gameManager;
 
-    public AnvilCommand(UHCRun plugin) {
-        this.plugin = plugin;
-        this.permissions = plugin.getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
-        plugin.getCommand("anvil").setExecutor(this);
+    public AnvilCommand(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -26,12 +21,12 @@ public class AnvilCommand implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!p.hasPermission(permissions.getString("permissions.anvil-command"))) {
+        if (!p.hasPermission("uhcrun.anvil")) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
 
         // anvilAction.execute(plugin, p, null);
-        return false;
+        return true;
     }
 }

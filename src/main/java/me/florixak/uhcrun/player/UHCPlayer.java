@@ -1,10 +1,11 @@
 package me.florixak.uhcrun.player;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.kits.KitType;
 import me.florixak.uhcrun.perks.PerkType;
+import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public class UHCPlayer {
 
     private PlayerState state;
 
-    private String team;
+    private UHCTeam team;
 
     private int kills;
     private KitType kit;
@@ -29,7 +30,7 @@ public class UHCPlayer {
         this.uuid = uuid;
         this.name = name;
 
-        setState(PlayerState.WAITING);
+        setState(PlayerState.LOBBY);
 
         this.kills = 0;
         this.kit = KitType.NONE;
@@ -60,31 +61,33 @@ public class UHCPlayer {
         if (state == this.state) return;
         this.state = state;
     }
-
-    public boolean isWaiting() {
-        return this.state == PlayerState.WAITING;
+    public PlayerState getState() {
+        return this.state;
     }
 
-    public boolean isPlaying() {
-        return this.state == PlayerState.PLAYING;
+    public boolean isAlive() {
+        return getState() == PlayerState.ALIVE;
     }
-
     public boolean isDead() {
-        return this.state == PlayerState.DEAD;
+        return getState() == PlayerState.DEAD;
+    }
+    public boolean isSpectator() {
+        return getState() == PlayerState.SPECTATOR;
     }
 
-    public void setTeam(String team) {
+    public void setTeam(UHCTeam team) {
         this.team = team;
     }
-
-    public String getTeam() {
+    public UHCTeam getTeam() {
         return this.team;
+    }
+    public boolean hasTeam() {
+        return getTeam() != null;
     }
 
     public int getKills() {
         return this.kills;
     }
-
     public void addKill() {
         this.kills++;
     }
@@ -92,11 +95,9 @@ public class UHCPlayer {
     public boolean hasKit() {
         return this.kit != null;
     }
-
     public KitType getKit() {
         return this.kit;
     }
-
     public void setKit(KitType kit) {
         this.kit = kit;
     }
@@ -104,11 +105,9 @@ public class UHCPlayer {
     public boolean hasPerk() {
         return this.perk != null;
     }
-
     public PerkType getPerk() {
         return this.perk;
     }
-
     public void setPerk(PerkType perk) {
         this.perk = perk;
     }
@@ -116,7 +115,6 @@ public class UHCPlayer {
     public boolean hasNickname() {
         return this.nickname != null;
     }
-
     public void setNickname(String nickname) {
 
         if (nickname == null) {
@@ -138,6 +136,16 @@ public class UHCPlayer {
     public void sendMessage(String message) {
         if (message.isEmpty() || message == null || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));
+    }
+    public void sendHotBarMessage(String message) {
+        if (message.isEmpty() || message == null || !isOnline()) return;
+        Utils.sendHotBarMessage(getPlayer(), TextUtils.color(message));
+    }
+    public void sendTitle(String title) {
+        if (title.isEmpty() || title == null || !isOnline()) return;
+        String[] split_title = title.split("\n");
+        getPlayer().sendTitle(TextUtils.color(split_title[0]),
+                TextUtils.color(split_title[1]));
     }
 
 }

@@ -2,7 +2,8 @@ package me.florixak.uhcrun.player;
 
 public enum PlayerState {
 
-    WAITING,
-    PLAYING,
+    LOBBY,
+    SPECTATOR,
+    ALIVE,
     DEAD
 }

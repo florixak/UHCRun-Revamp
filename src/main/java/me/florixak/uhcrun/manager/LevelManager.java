@@ -1,45 +1,36 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class LevelManager {
 
-    private UHCRun plugin;
+    private GameManager gameManager;
     private FileConfiguration config, statistics;
 
-    public LevelManager(UHCRun plugin) {
-        this.plugin = plugin;
-        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.statistics = plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+    public LevelManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.statistics = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
     }
 
     public void addPlayerLevel(UHCPlayer player, double xp_level) {
-        if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addRequiredXP(player.getUUID(),-xp_level);
-        } else {
-            statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", getRequiredExp(player)-xp_level);
-            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-        }
+        statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", getRequiredExp(player)-xp_level);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
         if (getRequiredExp(player) <= 0) {
             levelUp(player);
         }
     }
 
     public int getPlayerLevel(UHCPlayer player) {
-        if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getPlayerLevel(player.getUUID());
-        }
         return statistics.getInt("statistics." + player.getUUID().toString() + ".level");
     }
 
     public double getRequiredExp(UHCPlayer player) {
-        if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getRequiredXP(player.getUUID());
-        }
         return statistics.getInt("statistics." + player.getUUID().toString() + ".requiredXP");
     }
 
@@ -55,24 +46,16 @@ public class LevelManager {
     }
 
     public int getPreviousLevel(UHCPlayer player) {
-        if (config.getBoolean("MySQL.enabled", true)) {
-            return plugin.data.getPlayerLevel(player.getUUID())-1;
-        }
         return statistics.getInt("statistics." + player.getUUID().toString() + ".level")-1;
     }
 
     public void levelUp(UHCPlayer player) {
-        if (config.getBoolean("MySQL.enabled", true)) {
-            plugin.data.addPlayerLevel(player.getUUID());
-            plugin.data.setRequiredXP(player.getUUID());
-        }
-        else {
-            statistics.set("statistics." + player.getUUID().toString() + ".level", getPlayerLevel(player)+1);
-            statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", setRequiredExp(player));
-            plugin.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-        }
 
-        plugin.getSoundManager().playLevelUP(player.getPlayer());
+        statistics.set("statistics." + player.getUUID().toString() + ".level", getPlayerLevel(player)+1);
+        statistics.set("statistics." + player.getUUID().toString() + ".requiredXP", setRequiredExp(player));
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        gameManager.getSoundManager().playLevelUP(player.getPlayer());
 
         player.sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%newLevel%", String.valueOf(getPlayerLevel(player)))

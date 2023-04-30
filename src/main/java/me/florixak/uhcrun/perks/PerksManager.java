@@ -1,22 +1,18 @@
 package me.florixak.uhcrun.perks;
 
-import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 public class PerksManager {
 
-    private UHCRun plugin;
+    private GameManager gameManager;
 
-    public PerksManager(UHCRun plugin) {
-        this.plugin = plugin;
+    public PerksManager(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     public void givePerk(UHCPlayer uhcPlayer) {

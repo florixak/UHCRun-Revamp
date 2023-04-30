@@ -8,7 +8,7 @@ public enum ConfigType {
     PLAYER_DATA,
     LOBBY,
     CHAT,
-    PERMISSIONS,
+    TEAMS,
     KITS,
     PERKS,
     CUSTOM_DROPS

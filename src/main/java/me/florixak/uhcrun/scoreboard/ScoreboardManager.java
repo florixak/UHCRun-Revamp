@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.scoreboard;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -26,13 +26,13 @@ public class ScoreboardManager {
     private List<String> deathmatch;
     private List<String> ending;
 
-    private UHCRun plugin;
+    private GameManager gameManager;
 
-    public ScoreboardManager(UHCRun plugin){
-        this.plugin = plugin;
+    public ScoreboardManager(GameManager gameManager){
+        this.gameManager = gameManager;
         this.players = new HashMap<>();
 
-        this.config = plugin.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
 
         this.title = config.getString("scoreboard.title");
 
@@ -176,19 +176,11 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void updateScoreboard(){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(plugin.getScoreboardManager()::setScoreboard);
-            }
-        }.runTaskTimer(plugin, 0L, 20L);
-    }
 
     public void setScoreboard(Player p) {
         removeFromMap(p);
-        switch (plugin.getGame().getGameState()) {
-            case WAITING:
+        switch (gameManager.getGameState()) {
+            case LOBBY:
                 createWaitingSb(p);
                 break;
             case STARTING:

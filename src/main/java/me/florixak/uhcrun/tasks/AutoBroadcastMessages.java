@@ -1,7 +1,7 @@
-package me.florixak.uhcrun.task;
+package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,19 +12,19 @@ import java.util.Random;
 
 public class AutoBroadcastMessages extends BukkitRunnable {
 
-    private UHCRun plugin;
+    private GameManager gameManager;
     private FileConfiguration config, messages_config;
     private List<String> messages;
+
     private boolean random;
     private int lastMessage;
 
-    public AutoBroadcastMessages(UHCRun plugin) {
-        this.plugin = plugin;
-        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.messages_config = plugin.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
+    public AutoBroadcastMessages(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.messages_config = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
         this.messages = messages_config.getStringList("Messages.auto-messages");
         this.random = config.getBoolean("auto-broadcast.random-messages");
-
     }
 
     @Override

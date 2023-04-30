@@ -3,10 +3,10 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
-import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,37 +14,80 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utils {
 
-    private UHCRun plugin;
+    private GameManager gameManager;
     private FileConfiguration config;
 
     public static DecimalFormat format = new DecimalFormat("##,###,##0.00");
 
-    public Utils(UHCRun plugin) {
-        this.plugin = plugin;
-        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public Utils(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     public static String formatMoney(UUID uuid){
-        return format.format(UHCRun.getInstance().getStatistics().getMoney(uuid));
+        return format.format(GameManager.getGameManager().getStatistics().getMoney(uuid));
     }
 
-    public static String getLuckPermsPrefix(Player player) {
-        String prefix = LuckPermsProvider.get().getUserManager().getUser(player.getName())
-                .getCachedData().getMetaData().getPrefix();
-        return prefix;
+    public static void sendHotBarMessage(Player player, String message) {
+        if (!player.isOnline()) {
+            return; // Player may have logged out
+        }
+
+        // Call the event, if cancelled don't send Action Bar
+        try {
+            Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + UHCRun.nmsver + ".entity.CraftPlayer");
+            Object craftPlayer = craftPlayerClass.cast(player);
+            Object packet;
+            Class<?> packetPlayOutChatClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".PacketPlayOutChat");
+            Class<?> packetClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".Packet");
+            if (UHCRun.useOldMethods) {
+                Class<?> chatSerializerClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatSerializer");
+                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".IChatBaseComponent");
+                Method m3 = chatSerializerClass.getDeclaredMethod("a", String.class);
+                Object cbc = iChatBaseComponentClass.cast(m3.invoke(chatSerializerClass, "{\"text\": \"" + TextUtils.color(message) + "\"}"));
+                packet = packetPlayOutChatClass.getConstructor(new Class<?>[]{iChatBaseComponentClass, byte.class}).newInstance(cbc, (byte) 2);
+            } else {
+                Class<?> chatComponentTextClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatComponentText");
+                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".IChatBaseComponent");
+                try {
+                    Class<?> chatMessageTypeClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatMessageType");
+                    Object[] chatMessageTypes = chatMessageTypeClass.getEnumConstants();
+                    Object chatMessageType = null;
+                    for (Object obj : chatMessageTypes) {
+                        if (obj.toString().equals("GAME_INFO")) {
+                            chatMessageType = obj;
+                        }
+                    }
+                    Object chatCompontentText = chatComponentTextClass.getConstructor(new Class<?>[]{String.class}).newInstance(TextUtils.color(message));
+                    packet = packetPlayOutChatClass.getConstructor(new Class<?>[]{iChatBaseComponentClass, chatMessageTypeClass}).newInstance(chatCompontentText, chatMessageType);
+                } catch (ClassNotFoundException cnfe) {
+                    Object chatCompontentText = chatComponentTextClass.getConstructor(new Class<?>[]{String.class}).newInstance(TextUtils.color(message));
+                    packet = packetPlayOutChatClass.getConstructor(new Class<?>[]{iChatBaseComponentClass, byte.class}).newInstance(chatCompontentText, (byte) 2);
+                }
+            }
+            Method craftPlayerHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
+            Object craftPlayerHandle = craftPlayerHandleMethod.invoke(craftPlayer);
+            Field playerConnectionField = craftPlayerHandle.getClass().getDeclaredField("playerConnection");
+            Object playerConnection = playerConnectionField.get(craftPlayerHandle);
+            Method sendPacketMethod = playerConnection.getClass().getDeclaredMethod("sendPacket", packetClass);
+            sendPacketMethod.invoke(playerConnection, packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     @SuppressWarnings("deprecation")
-    public ItemStack getPlayerHead(String player, String name) {
+    public static ItemStack getPlayerHead(String player, String name) {
         boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
 
@@ -60,7 +103,7 @@ public class Utils {
         item.setItemMeta(meta);
         return item;
     }
-    public void skullTeleport(Player p, ItemStack item) {
+    public static void skullTeleport(Player p, ItemStack item) {
         if (item.getType() != Material.AIR && item.getType() != null) {
             SkullMeta meta = (SkullMeta) item.getItemMeta();
             if (meta.getDisplayName() != null) {
@@ -86,7 +129,7 @@ public class Utils {
     }
 
     public static void dropItem(UHCPlayer p, BlockBreakEvent event) {
-        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
+        FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
         Location loc = event.getBlock().getLocation();
 
         ItemStack drop;
@@ -114,7 +157,7 @@ public class Utils {
                 xp = config.getInt("custom-drops." + block + ".xp");
                 p.getPlayer().giveExp(xp);
                 if (xp > 0) {
-                    UHCRun.getInstance().getSoundManager().playOreDestroySound(p.getPlayer());
+                    GameManager.getGameManager().getSoundManager().playOreDestroySound(p.getPlayer());
                 }
 
                 break;

@@ -1,13 +1,20 @@
 name: UHCRun
 version: '${project.version}'
 main: me.florixak.uhcrun.UHCRun
-api-version: 1.18
+api-version: 1.19
 authors: [ FloriXak ]
-softdepend: [ Vault, LuckPerms, PlaceholderAPI ]
+softdepend: [ ProtocolAPI, Vault, LuckPerms, PlaceholderAPI ]
 
 commands:
+  forcestart:
+    aliases: [ start ]
+    description: Force game start
   workbench:
-  wb:
+    aliases: [ wb, craftingtable ]
+    description: Opens remotly workbench
   anvil:
+    description: Opens remotly anvil
   nick:
+    description: Use custom nick
   unnick:
+    description: Reset custom nick

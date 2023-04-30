@@ -4,117 +4,102 @@
 # If you have problem contact me: www.florixak.tk
 
 # Expand plugins
-use-Vault: false
-use-LuckPerms: false
+settings:
+  addons:
+    use-Vault: false
+    use-LuckPerms: false
+    use-ProtocolLib: true
 
-# Game
-waiting-world: "waiting-lobby"
-game-world: "world"
-ending-world: "ending-lobby"
-auto-map-reset: false
-developer-mode: false
+  # Game
+  game:
+    game-world: "world"
+    auto-map-reset: true
 
-min-players-to-start: 2
+    min-players-to-start: 2
 
-starting-warning-time: 10 # start at <_> seconds
+    starting-warning-time: 10 # start at <_> seconds
 
-starting-countdown: 20 # seconds
-mining-countdown: 120 # seconds
-fighting-countdown: 120 # seconds
-deathmatch-countdown: 60 # seconds
-ending-countdown: 15 # seconds
+    starting-countdown: 20 # seconds
+    mining-countdown: 120 # seconds
+    fighting-countdown: 120 # seconds
+    deathmatch-countdown: 60 # seconds
+    ending-countdown: 15 # seconds
 
-teleport-after-mining: false
+    teleport-after-mining: false
 
-auto-broadcast:
-  enabled: false
-  random-messages: true
-  interval: 360 # seconds
+    arrow-hit-hp: true
 
-rewards-per-time:
-  enabled: false
-  money: 10
-  level-xp: 20
-  interval: 60
+    custom-ore-drops: true
+    random-drops: false # in development
 
-player-level:
-  enabled: true
-  level-xp-per-win: 500
-  level-xp-per-lose: 100
-  level-xp-per-kill: 50
+  teams:
+    team-mode: true
+    max-size: 3
 
-string-coins: 0.0
-coins-per-kill: 20
-coins-per-win: 450
-coins-per-lose: 100
-
-nick:
-  enabled: true
-  min-chars: 4 # < x
-
-gg-reward:
-  coins: 30
-  level-xp: 50
-
-arrow-hit-hp: true
-
-custom-ore-drops: true
-random-drops: false # in development
-
-lobby-items:
-  kits:
-    enabled: true
-    always-buy: false
-    display-name: "&fKits"
-    material: NETHER_STAR
-    slot: 0
-  perks:
+  auto-broadcast:
     enabled: false
-    always-buy: false
-    display-name: "&fPerks"
-    material: ARROW
-    slot: 1
-  start:
-    display-name: "&fStart"
-    material: DIAMOND
-    slot: 4
-  vote:
+    random-messages: true
+    interval: 360 # seconds
+
+  rewards-per-time:
     enabled: false
-    display-name: "&fVote"
-    material: PAPER
-    slot: 3
-  custom-crafts:
-    enabled: true
-    display-name: "&fCustom Crafts"
-    material: CRAFTING_TABLE
-    slot: 7
-  statistics:
-    display-name: "&fStatistics"
-    slot: 8
+    money: 10
+    level-xp: 20
+    interval: 60
 
-spectator-items:
-  spectator:
+  player-level:
     enabled: true
-    display-name: "&fTeleporter"
-    material: COMPASS
-    slot: 0
-  leave:
+    level-xp-per-win: 500
+    level-xp-per-lose: 100
+    level-xp-per-kill: 50
+
+  economy:
+    string-coins: 0.0
+    coins-per-kill: 20
+    coins-per-win: 450
+    coins-per-lose: 100
+
+  custom-nick:
     enabled: true
-    display-name: "&cLeave"
-    material: RED_BED
-    slot: 8
+    min-chars: 4 # < x
 
-border:
-  size: 450
-  damage: 1 # 2 = 1 HP, 4 = 2 HP ... 40 = 10HP
-  warning-distance: 10 # blocks
-  speed: 0.2 # blocks per second
+  gg-reward:
+    coins: 30
+    level-xp: 50
 
-# MySQL database
-MySQL:
-  enabled: false
-  host: "localhost"
-  port: "3306"
-  database: ''
-  username: ''
-  password: ''
+  lobby-items:
+    kits:
+      enabled: true
+      always-buy: false
+      display-name: "&fKits"
+      material: NETHER_STAR
+      slot: 0
+    perks:
+      enabled: false
+      always-buy: false
+      display-name: "&fPerks"
+      material: ARROW
+      slot: 1
+    custom-crafts:
+      enabled: true
+      display-name: "&fCustom Crafts"
+      material: CRAFTING_TABLE
+      slot: 7
+    statistics:
+      display-name: "&fStatistics"
+      slot: 8
+
+  border:
+    size: 450
+    damage: 1 # 2 = 1 HP, 4 = 2 HP ... 40 = 10HP
+    warning-distance: 10 # blocks
+    speed: 0.2 # blocks per second
+
+  # MySQL database
+  MySQL:
+    enabled: false
+    host: "localhost"
+    port: "3306"
+    database: ''
+    username: ''
+    password: ''

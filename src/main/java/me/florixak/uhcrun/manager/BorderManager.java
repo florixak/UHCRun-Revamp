@@ -1,8 +1,7 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -19,8 +18,8 @@ public class BorderManager {
     private double damage;
     private double speed;
 
-    public BorderManager(UHCRun plugin) {
-        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public BorderManager(GameManager gameManager) {
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.size = config.getDouble("border.size");
         this.damage = config.getDouble("border.damage");

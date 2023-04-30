@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.utils;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,8 +18,8 @@ public class TeleportUtils {
 
     public static HashSet<Material> bad_blocks = new HashSet<>();
 
-    public TeleportUtils(UHCRun plugin) {
-        this.config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    public TeleportUtils(GameManager gameManager) {
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     static {

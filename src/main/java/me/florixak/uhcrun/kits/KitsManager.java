@@ -1,12 +1,12 @@
 package me.florixak.uhcrun.kits;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -16,10 +16,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class KitsManager {
 
-    private UHCRun plugin;
+    private GameManager gameManager;
+    private FileConfiguration config;
 
-    public KitsManager(UHCRun plugin) {
-        this.plugin = plugin;
+    public KitsManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     public void giveKit(UHCPlayer uhcPlayer) {
@@ -50,13 +52,8 @@ public class KitsManager {
         }
     }
 
-    public void getCreatorKit(UHCPlayer p) {
-        p.getPlayer().getInventory().addItem(ItemUtils.item(new ItemStack(Material.STICK), "Set Waiting Lobby", 1));
-        p.getPlayer().getInventory().addItem(ItemUtils.item(new ItemStack(Material.BLAZE_ROD), "Set Ending Lobby", 1));
-    }
     public void getWaitingKit(UHCPlayer p) {
-        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        FileConfiguration permissions = UHCRun.getInstance().getConfigManager().getFile(ConfigType.PERMISSIONS).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         ItemStack item;
 
         if (config.getBoolean("lobby-items.kits.enabled", true)) {
@@ -67,24 +64,17 @@ public class KitsManager {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.perks").getString("material").toUpperCase()).get().parseItem();
             p.getPlayer().getInventory().setItem(config.getInt("lobby-items.perks.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.perks.display-name")), 1));
         }
-        if (p.getPlayer().hasPermission(permissions.getString("permissions.start-item"))) {
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.start").getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.start.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.start.display-name")), 1));
-        }
-        if (config.getBoolean("lobby-items.vote.enabled", true)) {
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.vote").getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("lobby-items.vote.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.vote.display-name")), 1));
-        }
+
         if (config.getBoolean("lobby-items.custom-crafts.enabled", true)) {
             item = XMaterial.matchXMaterial(config.getConfigurationSection("lobby-items.custom-crafts").getString("material").toUpperCase()).get().parseItem();
             p.getPlayer().getInventory().setItem(config.getInt("lobby-items.custom-crafts.slot"), ItemUtils.item(item, TextUtils.color(config.getString("lobby-items.custom-crafts.display-name")), 1));
         }
-        p.getPlayer().getInventory().setItem(config.getInt("lobby-items.statistics.slot"), ItemUtils.item(UHCRun.getInstance().getUtilities().getPlayerHead(p.getName(), p.getName()), TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));
+        p.getPlayer().getInventory().setItem(config.getInt("lobby-items.statistics.slot"),
+                ItemUtils.item(Utils.getPlayerHead(p.getName(), p.getName()),
+                TextUtils.color(config.getString("lobby-items.statistics.display-name")), 1));
 
     }
     public void getSpectatorKit(Player p) {
-        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        Material item;
 
         if (config.getBoolean("spectator-items.spectator.enabled", true)) {
             // item = XMaterial.matchXMaterial(config.getConfigurationSection("spectator-items.spectator").getString("material").toUpperCase()).get().parseMaterial();
@@ -99,10 +89,7 @@ public class KitsManager {
     }
 
     private void getStarter(UHCPlayer p) {
-
         ItemStack item;
-        FileConfiguration config = UHCRun.getInstance().getConfigManager().getFile(ConfigType.KITS).getConfig();
-
         for (String kit : config.getConfigurationSection("items").getKeys(false)) {
             if (config.getStringList("items." + kit + ".items") == null) return;
             for (String items : config.getConfigurationSection("items." + kit + ".items").getKeys(false)) {

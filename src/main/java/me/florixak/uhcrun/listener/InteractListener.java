@@ -1,17 +1,13 @@
 package me.florixak.uhcrun.listener;
 
-import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.action.actions.BungeeAction;
-import me.florixak.uhcrun.action.actions.MenuAction;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.player.PlayerManager;
-import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,26 +15,21 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.UUID;
 
 public class InteractListener implements Listener {
 
-    private UHCRun plugin;
-    private MenuAction menuAction;
+    private GameManager gameManager;
+    private FileConfiguration config;
 
-    public InteractListener(UHCRun plugin) {
-        this.plugin = plugin;
-        this.menuAction = new MenuAction();
+    public InteractListener(GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     @EventHandler
     public void inventoryClickEvent(InventoryClickEvent event) {
-        if (plugin.getGame().getGameState() == GameState.WAITING
-                || plugin.getGame().getGameState() == GameState.STARTING
-                || plugin.getGame().getGameState() == GameState.ENDING) {
+        if (!gameManager.isPlaying()) {
             event.setCancelled(true);
         }
     }
@@ -47,7 +38,7 @@ public class InteractListener implements Listener {
     public void onTeleporterClick(InventoryClickEvent event) {
 
         Player p = (Player) event.getWhoClicked();
-        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         if (!uhcPlayer.isDead()) return;
 
@@ -59,7 +50,7 @@ public class InteractListener implements Listener {
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
             event.setCancelled(true);
             if (event.getSlotType() == InventoryType.SlotType.CONTAINER) {
-                plugin.getUtilities().skullTeleport(p, event.getCurrentItem());
+                Utils.skullTeleport(p, event.getCurrentItem());
             }
         }
     }
@@ -70,71 +61,23 @@ public class InteractListener implements Listener {
         Player p = event.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
 
-        if (plugin.getGame().getGameState() == GameState.WAITING || plugin.getGame().getGameState() == GameState.STARTING) {
+        if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 
-                // LOBBY
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.kits.display-name")))) {
-                    menuAction.execute(plugin, p, "kits-inv");
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(config.getString("lobby-items.kits.display-name")))) {
                 }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.perks.display-name")))) {
-                    menuAction.execute(plugin, p, "perks-inv");
-                }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.start.display-name")))) {
-                    if (plugin.getGame().getGameState() != GameState.WAITING) {
-                        p.sendMessage(Messages.GAME_ALREADY_STARTING.toString());
-                        return;
-                    }
-                    plugin.getGame().setGameState(GameState.STARTING);
-                }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.vote.display-name")))) {
-                    menuAction.execute(plugin, p, "vote-inv");
-                }
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(plugin.getConfigManager()
-                        .getFile(ConfigType.SETTINGS).getConfig().getString("lobby-items.statistics.display-name")))) {
-                    menuAction.execute(plugin, p, "statistics-inv");
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(config.getString("lobby-items.perks.display-name")))) {
                 }
 
-                // CREATOR
-                /*if (PlayerManager.isCreator(p)) {
-                    if (item.getType() == Material.STICK) {
-                        plugin.getLobbyManager().setWaitingLobby(p.getLocation());
-                        p.sendMessage(Messages.SETLOBBY_WAITING.toString());
-                    }
-                    if (item.getType() == Material.BLAZE_ROD) {
-                        plugin.getLobbyManager().setEndingLobby(p.getLocation());
-                        p.sendMessage(Messages.SETLOBBY_ENDING.toString());
-                    }
-                }*/
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(config.getString("lobby-items.statistics.display-name")))) {
+                    // menuAction.execute(plugin, p, "statistics-inv");
+                }
             }
         }
-
-       /* if (PlayerManager.isSpectator(p)) {
-            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
-
-            if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-
-                if (item.getType() == XMaterial.COMPASS.parseMaterial()) {
-
-                    Inventory inv = Bukkit.createInventory(null, 35, "Teleporter");
-
-                    for (UUID uuid : PlayerManager.online) {
-                        String name = Bukkit.getPlayer(uuid).getDisplayName();
-                        inv.addItem(plugin.getUtilities().getPlayerHead(name, name));
-                    }
-                    p.openInventory(inv);
-                }
-
-                if (item.getType() == XMaterial.RED_BED.parseMaterial()) {
-                    new BungeeAction().execute(plugin, p, "lobby");
-                }
-            }
-        }*/
     }
 }

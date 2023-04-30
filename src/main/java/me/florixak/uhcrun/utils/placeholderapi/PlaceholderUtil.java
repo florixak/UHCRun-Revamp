@@ -1,15 +1,15 @@
 package me.florixak.uhcrun.utils.placeholderapi;
 
-import me.florixak.uhcrun.UHCRun;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
-import me.florixak.uhcrun.manager.gameManager.GameState;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.task.DeathMCd;
-import me.florixak.uhcrun.task.FightingCd;
-import me.florixak.uhcrun.task.MiningCd;
-import me.florixak.uhcrun.task.StartingCd;
+import me.florixak.uhcrun.tasks.DeathMCd;
+import me.florixak.uhcrun.tasks.FightingCd;
+import me.florixak.uhcrun.tasks.MiningCd;
+import me.florixak.uhcrun.tasks.StartingCd;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -24,16 +24,14 @@ public class PlaceholderUtil {
 
     public static String setPlaceholders(String text, Player p) {
 
-        UHCRun plugin = UHCRun.getInstance();
-        BorderManager borderManager = plugin.getBorderManager();
-        StatisticsManager statisticManager = plugin.getStatistics();
-        LevelManager levelManager = plugin.getLevelManager();
+        GameManager gameManager = GameManager.getGameManager();
+        BorderManager borderManager = gameManager.getBorderManager();
+        StatisticsManager statisticManager = gameManager.getStatistics();
+        LevelManager levelManager = gameManager.getLevelManager();
 
-        UHCPlayer uhcPlayer = plugin.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        FileConfiguration config = plugin.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        FileConfiguration kits = plugin.getConfigManager().getFile(ConfigType.KITS).getConfig();
-        FileConfiguration perks = plugin.getConfigManager().getFile(ConfigType.PERKS).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         if (text.contains("%player%") && uhcPlayer != null)
             text = text.replace("%player%", uhcPlayer.getName());
@@ -42,7 +40,7 @@ public class PlaceholderUtil {
             text = text.replace("%ping%", "" + player.getPing() + " ms");*/
 
         if (text.contains("%online%"))
-            text = text.replace("%online%", String.valueOf(plugin.getPlayerManager().getPlayersList().size()));
+            text = text.replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
 
         if (text.contains("%max-online%"))
             text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
@@ -60,13 +58,13 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%time%")) {
-            if (plugin.getGame().getGameState() == GameState.STARTING)
+            if (gameManager.getGameState() == GameState.STARTING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCd.count));
-            if (plugin.getGame().getGameState() == GameState.MINING)
+            if (gameManager.getGameState() == GameState.MINING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCd.count));
-            if (plugin.getGame().getGameState() == GameState.FIGHTING)
+            if (gameManager.getGameState() == GameState.FIGHTING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCd.count));
-            if (plugin.getGame().getGameState() == GameState.DEATHMATCH)
+            if (gameManager.getGameState() == GameState.DEATHMATCH)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(DeathMCd.count));
         }
 
@@ -75,7 +73,9 @@ public class PlaceholderUtil {
             text = text.replace("%border%", "+" + format.format(borderManager.getSize()) + " -" + format.format(borderManager.getSize()));
         }
 
-        if (text.contains("%alive%")) text = text.replace("%alive%", String.valueOf(plugin.getPlayerManager().getAliveList().size()));
+        if (text.contains("%alive%")) {
+            text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAlivePlayers().size()));
+        }
 
         if (text.contains("%kit%")) {
             if (config.getBoolean("lobby-items.kits.enabled", true)) {
@@ -126,10 +126,10 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", plugin.getPlayerManager().getWinnerName());
+            text = text.replace("%winner%", gameManager.getPlayerManager().getUHCWinner().getName());
         }
 
-        if (text.contains("%team%")) text = text.replace("%team%", uhcPlayer.getTeam());
+        if (text.contains("%team%")) text = text.replace("%team%", uhcPlayer.getTeam().getName());
 
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";

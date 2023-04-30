@@ -1,8 +1,8 @@
-package me.florixak.uhcrun.manager.gameManager;
+package me.florixak.uhcrun.game;
 
 public enum GameState {
 
-    WAITING,
+    LOBBY,
     STARTING,
     MINING,
     FIGHTING,
