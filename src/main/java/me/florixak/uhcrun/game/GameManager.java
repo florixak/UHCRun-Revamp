@@ -110,6 +110,7 @@ public class GameManager {
         getBorderManager().checkBorder();
         getRecipeManager().registerRecipes();
         getTeamManager().loadTeams();
+        getKitsManager().loadKits();
         getGuiManager().loadInventories();
         spawnOre();
 

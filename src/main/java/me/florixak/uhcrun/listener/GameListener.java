@@ -9,6 +9,8 @@ import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -22,19 +24,21 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GameListener implements Listener {
 
     private GameManager gameManager;
-    private FileConfiguration config, messages;
+    private FileConfiguration config, messages, custom_drop_cfg;
     private String prefix;
 
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
+        this.custom_drop_cfg = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
         this.prefix = messages.getString("Messages.prefix");
     }
 
@@ -76,7 +80,41 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
-        Utils.dropItem(p, event);
+        dropItem(p, event);
+    }
+
+    private void dropItem(UHCPlayer p, BlockBreakEvent event) {
+        Location loc = event.getBlock().getLocation();
+        Random ran = new Random();
+
+        for (String block : custom_drop_cfg.getConfigurationSection("custom-drops").getKeys(false)) {
+            Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();
+
+            if (event.getBlock().getType().equals(material)) {
+
+                event.setDropItems(false);
+                event.setExpToDrop(0);
+
+                List<Material> drops = new ArrayList<>();
+                for (String drop : custom_drop_cfg.getStringList("custom-drops." + block + ".drops")) {
+                    drops.add(XMaterial.matchXMaterial(drop).get().parseMaterial());
+                }
+                int size = drops.size();
+                int amount = custom_drop_cfg.getInt("custom-drops." + block + ".max-drop");
+
+                Material drop_item = drops.get(ran.nextInt(size));
+                if (drop_item != null && drop_item != Material.AIR) {
+                    ItemStack drop = new ItemStack(drop_item, ran.nextInt(amount != 0 ? amount : 1)+1);
+                    loc.getWorld().dropItemNaturally(loc, drop);
+                }
+                int xp = custom_drop_cfg.getInt("custom-drops." + block + ".xp");
+                p.getPlayer().giveExp(xp);
+                if (xp > 0) {
+                    gameManager.getSoundManager().playOreDestroySound(p.getPlayer());
+                }
+                break;
+            }
+        }
     }
 
     @EventHandler

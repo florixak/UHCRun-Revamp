@@ -1,1 +1,35 @@
 kits:
+  Starter:
+    WOODEN_AXE:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+    WOODEN_PICKAXE:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+    WOODEN_SHOVEL:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+  Miner:
+    DIAMOND_AXE:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+    DIAMOND_PICKAXE:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+    DIAMOND_SHOVEL:
+      amount: 1
+      enchantments:
+        DIG_SPEED: 3
+        DURABILITY: 3
+    PORKCHOP:
+      amount: 32

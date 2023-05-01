@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.kits.KitType;
+import me.florixak.uhcrun.kits.Kit;
 import me.florixak.uhcrun.perks.PerkType;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
@@ -22,7 +22,7 @@ public class UHCPlayer {
     private UHCTeam team;
 
     private int kills;
-    private KitType kit;
+    private Kit kit;
     private PerkType perk;
     private boolean hasWon;
 
@@ -37,7 +37,7 @@ public class UHCPlayer {
 
         this.hasWon = false;
         this.kills = 0;
-        this.kit = KitType.NONE;
+        this.kit = null;
         this.perk = PerkType.NONE;
         this.nickname = null;
         this.team = null;
@@ -113,10 +113,10 @@ public class UHCPlayer {
     public boolean hasKit() {
         return this.kit != null;
     }
-    public KitType getKit() {
+    public Kit getKit() {
         return this.kit;
     }
-    public void setKit(KitType kit) {
+    public void setKit(Kit kit) {
         this.kit = kit;
     }
 

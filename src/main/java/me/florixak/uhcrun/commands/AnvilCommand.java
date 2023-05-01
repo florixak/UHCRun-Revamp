@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class AnvilCommand implements CommandExecutor {
 
@@ -25,8 +26,9 @@ public class AnvilCommand implements CommandExecutor {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
-
-        // anvilAction.execute(plugin, p, null);
+        for (ItemStack item : gameManager.getKitsManager().getKit("miner").getItems()) {
+            p.getInventory().addItem(item);
+        }
         return true;
     }
 }

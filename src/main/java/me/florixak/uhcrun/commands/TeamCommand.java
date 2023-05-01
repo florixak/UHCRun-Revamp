@@ -30,7 +30,6 @@ public class TeamCommand implements CommandExecutor {
 
         if (args.length == 0) {
             gameManager.getGuiManager().getGui("teams").openInv(p);
-            uhcPlayer.sendMessage(Messages.TEAM_LIST.toString().replace("%teams%", gameManager.getTeamManager().getTeamsList()));
             return true;
         }
 
@@ -38,9 +37,10 @@ public class TeamCommand implements CommandExecutor {
             p.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
         }
+        if (args[0].equalsIgnoreCase("leave")) {
+            uhcPlayer.getTeam().leave(uhcPlayer);
 
-        if (args.length == 1) {
-
+        } else if (args.length == 1) {
             if (!gameManager.getTeamManager().exists(args[0])) {
                 uhcPlayer.sendMessage(Messages.TEAM_NOT_EXISTS.toString());
                 teams_gui.openInv(p);
@@ -65,9 +65,6 @@ public class TeamCommand implements CommandExecutor {
 
             UHCTeam team = gameManager.getTeamManager().getTeam(args[1]);
             team.join(uhcPlayer);
-
-        } else if (args[0].equalsIgnoreCase("leave")) {
-            uhcPlayer.getTeam().leave(uhcPlayer);
         } else {
             teams_gui.openInv(p);
         }

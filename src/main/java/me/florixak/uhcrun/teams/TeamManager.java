@@ -159,7 +159,7 @@ public class TeamManager {
     }
 
     public boolean exists(String teamName) {
-        return teams_config.getConfigurationSection("teams." + teamName) != null;
+        return teams_config.getStringList("teams").contains(teamName);
     }
 
     public void onDisable() {
