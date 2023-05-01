@@ -50,13 +50,16 @@ public class KitsManager {
     }
 
     public void getWaitingKit(UHCPlayer p) {
-        ItemStack item;
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
-            if (config.getBoolean("settings.selectors." + selector + ".enabled", false)) return;
-            item = XMaterial.matchXMaterial(config.getConfigurationSection("settings.selectors." + selector)
-                    .getString("material").toUpperCase()).get().parseItem();
-            p.getPlayer().getInventory().setItem(config.getInt("settings.selectors." + selector + ".slot"),
-                    ItemUtils.getItem(item, config.getString("settings.selectors." + selector + ".display-name"), 1));
+            if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
+                String display_name = config.getString("settings.selectors." + selector + ".display-name");
+                String material = config.getConfigurationSection("settings.selectors." + selector).getString("material").toUpperCase();
+                ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
+                int slot = config.getInt("settings.selectors." + selector + ".slot");
+
+                ItemStack newItem = ItemUtils.getItem(item, display_name, 1);
+                p.getPlayer().getInventory().setItem(slot, newItem);
+            }
         }
     }
 

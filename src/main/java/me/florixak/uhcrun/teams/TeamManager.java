@@ -17,6 +17,8 @@ public class TeamManager {
     private GameManager gameManager;
     private FileConfiguration config, teams_config;
 
+    private int max_size;
+
     private List<UHCTeam> teams;
 
     public TeamManager(GameManager gameManager) {
@@ -24,25 +26,23 @@ public class TeamManager {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
 
+        this.max_size = config.getInt("settings.teams.max-size");
+
         this.teams = new ArrayList<>();
     }
 
     public void loadTeams() {
-        if (config.getBoolean("settings.teams.team-mode", false)) return;
+        if (!gameManager.isTeamMode()) return;
 
-        if (teams_config.getConfigurationSection("teams") == null) {
-            UHCRun.getInstance().getLogger().info("No teams loaded!");
+        if (teams_config.getStringList("teams") == null) {
+            UHCRun.getInstance().getLogger().info("Team file is empty!");
             return;
         }
 
         for (String teamName : teams_config.getStringList("teams")) {
-
-            UHCTeam team = new UHCTeam(teamName);
-            team.setSize(config.getInt("settings.teams.max-size"));
+            UHCTeam team = new UHCTeam(teamName, max_size);
             this.teams.add(team);
         }
-
-        UHCRun.getInstance().getLogger().info("Teams loaded! (" + getTeamsList() + ")");
     }
 
     public List<UHCTeam> getTeams() {

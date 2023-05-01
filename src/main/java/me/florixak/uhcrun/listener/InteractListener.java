@@ -29,29 +29,11 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void inventoryClickEvent(InventoryClickEvent event) {
-        if (!gameManager.isPlaying()) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onTeleporterClick(InventoryClickEvent event) {
 
         Player p = (Player) event.getWhoClicked();
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        if (!uhcPlayer.isDead()) return;
-
-        if (event.getClickedInventory() == p.getInventory()){
-            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
-        }
-
-        if (event.getView().getTitle().equalsIgnoreCase("Spectator")) {
-            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
+        if (!gameManager.isPlaying() && event.getClickedInventory().equals(p.getInventory())) {
             event.setCancelled(true);
-            if (event.getSlotType() == InventoryType.SlotType.CONTAINER) {
-                Utils.skullTeleport(p, event.getCurrentItem());
-            }
         }
     }
 
@@ -67,15 +49,21 @@ public class InteractListener implements Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("lobby-items.kits.display-name")))) {
+                        TextUtils.color(config.getString("settings.selectors.teams.display-name")))) {
+                    gameManager.getGuiManager().getGui("teams").openInv(p);
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("lobby-items.perks.display-name")))) {
+                        TextUtils.color(config.getString("settings.selectors.kits.display-name")))) {
+                    gameManager.getGuiManager().getGui("kits").openInv(p);
                 }
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(config.getString("settings.selectors.perks.display-name")))) {
+                    gameManager.getGuiManager().getGui("perks").openInv(p);
+                }
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(config.getString("settings.selectors.statistics.display-name")))) {
+                    gameManager.getGuiManager().getGui("statistics").openInv(p);
 
-                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("lobby-items.statistics.display-name")))) {
-                    // menuAction.execute(plugin, p, "statistics-inv");
                 }
             }
         }

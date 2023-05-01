@@ -18,8 +18,9 @@ public class UHCTeam {
 
     private List<UHCPlayer> members;
 
-    public UHCTeam(String name) {
+    public UHCTeam(String name, int size) {
         this.name = name;
+        this.size = size;
         this.members = new ArrayList<>();
     }
 
@@ -59,9 +60,6 @@ public class UHCTeam {
         return getMembers(hocPlayer -> hocPlayer.isAlive());
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
     public int getMaxSize() {
         return size;
     }

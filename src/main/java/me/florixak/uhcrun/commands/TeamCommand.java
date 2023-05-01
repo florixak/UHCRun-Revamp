@@ -30,7 +30,7 @@ public class TeamCommand implements CommandExecutor {
 
         if (args.length == 0) {
             gameManager.getGuiManager().getGui("teams").openInv(p);
-            // hocPlayer.sendMessage(Messages.TEAM_LIST.toString().replace("%teams%", gameManager.getTeamManager().getTeamsList()));
+            uhcPlayer.sendMessage(Messages.TEAM_LIST.toString().replace("%teams%", gameManager.getTeamManager().getTeamsList()));
             return true;
         }
 

@@ -7,34 +7,55 @@ Messages:
   offline-player: "&c[!] &fThis player is offline!"
   not-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
-  restarting: "%prefix% &fGame is restarting!"
+  cant-use-now: "&c[!] &fYou can not use it right now!"
 
   cant_break: "&c[!] &fYou can not break blocks here!"
   cant_place: "&c[!] &fYou can not place blocks here!"
 
-  join: "&a[+] &f%player% joined! (%online%)"
-  quit: "&c[-] &f%player% left! (%online%)"
+  player:
+    join: "&a[+] &f%player% joined! (%online%)"
+    quit: "&c[-] &f%player% left! (%online%)"
 
-  kill: "&6[†] &f%player% wak killed by %killer%!"
-  death: "&6[†] &f%player% died!"
+    kill: "&6[†] &f%player% wak killed by %killer%!"
+    death: "&6[†] &f%player% died!"
 
-  shot-hp: "&6[🏹] &f%player% has %hp%❤"
+    shot-hp: "&6[🏹] &f%player% has %hp%❤"
 
-  game-phase:
+    player-level:
+      level-up: "&a[!] &fLEVEL UP! (%previousLevel% → %newLevel%)"
+
+  game:
     starting: "&6[!] &fGame starts in %countdown%!"
     already-starting: "&c[!] &fGame is already about to start!"
     starting-canceled: "&c[!] &fGame starting has been canceled!"
     started: "&a[!] &fGame has started!"
+
+    mining: "&a[!] &fYou have %countdown% to mine!"
+
+    pvp: "&6[!] &fPVP has been allowed!"
+
+    deathmatch-started: "&6[!] &fDeathmatch has started!"
+    deathmatch-starting: "&6[!] &fDeathmatch starts in %countdown%!"
+
     ended: "&c[!] &fGame has ended!"
+    restarting: "%prefix% &fGame is restarting!"
 
-  border-shrink: "&c[!] &fThe border began to shrink! Be careful!"
-  players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
+    border-shrink: "&c[!] &fThe border began to shrink! Be careful!"
+    players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
 
-  mining: "&a[!] &fYou have %countdown% to mine!"
-  pvp: "&6[!] &fPVP has been allowed!"
-  deathmatch-started: "&6[!] &fDeathmatch has started!"
-  deathmatch-starting: "&6[!] &fDeathmatch starts in %countdown%!"
-  winner: "&6[♕] &f%winner% &6has won the game!"
+    winner: "&6[♕] &f%winner% &6has won the game!"
+
+  teams:
+    join: "%prefix% You have joined team %team%!"
+    leave: "%prefix% You have left team %team%!"
+    full: "%prefix% &cTeam is full!"
+    already-in-team: "%prefix% &cYou are already in this team!"
+    not-in-team: "%prefix% &cYou are not in any team!"
+    not-exists: "%prefix% &cThis team does not exist!"
+    list: "%prefix% Available teams: %teams%"
+    no-teams: "&cThere are no available teams... (Contact administrator!)"
+    signed-in-to-battle: "&fSIGNED IN: &e&l%is-signed% &f(%member-votes%&7/&f%team-size%)"
+    defeated: "%prefix% Team &e%team% &fwas defeated!"
 
   kits:
     selected: "&a[!] &fKit %kit% was selected!"
@@ -42,11 +63,6 @@ Messages:
   perks:
     selected: "&a[!] &fPerk %perk% was selected!"
 
-  inv:
-    click-to-buy: "&6Buy (%price%)"
-    click-to-select: "&cUnselected"
-    selected: "&aSelected"
-    disabled: "&cDisabled"
 
   nick:
     nicked: "&a[!] &fYou are now %nick%!"
@@ -55,26 +71,23 @@ Messages:
     min-chars: "&c[!] &fNick must have minimum of 4 letters!"
     occupied: "&c[!] &fThis nick is already occupied!"
 
-  win-rewards:
-    - "&3---------- %prefix% &3----------"
-    - "&f+%coins-for-win% coins for win"
-    - "&f+%coins-for-kills% coins for kills"
-    - "&f+%level-xp-for-win% XP for win"
-    - "&f+%level-xp-for-kills% XP for kills"
-    - "&3--------------------------------"
-  lose-rewards:
-    - "&3---------- %prefix% &3----------"
-    - "&f+%coins-for-lose% coins for lose"
-    - "&f+%coins-for-kills% coins for kills"
-    - "&f+%level-xp-for-lose% XP for lose"
-    - "&f+%level-xp-for-kills% XP for kills"
-    - "&3--------------------------------"
+  rewards:
+    win:
+      - "&3---------- %prefix% &3----------"
+      - "&f+%coins-for-win% coins for win"
+      - "&f+%coins-for-kills% coins for kills"
+      - "&f+%level-xp-for-win% XP for win"
+      - "&f+%level-xp-for-kills% XP for kills"
+      - "&3--------------------------------"
+    lose:
+      - "&3---------- %prefix% &3----------"
+      - "&f+%coins-for-lose% coins for lose"
+      - "&f+%coins-for-kills% coins for kills"
+      - "&f+%level-xp-for-lose% XP for lose"
+      - "&f+%level-xp-for-kills% XP for kills"
+      - "&3--------------------------------"
 
-  rewards-per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
-
-  gg-rewards: "&6[+] &f%coins-for-gg% coins and %level-xp-for-gg% XP for gg!"
-
-  level-up: "&a[!] &fLEVEL UP! (%previousLevel% → %newLevel%)"
+    per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
   auto-messages:
     - "%prefix% &fCreated by FloriXak!"
@@ -82,6 +95,6 @@ Messages:
     - "%prefix% &fwww.github.com/florixak"
     - "%prefix% &fIf you found bug contact admin staff!"
 
-  setlobby:
-    waiting: "%prefix% &fWaiting lobby was set!"
-    ending: "%prefix% &fEnding lobby was set!"
+  lobby:
+    set-waiting: "%prefix% &fWaiting lobby was set!"
+    set-ending: "%prefix% &fEnding lobby was set!"

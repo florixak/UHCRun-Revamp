@@ -18,34 +18,29 @@ public enum Messages {
     CANT_PLACE("cant_place"),
     CANT_BREAK("cant_break"),
 
-    JOIN("join"),
-    QUIT("quit"),
+    JOIN("player.join"),
+    QUIT("player.quit"),
 
-    KILL("kill"),
-    DEATH("death"),
+    KILL("player.kill"),
+    DEATH("player.death"),
 
-    BORDER_SHRINK("border-shrink"),
-    PVP("pvp"),
-    MINING("mining"),
-    DEATHMATCH_STARTED("deathmatch-started"),
-    DEATHMATCH_STARTING("deathmatch-starting"),
-    WINNER("winner"),
+    BORDER_SHRINK("game.border-shrink"),
+    PVP("game.pvp"),
+    MINING("game.mining"),
+    DEATHMATCH_STARTED("game.deathmatch-started"),
+    DEATHMATCH_STARTING("game.deathmatch-starting"),
+    WINNER("game.winner"),
 
-    PLAYERS_TO_START("players-to-start"),
+    PLAYERS_TO_START("game.players-to-start"),
 
-    GAME_STARTING("game-phase.starting"),
-    GAME_ALREADY_STARTING("game-phase.already-starting"),
-    GAME_STARTING_CANCELED("game-phase.starting-canceled"),
-    GAME_STARTED("game-phase.started"),
-    GAME_ENDED("game-phase.ended"),
+    GAME_STARTING("game.starting"),
+    GAME_ALREADY_STARTING("game.already-starting"),
+    GAME_STARTING_CANCELED("game.starting-canceled"),
+    GAME_STARTED("game.started"),
+    GAME_ENDED("game.ended"),
 
     KITS_SELECTED("kits.selected"),
     PERKS_SELECTED("perks.selected"),
-
-    CLICK_BUY_INV("inv.click-to-buy"),
-    CLICK_SELECT_INV("inv.click-to-select"),
-    SELECTED_INV("inv.selected"),
-    DISABLED("inv.disabled"),
 
     NICK_NICKED("nick.nicked"),
     NICK_UNNICKED("nick.unnicked"),
@@ -53,12 +48,11 @@ public enum Messages {
     NICK_MIN_CHARS("nick.min-chars"),
     NICK_OCCUPIED("nick.occupied"),
 
-    REWARDS_PER_TIME("rewards-per-time"),
-    GG_REWARD("gg-rewards"),
+    REWARDS_PER_TIME("rewards.per-time"),
 
-    LEVEL_UP("level-up"),
+    LEVEL_UP("player.player-level.level-up"),
 
-    SHOT_HP("shot-hp"),
+    SHOT_HP("player.shot-hp"),
 
     TEAM_JOIN("teams.join"),
     TEAM_LEAVE("teams.leave"),
@@ -69,7 +63,7 @@ public enum Messages {
     TEAM_LIST("teams.list"),
     TEAM_NO_TEAMS("teams.no-teams"),
 
-    RESTARTING("restarting"),
+    RESTARTING("game.restarting"),
 
     SETLOBBY_WAITING("setlobby.waiting"),
     SETLOBBY_ENDING("setlobby.ending");

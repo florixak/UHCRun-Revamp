@@ -62,7 +62,7 @@ public final class UHCRun extends JavaPlugin {
     }
 
     private void registerDependency() {
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("use-Vault", true)) {
+        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("settings.addons.use-Vault", true)) {
             if (!setupVault()) {
                 UHCRun.getInstance().getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
                 return;
@@ -72,7 +72,7 @@ public final class UHCRun extends JavaPlugin {
         }
 
         if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS)
-                .getConfig().getBoolean("use-LuckPerms", true)) {
+                .getConfig().getBoolean("settings.addons.use-LuckPerms", true)) {
             if (!setupLuckPerms()) {
                 UHCRun.getInstance().getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
                 return;

@@ -70,14 +70,14 @@ public class TaskManager {
     }
 
     public void runActivityRewards() {
-        if (config.getBoolean("rewards-per-time.enabled", true)) {
-            int interval = config.getInt("rewards-per-time.interval")*20;
+        if (config.getBoolean("settings.rewards-per-time.enabled", true)) {
+            int interval = config.getInt("settings.rewards-per-time.period")*20;
             new ActivityRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
     public void runAutoBroadcast() {
-        if (config.getBoolean("auto-broadcast.enabled", true)) {
-            int interval = config.getInt("auto-broadcast.interval")*20;
+        if (config.getBoolean("settings.auto-broadcast.enabled", true)) {
+            int interval = config.getInt("settings.auto-broadcast.period")*20;
             new AutoBCMessage(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }

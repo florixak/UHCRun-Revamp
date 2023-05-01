@@ -1,10 +1,7 @@
 package me.florixak.uhcrun.game;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.commands.AnvilCommand;
-import me.florixak.uhcrun.commands.NicknameCommand;
-import me.florixak.uhcrun.commands.TeamCommand;
-import me.florixak.uhcrun.commands.WorkbenchCommand;
+import me.florixak.uhcrun.commands.*;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
@@ -187,6 +184,9 @@ public class GameManager {
     public boolean isForceStarted() {
         return this.forceStarted;
     }
+    public void setForceStarted() {
+        this.forceStarted = true;
+    }
     public boolean isTeamMode() {
         return teamMode;
     }
@@ -202,14 +202,14 @@ public class GameManager {
     }
 
     private void connectToDatabase() {
-        if (config.getBoolean("MySQL.enabled", true)) {
+        if (config.getBoolean("settings.MySQL.enabled", true)) {
             this.mysql = new MySQL("localhost", 3306, null, null, null);
             this.data = new SQLGetter(this);
             this.data.createTable();
         }
     }
     private void disconnectDatabase() {
-        if (config.getBoolean("MySQL.enabled", true)) {
+        if (config.getBoolean("settings.MySQL.enabled", true)) {
             mysql.disconnect();
         }
     }
@@ -232,6 +232,7 @@ public class GameManager {
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
         registerCommand("team", new TeamCommand(gameManager));
+        registerCommand("forcestart", new ForceStartCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = UHCRun.getInstance().getCommand(commandN);

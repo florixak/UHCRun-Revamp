@@ -18,7 +18,7 @@ public class GameChecking extends BukkitRunnable {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-        this.minPlayers = config.getInt("settings.game.minimum-players-to-start");
+        this.minPlayers = config.getInt("settings.game.min-players-to-start");
     }
 
     @Override
