@@ -15,7 +15,7 @@ public class DeathMCd extends BukkitRunnable {
     public DeathMCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("deathmatch-countdown");
+        this.count = config.getInt("settings.game.countdowns.deathmatch");
     }
 
     @Override

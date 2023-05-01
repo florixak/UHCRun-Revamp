@@ -40,7 +40,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleGameEnd(GameEndEvent event) {
-        UHCPlayer winner = event.getWinner();
+        String winner = event.getWinner();
 
         List<String> win_rewards = messages.getStringList("Messages.win-rewards");
         List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
@@ -68,7 +68,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void handleBlockDestroy(BlockBreakEvent event) {
+    public void handleBlockBreak(BlockBreakEvent event) {
         UHCPlayer p = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
         if (!gameManager.isPlaying() || p.isDead()) {
@@ -130,7 +130,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleTimber(BlockBreakEvent event) {
-        gameManager.getUtilities().timber(event.getBlock());
+        gameManager.getUtils().timber(event.getBlock());
     }
 
     @EventHandler

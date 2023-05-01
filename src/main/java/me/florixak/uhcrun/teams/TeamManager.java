@@ -4,7 +4,10 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,6 @@ public class TeamManager {
         this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
 
         this.teams = new ArrayList<>();
-        loadTeams();
     }
 
     public void loadTeams() {
@@ -98,7 +100,6 @@ public class TeamManager {
             teams.append(teamsList.get(i).getName());
             if (i < teamsList.size()-1) teams.append(", ");
         }
-
         return teams.toString();
     }
 
@@ -125,12 +126,36 @@ public class TeamManager {
         getFreeTeam().join(uhcPlayer);
     }
 
-    public UHCTeam getGameWinner() {
+    public UHCTeam getLastTeam() {
         UHCTeam winner = getLivingTeams().get(0);
         for (UHCTeam team : getLivingTeams()) {
-            winner = team;
+            for (UHCPlayer member : team.getMembers()) {
+                if (member.isWinner()) {
+                    winner = team;
+                    break;
+                }
+            }
         }
         return winner;
+    }
+
+    public void teleportTeamsAfterMining() {
+        Location location;
+
+        for (UHCTeam team : getLivingTeams()) {
+            Player p = team.getLivingMembers().get(0).getPlayer();
+
+            World world = gameManager.getGameWorld();
+            double x = p.getLocation().getX();
+            double y = 150;
+            double z = p.getLocation().getZ();
+
+            location = new Location(world, x, y, z);
+            y = location.getWorld().getHighestBlockYAt(location);
+            location.setY(y);
+
+            team.teleport(location);
+        }
     }
 
     public boolean exists(String teamName) {

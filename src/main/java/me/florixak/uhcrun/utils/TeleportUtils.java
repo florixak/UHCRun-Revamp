@@ -14,30 +14,31 @@ import java.util.Random;
 
 public class TeleportUtils {
 
+    private static GameManager gameManager;
     private static FileConfiguration config;
 
     public static HashSet<Material> bad_blocks = new HashSet<>();
 
     public TeleportUtils(GameManager gameManager) {
+        this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     static {
-//        bad_blocks.add(Material.LAVA);
-//        bad_blocks.add(Material.FIRE);
-//        bad_blocks.add(Material.CACTUS);
-//        bad_blocks.add(Material.WATER);
-//        bad_blocks.add(Material.VOID_AIR);
+        bad_blocks.add(Material.LAVA);
+        bad_blocks.add(Material.FIRE);
+        bad_blocks.add(Material.CACTUS);
+        bad_blocks.add(Material.WATER);
     }
 
     public static Location generateLocation(){
 
         Random random = new Random();
 
-        World world = Bukkit.getWorld(config.getString("game-world"));
-        double x = random.nextInt((config.getInt("border.size")/2)-10);
+        World world = gameManager.getGameWorld();
+        double x = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
         double y = 150.0;
-        double z = random.nextInt((config.getInt("border.size")/2)-10);
+        double z = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
 
         Location randomLocation = new Location(world, x, y, z);
         y = randomLocation.getWorld().getHighestBlockYAt(randomLocation);

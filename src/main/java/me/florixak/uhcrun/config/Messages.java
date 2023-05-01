@@ -13,6 +13,7 @@ public enum Messages {
     NOT_PLAYER("not-player"),
     NO_MONEY("no-money"),
     MONEY("money"),
+    CANT_USE_NOW("cant-use-now"),
 
     CANT_PLACE("cant_place"),
     CANT_BREAK("cant_break"),
@@ -58,6 +59,15 @@ public enum Messages {
     LEVEL_UP("level-up"),
 
     SHOT_HP("shot-hp"),
+
+    TEAM_JOIN("teams.join"),
+    TEAM_LEAVE("teams.leave"),
+    TEAM_FULL("teams.full"),
+    TEAM_NOT_EXISTS("teams.not-exists"),
+    TEAM_ALREADY_IN_TEAM("teams.already-in-team"),
+    TEAM_NOT_IN_TEAM("teams.not-in-team"),
+    TEAM_LIST("teams.list"),
+    TEAM_NO_TEAMS("teams.no-teams"),
 
     RESTARTING("restarting"),
 

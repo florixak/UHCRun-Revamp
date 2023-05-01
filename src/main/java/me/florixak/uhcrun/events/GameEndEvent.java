@@ -1,7 +1,5 @@
 package me.florixak.uhcrun.events;
 
-import me.florixak.uhcrun.player.UHCPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -9,13 +7,13 @@ public class GameEndEvent extends Event {
 
     public static final HandlerList handlers = new HandlerList();
 
-    private UHCPlayer winner;
+    private String winner;
 
-    public GameEndEvent(UHCPlayer winner) {
+    public GameEndEvent(String winner) {
         this.winner = winner;
     }
 
-    public UHCPlayer getWinner() {
+    public String getWinner() {
         return this.winner;
     }
 

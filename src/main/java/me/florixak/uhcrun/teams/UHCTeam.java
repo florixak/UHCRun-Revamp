@@ -66,7 +66,7 @@ public class UHCTeam {
         return size;
     }
 
-    public void teleportToGame(Location loc) {
+    public void teleport(Location loc) {
         for (UHCPlayer uhcPlayer : getLivingMembers()) {
             uhcPlayer.getPlayer().teleport(loc);
         }

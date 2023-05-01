@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 import java.util.Random;
 
-public class AutoBroadcastMessages extends BukkitRunnable {
+public class AutoBCMessage extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config, messages_config;
@@ -19,12 +19,12 @@ public class AutoBroadcastMessages extends BukkitRunnable {
     private boolean random;
     private int lastMessage;
 
-    public AutoBroadcastMessages(GameManager gameManager) {
+    public AutoBCMessage(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages_config = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
         this.messages = messages_config.getStringList("Messages.auto-messages");
-        this.random = config.getBoolean("auto-broadcast.random-messages");
+        this.random = config.getBoolean("settings.auto-broadcast.random-messages");
     }
 
     @Override

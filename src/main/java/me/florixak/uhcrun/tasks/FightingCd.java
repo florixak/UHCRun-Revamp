@@ -19,7 +19,7 @@ public class FightingCd extends BukkitRunnable {
     public FightingCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("fighting-countdown");
+        this.count = config.getInt("settings.game.countdowns.fighting");
     }
 
     @Override
@@ -27,7 +27,11 @@ public class FightingCd extends BukkitRunnable {
 
         if (count <= 0) {
             cancel();
-            gameManager.setGameState(GameState.DEATHMATCH);
+            if (gameManager.isDeathmatchEnable()) {
+                gameManager.setGameState(GameState.DEATHMATCH);
+            } else {
+                gameManager.setGameState(GameState.ENDING);
+            }
             return;
         }
 

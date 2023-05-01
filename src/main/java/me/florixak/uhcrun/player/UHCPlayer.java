@@ -40,6 +40,7 @@ public class UHCPlayer {
         this.kit = KitType.NONE;
         this.perk = PerkType.NONE;
         this.nickname = null;
+        this.team = null;
     }
 
     public UUID getUUID() {
@@ -73,6 +74,11 @@ public class UHCPlayer {
         return this.data;
     }
 
+
+    public void setWinner(boolean win) {
+        if (this.hasWon == win) return;
+        this.hasWon = win;
+    }
     public boolean isWinner() {
         return this.hasWon;
     }
@@ -159,5 +165,4 @@ public class UHCPlayer {
         getPlayer().sendTitle(TextUtils.color(split_title[0]),
                 TextUtils.color(split_title[1]));
     }
-
 }

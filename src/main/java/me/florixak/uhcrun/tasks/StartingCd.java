@@ -20,8 +20,8 @@ public class StartingCd extends BukkitRunnable {
     public StartingCd(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("starting-countdown");
-        this.startWarning = config.getInt("starting-warning-time");
+        this.count = config.getInt("settings.game.countdowns.starting");
+        this.startWarning = config.getInt("settings.game.warning-time-at");
     }
 
     @Override

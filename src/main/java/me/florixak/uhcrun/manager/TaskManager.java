@@ -78,7 +78,7 @@ public class TaskManager {
     public void runAutoBroadcast() {
         if (config.getBoolean("auto-broadcast.enabled", true)) {
             int interval = config.getInt("auto-broadcast.interval")*20;
-            new AutoBroadcastMessages(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
+            new AutoBCMessage(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
 

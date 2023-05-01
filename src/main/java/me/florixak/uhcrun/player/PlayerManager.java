@@ -74,7 +74,7 @@ public class PlayerManager {
         return new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName());
     }
 
-    public UHCPlayer getUHCWinner() {
+    public UHCPlayer getLastPlayer() {
         UHCPlayer winner = getAlivePlayers().get(0);
         for (UHCPlayer p : getAlivePlayers()) {
             if (p.isWinner()) winner = p;
@@ -123,20 +123,23 @@ public class PlayerManager {
         Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtils.teleportToSafeLocation()));
     }
 
-    public void teleportPlayersAfterMining(UHCPlayer uhcPlayer) {
-        Player p = uhcPlayer.getPlayer();
-        double x, y, z;
+    public void teleportPlayersAfterMining() {
+        Location location;
 
-        World world = Bukkit.getWorld(p.getLocation().getWorld().getName());
-        x = p.getLocation().getX();
-        y = 150;
-        z = p.getLocation().getZ();
+        for (UHCPlayer uhcPlayer : getAlivePlayers()) {
+            Player p = uhcPlayer.getPlayer();
 
-        Location location = new Location(world, x, y, z);
-        y = location.getWorld().getHighestBlockYAt(location);
-        location.setY(y);
+            World world = gameManager.getGameWorld();
+            double x = p.getLocation().getX();
+            double y = 150;
+            double z = p.getLocation().getZ();
 
-        p.teleport(location);
+            location = new Location(world, x, y, z);
+            y = location.getWorld().getHighestBlockYAt(location);
+            location.setY(y);
+
+            p.teleport(location);
+        }
     }
 
     public void clearPlayerInventory(Player p) {
@@ -150,7 +153,7 @@ public class PlayerManager {
         p.getInventory().setArmorContents(emptyArmor);
     }
 
-    public void clearPlayers() {
+    public void onDisable() {
         this.players.clear();
     }
 }

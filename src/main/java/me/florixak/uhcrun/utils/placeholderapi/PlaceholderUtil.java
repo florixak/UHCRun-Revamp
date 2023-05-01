@@ -11,7 +11,6 @@ import me.florixak.uhcrun.tasks.FightingCd;
 import me.florixak.uhcrun.tasks.MiningCd;
 import me.florixak.uhcrun.tasks.StartingCd;
 import me.florixak.uhcrun.utils.TimeUtils;
-import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -34,14 +33,21 @@ public class PlaceholderUtil {
         if (text.contains("%player%") && uhcPlayer != null)
             text = text.replace("%player%", uhcPlayer.getName());
 
-        /*if (text.contains("%ping%"))
-            text = text.replace("%ping%", "" + player.getPing() + " ms");*/
+        if (text.contains("%ping%"))
+            text = text.replace("%ping%", p.getPing() + " ms");
 
         if (text.contains("%online%"))
             text = text.replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
 
         if (text.contains("%max-online%"))
-            text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
+            if (gameManager.isTeamMode()) {
+                text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
+            } else {
+                text = text.replace("%max-online%", String.valueOf(
+                        gameManager.getTeamManager().getTeams().size()*config.getInt("settings.teams.max-size"))
+                );
+            }
+
 
         if (text.contains("%min-online%"))
             text = text.replace("%min_online%", String.valueOf(config.getInt("min-players")));
@@ -73,6 +79,14 @@ public class PlaceholderUtil {
 
         if (text.contains("%alive%")) {
             text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAlivePlayers().size()));
+        }
+
+        if (text.contains("%dead%")) {
+            text = text.replace("%dead%", String.valueOf(gameManager.getPlayerManager().getDeadPlayers().size()));
+        }
+
+        if (text.contains("%spectators%")) {
+            text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectators().size()));
         }
 
         if (text.contains("%kit%")) {
@@ -122,10 +136,24 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", gameManager.getPlayerManager().getUHCWinner().getName());
+            text = text.replace("%winner%", gameManager.getUHCWinner());
         }
 
-        if (text.contains("%team%")) text = text.replace("%team%", uhcPlayer.getTeam().getName());
+        if (text.contains("%team%")) {
+            if (!gameManager.isTeamMode()) {
+                text = text.replace("%team%", "SOLO MODE");
+            } else {
+                text = text.replace("%team%", uhcPlayer.getTeam().getName());
+            }
+        }
+
+        if (text.contains("%game-mode%")) {
+            if (!gameManager.isTeamMode()) {
+                text = text.replace("%team%", "SOLO");
+            } else {
+                text = text.replace("%team%", "TEAM");
+            }
+        }
 
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";

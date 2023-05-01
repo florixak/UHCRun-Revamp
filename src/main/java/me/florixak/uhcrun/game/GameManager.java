@@ -3,11 +3,13 @@ package me.florixak.uhcrun.game;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.commands.AnvilCommand;
 import me.florixak.uhcrun.commands.NicknameCommand;
+import me.florixak.uhcrun.commands.TeamCommand;
 import me.florixak.uhcrun.commands.WorkbenchCommand;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.events.GameEndEvent;
+import me.florixak.uhcrun.gui.GuiManager;
 import me.florixak.uhcrun.kits.KitsManager;
 import me.florixak.uhcrun.listener.ChatListener;
 import me.florixak.uhcrun.listener.GameListener;
@@ -44,8 +46,11 @@ public class GameManager {
     private MySQL mysql;
     private SQLGetter data;
 
+    private World game_world;
     private boolean teamMode;
     private boolean forceStarted;
+    private boolean teleportAfterMining;
+    private boolean enableDeathmatch;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -57,12 +62,13 @@ public class GameManager {
     private PerksManager perksManager;
     private TaskManager taskManager;
     private TeamManager teamManager;
+    private GuiManager guiManager;
     private SoundManager soundManager;
     private RecipeManager recipeManager;
 
-    private Utils utilities;
-    private TeleportUtils teleportUtil;
-    private OreGeneratorUtils oreUtils;
+    private Utils utils;
+    private TeleportUtils teleportUtils;
+    private OreGeneratorUtils oreGenUtils;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
@@ -79,13 +85,14 @@ public class GameManager {
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
+        this.guiManager = new GuiManager();
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager();
 
-        this.utilities = new Utils(this);
-        this.teleportUtil = new TeleportUtils(this);
-        this.oreUtils = new OreGeneratorUtils();
+        this.utils = new Utils(this);
+        this.teleportUtils = new TeleportUtils(this);
+        this.oreGenUtils = new OreGeneratorUtils();
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -97,11 +104,16 @@ public class GameManager {
         registerListeners();
 
         this.forceStarted = false;
-        this.teamMode = config.getBoolean("settings.game.team-mode");
+        this.game_world = Bukkit.getWorld(config.getString("settings.game.game-world"));
+        this.teamMode = config.getBoolean("settings.teams.team-mode");
+        this.teleportAfterMining = config.getBoolean("settings.game.teleport-after-mining");
+        this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
 
         connectToDatabase();
         getBorderManager().checkBorder();
         getRecipeManager().registerRecipes();
+        getTeamManager().loadTeams();
+        getGuiManager().loadInventories();
         spawnOre();
 
         getTaskManager().runGameChecking();
@@ -121,7 +133,6 @@ public class GameManager {
         switch (gameState) {
 
             case LOBBY:
-                getTaskManager().stopStartingCD();
                 break;
 
             case STARTING:
@@ -132,13 +143,16 @@ public class GameManager {
 
             case MINING:
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
-                getPlayerManager().getPlayers().forEach(getKitsManager()::giveKit);
+                getPlayerManager().getAlivePlayers().forEach(getKitsManager()::giveKit);
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
                 break;
 
             case FIGHTING:
-                getPlayerManager().getPlayers().forEach(player -> getPlayerManager().teleportPlayersAfterMining(player));
+                if (isTeleportAfterMining()) {
+                    if (isTeamMode()) getTeamManager().teleportTeamsAfterMining();
+                    else getPlayerManager().teleportPlayersAfterMining();
+                }
                 getTaskManager().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
@@ -152,26 +166,35 @@ public class GameManager {
 
             case ENDING:
                 getTaskManager().startEndingCD();
+                setUHCWinner();
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
                 Utils.broadcast(Messages.GAME_ENDED.toString());
-                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
+                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
                 break;
         }
     }
 
     public void onDisable() {
-
-        getPlayerManager().clearPlayers();
+        getPlayerManager().onDisable();
         getTeamManager().onDisable();
         getTaskManager().onDisable();
         disconnectDatabase();
     }
 
+    public World getGameWorld() {
+        return this.game_world;
+    }
     public boolean isForceStarted() {
         return this.forceStarted;
     }
     public boolean isTeamMode() {
         return teamMode;
+    }
+    public boolean isTeleportAfterMining() {
+        return teleportAfterMining;
+    }
+    public boolean isDeathmatchEnable() {
+        return enableDeathmatch;
     }
 
     public boolean isPlaying() {
@@ -203,14 +226,13 @@ public class GameManager {
             Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
         }
     }
-
     private void registerCommands() {
         registerCommand("workbench", new WorkbenchCommand(gameManager));
         registerCommand("anvil", new AnvilCommand(gameManager)); // TODO make anvil command
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
+        registerCommand("team", new TeamCommand(gameManager));
     }
-
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = UHCRun.getInstance().getCommand(commandN);
 
@@ -221,18 +243,28 @@ public class GameManager {
         command.setExecutor(executor);
     }
 
+    public void setUHCWinner() {
+        getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.setWinner(true));
+    }
+    public String getUHCWinner() {
+        if (isTeamMode()) {
+            return getTeamManager().getLastTeam().getName();
+        }
+        return getPlayerManager().getLastPlayer().getName();
+    }
+
     public void spawnOre() {
-        World world = Bukkit.getWorld(config.getString("game-world"));
+        World world = getGameWorld();
         Random random = new Random();
         int border = (int) getBorderManager().getSize();
 
-        getOreUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(6)+3, 400, border);
-        getOreUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
-        getOreUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
-        getOreUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
-        getOreUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 250, border);
-        getOreUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+2, 300, border);
-        getOreUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 200, border);
+        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(6)+3, 400, border);
+        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
+        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
+        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
+        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 250, border);
+        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+2, 300, border);
+        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 200, border);
     }
 
     public MySQL getSQL() {
@@ -262,6 +294,9 @@ public class GameManager {
     public TeamManager getTeamManager() {
         return teamManager;
     }
+    public GuiManager getGuiManager() {
+        return guiManager;
+    }
     public KitsManager getKitsManager() {
         return kitsManager;
     }
@@ -278,13 +313,13 @@ public class GameManager {
         return recipeManager;
     }
 
-    public Utils getUtilities() {
-        return utilities;
+    public Utils getUtils() {
+        return utils;
     }
-    public TeleportUtils getTeleportUtil() {
-        return teleportUtil;
+    public TeleportUtils getTeleportUtils() {
+        return teleportUtils;
     }
-    public OreGeneratorUtils getOreUtils() {
-        return oreUtils;
+    public OreGeneratorUtils getOreGenUtils() {
+        return oreGenUtils;
     }
 }
