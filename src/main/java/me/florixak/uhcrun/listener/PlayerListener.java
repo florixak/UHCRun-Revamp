@@ -69,7 +69,7 @@ public class PlayerListener implements Listener {
         if (!gameManager.isPlaying()) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
-                    .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size())));
+                    .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
         }
     }
 

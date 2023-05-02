@@ -41,6 +41,7 @@ public class TeamCommand implements CommandExecutor {
             uhcPlayer.getTeam().leave(uhcPlayer);
 
         } else if (args.length == 1) {
+
             if (!gameManager.getTeamManager().exists(args[0])) {
                 uhcPlayer.sendMessage(Messages.TEAM_NOT_EXISTS.toString());
                 teams_gui.openInv(p);

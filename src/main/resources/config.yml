@@ -25,6 +25,10 @@ settings:
     warning-time-at: 10 # start at <_> seconds
 
     enable-deathmatch: true
+    enable-kits: true
+    enable-perks: false
+
+    projectile-hit-hp: true
 
     # Countdowns
     countdowns:
@@ -34,7 +38,8 @@ settings:
       deathmatch: 60 # seconds
       ending: 15 # seconds
 
-    projectile-hit-hp: true
+
+
 
     custom-ore-drops: true
     random-drops: false # in development
@@ -66,7 +71,7 @@ settings:
   tablist:
     # Works only with ProtocolLib
     enabled: true
-    header: "&2&lUHC&a&lRun"
+    header: "&2&lUHC&a&lRun\n"
     footer: "\n&8www.florixak.tk"
 
   # Auto broadcast
@@ -109,13 +114,13 @@ settings:
       slot: 0
     kits:
       enabled: true
-      always-buy: false
+      full-time: true
       display-name: "&fKits"
       material: IRON_PICKAXE
       slot: 3
     perks:
       enabled: true
-      always-buy: false
+      full-time: true
       display-name: "&fPerks"
       material: ARROW
       slot: 5
@@ -142,11 +147,11 @@ settings:
   # Chat
   chat:
     # %player% - Name of player
-    # %luckperms-prefix% - If luckperms are allowed in config, displays player prefix
+    # %luckperms-prefix% - If luckperms are allowed in config, displays player's prefix
     # %message% - Sent message
     # %level% - Player level
 
-    format: "%level% &f%luckperms-prefix% %team% %player% &7» &f%message%"
+    format: "%level% %team% &f%player% &7» &f%message%"
     level-with-brackets: true
 
     blocked-commands:

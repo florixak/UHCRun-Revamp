@@ -16,24 +16,35 @@ public class UHCTeam {
     private String name;
     private int size;
 
+    private String color;
+
     private List<UHCPlayer> members;
 
-    public UHCTeam(String name, int size) {
+    public UHCTeam(String name, String color, int size) {
         this.name = name;
         this.size = size;
+        this.color = color;
         this.members = new ArrayList<>();
     }
 
     public String getName() {
         return this.name;
     }
+    public String getDisplayName() {
+        return getColor() + this.name;
+    }
+    public int getSize() {
+        return size;
+    }
+    public String getColor() {
+        return this.color;
+    }
 
     public boolean isFull() {
         return getMembers().size() >= this.size;
     }
-
-    public boolean isMember(UHCPlayer hocPlayer) {
-        return this.members.contains(hocPlayer);
+    public boolean isMember(UHCPlayer uhcPlayer) {
+        return this.members.contains(uhcPlayer);
     }
 
     public int getKills() {
@@ -58,10 +69,6 @@ public class UHCTeam {
     }
     public List<UHCPlayer> getLivingMembers() {
         return getMembers(hocPlayer -> hocPlayer.isAlive());
-    }
-
-    public int getMaxSize() {
-        return size;
     }
 
     public void teleport(Location loc) {
@@ -90,7 +97,7 @@ public class UHCTeam {
         uhcPlayer.setTeam(this);
         uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
                 .replace("%player%", uhcPlayer.getName())
-                .replace("%team%", getName()));
+                .replace("%team%", TextUtils.color(getDisplayName())));
     }
     public void leave(UHCPlayer uhcPlayer) {
 
@@ -101,7 +108,7 @@ public class UHCTeam {
 
         uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
                 .replace("%player%", uhcPlayer.getName())
-                .replace("%team%", getName()));
+                .replace("%team%", TextUtils.color(getDisplayName())));
         getMembers().remove(uhcPlayer);
         uhcPlayer.setTeam(null);
     }

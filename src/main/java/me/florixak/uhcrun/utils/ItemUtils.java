@@ -16,10 +16,11 @@ import java.util.List;
 
 public class ItemUtils {
 
-    public static ItemStack getItem(ItemStack item, String name, int amount){
+    public static ItemStack createItem(ItemStack item, String name, int amount, List<String> lore){
         ItemMeta meta = item.getItemMeta();
         if (name != null) meta.setDisplayName(TextUtils.color(name));
         if (amount == 0) amount = 1;
+        if (lore != null && !lore.isEmpty()) meta.setLore(lore);
         item.setItemMeta(meta);
         item.setAmount(amount);
         return item;
@@ -63,6 +64,14 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
+    }
+
+    public static List<Enchantment> getEnchantments(ItemStack item) {
+        List<Enchantment> enchantments = new ArrayList<>();
+        for (Enchantment enchant : item.getEnchantments().keySet()) {
+            enchantments.add(enchant);
+        }
+        return enchantments;
     }
 
     public static void addLore(ItemStack item, String line1, String line2, String line3){

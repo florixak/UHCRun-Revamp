@@ -90,7 +90,7 @@ public class GameListener implements Listener {
         for (String block : custom_drop_cfg.getConfigurationSection("custom-drops").getKeys(false)) {
             Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();
 
-            if (event.getBlock().getType().equals(material)) {
+            if (event.getBlock().getType().equals(material) || event.getBlock().getType().getData().getName().equalsIgnoreCase("redstone_ore")) {
 
                 event.setDropItems(false);
                 event.setExpToDrop(0);

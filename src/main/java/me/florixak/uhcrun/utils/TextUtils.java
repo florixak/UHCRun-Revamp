@@ -33,6 +33,10 @@ public class TextUtils {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
+    public static String toNormalText(String text) {
+        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+    }
+
     public static String getCenteredMessage(String message) {
         if (message == null || message.equals("")) return "";
 

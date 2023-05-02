@@ -32,6 +32,8 @@ public class InteractListener implements Listener {
 
         Player p = (Player) event.getWhoClicked();
 
+        if (event.getClickedInventory() == null) return;
+
         if (!gameManager.isPlaying() && event.getClickedInventory().equals(p.getInventory())) {
             event.setCancelled(true);
         }

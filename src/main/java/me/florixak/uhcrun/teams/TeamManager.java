@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,13 +35,14 @@ public class TeamManager {
     public void loadTeams() {
         if (!gameManager.isTeamMode()) return;
 
-        if (teams_config.getStringList("teams") == null) {
+        if (teams_config.getConfigurationSection("teams").getKeys(false) == null) {
             UHCRun.getInstance().getLogger().info("Team file is empty!");
             return;
         }
 
-        for (String teamName : teams_config.getStringList("teams")) {
-            UHCTeam team = new UHCTeam(teamName, max_size);
+        for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
+            String color = teams_config.getString("teams." + teamName);
+            UHCTeam team = new UHCTeam(teamName, color, max_size);
             this.teams.add(team);
         }
     }
@@ -159,7 +161,7 @@ public class TeamManager {
     }
 
     public boolean exists(String teamName) {
-        return teams_config.getStringList("teams").contains(teamName);
+        return teams_config.getConfigurationSection("teams").getKeys(false).contains(teamName);
     }
 
     public void onDisable() {

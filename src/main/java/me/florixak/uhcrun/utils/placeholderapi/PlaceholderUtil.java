@@ -10,6 +10,7 @@ import me.florixak.uhcrun.tasks.DeathMCd;
 import me.florixak.uhcrun.tasks.FightingCd;
 import me.florixak.uhcrun.tasks.MiningCd;
 import me.florixak.uhcrun.tasks.StartingCd;
+import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -90,20 +91,28 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%kit%")) {
-            if (config.getBoolean("lobby-items.kits.enabled", true)) {
-                text = text.replace("%kit%", String.valueOf(uhcPlayer.getKit()));
+            if (config.getBoolean("settings.game.enable-kits")) {
+                if (uhcPlayer.hasKit()) {
+                    text = text.replace("%kit%", uhcPlayer.getKit().getName());
+                } else {
+                    text = text.replace("%kit%", "None");
+                }
             }
             else {
-                text = text.replace("%perk%", "DISABLED");
+                text = text.replace("%kit%", "Disabled");
             }
         }
 
         if (text.contains("%perk%")) {
-            if (config.getBoolean("lobby-items.perks.enabled", true)) {
-                text = text.replace("%perk%", String.valueOf(uhcPlayer.getPerk()));
+            if (config.getBoolean("settings.game.enable-perks")) {
+                if (uhcPlayer.hasPerk()) {
+                    text = text.replace("%perk%", uhcPlayer.getPerk().name());
+                } else {
+                    text = text.replace("%perk%", "None");
+                }
             }
             else {
-                text = text.replace("%perk%", "DISABLED");
+                text = text.replace("%perk%", "Disabled");
             }
         }
 
@@ -141,9 +150,13 @@ public class PlaceholderUtil {
 
         if (text.contains("%team%")) {
             if (!gameManager.isTeamMode()) {
-                text = text.replace("%team%", "SOLO MODE");
+                text = text.replace("%team%", "Solo Mode");
             } else {
-                text = text.replace("%team%", uhcPlayer.getTeam().getName());
+                if (uhcPlayer.hasTeam()) {
+                    text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getName()));
+                } else {
+                    text = text.replace("%team%", "None");
+                }
             }
         }
 

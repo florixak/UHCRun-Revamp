@@ -37,7 +37,7 @@ public class KitsManager {
                 ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
                 int amount = kits_config.getInt("kits." + kitName + "." + item + ".amount");
 
-                ItemStack newI = ItemUtils.getItem(i, null, amount);
+                ItemStack newI = ItemUtils.createItem(i, null, amount, null);
                 if (kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments") != null) {
                     for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments").getKeys(false)) {
                         String enchantment = enchant.toUpperCase();
@@ -78,7 +78,7 @@ public class KitsManager {
                 ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
                 int slot = config.getInt("settings.selectors." + selector + ".slot");
 
-                ItemStack newItem = ItemUtils.getItem(item, display_name, 1);
+                ItemStack newItem = ItemUtils.createItem(item, display_name, 1, null);
                 p.getPlayer().getInventory().setItem(slot, newItem);
             }
         }

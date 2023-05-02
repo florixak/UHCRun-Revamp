@@ -77,7 +77,7 @@ public class ChatListener implements Listener {
                         .replace("%message%", event.getMessage())
                         .replace("%luckperms-prefix%", prefix)
                         .replace("%level%", level)
-                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam().getName() : "")));
+                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam().getDisplayName() : "")));
                 // TODO - gg odměna
             }
             return;

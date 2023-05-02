@@ -5,6 +5,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -65,7 +66,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("team")) {
             if (!uhcPlayer.hasTeam()) return "";
-            return plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId()).getTeam() + " | ";
+            return TextUtils.color(uhcPlayer.getTeam().getName()) + " | ";
         }
 
         if (params.equalsIgnoreCase("kills")) {

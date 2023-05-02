@@ -9,7 +9,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -25,9 +24,8 @@ public class TabManager {
 
     public void setPlayerList(Player p) {
 
-        if ((Bukkit.getServer().getPluginManager().getPlugin("ProtocolLib") == null)
-                || config.getBoolean("settings.addons.use-ProtocolLib", false)
-                || config.getBoolean("settings.tablist.enabled", false)) {
+        if (!config.getBoolean("settings.addons.use-ProtocolLib")
+                || !config.getBoolean("settings.tablist.enabled")) {
             return;
         }
 
@@ -46,7 +44,7 @@ public class TabManager {
 
         UHCPlayer hocPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         p.setPlayerListName(TextUtils.color(
-                        (hocPlayer.hasTeam() ? " " + hocPlayer.getTeam().getName() + " &8| &f" : " ") + hocPlayer.getName()
+                        (hocPlayer.hasTeam() ? TextUtils.color(hocPlayer.getTeam().getDisplayName()) + " &8| &f" : " ") + hocPlayer.getName()
                 )
         );
     }

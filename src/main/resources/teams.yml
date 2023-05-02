@@ -1,9 +1,13 @@
+
+# {team_name}: {color}
+
 teams:
-  - Red
-  - Green
-  - Blue
-  - Yellow
-  - White
-  - Pink
-  - Black
-  - Lime
+  A: "&a"
+  B: "&b"
+  C: "&c"
+  D: "&f"
+  E: "&d"
+  F: "&e"
+  G: "&6"
+  H: "&9"
+  I: "&3"
