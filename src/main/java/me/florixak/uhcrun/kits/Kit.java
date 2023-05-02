@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.kits;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -8,14 +9,30 @@ public class Kit {
 
     private String name;
     private List<ItemStack> items;
+    private Material display_item;
+    private double cost;
 
-    public Kit(String name, List<ItemStack> items) {
+    public Kit(String name, Material display_item, double cost, List<ItemStack> items) {
         this.name = name;
+        this.display_item = display_item;
+        this.cost = cost;
         this.items = items;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public Material getDisplayItem() {
+        return this.display_item;
+    }
+
+    public double getCost() {
+        return this.cost;
+    }
+
+    public boolean isFree() {
+        return getCost() == 0;
     }
 
     public List<ItemStack> getItems() {

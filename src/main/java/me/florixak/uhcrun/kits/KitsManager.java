@@ -6,6 +6,7 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -33,22 +34,30 @@ public class KitsManager {
 
         for (String kitName : kits_config.getConfigurationSection("kits").getKeys(false)) {
             List<ItemStack> items = new ArrayList<>();
+            Material display_item = Material.ITEM_FRAME;
+            double cost = 0;
             for (String item : kits_config.getConfigurationSection("kits." + kitName).getKeys(false)) {
-                ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
-                int amount = kits_config.getInt("kits." + kitName + "." + item + ".amount");
+                if (item.equalsIgnoreCase("display-item")) {
+                    display_item = XMaterial.matchXMaterial(kits_config.getString("kits." + kitName + "." + item).toUpperCase()).get().parseMaterial();
+                } else if (item.equalsIgnoreCase("cost")) {
+                    cost = kits_config.getDouble("kits." + kitName + "." + item);
+                } else {
+                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
+                    int amount = kits_config.getInt("kits." + kitName + "." + item + ".amount");
 
-                ItemStack newI = ItemUtils.createItem(i, null, amount, null);
-                if (kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments") != null) {
-                    for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments").getKeys(false)) {
-                        String enchantment = enchant.toUpperCase();
-                        Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                        int level = kits_config.getInt("kits." + kitName + "." + item + ".enchantments." + enchantment);
-                        ItemUtils.addEnchant(newI, e, level, true);
+                    ItemStack newI = ItemUtils.createItem(i, null, amount, null);
+                    if (kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments") != null) {
+                        for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments").getKeys(false)) {
+                            String enchantment = enchant.toUpperCase();
+                            Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                            int level = kits_config.getInt("kits." + kitName + "." + item + ".enchantments." + enchantment);
+                            ItemUtils.addEnchant(newI, e, level, true);
+                        }
                     }
+                    items.add(newI);
                 }
-                items.add(newI);
             }
-            Kit kit = new Kit(kitName, items);
+            Kit kit = new Kit(kitName, display_item, cost, items);
             this.kits.add(kit);
         }
     }
@@ -64,6 +73,11 @@ public class KitsManager {
 
     public List<Kit> getKits() {
         return this.kits;
+    }
+
+    public String getKitCost(String name) {
+        Kit kit = getKit(name);
+        return "&fCost: &e" + (kit.isFree() ? "&aFREE" : kit.getCost());
     }
 
     public void giveKit(UHCPlayer uhcPlayer) {

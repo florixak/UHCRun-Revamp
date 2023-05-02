@@ -37,6 +37,18 @@ public class TextUtils {
         return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 
+    public static String toNormalCamelText(String text) {
+        String[] words = text.split("_");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            sb.append(word.substring(0, 1).toUpperCase());
+            sb.append(word.substring(1).toLowerCase());
+            sb.append(" ");
+        }
+        String newText = sb.toString().trim();
+        return newText;
+    }
+
     public static String getCenteredMessage(String message) {
         if (message == null || message.equals("")) return "";
 

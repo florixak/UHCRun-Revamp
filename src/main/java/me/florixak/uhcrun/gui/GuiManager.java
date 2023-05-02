@@ -1,6 +1,8 @@
 package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.kits.KitsGui;
+import me.florixak.uhcrun.teams.TeamGui;
 
 import java.util.ArrayList;
 
