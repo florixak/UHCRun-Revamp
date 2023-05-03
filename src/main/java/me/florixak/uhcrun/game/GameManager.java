@@ -5,6 +5,7 @@ import me.florixak.uhcrun.commands.*;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.customDrop.CustomDropManager;
 import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.gui.GuiManager;
 import me.florixak.uhcrun.kits.KitsManager;
@@ -21,7 +22,7 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.utils.*;
-import me.florixak.uhcrun.utils.xseries.XMaterial;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -62,6 +63,7 @@ public class GameManager {
     private TaskManager taskManager;
     private TeamManager teamManager;
     private GuiManager guiManager;
+    private CustomDropManager customDropManager;
     private SoundManager soundManager;
     private RecipeManager recipeManager;
 
@@ -85,6 +87,7 @@ public class GameManager {
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
         this.guiManager = new GuiManager();
+        this.customDropManager = new CustomDropManager(this);
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager();
@@ -113,6 +116,7 @@ public class GameManager {
         connectToDatabase();
         getBorderManager().checkBorder();
         getRecipeManager().registerRecipes();
+        getCustomDropManager().loadCustomDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
         getGuiManager().loadInventories();
@@ -260,9 +264,9 @@ public class GameManager {
     }
     public String getUHCWinner() {
         if (isTeamMode()) {
-            return getTeamManager().getLastTeam().getName();
+            return getTeamManager().getLastTeam() != null ? getTeamManager().getLastTeam().getName() : "None";
         }
-        return getPlayerManager().getLastPlayer().getName();
+        return getPlayerManager().getLastPlayer() != null ? getPlayerManager().getLastPlayer().getName() : "None";
     }
 
     public void spawnOre() {
@@ -308,6 +312,9 @@ public class GameManager {
     }
     public GuiManager getGuiManager() {
         return guiManager;
+    }
+    public CustomDropManager getCustomDropManager() {
+        return customDropManager;
     }
     public KitsManager getKitsManager() {
         return kitsManager;

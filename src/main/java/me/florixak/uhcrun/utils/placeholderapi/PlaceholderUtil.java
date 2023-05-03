@@ -105,7 +105,7 @@ public class PlaceholderUtil {
         if (text.contains("%perk%")) {
             if (config.getBoolean("settings.perks.enabled")) {
                 if (uhcPlayer.hasPerk()) {
-                    text = text.replace("%perk%", uhcPlayer.getPerk().name());
+                    text = text.replace("%perk%", uhcPlayer.getPerk().getName());
                 } else {
                     text = text.replace("%perk%", "None");
                 }

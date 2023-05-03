@@ -1,23 +1,21 @@
-package me.florixak.uhcrun.kits;
+package me.florixak.uhcrun.perks;
 
-import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class Kit {
+public class Perk {
 
     private String name;
-    private List<ItemStack> items;
+    private List<String> options;
     private Material display_item;
     private double cost;
 
-    public Kit(String name, Material display_item, double cost, List<ItemStack> items) {
+    public Perk(String name, Material display_item, double cost, List<String> options) {
         this.name = name;
         this.display_item = display_item;
         this.cost = cost;
-        this.items = items;
+        this.options = options;
     }
 
     public String getName() {
@@ -36,11 +34,7 @@ public class Kit {
         return getCost() == 0;
     }
 
-    public List<ItemStack> getItems() {
-        return this.items;
-    }
-
-    public void getKit(UHCPlayer uhcPlayer) {
-        // TODO getKit
+    public List<String> getOptions() {
+        return this.options;
     }
 }

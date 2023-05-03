@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.utils.ItemUtils;
-import me.florixak.uhcrun.utils.xseries.XMaterial;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

@@ -1,55 +1,66 @@
 package me.florixak.uhcrun.perks;
 
+import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.xseries.XPotion;
+import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.XSeries.XEnchantment;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PerksManager {
 
     private GameManager gameManager;
+    private FileConfiguration perks_config;
+
+    private List<Perk> perks;
 
     public PerksManager(GameManager gameManager) {
         this.gameManager = gameManager;
+        this.perks_config = gameManager.getConfigManager().getFile(ConfigType.PERKS).getConfig();
+
+        this.perks = new ArrayList<>();
+    }
+
+    public void loadPerks() {
+        if (!gameManager.arePerksEnabled()) return;
+
+        for (String kitName : perks_config.getConfigurationSection("perks").getKeys(false)) {
+            List<String> options = new ArrayList<>();
+            Material display_item = Material.ITEM_FRAME;
+            double cost = 0;
+            for (String item : perks_config.getConfigurationSection("perks." + kitName).getKeys(false)) {
+                if (item.equalsIgnoreCase("display-item")) {
+                    display_item = XMaterial.matchXMaterial(perks_config.getString("perks." + kitName + "." + item).toUpperCase()).get().parseMaterial();
+                } else if (item.equalsIgnoreCase("cost")) {
+                    cost = perks_config.getDouble("perks." + kitName + "." + item);
+                } else {
+                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
+                    int amount = perks_config.getInt("perks." + kitName + "." + item + ".amount");
+
+                    ItemStack newI = ItemUtils.createItem(i, null, amount, null);
+                    if (perks_config.getConfigurationSection("perks." + kitName + "." + item + ".enchantments") != null) {
+                        for (String enchant : perks_config.getConfigurationSection("perks." + kitName + "." + item + ".enchantments").getKeys(false)) {
+                            String enchantment = enchant.toUpperCase();
+                            Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                            int level = perks_config.getInt("perks." + kitName + "." + item + ".enchantments." + enchantment);
+                            ItemUtils.addEnchant(newI, e, level, true);
+                        }
+                    }
+                }
+            }
+            Perk perk = new Perk(kitName, display_item, cost, options);
+            this.perks.add(perk);
+        }
     }
 
     public void givePerk(UHCPlayer uhcPlayer) {
-
-        Player p = uhcPlayer.getPlayer();
         uhcPlayer.sendMessage("You chose " + uhcPlayer.getPerk() + " perk");
-
-        switch (uhcPlayer.getPerk()) {
-            case NONE:
-                break;
-            case STRENGTH:
-                p.addPotionEffect(XPotion.INCREASE_DAMAGE.buildPotionEffect(100, 1));
-                break;
-            case JUMP_BOOST:
-                p.addPotionEffect(XPotion.JUMP.buildPotionEffect(200, 2));
-                break;
-            case REGENERATION:
-                p.addPotionEffect(XPotion.REGENERATION.buildPotionEffect(100, 2));
-                break;
-            case SPEED:
-                p.addPotionEffect(XPotion.SPEED.buildPotionEffect(100, 2));
-                break;
-            case FIRE_RESISTANCE:
-                p.addPotionEffect(XPotion.FIRE_RESISTANCE.buildPotionEffect(100, 2));
-                break;
-            case ENDER_PEARL:
-                p.getInventory().addItem(new ItemStack(Material.ENDER_PEARL));
-                break;
-            case RESISTANCE:
-                p.addPotionEffect(XPotion.DAMAGE_RESISTANCE.buildPotionEffect(100, 2));
-                break;
-            case INVISIBLE:
-                p.addPotionEffect(XPotion.INVISIBILITY.buildPotionEffect(100, 2));
-                break;
-            default:
-                p.sendMessage("ERROR with perks");
-                break;
-        }
     }
 }
