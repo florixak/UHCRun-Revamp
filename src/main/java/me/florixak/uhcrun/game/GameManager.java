@@ -21,7 +21,7 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.utils.*;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.xseries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;

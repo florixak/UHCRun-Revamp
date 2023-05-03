@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.utils.TextUtils;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +16,7 @@ import java.util.List;
 
 public class Gui implements InventoryHolder {
 
+    private Player whoOpen;
     private Inventory inventory;
     private int size;
     private String title;
@@ -24,6 +25,10 @@ public class Gui implements InventoryHolder {
         this.size = size;
         this.title = title;
         this.inventory = Bukkit.createInventory(null, size, TextUtils.color(title));
+    }
+
+    public Player getWhoOpen() {
+        return this.whoOpen;
     }
 
     public void setSize(int slots) {
@@ -62,6 +67,7 @@ public class Gui implements InventoryHolder {
     }
 
     public void openInv(Player p) {
+        this.whoOpen = p;
         init();
         p.openInventory(inventory);
     }

@@ -26,7 +26,8 @@ public class AnvilCommand implements CommandExecutor {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
-        for (ItemStack item : gameManager.getKitsManager().getKit("miner").getItems()) {
+        gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId()).setKit(gameManager.getKitsManager().getKit("librarian"));
+        for (ItemStack item : gameManager.getKitsManager().getKit("librarian").getItems()) {
             p.getInventory().addItem(item);
         }
         return true;

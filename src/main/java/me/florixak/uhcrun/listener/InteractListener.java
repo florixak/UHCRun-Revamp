@@ -46,7 +46,7 @@ public class InteractListener implements Listener {
         ItemStack item = p.getInventory().getItemInMainHand();
 
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
-            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR) return;
+            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 

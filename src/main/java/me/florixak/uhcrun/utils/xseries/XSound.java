@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utils.XSeries;
+package me.florixak.uhcrun.utils.xseries;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;

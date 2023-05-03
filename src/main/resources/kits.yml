@@ -52,9 +52,6 @@ kits:
         DURABILITY: 1
     ENCHANTING_TABLE:
       amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
     BOOKSHELF:
       amount: 15
     BOOK:

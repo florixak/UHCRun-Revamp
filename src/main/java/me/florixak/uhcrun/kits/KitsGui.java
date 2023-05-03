@@ -2,6 +2,7 @@ package me.florixak.uhcrun.kits;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.gui.Gui;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.enchantments.Enchantment;
@@ -24,11 +25,19 @@ public class KitsGui extends Gui {
         super.init();
         ItemStack kit_item;
         List<Kit> kits = GameManager.getGameManager().getKitsManager().getKits();
+        Player p = getWhoOpen();
+        UHCPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         for (int i = 0; i < kits.size(); i++) {
             Kit kit = kits.get(i);
             List<String> lore = new ArrayList<>();
-            lore.add(TextUtils.color(GameManager.getGameManager().getKitsManager().getKitCost(kit.getName())));
+
+            if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
+                lore.add(TextUtils.color("&aSelected"));
+            } else {
+                lore.add(TextUtils.color(GameManager.getGameManager().getKitsManager().getKitCost(kit.getName())));
+            }
+
             for (ItemStack item : kit.getItems()) {
                 if (!item.getEnchantments().keySet().isEmpty()) {
                     List<Enchantment> enchantmentsList = ItemUtils.getEnchantments(item);
@@ -41,6 +50,8 @@ public class KitsGui extends Gui {
                 } else {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
+
+
 
             }
             kit_item = this.createItem(kit.getDisplayItem(), kit.getName(), lore);

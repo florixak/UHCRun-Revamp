@@ -2,7 +2,7 @@ package me.florixak.uhcrun.perks;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.XSeries.XPotion;
+import me.florixak.uhcrun.utils.xseries.XPotion;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
