@@ -48,6 +48,8 @@ public class GameManager {
     private boolean forceStarted;
     private boolean teleportAfterMining;
     private boolean enableDeathmatch;
+    private boolean enableKits;
+    private boolean enablePerks;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -105,6 +107,8 @@ public class GameManager {
         this.teamMode = config.getBoolean("settings.teams.team-mode");
         this.teleportAfterMining = config.getBoolean("settings.game.teleport-after-mining");
         this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
+        this.enableKits = config.getBoolean("settings.kits.enabled");
+        this.enablePerks = config.getBoolean("settings.perks.enabled");
 
         connectToDatabase();
         getBorderManager().checkBorder();
@@ -189,13 +193,19 @@ public class GameManager {
         this.forceStarted = true;
     }
     public boolean isTeamMode() {
-        return teamMode;
+        return this.teamMode;
     }
     public boolean isTeleportAfterMining() {
-        return teleportAfterMining;
+        return this.teleportAfterMining;
     }
-    public boolean isDeathmatchEnable() {
-        return enableDeathmatch;
+    public boolean isDeathmatchEnabled() {
+        return this.enableDeathmatch;
+    }
+    public boolean areKitsEnabled() {
+        return this.enableKits;
+    }
+    public boolean arePerksEnabled() {
+        return this.enablePerks;
     }
 
     public boolean isPlaying() {

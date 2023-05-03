@@ -2,10 +2,10 @@ package me.florixak.uhcrun.kits;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.gui.Gui;
-import me.florixak.uhcrun.kits.Kit;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -53,5 +53,14 @@ public class KitsGui extends Gui {
     public void onClick(InventoryClickEvent event) {
         if (event.getInventory() != getInventory()) return;
         event.setCancelled(true);
+    }
+
+    @Override
+    public void openInv(Player p) {
+        if (!GameManager.getGameManager().areKitsEnabled()) {
+            p.sendMessage("Kits are disabled!");
+            return;
+        }
+        super.openInv(p);
     }
 }

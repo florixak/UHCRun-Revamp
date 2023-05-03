@@ -25,8 +25,6 @@ settings:
     warning-time-at: 10 # start at <_> seconds
 
     enable-deathmatch: true
-    enable-kits: true
-    enable-perks: false
 
     projectile-hit-hp: true
 
@@ -37,9 +35,6 @@ settings:
       fighting: 120 # seconds
       deathmatch: 60 # seconds
       ending: 15 # seconds
-
-
-
 
     custom-ore-drops: true
     random-drops: false # in development
@@ -57,6 +52,16 @@ settings:
     max-size: 3
     friendly-fire: false
 
+  # Kits
+  kits:
+    enabled: true
+    full-time: true
+
+  # Kits
+  perks:
+    enabled: true
+    full-time: true
+
   # Rewards
   rewards:
     kill:
@@ -66,6 +71,9 @@ settings:
     win:
       money: 150
       player-exp: 300
+    lose:
+      money: 50
+      player-exp: 150
 
   # Tablist
   tablist:

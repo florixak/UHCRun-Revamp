@@ -27,7 +27,7 @@ public class FightingCd extends BukkitRunnable {
 
         if (count <= 0) {
             cancel();
-            if (gameManager.isDeathmatchEnable()) {
+            if (gameManager.isDeathmatchEnabled()) {
                 gameManager.setGameState(GameState.DEATHMATCH);
             } else {
                 gameManager.setGameState(GameState.ENDING);

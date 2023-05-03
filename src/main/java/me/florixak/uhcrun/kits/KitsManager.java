@@ -30,7 +30,7 @@ public class KitsManager {
     }
 
     public void loadKits() {
-        // TODO if kits disabled
+        if (!gameManager.areKitsEnabled()) return;
 
         for (String kitName : kits_config.getConfigurationSection("kits").getKeys(false)) {
             List<ItemStack> items = new ArrayList<>();

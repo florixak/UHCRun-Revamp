@@ -91,27 +91,25 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%kit%")) {
-            if (config.getBoolean("settings.game.enable-kits")) {
+            if (config.getBoolean("settings.kits.enabled")) {
                 if (uhcPlayer.hasKit()) {
                     text = text.replace("%kit%", uhcPlayer.getKit().getName());
                 } else {
                     text = text.replace("%kit%", "None");
                 }
-            }
-            else {
+            } else {
                 text = text.replace("%kit%", "Disabled");
             }
         }
 
         if (text.contains("%perk%")) {
-            if (config.getBoolean("settings.game.enable-perks")) {
+            if (config.getBoolean("settings.perks.enabled")) {
                 if (uhcPlayer.hasPerk()) {
                     text = text.replace("%perk%", uhcPlayer.getPerk().name());
                 } else {
                     text = text.replace("%perk%", "None");
                 }
-            }
-            else {
+            } else {
                 text = text.replace("%perk%", "Disabled");
             }
         }
