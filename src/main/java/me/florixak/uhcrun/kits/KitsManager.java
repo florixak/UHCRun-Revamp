@@ -80,11 +80,12 @@ public class KitsManager {
         return "&fCost: &e" + (kit.isFree() ? "&aFREE" : kit.getCost());
     }
 
-    public void giveKit(UHCPlayer uhcPlayer) {
-        uhcPlayer.sendMessage("You chose " + uhcPlayer.getKit() + " kit");
+    public boolean isBlock(Material block) {
+        return block.isBlock();
     }
 
     public void getWaitingKit(UHCPlayer p) {
+
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
             if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
                 String display_name = config.getString("settings.selectors." + selector + ".display-name");

@@ -77,7 +77,7 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
-        gameManager.getCustomDropManager().dropItem(p, event);
+        gameManager.getCustomDropManager().getCustomDrop(event.getBlock().getType()).dropItem(p, event);
     }
 
     @EventHandler

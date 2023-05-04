@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.customDrop;
 
+import it.unimi.dsi.fastutil.Hash;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
@@ -12,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CustomDropManager {
 
@@ -35,13 +34,18 @@ public class CustomDropManager {
             Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();
 
             List<Material> drops = new ArrayList<>();
-            for (String drop : custom_drop_cfg.getStringList("custom-drops." + block + ".drops")) {
-                drops.add(XMaterial.matchXMaterial(drop).get().parseMaterial());
+            HashMap<Material, Integer> amount_map = new HashMap<>();
+            if (custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops") != null) {
+                for (String drop : custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false)) {
+                    Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
+                    int amount = custom_drop_cfg.getInt("custom-drops." + block + ".drops." + drop);
+                    drops.add(b);
+                    amount_map.put(b, amount);
+                }
             }
-            int amount = custom_drop_cfg.getInt("custom-drops." + block + ".max-drop");
             int xp = custom_drop_cfg.getInt("custom-drops." + block + ".exp");
 
-            this.custom_drops.add(new CustomDrop(material, drops, amount, xp));
+            this.custom_drops.add(new CustomDrop(material, drops, amount_map, xp));
         }
     }
 
@@ -55,26 +59,6 @@ public class CustomDropManager {
     }
 
     public boolean hasCustomDrop(Material material) {
-        return custom_drops.contains(getCustomDrop(material));
-    }
-
-    public void dropItem(Player p, BlockBreakEvent event) {
-        Block block = event.getBlock();
-        Location loc = event.getBlock().getLocation();
-        Random ran = new Random();
-
-        if (hasCustomDrop(block.getType())) {
-            event.setExpToDrop(0);
-            event.setDropItems(false);
-
-            CustomDrop customDrop = getCustomDrop(block.getType());
-            int drop = ran.nextInt(customDrop.getDrops().size());
-            int amount = ran.nextInt(customDrop.getMaxAmount())+1;
-            if (amount > 0 && drop > 0) {
-                Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(customDrop.getDrops().get(drop), amount));
-            }
-            p.giveExp(customDrop.getExp());
-            gameManager.getSoundManager().playOreDestroySound(p);
-        }
+        return getCustomDrop(material) != null;
     }
 }

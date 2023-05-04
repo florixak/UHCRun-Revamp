@@ -2,6 +2,7 @@ package me.florixak.uhcrun.kits;
 
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -41,6 +42,12 @@ public class Kit {
     }
 
     public void getKit(UHCPlayer uhcPlayer) {
-        // TODO getKit
+        Player p = uhcPlayer.getPlayer();
+
+        for (ItemStack item : getItems()) {
+            p.getInventory().addItem(item);
+        }
+
+        uhcPlayer.sendMessage("Selected kit " + getName());
     }
 }

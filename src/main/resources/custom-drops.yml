@@ -3,51 +3,42 @@ custom-drops:
 
   COAL_ORE:
     exp: 60
-    max-drop: 8
     drops:
-      - TORCH
+      TORCH: 8
   IRON_ORE:
     exp: 80
-    max-drop: 3
     drops:
-      - IRON_INGOT
+      IRON_INGOT: 3
   GOLD_ORE:
     exp: 100
-    max-drop: 3
     drops:
-      - GOLD_INGOT
+      GOLD_INGOT: 3
   REDSTONE_ORE:
     exp: 160
-    max-drop: 3
     drops:
-      - NETHER_WART
-      - BREWING_STAND
-      - GLOWSTONE_DUST
-      - SUGAR
-      - BLAZE_POWDER
+      NETHER_WART: 5
+      BREWING_STAND: 1
+      GLOWSTONE_DUST: 3
+      SUGAR: 3
+      BLAZE_POWDER: 3
   LAPIS_ORE:
     exp: 80
-    max-drop: 3
     drops:
-      - BOOK
-      - LAPIS_LAZULI
+      BOOK: 4
+      LAPIS_LAZULI: 6
   DIAMOND_ORE:
     exp: 150
-    max-drop: 3
     drops:
-      - DIAMOND
+      DIAMOND: 3
   EMERALD_ORE:
     exp: 200
-    max-drop: 0
     drops:
-      - AIR
+      AIR: 0
   GRAVEL:
     exp: 20
-    max-drop: 8
     drops:
-      - ARROW
+      ARROW: 8
   SAND:
     exp: 20
-    max-drop: 8
     drops:
-      - GLASS
+      GLASS: 8

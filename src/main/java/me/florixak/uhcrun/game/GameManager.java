@@ -149,7 +149,9 @@ public class GameManager {
 
             case MINING:
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
-                getPlayerManager().getAlivePlayers().forEach(getKitsManager()::giveKit);
+                getPlayerManager().getAlivePlayers().stream()
+                        .filter(uhcPlayer -> uhcPlayer.hasKit())
+                        .forEach(uhcPlayer -> uhcPlayer.getKit().getKit(uhcPlayer));
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
                 break;
