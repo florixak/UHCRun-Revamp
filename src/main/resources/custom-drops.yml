@@ -1,20 +1,20 @@
 custom-drops:
-#  enabled: true
+  # number after drop material is maximum amount of drop <1 ; x>
 
   COAL_ORE:
-    exp: 60
+    exp: 30
     drops:
       TORCH: 8
   IRON_ORE:
-    exp: 80
+    exp: 50
     drops:
       IRON_INGOT: 3
   GOLD_ORE:
-    exp: 100
+    exp: 60
     drops:
       GOLD_INGOT: 3
   REDSTONE_ORE:
-    exp: 160
+    exp: 80
     drops:
       NETHER_WART: 5
       BREWING_STAND: 1
@@ -22,23 +22,22 @@ custom-drops:
       SUGAR: 3
       BLAZE_POWDER: 3
   LAPIS_ORE:
-    exp: 80
+    exp: 60
     drops:
       BOOK: 4
       LAPIS_LAZULI: 6
   DIAMOND_ORE:
-    exp: 150
+    exp: 70
     drops:
       DIAMOND: 3
   EMERALD_ORE:
-    exp: 200
+    exp: 120
     drops:
-      AIR: 0
   GRAVEL:
-    exp: 20
+    exp: 10
     drops:
       ARROW: 8
   SAND:
-    exp: 20
+    exp: 10
     drops:
       GLASS: 8

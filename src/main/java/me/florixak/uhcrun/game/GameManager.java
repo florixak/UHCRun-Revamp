@@ -51,6 +51,7 @@ public class GameManager {
     private boolean enableDeathmatch;
     private boolean enableKits;
     private boolean enablePerks;
+    private boolean enableCustomDrops;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -112,6 +113,7 @@ public class GameManager {
         this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
         this.enableKits = config.getBoolean("settings.kits.enabled");
         this.enablePerks = config.getBoolean("settings.perks.enabled");
+        this.enableCustomDrops = config.getBoolean("settings.custom-drops");
 
         connectToDatabase();
         getBorderManager().checkBorder();
@@ -212,6 +214,9 @@ public class GameManager {
     }
     public boolean arePerksEnabled() {
         return this.enablePerks;
+    }
+    public boolean areCustomDropsEnabled() {
+        return enableCustomDrops;
     }
 
     public boolean isPlaying() {

@@ -36,7 +36,7 @@ settings:
       deathmatch: 60 # seconds
       ending: 15 # seconds
 
-    custom-ore-drops: true
+    custom-drops: true
     random-drops: false # in development
 
   # Border

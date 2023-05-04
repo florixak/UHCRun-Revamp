@@ -31,6 +31,10 @@ public class CustomDrop {
         return material;
     }
 
+    public boolean hasDrops() {
+        return !getDrops().isEmpty() && getDrops() != null;
+    }
+
     public List<Material> getDrops() {
         return drops;
     }
@@ -40,19 +44,15 @@ public class CustomDrop {
     }
 
     public int getAmount(Material material) {
-        for (Material material1 : getDrops()) {
-            if (material1.equals(material)) {
-                return amount.get(material);
-            }
+        if (amount.containsKey(material)) {
+            return amount.get(material);
         }
         return 1;
     }
 
     public void dropItem(Player p, BlockBreakEvent event) {
 
-        CustomDropManager customDropManager = GameManager.getGameManager().getCustomDropManager();
         Block block = event.getBlock();
-        Material material = block.getType();
         Location loc = block.getLocation();
 
         Random ran = new Random();
@@ -60,17 +60,15 @@ public class CustomDrop {
         event.setDropItems(false);
         event.setExpToDrop(0);
 
-        CustomDrop customDrop = customDropManager.getCustomDrop(material);
-        Material drop = customDrop.getDrops().get(ran.nextInt(customDrop.getDrops().size()));
-
-        int exp = customDrop.getExp();
+        int exp = getExp();
         if (exp > 0) {
             p.giveExp(exp);
             GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
         }
 
-        if (!getDrops().isEmpty() && getAmount(drop) > 0 && drop != null && !drop.equals(Material.AIR)) {
-            int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop)) : 1;
+        if (hasDrops()) {
+            Material drop = getDrops().get(ran.nextInt(getDrops().size()));
+            int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
             Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(drop, amount));
         }
 

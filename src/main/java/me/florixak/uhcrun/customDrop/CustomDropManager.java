@@ -23,6 +23,8 @@ public class CustomDropManager {
     }
 
     public void loadCustomDrops() {
+        if (!gameManager.areCustomDropsEnabled()) return;
+
         for (String block : custom_drop_cfg.getConfigurationSection("custom-drops").getKeys(false)) {
             Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();
 
