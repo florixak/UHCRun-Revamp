@@ -1,17 +1,10 @@
 package me.florixak.uhcrun.customDrop;
 
-import it.unimi.dsi.fastutil.Hash;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -45,13 +38,16 @@ public class CustomDropManager {
             }
             int xp = custom_drop_cfg.getInt("custom-drops." + block + ".exp");
 
-            this.custom_drops.add(new CustomDrop(material, drops, amount_map, xp));
+            CustomDrop customDrop = new CustomDrop(material, drops, amount_map, xp);
+            this.custom_drops.add(customDrop);
+            System.out.println(customDrop.getMaterial().toString());
+            System.out.println(customDrop.getDrops().toString());
         }
     }
 
     public CustomDrop getCustomDrop(Material material) {
         for (CustomDrop customDrop : custom_drops) {
-            if (customDrop.getBlock().equals(material)) {
+            if (customDrop.getMaterial().equals(material)) {
                 return customDrop;
             }
         }

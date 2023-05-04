@@ -15,20 +15,20 @@ import java.util.Random;
 
 public class CustomDrop {
 
-    private Material block;
+    private Material material;
     private List<Material> drops;
     private HashMap<Material, Integer> amount;
     private int exp;
 
-    public CustomDrop(Material block, List<Material> drops, HashMap<Material, Integer> amount, int exp) {
-        this.block = block;
+    public CustomDrop(Material material, List<Material> drops, HashMap<Material, Integer> amount, int exp) {
+        this.material = material;
         this.drops = drops;
         this.amount = amount;
         this.exp = exp;
     }
 
-    public Material getBlock() {
-        return block;
+    public Material getMaterial() {
+        return material;
     }
 
     public List<Material> getDrops() {
@@ -49,29 +49,30 @@ public class CustomDrop {
     }
 
     public void dropItem(Player p, BlockBreakEvent event) {
-        Block block = event.getBlock();
-        Location loc = block.getLocation();
+
         CustomDropManager customDropManager = GameManager.getGameManager().getCustomDropManager();
+        Block block = event.getBlock();
+        Material material = block.getType();
+        Location loc = block.getLocation();
+
         Random ran = new Random();
 
-        if (customDropManager.hasCustomDrop(block.getType())) {
+        event.setDropItems(false);
+        event.setExpToDrop(0);
 
-            event.setDropItems(false);
-            event.setExpToDrop(0);
+        CustomDrop customDrop = customDropManager.getCustomDrop(material);
+        Material drop = customDrop.getDrops().get(ran.nextInt(customDrop.getDrops().size()));
 
-            CustomDrop customDrop = customDropManager.getCustomDrop(block.getType());
-            Material drop = customDrop.getDrops().get(ran.nextInt(customDrop.getDrops().size()));
-            int amount = ran.nextInt(getAmount(drop))+1;
-            int exp = customDrop.getExp();
-
-            if (exp > 0) {
-                p.giveExp(exp);
-                GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
-            }
-
-            if (amount > 0 && drop != null && drop != Material.AIR) {
-                Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(drop, amount));
-            }
+        int exp = customDrop.getExp();
+        if (exp > 0) {
+            p.giveExp(exp);
+            GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
         }
+
+        if (!getDrops().isEmpty() && getAmount(drop) > 0 && drop != null && !drop.equals(Material.AIR)) {
+            int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop)) : 1;
+            Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(drop, amount));
+        }
+
     }
 }

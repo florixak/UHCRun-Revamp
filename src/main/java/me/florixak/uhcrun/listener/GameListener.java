@@ -2,6 +2,7 @@ package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.customDrop.CustomDrop;
 import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
@@ -9,6 +10,7 @@ import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -71,13 +73,18 @@ public class GameListener implements Listener {
     public void handleBlockBreak(BlockBreakEvent event) {
         Player p = event.getPlayer();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        Block block = event.getBlock();
 
         if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
-        gameManager.getCustomDropManager().getCustomDrop(event.getBlock().getType()).dropItem(p, event);
+        if (gameManager.getCustomDropManager().hasCustomDrop(block.getType())) {
+            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomDrop(block.getType());
+            customDrop.dropItem(p, event);
+        }
+
     }
 
     @EventHandler
