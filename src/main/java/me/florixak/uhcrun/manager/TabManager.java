@@ -43,9 +43,14 @@ public class TabManager {
         }
 
         UHCPlayer hocPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        p.setPlayerListName(TextUtils.color(
-                        (hocPlayer.hasTeam() ? TextUtils.color(hocPlayer.getTeam().getDisplayName()) + " &8| &f" : " ") + hocPlayer.getName()
-                )
-        );
+        if (!gameManager.isTeamMode()) {
+            p.setPlayerListName(TextUtils.color(
+                            (hocPlayer.getName()))
+            );
+        } else {
+            p.setPlayerListName(TextUtils.color(
+                            (hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() + " &8| &f" : " ") + hocPlayer.getName())
+            );
+        }
     }
 }

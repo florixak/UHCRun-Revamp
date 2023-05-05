@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.utils.TeleportUtils;
+import me.florixak.uhcrun.teams.UHCTeam;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -75,11 +75,10 @@ public class PlayerManager {
     }
 
     public UHCPlayer getLastPlayer() {
-        UHCPlayer winner = getAlivePlayers().get(0);
-        for (UHCPlayer p : getAlivePlayers()) {
-            if (p.isWinner()) winner = p;
+        for (UHCPlayer uhcPlayer : getAlivePlayers()) {
+            if (uhcPlayer.isWinner()) return uhcPlayer;
         }
-        return winner;
+        return null;
     }
 
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
@@ -95,9 +94,11 @@ public class PlayerManager {
 
         if (gameManager.isTeamMode() && !uhcPlayer.hasTeam()) {
             gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-            return;
+        } else {
+            UHCTeam uhcTeam = new UHCTeam("", "&f", 1);
+            uhcPlayer.setTeam(uhcTeam);
+            gameManager.getTeamManager().addTeam(uhcTeam);
         }
-        teleportPlayers();
     }
 
     public void setSpectator(UHCPlayer uhcPlayer) {
@@ -117,10 +118,6 @@ public class PlayerManager {
                 playerLoc.getX()+0,
                 playerLoc.getY()+10,
                 playerLoc.getZ()+0));
-    }
-
-    public void teleportPlayers() {
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(TeleportUtils.teleportToSafeLocation()));
     }
 
     public void teleportPlayersAfterMining() {

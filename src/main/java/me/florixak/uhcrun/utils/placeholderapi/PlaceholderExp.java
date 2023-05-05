@@ -52,7 +52,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
                 .getConfig().getBoolean("settings.addons.use-PlaceholderAPI", false)) {
             return null;
         }
-
+        GameManager gameManager = GameManager.getGameManager();
         UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         if (params.equalsIgnoreCase("uhc-author")) {
@@ -65,6 +65,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("team")) {
+            if (!gameManager.isTeamMode()) return "";
             if (!uhcPlayer.hasTeam()) return "";
             return TextUtils.color(uhcPlayer.getTeam().getName()) + " | ";
         }

@@ -41,7 +41,7 @@ public class PlaceholderUtil {
             text = text.replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
 
         if (text.contains("%max-online%"))
-            if (gameManager.isTeamMode()) {
+            if (!gameManager.isTeamMode()) {
                 text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
             } else {
                 text = text.replace("%max-online%", String.valueOf(
@@ -148,7 +148,7 @@ public class PlaceholderUtil {
 
         if (text.contains("%team%")) {
             if (!gameManager.isTeamMode()) {
-                text = text.replace("%team%", "Solo Mode");
+                text = text.replace("%team%", "Solo");
             } else {
                 if (uhcPlayer.hasTeam()) {
                     text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getName()));

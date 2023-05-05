@@ -1,5 +1,7 @@
+# enable in config.yml file
+# number after drop material is maximum amount of drop <1 ; x>
+
 custom-drops:
-  # number after drop material is maximum amount of drop <1 ; x>
 
   COAL_ORE:
     exp: 30

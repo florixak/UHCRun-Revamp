@@ -63,13 +63,7 @@ public class TeamManager {
 
     public void addTeam(UHCTeam team) {
         if (exists(team.getName()) || team == null) return;
-
-        List<String> teams_list = teams_config.getStringList("teams");
-        teams_list.add(team.getName());
-
         this.teams.add(team);
-        teams_config.set("teams", teams_list);
-        gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
     }
 
     public void removeTeam(String teamName) {

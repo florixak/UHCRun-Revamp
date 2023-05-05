@@ -153,6 +153,7 @@ public class GameManager {
 
             case MINING:
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
+                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.getPlayer().teleport(TeleportUtils.teleportToSafeLocation()));
                 getPlayerManager().getAlivePlayers().stream()
                         .filter(uhcPlayer -> uhcPlayer.hasKit())
                         .forEach(uhcPlayer -> uhcPlayer.getKit().getKit(uhcPlayer));

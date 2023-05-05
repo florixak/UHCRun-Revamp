@@ -28,7 +28,7 @@ public class SetupCommand implements CommandExecutor {
         if (args.length == 0) {
             p.sendMessage("Use help");
         }
-        else if (args[0].equalsIgnoreCase("start")) {
+        else if (args[0].equalsIgnoreCase("wait")) {
             if (args.length == 1) {
                 p.sendMessage("Uncompleted command!");
             } else if (args[1].equalsIgnoreCase("set")) {

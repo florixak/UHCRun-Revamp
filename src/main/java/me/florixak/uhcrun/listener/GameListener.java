@@ -65,6 +65,10 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
+        if (gameManager.isTeamMode() && victim.getTeam().getLivingMembers().size() == 0) {
+            Utils.broadcast("Team " + victim.getTeam().getName() + " was defeated!");
+        }
+
         gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
         gameManager.getPlayerManager().setSpectator(victim);
     }
