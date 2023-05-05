@@ -65,7 +65,7 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
-        if (gameManager.isTeamMode() && victim.getTeam().getLivingMembers().size() == 0) {
+        if (victim.getTeam().getLivingMembers().size() == 0 && gameManager.isTeamMode()) {
             Utils.broadcast("Team " + victim.getTeam().getName() + " was defeated!");
         }
 
@@ -84,9 +84,10 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
+
         if (gameManager.getCustomDropManager().hasCustomDrop(block.getType())) {
             CustomDrop customDrop = gameManager.getCustomDropManager().getCustomDrop(block.getType());
-            customDrop.dropItem(p, event);
+            customDrop.dropItem(event);
         }
 
     }

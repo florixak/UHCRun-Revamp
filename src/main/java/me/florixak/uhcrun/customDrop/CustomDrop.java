@@ -53,16 +53,13 @@ public class CustomDrop {
         return 1;
     }
 
-    public void dropItem(Player p, BlockBreakEvent event) {
+    public void dropItem(BlockBreakEvent event) {
 
+        Player p = event.getPlayer();
         Block block = event.getBlock();
         Location loc = block.getLocation();
 
         Random ran = new Random();
-
-        if (block.getType().equals(XMaterial.REDSTONE_ORE.parseMaterial())) {
-            p.sendMessage("Redstone ore :OOO");
-        }
 
         int exp = getExp();
         if (exp > 0) {
@@ -76,7 +73,8 @@ public class CustomDrop {
 
             Material drop = getDrops().get(ran.nextInt(getDrops().size()));
             int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
-            Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(drop, amount));
+            ItemStack drop_is = new ItemStack(drop, amount);
+            Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, drop_is);
         }
     }
 

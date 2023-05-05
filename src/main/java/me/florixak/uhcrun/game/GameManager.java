@@ -291,7 +291,7 @@ public class GameManager {
         getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(4)+2, 200, border);
         getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
         getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
-        getOreGenUtils().generateOre(Material.REDSTONE_ORE, world, random.nextInt(4)+1, 150, border);
+        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
         getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
         getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
         getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 100, border);
