@@ -15,9 +15,9 @@ public class OreGeneratorUtils {
 
     // https://www.spigotmc.org/threads/how-do-i-artificially-generate-ores-around-the-world.405941/
 
-    public void generateOre(Material material, World world, int amount, int chance, int border) {
+    public void generateOre(Material material, World world, int amount, int spawnAmount, int border) {
         Location loc;
-        for (int i = 0; i < chance; i++) {
+        for (int i = 0; i < spawnAmount; i++) {
             loc = generateOreLocation(world, border);
             world.getBlockAt(loc).setType(material);
             generateVein(material, world.getBlockAt(loc), amount);

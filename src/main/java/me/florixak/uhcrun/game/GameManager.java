@@ -52,6 +52,7 @@ public class GameManager {
     private boolean enableKits;
     private boolean enablePerks;
     private boolean enableCustomDrops;
+    private boolean statisticsOnEnd;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -114,6 +115,7 @@ public class GameManager {
         this.enableKits = config.getBoolean("settings.kits.enabled");
         this.enablePerks = config.getBoolean("settings.perks.enabled");
         this.enableCustomDrops = config.getBoolean("settings.custom-drops");
+        this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
 
         connectToDatabase();
         getBorderManager().checkBorder();
@@ -218,6 +220,9 @@ public class GameManager {
     public boolean areCustomDropsEnabled() {
         return enableCustomDrops;
     }
+    public boolean areStatisticsAddedOnEnd() {
+        return statisticsOnEnd;
+    }
 
     public boolean isPlaying() {
         return (gameState == GameState.MINING) || (gameState == GameState.FIGHTING) || (gameState == GameState.DEATHMATCH);
@@ -281,13 +286,13 @@ public class GameManager {
         Random random = new Random();
         int border = (int) getBorderManager().getSize();
 
-        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(6)+3, 400, border);
-        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
-        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 300, border);
-        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
-        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 250, border);
-        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+2, 300, border);
-        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 200, border);
+        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(4)+2, 200, border);
+        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
+        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
+        getOreGenUtils().generateOre(Material.REDSTONE_ORE, world, random.nextInt(4)+1, 150, border);
+        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
+        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
+        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 100, border);
     }
 
     public MySQL getSQL() {

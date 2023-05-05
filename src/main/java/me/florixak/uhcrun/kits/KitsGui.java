@@ -50,9 +50,6 @@ public class KitsGui extends Gui {
                 } else {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
-
-
-
             }
             kit_item = this.createItem(kit.getDisplayItem(), kit.getName(), lore);
 

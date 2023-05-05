@@ -7,7 +7,7 @@
 
 settings:
 
-  # Expand plugins
+  # Expanding plugins
   addons:
     use-Vault: false
     use-LuckPerms: false

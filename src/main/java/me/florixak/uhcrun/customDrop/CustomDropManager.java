@@ -30,7 +30,8 @@ public class CustomDropManager {
 
             List<Material> drops = new ArrayList<>();
             HashMap<Material, Integer> amount_map = new HashMap<>();
-            if (custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops") != null) {
+            if (custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops") != null &&
+                    custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false) != null) {
                 for (String drop : custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false)) {
                     Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
                     int amount = custom_drop_cfg.getInt("custom-drops." + block + ".drops." + drop);
