@@ -43,8 +43,6 @@ public class CustomDropManager {
 
             CustomDrop customDrop = new CustomDrop(material, drops, amount_map, xp);
             this.custom_drops.add(customDrop);
-            System.out.println(customDrop.getMaterial().toString());
-            System.out.println(customDrop.getDrops().toString());
         }
     }
 

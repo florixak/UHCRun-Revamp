@@ -17,10 +17,11 @@ custom-drops:
     exp: 80
     drops:
       NETHER_WART: 5
-      BREWING_STAND: 1
+      BREWING_STAND: 2
       GLOWSTONE_DUST: 3
       SUGAR: 3
       BLAZE_POWDER: 3
+      GLASS_BOTTLE: 4
   LAPIS_ORE:
     exp: 60
     drops:

@@ -58,7 +58,7 @@ public class GameManager {
     private PlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
     private TabManager tabManager;
-    private LocationManager lobbyManager;
+    private LobbyManager lobbyManager;
     private BorderManager borderManager;
     private KitsManager kitsManager;
     private PerksManager perksManager;
@@ -83,7 +83,7 @@ public class GameManager {
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
-        this.lobbyManager = new LocationManager(this);
+        this.lobbyManager = new LobbyManager(this);
         this.borderManager = new BorderManager(this);
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
@@ -114,7 +114,7 @@ public class GameManager {
         this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
         this.enableKits = config.getBoolean("settings.kits.enabled");
         this.enablePerks = config.getBoolean("settings.perks.enabled");
-        this.enableCustomDrops = config.getBoolean("settings.custom-drops");
+        this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");
         this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
 
         connectToDatabase();
@@ -254,12 +254,13 @@ public class GameManager {
         }
     }
     private void registerCommands() {
+        registerCommand("uhcrun", new SetupCommand(gameManager));
+        registerCommand("forcestart", new ForceStartCommand(gameManager));
+        registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));
         registerCommand("anvil", new AnvilCommand(gameManager)); // TODO make anvil command
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
-        registerCommand("team", new TeamCommand(gameManager));
-        registerCommand("forcestart", new ForceStartCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = UHCRun.getInstance().getCommand(commandN);
@@ -317,7 +318,7 @@ public class GameManager {
     public TabManager getTabManager() {
         return tabManager;
     }
-    public LocationManager getLocationManager() { return lobbyManager; }
+    public LobbyManager getLobbyManager() { return lobbyManager; }
     public BorderManager getBorderManager() { return borderManager; }
     public TeamManager getTeamManager() {
         return teamManager;

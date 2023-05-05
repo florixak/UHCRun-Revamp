@@ -48,7 +48,7 @@ public class ChatListener implements Listener {
 
         if (Bukkit.getServer().getHelpMap().getHelpTopic(args[0]) == null){
             event.setCancelled(true);
-            p.sendMessage(Messages.NO_PERM.toString());
+            p.sendMessage(Messages.INVALID_CMD.toString());
         }
     }
 

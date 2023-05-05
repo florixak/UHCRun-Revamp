@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.customDrop;
 
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +35,7 @@ public class CustomDrop {
     }
 
     public boolean hasDrops() {
-        return !getDrops().isEmpty() && getDrops() != null;
+        return !getDrops().isEmpty() && getDrops() != null && !getDrops().contains(XMaterial.AIR.parseMaterial());
     }
 
     public List<Material> getDrops() {
@@ -58,6 +59,10 @@ public class CustomDrop {
         Location loc = block.getLocation();
 
         Random ran = new Random();
+
+        if (block.getType().equals(XMaterial.REDSTONE_ORE.parseMaterial())) {
+            p.sendMessage("Redstone ore :OOO");
+        }
 
         int exp = getExp();
         if (exp > 0) {

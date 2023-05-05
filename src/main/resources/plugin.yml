@@ -6,6 +6,9 @@ authors: [ FloriXak ]
 softdepend: [ ProtocolAPI, Vault, LuckPerms, PlaceholderAPI ]
 
 commands:
+  uhcrun:
+    aliases: [ urun, uhcr ]
+    description: Only for admins to setup
   forcestart:
     aliases: [ start ]
     description: Force game start
