@@ -29,7 +29,8 @@ public class OreGeneratorUtils {
         Random random = new Random();
         do {
             loc = new Location(world, random.nextInt(border_size), random.nextInt(55), random.nextInt(border_size));
-        } while (loc.getBlock().getType().equals(XMaterial.WATER.parseMaterial()));
+        } while (world.getBlockAt(loc).getType() != XMaterial.STONE.parseMaterial());
+
         return loc;
     }
 

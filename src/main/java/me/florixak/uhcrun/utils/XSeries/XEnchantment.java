@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
  * @see Enchantment
  */
 public enum XEnchantment {
+
     ARROW_DAMAGE("POWER", "ARROW_DAMAGE", "ARROW_POWER", "AD"),
     ARROW_FIRE("FLAME", "FLAME_ARROW", "FIRE_ARROW", "AF"),
     ARROW_INFINITE("INFINITY", "INF_ARROWS", "INFINITE_ARROWS", "INFINITE", "UNLIMITED", "UNLIMITED_ARROWS", "AI"),

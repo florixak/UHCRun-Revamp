@@ -118,13 +118,15 @@ public class GameManager {
         this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
 
         connectToDatabase();
-        getBorderManager().checkBorder();
+
+        getBorderManager().createBorder();
+        spawnOre();
+
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadCustomDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
         getGuiManager().loadInventories();
-        spawnOre();
 
         getTaskManager().runGameChecking();
         getTaskManager().runScoreboardUpdate();
@@ -288,13 +290,13 @@ public class GameManager {
         Random random = new Random();
         int border = (int) getBorderManager().getSize();
 
-        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(4)+2, 200, border);
-        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
-        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(4)+1, 200, border);
-        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
-        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
-        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(4)+1, 150, border);
-        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+1, 100, border);
+        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(3)+3, 400, border);
+        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+2, 300, border);
     }
 
     public MySQL getSQL() {
