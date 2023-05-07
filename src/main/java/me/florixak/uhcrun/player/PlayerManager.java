@@ -120,25 +120,6 @@ public class PlayerManager {
                 playerLoc.getZ()+0));
     }
 
-    public void teleportPlayersAfterMining() {
-        Location location;
-
-        for (UHCPlayer uhcPlayer : getAlivePlayers()) {
-            Player p = uhcPlayer.getPlayer();
-
-            World world = gameManager.getGameWorld();
-            double x = p.getLocation().getX();
-            double y = 150;
-            double z = p.getLocation().getZ();
-
-            location = new Location(world, x, y, z);
-            y = location.getWorld().getHighestBlockYAt(location);
-            location.setY(y);
-
-            p.teleport(location);
-        }
-    }
-
     public void clearPlayerInventory(Player p) {
         p.getInventory().clear();
 

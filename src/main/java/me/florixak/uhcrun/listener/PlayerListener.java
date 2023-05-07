@@ -76,7 +76,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        // event.getDrops().clear(); TODO drops from kill
+        event.getDrops().clear();
 
         UHCPlayer uhcKiller = null;
         if (event.getEntity().getKiller() instanceof Player) {

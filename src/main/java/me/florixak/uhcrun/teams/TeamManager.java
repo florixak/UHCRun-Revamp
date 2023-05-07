@@ -123,27 +123,25 @@ public class TeamManager {
     }
 
     public UHCTeam getLastTeam() {
-        UHCTeam winner = getLivingTeams().get(0);
         for (UHCTeam team : getLivingTeams()) {
             for (UHCPlayer member : team.getMembers()) {
                 if (member.isWinner()) {
-                    winner = team;
-                    break;
+                    return team;
                 }
             }
         }
-        return winner;
+        return null;
     }
 
-    public void teleportTeamsAfterMining() {
+    public void teleportAfterMining() {
         Location location;
 
         for (UHCTeam team : getLivingTeams()) {
-            Player p = team.getLivingMembers().get(0).getPlayer();
+            Player p = team.getLeader().getPlayer();
 
             World world = gameManager.getGameWorld();
             double x = p.getLocation().getX();
-            double y = 150;
+            double y = p.getLocation().getY();
             double z = p.getLocation().getZ();
 
             location = new Location(world, x, y, z);

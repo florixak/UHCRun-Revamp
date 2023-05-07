@@ -21,7 +21,8 @@ settings:
 
     min-players-to-start: 2
 
-    teleport-after-mining: false
+    teleport-after-mining: true
+
     warning-time-at: 10 # start at <_> seconds
 
     enable-deathmatch: true
@@ -51,6 +52,11 @@ settings:
     team-mode: true
     max-size: 3
     friendly-fire: false
+
+  # death chest
+  death-chest:
+    enabled: true
+    expire: 30 # seconds, not expire if -1
 
   # Kits
   kits:

@@ -6,6 +6,7 @@ import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.customDrop.CustomDropManager;
+import me.florixak.uhcrun.deathchest.DeathChestManager;
 import me.florixak.uhcrun.events.GameEndEvent;
 import me.florixak.uhcrun.gui.GuiManager;
 import me.florixak.uhcrun.kits.KitsManager;
@@ -53,6 +54,7 @@ public class GameManager {
     private boolean enablePerks;
     private boolean enableCustomDrops;
     private boolean statisticsOnEnd;
+    private boolean enableDeathChest;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -68,10 +70,10 @@ public class GameManager {
     private CustomDropManager customDropManager;
     private SoundManager soundManager;
     private RecipeManager recipeManager;
+    private DeathChestManager deathChestManager;
 
     private Utils utils;
     private TeleportUtils teleportUtils;
-    private OreGeneratorUtils oreGenUtils;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
@@ -93,10 +95,10 @@ public class GameManager {
         this.taskManager = new TaskManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager();
+        this.deathChestManager = new DeathChestManager(this);
 
         this.utils = new Utils(this);
         this.teleportUtils = new TeleportUtils(this);
-        this.oreGenUtils = new OreGeneratorUtils();
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -107,8 +109,8 @@ public class GameManager {
         registerCommands();
         registerListeners();
 
-        this.forceStarted = false;
         this.game_world = Bukkit.getWorld(config.getString("settings.game.game-world"));
+        this.forceStarted = false;
         this.teamMode = config.getBoolean("settings.teams.team-mode");
         this.teleportAfterMining = config.getBoolean("settings.game.teleport-after-mining");
         this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
@@ -116,6 +118,7 @@ public class GameManager {
         this.enablePerks = config.getBoolean("settings.perks.enabled");
         this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");
         this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
+        this.enableDeathChest = config.getBoolean("settings.death-chest.enabled");
 
         connectToDatabase();
 
@@ -165,8 +168,7 @@ public class GameManager {
 
             case FIGHTING:
                 if (isTeleportAfterMining()) {
-                    if (isTeamMode()) getTeamManager().teleportTeamsAfterMining();
-                    else getPlayerManager().teleportPlayersAfterMining();
+                    getTeamManager().teleportAfterMining();
                 }
                 getTaskManager().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
@@ -290,13 +292,13 @@ public class GameManager {
         Random random = new Random();
         int border = (int) getBorderManager().getSize();
 
-        getOreGenUtils().generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(3)+3, 400, border);
-        getOreGenUtils().generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        getOreGenUtils().generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        getOreGenUtils().generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        getOreGenUtils().generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        getOreGenUtils().generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        getOreGenUtils().generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+2, 300, border);
+        OreGeneratorUtils.generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(3)+3, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
+        OreGeneratorUtils.generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+2, 300, border);
     }
 
     public MySQL getSQL() {
@@ -347,14 +349,14 @@ public class GameManager {
     public RecipeManager getRecipeManager() {
         return recipeManager;
     }
+    public DeathChestManager getDeathChestManager() {
+        return deathChestManager;
+    }
 
     public Utils getUtils() {
         return utils;
     }
     public TeleportUtils getTeleportUtils() {
         return teleportUtils;
-    }
-    public OreGeneratorUtils getOreGenUtils() {
-        return oreGenUtils;
     }
 }

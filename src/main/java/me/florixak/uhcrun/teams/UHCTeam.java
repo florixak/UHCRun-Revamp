@@ -40,6 +40,10 @@ public class UHCTeam {
         return this.color;
     }
 
+    public UHCPlayer getLeader() {
+        return getLivingMembers().get(0);
+    }
+
     public boolean isFull() {
         return getMembers().size() >= this.size;
     }
