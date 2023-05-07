@@ -15,11 +15,11 @@ public class TaskManager {
     private final long delay = 20L;
     private final long period = 20L;
 
-    private StartingCd startingCd;
-    private MiningCd miningCd;
-    private FightingCd fightingCd;
-    private DeathMCd deathmatchCd;
-    private EndingCd endingCd;
+    private StartingCD startingCd;
+    private MiningCD miningCd;
+    private FightingCD fightingCd;
+    private DeathmatchCD deathmatchCd;
+    private EndingCD endingCd;
 
     private GameChecking gameChecking;
     private ScoreboardUpdate scoreboardUpdate;
@@ -30,7 +30,7 @@ public class TaskManager {
     }
 
     public void startStartingCD() {
-        this.startingCd = new StartingCd(gameManager);
+        this.startingCd = new StartingCD(gameManager);
         this.startingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
     public void stopStartingCD() {
@@ -38,7 +38,7 @@ public class TaskManager {
     }
 
     public void startMiningCD() {
-        this.miningCd = new MiningCd(gameManager);
+        this.miningCd = new MiningCD(gameManager);
         this.miningCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
     public void stopMiningCD() {
@@ -46,7 +46,7 @@ public class TaskManager {
     }
 
     public void startFightingCD() {
-        this.fightingCd = new FightingCd(gameManager);
+        this.fightingCd = new FightingCD(gameManager);
         this.fightingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
     public void stopFightingCD() {
@@ -54,7 +54,7 @@ public class TaskManager {
     }
 
     public void startDeathmatchCD() {
-        this.deathmatchCd = new DeathMCd(gameManager);
+        this.deathmatchCd = new DeathmatchCD(gameManager);
         this.deathmatchCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
     public void stopDeathmatchCD() {
@@ -62,7 +62,7 @@ public class TaskManager {
     }
 
     public void startEndingCD() {
-        this.endingCd = new EndingCd(gameManager);
+        this.endingCd = new EndingCD(gameManager);
         this.endingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
     public void stopEndingCD() {

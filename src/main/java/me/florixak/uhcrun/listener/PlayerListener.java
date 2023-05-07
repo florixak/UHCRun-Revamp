@@ -76,7 +76,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        event.getDrops().clear();
 
         UHCPlayer uhcKiller = null;
         if (event.getEntity().getKiller() instanceof Player) {
@@ -84,7 +83,10 @@ public class PlayerListener implements Listener {
         }
         UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
+        gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
+
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
+        event.getDrops().clear();
     }
 
     @EventHandler

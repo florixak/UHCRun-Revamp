@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.deathchest;
 
 import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
@@ -10,17 +11,18 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class DeathChest {
 
     private Chest chest;
     private Location loc;
     private String title;
-    private ItemStack[] contents;
-    boolean empty;
+    private List<ItemStack> contents;
 
     private DeathChestExpire deathChestExpire;
 
-    public DeathChest(Location loc, String title, ItemStack[] contents) {
+    public DeathChest(Location loc, String title, List<ItemStack> contents) {
 
         this.loc = loc;
         this.title = title;
@@ -34,11 +36,6 @@ public class DeathChest {
             this.title = "Death Chest";
         }
 
-        if (this.contents.length <= 0 || this.contents == null) {
-            this.empty = true;
-            return;
-        }
-
         createChest();
     }
 
@@ -50,10 +47,15 @@ public class DeathChest {
         this.chest = (Chest) state;
 
         chest.setCustomName(TextUtils.color(this.title));
-        for (ItemStack item : getContents()) {
-            chest.getBlockInventory().addItem(item);
+        if (!getContents().isEmpty()) {
+            for (ItemStack item : getContents()) {
+                chest.getInventory().addItem(item);
+            }
         }
-        startExpire();
+        if (GameManager.getGameManager().getDeathChestManager().willExpire()) {
+            startExpire();
+        }
+
     }
 
     public void startExpire() {
@@ -61,15 +63,11 @@ public class DeathChest {
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
     }
 
-    public ItemStack[] getContents() {
+    public List<ItemStack> getContents() {
         return this.contents;
     }
 
     public void remove() {
         Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.AIR.parseMaterial());
-    }
-
-    public boolean isEmpty() {
-        return this.chest.getBlockInventory().isEmpty();
     }
 }

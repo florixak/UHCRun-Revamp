@@ -6,13 +6,13 @@ import me.florixak.uhcrun.game.GameState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DeathMCd extends BukkitRunnable {
+public class DeathmatchCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
     public static int count;
 
-    public DeathMCd(GameManager gameManager) {
+    public DeathmatchCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("settings.game.countdowns.deathmatch");

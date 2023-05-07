@@ -69,8 +69,6 @@ public class GameListener implements Listener {
             Utils.broadcast("Team " + victim.getTeam().getName() + " was defeated!");
         }
 
-        gameManager.getDeathChestManager().createDeathChest(victim.getPlayer());
-
         gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
         gameManager.getPlayerManager().setSpectator(victim);
     }

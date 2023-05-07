@@ -23,13 +23,52 @@ public class ChatListener implements Listener {
     private GameManager gameManager;
     private FileConfiguration config;
 
-    private String format;
-
     public ChatListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+    }
 
-        this.format = config.getString("settings.chat.format");
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event){
+        event.setCancelled(true);
+
+        PlayerManager pm = gameManager.getPlayerManager();
+
+        Player p = event.getPlayer();
+        UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
+
+        String format = gameManager.isPlaying() ? (!uhcPlayer.isDead() ? config.getString("settings.chat.in-game-format")
+                : config.getString("settings.chat.dead-format"))
+                : config.getString("settings.chat.lobby-format");
+
+        if (format == null || format.isEmpty()) return;
+
+        String playerName = uhcPlayer.getName();
+        String lp_prefix = "";
+        String playerLevel = String.valueOf(uhcPlayer.getData().getLevel());
+        String message = p.hasPermission("uhcrun.color-chat") ? TextUtils.color(event.getMessage()) : event.getMessage();
+        String team = uhcPlayer.getTeam() != null ? TextUtils.color(uhcPlayer.getTeam().getDisplayName()) : "";
+
+        String formattedMessage = format
+                .replace("%player%", playerName)
+                .replace("%message%", message)
+                .replace("%luckperms-prefix%", TextUtils.color(lp_prefix))
+                .replace("%level%", TextUtils.color(playerLevel))
+                .replace("%team%", team);
+
+        for (UHCPlayer players : pm.getPlayers()) {
+
+            if (!gameManager.isPlaying()) {
+                players.sendMessage(formattedMessage);
+                return;
+            }
+
+            if (players.isDead()) {
+                players.sendMessage(formattedMessage);
+                return;
+            }
+            players.sendMessage(formattedMessage);
+        }
     }
 
     @EventHandler
@@ -52,54 +91,4 @@ public class ChatListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
-        event.setCancelled(true);
-
-        PlayerManager pm = gameManager.getPlayerManager();
-        UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
-
-        String prefix = "";
-        String color = "&7";
-        String level = "";
-
-        if (config.getBoolean("settings.addons.use-LuckPerms", true)) {
-            // prefix = Utils.getLuckPermsPrefix(uhcPlayer.getPlayer());
-        }
-
-        level = config.getBoolean("settings.chat.level-with-brackets", true) ?
-                color + "[" + uhcPlayer.getData().getLevel() + "]" : String.valueOf(uhcPlayer.getData().getLevel());
-
-        if (!gameManager.isPlaying()) {
-            for (UHCPlayer players : pm.getPlayers()) {
-                players.sendMessage(TextUtils.color(format
-                        .replace("%player%", uhcPlayer.getName())
-                        .replace("%message%", event.getMessage())
-                        .replace("%luckperms-prefix%", prefix)
-                        .replace("%level%", level)
-                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam().getDisplayName() : "")));
-                // TODO - gg odměna
-            }
-            return;
-        }
-
-        for (UHCPlayer players : pm.getPlayers()) {
-            if (players.isDead()) {
-                players.sendMessage("&7[DEAD] " + format
-                        .replace("%player%", "&7" + uhcPlayer.getName())
-                        .replace("%message%", "&8" + event.getMessage())
-                        .replace("%luckperms-prefix%", prefix)
-                        .replace("%level%", level)
-                        .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam().getName() : ""));
-                return;
-            }
-            players.sendMessage(format
-                    .replace("%player%", uhcPlayer.getName())
-                    .replace("%message%", event.getMessage())
-                    .replace("%luckperms-prefix%", prefix)
-                    .replace("%level%", level)
-                    .replace("%team%", uhcPlayer.getTeam() != null ? uhcPlayer.getTeam().getName() : ""));
-        }
-
-    }
 }

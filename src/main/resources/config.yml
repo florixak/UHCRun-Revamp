@@ -163,8 +163,9 @@ settings:
     # %message% - Sent message
     # %level% - Player level
 
-    format: "%level% %team% &f%player% &7» &f%message%"
-    level-with-brackets: true
+    lobby-format: "&7[%level%] %team% &f%player% &7» &f%message%"
+    in-game-format: "&7[%level%] %team% &f%player% &7» &f%message%"
+    dead-format: "&7[DEAD] [%level%] %team% &7%player% » %message%"
 
     blocked-commands:
       - /pl

@@ -123,7 +123,7 @@ public class GameManager {
         connectToDatabase();
 
         getBorderManager().createBorder();
-        spawnOre();
+        generateOres();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadCustomDrops();
@@ -153,7 +153,7 @@ public class GameManager {
             case STARTING:
                 getTaskManager().startStartingCD();
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCd.count)));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCD.count)));
                 break;
 
             case MINING:
@@ -163,7 +163,7 @@ public class GameManager {
                         .filter(uhcPlayer -> uhcPlayer.hasKit())
                         .forEach(uhcPlayer -> uhcPlayer.getKit().getKit(uhcPlayer));
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCd.count)));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.count)));
                 break;
 
             case FIGHTING:
@@ -287,7 +287,7 @@ public class GameManager {
         return getPlayerManager().getLastPlayer() != null ? getPlayerManager().getLastPlayer().getName() : "None";
     }
 
-    public void spawnOre() {
+    public void generateOres() {
         World world = getGameWorld();
         Random random = new Random();
         int border = (int) getBorderManager().getSize();

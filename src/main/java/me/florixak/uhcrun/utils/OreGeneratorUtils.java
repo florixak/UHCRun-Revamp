@@ -38,11 +38,12 @@ public class OreGeneratorUtils {
     }
 
     private static Location generateOreLocation(World world, int borderSize) {
-        Location loc = generateOreLocation(world, borderSize);
+        Location loc;
         Random random = new Random();
-        while (!isLocationSafe(loc)) {
-            loc = new Location(world, random.nextInt(borderSize), random.nextInt(90), random.nextInt(borderSize));
-        }
+
+        do {
+            loc = new Location(world, random.nextInt(borderSize), random.nextInt(60), random.nextInt(borderSize));
+        } while (!isLocationSafe(loc));
 
         return loc;
     }
@@ -57,7 +58,7 @@ public class OreGeneratorUtils {
         Block below = location.getWorld().getBlockAt(x, y - 1, z);
         Block above = location.getWorld().getBlockAt(x, y + 1, z);
 
-        return !bad_blocks.contains(below.getType()) && !block.getType().isSolid() && !above.getType().isSolid();
+        return !bad_blocks.contains(below.getType()) && block.getType().isSolid() && above.getType().isSolid();
     }
 
     private static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {

@@ -10,14 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class StartingCd extends BukkitRunnable {
+public class StartingCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
     public static int count;
     private int startWarning;
 
-    public StartingCd(GameManager gameManager) {
+    public StartingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("settings.game.countdowns.starting");

@@ -10,13 +10,13 @@ import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class FightingCd extends BukkitRunnable {
+public class FightingCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
     public static int count;
 
-    public FightingCd(GameManager gameManager) {
+    public FightingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("settings.game.countdowns.fighting");

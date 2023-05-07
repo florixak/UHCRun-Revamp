@@ -44,3 +44,11 @@ custom-drops:
     exp: 10
     drops:
       GLASS: 8
+  ANDESITE:
+    exp: 0
+    drops:
+      COBBLESTONE: 1
+  DIORITE:
+    exp: 0
+    drops:
+      COBBLESTONE: 1

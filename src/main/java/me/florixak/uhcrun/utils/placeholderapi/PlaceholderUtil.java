@@ -6,10 +6,10 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.tasks.DeathMCd;
-import me.florixak.uhcrun.tasks.FightingCd;
-import me.florixak.uhcrun.tasks.MiningCd;
-import me.florixak.uhcrun.tasks.StartingCd;
+import me.florixak.uhcrun.tasks.DeathmatchCD;
+import me.florixak.uhcrun.tasks.FightingCD;
+import me.florixak.uhcrun.tasks.MiningCD;
+import me.florixak.uhcrun.tasks.StartingCD;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.Bukkit;
@@ -64,13 +64,13 @@ public class PlaceholderUtil {
 
         if (text.contains("%time%")) {
             if (gameManager.getGameState() == GameState.STARTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCd.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.count));
             if (gameManager.getGameState() == GameState.MINING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCd.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.count));
             if (gameManager.getGameState() == GameState.FIGHTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCd.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.count));
             if (gameManager.getGameState() == GameState.DEATHMATCH)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(DeathMCd.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.count));
         }
 
         if (text.contains("%border%")) {

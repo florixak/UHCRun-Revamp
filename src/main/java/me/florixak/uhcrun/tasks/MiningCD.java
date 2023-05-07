@@ -6,13 +6,13 @@ import me.florixak.uhcrun.game.GameState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MiningCd extends BukkitRunnable {
+public class MiningCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
     public static int count;
 
-    public MiningCd(GameManager gameManager) {
+    public MiningCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.count = config.getInt("settings.game.countdowns.mining");
