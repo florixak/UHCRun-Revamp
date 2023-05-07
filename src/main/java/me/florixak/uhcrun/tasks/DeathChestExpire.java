@@ -9,7 +9,7 @@ public class DeathChestExpire extends BukkitRunnable {
 
     private DeathChestManager deathChestManager;
     private DeathChest deathChest;
-    public static int expireTime;
+    public int expireTime;
 
     public DeathChestExpire(DeathChest deathChest) {
         this.deathChest = deathChest;

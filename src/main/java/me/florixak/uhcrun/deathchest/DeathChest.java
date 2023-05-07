@@ -2,19 +2,25 @@ package me.florixak.uhcrun.deathchest;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class DeathChest {
 
+    private UHCPlayer uhcPlayer;
     private Chest chest;
     private Location loc;
     private String title;
@@ -22,8 +28,8 @@ public class DeathChest {
 
     private DeathChestExpire deathChestExpire;
 
-    public DeathChest(Location loc, String title, List<ItemStack> contents) {
-
+    public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents) {
+        this.uhcPlayer = uhcPlayer;
         this.loc = loc;
         this.title = title;
         this.contents = contents;
@@ -55,7 +61,11 @@ public class DeathChest {
         if (GameManager.getGameManager().getDeathChestManager().willExpire()) {
             startExpire();
         }
+        addHologram();
+    }
 
+    public UHCPlayer getPlayer() {
+        return this.uhcPlayer;
     }
 
     public void startExpire() {
@@ -65,6 +75,23 @@ public class DeathChest {
 
     public List<ItemStack> getContents() {
         return this.contents;
+    }
+
+    public void addHologram() {
+        ArmorStand hologram = (ArmorStand) Bukkit.getWorld(loc.getWorld().getName())
+                .spawnEntity(loc, EntityType.ARMOR_STAND);
+        hologram.setVisible(false);
+        hologram.setCustomNameVisible(true);
+        String text = GameManager.getGameManager().getDeathChestManager().willExpire()
+                ? uhcPlayer.getName() + "'s chest - " + TimeUtils.getFormattedTime(this.deathChestExpire.expireTime)
+                : uhcPlayer.getName() + "'s chest";
+        hologram.setCustomName(TextUtils.color(text));
+        hologram.setGravity(false);
+        hologram.setBasePlate(false);
+        hologram.setArms(false);
+        hologram.setCanPickupItems(false);
+        hologram.setCollidable(false);
+        hologram.setInvulnerable(true);
     }
 
     public void remove() {

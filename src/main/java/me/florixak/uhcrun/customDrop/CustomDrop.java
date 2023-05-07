@@ -6,11 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,30 +74,9 @@ public class CustomDrop {
             Material drop = getDrops().get(ran.nextInt(getDrops().size()));
             int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
             ItemStack drop_is = new ItemStack(drop, amount);
-            Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, drop_is);
+
+            Item item = Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, drop_is);
+            item.setVelocity(new Vector(0, 0.1, 0));
         }
     }
-
-    public void dropFood(Player p, EntityDeathEvent event) {
-        if (event.getEntity() instanceof Player) return;
-
-        Entity entity = event.getEntity();
-        Location loc = entity.getLocation();
-
-        Random ran = new Random();
-
-        int exp = getExp();
-        if (exp > 0) {
-            event.setDroppedExp(exp);
-        }
-
-        if (hasDrops()) {
-            event.getDrops().clear();
-
-            Material drop = getDrops().get(ran.nextInt(getDrops().size()));
-            int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
-            Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, new ItemStack(drop, amount));
-        }
-    }
-
 }
