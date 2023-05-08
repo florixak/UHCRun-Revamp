@@ -17,6 +17,7 @@ public class DeathChestManager {
 
     private List<DeathChest> deathChests;
     private int expireTime;
+    private String hologramText;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -24,6 +25,7 @@ public class DeathChestManager {
 
         this.deathChests = new ArrayList<>();
         this.expireTime = config.getInt("settings.death-chest.expire");
+        this.hologramText = config.getString("settings.death-chest.hologram-text");
     }
 
     public int getExpireTime() {
@@ -34,9 +36,13 @@ public class DeathChestManager {
         return getExpireTime() != -1;
     }
 
+    public String getHologramText() {
+        return hologramText;
+    }
+
     public void createDeathChest(Player p, List<ItemStack> items) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        DeathChest deathChest = new DeathChest(uhcPlayer, p.getLocation(), uhcPlayer.getName(), items);
+        DeathChest deathChest = new DeathChest(uhcPlayer, p.getLocation(), uhcPlayer.getName(), items, willExpire());
 
         this.deathChests.add(deathChest);
     }
@@ -44,5 +50,12 @@ public class DeathChestManager {
     public void removeDeathChest(DeathChest deathChest) {
         this.deathChests.remove(deathChest);
         deathChest.remove();
+    }
+
+    public void onDisable() {
+        if (deathChests.isEmpty() || deathChests.size() == 0) return;
+        for (DeathChest deathChest : deathChests) {
+            removeDeathChest(deathChest);
+        }
     }
 }

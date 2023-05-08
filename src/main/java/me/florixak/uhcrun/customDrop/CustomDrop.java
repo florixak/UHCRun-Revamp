@@ -68,6 +68,7 @@ public class CustomDrop {
         }
 
         if (hasDrops()) {
+            block.setType(XMaterial.AIR.parseMaterial());
             event.setDropItems(false);
             event.setExpToDrop(0);
 
@@ -75,8 +76,9 @@ public class CustomDrop {
             int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
             ItemStack drop_is = new ItemStack(drop, amount);
 
-            Item item = Bukkit.getWorld(loc.getWorld().getName()).dropItemNaturally(loc, drop_is);
-            item.setVelocity(new Vector(0, 0.1, 0));
+            Location location = loc.add(0.5, 0.5, 0.5);
+            Item item = Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
+            // item.setVelocity(new Vector(0, 0.1, 0));
         }
     }
 }

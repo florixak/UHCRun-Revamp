@@ -9,7 +9,7 @@ public class DeathChestExpire extends BukkitRunnable {
 
     private DeathChestManager deathChestManager;
     private DeathChest deathChest;
-    public int expireTime;
+    public static int expireTime;
 
     public DeathChestExpire(DeathChest deathChest) {
         this.deathChest = deathChest;
@@ -21,7 +21,9 @@ public class DeathChestExpire extends BukkitRunnable {
     public void run() {
         if (expireTime <= 0) {
             cancel();
-            GameManager.getGameManager().getDeathChestManager().removeDeathChest(deathChest);
+            if (deathChest.willExpire()) {
+                GameManager.getGameManager().getDeathChestManager().removeDeathChest(deathChest);
+            }
             return;
         }
         expireTime--;

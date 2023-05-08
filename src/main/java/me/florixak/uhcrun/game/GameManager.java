@@ -194,6 +194,7 @@ public class GameManager {
     public void onDisable() {
         getPlayerManager().onDisable();
         getTeamManager().onDisable();
+        getDeathChestManager().onDisable();
         getTaskManager().onDisable();
         disconnectDatabase();
     }
@@ -227,6 +228,9 @@ public class GameManager {
     }
     public boolean areStatisticsAddedOnEnd() {
         return statisticsOnEnd;
+    }
+    public boolean isEnableDeathChest() {
+        return enableDeathChest;
     }
 
     public boolean isPlaying() {

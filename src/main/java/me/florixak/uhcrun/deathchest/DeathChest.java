@@ -7,14 +7,15 @@ import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
@@ -26,13 +27,18 @@ public class DeathChest {
     private String title;
     private List<ItemStack> contents;
 
+    private boolean expire;
+    private Hologram hologram;
+
     private DeathChestExpire deathChestExpire;
 
-    public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents) {
+    public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents, boolean expire) {
         this.uhcPlayer = uhcPlayer;
         this.loc = loc;
         this.title = title;
         this.contents = contents;
+
+        this.expire = expire;
 
         if (this.loc == null) {
             return;
@@ -41,7 +47,6 @@ public class DeathChest {
         if (this.title.isEmpty() || this.title == null) {
             this.title = "Death Chest";
         }
-
         createChest();
     }
 
@@ -58,8 +63,8 @@ public class DeathChest {
                 chest.getInventory().addItem(item);
             }
         }
-        if (GameManager.getGameManager().getDeathChestManager().willExpire()) {
-            startExpire();
+        if (expire) {
+            startExpiring();
         }
         addHologram();
     }
@@ -68,9 +73,17 @@ public class DeathChest {
         return this.uhcPlayer;
     }
 
-    public void startExpire() {
+    public void startExpiring() {
         this.deathChestExpire = new DeathChestExpire(this);
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
+    }
+
+    public String getExpireTime() {
+        return TimeUtils.getFormattedTime(DeathChestExpire.expireTime);
+    }
+
+    public boolean willExpire() {
+        return expire;
     }
 
     public List<ItemStack> getContents() {
@@ -78,23 +91,24 @@ public class DeathChest {
     }
 
     public void addHologram() {
-        ArmorStand hologram = (ArmorStand) Bukkit.getWorld(loc.getWorld().getName())
-                .spawnEntity(loc, EntityType.ARMOR_STAND);
-        hologram.setVisible(false);
-        hologram.setCustomNameVisible(true);
-        String text = GameManager.getGameManager().getDeathChestManager().willExpire()
-                ? uhcPlayer.getName() + "'s chest - " + TimeUtils.getFormattedTime(this.deathChestExpire.expireTime)
-                : uhcPlayer.getName() + "'s chest";
-        hologram.setCustomName(TextUtils.color(text));
-        hologram.setGravity(false);
-        hologram.setBasePlate(false);
-        hologram.setArms(false);
-        hologram.setCanPickupItems(false);
-        hologram.setCollidable(false);
-        hologram.setInvulnerable(true);
+        String text = GameManager.getGameManager().getDeathChestManager().getHologramText()
+                .replace("%player%", uhcPlayer.getName())
+                .replace("%expire-time%", getExpireTime());
+
+        this.hologram = new Hologram(text, loc.add(0, -1, 0));
+        this.hologram.createHologram();
+    }
+
+    public Hologram getHologram() {
+        return this.hologram;
     }
 
     public void remove() {
-        Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.AIR.parseMaterial());
+        for (ItemStack itemStack : chest.getInventory().getContents()) {
+            Location location = loc.add(0.5, 0.5, 0.5);
+            Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, itemStack);
+        }
+        chest.setType(XMaterial.AIR.parseMaterial());
+        getHologram().removeHologram();
     }
 }
