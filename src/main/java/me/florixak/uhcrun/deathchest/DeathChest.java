@@ -69,17 +69,15 @@ public class DeathChest {
         return this.uhcPlayer;
     }
 
+    public boolean willExpire() {
+        return expire;
+    }
     public void startExpiring() {
         this.deathChestExpire = new DeathChestExpire(this);
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
     }
-
     public String getExpireTime() {
         return TimeUtils.getFormattedTime(DeathChestExpire.expireTime);
-    }
-
-    public boolean willExpire() {
-        return expire;
     }
 
     public List<ItemStack> getContents() {
@@ -94,7 +92,6 @@ public class DeathChest {
         this.hologram = new Hologram(text, loc.add(0, -1, 0));
         this.hologram.createHologram();
     }
-
     public Hologram getHologram() {
         return this.hologram;
     }

@@ -8,6 +8,7 @@ import me.florixak.uhcrun.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.block.Block;
@@ -19,6 +20,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -42,11 +44,28 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleGameEnd(GameEndEvent event) {
+
         String winner = event.getWinner();
+        List<String> win_rewards = messages.getStringList("Messages.rewards.win");
+        List<String> lose_rewards = messages.getStringList("Messages.rewards.lose");
 
-        List<String> win_rewards = messages.getStringList("Messages.win-rewards");
-        List<String> lose_rewards = messages.getStringList("Messages.lose-rewards");
+        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner));
 
+        for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
+            uhcPlayer.getData().addStatisticsForGame();
+
+            if (!uhcPlayer.isOnline()) return;
+
+            if (uhcPlayer.isWinner()) {
+                for (String message : win_rewards) {
+                    uhcPlayer.sendMessage(TextUtils.color(message));
+                }
+            } else {
+                for (String message : lose_rewards) {
+                    uhcPlayer.sendMessage(TextUtils.color(message));
+                }
+            }
+        }
     }
 
     @EventHandler
@@ -104,6 +123,8 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleEntityDrop(EntityDeathEvent event) {
+        if (!(event.getEntity() instanceof Animals)) return;
+
         Random ran = new Random();
         int amount = 1;
 
@@ -137,16 +158,6 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void handleWeatherChange(WeatherChangeEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void handleTimber(BlockBreakEvent event) {
-        gameManager.getUtils().timber(event.getBlock());
-    }
-
-    @EventHandler
     public void handleDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof Player)) return;
@@ -158,7 +169,15 @@ public class GameListener implements Listener {
 
         DamageCause cause = event.getCause();
         if (gameManager.getGameState() == GameState.MINING) {
-            if (cause.equals(DamageCause.FIRE) || cause.equals(DamageCause.LAVA) || cause.equals(DamageCause.DROWNING)) {
+            if ((cause.equals(DamageCause.FIRE) && gameManager.isNoLavaBurn())
+                    || (cause.equals(DamageCause.FIRE_TICK) && gameManager.isNoLavaBurn())
+                    || (cause.equals(DamageCause.LAVA) && gameManager.isNoLavaBurn())
+                    || (cause.equals(DamageCause.DROWNING) && gameManager.isNoDrowning())
+                    || (cause.equals(DamageCause.FALL) && gameManager.isNoFallDamage())
+                    || (cause.equals(DamageCause.FALLING_BLOCK) && gameManager.isNoFallBlockDamage())
+                    || (cause.equals(DamageCause.ENTITY_EXPLOSION) && gameManager.isNoExplosionDamage())
+                    || (cause.equals(DamageCause.BLOCK_EXPLOSION) && gameManager.isNoExplosionDamage())
+            ) {
                 event.setCancelled(true);
             }
         }
@@ -166,6 +185,13 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
+
+        if (!(event.getDamager() instanceof Player)) {
+            if (!gameManager.isPlaying()) {
+                event.setCancelled(true);
+            }
+            return;
+        }
 
         Player damager = (Player) event.getDamager();
         UHCPlayer uhcPlayerD = gameManager.getPlayerManager().getUHCPlayer(damager.getUniqueId());
@@ -182,13 +208,25 @@ public class GameListener implements Listener {
             return;
         }
 
-        Player entity = (Player) event.getEntity();
-        UHCPlayer uhcPlayerE = gameManager.getPlayerManager().getUHCPlayer(entity.getUniqueId());
+        if (event.getEntity() instanceof Player) {
+            Player entity = (Player) event.getEntity();
+            UHCPlayer uhcPlayerE = gameManager.getPlayerManager().getUHCPlayer(entity.getUniqueId());
 
-        if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && config.getBoolean("settings.teams.friendly-fire", true)) {
-            event.setCancelled(true);
-            uhcPlayerD.sendMessage("Baka, this is your teammate...");
+            if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && config.getBoolean("settings.teams.friendly-fire")) {
+                event.setCancelled(true);
+                uhcPlayerD.sendMessage("Baka, this is your teammate...");
+            }
         }
+    }
+
+    @EventHandler
+    public void handleWeatherChange(WeatherChangeEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void handleTimber(BlockBreakEvent event) {
+        gameManager.getUtils().timber(event.getBlock());
     }
 
     @EventHandler
@@ -217,10 +255,11 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleHealthRegain(EntityRegainHealthEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (event.getRegainReason() == EntityRegainHealthEvent.RegainReason.SATIATED) {
-                event.setCancelled(true);
-            }
+        if (!(event.getEntity() instanceof Player)) return;
+        RegainReason reason = event.getRegainReason();
+
+        if (reason.equals(RegainReason.SATIATED)) {
+            event.setCancelled(true);
         }
     }
 

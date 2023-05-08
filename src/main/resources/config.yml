@@ -22,10 +22,16 @@ settings:
     min-players-to-start: 2
 
     teleport-after-mining: true
-
     warning-time-at: 10 # start at <_> seconds
 
     projectile-hit-hp: true
+
+    easier-mining:
+      no-lava-burn: true
+      no-fall-damage: false
+      no-drowning: true
+      no-fall-block-damage: true
+      no-explosion-damage: true
 
     # Countdowns
     countdowns:

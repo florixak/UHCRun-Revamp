@@ -53,8 +53,9 @@ public class DeathChestManager {
     }
 
     public void onDisable() {
-        if (deathChests.isEmpty() || deathChests.size() == 0) return;
+        if (deathChests.isEmpty() || deathChests.size() == 0 || deathChests == null) return;
         for (DeathChest deathChest : deathChests) {
+            if (deathChest == null) return;
             removeDeathChest(deathChest);
         }
     }

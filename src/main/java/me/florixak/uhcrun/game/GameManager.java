@@ -56,6 +56,13 @@ public class GameManager {
     private boolean statisticsOnEnd;
     private boolean enableDeathChest;
 
+    private boolean noLavaBurn;
+    private boolean noFallDamage;
+    private boolean noDrowning;
+    private boolean noFallBlockDamage;
+    private boolean noExplosionDamage;
+
+
     private ConfigManager configManager;
     private PlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
@@ -119,6 +126,12 @@ public class GameManager {
         this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");
         this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
         this.enableDeathChest = config.getBoolean("settings.death-chest.enabled");
+
+        this.noLavaBurn = config.getBoolean("settings.game.easier-mining.no-lava-burn");
+        this.noFallDamage = config.getBoolean("settings.game.easier-mining.no-fall-damage");
+        this.noDrowning = config.getBoolean("settings.game.easier-mining.no-drowning");
+        this.noFallBlockDamage = config.getBoolean("settings.game.easier-mining.no-fall-block-damage");
+        this.noExplosionDamage = config.getBoolean("settings.game.easier-mining.no-explosion-damage");
 
         connectToDatabase();
 
@@ -231,6 +244,22 @@ public class GameManager {
     }
     public boolean isEnableDeathChest() {
         return enableDeathChest;
+    }
+
+    public boolean isNoLavaBurn() {
+        return noLavaBurn;
+    }
+    public boolean isNoFallDamage() {
+        return noFallDamage;
+    }
+    public boolean isNoDrowning() {
+        return noDrowning;
+    }
+    public boolean isNoFallBlockDamage() {
+        return noFallBlockDamage;
+    }
+    public boolean isNoExplosionDamage() {
+        return noExplosionDamage;
     }
 
     public boolean isPlaying() {

@@ -60,8 +60,6 @@ public enum Messages {
     TEAM_NOT_EXISTS("teams.not-exists"),
     TEAM_ALREADY_IN_TEAM("teams.already-in-team"),
     TEAM_NOT_IN_TEAM("teams.not-in-team"),
-    TEAM_LIST("teams.list"),
-    TEAM_NO_TEAMS("teams.no-teams"),
 
     RESTARTING("game.restarting"),
 
