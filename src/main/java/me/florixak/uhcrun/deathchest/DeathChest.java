@@ -40,10 +40,6 @@ public class DeathChest {
 
         this.expire = expire;
 
-        if (this.loc == null) {
-            return;
-        }
-
         if (this.title.isEmpty() || this.title == null) {
             this.title = "Death Chest";
         }
@@ -104,11 +100,15 @@ public class DeathChest {
     }
 
     public void remove() {
-        for (ItemStack itemStack : chest.getInventory().getContents()) {
+        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0, 1, 0));
+        block.setType(XMaterial.AIR.parseMaterial());
+        block.getDrops().clear();
+        getHologram().removeHologram();
+
+        for (ItemStack itemStack : getContents()) {
+            if (itemStack == null || itemStack.equals(XMaterial.AIR.parseMaterial())) return;
             Location location = loc.add(0.5, 0.5, 0.5);
             Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, itemStack);
         }
-        chest.setType(XMaterial.AIR.parseMaterial());
-        getHologram().removeHologram();
     }
 }

@@ -113,7 +113,7 @@ public class GameManager {
         this.forceStarted = false;
         this.teamMode = config.getBoolean("settings.teams.team-mode");
         this.teleportAfterMining = config.getBoolean("settings.game.teleport-after-mining");
-        this.enableDeathmatch = config.getBoolean("settings.game.enable-deathmatch");
+        this.enableDeathmatch = config.getBoolean("settings.deathmatch.enabled");
         this.enableKits = config.getBoolean("settings.kits.enabled");
         this.enablePerks = config.getBoolean("settings.perks.enabled");
         this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");

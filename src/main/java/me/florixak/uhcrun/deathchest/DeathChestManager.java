@@ -48,8 +48,8 @@ public class DeathChestManager {
     }
 
     public void removeDeathChest(DeathChest deathChest) {
-        this.deathChests.remove(deathChest);
         deathChest.remove();
+        this.deathChests.remove(deathChest);
     }
 
     public void onDisable() {
