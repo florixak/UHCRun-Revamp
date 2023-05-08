@@ -1,5 +1,6 @@
-package me.florixak.uhcrun.utils;
+package me.florixak.uhcrun.utils.hologram;
 
+import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;

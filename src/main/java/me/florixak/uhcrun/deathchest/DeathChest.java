@@ -7,15 +7,13 @@ import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.Hologram;
+import me.florixak.uhcrun.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 
