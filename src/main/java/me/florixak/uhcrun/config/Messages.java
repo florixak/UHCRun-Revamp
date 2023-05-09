@@ -10,7 +10,7 @@ public enum Messages {
     INVALID_CMD("invalid-command"),
     NO_PERM("no-perm"),
     OFFLINE_PLAYER("offline-player"),
-    NOT_PLAYER("not-player"),
+    ONLY_PLAYER("only-for-player"),
     NO_MONEY("no-money"),
     MONEY("money"),
     CANT_USE_NOW("cant-use-now"),

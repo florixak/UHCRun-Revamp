@@ -18,9 +18,14 @@ commands:
   anvil:
     description: Opens remote anvil
   nick:
-    description: Use custom nick
+    aliases: [ nickname ]
+    description: Set custom nick
   unnick:
+    aliases: [ unnickname ]
     description: Reset custom nick
   team:
     aliases: [ teams ]
     description: Opens teams gui
+  kits:
+    aliases: [ kit ]
+    description: Opens kits gui

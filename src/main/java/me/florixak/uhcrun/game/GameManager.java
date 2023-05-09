@@ -299,6 +299,7 @@ public class GameManager {
         registerCommand("anvil", new AnvilCommand(gameManager)); // TODO make anvil command
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
+        registerCommand("kits", new KitsCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = UHCRun.getInstance().getCommand(commandN);

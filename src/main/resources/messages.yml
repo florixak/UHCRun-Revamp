@@ -5,7 +5,7 @@ Messages:
   invalid-command: "&c[!] &fInvalid command! Use help: /help"
   no-perm: "&c[!] &fYou do not have permissions!"
   offline-player: "&c[!] &fThis player is offline!"
-  not-player: "%prefix% This can use only player!"
+  only-for-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
   cant-use-now: "&c[!] &fYou can not use it right now!"
 
