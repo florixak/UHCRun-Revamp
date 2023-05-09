@@ -4,7 +4,6 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -122,7 +121,7 @@ public class TeamManager {
         getFreeTeam().join(uhcPlayer);
     }
 
-    public UHCTeam getLastTeam() {
+    public UHCTeam getWinnerTeam() {
         for (UHCTeam team : getLivingTeams()) {
             for (UHCPlayer member : team.getMembers()) {
                 if (member.isWinner()) {

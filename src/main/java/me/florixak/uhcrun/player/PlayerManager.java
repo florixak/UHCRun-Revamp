@@ -74,7 +74,7 @@ public class PlayerManager {
         return new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName());
     }
 
-    public UHCPlayer getLastPlayer() {
+    public UHCPlayer getWinnerPlayer() {
         for (UHCPlayer uhcPlayer : getAlivePlayers()) {
             if (uhcPlayer.isWinner()) return uhcPlayer;
         }

@@ -17,6 +17,7 @@ import me.florixak.uhcrun.listener.PlayerListener;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.PlayerManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
@@ -312,13 +313,18 @@ public class GameManager {
     }
 
     public void setUHCWinner() {
-        getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.setWinner(true));
+        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
+        for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
+            if (uhcPlayer == null) return;
+            if (uhcPlayer.getKills() > winner.getKills()) winner = uhcPlayer;
+        }
+        winner.setWinner(true);
     }
     public String getUHCWinner() {
         if (isTeamMode()) {
-            return getTeamManager().getLastTeam() != null ? getTeamManager().getLastTeam().getName() : "None";
+            return getTeamManager().getWinnerTeam() != null ? getTeamManager().getWinnerTeam().getName() : "None";
         }
-        return getPlayerManager().getLastPlayer() != null ? getPlayerManager().getLastPlayer().getName() : "None";
+        return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
     public void generateOres() {
