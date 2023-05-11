@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,6 +80,16 @@ public class PlayerManager {
             if (uhcPlayer.isWinner()) return uhcPlayer;
         }
         return null;
+    }
+
+    private List<UHCPlayer> findTop3Players(List<UHCPlayer> players) {
+        Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
+        return players.subList(0, 2);
+    }
+
+    public List<UHCPlayer> getTopKillers() {
+        List<UHCPlayer> topKillers = findTop3Players(getPlayers());
+        return topKillers;
     }
 
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
