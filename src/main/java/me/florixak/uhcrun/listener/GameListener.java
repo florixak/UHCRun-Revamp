@@ -48,7 +48,8 @@ public class GameListener implements Listener {
         String winner = event.getWinner();
         List<String> win_rewards = messages.getStringList("Messages.rewards.win");
         List<String> lose_rewards = messages.getStringList("Messages.rewards.lose");
-        List<String> top_killers = messages.getStringList("Messages.rewards.top_killers");
+        List<String> top_killers_msg = messages.getStringList("Messages.top_killers");
+        List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
 
         Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner));
 
@@ -57,13 +58,14 @@ public class GameListener implements Listener {
 
             if (!uhcPlayer.isOnline()) return;
 
-            for (UHCPlayer topKiller : gameManager.getPlayerManager().getTopKillers()) {
-                if (topKiller == null) return;
+            for (String message : top_killers_msg) {
 
-                Utils.broadcast(gameManager.getPlayerManager().getTopKillers().indexOf(topKiller)+1 + ". "
-                        + topKiller.getName() + " - "
-                        + topKiller.getKills());
+                message.replace("%topkiller-1%", top_killers.get(0).getName())
+                        .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()));
+
+                Utils.broadcast(message);
             }
+
 
             if (uhcPlayer.isWinner()) {
                 for (String message : win_rewards) {

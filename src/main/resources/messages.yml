@@ -80,6 +80,14 @@ Messages:
 
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
+  top_killers:
+    - "&3---------- %prefix% &3----------"
+    - "&f+%coins-for-lose% coins for lose"
+    - "&f+%coins-for-kills% coins for kills"
+    - "&f+%level-xp-for-lose% XP for lose"
+    - "&f+%level-xp-for-kills% XP for kills"
+    - "&3--------------------------------"
+
   nick:
     nicked: "&a[!] &fYou are now %nick%!"
     unnicked: "&a[!] &fYou unnicked!"
