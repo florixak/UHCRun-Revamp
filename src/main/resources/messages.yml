@@ -82,10 +82,9 @@ Messages:
 
   top_killers:
     - "&3---------- %prefix% &3----------"
-    - "&f+%coins-for-lose% coins for lose"
-    - "&f+%coins-for-kills% coins for kills"
-    - "&f+%level-xp-for-lose% XP for lose"
-    - "&f+%level-xp-for-kills% XP for kills"
+    - "&f1. %topkiller-1% - %topkiller-1-kills%"
+    - "&f2. %topkiller-2% - %topkiller-2-kills%"
+    - "&f3. %topkiller-3% - %topkiller-3-kills%"
     - "&3--------------------------------"
 
   nick:

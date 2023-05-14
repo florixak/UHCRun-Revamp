@@ -46,8 +46,8 @@ public class GameListener implements Listener {
     public void handleGameEnd(GameEndEvent event) {
 
         String winner = event.getWinner();
-        List<String> win_rewards = messages.getStringList("Messages.rewards.win");
-        List<String> lose_rewards = messages.getStringList("Messages.rewards.lose");
+        List<String> win_rewards_msg = messages.getStringList("Messages.rewards.win");
+        List<String> lose_rewards_msg = messages.getStringList("Messages.rewards.lose");
         List<String> top_killers_msg = messages.getStringList("Messages.top_killers");
         List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
 
@@ -60,11 +60,11 @@ public class GameListener implements Listener {
 
             for (String message : top_killers_msg) {
 
-                message.replace("%topkiller-1%", top_killers.get(0).getName())
+                message.replace("%topkiller-1%", top_killers.get(0) != null ? top_killers.get(0).getName() : "None")
                         .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()))
-                        .replace("%topkiller-2%", top_killers.get(1).getName())
+                        .replace("%topkiller-2%", top_killers.get(1) != null ? top_killers.get(1).getName() : "None")
                         .replace("%topkiller-2-kills%", String.valueOf(top_killers.get(1).getKills()))
-                        .replace("%topkiller-3%", top_killers.get(2).getName())
+                        .replace("%topkiller-3%", top_killers.get(2) != null ? top_killers.get(2).getName() : "None")
                         .replace("%topkiller-3-kills%", String.valueOf(top_killers.get(2).getKills())
                         );
 
@@ -73,11 +73,11 @@ public class GameListener implements Listener {
 
 
             if (uhcPlayer.isWinner()) {
-                for (String message : win_rewards) {
+                for (String message : win_rewards_msg) {
                     uhcPlayer.sendMessage(TextUtils.color(message));
                 }
             } else {
-                for (String message : lose_rewards) {
+                for (String message : lose_rewards_msg) {
                     uhcPlayer.sendMessage(TextUtils.color(message));
                 }
             }
