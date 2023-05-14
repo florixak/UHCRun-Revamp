@@ -77,8 +77,7 @@ public class CustomDrop {
             ItemStack drop_is = new ItemStack(drop, amount);
 
             Location location = loc.add(0.5, 0.5, 0.5);
-            Item item = Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
-            // item.setVelocity(new Vector(0, 0.1, 0));
+            Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
         }
     }
 }
