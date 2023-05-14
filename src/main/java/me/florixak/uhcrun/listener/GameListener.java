@@ -61,7 +61,12 @@ public class GameListener implements Listener {
             for (String message : top_killers_msg) {
 
                 message.replace("%topkiller-1%", top_killers.get(0).getName())
-                        .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()));
+                        .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()))
+                        .replace("%topkiller-2%", top_killers.get(1).getName())
+                        .replace("%topkiller-2-kills%", String.valueOf(top_killers.get(1).getKills()))
+                        .replace("%topkiller-3%", top_killers.get(2).getName())
+                        .replace("%topkiller-3-kills%", String.valueOf(top_killers.get(2).getKills())
+                        );
 
                 Utils.broadcast(message);
             }
