@@ -107,8 +107,8 @@ public class PlayerManager {
             gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
         } else if (!gameManager.isTeamMode()){
             UHCTeam uhcTeam = new UHCTeam("", "&f", 1);
-            uhcPlayer.setTeam(uhcTeam);
             gameManager.getTeamManager().addTeam(uhcTeam);
+            uhcPlayer.setTeam(uhcTeam);
         }
     }
 

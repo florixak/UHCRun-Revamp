@@ -71,6 +71,8 @@ public class GameListener implements Listener {
                 Utils.broadcast(message);
             }
 
+            Utils.broadcast(top_killers.toString());
+
 
             if (uhcPlayer.isWinner()) {
                 for (String message : win_rewards_msg) {
