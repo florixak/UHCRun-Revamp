@@ -25,6 +25,8 @@ settings:
     warning-time-at: 10 # start at <_> seconds
 
     projectile-hit-hp: true
+    no-explosions: true
+    explode-block-destroy: true
 
     easier-mining:
       no-lava-burn: true

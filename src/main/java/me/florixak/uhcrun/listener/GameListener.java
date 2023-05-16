@@ -103,7 +103,7 @@ public class GameListener implements Listener {
         }
 
         if (victim.getTeam().getLivingMembers().size() == 0 && gameManager.isTeamMode()) {
-            Utils.broadcast("Team " + victim.getTeam().getName() + " was defeated!");
+            Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
 
         gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
@@ -310,6 +310,15 @@ public class GameListener implements Listener {
             if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void handleExplode(EntityExplodeEvent event) {
+
+        if (!gameManager.areExplosionsEnabled()) {
+            event.setCancelled(true);
+            return;
         }
     }
 }

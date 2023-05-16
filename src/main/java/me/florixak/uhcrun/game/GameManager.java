@@ -62,6 +62,7 @@ public class GameManager {
     private boolean noDrowning;
     private boolean noFallBlockDamage;
     private boolean noExplosionDamage;
+    private boolean noExplosions;
 
 
     private ConfigManager configManager;
@@ -133,6 +134,7 @@ public class GameManager {
         this.noDrowning = config.getBoolean("settings.game.easier-mining.no-drowning");
         this.noFallBlockDamage = config.getBoolean("settings.game.easier-mining.no-fall-block-damage");
         this.noExplosionDamage = config.getBoolean("settings.game.easier-mining.no-explosion-damage");
+        this.noExplosions = config.getBoolean("settings.game.no-explosions");
 
         connectToDatabase();
 
@@ -245,6 +247,9 @@ public class GameManager {
     }
     public boolean isEnableDeathChest() {
         return enableDeathChest;
+    }
+    public boolean areExplosionsEnabled() {
+        return !noExplosions;
     }
 
     public boolean isNoLavaBurn() {
