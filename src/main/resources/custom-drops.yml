@@ -53,6 +53,6 @@ custom-drops:
     drops:
       COBBLESTONE: 1
   SPAWNER:
-    exp: 0
+    exp: 70
     drops:
       GOLDEN_APPLE: 2
