@@ -25,7 +25,7 @@ settings:
     warning-time-at: 10 # start at <_> seconds
 
     projectile-hit-hp: true
-    no-explosions: true
+    no-explosions: false
     explode-block-destroy: true
 
     # Damage cause list:
@@ -34,9 +34,11 @@ settings:
     #   LIGHTNING, SUICIDE, STARVATION, POISON, MAGIC, WITHER, FALLING_BLOCK, THORNS,
     #   DRAGON_BREATH, CUSTOM, FLY_INTO_WALL, HOT_FLOOR, CRAMMING, DRYOUT, FREEZE, SONIC_BOOM;
     disabled-in-mining:
+      - FIRE
       - FIRE_TICK
       - LAVA
       - DROWNING
+      - PROJECTILE
       - FALL
       - FALLING_BLOCK
       - ENTITY_EXPLOSION
