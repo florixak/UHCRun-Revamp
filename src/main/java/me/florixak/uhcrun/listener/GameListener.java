@@ -56,21 +56,24 @@ public class GameListener implements Listener {
 
             if (!uhcPlayer.isOnline()) return;
 
-            for (String message : top_killers_msg) {
+            if (top_killers_msg != null && !top_killers_msg.isEmpty()) {
+                for (String message : top_killers_msg) {
 
-                message.replace("%prefix%", Messages.PREFIX.toString())
-                        .replace("%topkiller-1%", top_killers.get(0) != null ? top_killers.get(0).getName() : "None")
-                        .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()))
-                        .replace("%topkiller-2%", top_killers.get(1) != null ? top_killers.get(1).getName() : "None")
-                        .replace("%topkiller-2-kills%", String.valueOf(top_killers.get(1).getKills()))
-                        .replace("%topkiller-3%", top_killers.get(2) != null ? top_killers.get(2).getName() : "None")
-                        .replace("%topkiller-3-kills%", String.valueOf(top_killers.get(2).getKills())
-                        );
+                    for (int i = 0; i < top_killers.size(); i++) {
+                        UHCPlayer topKiller = top_killers.get(i);
+                        message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName())
+                                .replace("%top-killer-" + (i+1) + "-kills%", String.valueOf(topKiller.getKills()))
+                                .replace("%top-killer-" + (i+1) + "-team%", TextUtils.color(topKiller.getTeam().getDisplayName()))
+                                .replace("%top-killer-" + (i+1) + "-level%", String.valueOf(topKiller.getData().getLevel()));
+                    }
+                    message = message.replace("%prefix%", Messages.PREFIX.toString());
 
-                Utils.broadcast(message);
+                    Utils.broadcast(message);
+                }
+
+                Utils.broadcast(top_killers.toString()); // remove later
             }
 
-            Utils.broadcast(top_killers.toString()); // remove later
 
 
             if (uhcPlayer.isWinner()) {

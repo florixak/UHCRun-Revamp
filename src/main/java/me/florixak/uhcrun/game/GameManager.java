@@ -56,9 +56,7 @@ public class GameManager {
     private boolean enableCustomDrops;
     private boolean statisticsOnEnd;
     private boolean enableDeathChest;
-
     private boolean noExplosions;
-
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -123,7 +121,6 @@ public class GameManager {
         this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");
         this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
         this.enableDeathChest = config.getBoolean("settings.death-chest.enabled");
-
         this.noExplosions = config.getBoolean("settings.game.no-explosions");
 
         connectToDatabase();
@@ -235,7 +232,7 @@ public class GameManager {
     public boolean areStatisticsAddedOnEnd() {
         return statisticsOnEnd;
     }
-    public boolean isEnableDeathChest() {
+    public boolean isDeathChestEnabled() {
         return enableDeathChest;
     }
     public boolean areExplosionsEnabled() {

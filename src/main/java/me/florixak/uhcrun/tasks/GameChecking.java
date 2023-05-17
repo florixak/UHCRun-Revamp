@@ -1,8 +1,10 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,6 +38,7 @@ public class GameChecking extends BukkitRunnable {
                 }
                 if (Bukkit.getOnlinePlayers().size() < minPlayers) {
                     gameManager.getTaskManager().stopStartingCD();
+                    Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
                     gameManager.setGameState(GameState.LOBBY);
                 }
                 break;

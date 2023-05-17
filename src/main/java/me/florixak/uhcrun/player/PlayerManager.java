@@ -82,13 +82,13 @@ public class PlayerManager {
         return null;
     }
 
-    private List<UHCPlayer> findTop3Players(List<UHCPlayer> players) {
+    private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
         Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
-        return players.subList(0, 2);
+        return players;
     }
 
     public List<UHCPlayer> getTopKillers() {
-        List<UHCPlayer> topKillers = findTop3Players(getPlayers());
+        List<UHCPlayer> topKillers = findTopKillers(getPlayers());
         return topKillers;
     }
 

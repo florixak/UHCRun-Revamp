@@ -52,6 +52,7 @@ public class DeathChest {
         this.chest = (Chest) state;
 
         chest.setCustomName(TextUtils.color(this.title));
+
         if (!getContents().isEmpty()) {
             for (ItemStack item : getContents()) {
                 chest.getInventory().addItem(item);

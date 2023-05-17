@@ -82,9 +82,9 @@ Messages:
 
   top_killers:
     - "&3---------- %prefix% &3----------"
-    - "&f1. %topkiller-1% - %topkiller-1-kills%"
-    - "&f2. %topkiller-2% - %topkiller-2-kills%"
-    - "&f3. %topkiller-3% - %topkiller-3-kills%"
+    - "&f1. %top-killer-1-level% %top-killer-1-team% %top-killer-1% - %top-killer-1-kills%"
+    - "&f2. %top-killer-2-level% %top-killer-2-team% %top-killer-2% - %top-killer-2-kills%"
+    - "&f3. %top-killer-3-level% %top-killer-3-team% %top-killer-3% - %top-killer-3-kills%"
     - "&3--------------------------------"
 
   nick:
