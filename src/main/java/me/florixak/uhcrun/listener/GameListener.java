@@ -33,13 +33,11 @@ public class GameListener implements Listener {
 
     private GameManager gameManager;
     private FileConfiguration config, messages;
-    private String prefix;
 
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
-        this.prefix = messages.getString("Messages.prefix");
     }
 
     @EventHandler
@@ -60,7 +58,8 @@ public class GameListener implements Listener {
 
             for (String message : top_killers_msg) {
 
-                message.replace("%topkiller-1%", top_killers.get(0) != null ? top_killers.get(0).getName() : "None")
+                message.replace("%prefix%", Messages.PREFIX.toString())
+                        .replace("%topkiller-1%", top_killers.get(0) != null ? top_killers.get(0).getName() : "None")
                         .replace("%topkiller-1-kills%", String.valueOf(top_killers.get(0).getKills()))
                         .replace("%topkiller-2%", top_killers.get(1) != null ? top_killers.get(1).getName() : "None")
                         .replace("%topkiller-2-kills%", String.valueOf(top_killers.get(1).getKills()))
@@ -71,7 +70,7 @@ public class GameListener implements Listener {
                 Utils.broadcast(message);
             }
 
-            Utils.broadcast(top_killers.toString());
+            Utils.broadcast(top_killers.toString()); // remove later
 
 
             if (uhcPlayer.isWinner()) {
@@ -124,9 +123,8 @@ public class GameListener implements Listener {
 
         if (gameManager.getCustomDropManager().hasCustomDrop(block.getType())) {
             CustomDrop customDrop = gameManager.getCustomDropManager().getCustomDrop(block.getType());
-            customDrop.dropItem(event);
+            customDrop.dropItem(event, null);
         }
-
     }
 
     @EventHandler
@@ -186,17 +184,15 @@ public class GameListener implements Listener {
         }
 
         DamageCause cause = event.getCause();
+
         if (gameManager.getGameState() == GameState.MINING) {
-            if ((cause.equals(DamageCause.FIRE) && gameManager.isNoLavaBurn())
-                    || (cause.equals(DamageCause.FIRE_TICK) && gameManager.isNoLavaBurn())
-                    || (cause.equals(DamageCause.LAVA) && gameManager.isNoLavaBurn())
-                    || (cause.equals(DamageCause.DROWNING) && gameManager.isNoDrowning())
-                    || (cause.equals(DamageCause.FALL) && gameManager.isNoFallDamage())
-                    || (cause.equals(DamageCause.FALLING_BLOCK) && gameManager.isNoFallBlockDamage())
-                    || (cause.equals(DamageCause.ENTITY_EXPLOSION) && gameManager.isNoExplosionDamage())
-                    || (cause.equals(DamageCause.BLOCK_EXPLOSION) && gameManager.isNoExplosionDamage())
-            ) {
-                event.setCancelled(true);
+            List<String> disabled_causes = config.getStringList("settings.game.disabled-in-mining");
+            if (!disabled_causes.isEmpty() && disabled_causes != null) {
+                for (String cause_name : disabled_causes) {
+                    if (cause.name().equalsIgnoreCase(cause_name)) {
+                        event.setCancelled(true);
+                    }
+                }
             }
         }
     }

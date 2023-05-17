@@ -28,12 +28,19 @@ settings:
     no-explosions: true
     explode-block-destroy: true
 
-    easier-mining:
-      no-lava-burn: true
-      no-fall-damage: false
-      no-drowning: true
-      no-fall-block-damage: true
-      no-explosion-damage: true
+    # Damage cause list:
+    #   CONTACT, ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, PROJECTILE, SUFFOCATION, FALL,
+    #   FIRE, FIRE_TICK, MELTING, LAVA, DROWNING, BLOCK_EXPLOSION, ENTITY_EXPLOSION, VOID,
+    #   LIGHTNING, SUICIDE, STARVATION, POISON, MAGIC, WITHER, FALLING_BLOCK, THORNS,
+    #   DRAGON_BREATH, CUSTOM, FLY_INTO_WALL, HOT_FLOOR, CRAMMING, DRYOUT, FREEZE, SONIC_BOOM;
+    disabled-in-mining:
+      - FIRE_TICK
+      - LAVA
+      - DROWNING
+      - FALL
+      - FALLING_BLOCK
+      - ENTITY_EXPLOSION
+      - BLOCK_EXPLOSION
 
     # Countdowns
     countdowns:
