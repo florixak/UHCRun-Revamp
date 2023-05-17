@@ -41,7 +41,7 @@ public class CustomDropManager {
             }
             int xp = custom_drop_cfg.getInt("custom-drops." + block + ".exp");
 
-            CustomDrop customDrop = new CustomDrop(material, drops, amount_map, xp);
+            CustomDrop customDrop = new CustomDrop(material, null, drops, amount_map, xp);
             this.custom_drops.add(customDrop);
         }
     }
