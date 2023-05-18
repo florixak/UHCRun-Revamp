@@ -16,8 +16,7 @@ public class LobbyManager {
         this.lobby_config = gameManager.getConfigManager().getFile(ConfigType.LOBBY).getConfig();
     }
 
-    /** WAITING LOBBY **/
-    public void setWaitingLobby(Location loc){
+    public void setLobby(LobbyType lobbyType, Location loc){
         lobby_config.set("lobby.waiting.world", gameManager.getGameWorld().getName());
         lobby_config.set("lobby.waiting.x", loc.getX());
         lobby_config.set("lobby.waiting.y", loc.getY());
@@ -27,7 +26,7 @@ public class LobbyManager {
 
         gameManager.getConfigManager().getFile(ConfigType.LOBBY).save();
     }
-    public Location getWaitingLobbyLocation(){
+    public Location getLocation(LobbyType lobbyType){
         return new Location(
                 Bukkit.getWorld(lobby_config.getString("lobby.waiting.world")),
                 lobby_config.getDouble("lobby.waiting.x"),
@@ -36,39 +35,11 @@ public class LobbyManager {
                 (float) lobby_config.getDouble("lobby.waiting.yaw"),
                 (float) lobby_config.getDouble("lobby.waiting.pitch"));
     }
-    public boolean existsWaitingLobby(){
+    public boolean existsLobby(LobbyType lobbyType){
         return lobby_config.get("lobby.waiting") != null;
     }
-    public void deleteWaitingLobby(){
+    public void deleteLobby(){
         lobby_config.set("lobby.waiting", null);
-        gameManager.getConfigManager().getFile(ConfigType.LOBBY).save();
-    }
-
-    /** ENDING LOBBY **/
-    public void setEndingLobby(Location loc){
-        lobby_config.set("lobby.ending.world", gameManager.getGameWorld().getName());
-        lobby_config.set("lobby.ending.x", loc.getX());
-        lobby_config.set("lobby.ending.y", loc.getY());
-        lobby_config.set("lobby.ending.z", loc.getZ());
-        lobby_config.set("lobby.ending.yaw", loc.getYaw());
-        lobby_config.set("lobby.ending.pitch", loc.getPitch());
-
-        gameManager.getConfigManager().getFile(ConfigType.LOBBY).save();
-    }
-    public Location getEndingLobbyLocation(){
-        return new Location(
-                Bukkit.getWorld(lobby_config.getString("lobby.ending.world")),
-                lobby_config.getDouble("lobby.ending.x"),
-                lobby_config.getDouble("lobby.ending.y"),
-                lobby_config.getDouble("lobby.ending.z"),
-                (float) lobby_config.getDouble("lobby.ending.yaw"),
-                (float) lobby_config.getDouble("lobby.ending.pitch"));
-    }
-    public boolean existsEndingLobby(){
-        return lobby_config.get("lobby.ending") != null;
-    }
-    public void deleteEndingLobby(){
-        lobby_config.set("lobby.ending", null);
         gameManager.getConfigManager().getFile(ConfigType.LOBBY).save();
     }
 }
