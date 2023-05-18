@@ -32,10 +32,10 @@ public class SetupCommand implements CommandExecutor {
             if (args.length == 1) {
                 p.sendMessage("Uncompleted command!");
             } else if (args[1].equalsIgnoreCase("set")) {
-                gameManager.getLobbyManager().setWaitingLobby(p.getLocation());
+
                 p.sendMessage("Waiting lobby set!");
             } else if (args[1].equalsIgnoreCase("remove")) {
-                gameManager.getLobbyManager().deleteWaitingLobby();
+
                 p.sendMessage("Waiting lobby set!");
             } else {
                 p.sendMessage("Uncompleted command! 2");
@@ -45,10 +45,10 @@ public class SetupCommand implements CommandExecutor {
             if (args.length == 1) {
                 p.sendMessage("Uncompleted command!");
             } else if (args[1].equalsIgnoreCase("set")) {
-                gameManager.getLobbyManager().setEndingLobby(p.getLocation());
+
                 p.sendMessage("Ending lobby set!");
             } else if (args[1].equalsIgnoreCase("remove")) {
-                gameManager.getLobbyManager().deleteEndingLobby();
+
                 p.sendMessage("Ending lobby set!");
             } else {
                 p.sendMessage("Uncompleted command! 2");
