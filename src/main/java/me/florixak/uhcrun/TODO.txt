@@ -2,3 +2,4 @@
 - rewards
 - inventory click event (guis - teams, kits...)
 - custom drop z mobů
+- opravit level up
