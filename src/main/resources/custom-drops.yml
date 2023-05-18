@@ -1,5 +1,5 @@
 # enable in config.yml file
-# number after material is amount, you can use static number or interval f. e.: [1, 5]
+# number after material is amount, you can use static number - [8], or interval - [1, 5]
 
 custom-drops:
 
