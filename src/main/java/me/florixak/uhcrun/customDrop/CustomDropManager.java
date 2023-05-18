@@ -30,12 +30,15 @@ public class CustomDropManager {
 
             List<Material> drops = new ArrayList<>();
             HashMap<Material, Integer> amount_map = new HashMap<>();
+            Random ran = new Random();
             if (custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops") != null &&
                     custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false) != null) {
                 for (String drop : custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false)) {
                     Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
-                    int amount = custom_drop_cfg.getInt("custom-drops." + block + ".drops." + drop);
+                    List<Integer> amount_list = custom_drop_cfg.getIntegerList("custom-drops." + block + ".drops." + drop);
                     drops.add(b);
+                    int amount = amount_list.get(0);
+                    if (amount_list.size() > 1) amount = ran.nextInt(amount_list.get(ran.nextInt(amount_list.size())))+1;
                     amount_map.put(b, amount);
                 }
             }

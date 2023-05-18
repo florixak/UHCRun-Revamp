@@ -1,58 +1,54 @@
 # enable in config.yml file
-# number after drop material is maximum amount of drop <1 ; x>
+# number after material is amount, you can use static number or interval f. e.: [1, 5]
 
 custom-drops:
 
   COAL_ORE:
     exp: 30
     drops:
-      TORCH: 8
+      TORCH: [4, 8]
   IRON_ORE:
     exp: 50
     drops:
-      IRON_INGOT: 3
+      IRON_INGOT: [1, 2]
   GOLD_ORE:
     exp: 60
     drops:
-      GOLD_INGOT: 3
+      GOLD_INGOT: [1, 2]
   REDSTONE_ORE:
     exp: 80
     drops:
-      NETHER_WART: 5
-      BREWING_STAND: 2
-      GLOWSTONE_DUST: 3
-      SUGAR: 3
-      BLAZE_POWDER: 3
-      GLASS_BOTTLE: 4
+      NETHER_WART: [5]
   LAPIS_ORE:
     exp: 60
     drops:
-      BOOK: 4
-      LAPIS_LAZULI: 6
+      BOOK: [3]
+      LAPIS_LAZULI: [6]
   DIAMOND_ORE:
     exp: 70
     drops:
-      DIAMOND: 3
+      DIAMOND: [1, 2]
   EMERALD_ORE:
     exp: 120
     drops:
+      AIR: [0]
   GRAVEL:
     exp: 10
     drops:
-      ARROW: 8
+      ARROW: [1, 8]
   SAND:
     exp: 10
     drops:
-      GLASS: 8
+      GLASS: [1, 8]
   ANDESITE:
     exp: 0
     drops:
-      COBBLESTONE: 1
+      COBBLESTONE: [1]
   DIORITE:
     exp: 0
     drops:
-      COBBLESTONE: 1
+      COBBLESTONE: [1]
   SPAWNER:
     exp: 70
     drops:
-      GOLDEN_APPLE: 2
+      GOLDEN_APPLE: [2]
