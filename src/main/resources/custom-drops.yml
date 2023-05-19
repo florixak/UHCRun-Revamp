@@ -1,5 +1,5 @@
 # enable in config.yml file
-# number after material is amount, you can use static number - [8], or interval - [1, 5]
+# number after material is amount, you can use static number - [8], or interval - <1, 5) ([1, 5])
 
 custom-drops:
 
@@ -10,20 +10,20 @@ custom-drops:
   IRON_ORE:
     exp: 50
     drops:
-      IRON_INGOT: [1, 2]
+      IRON_INGOT: [1, 3]
   GOLD_ORE:
     exp: 60
     drops:
-      GOLD_INGOT: [1, 2]
+      GOLD_INGOT: [1, 3]
   REDSTONE_ORE:
     exp: 80
     drops:
-      NETHER_WART: [5]
+      NETHER_WART: [2, 5]
   LAPIS_ORE:
     exp: 60
     drops:
-      BOOK: [3]
-      LAPIS_LAZULI: [6]
+      BOOK: [1, 3]
+      LAPIS_LAZULI: [2, 6]
   DIAMOND_ORE:
     exp: 70
     drops:

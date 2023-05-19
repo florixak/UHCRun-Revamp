@@ -34,11 +34,11 @@ public class CustomDrop {
         this.material = material;
         this.entity = entity;
         this.drops = drops;
-        if (minAmount > 0) this.minAmount = minAmount;
-        else this.minAmount = 1;
 
-        if (maxAmount > this.minAmount && maxAmount > 0) this.maxAmount = maxAmount;
-        else this.maxAmount = this.minAmount;
+        if (minAmount >= 0) this.minAmount = minAmount;
+        else this.minAmount = 1;
+        if (maxAmount > this.minAmount) this.maxAmount = maxAmount;
+        else this.maxAmount = 1;
 
         this.exp = exp;
     }
@@ -94,7 +94,7 @@ public class CustomDrop {
                 Material drop = getDrops().get(ran.nextInt(getDrops().size()));
                 if (drop != XMaterial.AIR.parseMaterial()) {
                     int amount = getMinAmount() == getMaxAmount() ? getMinAmount()
-                            : ran.nextInt(getMaxAmount()-getMinAmount())+getMinAmount();
+                            : getMinAmount() + (int)(Math.random() * (getMaxAmount()-getMinAmount()+1));
                     ItemStack drop_is = new ItemStack(drop, amount);
 
                     Location location = loc.add(0.5, 0.5, 0.5);

@@ -24,6 +24,10 @@ public class BorderManager {
         wb.setSize(0);
     }
 
+    public void setSize(double size) {
+        wb.setSize(size);
+    }
+
     public double getSize() {
         return wb.getSize();
     }
