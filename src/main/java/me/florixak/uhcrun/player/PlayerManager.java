@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -140,6 +141,19 @@ public class PlayerManager {
             emptyArmor[i] = new ItemStack(Material.AIR);
         }
         p.getInventory().setArmorContents(emptyArmor);
+    }
+
+    public void teleport(Player p) {
+
+        switch (gameManager.getGameState()) {
+            case LOBBY:
+            case STARTING:
+                p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
+                break;
+            case ENDING:
+                p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
+                break;
+        }
     }
 
     public void onDisable() {

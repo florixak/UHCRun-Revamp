@@ -24,6 +24,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".money", 0);
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", 0);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
@@ -46,7 +47,7 @@ public class PlayerData {
     }
 
     public int getLosses() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".deaths");
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".losses");
     }
 
     public int getKills() {
@@ -114,6 +115,11 @@ public class PlayerData {
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
+    public void addDeaths(int deaths) {
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths()+deaths);
+        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+    }
+
     public void addMoney(double money) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".money", getMoney()+money);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -128,11 +134,6 @@ public class PlayerData {
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    public void addDeaths(int deaths) {
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths()+deaths);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-    }
-
     public void addStatisticsForGame() {
         double money = (uhcPlayer.isWinner() ? 500 : 150)
                 + (uhcPlayer.getKills() > 0 ? uhcPlayer.getKills() * 60 : 0);
@@ -142,6 +143,7 @@ public class PlayerData {
         addExp(exp);
         addGameResult();
         addKills(uhcPlayer.getKills());
+        addDeaths(!uhcPlayer.isWinner() ? 1 : 0);
     }
 
 

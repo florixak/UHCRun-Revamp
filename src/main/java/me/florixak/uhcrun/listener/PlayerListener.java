@@ -46,7 +46,7 @@ public class PlayerListener implements Listener {
         p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
 
-        // p.teleport(lobby location); TODO Join lobby location
+        gameManager.getPlayerManager().teleport(p);
 
         gameManager.getPlayerManager().clearPlayerInventory(p);
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);

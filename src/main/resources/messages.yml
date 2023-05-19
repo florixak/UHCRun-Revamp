@@ -80,7 +80,7 @@ Messages:
 
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
-  top_killers:
+  top-killers:
     - "&3---------- %prefix% &3----------"
     - "&f1. %top-killer-1-level% %top-killer-1-team% %top-killer-1% - %top-killer-1-kills%"
     - "&f2. %top-killer-2-level% %top-killer-2-team% %top-killer-2% - %top-killer-2-kills%"

@@ -32,49 +32,45 @@ import java.util.Random;
 public class GameListener implements Listener {
 
     private GameManager gameManager;
-    private FileConfiguration config, messages;
+    private FileConfiguration config;
 
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.messages = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
     }
 
     @EventHandler
     public void handleGameEnd(GameEndEvent event) {
 
         String winner = event.getWinner();
-        List<String> win_rewards_msg = messages.getStringList("Messages.rewards.win");
-        List<String> lose_rewards_msg = messages.getStringList("Messages.rewards.lose");
-        List<String> top_killers_msg = messages.getStringList("Messages.top_killers");
+        List<String> win_rewards_msg = Messages.WIN_REWARDS.toList();
+        List<String> lose_rewards_msg = Messages.LOSE_REWARDS.toList();
+        List<String> top_killers_msg = Messages.TOP_KILLERS.toList();
         List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
 
         Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner));
+
+        if (top_killers_msg != null && !top_killers_msg.isEmpty()) {
+            for (String message : top_killers_msg) {
+
+                for (int i = 0; i < top_killers.size(); i++) {
+                    UHCPlayer topKiller = top_killers.get(i);
+                    message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName() != null ? topKiller.getName() : "None")
+                            .replace("%top-killer-" + (i+1) + "-kills%", String.valueOf(topKiller.getKills()))
+                            .replace("%top-killer-" + (i+1) + "-team%", TextUtils.color(topKiller.getTeam().getDisplayName()))
+                            .replace("%top-killer-" + (i+1) + "-level%", String.valueOf(topKiller.getData().getLevel()));
+                }
+                message = message.replace("%prefix%", Messages.PREFIX.toString());
+
+                Utils.broadcast(message);
+            }
+            Utils.broadcast(top_killers.toString()); // remove later
+        }
 
         for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
             uhcPlayer.getData().addStatisticsForGame();
 
             if (!uhcPlayer.isOnline()) return;
-
-            if (top_killers_msg != null && !top_killers_msg.isEmpty()) {
-                for (String message : top_killers_msg) {
-
-                    for (int i = 0; i < top_killers.size(); i++) {
-                        UHCPlayer topKiller = top_killers.get(i);
-                        message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName())
-                                .replace("%top-killer-" + (i+1) + "-kills%", String.valueOf(topKiller.getKills()))
-                                .replace("%top-killer-" + (i+1) + "-team%", TextUtils.color(topKiller.getTeam().getDisplayName()))
-                                .replace("%top-killer-" + (i+1) + "-level%", String.valueOf(topKiller.getData().getLevel()));
-                    }
-                    message = message.replace("%prefix%", Messages.PREFIX.toString());
-
-                    Utils.broadcast(message);
-                }
-
-                Utils.broadcast(top_killers.toString()); // remove later
-            }
-
-
 
             if (uhcPlayer.isWinner()) {
                 for (String message : win_rewards_msg) {

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.manager;
+package me.florixak.uhcrun.manager.lobby;
 
 public enum LobbyType {
 

@@ -15,6 +15,7 @@ import me.florixak.uhcrun.listener.GameListener;
 import me.florixak.uhcrun.listener.InteractListener;
 import me.florixak.uhcrun.listener.PlayerListener;
 import me.florixak.uhcrun.manager.*;
+import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.perks.PerksManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -125,7 +126,7 @@ public class GameManager {
 
         connectToDatabase();
 
-        getBorderManager().createBorder();
+        getBorderManager().setBorder();
         generateOres();
 
         getRecipeManager().registerRecipes();
@@ -289,12 +290,21 @@ public class GameManager {
     }
 
     public void setUHCWinner() {
+
         UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
         for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
             if (uhcPlayer == null) return;
             if (uhcPlayer.getKills() > winner.getKills()) winner = uhcPlayer;
         }
+
+        if (isTeamMode()) {
+            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                teamMember.setWinner(true);
+            }
+            return;
+        }
         winner.setWinner(true);
+
     }
     public String getUHCWinner() {
         if (isTeamMode()) {

@@ -72,7 +72,7 @@ public class TaskManager {
     public void runActivityRewards() {
         if (config.getBoolean("settings.rewards-per-time.enabled", true)) {
             int interval = config.getInt("settings.rewards-per-time.period")*20;
-            new ActivityRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
+            new PlayingRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
     public void runAutoBroadcast() {

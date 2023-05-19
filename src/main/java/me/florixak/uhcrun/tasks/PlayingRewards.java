@@ -8,12 +8,12 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ActivityRewards extends BukkitRunnable {
+public class PlayingRewards extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
 
-    public ActivityRewards(GameManager gameManager) {
+    public PlayingRewards(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -22,16 +22,17 @@ public class ActivityRewards extends BukkitRunnable {
     public void run() {
         if (!(gameManager.getGameState() == GameState.LOBBY
                 || gameManager.getGameState() == GameState.STARTING)) {
-            for (UHCPlayer player : gameManager.getPlayerManager().getAlivePlayers()) {
-                double money = config.getDouble("rewards-per-time.money");
-                double level_xp = config.getDouble("rewards-per-time.level-xp");
+            String path = "settings.rewards.playing-time";
+            for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
+                double money = config.getDouble(path + ".money");
+                double player_exp = config.getDouble(path + ".player-exp");
 
-                // gameManager.getStatistics().addMoney(player, money);
-                // gameManager.getLevelManager().addPlayerLevel(player, level_xp);
+                uhcPlayer.getData().addMoney(money);
+                uhcPlayer.getData().addExp(player_exp);
 
-                player.sendMessage(Messages.REWARDS_PER_TIME.toString()
+                uhcPlayer.sendMessage(Messages.REWARDS_PER_TIME.toString()
                         .replace("%money-per-time%", String.valueOf(money))
-                        .replace("%xp-per-time%", String.valueOf(level_xp)));
+                        .replace("%xp-per-time%", String.valueOf(player_exp)));
             }
         }
     }

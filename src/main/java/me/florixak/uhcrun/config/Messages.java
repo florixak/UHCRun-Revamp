@@ -3,6 +3,9 @@ package me.florixak.uhcrun.config;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Messages {
 
     PREFIX("prefix"),
@@ -39,6 +42,9 @@ public enum Messages {
     GAME_STARTED("game.started"),
     GAME_ENDED("game.ended"),
 
+    WIN_REWARDS("rewards.win"),
+    LOSE_REWARDS("rewards.lose"),
+
     KITS_SELECTED("kits.selected"),
     PERKS_SELECTED("perks.selected"),
 
@@ -53,6 +59,7 @@ public enum Messages {
     LEVEL_UP("player.player-level.level-up"),
 
     SHOT_HP("player.shot-hp"),
+    TOP_KILLERS("top-killers"),
 
     TEAM_JOIN("teams.join"),
     TEAM_LEAVE("teams.leave"),
@@ -89,6 +96,19 @@ public enum Messages {
 
         String prefix = config.getString("Messages." + PREFIX.getPath());
         return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
+    }
+
+    public List<String> toList() {
+        List<String> messages = new ArrayList<>();
+
+        String prefix = config.getString("Messages." + PREFIX.getPath());
+        for (String message : config.getStringList("Messages." + this.path)) {
+            if (message != null && !message.isEmpty()) {
+                messages.add(TextUtils.color(message
+                        .replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : "")));
+            }
+        }
+        return messages;
     }
 
     public String getPath() {

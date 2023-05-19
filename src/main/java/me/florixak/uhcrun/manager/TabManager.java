@@ -44,12 +44,13 @@ public class TabManager {
 
         UHCPlayer hocPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         if (!gameManager.isTeamMode()) {
-            p.setPlayerListName(TextUtils.color(
-                            (hocPlayer.getName()))
-            );
+            p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.solo-mode-player-list"))
+                    .replace("%player%", hocPlayer.getName())
+                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : ""));
         } else {
-            p.setPlayerListName(TextUtils.color(
-                            (hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() + " &8| &f" : " ") + hocPlayer.getName())
+            p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.team-mode-player-list")
+                    .replace("%player%", hocPlayer.getName())
+                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : ""))
             );
         }
     }

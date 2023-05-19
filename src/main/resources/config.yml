@@ -24,6 +24,14 @@ settings:
     teleport-after-mining: true
     warning-time-at: 10 # start at <_> seconds
 
+    # Countdowns
+    countdowns:
+      starting: 20 # seconds
+      mining: 120 # seconds
+      fighting: 120 # seconds
+      deathmatch: 60 # seconds
+      ending: 15 # seconds
+
     projectile-hit-hp: true
     no-explosions: false
     explode-block-destroy: true
@@ -39,18 +47,9 @@ settings:
       - LAVA
       - DROWNING
       - PROJECTILE
-      - FALL
       - FALLING_BLOCK
       - ENTITY_EXPLOSION
       - BLOCK_EXPLOSION
-
-    # Countdowns
-    countdowns:
-      starting: 20 # seconds
-      mining: 120 # seconds
-      fighting: 120 # seconds
-      deathmatch: 60 # seconds
-      ending: 15 # seconds
 
     custom-drops: true
     random-drops: false # in development
@@ -102,12 +101,20 @@ settings:
     lose:
       money: 50
       player-exp: 150
+    playing-time:
+      enabled: false
+      each-phase: false
+      money: 10
+      player-exp: 20
+      period: 60 # seconds
 
   # Tablist
   tablist:
     # Works only with ProtocolLib
     enabled: true
     header: "&2&lUHC&a&lRun\n"
+    solo-mode-player-list: "%player%"
+    team-mode-player-list: "%team% &8| &f%player%"
     footer: "\n&8www.florixak.tk"
 
   # Auto broadcast
@@ -116,16 +123,9 @@ settings:
     random-messages: true
     period: 10 # seconds
 
-  # Rewards per play time
-  rewards-per-time:
-    enabled: false
-    money: 10
-    player-exp: 20
-    period: 60
-
   # Statistics
   statistics:
-    # Players will gain their kills and deaths on game end
+    # If false, player gets each kill to statistics immediately
     add-on-game-ends: true
 
     player-level:
@@ -143,6 +143,7 @@ settings:
 
   # Selectors
   selectors:
+    # Available gui - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true
       display-name: "&fTeams"
@@ -174,8 +175,8 @@ settings:
     enabled: false
     host: "localhost"
     port: "3306"
-    database: ''
-    username: ''
+    database: 'uhcrun'
+    username: 'root'
     password: ''
 
   # Chat
@@ -187,7 +188,7 @@ settings:
 
     lobby-format: "&7[%level%] %team% &f%player% &7» &f%message%"
     in-game-format: "&7[%level%] %team% &f%player% &7» &f%message%"
-    dead-format: "&7[DEAD] [%level%] %team% &7%player% » %message%"
+    dead-format: "&7[SPECTATOR] [%level%] %team% &7%player% » %message%"
 
     blocked-commands:
       - /pl
