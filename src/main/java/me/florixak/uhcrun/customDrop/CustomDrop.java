@@ -21,14 +21,25 @@ public class CustomDrop {
     private Material material;
     private Entity entity;
     private List<Material> drops;
-    private HashMap<Material, Integer> amount;
+    private int minAmount;
+    private int maxAmount;
     private int exp;
 
-    public CustomDrop(Material material, Entity entity, List<Material> drops, HashMap<Material, Integer> amount, int exp) {
+    public CustomDrop(Material material,
+                      Entity entity,
+                      List<Material> drops,
+                      int minAmount,
+                      int maxAmount,
+                      int exp) {
         this.material = material;
         this.entity = entity;
         this.drops = drops;
-        this.amount = amount;
+        if (minAmount > 0) this.minAmount = minAmount;
+        else this.minAmount = 1;
+
+        if (maxAmount > this.minAmount && maxAmount > 0) this.maxAmount = maxAmount;
+        else this.maxAmount = this.minAmount;
+
         this.exp = exp;
     }
 
@@ -45,18 +56,19 @@ public class CustomDrop {
     }
 
     public List<Material> getDrops() {
-        return drops;
+        return this.drops;
     }
 
     public int getExp() {
-        return exp;
+        return this.exp;
     }
 
-    public int getAmount(Material material) {
-        if (amount.containsKey(material)) {
-            return amount.get(material);
-        }
-        return 1;
+    public int getMinAmount() {
+        return this.minAmount;
+    }
+
+    public int getMaxAmount() {
+        return this.maxAmount;
     }
 
     public void dropItem(BlockBreakEvent block_event, EntityDeathEvent death_event) {
@@ -81,7 +93,8 @@ public class CustomDrop {
 
                 Material drop = getDrops().get(ran.nextInt(getDrops().size()));
                 if (drop != XMaterial.AIR.parseMaterial()) {
-                    int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
+                    int amount = getMinAmount() == getMaxAmount() ? getMinAmount()
+                            : ran.nextInt(getMaxAmount()-getMinAmount())+getMinAmount();
                     ItemStack drop_is = new ItemStack(drop, amount);
 
                     Location location = loc.add(0.5, 0.5, 0.5);
@@ -91,25 +104,7 @@ public class CustomDrop {
         }
 
         if (death_event != null) {
-            Entity e = death_event.getEntity();
-            Location loc = e.getLocation();
-
-            Random ran = new Random();
-
-            if (hasDrops()) {
-
-                int exp = getExp();
-
-                death_event.getDrops().clear();
-                death_event.setDroppedExp(exp);
-
-                Material drop = getDrops().get(ran.nextInt(getDrops().size()));
-                int amount = getAmount(drop) != 0 ? ran.nextInt(getAmount(drop))+1 : 1;
-                ItemStack drop_is = new ItemStack(drop, amount);
-
-                Location location = loc.add(0.5, 0.5, 0.5);
-                Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
-            }
+            // TODO entity custom drop
         }
     }
 }
