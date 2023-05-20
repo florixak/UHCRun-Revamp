@@ -46,11 +46,14 @@ public class TabManager {
         if (!gameManager.isTeamMode()) {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.solo-mode-player-list"))
                     .replace("%player%", hocPlayer.getName())
-                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : ""));
+                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
+                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getLevel()))
+            );
         } else {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.team-mode-player-list")
                     .replace("%player%", hocPlayer.getName())
-                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : ""))
+                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
+                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getLevel())))
             );
         }
     }

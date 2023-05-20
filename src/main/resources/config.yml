@@ -26,10 +26,10 @@ settings:
 
     # Countdowns
     countdowns:
-      starting: 10 # seconds
-      mining: 10 # seconds
-      fighting: 15 # seconds
-      deathmatch: 10 # seconds
+      starting: 15 # seconds
+      mining: 60 # seconds
+      fighting: 60 # seconds
+      deathmatch: 60 # seconds
       ending: 15 # seconds
 
     projectile-hit-hp: true
@@ -59,6 +59,7 @@ settings:
     enabled: true
     start-at: 3 # players, if -1 then automatic
     custom-deathmatch: false # needs to be set location, (default: 0, 70, 0)
+    border-size: 50
 
   # Border
   border:
@@ -108,12 +109,12 @@ settings:
       player-exp: 20
       period: 60 # seconds
 
-  # Tablist - (Works only with ProtocolLib!)
+  # Tablist
   tablist:
-    enabled: true
+    enabled: true # Works only with ProtocolLib!
     header: "&2&lUHC&a&lRun\n"
-    solo-mode-player-list: "&8[%uhc-level%] &f%player%"
-    team-mode-player-list: "%team% &8[%uhc-level%] &f%player%"
+    solo-mode-player-list: "&7[%uhc-level%] &f%player%"
+    team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
     footer: "\n&8www.florixak.tk"
 
   # Auto broadcast

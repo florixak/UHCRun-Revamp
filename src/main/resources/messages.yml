@@ -22,7 +22,7 @@ Messages:
     shot-hp: "&6[🏹] &f%player% has &c%hp%❤"
 
     player-level:
-      level-up: "&a[!] &fLEVEL UP! (%previousLevel% → %newLevel%)"
+      level-up: "&a[!] &fLEVEL UP! (%previousUHCLevel% → %newUHCLevel%)"
 
   game:
     starting: "&6[!] &fGame starts in %countdown%!"
@@ -67,24 +67,24 @@ Messages:
       - "&3---------- %prefix% &3----------"
       - "&f+%coins-for-win% coins for win"
       - "&f+%coins-for-kills% coins for kills"
-      - "&f+%level-xp-for-win% XP for win"
-      - "&f+%level-xp-for-kills% XP for kills"
+      - "&f+%uhc-exp-for-win% XP for win"
+      - "&f+%uhc-exp-for-kills% XP for kills"
       - "&3--------------------------------"
     lose:
       - "&3---------- %prefix% &3----------"
       - "&f+%coins-for-lose% coins for lose"
       - "&f+%coins-for-kills% coins for kills"
-      - "&f+%level-xp-for-lose% XP for lose"
-      - "&f+%level-xp-for-kills% XP for kills"
+      - "&f+%uhc-exp-for-lose% XP for lose"
+      - "&f+%uhc-exp-for-kills% XP for kills"
       - "&3--------------------------------"
 
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
   top-killers:
     - "&3---------- %prefix% &3----------"
-    - "&l1. &8[%top-killer-1-level%] %top-killer-1-team% &f%top-killer-1% &7- &f&l%top-killer-1-kills% kills"
-    - "&l2. &8[%top-killer-2-level%] %top-killer-2-team% &f%top-killer-2% &7- &f&l%top-killer-2-kills% kills"
-    - "&l3. &8[%top-killer-3-level%] %top-killer-3-team% &f%top-killer-3% &7- &f&l%top-killer-3-kills% kills"
+    - "&l1. &7[%top-killer-1-uhc-level%] %top-killer-1-team% &f%top-killer-1% &8- &f%top-killer-1-kills% kills"
+    - "&l2. &7[%top-killer-2-uhc-level%] %top-killer-2-team% &f%top-killer-2% &8- &f%top-killer-2-kills% kills"
+    - "&l3. &7[%top-killer-3-uhc-level%] %top-killer-3-team% &f%top-killer-3% &8- &f%top-killer-3-kills% kills"
     - "&3--------------------------------"
 
   nick:

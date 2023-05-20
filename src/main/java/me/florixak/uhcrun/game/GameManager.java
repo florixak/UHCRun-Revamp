@@ -141,6 +141,7 @@ public class GameManager {
                 break;
 
             case MINING:
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
                 getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.getPlayer().teleport(TeleportUtils.teleportToSafeLocation()));
                 getPlayerManager().getAlivePlayers().stream()

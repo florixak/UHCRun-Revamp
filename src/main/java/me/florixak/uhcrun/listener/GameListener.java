@@ -56,11 +56,12 @@ public class GameListener implements Listener {
 
                 for (int i = 0; i < top_killers_msg.size(); i++) {
                     UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ?
-                            top_killers.get(i) : new UHCPlayer(UUID.randomUUID(), "None");
-                    message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName())
-                            .replace("%top-killer-" + (i+1) + "-kills%", String.valueOf(topKiller.getKills()))
-                            .replace("%top-killer-" + (i+1) + "-team%", topKiller.getTeam() != null ? topKiller.getTeam().getDisplayName() : "")
-                            .replace("%top-killer-" + (i+1) + "-level%", String.valueOf(topKiller.getData().getLevel()));
+                            top_killers.get(i) : null;
+                    boolean isUHCPlayer = topKiller != null;
+                    message = message.replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
+                            .replace("%top-killer-" + (i+1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
+                            .replace("%top-killer-" + (i+1) + "-team%", isUHCPlayer && gameManager.isTeamMode() ? topKiller.getTeam().getDisplayName() : "")
+                            .replace("%top-killer-" + (i+1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
@@ -75,10 +76,23 @@ public class GameListener implements Listener {
 
             if (uhcPlayer.isWinner()) {
                 for (String message : win_rewards_msg) {
+
+                    message = message
+                            .replace("%coins-for-win%", String.valueOf(config.getDouble("settings.rewards.win.money")))
+                            .replace("%coins-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.money")*uhcPlayer.getKills()))
+                            .replace("%uhc-exp-for-win%", String.valueOf(config.getDouble("settings.rewards.win.money")))
+                            .replace("%uhc-exp-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.exp")*uhcPlayer.getKills()));
                     uhcPlayer.sendMessage(TextUtils.color(message));
                 }
             } else {
                 for (String message : lose_rewards_msg) {
+
+                    message = message
+                            .replace("%coins-for-lose%", String.valueOf(config.getDouble("settings.rewards.lose.money")))
+                            .replace("%coins-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.money")*uhcPlayer.getKills()))
+                            .replace("%uhc-exp-for-lose%", String.valueOf(config.getDouble("settings.rewards.lose.money")))
+                            .replace("%uhc-exp-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.exp")*uhcPlayer.getKills()));
+
                     uhcPlayer.sendMessage(TextUtils.color(message));
                 }
             }
