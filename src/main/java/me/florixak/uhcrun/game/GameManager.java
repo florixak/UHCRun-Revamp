@@ -19,7 +19,7 @@ import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.scoreboard.ScoreboardManager;
+import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
@@ -245,11 +245,18 @@ public class GameManager {
     }
 
     private void connectToDatabase() {
-        if (config.getBoolean("settings.MySQL.enabled", true)) {
-            this.mysql = new MySQL("localhost", 3306, null, null, null);
-            this.data = new SQLGetter(this);
-            this.data.createTable();
-        }
+        String path = "settings.MySQL";
+        if (!config.getBoolean( path + ".enabled", false)) return;
+
+        this.mysql = new MySQL(
+                config.getString(path + ".host", "localhost"),
+                config.getString(path + ".port", "3306"),
+                config.getString(path + ".database", "uhcrun"),
+                config.getString(path + ".username", "root"),
+                config.getString(path + ".password", "")
+        );
+        this.data = new SQLGetter(this);
+        this.data.createTable();
     }
     private void disconnectDatabase() {
         if (config.getBoolean("settings.MySQL.enabled", true)) {

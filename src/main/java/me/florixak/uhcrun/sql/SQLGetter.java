@@ -24,6 +24,7 @@ public class SQLGetter {
                     + "'required_xp' INT(100) DEFAULT '0',"
                     + "'money' DECIMAL(24,9) DEFAULT '0',"
                     + "'wins' INT(100) DEFAULT '0',"
+                    + "'losses' INT(100) DEFAULT '0',"
                     + "'kills' INT(100) DEFAULT '0',"
                     + "'deaths' INT(100) DEFAULT '0')");
             ps.executeUpdate();
@@ -31,7 +32,6 @@ public class SQLGetter {
             e.printStackTrace();
         }
     }
-
 
     public void emptyTable() {
         try {
@@ -42,7 +42,7 @@ public class SQLGetter {
         }
     }
 
-    public void remove(UUID uuid) {
+    public void removeUUID(UUID uuid) {
         try {
             PreparedStatement ps = gameManager.getSQL().getConnection().prepareStatement("DELETE FROM uhcrun WHERE 'uuid'=?");
             ps.setString(1, uuid.toString());

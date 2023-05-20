@@ -53,7 +53,7 @@ public class ChatListener implements Listener {
                 .replace("%player%", playerName)
                 .replace("%message%", message)
                 .replace("%luckperms-prefix%", TextUtils.color(lp_prefix))
-                .replace("%level%", TextUtils.color(playerLevel))
+                .replace("%uhc-level%", TextUtils.color(playerLevel))
                 .replace("%team%", team);
 
         for (UHCPlayer players : pm.getPlayers()) {

@@ -58,7 +58,7 @@ settings:
   deathmatch:
     enabled: true
     start-at: 3 # players, if -1 then automatic
-    custom-deathmatch: false # needs to be set
+    custom-deathmatch: false # needs to be set location, (default: 0, 70, 0)
 
   # Border
   border:
@@ -108,9 +108,8 @@ settings:
       player-exp: 20
       period: 60 # seconds
 
-  # Tablist
+  # Tablist - (Works only with ProtocolLib!)
   tablist:
-    # Works only with ProtocolLib
     enabled: true
     header: "&2&lUHC&a&lRun\n"
     solo-mode-player-list: "&8[%uhc-level%] &f%player%"
@@ -182,13 +181,14 @@ settings:
   # Chat
   chat:
     # %player% - Name of player
+    # %uhc-level% - UHC level of player
     # %luckperms-prefix% - If luckperms are allowed in config, displays player's prefix
     # %message% - Sent message
     # %level% - Player level
 
-    lobby-format: "&7[%level%] %team% &f%player% &7» &f%message%"
-    in-game-format: "&7[%level%] %team% &f%player% &7» &f%message%"
-    dead-format: "&7[SPECTATOR] [%level%] %team% &7%player% » %message%"
+    lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
+    in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
+    dead-format: "&7[SPECTATOR] &8[%uhc-level%] %team% &8%player% » %message%"
 
     blocked-commands:
       - /pl

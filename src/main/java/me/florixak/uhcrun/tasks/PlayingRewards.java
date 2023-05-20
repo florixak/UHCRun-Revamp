@@ -12,17 +12,17 @@ public class PlayingRewards extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
+    private String path;
 
     public PlayingRewards(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.path = "settings.rewards.playing-time";
     }
 
     @Override
     public void run() {
-        if (!(gameManager.getGameState() == GameState.LOBBY
-                || gameManager.getGameState() == GameState.STARTING)) {
-            String path = "settings.rewards.playing-time";
+        if (gameManager.isPlaying()) {
             for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
                 double money = config.getDouble(path + ".money");
                 double player_exp = config.getDouble(path + ".player-exp");

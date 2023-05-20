@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.scoreboard;
+package me.florixak.uhcrun.manager.scoreboard;
 
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderUtil;

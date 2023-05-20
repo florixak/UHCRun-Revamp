@@ -29,7 +29,7 @@ public class LobbyManager {
     }
 
     public Location getLocation(LobbyType lobbyType) {
-        Location loc = new Location(Bukkit.getWorld("world"), 0, 0, 0);
+        Location loc = new Location(Bukkit.getWorld("world"), 0, 70, 0);
 
         if (!existsLobby(lobbyType)) return loc;
 

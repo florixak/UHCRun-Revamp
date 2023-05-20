@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.scoreboard;
+package me.florixak.uhcrun.manager.scoreboard;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;

@@ -48,11 +48,12 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player p, String params){
-        if (p == null || GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS)
+        GameManager gameManager = plugin.getGameManager();
+        if (p == null || gameManager.getConfigManager().getFile(ConfigType.SETTINGS)
                 .getConfig().getBoolean("settings.addons.use-PlaceholderAPI", false)) {
             return null;
         }
-        GameManager gameManager = GameManager.getGameManager();
+
         UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         if (params.equalsIgnoreCase("uhc-author")) {

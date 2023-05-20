@@ -9,12 +9,12 @@ public class MySQL {
     private Connection con;
 
     private String host;
-    private int port;
+    private String port;
     private String database;
     private String user;
     private String password;
 
-    public MySQL(String host, int port, String database, String user, String password) {
+    public MySQL(String host, String port, String database, String user, String password) {
         this.host = host;
         this.port = port;
         this.database = database;
