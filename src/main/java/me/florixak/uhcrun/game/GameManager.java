@@ -47,17 +47,7 @@ public class GameManager {
     private MySQL mysql;
     private SQLGetter data;
 
-    private World game_world;
-    private boolean teamMode;
     private boolean forceStarted;
-    private boolean teleportAfterMining;
-    private boolean enableDeathmatch;
-    private boolean enableKits;
-    private boolean enablePerks;
-    private boolean enableCustomDrops;
-    private boolean statisticsOnEnd;
-    private boolean enableDeathChest;
-    private boolean noExplosions;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -112,17 +102,7 @@ public class GameManager {
         registerCommands();
         registerListeners();
 
-        this.game_world = Bukkit.getWorld(config.getString("settings.game.game-world"));
         this.forceStarted = false;
-        this.teamMode = config.getBoolean("settings.teams.team-mode");
-        this.teleportAfterMining = config.getBoolean("settings.game.teleport-after-mining");
-        this.enableDeathmatch = config.getBoolean("settings.deathmatch.enabled");
-        this.enableKits = config.getBoolean("settings.kits.enabled");
-        this.enablePerks = config.getBoolean("settings.perks.enabled");
-        this.enableCustomDrops = config.getBoolean("settings.game.custom-drops");
-        this.statisticsOnEnd = config.getBoolean("settings.statistics.add-on-game-ends");
-        this.enableDeathChest = config.getBoolean("settings.death-chest.enabled");
-        this.noExplosions = config.getBoolean("settings.game.no-explosions");
 
         connectToDatabase();
 
@@ -204,7 +184,7 @@ public class GameManager {
     }
 
     public World getGameWorld() {
-        return this.game_world;
+        return Bukkit.getWorld(config.getString("settings.game.game-world"));
     }
     public boolean isForceStarted() {
         return this.forceStarted;
@@ -213,31 +193,31 @@ public class GameManager {
         this.forceStarted = true;
     }
     public boolean isTeamMode() {
-        return this.teamMode;
+        return config.getBoolean("settings.teams.team-mode");
     }
     public boolean isTeleportAfterMining() {
-        return this.teleportAfterMining;
+        return config.getBoolean("settings.game.teleport-after-mining");
     }
     public boolean isDeathmatchEnabled() {
-        return this.enableDeathmatch;
+        return config.getBoolean("settings.deathmatch.enabled");
     }
     public boolean areKitsEnabled() {
-        return this.enableKits;
+        return config.getBoolean("settings.kits.enabled");
     }
     public boolean arePerksEnabled() {
-        return this.enablePerks;
+        return config.getBoolean("settings.perks.enabled");
     }
     public boolean areCustomDropsEnabled() {
-        return enableCustomDrops;
+        return config.getBoolean("settings.game.custom-drops");
     }
     public boolean areStatisticsAddedOnEnd() {
-        return statisticsOnEnd;
+        return config.getBoolean("settings.statistics.add-on-game-ends");
     }
     public boolean isDeathChestEnabled() {
-        return enableDeathChest;
+        return config.getBoolean("settings.death-chest.enabled");
     }
     public boolean areExplosionsEnabled() {
-        return !noExplosions;
+        return !config.getBoolean("settings.game.no-explosions");
     }
 
     public boolean isPlaying() {
