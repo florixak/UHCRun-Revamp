@@ -28,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class GameListener implements Listener {
 
@@ -53,22 +54,22 @@ public class GameListener implements Listener {
         if (top_killers_msg != null && !top_killers_msg.isEmpty()) {
             for (String message : top_killers_msg) {
 
-                for (int i = 0; i < top_killers.size(); i++) {
-                    UHCPlayer topKiller = top_killers.get(i);
-                    message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName() != null ? topKiller.getName() : "None")
+                for (int i = 0; i < top_killers_msg.size(); i++) {
+                    UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ?
+                            top_killers.get(i) : new UHCPlayer(UUID.randomUUID(), "None");
+                    message = message.replace("%top-killer-" + (i+1) + "%", topKiller.getName())
                             .replace("%top-killer-" + (i+1) + "-kills%", String.valueOf(topKiller.getKills()))
-                            .replace("%top-killer-" + (i+1) + "-team%", TextUtils.color(topKiller.getTeam().getDisplayName()))
+                            .replace("%top-killer-" + (i+1) + "-team%", topKiller.getTeam() != null ? topKiller.getTeam().getDisplayName() : "")
                             .replace("%top-killer-" + (i+1) + "-level%", String.valueOf(topKiller.getData().getLevel()));
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
-                Utils.broadcast(message);
+                Utils.broadcast(TextUtils.color(message));
             }
-            Utils.broadcast(top_killers.toString()); // remove later
         }
 
         for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
-            uhcPlayer.getData().addStatisticsForGame();
+            // uhcPlayer.getData().addStatisticsForGame();
 
             if (!uhcPlayer.isOnline()) return;
 

@@ -26,10 +26,10 @@ settings:
 
     # Countdowns
     countdowns:
-      starting: 20 # seconds
-      mining: 120 # seconds
-      fighting: 120 # seconds
-      deathmatch: 60 # seconds
+      starting: 10 # seconds
+      mining: 10 # seconds
+      fighting: 15 # seconds
+      deathmatch: 10 # seconds
       ending: 15 # seconds
 
     projectile-hit-hp: true
