@@ -1,9 +1,8 @@
 package me.florixak.uhcrun.teams;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.gui.Gui;
+import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

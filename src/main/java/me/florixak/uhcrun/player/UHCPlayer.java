@@ -1,8 +1,8 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.kits.Kit;
-import me.florixak.uhcrun.perks.Perk;
+import me.florixak.uhcrun.game.kits.Kit;
+import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;

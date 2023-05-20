@@ -2,9 +2,9 @@ package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.customDrop.CustomDrop;
-import me.florixak.uhcrun.events.GameEndEvent;
-import me.florixak.uhcrun.events.GameKillEvent;
+import me.florixak.uhcrun.game.customDrop.CustomDrop;
+import me.florixak.uhcrun.listener.events.GameEndEvent;
+import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
