@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.customDrop;
+package me.florixak.uhcrun.game.customDrop;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;

@@ -1,7 +1,7 @@
-package me.florixak.uhcrun.kits;
+package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.gui.Gui;
+import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;

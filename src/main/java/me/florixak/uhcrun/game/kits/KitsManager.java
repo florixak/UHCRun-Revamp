@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.kits;
+package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;

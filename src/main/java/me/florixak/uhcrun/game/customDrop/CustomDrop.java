@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.customDrop;
+package me.florixak.uhcrun.game.customDrop;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
@@ -12,7 +12,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 

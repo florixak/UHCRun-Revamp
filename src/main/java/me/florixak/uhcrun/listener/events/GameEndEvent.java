@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.events;
+package me.florixak.uhcrun.listener.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

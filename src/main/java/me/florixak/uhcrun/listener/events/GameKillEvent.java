@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.events;
+package me.florixak.uhcrun.listener.events;
 
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.event.Event;

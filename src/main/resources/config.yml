@@ -113,8 +113,8 @@ settings:
     # Works only with ProtocolLib
     enabled: true
     header: "&2&lUHC&a&lRun\n"
-    solo-mode-player-list: "%player%"
-    team-mode-player-list: "%team% &8| &f%player%"
+    solo-mode-player-list: "&8[%uhc-level%] &f%player%"
+    team-mode-player-list: "%team% &8[%uhc-level%] &f%player%"
     footer: "\n&8www.florixak.tk"
 
   # Auto broadcast

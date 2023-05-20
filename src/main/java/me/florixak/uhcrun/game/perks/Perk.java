@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.perks;
+package me.florixak.uhcrun.game.perks;
 
 import org.bukkit.Material;
 

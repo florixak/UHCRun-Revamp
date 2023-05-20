@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.gui;
+package me.florixak.uhcrun.manager.gui;
 
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
