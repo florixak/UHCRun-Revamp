@@ -64,6 +64,7 @@ public class GameManager {
     private SoundManager soundManager;
     private RecipeManager recipeManager;
     private DeathChestManager deathChestManager;
+    private WorldManager worldManager;
 
     private Utils utils;
     private TeleportUtils teleportUtils;
@@ -182,6 +183,8 @@ public class GameManager {
         getDeathChestManager().onDisable();
         getTaskManager().onDisable();
         disconnectDatabase();
+
+        // getWorldManager().createNewWorld();
     }
 
     public World getGameWorld() {
@@ -365,6 +368,9 @@ public class GameManager {
     }
     public DeathChestManager getDeathChestManager() {
         return deathChestManager;
+    }
+    public WorldManager getWorldManager() {
+        return worldManager;
     }
 
     public Utils getUtils() {

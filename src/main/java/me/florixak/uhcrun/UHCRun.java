@@ -2,6 +2,7 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
@@ -23,6 +24,11 @@ public final class UHCRun extends JavaPlugin {
     private GameManager gameManager;
 
     @Override
+    public void onLoad() {
+        new WorldManager().createNewWorld();
+    }
+
+    @Override
     public void onEnable() {
         plugin = this;
 
@@ -39,6 +45,7 @@ public final class UHCRun extends JavaPlugin {
         }
 
         this.gameManager = new GameManager(plugin);
+
         this.gameManager.loadNewGame();
 
         registerDependency();
