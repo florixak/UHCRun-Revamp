@@ -41,7 +41,7 @@ public class UHCTeam {
     }
 
     public UHCPlayer getLeader() {
-        return getLivingMembers().get(0);
+        return getAliveMembers().get(0);
     }
 
     public boolean isFull() {
@@ -71,12 +71,16 @@ public class UHCTeam {
     private List<UHCPlayer> getMembers(Predicate<UHCPlayer> filter){
         return this.members.stream().filter(filter).collect(Collectors.toList());
     }
-    public List<UHCPlayer> getLivingMembers() {
+    public List<UHCPlayer> getAliveMembers() {
         return getMembers(hocPlayer -> hocPlayer.isAlive());
     }
 
+    public boolean isAlive() {
+        return getAliveMembers() != null;
+    }
+
     public void teleport(Location loc) {
-        for (UHCPlayer uhcPlayer : getLivingMembers()) {
+        for (UHCPlayer uhcPlayer : getAliveMembers()) {
             uhcPlayer.getPlayer().teleport(loc);
         }
     }

@@ -53,7 +53,7 @@ public class TeamManager {
     public List<UHCTeam> getLivingTeams() {
         List<UHCTeam> teams = new ArrayList<>();
         for (UHCTeam team : getTeams()) {
-            if (team.getLivingMembers().size() != 0) {
+            if (team.getAliveMembers().size() != 0) {
                 teams.add(team);
             }
         }
@@ -98,7 +98,7 @@ public class TeamManager {
         return teams.toString();
     }
 
-    private UHCTeam getFreeTeam() {
+    private UHCTeam findFreeTeam() {
         UHCTeam emptyTeam = null;
         for (UHCTeam team : this.teams) {
             if (team.getMembers().size() == 0) {
@@ -118,7 +118,7 @@ public class TeamManager {
 
     public void joinRandomTeam(UHCPlayer uhcPlayer) {
         if (uhcPlayer.hasTeam()) return;
-        getFreeTeam().join(uhcPlayer);
+        findFreeTeam().join(uhcPlayer);
     }
 
     public UHCTeam getWinnerTeam() {

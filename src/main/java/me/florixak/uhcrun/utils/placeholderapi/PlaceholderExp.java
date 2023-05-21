@@ -6,7 +6,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -76,7 +75,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("uhc-level")) {
-            return String.valueOf(uhcPlayer.getData().getLevel());
+            return String.valueOf(uhcPlayer.getData().getUHCLevel());
         }
 
         if (params.equalsIgnoreCase("uhc-kills")) {

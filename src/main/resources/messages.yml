@@ -21,7 +21,7 @@ Messages:
 
     shot-hp: "&6[🏹] &f%player% has &c%hp%❤"
 
-    player-level:
+    uhc-level:
       level-up: "&a[!] &fLEVEL UP! (%previousUHCLevel% → %newUHCLevel%)"
 
   game:

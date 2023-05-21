@@ -135,7 +135,7 @@ public class PlaceholderUtil {
             text = text.replace("%stats-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
         }
         if (text.contains("%stats-level%")) {
-            text = text.replace("%stats-level%", String.valueOf(uhcPlayer.getData().getLevel()));
+            text = text.replace("%stats-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
         }
         if (text.contains("%requiredXP%")) {
             DecimalFormat format = new DecimalFormat("#######0");

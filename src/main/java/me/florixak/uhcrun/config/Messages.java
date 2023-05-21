@@ -56,7 +56,7 @@ public enum Messages {
 
     REWARDS_PER_TIME("rewards.per-time"),
 
-    LEVEL_UP("player.player-level.level-up"),
+    LEVEL_UP("player.uhc-level.level-up"),
 
     SHOT_HP("player.shot-hp"),
     TOP_KILLERS("top-killers"),

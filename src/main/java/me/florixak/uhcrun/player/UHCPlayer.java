@@ -162,7 +162,6 @@ public class UHCPlayer {
     public void sendTitle(String title) {
         if (title.isEmpty() || title == null || !isOnline()) return;
         String[] split_title = title.split("\n");
-        getPlayer().sendTitle(TextUtils.color(split_title[0]),
-                TextUtils.color(split_title[1]));
+        getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
     }
 }

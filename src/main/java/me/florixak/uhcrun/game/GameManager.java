@@ -212,7 +212,7 @@ public class GameManager {
         return config.getBoolean("settings.game.custom-drops");
     }
     public boolean areStatisticsAddedOnEnd() {
-        return config.getBoolean("settings.statistics.add-on-game-ends");
+        return config.getBoolean("settings.statistics.add-up-game-ends");
     }
     public boolean isDeathChestEnabled() {
         return config.getBoolean("settings.death-chest.enabled");

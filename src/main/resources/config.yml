@@ -90,23 +90,32 @@ settings:
     enabled: true
     full-time: false # true - not yet
 
+  # Statistics
+  statistics:
+    # If false, player gets each kill to statistics immediately
+    add-up-game-ends: false
+
+    player-level:
+      # Players will gain xp and increase their level
+      enabled: true
+
   # Rewards
   rewards:
     kill:
       money: 30
       exp: 60
-      player-exp: 60
+      uhc-exp: 60
     win:
       money: 150
-      player-exp: 300
+      uhc-exp: 300
     lose:
       money: 50
-      player-exp: 150
+      uhc-exp: 150
     playing-time:
       enabled: false
       each-phase: false
       money: 10
-      player-exp: 20
+      uhc-exp: 20
       period: 60 # seconds
 
   # Tablist
@@ -122,15 +131,6 @@ settings:
     enabled: false
     random-messages: true
     period: 10 # seconds
-
-  # Statistics
-  statistics:
-    # If false, player gets each kill to statistics immediately
-    add-on-game-ends: true
-
-    player-level:
-      # Players will gain xp and increase their level
-      enabled: true
 
   # Economy
   economy:

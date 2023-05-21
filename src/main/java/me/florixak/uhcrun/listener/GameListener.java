@@ -28,7 +28,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class GameListener implements Listener {
 
@@ -61,7 +60,7 @@ public class GameListener implements Listener {
                     message = message.replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
                             .replace("%top-killer-" + (i+1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
                             .replace("%top-killer-" + (i+1) + "-team%", isUHCPlayer && gameManager.isTeamMode() ? topKiller.getTeam().getDisplayName() : "")
-                            .replace("%top-killer-" + (i+1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getLevel()) : "0");
+                            .replace("%top-killer-" + (i+1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
@@ -70,7 +69,10 @@ public class GameListener implements Listener {
         }
 
         for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
-            // uhcPlayer.getData().addStatisticsForGame();
+
+            if (gameManager.areStatisticsAddedOnEnd()) {
+                uhcPlayer.getData().addStatisticsForGame();
+            }
 
             if (!uhcPlayer.isOnline()) return;
 
@@ -115,7 +117,17 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
         }
 
-        if (victim.getTeam().getLivingMembers().size() == 0 && gameManager.isTeamMode()) {
+        if (!gameManager.areStatisticsAddedOnEnd()) {
+            killer.getData().addKills(1);
+            killer.getData().addUHCExp(config.getDouble("settings.rewards.kill.uhc-exp"));
+            victim.getData().addDeaths(1);
+
+            if (!victim.getTeam().isAlive() && gameManager.isTeamMode()) {
+                victim.getData().addLose(1);
+            }
+        }
+
+        if (!victim.getTeam().isAlive() && gameManager.isTeamMode()) {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
 

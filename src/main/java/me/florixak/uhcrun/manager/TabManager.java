@@ -47,13 +47,13 @@ public class TabManager {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.solo-mode-player-list"))
                     .replace("%player%", hocPlayer.getName())
                     .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
-                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getLevel()))
+                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getUHCLevel()))
             );
         } else {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.team-mode-player-list")
                     .replace("%player%", hocPlayer.getName())
                     .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
-                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getLevel())))
+                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getUHCLevel())))
             );
         }
     }
