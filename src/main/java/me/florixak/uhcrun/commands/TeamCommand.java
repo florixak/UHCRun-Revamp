@@ -26,10 +26,10 @@ public class TeamCommand implements CommandExecutor {
         Player p = (Player) sender;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        Gui teams_gui = gameManager.getGuiManager().getGui("teams");
+        Gui teams_gui = gameManager.getGuiManager().getInventory("teams");
 
         if (args.length == 0) {
-            gameManager.getGuiManager().getGui("teams").openInv(p);
+            gameManager.getGuiManager().getInventory("teams").openInv(p);
             return true;
         }
 

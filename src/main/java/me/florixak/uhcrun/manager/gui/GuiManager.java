@@ -20,7 +20,7 @@ public class GuiManager {
         this.guis.add(new KitsGui());
     }
 
-    public Gui getGui(String gui_name) {
+    public Gui getInventory(String gui_name) {
         for (Gui gui : guis) {
             if (gui.getTitle().equalsIgnoreCase(gui_name)) {
                 return gui;

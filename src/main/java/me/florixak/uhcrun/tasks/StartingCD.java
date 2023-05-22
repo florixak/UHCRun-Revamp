@@ -39,7 +39,7 @@ public class StartingCD extends BukkitRunnable {
                 count == gameManager.getKitsManager().getOpenWhenStartingAt()) {
             gameManager.getPlayerManager().getPlayers().stream()
                     .filter(uhcPlayer -> uhcPlayer.isOnline())
-                    .forEach(uhcPlayer -> gameManager.getGuiManager().getGui("kits").openInv(uhcPlayer.getPlayer()));
+                    .forEach(uhcPlayer -> gameManager.getGuiManager().getInventory("kits").openInv(uhcPlayer.getPlayer()));
         }
 
         if (count <= startWarning) {

@@ -13,7 +13,7 @@ public class BorderManager {
 
     public BorderManager(GameManager gameManager) {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.wb = Bukkit.getWorld(config.getString("settings.game.game-world")).getWorldBorder();
+        this.wb = Bukkit.getWorld(gameManager.getGameWorld().getName()).getWorldBorder();
     }
 
     public void setBorder() {

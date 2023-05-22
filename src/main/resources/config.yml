@@ -16,7 +16,6 @@ settings:
 
   # Game
   game:
-    game-world: "world"
     auto-map-reset: true
 
     min-players-to-start: 2

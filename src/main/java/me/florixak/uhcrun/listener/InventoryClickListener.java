@@ -29,16 +29,18 @@ public class InventoryClickListener implements Listener {
                 || event.getCurrentItem().getType().equals(XMaterial.AIR.parseMaterial())) {
             return;
         }
-
+        Player p = (Player) event.getWhoClicked();
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         Inventory inv = event.getClickedInventory();
 
-        if (inv.equals(gameManager.getGuiManager().getGui("teams"))) {
-
-            Player p = (Player) event.getWhoClicked();
-            UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        if (inv.equals(p.getInventory())) {
+            return;
+        }
+        if (inv.equals(gameManager.getGuiManager().getInventory("teams").getInventory())) {
 
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
                 event.setCancelled(true);
+                p.closeInventory();
 
                 if (event.getCurrentItem().hasItemMeta() &&
                         event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(team.getDisplayName())) {
@@ -50,13 +52,11 @@ public class InventoryClickListener implements Listener {
             }
         }
 
-        if (inv.equals(gameManager.getGuiManager().getGui("kits"))) {
-
-            Player p = (Player) event.getWhoClicked();
-            UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        if (inv.equals(gameManager.getGuiManager().getInventory("kits").getInventory())) {
 
             for (Kit kit : gameManager.getKitsManager().getKits()) {
                 event.setCancelled(true);
+                p.closeInventory();
 
                 if (event.getCurrentItem().getType().equals(kit.getDisplayItem())) {
 

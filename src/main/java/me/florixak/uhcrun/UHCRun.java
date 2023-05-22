@@ -2,6 +2,7 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
@@ -24,7 +25,17 @@ public final class UHCRun extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        new WorldManager().createNewWorld();
+    }
+
+    @Override
+    public void onEnable() {
         plugin = this;
+
+        getLogger().info(getDescription().getName());
+        getLogger().info("Author: " + getAuthor());
+        getLogger().info("Web: www.florixak.tk");
+        getLogger().info("Version: " + getDescription().getVersion());
 
         nmsver = Bukkit.getServer().getClass().getPackage().getName();
         nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
@@ -34,21 +45,6 @@ public final class UHCRun extends JavaPlugin {
         }
 
         this.gameManager = new GameManager(plugin);
-
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig()
-                .getBoolean("settings.game.auto-map-reset", false)) {
-            getGameManager().getWorldManager().createNewWorld();
-            // new WorldManager().createNewWorld();
-        }
-    }
-
-    @Override
-    public void onEnable() {
-
-        getLogger().info(getDescription().getName());
-        getLogger().info("Author: " + getAuthor());
-        getLogger().info("Web: www.florixak.tk");
-        getLogger().info("Version: " + getDescription().getVersion());
 
         registerDependency();
         this.gameManager.loadNewGame();

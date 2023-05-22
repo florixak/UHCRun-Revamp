@@ -133,8 +133,11 @@ public class PlayerData {
 
         if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
             double money = 500;
+            double exp = 300;
             addMoney(money);
+            addUHCExp(exp);
             this.moneyForGameResult += money;
+            this.uhcExpForGameResult += exp;
         }
     }
 
@@ -144,8 +147,11 @@ public class PlayerData {
 
         if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
             double money = 100;
+            double exp = 50;
             addMoney(money);
+            addUHCExp(exp);
             this.moneyForGameResult += money;
+            this.uhcExpForGameResult += exp;
         }
     }
 

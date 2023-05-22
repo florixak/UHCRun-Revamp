@@ -34,7 +34,7 @@ public class KitsCommand implements CommandExecutor {
             return true;
         }
 
-        Gui kits_gui = gameManager.getGuiManager().getGui("kits");
+        Gui kits_gui = gameManager.getGuiManager().getInventory("kits");
 
         if (args.length == 0) {
             kits_gui.openInv(p);

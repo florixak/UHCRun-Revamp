@@ -45,8 +45,6 @@ public class GameListener implements Listener {
     public void handleGameEnd(GameEndEvent event) {
 
         String winner = event.getWinner();
-        List<String> win_rewards_msg = Messages.WIN_REWARDS.toList();
-        List<String> lose_rewards_msg = Messages.LOSE_REWARDS.toList();
         List<String> top_killers_msg = Messages.TOP_KILLERS.toList();
         List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
 
@@ -74,6 +72,8 @@ public class GameListener implements Listener {
 
             if (gameManager.areStatisticsAddedOnEnd()) {
                 uhcPlayer.getData().addStatistics();
+            } else {
+                uhcPlayer.getData().addGameResult();
             }
 
             if (!uhcPlayer.isOnline()) return;

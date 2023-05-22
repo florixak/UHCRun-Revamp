@@ -61,7 +61,6 @@ public class GameManager {
     private SoundManager soundManager;
     private RecipeManager recipeManager;
     private DeathChestManager deathChestManager;
-    private WorldManager worldManager;
 
     private Utils utils;
     private TeleportUtils teleportUtils;
@@ -73,7 +72,6 @@ public class GameManager {
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
 
-        this.worldManager = new WorldManager(this);
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
@@ -186,7 +184,7 @@ public class GameManager {
     }
 
     public World getGameWorld() {
-        return Bukkit.getWorld(config.getString("settings.game.game-world", "world"));
+        return Bukkit.getWorld("world");
     }
     public boolean isForceStarted() {
         return this.forceStarted;
@@ -267,7 +265,7 @@ public class GameManager {
         registerCommand("forcestart", new ForceStartCommand(gameManager));
         registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));
-        registerCommand("anvil", new AnvilCommand(gameManager)); // TODO make anvil command
+        registerCommand("anvil", new AnvilCommand(gameManager));
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
         registerCommand("kits", new KitsCommand(gameManager));
@@ -370,9 +368,6 @@ public class GameManager {
     }
     public DeathChestManager getDeathChestManager() {
         return deathChestManager;
-    }
-    public WorldManager getWorldManager() {
-        return worldManager;
     }
 
     public Utils getUtils() {
