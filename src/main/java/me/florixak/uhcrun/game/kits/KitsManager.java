@@ -19,12 +19,16 @@ public class KitsManager {
     private GameManager gameManager;
     private FileConfiguration config, kits_config;
 
+    private int openWhenStartingAt;
+
     private List<Kit> kits;
 
     public KitsManager(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.kits_config = gameManager.getConfigManager().getFile(ConfigType.KITS).getConfig();
+
+        this.openWhenStartingAt = config.getInt("settings.kits.open-when-starting-at");
 
         this.kits = new ArrayList<>();
     }
@@ -82,6 +86,14 @@ public class KitsManager {
 
     public boolean isBlock(Material block) {
         return block.isBlock();
+    }
+
+    public int getOpenWhenStartingAt() {
+        return this.openWhenStartingAt;
+    }
+
+    public boolean openWhenStarting() {
+        return this.openWhenStartingAt != -1;
     }
 
     public void getWaitingKit(UHCPlayer p) {

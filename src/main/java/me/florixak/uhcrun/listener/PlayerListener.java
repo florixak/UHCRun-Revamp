@@ -70,6 +70,7 @@ public class PlayerListener implements Listener {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
+            gameManager.getPlayerManager().removePlayer(uhcPlayer);
         }
     }
 

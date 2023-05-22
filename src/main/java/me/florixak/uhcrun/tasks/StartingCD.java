@@ -35,6 +35,13 @@ public class StartingCD extends BukkitRunnable {
             return;
         }
 
+        if (gameManager.getKitsManager().openWhenStarting() &&
+                count == gameManager.getKitsManager().getOpenWhenStartingAt()) {
+            gameManager.getPlayerManager().getPlayers().stream()
+                    .filter(uhcPlayer -> uhcPlayer.isOnline())
+                    .forEach(uhcPlayer -> gameManager.getGuiManager().getGui("kits").openInv(uhcPlayer.getPlayer()));
+        }
+
         if (count <= startWarning) {
             Utils.broadcast(Messages.GAME_STARTING.toString()
                     .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));

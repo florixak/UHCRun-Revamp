@@ -76,6 +76,7 @@ public class GameManager {
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
 
+        this.worldManager = new WorldManager();
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
