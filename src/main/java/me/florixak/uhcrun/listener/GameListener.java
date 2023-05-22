@@ -11,6 +11,8 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -71,33 +73,12 @@ public class GameListener implements Listener {
         for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
 
             if (gameManager.areStatisticsAddedOnEnd()) {
-                uhcPlayer.getData().addStatisticsForGame();
+                uhcPlayer.getData().addStatistics();
             }
 
             if (!uhcPlayer.isOnline()) return;
 
-            if (uhcPlayer.isWinner()) {
-                for (String message : win_rewards_msg) {
-
-                    message = message
-                            .replace("%coins-for-win%", String.valueOf(config.getDouble("settings.rewards.win.money")))
-                            .replace("%coins-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.money")*uhcPlayer.getKills()))
-                            .replace("%uhc-exp-for-win%", String.valueOf(config.getDouble("settings.rewards.win.money")))
-                            .replace("%uhc-exp-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.exp")*uhcPlayer.getKills()));
-                    uhcPlayer.sendMessage(TextUtils.color(message));
-                }
-            } else {
-                for (String message : lose_rewards_msg) {
-
-                    message = message
-                            .replace("%coins-for-lose%", String.valueOf(config.getDouble("settings.rewards.lose.money")))
-                            .replace("%coins-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.money")*uhcPlayer.getKills()))
-                            .replace("%uhc-exp-for-lose%", String.valueOf(config.getDouble("settings.rewards.lose.money")))
-                            .replace("%uhc-exp-for-kills%", String.valueOf(config.getDouble("settings.rewards.kill.exp")*uhcPlayer.getKills()));
-
-                    uhcPlayer.sendMessage(TextUtils.color(message));
-                }
-            }
+            uhcPlayer.getData().showStatistics();
         }
     }
 
@@ -144,6 +125,20 @@ public class GameListener implements Listener {
         if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
             event.setCancelled(true);
             p.sendMessage(Messages.CANT_BREAK.toString());
+            return;
+        }
+
+        if (gameManager.isRandomDrop()) {
+            event.setDropItems(false);
+            event.setExpToDrop(0);
+
+            int pick = new Random().nextInt(XMaterial.values().length);
+
+            ItemStack drop_is = new ItemStack(XMaterial.values()[pick].parseMaterial());
+            Location loc = block.getLocation();
+
+            Location location = loc.add(0.5, 0.5, 0.5);
+            Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
             return;
         }
 

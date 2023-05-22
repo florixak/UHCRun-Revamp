@@ -24,8 +24,7 @@ public class TabManager {
 
     public void setPlayerList(Player p) {
 
-        if (!config.getBoolean("settings.addons.use-ProtocolLib")
-                || !config.getBoolean("settings.tablist.enabled")) {
+        if (!gameManager.isProtocolLibEnabled() || !config.getBoolean("settings.tablist.enabled", false)) {
             return;
         }
 

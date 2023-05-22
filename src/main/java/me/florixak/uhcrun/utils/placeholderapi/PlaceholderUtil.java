@@ -139,7 +139,7 @@ public class PlaceholderUtil {
         }
         if (text.contains("%requiredXP%")) {
             DecimalFormat format = new DecimalFormat("#######0");
-            text = text.replace("%requiredXP%", format.format(uhcPlayer.getData().getRequiredExp()));
+            text = text.replace("%requiredXP%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
         }
 
         if (text.contains("%winner%")) {

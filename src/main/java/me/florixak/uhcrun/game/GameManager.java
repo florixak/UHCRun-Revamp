@@ -7,13 +7,10 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
+import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.manager.gui.GuiManager;
 import me.florixak.uhcrun.game.kits.KitsManager;
-import me.florixak.uhcrun.listener.ChatListener;
-import me.florixak.uhcrun.listener.GameListener;
-import me.florixak.uhcrun.listener.InteractListener;
-import me.florixak.uhcrun.listener.PlayerListener;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
@@ -76,7 +73,7 @@ public class GameManager {
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
 
-        this.worldManager = new WorldManager();
+        this.worldManager = new WorldManager(this);
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
@@ -189,7 +186,7 @@ public class GameManager {
     }
 
     public World getGameWorld() {
-        return Bukkit.getWorld(config.getString("settings.game.game-world"));
+        return Bukkit.getWorld(config.getString("settings.game.game-world", "world"));
     }
     public boolean isForceStarted() {
         return this.forceStarted;
@@ -198,31 +195,34 @@ public class GameManager {
         this.forceStarted = true;
     }
     public boolean isTeamMode() {
-        return config.getBoolean("settings.teams.team-mode");
+        return config.getBoolean("settings.teams.team-mode", true);
     }
     public boolean isTeleportAfterMining() {
-        return config.getBoolean("settings.game.teleport-after-mining");
+        return config.getBoolean("settings.game.teleport-after-mining", true);
     }
     public boolean isDeathmatchEnabled() {
-        return config.getBoolean("settings.deathmatch.enabled");
+        return config.getBoolean("settings.deathmatch.enabled", true);
     }
     public boolean areKitsEnabled() {
-        return config.getBoolean("settings.kits.enabled");
+        return config.getBoolean("settings.kits.enabled", true);
     }
     public boolean arePerksEnabled() {
-        return config.getBoolean("settings.perks.enabled");
+        return config.getBoolean("settings.perks.enabled", true);
     }
     public boolean areCustomDropsEnabled() {
-        return config.getBoolean("settings.game.custom-drops");
+        return config.getBoolean("settings.game.custom-drops", true);
     }
     public boolean areStatisticsAddedOnEnd() {
-        return config.getBoolean("settings.statistics.add-up-game-ends");
+        return config.getBoolean("settings.statistics.add-up-game-ends", false);
     }
     public boolean isDeathChestEnabled() {
-        return config.getBoolean("settings.death-chest.enabled");
+        return config.getBoolean("settings.death-chest.enabled", true);
     }
     public boolean areExplosionsEnabled() {
-        return !config.getBoolean("settings.game.no-explosions");
+        return !config.getBoolean("settings.game.no-explosions", true);
+    }
+    public boolean isRandomDrop() {
+        return config.getBoolean("settings.game.random-drops", false);
     }
 
     public boolean isPlaying() {
@@ -256,6 +256,7 @@ public class GameManager {
         listeners.add(new PlayerListener(gameManager));
         listeners.add(new ChatListener(gameManager));
         listeners.add(new InteractListener(gameManager));
+        listeners.add(new InventoryClickListener(gameManager));
 
         for (Listener listener : listeners) {
             Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
@@ -379,5 +380,15 @@ public class GameManager {
     }
     public TeleportUtils getTeleportUtils() {
         return teleportUtils;
+    }
+
+    public boolean isVaultEnabled() {
+        return config.getBoolean("settings.addons.use-Vault", false) && UHCRun.getVault() != null;
+    }
+    public boolean areLuckPermsEnabled() {
+        return config.getBoolean("settings.addons.use-LuckPerms", false) && UHCRun.getLuckPerms() != null;
+    }
+    public boolean isProtocolLibEnabled() {
+        return config.getBoolean("settings.addons.use-ProtocolLib");
     }
 }

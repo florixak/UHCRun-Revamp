@@ -9,7 +9,7 @@ settings:
 
   # Expanding plugins
   addons:
-    use-Vault: false
+    use-Vault: true
     use-LuckPerms: false
     use-ProtocolLib: true
     use-PlaceholderAPI: true

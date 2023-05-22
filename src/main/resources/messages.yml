@@ -1,4 +1,12 @@
 # Here you can edit game messages
+
+# -----------------------------------------
+# %prefix% - prefix
+# %player% - player name
+# %online% - current online number
+# %countdown% - countdown in phase
+# -----------------------------------------
+
 Messages:
   prefix: "&2UHC&aRun"
 
@@ -64,19 +72,19 @@ Messages:
 
   rewards:
     win:
-      - "&3---------- %prefix% &3----------"
-      - "&f+%coins-for-win% coins for win"
-      - "&f+%coins-for-kills% coins for kills"
-      - "&f+%uhc-exp-for-win% XP for win"
-      - "&f+%uhc-exp-for-kills% XP for kills"
-      - "&3--------------------------------"
+      - "&7---------- %prefix% &7----------"
+      - " &a+%money-for-win% &fcoins for win"
+      - " &a+%money-for-kills% &fcoins for kills"
+      - " &a+%uhc-exp-for-win% &fexp for win"
+      - " &a+%uhc-exp-for-kills% &fexp for kills"
+      - "&7--------------------------------"
     lose:
-      - "&3---------- %prefix% &3----------"
-      - "&f+%coins-for-lose% coins for lose"
-      - "&f+%coins-for-kills% coins for kills"
-      - "&f+%uhc-exp-for-lose% XP for lose"
-      - "&f+%uhc-exp-for-kills% XP for kills"
-      - "&3--------------------------------"
+      - "&7---------- %prefix% &7----------"
+      - " &a+%money-for-lose% &fcoins for lose"
+      - " &a+%money-for-kills% &fcoins for kills"
+      - " &a+%uhc-exp-for-lose% &fexp for lose"
+      - " &a+%uhc-exp-for-kills% &fexp for kills"
+      - "&7--------------------------------"
 
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 

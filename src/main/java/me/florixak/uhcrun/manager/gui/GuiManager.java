@@ -5,6 +5,7 @@ import me.florixak.uhcrun.game.kits.KitsGui;
 import me.florixak.uhcrun.teams.TeamGui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GuiManager {
 
@@ -27,5 +28,9 @@ public class GuiManager {
         }
         UHCRun.getInstance().getLogger().info("Gui " + gui_name + " does not exist!");
         return null;
+    }
+
+    public List<Gui> getInventories() {
+        return this.guis;
     }
 }

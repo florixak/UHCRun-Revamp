@@ -46,7 +46,7 @@ public final class UHCRun extends JavaPlugin {
     public void onEnable() {
 
         getLogger().info(getDescription().getName());
-        getLogger().info("Author: " + getAuthors());
+        getLogger().info("Author: " + getAuthor());
         getLogger().info("Web: www.florixak.tk");
         getLogger().info("Version: " + getDescription().getVersion());
 
@@ -63,7 +63,7 @@ public final class UHCRun extends JavaPlugin {
         return plugin;
     }
 
-    public String getAuthors() {
+    public String getAuthor() {
         return "FloriXak";
     }
 
@@ -74,7 +74,7 @@ public final class UHCRun extends JavaPlugin {
     private void registerDependency() {
         if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("settings.addons.use-Vault", true)) {
             if (!setupVault()) {
-                UHCRun.getInstance().getLogger().info(TextUtils.color("&cNo economy plugin found. Disabling UHCRun."));
+                UHCRun.getInstance().getLogger().info(TextUtils.color("&cVault plugin not found."));
                 return;
             }
             UHCRun.getInstance().getLogger().info(TextUtils.color("&aVault plugin found."));
