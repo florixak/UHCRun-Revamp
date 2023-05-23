@@ -7,6 +7,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
+import me.florixak.uhcrun.game.deathmatch.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.manager.gui.GuiManager;
@@ -14,6 +15,7 @@ import me.florixak.uhcrun.game.kits.KitsManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
+import me.florixak.uhcrun.manager.oreGen.OreGenManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
@@ -61,6 +63,8 @@ public class GameManager {
     private SoundManager soundManager;
     private RecipeManager recipeManager;
     private DeathChestManager deathChestManager;
+    private DeathmatchManager deathmatchManager;
+    private OreGenManager oreGenManager;
 
     private Utils utils;
     private TeleportUtils teleportUtils;
@@ -83,9 +87,11 @@ public class GameManager {
         this.guiManager = new GuiManager();
         this.customDropManager = new CustomDropManager(this);
         this.taskManager = new TaskManager(this);
+        this.deathChestManager = new DeathChestManager(this);
+        this.deathmatchManager = new DeathmatchManager(this);
+        this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager();
-        this.deathChestManager = new DeathChestManager(this);
 
         this.utils = new Utils(this);
         this.teleportUtils = new TeleportUtils(this);
@@ -104,7 +110,10 @@ public class GameManager {
         connectToDatabase();
 
         getBorderManager().setBorder();
-        generateOres();
+
+        getOreGenManager().loadOres();
+        getOreGenManager().generateOres();
+        getDeathmatchManager().loadDeathmatch();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadCustomDrops();
@@ -140,17 +149,14 @@ public class GameManager {
             case MINING:
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
-                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.getPlayer().teleport(TeleportUtils.teleportToSafeLocation()));
-                getPlayerManager().getAlivePlayers().stream()
-                        .filter(uhcPlayer -> uhcPlayer.hasKit())
-                        .forEach(uhcPlayer -> uhcPlayer.getKit().getKit(uhcPlayer));
+                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.count)));
                 break;
 
             case FIGHTING:
                 if (isTeleportAfterMining()) {
-                    getTeamManager().teleportAfterMining();
+                    getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 }
                 getTaskManager().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
@@ -160,6 +166,8 @@ public class GameManager {
             case DEATHMATCH:
                 getTaskManager().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
+                getBorderManager().setSize(getDeathmatchManager().getDeathmatch().getBorderSize());
+                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
                 break;
 
@@ -179,8 +187,10 @@ public class GameManager {
         getDeathChestManager().onDisable();
         getTaskManager().onDisable();
         disconnectDatabase();
+    }
 
-        // getWorldManager().createNewWorld();
+    public boolean isPlaying() {
+        return gameState.equals(GameState.MINING) || gameState.equals(GameState.FIGHTING) || gameState.equals(GameState.DEATHMATCH);
     }
 
     public World getGameWorld() {
@@ -197,9 +207,6 @@ public class GameManager {
     }
     public boolean isTeleportAfterMining() {
         return config.getBoolean("settings.game.teleport-after-mining", true);
-    }
-    public boolean isDeathmatchEnabled() {
-        return config.getBoolean("settings.deathmatch.enabled", true);
     }
     public boolean areKitsEnabled() {
         return config.getBoolean("settings.kits.enabled", true);
@@ -222,11 +229,16 @@ public class GameManager {
     public boolean isRandomDrop() {
         return config.getBoolean("settings.game.random-drops", false);
     }
-
-    public boolean isPlaying() {
-        return (gameState == GameState.MINING) || (gameState == GameState.FIGHTING) || (gameState == GameState.DEATHMATCH);
+    public boolean isNetherAllowed() {
+        return config.getBoolean("settings.game.allow-nether", false);
     }
 
+    public MySQL getSQL() {
+        return this.mysql;
+    }
+    public SQLGetter getData() {
+        return this.data;
+    }
     private void connectToDatabase() {
         String path = "settings.MySQL";
         if (!config.getBoolean( path + ".enabled", false)) return;
@@ -242,7 +254,7 @@ public class GameManager {
         this.data.createTable();
     }
     private void disconnectDatabase() {
-        if (config.getBoolean("settings.MySQL.enabled", true)) {
+        if (config.getBoolean("settings.MySQL.enabled", false)) {
             mysql.disconnect();
         }
     }
@@ -304,27 +316,6 @@ public class GameManager {
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
-    public void generateOres() {
-        World world = getGameWorld();
-        Random random = new Random();
-        int border = (int) getBorderManager().getSize();
-
-        OreGeneratorUtils.generateOre(XMaterial.COAL_ORE.parseMaterial(), world, random.nextInt(3)+3, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.IRON_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.GOLD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.REDSTONE_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.DIAMOND_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.EMERALD_ORE.parseMaterial(), world, random.nextInt(3)+2, 400, border);
-        OreGeneratorUtils.generateOre(XMaterial.OBSIDIAN.parseMaterial(), world, random.nextInt(3)+2, 300, border);
-    }
-
-    public MySQL getSQL() {
-        return this.mysql;
-    }
-    public SQLGetter getData() {
-        return this.data;
-    }
-
     public static GameManager getGameManager() {
         return gameManager;
     }
@@ -368,6 +359,12 @@ public class GameManager {
     }
     public DeathChestManager getDeathChestManager() {
         return deathChestManager;
+    }
+    public DeathmatchManager getDeathmatchManager() {
+        return deathmatchManager;
+    }
+    public OreGenManager getOreGenManager() {
+        return oreGenManager;
     }
 
     public Utils getUtils() {

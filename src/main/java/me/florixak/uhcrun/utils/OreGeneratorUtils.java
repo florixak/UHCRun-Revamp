@@ -28,12 +28,12 @@ public class OreGeneratorUtils {
         bad_blocks.add(XMaterial.DIRT.parseMaterial());
     }
 
-    public static void generateOre(Material material, World world, int maxVein, int spawnAmount, int borderSize) {
+    public static void generateOre(Material material, World world, int minVein, int maxVein, int spawnAmount, int borderSize) {
         Location loc;
         for (int i = 0; i < spawnAmount; i++) {
             loc = generateOreLocation(world, borderSize);
             world.getBlockAt(loc).setType(material);
-            generateVein(material, world.getBlockAt(loc), maxVein);
+            generateVein(material, world.getBlockAt(loc), minVein + (int)(Math.random() * (maxVein-minVein+1)));
         }
     }
 

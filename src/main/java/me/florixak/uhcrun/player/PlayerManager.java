@@ -3,6 +3,7 @@ package me.florixak.uhcrun.player;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
+import me.florixak.uhcrun.utils.TeleportUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -111,6 +112,10 @@ public class PlayerManager {
             gameManager.getTeamManager().addTeam(uhcTeam);
             uhcPlayer.setTeam(uhcTeam);
         }
+
+        if (uhcPlayer.hasKit()) {
+            uhcPlayer.getKit().getKit(uhcPlayer);
+        }
     }
 
     public void setSpectator(UHCPlayer uhcPlayer) {
@@ -144,11 +149,22 @@ public class PlayerManager {
     }
 
     public void teleport(Player p) {
+        UHCPlayer uhcPlayer = getUHCPlayer(p.getUniqueId());
+        UHCTeam uhcTeam = uhcPlayer.getTeam();
 
         switch (gameManager.getGameState()) {
             case LOBBY:
             case STARTING:
                 p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
+                break;
+            case MINING:
+                uhcTeam.teleport(TeleportUtils.getSafeLocation());
+                break;
+            case FIGHTING:
+                gameManager.getTeamManager().teleportAfterMining();
+                break;
+            case DEATHMATCH:
+                uhcTeam.teleport(gameManager.getDeathmatchManager().getTeleportLocation());
                 break;
             case ENDING:
                 p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));

@@ -2,7 +2,6 @@ package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -47,7 +46,7 @@ public class TeleportUtils {
         return randomLocation;
     }
 
-    public static Location teleportToSafeLocation(){
+    public static Location getSafeLocation(){
 
         Location randomLocation = generateLocation();
 

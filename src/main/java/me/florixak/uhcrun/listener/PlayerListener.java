@@ -71,6 +71,11 @@ public class PlayerListener implements Listener {
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
             gameManager.getPlayerManager().removePlayer(uhcPlayer);
+        } else {
+            if (!gameManager.areStatisticsAddedOnEnd()) {
+                uhcPlayer.getData().addLose(1);
+                uhcPlayer.getData().addDeaths(1);
+            }
         }
     }
 
@@ -112,7 +117,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void disablePortals(PlayerTeleportEvent event) {
-        if (event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
+        if (!gameManager.isNetherAllowed() && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             event.setCancelled(true);
         }
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {

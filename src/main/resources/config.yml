@@ -1,7 +1,7 @@
 # Hello, I have just made this UHCRun plugin for fun.
 # I am going to improve some things in the future.
 # I hope you will like it!
-# If you have problem contact me: www.florixak.tk
+# If you have problems contact me: www.florixak.tk
 
 # This is main configuration file of UHCRun
 
@@ -9,19 +9,20 @@ settings:
 
   # Expanding plugins
   addons:
-    use-Vault: true
+    use-Vault: false
     use-LuckPerms: false
     use-ProtocolLib: true
     use-PlaceholderAPI: true
 
   # Game
   game:
-    auto-map-reset: true
+    auto-map-reset: true # name of map is "world"
+    allow-nether: false
 
     min-players-to-start: 2
+    warning-time-at: 10 # start at <_> seconds
 
     teleport-after-mining: true
-    warning-time-at: 10 # start at <_> seconds
 
     # Countdowns
     countdowns:
@@ -32,7 +33,7 @@ settings:
       ending: 15 # seconds
 
     projectile-hit-hp: true
-    no-explosions: false
+    no-explosions: false # global disable of explosions
     explode-block-destroy: true
 
     # Damage cause list:
@@ -57,8 +58,12 @@ settings:
   deathmatch:
     enabled: true
     start-at: 3 # players, if -1 then automatic
-    custom-deathmatch: false # needs to be set location, (default: 0, 70, 0)
-    border-size: 50
+    border-size: 25.0
+    location:
+      world: "world"
+      x: 0.0
+      y: 75.0
+      z: 0.0
 
   # Border
   border:

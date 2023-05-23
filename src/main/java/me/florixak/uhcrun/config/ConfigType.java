@@ -10,5 +10,6 @@ public enum ConfigType {
     TEAMS,
     KITS,
     PERKS,
-    CUSTOM_DROPS
+    CUSTOM_DROPS,
+    ORE_GENERATION
 }
