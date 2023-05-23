@@ -5,29 +5,29 @@
 
 teams:
   A:
-    display-item: LIME_WOOL
+    display-item: LIME_DYE
     color: "&a"
   B:
-    display-item: YELLOW_WOOL
+    display-item: MAGENTA_DYE
     color: "&e"
   C:
-    display-item: RED_WOOL
+    display-item: WHITE_DYE
     color: "&c"
   D:
-    display-item: MAGENTA_WOOL
+    display-item: ORANGE_DYE
     color: "&5"
   E:
-    display-item: WHITE_WOOL
+    display-item: BLUE_DYE
     color: "&f"
   F:
-    display-item: GREEN_WOOL
+    display-item: GREEN_DYE
     color: "&2"
   G:
-    display-item: BLACK_WOOL
+    display-item: RED_DYE
     color: "&0"
   H:
-    display-item: WHITE_WOOL
+    display-item: CYAN_DYE
     color: "&f"
   I:
-    display-item: WHITE_WOOL
-    color: "&f"
+    display-item: PINK_DYE
+    color: "&d"

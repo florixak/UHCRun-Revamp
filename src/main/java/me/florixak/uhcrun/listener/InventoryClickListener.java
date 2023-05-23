@@ -44,7 +44,7 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
                 p.closeInventory();
 
-                if (event.getCurrentItem().getType().equals(team.getDisplayItem())) {
+                if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(team.getDisplayName()))) {
 
                     uhcPlayer.setTeam(team);
                     uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()

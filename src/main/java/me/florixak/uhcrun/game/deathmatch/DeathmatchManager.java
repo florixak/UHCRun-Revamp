@@ -68,9 +68,9 @@ public class DeathmatchManager {
         Location loc = getDeathmatch().getLocation();
 
         return new Location(loc.getWorld(),
-                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-(int)getDeathmatch().getBorderSize(),
+                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-((int)getDeathmatch().getBorderSize()-1),
                 loc.getWorld().getHighestBlockYAt(loc),
-                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-(int)getDeathmatch().getBorderSize()
+                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-((int)getDeathmatch().getBorderSize()-1)
         );
     }
 

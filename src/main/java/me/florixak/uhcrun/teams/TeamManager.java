@@ -42,7 +42,7 @@ public class TeamManager {
         }
 
         for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
-            Material display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-time"))
+            Material display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item"))
                     .get().parseMaterial();
             String color = teams_config.getString("teams." + teamName + ".color");
             UHCTeam team = new UHCTeam(display_item, teamName, color, max_size);

@@ -212,9 +212,9 @@ public class PlayerData {
             for (String message : Messages.LOSE_REWARDS.toList()) {
 
                 message = message
-                        .replace("%money-for-win%", String.valueOf(moneyForGameResult))
+                        .replace("%money-for-lose%", String.valueOf(moneyForGameResult))
                         .replace("%money-for-kills%", String.valueOf(moneyForKills))
-                        .replace("%uhc-exp-for-win%", String.valueOf(uhcExpForGameResult))
+                        .replace("%uhc-exp-for-lose%", String.valueOf(uhcExpForGameResult))
                         .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForGameResult));
                 uhcPlayer.sendMessage(TextUtils.color(message));
             }
