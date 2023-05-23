@@ -1,13 +1,33 @@
-
-# {team_name}: {color}
+# Team creating example:
+# {team_name}:
+#   display-item: {item}
+#   color: {color}
 
 teams:
-  A: "&a"
-  B: "&b"
-  C: "&c"
-  D: "&f"
-  E: "&d"
-  F: "&e"
-  G: "&6"
-  H: "&9"
-  I: "&3"
+  A:
+    display-item: LIME_WOOL
+    color: "&a"
+  B:
+    display-item: YELLOW_WOOL
+    color: "&e"
+  C:
+    display-item: RED_WOOL
+    color: "&c"
+  D:
+    display-item: MAGENTA_WOOL
+    color: "&5"
+  E:
+    display-item: WHITE_WOOL
+    color: "&f"
+  F:
+    display-item: GREEN_WOOL
+    color: "&2"
+  G:
+    display-item: BLACK_WOOL
+    color: "&0"
+  H:
+    display-item: WHITE_WOOL
+    color: "&f"
+  I:
+    display-item: WHITE_WOOL
+    color: "&f"

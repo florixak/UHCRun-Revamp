@@ -40,25 +40,27 @@ public class KitsManager {
             List<ItemStack> items = new ArrayList<>();
             Material display_item = Material.ITEM_FRAME;
             double cost = 0;
-            for (String item : kits_config.getConfigurationSection("kits." + kitName).getKeys(false)) {
-                if (item.equalsIgnoreCase("display-item")) {
-                    display_item = XMaterial.matchXMaterial(kits_config.getString("kits." + kitName + "." + item).toUpperCase()).get().parseMaterial();
-                } else if (item.equalsIgnoreCase("cost")) {
-                    cost = kits_config.getDouble("kits." + kitName + "." + item);
-                } else {
-                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
-                    int amount = kits_config.getInt("kits." + kitName + "." + item + ".amount");
+            for (String param : kits_config.getConfigurationSection("kits." + kitName).getKeys(false)) {
+                if (param.equalsIgnoreCase("display-item")) {
+                    display_item = XMaterial.matchXMaterial(kits_config.getString("kits." + kitName + "." + param).toUpperCase()).get().parseMaterial();
+                } else if (param.equalsIgnoreCase("cost")) {
+                    cost = kits_config.getDouble("kits." + kitName + "." + param);
+                } else if (param.equalsIgnoreCase("items")) {
+                    for (String item : kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false)) {
+                        ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
+                        int amount = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".amount");
 
-                    ItemStack newI = ItemUtils.createItem(i, null, amount, null);
-                    if (kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments") != null) {
-                        for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + item + ".enchantments").getKeys(false)) {
-                            String enchantment = enchant.toUpperCase();
-                            Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                            int level = kits_config.getInt("kits." + kitName + "." + item + ".enchantments." + enchantment);
-                            ItemUtils.addEnchant(newI, e, level, true);
+                        ItemStack newI = ItemUtils.createItem(i, null, amount, null);
+                        if (kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments") != null) {
+                            for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments").getKeys(false)) {
+                                String enchantment = enchant.toUpperCase();
+                                Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                                int level = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".enchantments." + enchantment);
+                                ItemUtils.addEnchant(newI, e, level, true);
+                            }
                         }
+                        items.add(newI);
                     }
-                    items.add(newI);
                 }
             }
             Kit kit = new Kit(kitName, display_item, cost, items);

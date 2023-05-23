@@ -74,6 +74,7 @@ public class DeathmatchManager {
         );
     }
 
-
-
+    public int getPVPResistCD() {
+        return config.getInt(path + ".pvp-resistance");
+    }
 }

@@ -4,7 +4,9 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -40,8 +42,10 @@ public class TeamManager {
         }
 
         for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
-            String color = teams_config.getString("teams." + teamName);
-            UHCTeam team = new UHCTeam(teamName, color, max_size);
+            Material display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-time"))
+                    .get().parseMaterial();
+            String color = teams_config.getString("teams." + teamName + ".color");
+            UHCTeam team = new UHCTeam(display_item, teamName, color, max_size);
             this.teams.add(team);
         }
     }

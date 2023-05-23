@@ -59,6 +59,7 @@ settings:
     enabled: true
     start-at: 3 # players, if -1 then automatic
     border-size: 25.0
+    pvp-resistance: 10 # seconds
     location:
       world: "world"
       x: 0.0

@@ -1,60 +1,75 @@
+#
+# Kit creating example:
+# {kit_name}:
+#   display-item: {item}
+#   cost: {cost}
+#   items:
+#     {ITEM_NAME}:
+#         amount: {amount}
+#         enchantments:
+#           {ENCHANT_NAME}: {enchant_level}
+#
+
 kits:
   Starter:
     display-item: WOODEN_PICKAXE
     cost: 0
-    WOODEN_AXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
-    WOODEN_PICKAXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
-    WOODEN_SHOVEL:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
+    items:
+      WOODEN_AXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      WOODEN_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      WOODEN_SHOVEL:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
   Miner:
     display-item: DIAMOND_PICKAXE
     cost: 100
-    DIAMOND_AXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
-    DIAMOND_PICKAXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
-    DIAMOND_SHOVEL:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 3
-        DURABILITY: 3
-    COOKED_PORKCHOP:
-      amount: 16
+    items:
+      DIAMOND_AXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      DIAMOND_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      DIAMOND_SHOVEL:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      COOKED_PORKCHOP:
+        amount: 16
   Librarian:
     display-item: ENCHANTED_BOOK
     cost: 100
-    STONE_AXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 1
-        DURABILITY: 1
-    STONE_PICKAXE:
-      amount: 1
-      enchantments:
-        DIG_SPEED: 1
-        DURABILITY: 1
-    ENCHANTING_TABLE:
-      amount: 1
-    BOOKSHELF:
-      amount: 15
-    BOOK:
-      amount: 9
-    EXPERIENCE_BOTTLE:
-      amount: 32
+    items:
+      STONE_AXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 1
+          DURABILITY: 1
+      STONE_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 1
+          DURABILITY: 1
+      ENCHANTING_TABLE:
+        amount: 1
+      BOOKSHELF:
+        amount: 15
+      BOOK:
+        amount: 9
+      EXPERIENCE_BOTTLE:
+        amount: 32

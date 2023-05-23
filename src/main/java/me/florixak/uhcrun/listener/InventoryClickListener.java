@@ -33,21 +33,22 @@ public class InventoryClickListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         Inventory inv = event.getClickedInventory();
 
-        if (inv.equals(p.getInventory())) {
+        if (event.getInventory().equals(p.getInventory())) {
+            event.setCancelled(true);
             return;
         }
+
         if (inv.equals(gameManager.getGuiManager().getInventory("teams").getInventory())) {
 
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
                 event.setCancelled(true);
                 p.closeInventory();
 
-                if (event.getCurrentItem().hasItemMeta() &&
-                        event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(team.getDisplayName())) {
+                if (event.getCurrentItem().getType().equals(team.getDisplayItem())) {
 
                     uhcPlayer.setTeam(team);
                     uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
-                            .replace("%kit%", TextUtils.color(team.getDisplayName())));
+                            .replace("%team%", TextUtils.color(team.getDisplayName())));
                 }
             }
         }

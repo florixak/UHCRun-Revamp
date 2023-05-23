@@ -32,7 +32,7 @@ public class TeamGui extends Gui {
             for (UHCPlayer member : team.getMembers()) {
                 lore.add(TextUtils.color("&f" + member.getName()));
             }
-            item = this.createItem(Material.PAPER, "&l" + team.getDisplayName(), lore);
+            item = this.createItem(team.getDisplayItem(), "&l" + team.getDisplayName(), lore);
 
             getInventory().setItem(i, item);
         }
