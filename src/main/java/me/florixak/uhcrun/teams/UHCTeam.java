@@ -112,9 +112,6 @@ public class UHCTeam {
 
         getMembers().add(uhcPlayer);
         uhcPlayer.setTeam(this);
-        uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
-                .replace("%player%", uhcPlayer.getName())
-                .replace("%team%", TextUtils.color(getDisplayName())));
     }
     public void leave(UHCPlayer uhcPlayer) {
 

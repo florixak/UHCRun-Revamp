@@ -145,14 +145,14 @@ public class GameManager {
             case MINING:
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
-                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
+                getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.count)));
                 break;
 
             case FIGHTING:
                 if (isTeleportAfterMining()) {
-                    getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
+                    getTeamManager().teleportAfterMining();
                 }
                 getTaskManager().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
@@ -163,7 +163,7 @@ public class GameManager {
                 getTaskManager().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 getBorderManager().setSize(getDeathmatchManager().getDeathmatchBorderSize());
-                getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
+                getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getDeathmatchManager().getTeleportLocation()));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
                 break;
 
@@ -171,6 +171,8 @@ public class GameManager {
                 getTaskManager().startEndingCD();
                 setUHCWinner();
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
+                getPlayerManager().getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isOnline())
+                        .forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
                 break;

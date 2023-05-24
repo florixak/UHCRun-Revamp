@@ -27,9 +27,9 @@ settings:
     # Countdowns
     countdowns:
       starting: 15 # seconds
-      mining: 15 # seconds
-      fighting: 20 # seconds
-      deathmatch: 20 # seconds
+      mining: 30 # seconds
+      fighting: 30 # seconds
+      deathmatch: 30 # seconds
       ending: 15 # seconds
 
     projectile-hit-hp: true
@@ -195,7 +195,7 @@ settings:
 
     lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
     in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
-    dead-format: "&7[SPECTATOR] &8[%uhc-level%] %team% &8%player% » %message%"
+    dead-format: "&7[SPECTATOR] &8[%uhc-level%] %team% &7%player% » %message%"
 
     blocked-commands:
       - /pl

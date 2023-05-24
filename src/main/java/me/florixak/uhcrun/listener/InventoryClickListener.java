@@ -48,7 +48,7 @@ public class InventoryClickListener implements Listener {
 
                 if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
                     p.closeInventory();
-                    uhcPlayer.setTeam(team);
+                    team.join(uhcPlayer);
                     uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
                             .replace("%team%", TextUtils.color(team.getDisplayName())));
                 }

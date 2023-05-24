@@ -149,22 +149,11 @@ public class PlayerManager {
     }
 
     public void teleport(Player p) {
-        UHCPlayer uhcPlayer = getUHCPlayer(p.getUniqueId());
-        UHCTeam uhcTeam = uhcPlayer.getTeam();
 
         switch (gameManager.getGameState()) {
             case LOBBY:
             case STARTING:
                 p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
-                break;
-            case MINING:
-                uhcTeam.teleport(TeleportUtils.getSafeLocation());
-                break;
-            case FIGHTING:
-                gameManager.getTeamManager().teleportAfterMining();
-                break;
-            case DEATHMATCH:
-                uhcTeam.teleport(gameManager.getDeathmatchManager().getTeleportLocation());
                 break;
             case ENDING:
                 p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));

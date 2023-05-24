@@ -56,13 +56,12 @@ public class DeathmatchManager {
     }
 
     public Location getTeleportLocation() {
-        Random ran = new Random();
         Location loc = getDeathmatchLocation();
 
         return new Location(loc.getWorld(),
-                (loc.getX()+ran.nextInt((int)(getDeathmatchBorderSize()))-((int)getDeathmatchBorderSize()-2))-2,
+                (loc.getX() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getX()+5)))/2,
                 loc.getWorld().getHighestBlockYAt(loc),
-                (loc.getX()+ran.nextInt((int)(getDeathmatchBorderSize()))-((int)getDeathmatchBorderSize()-2))-2
+                (loc.getZ() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getZ()+5)))/2
         );
     }
 
