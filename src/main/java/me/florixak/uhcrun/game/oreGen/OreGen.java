@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.manager.oreGen;
+package me.florixak.uhcrun.game.oreGen;
 
 import org.bukkit.Material;
 

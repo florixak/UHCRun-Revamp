@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.manager.oreGen;
+package me.florixak.uhcrun.game.oreGen;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
@@ -32,12 +32,19 @@ public class OreGenManager {
         }
 
         for (String materialN : ore_gen_config.getConfigurationSection("ore-generation").getKeys(false)) {
-            Material material = XMaterial.matchXMaterial(materialN).get().parseMaterial();
-            int spawnAmount = ore_gen_config.getInt("ore-generation." + materialN + ".spawn-amount");
-            int minVein = ore_gen_config.getInt("ore-generation." + materialN + ".min-vein");
-            int maxVein = ore_gen_config.getInt("ore-generation." + materialN + ".max-vein");
+            Material material = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial() != null
+                    ? XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial() : XMaterial.STONE.parseMaterial();
 
-            if (minVein <= 0 || maxVein <= 0) return;
+            if (canSkip(material)) {
+                System.out.println("[POTOM SMAZAT] - " + materialN + " is doubled! skipping material");
+                return;
+            }
+
+            int spawnAmount = ore_gen_config.getInt("ore-generation." + materialN + ".spawn-amount", 0);
+            int minVein = ore_gen_config.getInt("ore-generation." + materialN + ".min-vein", 0);
+            int maxVein = ore_gen_config.getInt("ore-generation." + materialN + ".max-vein", 0);
+
+            if (minVein <= 0 || maxVein <= 0 || spawnAmount <= 0) return;
             if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
 
             OreGen oreGen = new OreGen(material, spawnAmount, minVein, maxVein);
@@ -49,7 +56,19 @@ public class OreGenManager {
         return this.oreGenList;
     }
 
+    private boolean canSkip(Material material) {
+        for (OreGen oreGen : oreGenList) {
+            if (oreGen.getMaterial().equals(material)
+                    || material.equals(XMaterial.STONE.parseMaterial())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void generateOres() {
+        loadOres();
+
         for (OreGen oreGen : getOreGens()) {
             OreGeneratorUtils.generateOre(oreGen.getMaterial(),
                     gameManager.getGameWorld(),

@@ -28,9 +28,9 @@ ore-generation:
     max-vein: 5
   EMERALD_ORE:
     spawn-amount: 400
-    min-vein: 1
+    min-vein: 2
     max-vein: 5
   OBSIDIAN:
     spawn-amount: 300
-    min-vein: 1
+    min-vein: 2
     max-vein: 3

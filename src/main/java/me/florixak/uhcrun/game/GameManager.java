@@ -15,7 +15,7 @@ import me.florixak.uhcrun.game.kits.KitsManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
-import me.florixak.uhcrun.manager.oreGen.OreGenManager;
+import me.florixak.uhcrun.game.oreGen.OreGenManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
@@ -109,7 +109,6 @@ public class GameManager {
 
         getBorderManager().setBorder();
 
-        getOreGenManager().loadOres();
         getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();

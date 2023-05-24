@@ -47,7 +47,8 @@ public class KitsManager {
                     cost = kits_config.getDouble("kits." + kitName + "." + param, 0);
                 } else if (param.equalsIgnoreCase("items")) {
                     for (String item : kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false)) {
-                        ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
+                        ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null
+                                ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
                         int amount = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".amount", 1);
 
                         ItemStack newI = ItemUtils.createItem(i, null, amount, null);
@@ -86,15 +87,10 @@ public class KitsManager {
         return "&fCost: &e" + (kit.isFree() ? "&aFREE" : kit.getCost());
     }
 
-    public boolean isBlock(Material block) {
-        return block.isBlock();
-    }
-
     public int getOpenWhenStartingAt() {
         return this.openWhenStartingAt;
     }
-
-    public boolean openWhenStarting() {
+    public boolean canOpenWhenStarting() {
         return this.openWhenStartingAt != -1;
     }
 

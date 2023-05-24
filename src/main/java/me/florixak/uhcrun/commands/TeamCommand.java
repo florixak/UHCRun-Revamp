@@ -21,7 +21,10 @@ public class TeamCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!(sender instanceof Player)) return true;
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.ONLY_PLAYER.toString());
+            return true;
+        }
 
         Player p = (Player) sender;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
@@ -29,7 +32,7 @@ public class TeamCommand implements CommandExecutor {
         Gui teams_gui = gameManager.getGuiManager().getInventory("teams");
 
         if (args.length == 0) {
-            gameManager.getGuiManager().getInventory("teams").openInv(p);
+            teams_gui.openInv(p);
             return true;
         }
 

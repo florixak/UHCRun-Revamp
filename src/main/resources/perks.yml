@@ -1,1 +1,5 @@
 perks:
+  Killer:
+    display-item: IRON_SWORD
+    cost: 100
+    actions: [ "[EFFECT] STRENGTH 5 1" ]
