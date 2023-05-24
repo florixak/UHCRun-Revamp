@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.deathmatch;
+package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
@@ -14,8 +14,6 @@ public class DeathmatchManager {
     private FileConfiguration config;
     private String path;
 
-    private Deathmatch deathmatch;
-
     public DeathmatchManager(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
@@ -23,21 +21,13 @@ public class DeathmatchManager {
         this.path = "settings.deathmatch";
     }
 
-    public void loadDeathmatch() {
-        if (!isDeathmatchEnabled()) return;
+    public Location getDeathmatchLocation() {
 
-        Location loc = new Location(
+        return new Location(
                 Bukkit.getWorld(config.getString(path + ".location.world", "world")),
                 config.getDouble(path + ".location.x", 0.0),
                 config.getDouble(path + ".location.y", 75.0),
-                config.getDouble(path + ".location.z", 0.0)
-        );
-
-        this.deathmatch = new Deathmatch(loc, getDeathmatchBorderSize());
-    }
-
-    public Deathmatch getDeathmatch() {
-        return deathmatch;
+                config.getDouble(path + ".location.z", 0.0));
     }
 
     public void setDeathmatchLocation(Location location) {
@@ -47,16 +37,18 @@ public class DeathmatchManager {
         config.set(path + ".location.y", location.getY());
         config.set(path + ".location.z", location.getZ());
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).save();
+    }
 
-        if (deathmatch == null) {
-            this.deathmatch = new Deathmatch(location, getDeathmatchBorderSize());
-        } else {
-            this.deathmatch.setLocation(location);
-        }
+    public void resetDeathmatchLocation() {
+        config.set(path + ".location.world", "world");
+        config.set(path + ".location.x", 0.0);
+        config.set(path + ".location.y", 75.0);
+        config.set(path + ".location.z", 0.0);
+        GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).save();
     }
 
     public double getDeathmatchBorderSize() {
-        return config.getDouble(path + ".border-size", 50.0);
+        return config.getDouble(path + ".border-size", 25.0);
     }
 
     public boolean isDeathmatchEnabled() {
@@ -65,12 +57,12 @@ public class DeathmatchManager {
 
     public Location getTeleportLocation() {
         Random ran = new Random();
-        Location loc = getDeathmatch().getLocation();
+        Location loc = getDeathmatchLocation();
 
         return new Location(loc.getWorld(),
-                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-((int)getDeathmatch().getBorderSize()-1),
+                loc.getX()+ran.nextInt((int)(getDeathmatchBorderSize()*2))-((int)getDeathmatchBorderSize()-1),
                 loc.getWorld().getHighestBlockYAt(loc),
-                loc.getX()+ran.nextInt((int)(getDeathmatch().getBorderSize()*2))-((int)getDeathmatch().getBorderSize()-1)
+                loc.getX()+ran.nextInt((int)(getDeathmatchBorderSize()*2))-((int)getDeathmatchBorderSize()-1)
         );
     }
 

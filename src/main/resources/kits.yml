@@ -73,3 +73,45 @@ kits:
         amount: 9
       EXPERIENCE_BOTTLE:
         amount: 32
+  Healer:
+    display-item: GOLDEN_APPLE
+    cost: 30
+    items:
+      STONE_AXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 2
+          DURABILITY: 2
+      IRON_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 3
+          DURABILITY: 3
+      GOLDEN_APPLE:
+        amount: 3
+  Teleporter:
+    display-item: ENDER_PEARL
+    cost: 80
+    items:
+      IRON_SWORD:
+        amount: 1
+        enchantments:
+          DAMAGE_ALL: 1
+          DURABILITY: 2
+      STONE_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 2
+          DURABILITY: 2
+      ENDER_PEARL:
+        amount: 5
+      LEATHER_HELMET:
+        amount: 1
+        enchantments:
+          PROTECTION_ENVIRONMENTAL: 2
+          DURABILITY: 3
+      LEATHER_BOOTS:
+        amount: 1
+        enchantments:
+          PROTECTION_FALL: 3
+          DURABILITY: 3

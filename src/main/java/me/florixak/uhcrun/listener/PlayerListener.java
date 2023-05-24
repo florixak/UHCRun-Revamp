@@ -26,7 +26,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void handleJoin(PlayerJoinEvent event) {
 
         Player p = event.getPlayer();
         event.setJoinMessage(null);
@@ -59,7 +59,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
+    public void handleQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         event.setQuitMessage(null);
@@ -80,7 +80,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
+    public void handleDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
 
         UHCPlayer uhcKiller = null;
@@ -98,7 +98,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event) {
+    public void handleItemDrop(PlayerDropItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
         if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
@@ -107,7 +107,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onItemPickUp(PlayerPickupItemEvent event) {
+    public void handleItemPickUp(PlayerPickupItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
         if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
@@ -116,7 +116,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void disablePortals(PlayerTeleportEvent event) {
+    public void handlePortals(PlayerTeleportEvent event) {
         if (!gameManager.isNetherAllowed() && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             event.setCancelled(true);
         }

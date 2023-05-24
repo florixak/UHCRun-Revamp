@@ -41,7 +41,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", 0);
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-exp", setRequiredUHCExp());
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", setRequiredUHCExp());
 
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
@@ -80,7 +80,7 @@ public class PlayerData {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level")-1;
     }
     public int getRequiredUHCExp() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".required-exp");
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp");
     }
     public double setRequiredUHCExp() {
         double totalRequiredExp = 0;
@@ -98,8 +98,8 @@ public class PlayerData {
 
     public void addUHCLevel(int level) {
 
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-exp", setRequiredUHCExp());
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".level", getUHCLevel()+level);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", setRequiredUHCExp());
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+level);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         // gameManager.getSoundManager().playLevelUP(player.getPlayer());
@@ -112,7 +112,7 @@ public class PlayerData {
     }
     public void addUHCExp(double exp) {
 
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-exp", getRequiredUHCExp()-exp);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()-exp);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         /*if (exp >= getRequiredExp()) {
@@ -122,7 +122,7 @@ public class PlayerData {
         if (getRequiredUHCExp() <= 0) {
             double over = Math.abs(getRequiredUHCExp());
             addUHCLevel(1);
-            player_data.set("player-data." + uhcPlayer.getUUID() + ".required-exp", getRequiredUHCExp()-over);
+            player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()-over);
             GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
         }
     }

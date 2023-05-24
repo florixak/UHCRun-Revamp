@@ -7,7 +7,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
-import me.florixak.uhcrun.game.deathmatch.DeathmatchManager;
+import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.manager.gui.GuiManager;
@@ -24,7 +24,6 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.utils.*;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -33,7 +32,6 @@ import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GameManager {
 
@@ -113,7 +111,6 @@ public class GameManager {
 
         getOreGenManager().loadOres();
         getOreGenManager().generateOres();
-        getDeathmatchManager().loadDeathmatch();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadCustomDrops();
@@ -166,7 +163,7 @@ public class GameManager {
             case DEATHMATCH:
                 getTaskManager().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
-                getBorderManager().setSize(getDeathmatchManager().getDeathmatch().getBorderSize());
+                getBorderManager().setSize(getDeathmatchManager().getDeathmatchBorderSize());
                 getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
                 break;

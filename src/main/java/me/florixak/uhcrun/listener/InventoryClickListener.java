@@ -7,11 +7,13 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class InventoryClickListener implements Listener {
 
@@ -24,28 +26,27 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void handleInventoryClick(InventoryClickEvent event) {
 
-        if (event.getClickedInventory() == null
-                || event.getCurrentItem() == null
-                || event.getCurrentItem().getType().equals(XMaterial.AIR.parseMaterial())) {
+        if (event.getClickedInventory() == null || isNull(event.getCurrentItem())) {
             return;
         }
+
         Player p = (Player) event.getWhoClicked();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         Inventory inv = event.getClickedInventory();
 
-        if (event.getInventory().equals(p.getInventory())) {
+        if (!gameManager.isPlaying()) {
             event.setCancelled(true);
-            return;
         }
 
         if (inv.equals(gameManager.getGuiManager().getInventory("teams").getInventory())) {
+            event.setCancelled(true);
+
+            if (gameManager.isPlaying()) return;
 
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
-                event.setCancelled(true);
-                p.closeInventory();
 
-                if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(team.getDisplayName()))) {
-
+                if (event.getCurrentItem().getItemMeta().getDisplayName().contains(team.getDisplayName())) {
+                    p.closeInventory();
                     uhcPlayer.setTeam(team);
                     uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
                             .replace("%team%", TextUtils.color(team.getDisplayName())));
@@ -54,18 +55,23 @@ public class InventoryClickListener implements Listener {
         }
 
         if (inv.equals(gameManager.getGuiManager().getInventory("kits").getInventory())) {
+            event.setCancelled(true);
+
+            if (gameManager.isPlaying()) return;
 
             for (Kit kit : gameManager.getKitsManager().getKits()) {
-                event.setCancelled(true);
-                p.closeInventory();
 
                 if (event.getCurrentItem().getType().equals(kit.getDisplayItem())) {
-
+                    p.closeInventory();
                     uhcPlayer.setKit(kit);
                     uhcPlayer.sendMessage(Messages.KITS_SELECTED.toString()
                             .replace("%kit%", TextUtils.color(kit.getName())));
                 }
             }
         }
+    }
+
+    private boolean isNull(ItemStack item) {
+        return item == null || item.getType().equals(XMaterial.AIR.parseMaterial());
     }
 }
