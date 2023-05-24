@@ -5,7 +5,7 @@
 
 teams:
   A:
-    display-item: LIME_DYE
+    display-item: STONE
     color: "&a"
   B:
     display-item: MAGENTA_DYE

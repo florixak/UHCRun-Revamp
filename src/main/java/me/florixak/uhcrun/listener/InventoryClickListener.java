@@ -2,6 +2,7 @@ package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.UHCTeam;
@@ -45,7 +46,7 @@ public class InventoryClickListener implements Listener {
 
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
 
-                if (event.getCurrentItem().getItemMeta().getDisplayName().contains(team.getDisplayName())) {
+                if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
                     p.closeInventory();
                     uhcPlayer.setTeam(team);
                     uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
@@ -61,7 +62,7 @@ public class InventoryClickListener implements Listener {
 
             for (Kit kit : gameManager.getKitsManager().getKits()) {
 
-                if (event.getCurrentItem().getType().equals(kit.getDisplayItem())) {
+                if (gameManager.getKitsManager().getKits().get(event.getSlot()) == kit) {
                     p.closeInventory();
                     uhcPlayer.setKit(kit);
                     uhcPlayer.sendMessage(Messages.KITS_SELECTED.toString()

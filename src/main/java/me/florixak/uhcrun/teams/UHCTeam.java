@@ -6,6 +6,7 @@ import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class UHCTeam {
 
-    private Material display_item;
+    private ItemStack display_item;
     private String name;
     private int size;
 
@@ -22,7 +23,7 @@ public class UHCTeam {
 
     private List<UHCPlayer> members;
 
-    public UHCTeam(Material display_item, String name, String color, int size) {
+    public UHCTeam(ItemStack display_item, String name, String color, int size) {
         this.display_item = display_item;
         this.name = name;
         this.size = size;
@@ -37,7 +38,7 @@ public class UHCTeam {
         return getColor() + this.name;
     }
 
-    public Material getDisplayItem() {
+    public ItemStack getDisplayItem() {
         return this.display_item;
     }
 

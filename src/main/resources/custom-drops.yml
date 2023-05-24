@@ -52,10 +52,6 @@ custom-drops:
     exp: 70
     drops:
       GOLDEN_APPLE: [2]
-  GRASS:
-    exp: 0
-    drops:
-      WHEAT: [0, 1]
   TALL_GRASS:
     exp: 0
     drops:

@@ -186,7 +186,10 @@ public class GameManager {
     }
 
     public boolean isPlaying() {
-        return gameState.equals(GameState.MINING) || gameState.equals(GameState.FIGHTING) || gameState.equals(GameState.DEATHMATCH);
+        return gameState.equals(GameState.MINING)
+                || gameState.equals(GameState.FIGHTING)
+                || gameState.equals(GameState.DEATHMATCH)
+                || gameState.equals(GameState.ENDING);
     }
 
     public World getGameWorld() {
@@ -289,6 +292,9 @@ public class GameManager {
     }
 
     public void setUHCWinner() {
+
+        if (getPlayerManager().getAlivePlayers().isEmpty()
+                || getPlayerManager().getAlivePlayers().size() == 0) return;
 
         UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
         for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {

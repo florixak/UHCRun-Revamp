@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,8 @@ public class TeamManager {
         }
 
         for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
-            Material display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item"))
-                    .get().parseMaterial();
+            ItemStack display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item", "STONE")
+                            .toUpperCase()).get().parseItem();
             String color = teams_config.getString("teams." + teamName + ".color");
             UHCTeam team = new UHCTeam(display_item, teamName, color, max_size);
             this.teams.add(team);

@@ -2,6 +2,7 @@ package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.checkerframework.checker.units.qual.g;
 
 public class PlayerListener implements Listener {
 
@@ -66,7 +68,7 @@ public class PlayerListener implements Listener {
 
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
 
-        if (!gameManager.isPlaying()) {
+        if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
