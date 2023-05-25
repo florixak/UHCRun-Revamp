@@ -190,7 +190,7 @@ public class PlayerData {
                         .replace("%money-for-win%", String.valueOf(moneyForGameResult))
                         .replace("%money-for-kills%", String.valueOf(moneyForKills))
                         .replace("%uhc-exp-for-win%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForGameResult));
+                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills));
                 uhcPlayer.sendMessage(TextUtils.color(message));
             }
         } else {
@@ -200,7 +200,7 @@ public class PlayerData {
                         .replace("%money-for-lose%", String.valueOf(moneyForGameResult))
                         .replace("%money-for-kills%", String.valueOf(moneyForKills))
                         .replace("%uhc-exp-for-lose%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForGameResult));
+                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills));
                 uhcPlayer.sendMessage(TextUtils.color(message));
             }
         }

@@ -47,7 +47,5 @@ public class Kit {
         for (ItemStack item : getItems()) {
             p.getInventory().addItem(item);
         }
-
-        uhcPlayer.sendMessage("Selected kit " + getName());
     }
 }
