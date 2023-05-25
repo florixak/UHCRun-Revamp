@@ -281,6 +281,7 @@ public class GameManager {
         registerCommand("nick", new NicknameCommand(playerManager));
         registerCommand("unnick", new NicknameCommand(playerManager));
         registerCommand("kits", new KitsCommand(gameManager));
+        registerCommand("statistics", new StatisticsCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = UHCRun.getInstance().getCommand(commandN);

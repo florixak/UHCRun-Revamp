@@ -26,15 +26,13 @@ public class StatisticsCommand implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-
         Gui stats_gui = gameManager.getGuiManager().getInventory("statistics");
 
         if (args.length == 0) {
             stats_gui.openInv(p);
+        } else {
+            stats_gui.openInv(p);
         }
-
-
 
 
         return true;

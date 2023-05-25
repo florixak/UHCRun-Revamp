@@ -18,15 +18,15 @@ public class SQLGetter {
         PreparedStatement ps;
         try {
             ps = gameManager.getSQL().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS uhcrun "
-                    + "('uuid' VARCHAR(100) PRIMARY KEY,"
-                    + "'name' VARCHAR(100),"
-                    + "'level' INT(100) DEFAULT '0',"
-                    + "'required_xp' INT(100) DEFAULT '0',"
-                    + "'money' DECIMAL(24,9) DEFAULT '0',"
-                    + "'wins' INT(100) DEFAULT '0',"
-                    + "'losses' INT(100) DEFAULT '0',"
-                    + "'kills' INT(100) DEFAULT '0',"
-                    + "'deaths' INT(100) DEFAULT '0')");
+                    + "(uuid VARCHAR(100) PRIMARY KEY,"
+                    + "name VARCHAR(100),"
+                    + "uhc_level INT(100) DEFAULT'0,"
+                    + "required_uhc_exp INT(100) DEFAULT 0,"
+                    + "money DECIMAL(24,9) DEFAULT 0,"
+                    + "wins INT(100) DEFAULT 0,"
+                    + "losses INT(100) DEFAULT 0,"
+                    + "kills INT(100) DEFAULT 0,"
+                    + "deaths INT(100) DEFAULT 0)");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

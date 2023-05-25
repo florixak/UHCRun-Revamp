@@ -18,10 +18,11 @@ public class GuiManager {
     public void loadInventories() {
         this.guis.add(new TeamGui());
         this.guis.add(new KitsGui());
+        this.guis.add(new StatisticsGui());
     }
 
     public Gui getInventory(String gui_name) {
-        for (Gui gui : guis) {
+        for (Gui gui : getInventories()) {
             if (gui.getTitle().equalsIgnoreCase(gui_name)) {
                 return gui;
             }

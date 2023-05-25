@@ -77,11 +77,5 @@ public class Gui implements InventoryHolder {
         return this.inventory;
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getInventory() != getInventory()) return;
-        event.setCancelled(true);
-    }
-
 
 }

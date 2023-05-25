@@ -57,12 +57,6 @@ public class KitsGui extends Gui {
         }
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getInventory() != getInventory()) return;
-        event.setCancelled(true);
-    }
-
     @Override
     public void openInv(Player p) {
         if (!GameManager.getGameManager().areKitsEnabled()) {

@@ -3,7 +3,7 @@ version: '${project.version}'
 main: me.florixak.uhcrun.UHCRun
 api-version: 1.19
 authors: [ FloriXak ]
-softdepend: [ ProtocolAPI, Vault, LuckPerms, PlaceholderAPI ]
+softdepend: [ ProtocolLib, Vault, LuckPerms, PlaceholderAPI ]
 
 commands:
   uhcrun:
@@ -29,3 +29,6 @@ commands:
   kits:
     aliases: [ kit ]
     description: Opens kits gui
+  statistics:
+    aliases: [ stats ]
+    description: Opens players statistics

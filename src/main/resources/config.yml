@@ -105,6 +105,19 @@ settings:
       # Players will gain xp and increase their level
       enabled: true
 
+    player-stats:
+      display-item: PLAYER_HEAD
+      custom-name: "&a%player%"
+      lore:
+        - "Level: &a%uhc-level%"
+        - "Required EXP: &a%required-uhc-exp%"
+        - "Money: &a%money%"
+        - " "
+        - "Wins: &a%uhc-wins%"
+        - "Losses: &a%uhc-losses%"
+        - "Kills: &a%uhc-kills%"
+        - "Deaths: &a%uhc-deaths%"
+
   # Rewards
   rewards:
     kill:

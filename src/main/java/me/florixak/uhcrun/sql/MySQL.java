@@ -1,5 +1,9 @@
 package me.florixak.uhcrun.sql;
 
+import me.florixak.uhcrun.UHCRun;
+import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.TextUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,8 +32,7 @@ public class MySQL {
         try {
             con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("MySQL disconnected!");
+            UHCRun.getInstance().getLogger().info(TextUtils.color("&cMySQL can not be connected!"));
         }
     }
 
