@@ -108,7 +108,6 @@ public class GameManager {
         connectToDatabase();
 
         getBorderManager().setBorder();
-
         getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();
