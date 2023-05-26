@@ -21,9 +21,7 @@ public class DeathmatchResist extends BukkitRunnable {
         if (countdown <= 0) {
             cancel();
             gameManager.setPvP(true);
-            if (countdown == 0) {
-                Utils.broadcast(Messages.PVP.toString());
-            }
+            Utils.broadcast(Messages.PVP.toString());
             return;
         }
 

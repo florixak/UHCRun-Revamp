@@ -162,8 +162,10 @@ public class GameManager {
                 break;
 
             case DEATHMATCH:
-                setPvP(false);
-                getTaskManager().startDeathmatchResist();
+                if (getDeathmatchManager().getPVPResistCD() > 0) {
+                    setPvP(false);
+                    getTaskManager().startDeathmatchResist();
+                }
                 getTaskManager().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 getBorderManager().setSize(getDeathmatchManager().getDeathmatchBorderSize());
@@ -172,6 +174,7 @@ public class GameManager {
                 break;
 
             case ENDING:
+                setPvP(false);
                 getTaskManager().startEndingCD();
                 setUHCWinner();
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));

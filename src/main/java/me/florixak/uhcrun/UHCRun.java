@@ -8,6 +8,7 @@ import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,33 +69,34 @@ public final class UHCRun extends JavaPlugin {
     }
 
     private void registerDependency() {
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig().getBoolean("settings.addons.use-Vault", true)) {
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        if (config.getBoolean("settings.addons.use-Vault", true)) {
             if (!setupVault()) {
-                UHCRun.getInstance().getLogger().info(TextUtils.color("&cVault plugin not found."));
+                getLogger().info(TextUtils.color("&cVault plugin not found."));
                 return;
             }
-            UHCRun.getInstance().getLogger().info(TextUtils.color("&aVault plugin found."));
-
         }
 
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS)
-                .getConfig().getBoolean("settings.addons.use-LuckPerms", true)) {
+        if (config.getBoolean("settings.addons.use-LuckPerms", false)) {
             if (!setupLuckPerms()) {
-                UHCRun.getInstance().getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
+                getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
                 return;
             }
-            UHCRun.getInstance().getLogger().info(TextUtils.color("&aLuckPerms plugin found."));
         }
 
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (config.getBoolean("settings.addons.use-PlaceholderAPI", false)) {
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null){
+                getLogger().info(TextUtils.color("&cPlaceholderAPI plugin not found."));
+                return;
+            }
             new PlaceholderExp(plugin).register();
         }
 
-        if (gameManager.getConfigManager().getFile(ConfigType.SETTINGS)
-                .getConfig().getBoolean("settings.addons.use-ProtocolLib", true)
-                && Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
-            getLogger().info("ProtocolLib plugin not found.");
-            getServer().getPluginManager().disablePlugin(this);
+        if (config.getBoolean("settings.addons.use-ProtocolLib", false)) {
+            if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
+                getLogger().info(TextUtils.color("&cProtocolLib plugin not found."));
+                getServer().getPluginManager().disablePlugin(this);
+            }
         }
     }
 

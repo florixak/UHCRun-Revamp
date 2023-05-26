@@ -42,40 +42,25 @@ public class TaskManager {
         this.miningCd = new MiningCD(gameManager);
         this.miningCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
-    public void stopMiningCD() {
-        if (!this.miningCd.isCancelled()) this.miningCd.cancel();
-    }
 
     public void startFightingCD() {
         this.fightingCd = new FightingCD(gameManager);
         this.fightingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
-    }
-    public void stopFightingCD() {
-        if (!this.fightingCd.isCancelled()) this.fightingCd.cancel();
     }
 
     public void startDeathmatchCD() {
         this.deathmatchCd = new DeathmatchCD(gameManager);
         this.deathmatchCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
-    public void stopDeathmatchCD() {
-        if (!this.deathmatchCd.isCancelled()) this.deathmatchCd.cancel();
-    }
 
     public void startDeathmatchResist() {
         this.deathmatchResist = new DeathmatchResist(gameManager);
         this.deathmatchResist.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
-    public void stopDeathmatchResist() {
-        if (!this.deathmatchResist.isCancelled()) this.deathmatchResist.cancel();
-    }
 
     public void startEndingCD() {
         this.endingCd = new EndingCD(gameManager);
         this.endingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
-    }
-    public void stopEndingCD() {
-        if (!this.endingCd.isCancelled()) this.endingCd.cancel();
     }
 
     public void runActivityRewards() {
@@ -99,9 +84,6 @@ public class TaskManager {
     public void runScoreboardUpdate() {
         this.scoreboardUpdate = new ScoreboardUpdate(gameManager);
         this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
-    }
-    public void stopScoreboardUpdate() {
-        if (!this.scoreboardUpdate.isCancelled()) this.scoreboardUpdate.cancel();
     }
 
     public void onDisable() {
