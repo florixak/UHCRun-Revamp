@@ -1,8 +1,11 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
+import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -10,23 +13,28 @@ public class MiningCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
-    public static int count;
+    public static int countdown;
 
     public MiningCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("settings.game.countdowns.mining");
+        this.countdown = config.getInt("settings.game.countdowns.mining");
     }
 
     @Override
     public void run() {
 
-        if (count <= 0) {
+        if (countdown <= 0) {
             cancel();
             gameManager.setGameState(GameState.FIGHTING);
             return;
         }
-        count--;
+
+        if (countdown <= 10) {
+            Utils.broadcast(Messages.PVP_IN.toString()
+                    .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
+        }
+        countdown--;
     }
 
 }

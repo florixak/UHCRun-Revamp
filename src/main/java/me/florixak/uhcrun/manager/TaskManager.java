@@ -19,6 +19,7 @@ public class TaskManager {
     private MiningCD miningCd;
     private FightingCD fightingCd;
     private DeathmatchCD deathmatchCd;
+    private DeathmatchResist deathmatchResist;
     private EndingCD endingCd;
 
     private GameChecking gameChecking;
@@ -61,6 +62,14 @@ public class TaskManager {
         if (!this.deathmatchCd.isCancelled()) this.deathmatchCd.cancel();
     }
 
+    public void startDeathmatchResist() {
+        this.deathmatchResist = new DeathmatchResist(gameManager);
+        this.deathmatchResist.runTaskTimer(UHCRun.getInstance(), delay, period);
+    }
+    public void stopDeathmatchResist() {
+        if (!this.deathmatchResist.isCancelled()) this.deathmatchResist.cancel();
+    }
+
     public void startEndingCD() {
         this.endingCd = new EndingCD(gameManager);
         this.endingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
@@ -91,7 +100,6 @@ public class TaskManager {
         this.scoreboardUpdate = new ScoreboardUpdate(gameManager);
         this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
     }
-
     public void stopScoreboardUpdate() {
         if (!this.scoreboardUpdate.isCancelled()) this.scoreboardUpdate.cancel();
     }

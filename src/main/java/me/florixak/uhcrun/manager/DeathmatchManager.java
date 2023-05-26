@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Random;
-
 public class DeathmatchManager {
 
     private GameManager gameManager;
@@ -66,6 +64,6 @@ public class DeathmatchManager {
     }
 
     public int getPVPResistCD() {
-        return config.getInt(path + ".pvp-resistance");
+        return config.getInt(path + ".pvp-resistance-countdown");
     }
 }

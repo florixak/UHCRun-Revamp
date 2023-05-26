@@ -29,6 +29,7 @@ public enum Messages {
 
     BORDER_SHRINK("game.border-shrink"),
     PVP("game.pvp"),
+    PVP_IN("game.pvp-in"),
     MINING("game.mining"),
     DEATHMATCH_STARTED("game.deathmatch-started"),
     DEATHMATCH_STARTING("game.deathmatch-starting"),

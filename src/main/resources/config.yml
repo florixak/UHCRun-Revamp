@@ -9,7 +9,7 @@ settings:
 
   # Expanding plugins
   addons:
-    use-Vault: false
+    use-Vault: true
     use-LuckPerms: false
     use-ProtocolLib: true
     use-PlaceholderAPI: true
@@ -59,7 +59,7 @@ settings:
     enabled: true
     start-at: 3 # players, if -1 then automatic
     border-size: 40.0
-    pvp-resistance: 10 # seconds
+    pvp-resistance-countdown: 10 # seconds
     location:
       world: "world"
       x: 0.0

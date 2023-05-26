@@ -44,7 +44,7 @@ public class ChatListener implements Listener {
         if (format == null || format.isEmpty()) return;
 
         String playerName = uhcPlayer.getName();
-        String lp_prefix = "";
+        String lp_prefix = uhcPlayer.getLuckPermsPrefix();
         String playerLevel = String.valueOf(uhcPlayer.getData().getUHCLevel());
         String message = p.hasPermission("uhcrun.color-chat") ? TextUtils.color(event.getMessage()) : event.getMessage();
         String team = uhcPlayer.getTeam() != null ? TextUtils.color(uhcPlayer.getTeam().getDisplayName()) : "";

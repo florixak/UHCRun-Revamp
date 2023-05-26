@@ -59,6 +59,10 @@ public class PlaceholderExp extends PlaceholderExpansion {
             return getAuthor();
         }
 
+        if (params.equalsIgnoreCase("luckperms-prefix")) {
+            return uhcPlayer.getLuckPermsPrefix();
+        }
+
         if (params.equalsIgnoreCase("winner")) {
             if (plugin.getGameManager().getUHCWinner() != null) return "None";
             return plugin.getGameManager().getUHCWinner();
@@ -67,7 +71,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("team")) {
             if (!gameManager.isTeamMode()) return "";
             if (!uhcPlayer.hasTeam()) return "";
-            return TextUtils.color(uhcPlayer.getTeam().getName());
+            return uhcPlayer.getTeam().getName();
         }
 
         if (params.equalsIgnoreCase("kills")) {

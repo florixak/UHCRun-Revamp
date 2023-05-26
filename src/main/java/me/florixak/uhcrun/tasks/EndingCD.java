@@ -10,22 +10,22 @@ public class EndingCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
-    public static int count;
+    public static int countdown;
 
     public EndingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("settings.game.countdowns.ending");
+        this.countdown = config.getInt("settings.game.countdowns.ending");
     }
 
     @Override
     public void run() {
 
-        if (count <= 0) {
+        if (countdown <= 0) {
             cancel();
             Bukkit.shutdown();
             return;
         }
-        count--;
+        countdown--;
     }
 }

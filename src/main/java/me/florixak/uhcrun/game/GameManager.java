@@ -45,6 +45,7 @@ public class GameManager {
     private SQLGetter data;
 
     private boolean forceStarted;
+    private boolean pvp;
 
     private ConfigManager configManager;
     private PlayerManager playerManager;
@@ -104,6 +105,7 @@ public class GameManager {
         registerListeners();
 
         this.forceStarted = false;
+        this.pvp = false;
 
         connectToDatabase();
 
@@ -138,7 +140,7 @@ public class GameManager {
             case STARTING:
                 getTaskManager().startStartingCD();
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCD.count)));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCD.countdown)));
                 break;
 
             case MINING:
@@ -146,19 +148,22 @@ public class GameManager {
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.count)));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.countdown)));
                 break;
 
             case FIGHTING:
                 if (isTeleportAfterMining()) {
                     getTeamManager().teleportAfterMining();
                 }
+                setPvP(true);
                 getTaskManager().startFightingCD();
                 Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
                 break;
 
             case DEATHMATCH:
+                setPvP(false);
+                getTaskManager().startDeathmatchResist();
                 getTaskManager().startDeathmatchCD();
                 Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
                 getBorderManager().setSize(getDeathmatchManager().getDeathmatchBorderSize());
@@ -193,14 +198,21 @@ public class GameManager {
                 || gameState.equals(GameState.ENDING);
     }
 
-    public World getGameWorld() {
-        return Bukkit.getWorld("world");
-    }
     public boolean isForceStarted() {
         return this.forceStarted;
     }
     public void setForceStarted() {
         this.forceStarted = true;
+    }
+    public boolean isPvP() {
+        return this.pvp;
+    }
+    public void setPvP(boolean b) {
+        this.pvp = b;
+    }
+
+    public World getGameWorld() {
+        return Bukkit.getWorld("world");
     }
     public boolean isTeamMode() {
         return config.getBoolean("settings.teams.team-mode", true);

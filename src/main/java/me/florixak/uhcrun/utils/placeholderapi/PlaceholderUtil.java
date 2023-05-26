@@ -64,13 +64,13 @@ public class PlaceholderUtil {
 
         if (text.contains("%time%")) {
             if (gameManager.getGameState() == GameState.STARTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.countdown));
             if (gameManager.getGameState() == GameState.MINING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.countdown));
             if (gameManager.getGameState() == GameState.FIGHTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.countdown));
             if (gameManager.getGameState() == GameState.DEATHMATCH)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.count));
+                text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.countdown));
         }
 
         if (text.contains("%border%")) {

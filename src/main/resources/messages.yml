@@ -41,6 +41,7 @@ Messages:
     mining: "&a[!] &fYou have %countdown% to mine!"
 
     pvp: "&6[!] &fPVP has been allowed!"
+    pvp-in: "&6[!] &fPVP starts in %countdown%!"
 
     deathmatch-started: "&6[!] &fDeathmatch has started!"
     deathmatch-starting: "&6[!] &fDeathmatch starts in %countdown%!"

@@ -1,11 +1,15 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -55,6 +59,14 @@ public class UHCPlayer {
     public String getName() {
         if (hasNickname()) return this.nickname;
         return this.name;
+    }
+
+    public String getLuckPermsPrefix() {
+        User user = UHCRun.getLuckPerms().getUserManager().getUser(getUUID());
+        if (user == null) return "";
+        String prefix = user.getCachedData().getMetaData().getPrefix();
+        if (prefix == null || prefix.isEmpty()) return "";
+        return prefix;
     }
 
     public boolean isOnline() {

@@ -201,7 +201,7 @@ public class GameListener implements Listener {
 
         if (!(event.getEntity() instanceof Player)) return;
 
-        if (!gameManager.isPlaying()) {
+        if (!gameManager.isPlaying() || !gameManager.isPvP()) {
             event.setCancelled(true);
             return;
         }
@@ -233,7 +233,7 @@ public class GameListener implements Listener {
         Player damager = (Player) event.getDamager();
         UHCPlayer uhcPlayerD = gameManager.getPlayerManager().getUHCPlayer(damager.getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayerD.isDead()) {
+        if (!gameManager.isPlaying() || uhcPlayerD.isDead() || !gameManager.isPvP()) {
             event.setCancelled(true);
             return;
         }

@@ -2,6 +2,7 @@ package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,9 +19,17 @@ public class DeathmatchResist extends BukkitRunnable {
     @Override
     public void run() {
         if (countdown <= 0) {
-            Utils.broadcast(Messages.PVP.toString());
             cancel();
+            gameManager.setPvP(true);
+            if (countdown == 0) {
+                Utils.broadcast(Messages.PVP.toString());
+            }
             return;
+        }
+
+        if (countdown <= 10) {
+            Utils.broadcast(Messages.PVP_IN.toString()
+                    .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
         }
         countdown--;
     }

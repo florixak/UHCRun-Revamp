@@ -14,20 +14,20 @@ public class StartingCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
-    public static int count;
+    public static int countdown;
     private int startWarning;
 
     public StartingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("settings.game.countdowns.starting");
+        this.countdown = config.getInt("settings.game.countdowns.starting");
         this.startWarning = config.getInt("settings.game.warning-time-at");
     }
 
     @Override
     public void run() {
 
-        if (count <= 0) {
+        if (countdown <= 0) {
             cancel();
             Utils.broadcast(Messages.GAME_STARTED.toString());
             Bukkit.getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playGameStarted(player));
@@ -36,18 +36,18 @@ public class StartingCD extends BukkitRunnable {
         }
 
         if (gameManager.getKitsManager().canOpenWhenStarting() &&
-                count == gameManager.getKitsManager().getOpenWhenStartingAt()) {
+                countdown == gameManager.getKitsManager().getOpenWhenStartingAt()) {
             gameManager.getPlayerManager().getPlayers().stream()
                     .filter(uhcPlayer -> uhcPlayer.isOnline())
                     .forEach(uhcPlayer -> gameManager.getGuiManager().getInventory("kits").openInv(uhcPlayer.getPlayer()));
         }
 
-        if (count <= startWarning) {
+        if (countdown <= startWarning) {
             Utils.broadcast(Messages.GAME_STARTING.toString()
-                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
+                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(countdown)));
             Bukkit.getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playStartingSound(player));
         }
-        count--;
+        countdown--;
     }
 
 }

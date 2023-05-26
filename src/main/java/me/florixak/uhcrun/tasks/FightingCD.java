@@ -14,18 +14,18 @@ public class FightingCD extends BukkitRunnable {
 
     private GameManager gameManager;
     private FileConfiguration config;
-    public static int count;
+    public static int countdown;
 
     public FightingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.count = config.getInt("settings.game.countdowns.fighting");
+        this.countdown = config.getInt("settings.game.countdowns.fighting");
     }
 
     @Override
     public void run() {
 
-        if (count <= 0) {
+        if (countdown <= 0) {
             cancel();
             if (gameManager.getDeathmatchManager().isDeathmatchEnabled()) {
                 gameManager.setGameState(GameState.DEATHMATCH);
@@ -35,14 +35,14 @@ public class FightingCD extends BukkitRunnable {
             return;
         }
 
-        if (count <= 10) {
+        if (countdown <= 10) {
             Utils.broadcast(Messages.DEATHMATCH_STARTING.toString()
-                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(count)));
+                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(countdown)));
 
             gameManager.getPlayerManager().getPlayers().stream().filter(UHCPlayer::isAlive)
                     .forEach(uhcPlayer -> gameManager.getSoundManager().playDMStarts(uhcPlayer.getPlayer()));
         }
         gameManager.getBorderManager().setSize(gameManager.getBorderManager().getSize()-gameManager.getBorderManager().getSpeed());
-        count--;
+        countdown--;
     }
 }
