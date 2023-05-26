@@ -201,7 +201,7 @@ public class GameListener implements Listener {
 
         if (!(event.getEntity() instanceof Player)) return;
 
-        if (!gameManager.isPlaying() || !gameManager.isPvP()) {
+        if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) {
             event.setCancelled(true);
             return;
         }
@@ -233,13 +233,14 @@ public class GameListener implements Listener {
         Player damager = (Player) event.getDamager();
         UHCPlayer uhcPlayerD = gameManager.getPlayerManager().getUHCPlayer(damager.getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayerD.isDead() || !gameManager.isPvP()) {
+        if (!gameManager.isPlaying() || uhcPlayerD.isDead()) {
             event.setCancelled(true);
             return;
         }
 
         if (gameManager.getGameState().equals(GameState.MINING)
-                || gameManager.getGameState().equals(GameState.ENDING)) {
+                || gameManager.getGameState().equals(GameState.ENDING)
+                || !gameManager.isPvP()) {
             if (!(event.getEntity() instanceof Player)) return;
             event.setCancelled(true);
             return;
