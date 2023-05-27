@@ -179,6 +179,9 @@ public class GameManager {
                 break;
 
             case ENDING:
+                Utils.broadcast(Messages.GAME_ENDED.toString());
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
+
                 setUHCWinner();
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
 
@@ -186,9 +189,6 @@ public class GameManager {
 
                 getPlayerManager().getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isOnline())
                         .forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
-
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
-                Utils.broadcast(Messages.GAME_ENDED.toString());
                 break;
         }
     }

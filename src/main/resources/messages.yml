@@ -30,7 +30,7 @@ Messages:
     shot-hp: "&6[🏹] &f%player% has &c%hp%❤"
 
     uhc-level:
-      level-up: "&a[!] &fLEVEL UP! (%previous-uhc-Level% → %uhc-Level%)"
+      level-up: "&a[!] &fLEVEL UP! (%previous-uhc-level% → %uhc-level%)"
 
   game:
     starting: "&6[!] &fGame starts in %countdown%!"
