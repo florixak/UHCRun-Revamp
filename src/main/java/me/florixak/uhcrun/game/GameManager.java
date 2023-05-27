@@ -116,6 +116,7 @@ public class GameManager {
         getCustomDropManager().loadCustomDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
+        getPerksManager().loadPerks();
         getGuiManager().loadInventories();
 
         getTaskManager().runGameChecking();
@@ -147,41 +148,47 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
+
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.countdown)));
                 break;
 
             case FIGHTING:
+
                 if (isTeleportAfterMining()) {
                     getTeamManager().teleportAfterMining();
                 }
                 setPvP(true);
                 getTaskManager().startFightingCD();
+
                 Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
                 break;
 
             case DEATHMATCH:
+                getDeathmatchManager().prepareDeathmatch();
+
+                getTaskManager().startDeathmatchCD();
                 if (getDeathmatchManager().getPVPResistCD() > 0) {
                     setPvP(false);
                     getTaskManager().startDeathmatchResist();
                 }
-                getTaskManager().startDeathmatchCD();
-                Utils.broadcast(Messages.DEATHMATCH_STARTED.toString());
-                getBorderManager().setSize(getDeathmatchManager().getDeathmatchBorderSize());
-                getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getDeathmatchManager().getTeleportLocation()));
+
+                Utils.broadcast(Messages.DEATHMATCH.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
                 break;
 
             case ENDING:
-                setPvP(false);
-                getTaskManager().startEndingCD();
                 setUHCWinner();
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
+                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
+
+                getTaskManager().startEndingCD();
+
                 getPlayerManager().getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isOnline())
                         .forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
+
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
                 Utils.broadcast(Messages.GAME_ENDED.toString());
-                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
                 break;
         }
     }

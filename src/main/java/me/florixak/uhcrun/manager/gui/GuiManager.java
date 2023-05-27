@@ -2,6 +2,7 @@ package me.florixak.uhcrun.manager.gui;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.kits.KitsGui;
+import me.florixak.uhcrun.game.perks.PerksGui;
 import me.florixak.uhcrun.teams.TeamGui;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class GuiManager {
         this.guis.add(new TeamGui());
         this.guis.add(new KitsGui());
         this.guis.add(new StatisticsGui());
+        this.guis.add(new PerksGui());
     }
 
     public Gui getInventory(String gui_name) {

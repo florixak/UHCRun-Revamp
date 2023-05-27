@@ -36,7 +36,7 @@ public class FightingCD extends BukkitRunnable {
         }
 
         if (countdown <= 10) {
-            Utils.broadcast(Messages.DEATHMATCH_STARTING.toString()
+            Utils.broadcast(Messages.DEATHMATCH_IN.toString()
                     .replace("%countdown%", "" + TimeUtils.getFormattedTime(countdown)));
 
             gameManager.getPlayerManager().getPlayers().stream().filter(UHCPlayer::isAlive)

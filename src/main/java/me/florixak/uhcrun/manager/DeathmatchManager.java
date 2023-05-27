@@ -46,7 +46,7 @@ public class DeathmatchManager {
     }
 
     public double getDeathmatchBorderSize() {
-        return config.getDouble(path + ".border-size", 25.0);
+        return config.getDouble(path + ".border-size", 40.0);
     }
 
     public boolean isDeathmatchEnabled() {
@@ -61,6 +61,11 @@ public class DeathmatchManager {
                 loc.getWorld().getHighestBlockYAt(loc),
                 (loc.getZ() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getZ()+5)))/2
         );
+    }
+
+    public void prepareDeathmatch() {
+        gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
+        gameManager.getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
     }
 
     public int getPVPResistCD() {

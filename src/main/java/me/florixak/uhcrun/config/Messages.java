@@ -27,13 +27,13 @@ public enum Messages {
     KILL("player.kill"),
     DEATH("player.death"),
 
-    BORDER_SHRINK("game.border-shrink"),
     PVP("game.pvp"),
     PVP_IN("game.pvp-in"),
     MINING("game.mining"),
-    DEATHMATCH_STARTED("game.deathmatch-started"),
-    DEATHMATCH_STARTING("game.deathmatch-starting"),
-    WINNER("game.winner"),
+    DEATHMATCH("game.deathmatch"),
+    DEATHMATCH_IN("game.deathmatch-in"),
+
+    BORDER_SHRINK("game.border-shrink"),
 
     PLAYERS_TO_START("game.players-to-start"),
 
@@ -42,20 +42,15 @@ public enum Messages {
     GAME_STARTING_CANCELED("game.starting-canceled"),
     GAME_STARTED("game.started"),
     GAME_ENDED("game.ended"),
+    RESTARTING("game.restarting"),
 
+    WINNER("game.winner"),
     WIN_REWARDS("rewards.win"),
     LOSE_REWARDS("rewards.lose"),
+    REWARDS_PER_TIME("rewards.per-time"),
 
     KITS_SELECTED("kits.selected"),
     PERKS_SELECTED("perks.selected"),
-
-    NICK_NICKED("nick.nicked"),
-    NICK_UNNICKED("nick.unnicked"),
-    NICK_NOT_NICKED("nick.not-nicked"),
-    NICK_MIN_CHARS("nick.min-chars"),
-    NICK_OCCUPIED("nick.occupied"),
-
-    REWARDS_PER_TIME("rewards.per-time"),
 
     LEVEL_UP("player.uhc-level.level-up"),
 
@@ -65,12 +60,16 @@ public enum Messages {
     TEAM_JOIN("teams.join"),
     TEAM_LEAVE("teams.leave"),
     TEAM_FULL("teams.full"),
-    TEAM_NOT_EXISTS("teams.not-exists"),
     TEAM_ALREADY_IN_TEAM("teams.already-in-team"),
     TEAM_NOT_IN_TEAM("teams.not-in-team"),
     TEAM_DEFEATED("teams.defeated"),
+    TEAM_NO_TEAMS("teams.no-teams"),
 
-    RESTARTING("game.restarting"),
+    NICK_NICKED("nick.nicked"),
+    NICK_UNNICKED("nick.unnicked"),
+    NICK_NOT_NICKED("nick.not-nicked"),
+    NICK_MIN_CHARS("nick.min-chars"),
+    NICK_OCCUPIED("nick.occupied"),
 
     SETLOBBY_WAITING("setlobby.waiting"),
     SETLOBBY_ENDING("setlobby.ending");

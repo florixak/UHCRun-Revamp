@@ -59,7 +59,7 @@ settings:
     enabled: true
     start-at: 3 # players, if -1 then automatic
     border-size: 40.0
-    pvp-resistance-countdown: 10 # seconds
+    pvp-resistance-countdown: 10 # seconds, -1 = disable
     location:
       world: "world"
       x: 0.0
@@ -141,8 +141,8 @@ settings:
   tablist:
     enabled: true # Works only with ProtocolLib!
     header: "&2&lUHC&a&lRun\n"
-    solo-mode-player-list: "&7[%uhc-level%] &f%player%"
-    team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
+    solo-mode-player-list: "&8[%uhc-level%] &f%player%"
+    team-mode-player-list: "&8[%uhc-level%] %team% &f%player%"
     footer: "\n&8www.florixak.tk"
 
   # Auto broadcast

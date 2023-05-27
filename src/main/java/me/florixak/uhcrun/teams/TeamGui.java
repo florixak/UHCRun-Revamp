@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.teams;
 
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -46,10 +47,12 @@ public class TeamGui extends Gui {
 
     @Override
     public void openInv(Player p) {
-        if (!GameManager.getGameManager().isTeamMode()) {
-            p.sendMessage("This is solo mode!");
+        init();
+        if (getInventory().isEmpty()) {
+            p.sendMessage(Messages.TEAM_NO_TEAMS.toString());
             return;
         }
-        super.openInv(p);
+        p.openInventory(getInventory());
     }
+
 }

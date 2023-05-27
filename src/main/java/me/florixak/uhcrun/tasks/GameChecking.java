@@ -48,7 +48,7 @@ public class GameChecking extends BukkitRunnable {
                 if (gameManager.isForceStarted()) {
                     return;
                 }
-                if (Bukkit.getOnlinePlayers().size() < minPlayers) {
+                if (gameManager.getPlayerManager().getAlivePlayers().size() < minPlayers) {
                     gameManager.setGameState(GameState.ENDING);
                 }
                 break;

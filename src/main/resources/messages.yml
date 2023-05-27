@@ -30,7 +30,7 @@ Messages:
     shot-hp: "&6[🏹] &f%player% has &c%hp%❤"
 
     uhc-level:
-      level-up: "&a[!] &fLEVEL UP! (%previousUHCLevel% → %newUHCLevel%)"
+      level-up: "&a[!] &fLEVEL UP! (%previous-uhc-Level% → %uhc-Level%)"
 
   game:
     starting: "&6[!] &fGame starts in %countdown%!"
@@ -40,19 +40,18 @@ Messages:
 
     mining: "&a[!] &fYou have %countdown% to mine!"
 
-    pvp: "&6[!] &fPVP has been allowed!"
     pvp-in: "&6[!] &fPVP starts in %countdown%!"
+    pvp: "&6[!] &fPVP has been allowed!"
 
-    deathmatch-started: "&6[!] &fDeathmatch has started!"
-    deathmatch-starting: "&6[!] &fDeathmatch starts in %countdown%!"
+    deathmatch-in: "&6[!] &fDeathmatch starts in %countdown%!"
+    deathmatch: "&6[!] &fDeathmatch has started!"
 
-    ended: "&c[!] &fGame has ended!"
-    restarting: "%prefix% &fGame is restarting!"
-
-    border-shrink: "&c[!] &fThe border began to shrink! Be careful!"
+    border-shrink: "&c[!] &fBorder has begun to shrink! Be careful!"
     players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
 
+    ended: "&c[!] &fGame has ended!"
     winner: "&6[♕] &f%winner% &ahas won the game!"
+    restarting: "%prefix% &fGame is restarting!"
 
   teams:
     join: "%prefix% &fYou have joined team %team%&f!"
@@ -60,9 +59,7 @@ Messages:
     full: "%prefix% &cTeam is full!"
     already-in-team: "%prefix% &cYou are already in this team!"
     not-in-team: "%prefix% &cYou are not in any team!"
-    not-exists: "%prefix% &cThis team does not exist!"
-    no-teams: "&cThere are no available teams... (Contact administrator!)"
-    signed-in-to-battle: "&fSIGNED IN: &e&l%is-signed% &f(%member-votes%&7/&f%team-size%)"
+    no-teams: "%prefix% &cThere are no set teams, please contact STAFF member!"
     defeated: "%prefix% &cTeam %team% &cwas defeated!"
 
   kits:

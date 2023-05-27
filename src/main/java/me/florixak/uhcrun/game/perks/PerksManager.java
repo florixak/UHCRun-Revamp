@@ -57,6 +57,10 @@ public class PerksManager {
         }
     }
 
+    public List<Perk> getPerks() {
+        return this.perks;
+    }
+
     public void givePerk(UHCPlayer uhcPlayer) {
         uhcPlayer.sendMessage("You chose " + uhcPlayer.getPerk() + " perk");
     }

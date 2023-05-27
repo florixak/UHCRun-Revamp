@@ -46,19 +46,20 @@ public class KitsManager {
                 } else if (param.equalsIgnoreCase("cost")) {
                     cost = kits_config.getDouble("kits." + kitName + "." + param, 0);
                 } else if (param.equalsIgnoreCase("items")) {
+                    if (kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false) == null) return;
                     for (String item : kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false)) {
                         ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null
-                                ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
+                                ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem()
+                                : XMaterial.STONE.parseItem();
                         int amount = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".amount", 1);
-
                         ItemStack newI = ItemUtils.createItem(i, null, amount, null);
-                        if (kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments") != null) {
-                            for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments").getKeys(false)) {
-                                String enchantment = enchant.toUpperCase();
-                                Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                                int level = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".enchantments." + enchantment, 1);
-                                ItemUtils.addEnchant(newI, e, level, true);
-                            }
+
+                        if (kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments").getKeys(false) == null) return;
+                        for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments").getKeys(false)) {
+                            String enchantment = enchant.toUpperCase();
+                            Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                            int level = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".enchantments." + enchantment, 1);
+                            ItemUtils.addEnchant(newI, e, level, true);
                         }
                         items.add(newI);
                     }
