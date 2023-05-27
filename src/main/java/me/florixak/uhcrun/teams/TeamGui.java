@@ -1,11 +1,9 @@
 package me.florixak.uhcrun.teams;
 
-import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -39,20 +37,13 @@ public class TeamGui extends Gui {
         }
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getInventory() != getInventory()) return;
-        event.setCancelled(true);
-    }
-
     @Override
     public void openInv(Player p) {
-        init();
-        if (getInventory().isEmpty()) {
-            p.sendMessage(Messages.TEAM_NO_TEAMS.toString());
+        if (!GameManager.getGameManager().isTeamMode()) {
+            p.sendMessage("This is solo mode!");
             return;
         }
-        p.openInventory(getInventory());
+        super.openInv(p);
     }
 
 }
