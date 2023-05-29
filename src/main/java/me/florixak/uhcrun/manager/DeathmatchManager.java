@@ -66,6 +66,11 @@ public class DeathmatchManager {
     public void prepareDeathmatch() {
         gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
         gameManager.getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
+
+        if (getPVPResistCD() > 0) {
+            gameManager.setPvP(false);
+            gameManager.getTaskManager().startDeathmatchResist();
+        }
     }
 
     public int getPVPResistCD() {

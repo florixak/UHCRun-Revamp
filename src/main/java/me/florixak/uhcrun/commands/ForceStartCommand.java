@@ -32,7 +32,7 @@ public class ForceStartCommand implements CommandExecutor {
             return true;
         }
 
-        gameManager.setForceStarted();
+        gameManager.setForceStarted(true);
         gameManager.setGameState(GameState.STARTING);
         return true;
     }

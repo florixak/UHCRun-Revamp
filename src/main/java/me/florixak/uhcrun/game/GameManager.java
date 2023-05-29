@@ -104,8 +104,8 @@ public class GameManager {
         registerCommands();
         registerListeners();
 
-        this.forceStarted = false;
-        this.pvp = false;
+        setForceStarted(false);
+        setPvP(false);
 
         connectToDatabase();
 
@@ -146,6 +146,7 @@ public class GameManager {
 
             case MINING:
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
+
                 getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
@@ -167,12 +168,7 @@ public class GameManager {
 
             case DEATHMATCH:
                 getDeathmatchManager().prepareDeathmatch();
-
                 getTaskManager().startDeathmatchCD();
-                if (getDeathmatchManager().getPVPResistCD() > 0) {
-                    setPvP(false);
-                    getTaskManager().startDeathmatchResist();
-                }
 
                 Utils.broadcast(Messages.DEATHMATCH.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
@@ -211,8 +207,8 @@ public class GameManager {
     public boolean isForceStarted() {
         return this.forceStarted;
     }
-    public void setForceStarted() {
-        this.forceStarted = true;
+    public void setForceStarted(boolean b) {
+        this.forceStarted = b;
     }
     public boolean isPvP() {
         return this.pvp;
