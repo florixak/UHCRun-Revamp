@@ -64,9 +64,11 @@ Messages:
 
   kits:
     selected: "&a[!] &fKit %kit% was selected!"
+    disabled: "&c[!] &fKits are disabled!"
 
   perks:
     selected: "&a[!] &fPerk %perk% was selected!"
+    disabled: "&c[!] &Perks are disabled!"
 
   rewards:
     win:
