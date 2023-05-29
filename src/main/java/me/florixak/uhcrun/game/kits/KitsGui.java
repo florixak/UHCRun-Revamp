@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -60,7 +61,7 @@ public class KitsGui extends Gui {
     @Override
     public void openInv(Player p) {
         if (!GameManager.getGameManager().areKitsEnabled()) {
-            p.sendMessage("Kits are disabled!");
+            p.sendMessage(Messages.KITS_DISABLED.toString());
             return;
         }
         super.openInv(p);

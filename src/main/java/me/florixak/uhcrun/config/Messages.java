@@ -50,7 +50,10 @@ public enum Messages {
     REWARDS_PER_TIME("rewards.per-time"),
 
     KITS_SELECTED("kits.selected"),
+    KITS_DISABLED("kits.disabled"),
+
     PERKS_SELECTED("perks.selected"),
+    PERKS_DISABLED("perks.disabled"),
 
     LEVEL_UP("player.uhc-level.level-up"),
 
