@@ -41,7 +41,8 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", 0);
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", setRequiredUHCExp());
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", 0);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", 50);
 
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
@@ -55,69 +56,18 @@ public class PlayerData {
         }
         return player_data.getDouble("player-data." + uhcPlayer.getUUID() + ".money");
     }
+    public void addMoney(double money) {
+        if (GameManager.getGameManager().isVaultEnabled()) {
+            UHCRun.getVault().depositPlayer(uhcPlayer.getPlayer(), money);
+            return;
+        }
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".money", getMoney()+money);
+        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+    }
+
     public int getWins() {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".wins");
     }
-    public int getLosses() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".losses");
-    }
-    public int getKills() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".kills");
-    }
-    public int getDeaths() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".deaths");
-    }
-
-    public int getUHCLevel() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level");
-    }
-    public int getPreviousUHCLevel() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level")-1;
-    }
-    public int getRequiredUHCExp() {
-        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp");
-    }
-    public double setRequiredUHCExp() {
-        double totalRequiredExp = 0;
-        if (getUHCLevel() <= 100) {
-            totalRequiredExp = 10000 * Math.pow(1.025, getUHCLevel()) - 10000;
-        }
-        if (getUHCLevel() > 100) {
-            totalRequiredExp = (20000 * Math.pow(1.025, 100) * Math.pow(getUHCLevel(), 2.5)/Math.pow(100, 2.5));
-        }
-
-        if (totalRequiredExp == 0) totalRequiredExp = 100.0;
-
-        return totalRequiredExp;
-    }
-
-    public void addUHCLevel(int level) {
-
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", setRequiredUHCExp());
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+level);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-
-        // gameManager.getSoundManager().playLevelUP(player.getPlayer());
-
-        // addMoney(getUHCLevel()*25.25);
-
-        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
-                .replace("%uhc-level%", String.valueOf(getUHCLevel()))
-                .replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
-    }
-    public void addUHCExp(double exp) {
-
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()-exp);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-
-        if (getRequiredUHCExp() <= 0) {
-            double over = Math.abs(getRequiredUHCExp());
-            addUHCLevel(1);
-            player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()-over);
-            GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-        }
-    }
-
     public void addWin(int wins) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins()+wins);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -130,6 +80,10 @@ public class PlayerData {
             this.moneyForGameResult += money;
             this.uhcExpForGameResult += exp;
         }
+    }
+
+    public int getLosses() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".losses");
     }
     public void addLose(int losses) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", getLosses()+losses);
@@ -144,6 +98,10 @@ public class PlayerData {
             this.uhcExpForGameResult += exp;
         }
     }
+
+    public int getKills() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".kills");
+    }
     public void addKills(int kills) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills()+kills);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -154,18 +112,85 @@ public class PlayerData {
             this.moneyForKills += money;
         }
     }
+
+    public int getDeaths() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".deaths");
+    }
     public void addDeaths(int deaths) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths()+deaths);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
-    public void addMoney(double money) {
-        if (GameManager.getGameManager().isVaultEnabled()) {
-            UHCRun.getVault().depositPlayer(uhcPlayer.getPlayer(), money);
-            return;
-        }
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".money", getMoney()+money);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+    public int getUHCLevel() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level");
     }
+    public void addUHCLevel() {
+
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()-getRequiredUHCExp());
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+1);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()*3.75);
+        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
+                .replace("%uhc-level%", String.valueOf(getUHCLevel()))
+                .replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
+
+        switch (getUHCLevel()) {
+            case 5:
+                addMoney(50);
+                break;
+            case 10:
+                addMoney(100);
+                break;
+            case 15:
+                addMoney(150);
+                break;
+            case 20:
+                addMoney(200);
+                break;
+            case 30:
+                addMoney(300);
+                break;
+            case 40:
+                addMoney(400);
+                break;
+            default:
+                addMoney(20);
+        }
+    }
+    public int getUHCExp() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-exp");
+    }
+    public void addUHCExp(double amount) {
+
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()+amount);
+        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        if (getUHCExp() >= getRequiredUHCExp()) {
+            addUHCLevel();
+        }
+    }
+    public int getRequiredUHCExp() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp");
+    }
+    public int getPreviousUHCLevel() {
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level")-1;
+    }
+    /* OLD method
+    public double setRequiredUHCExp() {
+        double totalRequiredExp = 0;
+        if (getUHCLevel() <= 100) {
+            totalRequiredExp = 10000 * Math.pow(1.025, getUHCLevel()) - 10000;
+        }
+        if (getUHCLevel() > 100) {
+            totalRequiredExp = (20000 * Math.pow(1.025, 100) * Math.pow(getUHCLevel(), 2.5)/Math.pow(100, 2.5));
+        }
+
+        if (totalRequiredExp == 0) totalRequiredExp = 100.0;
+
+        return totalRequiredExp;
+    }*/
+
     public void addGameResult() {
         if (uhcPlayer.isWinner()) {
             addWin(1);

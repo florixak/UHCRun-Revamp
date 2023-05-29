@@ -87,11 +87,11 @@ Messages:
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
   top-killers:
-    - "&3---------- %prefix% &3----------"
-    - "&l1. &7[%top-killer-1-uhc-level%] %top-killer-1-team% &f%top-killer-1% &8- &f%top-killer-1-kills% kills"
-    - "&l2. &7[%top-killer-2-uhc-level%] %top-killer-2-team% &f%top-killer-2% &8- &f%top-killer-2-kills% kills"
-    - "&l3. &7[%top-killer-3-uhc-level%] %top-killer-3-team% &f%top-killer-3% &8- &f%top-killer-3-kills% kills"
-    - "&3--------------------------------"
+    - "&7---------- %prefix% &3----------"
+    - "&l1. &a[%top-killer-1-uhc-level%] %top-killer-1-team% &f%top-killer-1% &7- &f%top-killer-1-kills% kills"
+    - "&l2. &a[%top-killer-2-uhc-level%] %top-killer-2-team% &f%top-killer-2% &7- &f%top-killer-2-kills% kills"
+    - "&l3. &a[%top-killer-3-uhc-level%] %top-killer-3-team% &f%top-killer-3% &7- &f%top-killer-3-kills% kills"
+    - "&7--------------------------------"
 
   nick:
     nicked: "&a[!] &fYou are now %nick%!"

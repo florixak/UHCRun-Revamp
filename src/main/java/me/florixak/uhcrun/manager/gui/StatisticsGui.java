@@ -42,13 +42,14 @@ public class StatisticsGui extends Gui {
         for (String text : config.getStringList("settings.statistics.player-stats.lore")) {
             lore.add(TextUtils.color(text
                     .replace("%player%", uhcPlayer.getName())
-                    .replace("%uhc-level%", uhcPlayer.getName())
-                    .replace("%required-uhc-exp%", uhcPlayer.getName())
-                    .replace("%money%", uhcPlayer.getName())
-                    .replace("%uhc-wins%", uhcPlayer.getName())
-                    .replace("%uhc-losses%", uhcPlayer.getName())
-                    .replace("%uhc-kills%", uhcPlayer.getName())
-                    .replace("%uhc-deaths%", uhcPlayer.getName())
+                    .replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()))
+                    .replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()))
+                    .replace("%required-uhc-exp%", String.valueOf(uhcPlayer.getData().getRequiredUHCExp()))
+                    .replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()))
+                    .replace("%uhc-wins%", String.valueOf(uhcPlayer.getData().getWins()))
+                    .replace("%uhc-losses%", String.valueOf(uhcPlayer.getData().getLosses()))
+                    .replace("%uhc-kills%", String.valueOf(uhcPlayer.getData().getKills()))
+                    .replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()))
             ));
         }
 
