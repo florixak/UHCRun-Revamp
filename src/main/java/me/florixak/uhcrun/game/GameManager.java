@@ -333,7 +333,10 @@ public class GameManager {
     }
     public String getUHCWinner() {
         if (isTeamMode()) {
-            return getTeamManager().getWinnerTeam() != null ? getTeamManager().getWinnerTeam().getName() : "None";
+            TeamManager tM = getTeamManager();
+            return tM.getWinnerTeam() != null ? (tM.getWinnerTeam().getMembers().size() == 1 ? tM.getWinnerTeam().getMembers().get(0).getName()
+                                                                                             : tM.getWinnerTeam().getName())
+                                              : "None";
         }
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }

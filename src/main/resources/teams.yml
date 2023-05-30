@@ -5,29 +5,29 @@
 
 teams:
   A:
-    display-item: STONE
-    color: "&a"
-  B:
-    display-item: MAGENTA_DYE
-    color: "&e"
-  C:
-    display-item: WHITE_DYE
-    color: "&c"
-  D:
-    display-item: ORANGE_DYE
-    color: "&5"
-  E:
-    display-item: BLUE_DYE
+    display-item: WHITE_WOOL
     color: "&f"
+  B:
+    display-item: MAGENTA_WOOL
+    color: "&5"
+  C:
+    display-item: PINK_WOOL
+    color: "&d"
+  D:
+    display-item: ORANGE_WOOL
+    color: "&6"
+  E:
+    display-item: BLUE_WOOL
+    color: "&b"
   F:
-    display-item: GREEN_DYE
+    display-item: GREEN_WOOL
     color: "&2"
   G:
-    display-item: RED_DYE
-    color: "&0"
+    display-item: RED_WOOL
+    color: "&c"
   H:
-    display-item: CYAN_DYE
-    color: "&f"
+    display-item: CYAN_WOOL
+    color: "&3"
   I:
-    display-item: PINK_DYE
-    color: "&d"
+    display-item: LIME_WOOL
+    color: "&a"

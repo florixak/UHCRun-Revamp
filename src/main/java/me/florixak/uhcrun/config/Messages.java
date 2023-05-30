@@ -44,7 +44,6 @@ public enum Messages {
     GAME_ENDED("game.ended"),
     RESTARTING("game.restarting"),
 
-    WINNER("game.winner"),
     WIN_REWARDS("rewards.win"),
     LOSE_REWARDS("rewards.lose"),
     REWARDS_PER_TIME("rewards.per-time"),
@@ -58,7 +57,7 @@ public enum Messages {
     LEVEL_UP("player.uhc-level.level-up"),
 
     SHOT_HP("player.shot-hp"),
-    TOP_KILLERS("top-killers"),
+    GAME_RESULTS("game-results"),
 
     TEAM_JOIN("teams.join"),
     TEAM_LEAVE("teams.leave"),

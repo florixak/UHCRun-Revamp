@@ -45,19 +45,18 @@ public class GameListener implements Listener {
     public void handleGameEnd(GameEndEvent event) {
 
         String winner = event.getWinner();
-        List<String> top_killers_msg = Messages.TOP_KILLERS.toList();
+        List<String> gameResultsMsg = Messages.GAME_RESULTS.toList();
         List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
 
-        Utils.broadcast(Messages.WINNER.toString().replace("%winner%", winner));
+        if (gameResultsMsg != null && !gameResultsMsg.isEmpty()) {
+            for (String message : gameResultsMsg) {
 
-        if (top_killers_msg != null && !top_killers_msg.isEmpty()) {
-            for (String message : top_killers_msg) {
-
-                for (int i = 0; i < top_killers_msg.size(); i++) {
+                for (int i = 0; i < gameResultsMsg.size(); i++) {
                     UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ?
                             top_killers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
-                    message = message.replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
+                    message = message.replace("%winner%", winner)
+                            .replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
                             .replace("%top-killer-" + (i+1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
                             .replace("%top-killer-" + (i+1) + "-team%", isUHCPlayer && gameManager.isTeamMode() ? topKiller.getTeam().getDisplayName() : "")
                             .replace("%top-killer-" + (i+1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
@@ -75,10 +74,9 @@ public class GameListener implements Listener {
             } else {
                 uhcPlayer.getData().addGameResult();
             }
-
-            if (!uhcPlayer.isOnline()) return;
-
-            uhcPlayer.getData().showStatistics();
+            if (uhcPlayer.isOnline()) {
+                uhcPlayer.getData().showStatistics();
+            }
         }
     }
 

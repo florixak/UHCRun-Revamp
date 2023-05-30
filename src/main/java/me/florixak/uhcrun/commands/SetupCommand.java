@@ -5,11 +5,14 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class SetupCommand implements CommandExecutor {
 
