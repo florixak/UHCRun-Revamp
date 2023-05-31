@@ -47,13 +47,13 @@ public class GameListener implements Listener {
         String winner = event.getWinner();
         List<String> gameResultsMsg = Messages.GAME_RESULTS.toList();
         List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
+        List<String> commands = config.getStringList("settings.end-game-commands");
 
+        // Game results and top killers
         if (gameResultsMsg != null && !gameResultsMsg.isEmpty()) {
             for (String message : gameResultsMsg) {
-
                 for (int i = 0; i < gameResultsMsg.size(); i++) {
-                    UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ?
-                            top_killers.get(i) : null;
+                    UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ? top_killers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
                     message = message.replace("%winner%", winner)
                             .replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
@@ -67,6 +67,14 @@ public class GameListener implements Listener {
             }
         }
 
+        // End game commands
+        if (commands != null && !commands.isEmpty()) {
+            for (String command : commands) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            }
+        }
+
+        // Statistics
         for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
 
             if (gameManager.areStatisticsAddedOnEnd()) {

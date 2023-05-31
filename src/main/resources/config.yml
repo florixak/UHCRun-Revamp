@@ -139,6 +139,10 @@ settings:
       uhc-exp: 20
       period: 60 # seconds
 
+  # End game commands - commands which is executed on game ends
+  # Soon...
+  end-game-commands: []
+
   # Tablist
   tablist:
     enabled: true # Works only with ProtocolLib!

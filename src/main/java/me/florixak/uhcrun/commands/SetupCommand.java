@@ -2,9 +2,11 @@ package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,6 +70,17 @@ public class SetupCommand implements CommandExecutor {
                 p.sendMessage(Messages.SETUP_RESET_DEATHMATCH.toString());
             }
         }
+        else if (args[0].equalsIgnoreCase("test")) {
+            if (args.length == 1) {
+                p.sendMessage(Messages.INVALID_CMD.toString());
+            } else if (args[1].equalsIgnoreCase("add-kill")) {
+                Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(
+                        gameManager.getPlayerManager().getUHCPlayer("FloriXak"),
+                        gameManager.getPlayerManager().getUHCPlayer("FloriXak"))
+                );
+            }
+        }
+
         else {
             p.sendMessage(Messages.INVALID_CMD.toString());
         }
