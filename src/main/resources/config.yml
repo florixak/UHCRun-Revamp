@@ -16,6 +16,7 @@ settings:
 
   # Game
   game:
+#    game-world: "uhc-world"
     auto-map-reset: true # name of map is "world"
     allow-nether: false
 

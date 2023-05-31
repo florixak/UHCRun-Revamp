@@ -151,10 +151,6 @@ public class PlayerManager {
     public void teleport(Player p) {
 
         switch (gameManager.getGameState()) {
-            case LOBBY:
-            case STARTING:
-                p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
-                break;
             case ENDING:
                 p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
                 break;

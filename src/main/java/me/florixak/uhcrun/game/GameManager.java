@@ -64,6 +64,7 @@ public class GameManager {
     private DeathChestManager deathChestManager;
     private DeathmatchManager deathmatchManager;
     private OreGenManager oreGenManager;
+    private WorldManager worldManager;
 
     private Utils utils;
     private TeleportUtils teleportUtils;
@@ -91,6 +92,7 @@ public class GameManager {
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager();
+        this.worldManager = new WorldManager();
 
         this.utils = new Utils(this);
         this.teleportUtils = new TeleportUtils(this);
@@ -108,6 +110,10 @@ public class GameManager {
         setPvP(false);
 
         connectToDatabase();
+
+//        getWorldManager().createLobbyWorld("uhc-world");
+        getWorldManager().createLobbyWorld("wait-lobby");
+        getWorldManager().createLobbyWorld("end-lobby");
 
         getBorderManager().setBorder();
         getOreGenManager().generateOres();
@@ -390,6 +396,9 @@ public class GameManager {
     }
     public OreGenManager getOreGenManager() {
         return oreGenManager;
+    }
+    public WorldManager getWorldManager() {
+        return worldManager;
     }
 
     public Utils getUtils() {

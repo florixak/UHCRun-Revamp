@@ -5,6 +5,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -48,7 +49,7 @@ public class PlayerListener implements Listener {
         p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
 
-        gameManager.getPlayerManager().teleport(p);
+        p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
 
         gameManager.getPlayerManager().clearPlayerInventory(p);
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);

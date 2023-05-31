@@ -18,7 +18,7 @@ public class LobbyManager {
 
     public void setLobby(LobbyType lobbyType, Location loc) {
 
-        lobby_config.set("lobby." + lobbyType.name().toLowerCase() + ".world", gameManager.getGameWorld().getName());
+        lobby_config.set("lobby." + lobbyType.name().toLowerCase() + ".world", loc.getWorld().getName());
         lobby_config.set("lobby." + lobbyType.name().toLowerCase() + ".x", loc.getX());
         lobby_config.set("lobby." + lobbyType.name().toLowerCase() + ".y", loc.getY());
         lobby_config.set("lobby." + lobbyType.name().toLowerCase() + ".z", loc.getZ());
@@ -29,7 +29,7 @@ public class LobbyManager {
     }
 
     public Location getLocation(LobbyType lobbyType) {
-        Location loc = new Location(Bukkit.getWorld("world"), 0, 70, 0);
+        Location loc = new Location(Bukkit.getWorld("world"), 0.0, 75.0, 0.0);
 
         if (!existsLobby(lobbyType)) return loc;
 
