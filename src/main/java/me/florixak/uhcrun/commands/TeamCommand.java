@@ -56,7 +56,7 @@ public class TeamCommand implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("join")) {
 
             if (args.length == 1) {
-                p.sendMessage("Usage: /team join *team*");
+                p.sendMessage(Messages.INVALID_CMD.toString());
                 return true;
             }
 

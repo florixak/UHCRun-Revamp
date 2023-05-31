@@ -111,6 +111,10 @@ Messages:
     - "%prefix% &fwww.github.com/florixak"
     - "%prefix% &fIf you found bug contact admin staff!"
 
-  lobby:
-    set-waiting: "%prefix% &fWaiting lobby was set!"
-    set-ending: "%prefix% &fEnding lobby was set!"
+  setup:
+    waiting-lobby-set: "%prefix% &fWaiting lobby was set!"
+    waiting-lobby-removed: "%prefix% &fWaiting lobby was removed!"
+    ending-lobby-set: "%prefix% &fEnding lobby was set!"
+    ending-lobby-removed: "%prefix% &fEnding lobby was removed!"
+    deathmatch-set: "%prefix% &fDeathmatch center was set!"
+    deathmatch-reset: "%prefix% &fDeathmatch center was reset! (def.: X:0.0, Y:75.0, Z:0.0)"

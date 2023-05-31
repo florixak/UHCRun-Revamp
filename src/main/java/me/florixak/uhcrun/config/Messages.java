@@ -73,8 +73,12 @@ public enum Messages {
     NICK_MIN_CHARS("nick.min-chars"),
     NICK_OCCUPIED("nick.occupied"),
 
-    SETLOBBY_WAITING("setlobby.waiting"),
-    SETLOBBY_ENDING("setlobby.ending");
+    SETUP_SET_WAIT_LOBBY("setup.waiting-lobby-set"),
+    SETUP_DEL_WAIT_LOBBY("setup.waiting-lobby-removed"),
+    SETUP_SET_END_LOBBY("setup.ending-lobby-set"),
+    SETUP_DEL_END_LOBBY("setup.ending-lobby-removed"),
+    SETUP_SET_DEATHMATCH("setup.deathmatch-set"),
+    SETUP_RESET_DEATHMATCH("setup.deathmatch-reset");
 
 
     private static FileConfiguration config;

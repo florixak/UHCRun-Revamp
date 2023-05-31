@@ -5,14 +5,11 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class SetupCommand implements CommandExecutor {
 
@@ -43,10 +40,10 @@ public class SetupCommand implements CommandExecutor {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
                 lobbyM.setLobby(LobbyType.WAITING, loc);
-                p.sendMessage("Waiting lobby set!");
+                p.sendMessage(Messages.SETUP_SET_WAIT_LOBBY.toString());
             } else if (args[1].contains("rem") || args[1].contains("del")) {
                 lobbyM.deleteLobby(LobbyType.WAITING);
-                p.sendMessage("Waiting lobby removed!");
+                p.sendMessage(Messages.SETUP_DEL_WAIT_LOBBY.toString());
             }
         }
         else if (args[0].equalsIgnoreCase("ending-lobby")) {
@@ -54,10 +51,10 @@ public class SetupCommand implements CommandExecutor {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
                 lobbyM.setLobby(LobbyType.ENDING, loc);
-                p.sendMessage("Ending lobby set!");
+                p.sendMessage(Messages.SETUP_SET_END_LOBBY.toString());
             } else if (args[1].contains("rem") || args[1].contains("del")) {
                 lobbyM.deleteLobby(LobbyType.ENDING);
-                p.sendMessage("Ending lobby removed!");
+                p.sendMessage(Messages.SETUP_DEL_END_LOBBY.toString());
             }
         }
         else if (args[0].equalsIgnoreCase("deathmatch")) {
@@ -65,10 +62,10 @@ public class SetupCommand implements CommandExecutor {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
                 deathmatchM.setDeathmatchLocation(loc);
-                p.sendMessage("Deathmatch location was set!");
+                p.sendMessage(Messages.SETUP_SET_DEATHMATCH.toString());
             } else if (args[1].contains("rem") || args[1].contains("del")) {
                 deathmatchM.resetDeathmatchLocation();
-                p.sendMessage("Deathmatch location was reset!");
+                p.sendMessage(Messages.SETUP_RESET_DEATHMATCH.toString());
             }
         }
         else {
