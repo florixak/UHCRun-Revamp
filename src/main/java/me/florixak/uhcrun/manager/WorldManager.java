@@ -27,11 +27,10 @@ public class WorldManager {
         }
     }
 
-    public void createLobbyWorld(String name) {
+    public void createWorld(String name, WorldType type) {
         if (Bukkit.getWorld(name) != null) return;
         WorldCreator c = new WorldCreator(name);
-        c.type(WorldType.FLAT);
-        c.generateStructures(false);
+        c.type(type);
         World world = c.createWorld();
     }
 }

@@ -111,9 +111,9 @@ public class GameManager {
 
         connectToDatabase();
 
-//        getWorldManager().createLobbyWorld("uhc-world");
-        getWorldManager().createLobbyWorld("wait-lobby");
-        getWorldManager().createLobbyWorld("end-lobby");
+        getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
+        getWorldManager().createWorld("wait-lobby", WorldType.FLAT);
+        getWorldManager().createWorld("end-lobby", WorldType.FLAT);
 
         getBorderManager().setBorder();
         getOreGenManager().generateOres();

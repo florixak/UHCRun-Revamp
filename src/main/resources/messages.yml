@@ -53,13 +53,13 @@ Messages:
     restarting: "%prefix% &fGame is restarting!"
 
   teams:
-    join: "%prefix% &fJoined team %team%&f!"
-    leave: "%prefix% &fLeft team %team%&f!"
-    full: "%prefix% &cTeam is full!"
-    already-in-team: "%prefix% &cYou are already in this team!"
-    not-in-team: "%prefix% &cYou are not in any team!"
+    join: "&a[!] &fJoined team %team%&f!"
+    leave: "&c[!] &fLeft team %team%&f!"
+    full: "&c[!] &cTeam is full!"
+    already-in-team: "&c[!] &cYou are already in this team!"
+    not-in-team: "&c[!] &cYou are not in any team!"
     no-teams: "%prefix% &cThere are no set teams, please contact STAFF member!"
-    defeated: "%prefix% &cTeam %team% &cwas defeated!"
+    defeated: "&6[!] &cTeam %team% &cwas defeated!"
 
   kits:
     selected: "&a[!] &fKit %kit% was selected!"
