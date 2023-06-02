@@ -111,7 +111,7 @@ public class GameManager {
 
         connectToDatabase();
 
-        getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
+        // getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
         getWorldManager().createWorld("wait-lobby", WorldType.FLAT);
         getWorldManager().createWorld("end-lobby", WorldType.FLAT);
 
