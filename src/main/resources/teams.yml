@@ -31,3 +31,6 @@ teams:
   I:
     display-item: LIME_WOOL
     color: "&a"
+  J:
+    display-item: YELLOW_WOOL
+    color: "&e"

@@ -8,7 +8,6 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKit: &a%kit%"
-    - "&fPerk: &a%perk%"
     - ""
     - "&7www.florixak.tk"
 
@@ -19,7 +18,6 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKit: &a%kit%"
-    - "&fPerk: &a%perk%"
     - ""
     - "&7www.florixak.tk"
 
@@ -31,6 +29,7 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKills: &a%kills%"
+    - "&fAssists: &a%assists%"
     - ""
     - "&7www.florixak.tk"
 
@@ -42,6 +41,7 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKills: &a%kills%"
+    - "&fAssists: &a%assists%"
     - ""
     - "&7www.florixak.tk"
 
@@ -53,6 +53,7 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKills: &a%kills%"
+    - "&fAssists: &a%assists%"
     - ""
     - "&7www.florixak.tk"
 

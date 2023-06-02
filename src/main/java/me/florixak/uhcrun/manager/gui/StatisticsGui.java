@@ -58,6 +58,8 @@ public class StatisticsGui extends Gui {
                 name.replace("%player%", uhcPlayer.getName()),
                 1,
                 lore));
+
+        getInventory().setItem(8, ItemUtils.createItem(new ItemStack(XMaterial.OAK_SIGN.parseMaterial()), "TOP", 1, null));
     }
 
     @Override

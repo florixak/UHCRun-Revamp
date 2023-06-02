@@ -62,6 +62,10 @@ public class PlaceholderUtil {
             text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
         }
 
+        if (text.contains("%assists%")) {
+            text = text.replace("%kills%", String.valueOf(uhcPlayer.getAssists()));
+        }
+
         if (text.contains("%time%")) {
             if (gameManager.getGameState() == GameState.STARTING)
                 text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.countdown));
@@ -116,14 +120,6 @@ public class PlaceholderUtil {
 
         // TODO were alive
         // if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + plugin.getGame().getWereAlive());
-
-        // TODO kits
-        if (config.getBoolean("lobby-items.kits.enabled", true)) {
-        }
-
-        // TODO Perks
-        if (config.getBoolean("lobby-items.perks.enabled")) {
-        }
 
         if (text.contains("%stats-wins%")) {
             text = text.replace("%stats-wins%", String.valueOf(uhcPlayer.getData().getWins()));

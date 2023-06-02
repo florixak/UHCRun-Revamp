@@ -111,7 +111,6 @@ settings:
       custom-name: "&a%player%"
       lore:
         - "&fLevel: &a%uhc-level%"
-        - "&fExp: &a%uhc-exp%"
         - "&fRequired EXP: &a%required-uhc-exp%"
         - "&fMoney: &a%money%"
         - " "

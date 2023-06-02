@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class WorldManager {
 
-    public void createNewWorld() {
+    public void createNewUHCWorld() {
 
         try {
             File world = new File(Bukkit.getWorldContainer(), "world");
@@ -31,6 +31,7 @@ public class WorldManager {
         if (Bukkit.getWorld(name) != null) return;
         WorldCreator c = new WorldCreator(name);
         c.type(type);
+        c.generateStructures(false);
         World world = c.createWorld();
     }
 }

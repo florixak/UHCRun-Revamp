@@ -26,7 +26,7 @@ public final class UHCRun extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        new WorldManager().createNewWorld();
+        new WorldManager().createNewUHCWorld();
     }
 
     @Override

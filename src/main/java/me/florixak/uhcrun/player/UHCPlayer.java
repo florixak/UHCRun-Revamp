@@ -27,6 +27,7 @@ public class UHCPlayer {
     private UHCTeam team;
 
     private int kills;
+    private int assists;
     private Kit kit;
     private Perk perk;
     private boolean hasWon;
@@ -42,6 +43,7 @@ public class UHCPlayer {
 
         this.hasWon = false;
         this.kills = 0;
+        this.assists = 0;
         this.kit = null;
         this.perk = null;
         this.nickname = null;
@@ -122,6 +124,13 @@ public class UHCPlayer {
     }
     public void addKill() {
         this.kills++;
+    }
+
+    public int getAssists() {
+        return this.assists;
+    }
+    public void addAssist() {
+        this.assists++;
     }
 
     public boolean hasKit() {
