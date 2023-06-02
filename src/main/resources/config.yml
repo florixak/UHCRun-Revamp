@@ -104,6 +104,9 @@ settings:
 
     player-level:
       # Players will gain xp and increase their level
+      first-level: 0
+      first-required-exp: 100
+      required-exp-multiplier: 3.75
       enabled: true
 
     player-stats:
