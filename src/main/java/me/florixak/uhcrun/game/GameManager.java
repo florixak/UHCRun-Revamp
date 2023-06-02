@@ -264,7 +264,7 @@ public class GameManager {
         return this.data;
     }
     private void connectToDatabase() {
-        String path = "settings.MySQL";
+        String path = "settings.mysql";
         if (!config.getBoolean( path + ".enabled", false)) return;
 
         this.mysql = new MySQL(

@@ -195,13 +195,13 @@ settings:
       slot: 8
 
   # MySQL database
-  MySQL:
+  mysql:
     enabled: false
     host: "localhost"
     port: "3306"
-    database: 'uhcrun'
-    username: 'root'
-    password: ''
+    database: "uhcrun"
+    username: "root"
+    password: ""
 
   # Chat
   chat:
