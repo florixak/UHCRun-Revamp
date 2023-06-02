@@ -47,27 +47,27 @@ public class GameManager {
     private boolean forceStarted;
     private boolean pvp;
 
-    private ConfigManager configManager;
-    private PlayerManager playerManager;
-    private ScoreboardManager scoreboardManager;
-    private TabManager tabManager;
-    private LobbyManager lobbyManager;
-    private BorderManager borderManager;
-    private KitsManager kitsManager;
-    private PerksManager perksManager;
-    private TaskManager taskManager;
-    private TeamManager teamManager;
-    private GuiManager guiManager;
-    private CustomDropManager customDropManager;
-    private SoundManager soundManager;
-    private RecipeManager recipeManager;
-    private DeathChestManager deathChestManager;
-    private DeathmatchManager deathmatchManager;
-    private OreGenManager oreGenManager;
-    private WorldManager worldManager;
+    private final ConfigManager configManager;
+    private final PlayerManager playerManager;
+    private final ScoreboardManager scoreboardManager;
+    private final TabManager tabManager;
+    private final LobbyManager lobbyManager;
+    private final BorderManager borderManager;
+    private final KitsManager kitsManager;
+    private final PerksManager perksManager;
+    private final TaskManager taskManager;
+    private final TeamManager teamManager;
+    private final GuiManager guiManager;
+    private final CustomDropManager customDropManager;
+    private final SoundManager soundManager;
+    private final RecipeManager recipeManager;
+    private final DeathChestManager deathChestManager;
+    private final DeathmatchManager deathmatchManager;
+    private final OreGenManager oreGenManager;
+    private final WorldManager worldManager;
 
-    private Utils utils;
-    private TeleportUtils teleportUtils;
+    private final Utils utils;
+    private final TeleportUtils teleportUtils;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
