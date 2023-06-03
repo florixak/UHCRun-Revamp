@@ -19,9 +19,8 @@ import java.util.List;
 
 public class DeathChest {
 
-    private UHCPlayer uhcPlayer;
-    private Chest chest;
-    private Location loc;
+    private final UHCPlayer uhcPlayer;
+    private final Location loc;
     private String title;
     private List<ItemStack> contents;
 
@@ -48,7 +47,7 @@ public class DeathChest {
         Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
         BlockState state = loc.getBlock().getState();
 
-        this.chest = (Chest) state;
+        Chest chest = (Chest) state;
 
         chest.setCustomName(TextUtils.color(this.title));
 

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 public class ForceStartCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public ForceStartCommand(GameManager gameManager) {
         this.gameManager = gameManager;

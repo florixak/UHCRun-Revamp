@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 public class UHCTeam {
 
-    private ItemStack display_item;
-    private String name;
-    private int size;
+    private final ItemStack display_item;
+    private final String name;
+    private final int size;
 
-    private String color;
+    private final String color;
 
     private List<UHCPlayer> members;
 

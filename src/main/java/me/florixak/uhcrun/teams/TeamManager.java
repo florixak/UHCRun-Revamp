@@ -17,10 +17,10 @@ import java.util.List;
 
 public class TeamManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config, teams_config;
+    private final GameManager gameManager;
+    private final FileConfiguration config, teams_config;
 
-    private int max_size;
+    private final int max_size;
 
     private List<UHCTeam> teams;
 

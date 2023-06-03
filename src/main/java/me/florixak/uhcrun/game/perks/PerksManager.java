@@ -20,8 +20,8 @@ import java.util.List;
 
 public class PerksManager {
 
-    private GameManager gameManager;
-    private FileConfiguration perks_config;
+    private final GameManager gameManager;
+    private final FileConfiguration perks_config;
 
     private List<Perk> perks;
 

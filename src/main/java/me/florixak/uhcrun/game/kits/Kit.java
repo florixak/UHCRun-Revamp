@@ -10,7 +10,7 @@ import java.util.List;
 public class Kit {
 
     private final String name;
-    private final List<ItemStack> items;
+    private List<ItemStack> items;
     private final Material display_item;
     private final double cost;
 

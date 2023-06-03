@@ -12,10 +12,10 @@ import java.util.List;
 
 public class Perk {
 
-    private String name;
+    private final String name;
     private List<String> actions;
-    private Material display_item;
-    private double cost;
+    private final Material display_item;
+    private final double cost;
 
     public Perk(String name, Material display_item, double cost, List<String> actions) {
         this.name = name;

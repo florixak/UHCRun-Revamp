@@ -12,11 +12,11 @@ public class MySQL {
 
     private Connection con;
 
-    private String host;
-    private String port;
-    private String database;
-    private String user;
-    private String password;
+    private final String host;
+    private final String port;
+    private final String database;
+    private final String user;
+    private final String password;
 
     public MySQL(String host, String port, String database, String user, String password) {
         this.host = host;

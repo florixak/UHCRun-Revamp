@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class WorkbenchCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public WorkbenchCommand(GameManager gameManager) {
         this.gameManager = gameManager;

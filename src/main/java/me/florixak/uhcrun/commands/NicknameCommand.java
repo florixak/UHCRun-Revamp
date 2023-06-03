@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class NicknameCommand implements CommandExecutor {
 
-    private PlayerManager playerManager;
+    private final PlayerManager playerManager;
 
     public NicknameCommand(PlayerManager playerManager) {
         this.playerManager = playerManager;

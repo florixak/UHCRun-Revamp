@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class StatisticsCommand implements CommandExecutor {
     
-    private GameManager gameManager;
+    private final GameManager gameManager;
     
     public StatisticsCommand(GameManager gameManager) {
         this.gameManager = gameManager;

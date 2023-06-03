@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class AnvilCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public AnvilCommand(GameManager gameManager) {
         this.gameManager = gameManager;

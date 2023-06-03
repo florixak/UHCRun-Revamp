@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class CustomDrop {
 
-    private Material material;
-    private Entity entity;
+    private final Material material;
+    private final Entity entity;
     private List<Material> drops;
     private int minAmount;
     private int maxAmount;

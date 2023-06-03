@@ -3,7 +3,6 @@ package me.florixak.uhcrun.player;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
-import me.florixak.uhcrun.utils.TeleportUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class PlayerManager {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private List<UHCPlayer> players;
 
     public PlayerManager(GameManager gameManager) {

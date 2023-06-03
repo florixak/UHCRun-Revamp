@@ -10,8 +10,8 @@ import java.util.*;
 
 public class CustomDropManager {
 
-    private GameManager gameManager;
-    private FileConfiguration custom_drop_cfg;
+    private final GameManager gameManager;
+    private final FileConfiguration custom_drop_cfg;
 
     private List<CustomDrop> custom_drops;
 

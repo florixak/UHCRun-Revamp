@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class TeamCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public TeamCommand(GameManager gameManager) {
         this.gameManager = gameManager;

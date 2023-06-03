@@ -12,8 +12,8 @@ import java.util.List;
 
 public class OreGenManager {
 
-    private GameManager gameManager;
-    private FileConfiguration ore_gen_config;
+    private final GameManager gameManager;
+    private final FileConfiguration ore_gen_config;
 
     private List<Material> notAllowed;
     private List<OreGen> oreGenList;

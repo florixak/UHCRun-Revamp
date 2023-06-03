@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class SQLGetter {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public SQLGetter(GameManager gameManager){
         this.gameManager = gameManager;

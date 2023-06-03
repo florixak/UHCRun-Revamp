@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class KitsCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public KitsCommand(GameManager gameManager) {
         this.gameManager = gameManager;
