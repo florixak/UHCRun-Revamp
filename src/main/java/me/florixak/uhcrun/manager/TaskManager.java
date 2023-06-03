@@ -9,8 +9,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class TaskManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     private final long delay = 20L;
     private final long period = 20L;

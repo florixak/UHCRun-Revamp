@@ -16,10 +16,10 @@ import java.util.List;
 
 public class KitsManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config, kits_config;
+    private final GameManager gameManager;
+    private final FileConfiguration config, kits_config;
 
-    private int openWhenStartingAt;
+    private final int openWhenStartingAt;
 
     private List<Kit> kits;
 
@@ -68,8 +68,12 @@ public class KitsManager {
                 }
             }
             Kit kit = new Kit(kitName, display_item, cost, items);
-            this.kits.add(kit);
+            addKit(kit);
         }
+    }
+
+    public void addKit(Kit kit) {
+        this.kits.add(kit);
     }
 
     public Kit getKit(String name) {

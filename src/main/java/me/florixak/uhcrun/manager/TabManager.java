@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
 
 public class TabManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     public TabManager(GameManager gameManager) {
         this.gameManager = gameManager;

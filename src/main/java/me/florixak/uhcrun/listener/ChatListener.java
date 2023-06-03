@@ -20,8 +20,8 @@ public class ChatListener implements Listener {
 
     private List<String> blockedCommands;
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     public ChatListener(GameManager gameManager) {
         this.gameManager = gameManager;

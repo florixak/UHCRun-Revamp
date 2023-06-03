@@ -9,9 +9,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class DeathmatchManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
-    private String path;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
+    private final String path;
 
     public DeathmatchManager(GameManager gameManager) {
         this.gameManager = gameManager;

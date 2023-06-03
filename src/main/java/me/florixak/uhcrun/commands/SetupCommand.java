@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class SetupCommand implements CommandExecutor {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public SetupCommand(GameManager gameManager) {
         this.gameManager = gameManager;

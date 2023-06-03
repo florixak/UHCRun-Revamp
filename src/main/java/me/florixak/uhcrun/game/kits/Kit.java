@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Kit {
 
-    private String name;
-    private List<ItemStack> items;
-    private Material display_item;
-    private double cost;
+    private final String name;
+    private final List<ItemStack> items;
+    private final Material display_item;
+    private final double cost;
 
     public Kit(String name, Material display_item, double cost, List<ItemStack> items) {
         this.name = name;

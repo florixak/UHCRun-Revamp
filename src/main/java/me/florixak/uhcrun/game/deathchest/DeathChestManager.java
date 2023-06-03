@@ -12,24 +12,22 @@ import java.util.List;
 
 public class DeathChestManager {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
-    private List<DeathChest> deathChests;
-    private int expireTime;
-    private String hologramText;
+    private final List<DeathChest> deathChests;
+    private final String hologramText;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.deathChests = new ArrayList<>();
-        this.expireTime = config.getInt("settings.death-chest.expire");
         this.hologramText = config.getString("settings.death-chest.hologram-text");
     }
 
     public int getExpireTime() {
-        return this.expireTime;
+        return config.getInt("settings.death-chest.expire");
     }
     public boolean willExpire() {
         return getExpireTime() != -1;

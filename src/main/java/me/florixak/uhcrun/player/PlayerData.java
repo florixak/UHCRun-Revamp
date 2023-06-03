@@ -9,8 +9,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class PlayerData {
 
-    private UHCPlayer uhcPlayer;
-    private FileConfiguration player_data;
+    private final UHCPlayer uhcPlayer;
+    private final FileConfiguration player_data;
 
     private double moneyForGameResult;
     private double moneyForKills;
@@ -108,8 +108,11 @@ public class PlayerData {
 
         if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
             double money = 20;
+            double exp = 25;
             addMoney(money);
+            addUHCExp(exp);
             this.moneyForKills += money;
+            this.uhcExpForKills += exp;
         }
     }
 
@@ -162,7 +165,6 @@ public class PlayerData {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-exp");
     }
     public void addUHCExp(double amount) {
-
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()+amount);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -176,20 +178,6 @@ public class PlayerData {
     public int getPreviousUHCLevel() {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".uhc-level")-1;
     }
-    /* OLD method
-    public double setRequiredUHCExp() {
-        double totalRequiredExp = 0;
-        if (getUHCLevel() <= 100) {
-            totalRequiredExp = 10000 * Math.pow(1.025, getUHCLevel()) - 10000;
-        }
-        if (getUHCLevel() > 100) {
-            totalRequiredExp = (20000 * Math.pow(1.025, 100) * Math.pow(getUHCLevel(), 2.5)/Math.pow(100, 2.5));
-        }
-
-        if (totalRequiredExp == 0) totalRequiredExp = 100.0;
-
-        return totalRequiredExp;
-    }*/
 
     public void addGameResult() {
         if (uhcPlayer.isWinner()) {

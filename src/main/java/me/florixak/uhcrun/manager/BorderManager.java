@@ -8,8 +8,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class BorderManager {
 
-    private FileConfiguration config;
-    private WorldBorder wb;
+    private final FileConfiguration config;
+    private final WorldBorder wb;
 
     public BorderManager(GameManager gameManager) {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();

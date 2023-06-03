@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class InteractListener implements Listener {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     public InteractListener(GameManager gameManager) {
         this.gameManager = gameManager;

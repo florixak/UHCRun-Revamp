@@ -33,8 +33,8 @@ import java.util.Random;
 
 public class GameListener implements Listener {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;

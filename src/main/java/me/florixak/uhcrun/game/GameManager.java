@@ -35,8 +35,8 @@ import java.util.List;
 
 public class GameManager {
 
-    private UHCRun plugin;
-    private FileConfiguration config;
+    private final UHCRun plugin;
+    private final FileConfiguration config;
 
     private static GameManager gameManager;
     private GameState gameState;
