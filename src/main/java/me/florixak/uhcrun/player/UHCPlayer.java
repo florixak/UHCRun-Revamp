@@ -12,6 +12,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -186,5 +187,9 @@ public class UHCPlayer {
         if (title.isEmpty() || title == null || !isOnline()) return;
         String[] split_title = title.split("\n");
         getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
+    }
+    public void teleport(Location loc) {
+        if (loc == null) return;
+        getPlayer().teleport(loc);
     }
 }

@@ -33,16 +33,12 @@ public class Utils {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
-//    public static String formatMoney(UUID uuid){
-//        return format.format(GameManager.getGameManager().getStatistics().getMoney(uuid));
-//    }
+    public void clearDrops() {
+        List<Entity> entList = Bukkit.getWorld("world").getEntities();
 
-    public static void clearDrops() {
-        List<Entity> entList = Bukkit.getWorld("world").getEntities();//get all entities in the world
-
-        for(Entity current : entList) {//loop through the list
-            if (current instanceof Item) {//make sure we aren't deleting mobs/players
-                current.remove();//remove it
+        for(Entity current : entList) {
+            if (current instanceof Item) {
+                current.remove();
             }
         }
     }
@@ -96,7 +92,7 @@ public class Utils {
     }
 
     @SuppressWarnings("deprecation")
-    public static ItemStack getPlayerHead(String player, String name) {
+    public ItemStack getPlayerHead(Player player, String name) {
         boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
 
@@ -107,7 +103,7 @@ public class Utils {
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         if (name != null) meta.setDisplayName(TextUtils.color(name));
-        meta.setOwner(player);
+        meta.setOwner(player.getName());
 
         item.setItemMeta(meta);
         return item;

@@ -89,6 +89,7 @@ public class UHCTeam {
     }
 
     public void teleport(Location loc) {
+        if (loc == null) return;
         for (UHCPlayer uhcPlayer : getAliveMembers()) {
             uhcPlayer.getPlayer().teleport(loc);
         }

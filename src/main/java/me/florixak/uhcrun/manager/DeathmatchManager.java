@@ -2,6 +2,7 @@ package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -66,6 +67,9 @@ public class DeathmatchManager {
     public void prepareDeathmatch() {
         gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
         gameManager.getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
+        gameManager.getPlayerManager().getSpectators().stream()
+                .filter(UHCPlayer::isOnline)
+                .forEach(uhcPlayer -> uhcPlayer.teleport(getTeleportLocation()));
 
         if (getPVPResistCD() > 0) {
             gameManager.setPvP(false);

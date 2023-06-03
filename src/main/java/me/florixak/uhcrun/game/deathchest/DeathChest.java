@@ -45,7 +45,6 @@ public class DeathChest {
     }
 
     public void createChest() {
-
         Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
         BlockState state = loc.getBlock().getState();
 
@@ -75,6 +74,9 @@ public class DeathChest {
         this.deathChestExpire = new DeathChestExpire(this);
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
     }
+    public DeathChestExpire getExpireTask() {
+        return this.deathChestExpire;
+    }
     public String getExpireTime() {
         return TimeUtils.getFormattedTime(DeathChestExpire.expireTime);
     }
@@ -100,6 +102,9 @@ public class DeathChest {
         block.setType(XMaterial.AIR.parseMaterial());
         block.getDrops().clear();
         getHologram().removeHologram();
+        if (getExpireTask() != null && !getExpireTask().isCancelled()) {
+            getExpireTask().cancel();
+        }
 
         for (ItemStack itemStack : getContents()) {
             if (itemStack == null || itemStack.equals(XMaterial.AIR.parseMaterial())) return;

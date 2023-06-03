@@ -26,12 +26,13 @@ public class StatisticsGui extends Gui {
         Player p = getWhoOpen();
         UHCPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
+        GameManager gameManager = GameManager.getGameManager();
         FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         List<String> lore = new ArrayList<>();
 
         ItemStack itemStack = XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item").toUpperCase())
                     .get().parseItem() == null || config.getString("settings.statistics.player-stats.display-item").equalsIgnoreCase("PLAYER_HEAD")
-                ? Utils.getPlayerHead(uhcPlayer.getName(), uhcPlayer.getName())
+                ? gameManager.getUtils().getPlayerHead(p, uhcPlayer.getName())
                 : XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item", "STONE").toUpperCase())
                     .get().parseItem();
 
