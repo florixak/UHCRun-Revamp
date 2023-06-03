@@ -31,7 +31,6 @@ public class DeathChestManager {
     public int getExpireTime() {
         return this.expireTime;
     }
-
     public boolean willExpire() {
         return getExpireTime() != -1;
     }
