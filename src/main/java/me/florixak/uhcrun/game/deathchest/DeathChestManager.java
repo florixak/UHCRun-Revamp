@@ -15,8 +15,8 @@ public class DeathChestManager {
     private final GameManager gameManager;
     private final FileConfiguration config;
 
-    private final List<DeathChest> deathChests;
-    private final String hologramText;
+    private List<DeathChest> deathChests;
+    private String hologramText;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -45,14 +45,13 @@ public class DeathChestManager {
     }
 
     public void removeDeathChest(DeathChest deathChest) {
+        if (deathChest == null) return;
         deathChest.remove();
         this.deathChests.remove(deathChest);
     }
 
     public void onDisable() {
-        if (deathChests.isEmpty() || deathChests == null) return;
         for (DeathChest deathChest : deathChests) {
-            if (deathChest == null) return;
             removeDeathChest(deathChest);
         }
     }
