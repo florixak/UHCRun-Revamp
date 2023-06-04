@@ -48,7 +48,6 @@ public class DeathChest {
         BlockState state = loc.getBlock().getState();
 
         Chest chest = (Chest) state;
-
         chest.setCustomName(TextUtils.color(this.title));
 
         if (!getContents().isEmpty()) {
@@ -56,7 +55,7 @@ public class DeathChest {
                 chest.getInventory().addItem(item);
             }
         }
-        if (expire) {
+        if (canExpire()) {
             startExpiring();
         }
         addHologram();
@@ -66,8 +65,8 @@ public class DeathChest {
         return this.uhcPlayer;
     }
 
-    public boolean willExpire() {
-        return expire;
+    public boolean canExpire() {
+        return this.expire;
     }
     public void startExpiring() {
         this.deathChestExpire = new DeathChestExpire(this);
@@ -87,28 +86,29 @@ public class DeathChest {
     public void addHologram() {
         String text = GameManager.getGameManager().getDeathChestManager().getHologramText()
                 .replace("%player%", uhcPlayer.getName())
-                .replace("%expire-time%", getExpireTime());
+                .replace("%countdown%", getExpireTime());
 
         this.hologram = new Hologram(text, loc.add(0, -1, 0));
-        this.hologram.createHologram();
     }
     public Hologram getHologram() {
         return this.hologram;
     }
 
     public void remove() {
-        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0, 1, 0));
-        block.setType(XMaterial.AIR.parseMaterial());
-        block.getDrops().clear();
-        getHologram().removeHologram();
+
         if (getExpireTask() != null && !getExpireTask().isCancelled()) {
             getExpireTask().cancel();
         }
 
-        for (ItemStack itemStack : getContents()) {
+        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0, 1, 0));
+        block.setType(XMaterial.AIR.parseMaterial());
+        block.getDrops().clear();
+        getHologram().remove();
+
+        /*for (ItemStack itemStack : getContents()) {
             if (itemStack == null || itemStack.equals(XMaterial.AIR.parseMaterial())) return;
             Location location = loc.add(0.5, 0.5, 0.5);
             Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, itemStack);
-        }
+        }*/
     }
 }

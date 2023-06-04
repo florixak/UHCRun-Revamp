@@ -15,6 +15,8 @@ public class Hologram {
     public Hologram(String text, Location loc) {
         this.text = text;
         this.loc = loc;
+
+        createHologram();
     }
 
     public void createHologram() {
@@ -24,14 +26,33 @@ public class Hologram {
         this.hologram.setCollidable(false);
         this.hologram.setInvulnerable(true);
         this.hologram.setCanPickupItems(false);
-        this.hologram.setCustomNameVisible(true);
-        this.hologram.setCustomName(TextUtils.color(text));
         this.hologram.setGravity(false);
         this.hologram.setBasePlate(false);
         this.hologram.setArms(false);
+
+        this.hologram.setCustomNameVisible(true);
+        this.hologram.setCustomName(TextUtils.color(text));
     }
 
-    public void removeHologram() {
+    public String getText() {
+        return this.hologram.getCustomName();
+    }
+
+    public void setText(String text) {
+        this.hologram.setCustomName(TextUtils.color(text));
+    }
+
+    public Location getLocation() {
+        return this.loc;
+    }
+
+    public void setLocation(Location loc) {
+        remove();
+        this.loc = loc;
+        createHologram();
+    }
+
+    public void remove() {
         this.hologram.remove();
     }
 }
