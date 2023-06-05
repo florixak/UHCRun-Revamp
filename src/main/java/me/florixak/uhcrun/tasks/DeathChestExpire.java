@@ -27,9 +27,9 @@ public class DeathChestExpire extends BukkitRunnable {
             }
             return;
         }
-        expireTime--;
         deathChest.getHologram().setText(deathChest.getHologram().getText()
                 .replace("%player%", deathChest.getPlayer().getName())
                 .replace("%countdown%", TimeUtils.getFormattedTime(expireTime)));
+        expireTime--;
     }
 }

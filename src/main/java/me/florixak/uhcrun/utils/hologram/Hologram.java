@@ -39,8 +39,8 @@ public class Hologram {
     }
 
     public void setText(String text) {
-        remove();
         this.text = text;
+        remove();
         createHologram();
     }
 

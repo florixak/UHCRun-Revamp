@@ -15,7 +15,5 @@ public class HologramManager {
         this.holograms = new ArrayList<>();
     }
 
-    public void loadHolograms() {
 
-    }
 }
