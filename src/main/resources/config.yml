@@ -84,7 +84,7 @@ settings:
   death-chest:
     enabled: true
     expire: 30 # seconds, not expire if -1
-    hologram-text: "&a%player%'s chest &7(%expire-time%)"
+    hologram-text: "&a%player%'s chest &7(%countdown%)"
 
   # Kits
   kits:
