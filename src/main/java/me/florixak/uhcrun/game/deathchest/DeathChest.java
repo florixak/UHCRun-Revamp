@@ -101,8 +101,8 @@ public class DeathChest {
         }
 
         Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0, 1, 0));
-        block.setType(XMaterial.AIR.parseMaterial());
         block.getDrops().clear();
+        block.setType(XMaterial.AIR.parseMaterial());
         getHologram().remove();
 
         /*for (ItemStack itemStack : getContents()) {
