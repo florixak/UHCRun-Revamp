@@ -9,9 +9,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayingRewards extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
-    private String path;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
+    private final String path;
 
     public PlayingRewards(GameManager gameManager) {
         this.gameManager = gameManager;

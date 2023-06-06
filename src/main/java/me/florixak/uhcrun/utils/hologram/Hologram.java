@@ -40,8 +40,7 @@ public class Hologram {
 
     public void setText(String text) {
         this.text = text;
-        remove();
-        createHologram();
+        this.hologram.setCustomName(TextUtils.color(this.text));
     }
 
     public Location getLocation() {

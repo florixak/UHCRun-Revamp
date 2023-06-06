@@ -7,7 +7,7 @@ import java.util.List;
 
 public class HologramManager {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private List<Hologram> holograms;
 
     public HologramManager(GameManager gameManager) {

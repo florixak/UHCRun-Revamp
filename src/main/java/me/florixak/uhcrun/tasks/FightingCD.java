@@ -12,8 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FightingCD extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
     public static int countdown;
 
     public FightingCD(GameManager gameManager) {

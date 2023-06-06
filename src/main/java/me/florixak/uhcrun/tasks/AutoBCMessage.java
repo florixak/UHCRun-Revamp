@@ -12,11 +12,11 @@ import java.util.Random;
 
 public class AutoBCMessage extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config, messages_config;
+    private final GameManager gameManager;
+    private final FileConfiguration config, messages_config;
     private List<String> messages;
 
-    private boolean random;
+    private final boolean random;
     private int lastMessage;
 
     public AutoBCMessage(GameManager gameManager) {

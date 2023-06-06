@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathmatchResist extends BukkitRunnable {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     public static int countdown;
 
     public DeathmatchResist(GameManager gameManager) {

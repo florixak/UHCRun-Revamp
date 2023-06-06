@@ -11,10 +11,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameChecking extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
-    private int minPlayers;
+    private final int minPlayers;
 
     public GameChecking(GameManager gameManager) {
         this.gameManager = gameManager;

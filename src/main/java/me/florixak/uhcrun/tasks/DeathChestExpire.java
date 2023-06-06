@@ -22,9 +22,7 @@ public class DeathChestExpire extends BukkitRunnable {
     public void run() {
         if (expireTime <= 0) {
             cancel();
-            if (deathChest.canExpire()) {
-                deathChestManager.removeDeathChest(deathChest);
-            }
+            deathChestManager.removeDeathChest(deathChest);
             return;
         }
         deathChest.getHologram().setText(deathChest.getHologram().getText()

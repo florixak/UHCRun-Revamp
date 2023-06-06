@@ -12,15 +12,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class StartingCD extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
     public static int countdown;
-    private int startWarning;
+    private final int startWarning;
 
     public StartingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.countdown = config.getInt("settings.game.countdowns.starting");
+        countdown = config.getInt("settings.game.countdowns.starting");
         this.startWarning = config.getInt("settings.game.warning-time-at");
     }
 

@@ -11,14 +11,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MiningCD extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
+
     public static int countdown;
 
     public MiningCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.countdown = config.getInt("settings.game.countdowns.mining");
+        countdown = config.getInt("settings.game.countdowns.mining");
     }
 
     @Override

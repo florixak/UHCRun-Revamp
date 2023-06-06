@@ -20,8 +20,8 @@ import org.checkerframework.checker.units.qual.g;
 
 public class PlayerListener implements Listener {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
 
     public PlayerListener(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -37,7 +37,7 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateHOCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
-        if (gameManager.getGameManager().isPlaying() || uhcPlayer.isDead()) {
+        if (gameManager.isPlaying() || uhcPlayer.isDead()) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer);
             return;
         }
