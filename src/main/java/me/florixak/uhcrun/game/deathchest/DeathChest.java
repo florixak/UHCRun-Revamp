@@ -88,7 +88,7 @@ public class DeathChest {
                 .replace("%player%", uhcPlayer.getName())
                 .replace("%countdown%", getExpireTime());
 
-        this.hologram = new Hologram(text, loc.add(0, -1, 0));
+        this.hologram = new Hologram(text, loc.add(0.5, -0.5, 0.5));
     }
     public Hologram getHologram() {
         return this.hologram;
@@ -100,7 +100,7 @@ public class DeathChest {
             getExpireTask().cancel();
         }
 
-        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0, 1, 0));
+        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
         block.getDrops().clear();
         block.setType(XMaterial.AIR.parseMaterial());
         getHologram().remove();
