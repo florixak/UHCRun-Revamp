@@ -18,7 +18,7 @@ import java.util.List;
 public class TeamManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration config, teams_config;
+    private final FileConfiguration teams_config;
 
     private final int max_size;
 
@@ -26,7 +26,7 @@ public class TeamManager {
 
     public TeamManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
 
         this.max_size = config.getInt("settings.teams.max-size");

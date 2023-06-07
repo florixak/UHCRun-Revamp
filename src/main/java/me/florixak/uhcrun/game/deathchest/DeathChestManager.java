@@ -16,7 +16,7 @@ public class DeathChestManager {
     private final FileConfiguration config;
 
     private List<DeathChest> deathChests;
-    private String hologramText;
+    private final String hologramText;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;

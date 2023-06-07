@@ -15,9 +15,7 @@ public class ScoreboardManager {
 
     private Map<UUID, ScoreHelper> players;
 
-    private FileConfiguration config;
-
-    private String title;
+    private final String title;
     private List<String> waiting;
     private List<String> starting;
     private List<String> mining;
@@ -25,13 +23,13 @@ public class ScoreboardManager {
     private List<String> deathmatch;
     private List<String> ending;
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public ScoreboardManager(GameManager gameManager){
         this.gameManager = gameManager;
         this.players = new HashMap<>();
 
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
 
         this.title = config.getString("scoreboard.title");
 

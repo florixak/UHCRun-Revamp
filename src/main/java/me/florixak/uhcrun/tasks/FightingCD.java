@@ -13,13 +13,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class FightingCD extends BukkitRunnable {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
     public static int countdown;
 
     public FightingCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.countdown = config.getInt("settings.game.countdowns.fighting");
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        countdown = config.getInt("settings.game.countdowns.fighting");
     }
 
     @Override

@@ -34,6 +34,7 @@ public class UHCPlayer {
     private boolean hasWon;
 
     private String nickname;
+    private boolean sinceStart;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -41,6 +42,7 @@ public class UHCPlayer {
         this.data = new PlayerData(this);
 
         setState(PlayerState.LOBBY);
+        setSinceStart(true);
 
         this.hasWon = false;
         this.kills = 0;
@@ -173,6 +175,13 @@ public class UHCPlayer {
         }
         sendMessage(Messages.NICK_NICKED.toString().replace("%nick%", nickname));
         this.nickname = nickname;
+    }
+
+    public boolean isSinceStart() {
+        return this.sinceStart;
+    }
+    public void setSinceStart(boolean b) {
+        this.sinceStart = b;
     }
 
     public void sendMessage(String message) {

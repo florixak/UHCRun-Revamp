@@ -73,14 +73,12 @@ public final class UHCRun extends JavaPlugin {
         if (config.getBoolean("settings.addons.use-Vault", true)) {
             if (!setupVault()) {
                 getLogger().info(TextUtils.color("&cVault plugin not found."));
-                return;
             }
         }
 
         if (config.getBoolean("settings.addons.use-LuckPerms", false)) {
             if (!setupLuckPerms()) {
                 getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
-                return;
             }
         }
 
@@ -95,7 +93,6 @@ public final class UHCRun extends JavaPlugin {
         if (config.getBoolean("settings.addons.use-ProtocolLib", false)) {
             if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
                 getLogger().info(TextUtils.color("&cProtocolLib plugin not found."));
-                getServer().getPluginManager().disablePlugin(this);
             }
         }
     }

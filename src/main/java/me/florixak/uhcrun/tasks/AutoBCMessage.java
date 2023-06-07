@@ -12,19 +12,17 @@ import java.util.Random;
 
 public class AutoBCMessage extends BukkitRunnable {
 
-    private final GameManager gameManager;
-    private final FileConfiguration config, messages_config;
+    private final FileConfiguration messages_config;
     private List<String> messages;
 
     private final boolean random;
     private int lastMessage;
 
     public AutoBCMessage(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.messages_config = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
         this.messages = messages_config.getStringList("Messages.auto-messages");
-        this.random = config.getBoolean("settings.auto-broadcast.random-messages");
+        this.random = config.getBoolean("settings.auto-broadcast.random-messages", false);
     }
 
     @Override
@@ -50,6 +48,6 @@ public class AutoBCMessage extends BukkitRunnable {
             message = messages.get(nextMessage);
             lastMessage = nextMessage;
         }
-        Utils.broadcast(TextUtils.color(message.replace("%prefix%", messages_config.getString("Messages.prefix"))));
+        Utils.broadcast(TextUtils.color(message.replace("%prefix%", messages_config.getString("Messages.prefix", ""))));
     }
 }

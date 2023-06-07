@@ -8,8 +8,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class LobbyManager {
 
-    private GameManager gameManager;
-    private FileConfiguration lobby_config;
+    private final GameManager gameManager;
+    private final FileConfiguration lobby_config;
 
     public LobbyManager(GameManager gameManager){
         this.gameManager = gameManager;
@@ -34,7 +34,7 @@ public class LobbyManager {
         if (!existsLobby(lobbyType)) return loc;
 
         loc = new Location(
-                Bukkit.getWorld(lobby_config.getString("lobby."+ lobbyType.name().toLowerCase() + ".world")),
+                Bukkit.getWorld(lobby_config.getString("lobby."+ lobbyType.name().toLowerCase() + ".world", "world")),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".x"),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".y"),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".z"),

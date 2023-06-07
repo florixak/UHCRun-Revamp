@@ -12,13 +12,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class GameChecking extends BukkitRunnable {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
     private final int minPlayers;
 
     public GameChecking(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.minPlayers = config.getInt("settings.game.min-players-to-start");
     }

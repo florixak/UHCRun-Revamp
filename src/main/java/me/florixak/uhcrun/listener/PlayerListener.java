@@ -39,6 +39,7 @@ public class PlayerListener implements Listener {
 
         if (gameManager.isPlaying() || uhcPlayer.isDead()) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer);
+            uhcPlayer.setSinceStart(false);
             return;
         }
 

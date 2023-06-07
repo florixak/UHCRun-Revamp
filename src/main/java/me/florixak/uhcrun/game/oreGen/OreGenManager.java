@@ -15,7 +15,6 @@ public class OreGenManager {
     private final GameManager gameManager;
     private final FileConfiguration ore_gen_config;
 
-    private List<Material> notAllowed;
     private List<OreGen> oreGenList;
 
     public OreGenManager(GameManager gameManager) {
@@ -36,7 +35,7 @@ public class OreGenManager {
                     ? XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial() : XMaterial.STONE.parseMaterial();
 
             if (canSkip(material)) {
-                System.out.println("[POTOM SMAZAT] - " + materialN + " is doubled! skipping material");
+                System.out.println("[POTOM SMAZAT] - " + materialN + " is doubled! Skipping material...");
                 return;
             }
 

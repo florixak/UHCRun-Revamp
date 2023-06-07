@@ -67,7 +67,6 @@ public class GameManager {
     private final WorldManager worldManager;
 
     private final Utils utils;
-    private final TeleportUtils teleportUtils;
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
@@ -95,7 +94,6 @@ public class GameManager {
         this.worldManager = new WorldManager();
 
         this.utils = new Utils(this);
-        this.teleportUtils = new TeleportUtils(this);
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -122,7 +120,7 @@ public class GameManager {
         getCustomDropManager().loadCustomDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
-        // getPerksManager().loadPerks();
+        // TODO getPerksManager().loadPerks();
         getGuiManager().loadInventories();
 
         getTaskManager().runGameChecking();
@@ -153,7 +151,7 @@ public class GameManager {
             case MINING:
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
 
-                getPlayerManager().getPlayers().forEach(getPlayerManager()::readyPlayerForGame);
+                getPlayerManager().getPlayers().stream().filter(UHCPlayer::isOnline).forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
@@ -189,7 +187,7 @@ public class GameManager {
 
                 getTaskManager().startEndingCD();
 
-                getPlayerManager().getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isOnline())
+                getPlayerManager().getPlayers().stream().filter(UHCPlayer::isOnline)
                         .forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 break;
         }
@@ -222,6 +220,36 @@ public class GameManager {
     }
     public void setPvP(boolean b) {
         this.pvp = b;
+    }
+
+    public void setUHCWinner() {
+
+        if (getPlayerManager().getAlivePlayers().isEmpty()
+                || getPlayerManager().getAlivePlayers().size() == 0) return;
+
+        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
+        for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
+            if (uhcPlayer == null) return;
+            if (uhcPlayer.getKills() > winner.getKills()) winner = uhcPlayer;
+        }
+
+        if (isTeamMode()) {
+            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                teamMember.setWinner(true);
+            }
+            return;
+        }
+        winner.setWinner(true);
+
+    }
+    public String getUHCWinner() {
+        if (isTeamMode()) {
+            TeamManager tM = getTeamManager();
+            return tM.getWinnerTeam() != null ? (tM.getWinnerTeam().getMembers().size() == 1 ? tM.getWinnerTeam().getMembers().get(0).getName()
+                    : tM.getWinnerTeam().getName())
+                    : "None";
+        }
+        return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
     public World getGameWorld() {
@@ -309,43 +337,13 @@ public class GameManager {
         registerCommand("statistics", new StatisticsCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
-        PluginCommand command = UHCRun.getInstance().getCommand(commandN);
+        PluginCommand command = plugin.getCommand(commandN);
 
         if (command == null) {
-            UHCRun.getInstance().getLogger().info("Error in registering command! (" + command + ")");
+            plugin.getLogger().info("Error in registering command! (" + command + ")");
             return;
         }
         command.setExecutor(executor);
-    }
-
-    public void setUHCWinner() {
-
-        if (getPlayerManager().getAlivePlayers().isEmpty()
-                || getPlayerManager().getAlivePlayers().size() == 0) return;
-
-        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
-        for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
-            if (uhcPlayer == null) return;
-            if (uhcPlayer.getKills() > winner.getKills()) winner = uhcPlayer;
-        }
-
-        if (isTeamMode()) {
-            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
-                teamMember.setWinner(true);
-            }
-            return;
-        }
-        winner.setWinner(true);
-
-    }
-    public String getUHCWinner() {
-        if (isTeamMode()) {
-            TeamManager tM = getTeamManager();
-            return tM.getWinnerTeam() != null ? (tM.getWinnerTeam().getMembers().size() == 1 ? tM.getWinnerTeam().getMembers().get(0).getName()
-                                                                                             : tM.getWinnerTeam().getName())
-                                              : "None";
-        }
-        return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
     public static GameManager getGameManager() {
@@ -405,9 +403,6 @@ public class GameManager {
     public Utils getUtils() {
         return utils;
     }
-    public TeleportUtils getTeleportUtils() {
-        return teleportUtils;
-    }
 
     public boolean isVaultEnabled() {
         return config.getBoolean("settings.addons.use-Vault", false) && UHCRun.getVault() != null;
@@ -416,6 +411,6 @@ public class GameManager {
         return config.getBoolean("settings.addons.use-LuckPerms", false) && UHCRun.getLuckPerms() != null;
     }
     public boolean isProtocolLibEnabled() {
-        return config.getBoolean("settings.addons.use-ProtocolLib");
+        return config.getBoolean("settings.addons.use-ProtocolLib", false) && Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
     }
 }

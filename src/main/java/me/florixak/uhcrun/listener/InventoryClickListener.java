@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryClickListener implements Listener {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public InventoryClickListener(GameManager gameManager) {
         this.gameManager = gameManager;

@@ -5,7 +5,6 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -57,11 +56,11 @@ public class UHCTeam {
         return getMembers().size() >= this.size;
     }
     public boolean isMember(UHCPlayer uhcPlayer) {
-        return this.members.contains(uhcPlayer);
+        return getMembers().contains(uhcPlayer);
     }
 
     public int getKills() {
-        return members.stream().mapToInt(UHCPlayer::getKills).sum();
+        return getMembers().stream().mapToInt(UHCPlayer::getKills).sum();
     }
 
     public List<UHCPlayer> getMembers() {
@@ -78,10 +77,10 @@ public class UHCTeam {
         return members.toString();
     }
     private List<UHCPlayer> getMembers(Predicate<UHCPlayer> filter){
-        return this.members.stream().filter(filter).collect(Collectors.toList());
+        return getMembers().stream().filter(filter).collect(Collectors.toList());
     }
     public List<UHCPlayer> getAliveMembers() {
-        return getMembers(hocPlayer -> hocPlayer.isAlive());
+        return getMembers(UHCPlayer::isAlive);
     }
 
     public boolean isAlive() {
@@ -91,6 +90,7 @@ public class UHCTeam {
     public void teleport(Location loc) {
         if (loc == null) return;
         for (UHCPlayer uhcPlayer : getAliveMembers()) {
+            if (!uhcPlayer.isOnline()) return;
             uhcPlayer.getPlayer().teleport(loc);
         }
     }
@@ -129,11 +129,11 @@ public class UHCTeam {
     }
     public void sendHotBarMessage(String message) {
         if (message.isEmpty() || message == null) return;
-        getMembers().stream().filter(hocPlayer -> hocPlayer.isAlive()).forEach(hocPlayer -> Utils.sendHotBarMessage(hocPlayer.getPlayer(), message));
+        getMembers().stream().filter(UHCPlayer::isAlive).forEach(uhcPlayer -> Utils.sendHotBarMessage(uhcPlayer.getPlayer(), message));
     }
     public void sendMessage(String message) {
         if (message.isEmpty() || message == null) return;
-        this.members.forEach(hocPlayer -> hocPlayer.sendMessage(TextUtils.color(message)));
+        getMembers().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayer -> uhcPlayer.sendMessage(TextUtils.color(message)));
     }
 
 }

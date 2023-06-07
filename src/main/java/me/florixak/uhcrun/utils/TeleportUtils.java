@@ -1,33 +1,30 @@
 package me.florixak.uhcrun.utils;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashSet;
 import java.util.Random;
 
 public class TeleportUtils {
 
-    private static GameManager gameManager;
-    private static FileConfiguration config;
+    private static final GameManager gameManager = GameManager.getGameManager();
 
     public static HashSet<Material> bad_blocks = new HashSet<>();
 
-    public TeleportUtils(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-    }
-
     static {
-        bad_blocks.add(Material.LAVA);
-        bad_blocks.add(Material.FIRE);
-        bad_blocks.add(Material.CACTUS);
-        bad_blocks.add(Material.WATER);
+        bad_blocks.add(XMaterial.LAVA.parseMaterial());
+        bad_blocks.add(XMaterial.FIRE.parseMaterial());
+        bad_blocks.add(XMaterial.CACTUS.parseMaterial());
+        bad_blocks.add(XMaterial.WATER.parseMaterial());
+        bad_blocks.add(XMaterial.DIRT.parseMaterial());
+        bad_blocks.add(XMaterial.GRASS.parseMaterial());
+        bad_blocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
+        bad_blocks.add(XMaterial.STONE.parseMaterial());
     }
 
     public static Location generateLocation(){

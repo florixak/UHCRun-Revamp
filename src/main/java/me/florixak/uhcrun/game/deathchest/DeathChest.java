@@ -21,12 +21,12 @@ public class DeathChest {
 
     private final UHCPlayer uhcPlayer;
     private final Location loc;
-    private String title;
     private List<ItemStack> contents;
 
-    private boolean expire;
+    private String title;
     private Hologram hologram;
 
+    private final boolean expire;
     private DeathChestExpire deathChestExpire;
 
     public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents, boolean expire) {

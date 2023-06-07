@@ -55,4 +55,8 @@ custom-drops:
   TALL_GRASS:
     exp: 0
     drops:
-      WHEAT: [0, 1]
+      BREAD: [0, 1]
+  FERN:
+    exp: 0
+    drops:
+      BREAD: [0, 1]
