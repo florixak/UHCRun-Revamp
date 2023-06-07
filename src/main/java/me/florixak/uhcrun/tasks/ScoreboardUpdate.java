@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ScoreboardUpdate extends BukkitRunnable {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public ScoreboardUpdate(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -14,7 +14,7 @@ public class ScoreboardUpdate extends BukkitRunnable {
 
     @Override
     public void run() {
-        Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(gameManager.getScoreboardManager()::setScoreboard);
-        Bukkit.getOnlinePlayers().stream().filter(player -> player.isOnline()).forEach(gameManager.getTabManager()::setPlayerList);
+        Bukkit.getOnlinePlayers().forEach(gameManager.getScoreboardManager()::setScoreboard);
+        Bukkit.getOnlinePlayers().forEach(gameManager.getTabManager()::setPlayerList);
     }
 }

@@ -8,14 +8,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class EndingCD extends BukkitRunnable {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private final GameManager gameManager;
+    private final FileConfiguration config;
     public static int countdown;
 
     public EndingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.countdown = config.getInt("settings.game.countdowns.ending");
+        countdown = config.getInt("settings.game.countdowns.ending");
     }
 
     @Override

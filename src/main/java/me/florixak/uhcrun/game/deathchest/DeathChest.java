@@ -49,16 +49,17 @@ public class DeathChest {
 
         Chest chest = (Chest) state;
         chest.setCustomName(TextUtils.color(this.title));
+        addHologram();
 
         if (!getContents().isEmpty()) {
             for (ItemStack item : getContents()) {
                 chest.getInventory().addItem(item);
             }
         }
+
         if (canExpire()) {
             startExpiring();
         }
-        addHologram();
     }
 
     public UHCPlayer getPlayer() {
