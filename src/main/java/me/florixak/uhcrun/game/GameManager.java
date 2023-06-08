@@ -90,7 +90,7 @@ public class GameManager {
         this.deathmatchManager = new DeathmatchManager(this);
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
-        this.recipeManager = new RecipeManager();
+        this.recipeManager = new RecipeManager(this);
         this.worldManager = new WorldManager();
 
         this.utils = new Utils(this);

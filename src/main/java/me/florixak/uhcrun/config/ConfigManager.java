@@ -27,6 +27,7 @@ public class ConfigManager {
         registerFile(ConfigType.PERKS, new ConfigHandler(plugin, "perks"));
         registerFile(ConfigType.LOBBY, new ConfigHandler(plugin, "lobby"));
         registerFile(ConfigType.CUSTOM_DROPS, new ConfigHandler(plugin, "custom-drops"));
+        registerFile(ConfigType.CUSTOM_RECIPES, new ConfigHandler(plugin, "custom-recipes"));
         registerFile(ConfigType.ORE_GENERATION, new ConfigHandler(plugin, "ore-generation"));
 
         configurations.values().forEach(ConfigHandler::saveDefaultConfig);

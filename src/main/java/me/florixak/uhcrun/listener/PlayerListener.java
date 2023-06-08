@@ -34,6 +34,11 @@ public class PlayerListener implements Listener {
         Player p = event.getPlayer();
         event.setJoinMessage(null);
 
+        if (gameManager.getGameState().equals(GameState.ENDING)) {
+            p.kickPlayer("Game is restarting!");
+            return;
+        }
+
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateHOCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
@@ -64,9 +69,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void handleQuit(PlayerQuitEvent event) {
+
         Player p = event.getPlayer();
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         event.setQuitMessage(null);
+
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
 
@@ -105,7 +112,7 @@ public class PlayerListener implements Listener {
     public void handleItemDrop(PlayerDropItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
+        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             event.setCancelled(true);
         }
     }
@@ -114,7 +121,7 @@ public class PlayerListener implements Listener {
     public void handleItemPickUp(PlayerPickupItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayer.isDead()) {
+        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             event.setCancelled(true);
         }
     }
