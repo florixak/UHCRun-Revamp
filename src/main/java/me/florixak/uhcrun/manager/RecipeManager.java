@@ -19,18 +19,13 @@ import java.util.List;
 
 public class RecipeManager {
 
-    private final GameManager gameManager;
     private final FileConfiguration recipe_config;
 
     private List<ShapedRecipe> recipes;
-    public HashMap<String, Material> recipe;
 
     public RecipeManager(GameManager gameManager) {
-        this.gameManager = gameManager;
         this.recipe_config = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
         this.recipes = new ArrayList<>();
-
-        this.recipe = new HashMap<>();
     }
 
     @Deprecated
@@ -41,6 +36,9 @@ public class RecipeManager {
         for (String recipe : recipe_config.getConfigurationSection("custom-recipes").getKeys(false)) {
             ItemStack item = new ItemStack(XMaterial.matchXMaterial(recipe.toUpperCase()).get().parseMaterial(),
                     recipe_config.getInt("custom-recipes." + recipe + ".amount"));
+
+            if (recipe_config.getConfigurationSection("custom-recipes." + recipe + ".enchantments") != null) {
+            }
 
             ShapedRecipe itemRecipe = new ShapedRecipe(new NamespacedKey(UHCRun.getInstance(), recipe.toLowerCase()), item);
 
