@@ -44,6 +44,10 @@ public class LobbyManager {
         return loc;
     }
 
+    public String getWorld(LobbyType lobbyType) {
+        return lobby_config.getString("lobby." + lobbyType.name().toLowerCase() + ".world");
+    }
+
     public boolean existsLobby(LobbyType lobbyType) {
         return lobby_config.getConfigurationSection("lobby." + lobbyType.name().toLowerCase()) != null;
     }
