@@ -16,6 +16,7 @@ import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
 import me.florixak.uhcrun.game.oreGen.OreGenManager;
+import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
@@ -110,8 +111,12 @@ public class GameManager {
         connectToDatabase();
 
         // getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
-        getWorldManager().createWorld("wait-lobby", WorldType.FLAT);
-        getWorldManager().createWorld("end-lobby", WorldType.FLAT);
+        if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.WAITING)) == null) {
+            getWorldManager().createWorld("wait-lobby", WorldType.FLAT);
+        }
+        if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
+            getWorldManager().createWorld("end-lobby", WorldType.FLAT);
+        }
 
         getBorderManager().setBorder();
         getOreGenManager().generateOres();
