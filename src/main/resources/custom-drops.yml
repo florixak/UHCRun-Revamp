@@ -60,3 +60,15 @@ custom-drops:
     exp: 0
     drops:
       BREAD: [0, 1]
+  OAK_LOG:
+    exp: 20
+    drops:
+      OAK_PLANKS: [4]
+  BIRCH_LOG:
+    exp: 20
+    drops:
+      OAK_PLANKS: [4]
+  SPRUCE_LOG:
+    exp: 20
+    drops:
+      OAK_PLANKS: [4]

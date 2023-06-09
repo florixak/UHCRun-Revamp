@@ -27,11 +27,11 @@ custom-recipes:
       DIG_SPEED: 3
       DURABILITY: 3
     top-left: "AIR"
-    top-middle: "WOOD"
-    top-right: "WOOD"
+    top-middle: "OAK_PLANKS"
+    top-right: "OAK_PLANKS"
     middle-left: "AIR"
     middle: "STICK"
-    middle-right: "WOOD"
+    middle-right: "OAK_PLANKS"
     bottom-left: "AIR"
     bottom-middle: "STICK"
     bottom-right: "AIR"
@@ -40,9 +40,9 @@ custom-recipes:
     enchantments:
       DIG_SPEED: 3
       DURABILITY: 3
-    top-left: "WOOD"
-    top-middle: "WOOD"
-    top-right: "WOOD"
+    top-left: "OAK_PLANKS"
+    top-middle: "OAK_PLANKS"
+    top-right: "OAK_PLANKS"
     middle-left: "AIR"
     middle: "STICK"
     middle-right: "AIR"
@@ -55,7 +55,7 @@ custom-recipes:
       DIG_SPEED: 3
       DURABILITY: 3
     top-left: "AIR"
-    top-middle: "WOOD"
+    top-middle: "OAK_PLANKS"
     top-right: "AIR"
     middle-left: "AIR"
     middle: "STICK"
