@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,6 +39,12 @@ public class RecipeManager {
                     recipe_config.getInt("custom-recipes." + recipe + ".amount"));
 
             if (recipe_config.getConfigurationSection("custom-recipes." + recipe + ".enchantments") != null) {
+                for (String enchant : recipe_config.getConfigurationSection("custom-recipes." + recipe + ".enchantments").getKeys(false)) {
+                    String enchantment = enchant.toUpperCase();
+                    Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                    int level = recipe_config.getInt("custom-recipes." + recipe + ".enchantments." + enchantment, 1);
+                    ItemUtils.addEnchant(item, e, level, true);
+                }
             }
 
             ShapedRecipe itemRecipe = new ShapedRecipe(new NamespacedKey(UHCRun.getInstance(), recipe.toLowerCase()), item);

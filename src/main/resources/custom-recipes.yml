@@ -21,3 +21,45 @@ custom-recipes:
     bottom-left: "STICK"
     bottom-middle: "AIR"
     bottom-right: "AIR"
+  STONE_AXE:
+    amount: 1
+    enchantments:
+      DIG_SPEED: 3
+      DURABILITY: 3
+    top-left: "AIR"
+    top-middle: "WOOD"
+    top-right: "WOOD"
+    middle-left: "AIR"
+    middle: "STICK"
+    middle-right: "WOOD"
+    bottom-left: "AIR"
+    bottom-middle: "STICK"
+    bottom-right: "AIR"
+  STONE_PICKAXE:
+    amount: 1
+    enchantments:
+      DIG_SPEED: 3
+      DURABILITY: 3
+    top-left: "WOOD"
+    top-middle: "WOOD"
+    top-right: "WOOD"
+    middle-left: "AIR"
+    middle: "STICK"
+    middle-right: "AIR"
+    bottom-left: "AIR"
+    bottom-middle: "STICK"
+    bottom-right: "AIR"
+  STONE_SHOVEL:
+    amount: 1
+    enchantments:
+      DIG_SPEED: 3
+      DURABILITY: 3
+    top-left: "AIR"
+    top-middle: "WOOD"
+    top-right: "AIR"
+    middle-left: "AIR"
+    middle: "STICK"
+    middle-right: "AIR"
+    bottom-left: "AIR"
+    bottom-middle: "STICK"
+    bottom-right: "AIR"
