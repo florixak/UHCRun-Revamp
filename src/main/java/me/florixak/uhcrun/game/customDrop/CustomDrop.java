@@ -34,10 +34,8 @@ public class CustomDrop {
         this.entity = entity;
         this.drops = drops;
 
-        if (minAmount >= 0) this.minAmount = minAmount;
-        else this.minAmount = 1;
-        if (maxAmount >= this.minAmount) this.maxAmount = maxAmount;
-        else this.maxAmount = 1;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
 
         this.exp = exp;
     }

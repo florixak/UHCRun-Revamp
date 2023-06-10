@@ -24,6 +24,7 @@ import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
+import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.CommandExecutor;
@@ -232,8 +233,10 @@ public class GameManager {
 
         UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
         for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
-            if (uhcPlayer == null) return;
-            if (uhcPlayer.getKills() > winner.getKills()) winner = uhcPlayer;
+            if (!uhcPlayer.isOnline()) return;
+            if (uhcPlayer.getKills() > winner.getKills()) {
+                winner = uhcPlayer;
+            }
         }
 
         if (isTeamMode()) {
@@ -247,9 +250,9 @@ public class GameManager {
     }
     public String getUHCWinner() {
         if (isTeamMode()) {
-            TeamManager tM = getTeamManager();
-            return tM.getWinnerTeam() != null ? (tM.getWinnerTeam().getMembers().size() == 1 ? tM.getWinnerTeam().getMembers().get(0).getName()
-                    : tM.getWinnerTeam().getName())
+            UHCTeam winnerTeam = teamManager.getWinnerTeam();
+            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName()
+                    : winnerTeam.getName())
                     : "None";
         }
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";

@@ -39,7 +39,9 @@ public class CustomDropManager {
                     Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
                     List<Integer> amount_list = custom_drop_cfg.getIntegerList("custom-drops." + block + ".drops." + drop);
                     drops.add(b);
-                    minAmount = amount_list.get(0);
+                    if (amount_list.get(0) >= 0) {
+                        minAmount = amount_list.get(0);
+                    }
                     if (amount_list.size() > 1) {
                         maxAmount = amount_list.get(1);
                     }
