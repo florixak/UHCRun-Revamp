@@ -72,7 +72,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins()+wins);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
+        if (!GameManager.getGameManager().areStatsAddOnEnd()) {
             double money = 500;
             double exp = 300;
             addMoney(money);
@@ -89,7 +89,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", getLosses()+losses);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
+        if (!GameManager.getGameManager().areStatsAddOnEnd()) {
             double money = 100;
             double exp = 50;
             addMoney(money);
@@ -106,7 +106,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills()+kills);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (!GameManager.getGameManager().areStatisticsAddedOnEnd()) {
+        if (!GameManager.getGameManager().areStatsAddOnEnd()) {
             double money = 20;
             double exp = 25;
             addMoney(money);

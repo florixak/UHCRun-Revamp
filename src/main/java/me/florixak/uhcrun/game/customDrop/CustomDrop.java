@@ -20,9 +20,9 @@ public class CustomDrop {
     private final Material material;
     private final Entity entity;
     private List<Material> drops;
-    private int minAmount;
-    private int maxAmount;
-    private int exp;
+    private final int minAmount;
+    private final int maxAmount;
+    private final int exp;
 
     public CustomDrop(Material material,
                       Entity entity,
@@ -36,7 +36,7 @@ public class CustomDrop {
 
         if (minAmount >= 0) this.minAmount = minAmount;
         else this.minAmount = 1;
-        if (maxAmount > this.minAmount) this.maxAmount = maxAmount;
+        if (maxAmount >= this.minAmount) this.maxAmount = maxAmount;
         else this.maxAmount = 1;
 
         this.exp = exp;
@@ -92,18 +92,13 @@ public class CustomDrop {
 
                 Material drop = getDrops().get(ran.nextInt(getDrops().size()));
                 if (drop != XMaterial.AIR.parseMaterial()) {
-                    int amount = getMinAmount() == getMaxAmount() ? getMinAmount()
-                            : getMinAmount() + (int)(Math.random() * (getMaxAmount()-getMinAmount()+1));
+                    int amount = getMinAmount() + (int)(Math.random() * (getMaxAmount()-getMinAmount()+1));
                     ItemStack drop_is = new ItemStack(drop, amount);
 
                     Location location = loc.add(0.5, 0.5, 0.5);
                     Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
                 }
             }
-        }
-
-        if (death_event != null) {
-            // TODO entity custom drop
         }
     }
 }

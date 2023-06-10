@@ -147,15 +147,6 @@ public class PlayerManager {
         p.getInventory().setArmorContents(emptyArmor);
     }
 
-    public void teleport(Player p) {
-
-        switch (gameManager.getGameState()) {
-            case ENDING:
-                p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
-                break;
-        }
-    }
-
     public void onDisable() {
         this.players.clear();
     }

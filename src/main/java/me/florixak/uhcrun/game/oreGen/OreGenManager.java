@@ -31,8 +31,8 @@ public class OreGenManager {
         }
 
         for (String materialN : ore_gen_config.getConfigurationSection("ore-generation").getKeys(false)) {
-            Material material = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial() != null
-                    ? XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial() : XMaterial.STONE.parseMaterial();
+            Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
+            Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
             if (canSkip(material)) {
                 System.out.println("[POTOM SMAZAT] - " + materialN + " is doubled! Skipping material...");

@@ -16,7 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.checkerframework.checker.units.qual.g;
 
 public class PlayerListener implements Listener {
 
@@ -83,7 +82,7 @@ public class PlayerListener implements Listener {
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
             gameManager.getPlayerManager().removePlayer(uhcPlayer);
         } else {
-            if (!gameManager.areStatisticsAddedOnEnd()) {
+            if (!gameManager.areStatsAddOnEnd()) {
                 uhcPlayer.getData().addLose(1);
                 uhcPlayer.getData().addDeaths(1);
             }

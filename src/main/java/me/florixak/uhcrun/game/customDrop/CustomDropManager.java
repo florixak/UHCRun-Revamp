@@ -34,6 +34,7 @@ public class CustomDropManager {
 
             if (custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops") != null &&
                     custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false) != null) {
+
                 for (String drop : custom_drop_cfg.getConfigurationSection("custom-drops." + block + ".drops").getKeys(false)) {
                     Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
                     List<Integer> amount_list = custom_drop_cfg.getIntegerList("custom-drops." + block + ".drops." + drop);

@@ -192,8 +192,6 @@ public class GameManager {
 
                 getTaskManager().startEndingCD();
 
-                getPlayerManager().getPlayers().stream().filter(UHCPlayer::isOnline)
-                        .forEach(uhcPlayer -> getPlayerManager().teleport(uhcPlayer.getPlayer()));
                 break;
         }
     }
@@ -275,7 +273,7 @@ public class GameManager {
     public boolean areCustomDropsEnabled() {
         return config.getBoolean("settings.game.custom-drops", true);
     }
-    public boolean areStatisticsAddedOnEnd() {
+    public boolean areStatsAddOnEnd() {
         return config.getBoolean("settings.statistics.add-up-game-ends", false);
     }
     public boolean isDeathChestEnabled() {
