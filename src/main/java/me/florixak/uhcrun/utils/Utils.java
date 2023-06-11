@@ -34,7 +34,7 @@ public class Utils {
     }
 
     public void clearDrops() {
-        List<Entity> entList = Bukkit.getWorld("world").getEntities();
+        List<Entity> entList = gameManager.getGameWorld().getEntities();
 
         for(Entity current : entList) {
             if (current instanceof Item) {
