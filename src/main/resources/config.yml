@@ -103,11 +103,11 @@ settings:
     add-up-game-ends: false
 
     player-level:
-      # Players will gain xp and increase their level
-      first-level: 0
-      first-required-exp: 100
-      required-exp-multiplier: 3.75
+      # Players will gain xp and increase their uhc run level
       enabled: true
+      first-level: 0
+      first-required-exp: 100.0
+      required-exp-multiplier: 3.75
 
     player-stats:
       display-item: PLAYER_HEAD

@@ -307,10 +307,8 @@ public class GameManager {
                 config.getString(path + ".port", "3306"),
                 config.getString(path + ".database", "uhcrun"),
                 config.getString(path + ".username", "root"),
-                config.getString(path + ".password", "")
-        );
+                config.getString(path + ".password", ""));
         this.data = new SQLGetter(this);
-        this.data.createTable();
     }
     private void disconnectDatabase() {
         if (config.getBoolean("settings.MySQL.enabled", false)) {

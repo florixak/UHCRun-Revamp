@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.sql;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 
 import java.sql.Connection;
@@ -10,7 +9,7 @@ import java.sql.SQLException;
 
 public class MySQL {
 
-    private Connection con;
+    private Connection conn;
 
     private final String host;
     private final String port;
@@ -30,7 +29,7 @@ public class MySQL {
 
     public void connect() {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
+            conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
         } catch (SQLException e) {
             UHCRun.getInstance().getLogger().info(TextUtils.color("&cMySQL can not be connected!"));
         }
@@ -39,7 +38,7 @@ public class MySQL {
     public void disconnect() {
         try {
             if (this.hasConnection()) {
-                this.con.close();
+                this.conn.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,10 +46,15 @@ public class MySQL {
     }
 
     public boolean hasConnection() {
-        return this.con != null ? true : false;
+        return this.conn != null ? true : false;
     }
 
     public Connection getConnection() {
-        return this.con;
+
+        if (this.conn != null) {
+            return this.conn;
+        }
+        connect();
+        return this.conn;
     }
 }
