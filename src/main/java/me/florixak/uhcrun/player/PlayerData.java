@@ -72,14 +72,12 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins()+wins);
         GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (!GameManager.getGameManager().areStatsAddOnEnd()) {
-            double money = 500;
-            double exp = 300;
-            addMoney(money);
-            addUHCExp(exp);
-            this.moneyForGameResult += money;
-            this.uhcExpForGameResult += exp;
-        }
+        double money = 500;
+        double exp = 300;
+        addMoney(money);
+        addUHCExp(exp);
+        this.moneyForGameResult += money;
+        this.uhcExpForGameResult += exp;
     }
 
     public int getLosses() {

@@ -63,7 +63,7 @@ custom-drops:
   OAK_LOG:
     exp: 20
     drops:
-      OAK_PLANKS: [4]
+      OAK_PLANKS: [4, 4]
   BIRCH_LOG:
     exp: 20
     drops:

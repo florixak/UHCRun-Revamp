@@ -108,9 +108,12 @@ public class GameListener implements Listener {
             gameManager.getPerksManager().givePerk(killer);
             killer.getPlayer().giveExp(config.getInt("settings.rewards.kill.exp"));
 
-            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
+            Utils.broadcast(Messages.KILL.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%killer%", killer.getName()));
         } else {
-            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
+            Utils.broadcast(Messages.DEATH.toString()
+                    .replace("%player%", victim.getName()));
         }
 
         if (!gameManager.areStatsAddOnEnd()) {
@@ -126,7 +129,8 @@ public class GameListener implements Listener {
         }
 
         if (!victim.getTeam().isAlive() && gameManager.isTeamMode()) {
-            Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
+            Utils.broadcast(Messages.TEAM_DEFEATED.toString()
+                    .replace("%team%", victim.getTeam().getDisplayName()));
         }
 
         gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
@@ -144,6 +148,8 @@ public class GameListener implements Listener {
             p.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
+
+        gameManager.getUtils().timber(block);
 
         if (gameManager.isRandomDrop()) {
             event.setDropItems(false);
@@ -275,11 +281,6 @@ public class GameListener implements Listener {
     @EventHandler
     public void handleWeatherChange(WeatherChangeEvent event) {
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void handleTimber(BlockBreakEvent event) {
-        gameManager.getUtils().timber(event.getBlock());
     }
 
     @EventHandler
