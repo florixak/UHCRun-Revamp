@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class PlayerData {
 
+    private final GameManager gameManager;
     private final UHCPlayer uhcPlayer;
     private final FileConfiguration player_data;
 
@@ -19,8 +20,10 @@ public class PlayerData {
 
     public PlayerData(UHCPlayer uhcPlayer) {
         this.uhcPlayer = uhcPlayer;
-        this.player_data = GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
-        FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.gameManager = GameManager.getGameManager();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.player_data = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+
 
         this.moneyForGameResult = 0;
         this.moneyForKills = 0;
@@ -28,8 +31,8 @@ public class PlayerData {
         this.uhcExpForKills = 0;
 
         setData();
-        if (GameManager.getGameManager().getSQL() != null && !config.getBoolean("settings.mysql.enabled", false)) {
-            GameManager.getGameManager().getData().createPlayer(uhcPlayer.getPlayer());
+        if (gameManager.getSQL() != null && !config.getBoolean("settings.mysql.enabled", false)) {
+            gameManager.getData().createPlayer(uhcPlayer.getPlayer());
         }
     }
 
@@ -47,20 +50,20 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
     public boolean hasData() {
         return player_data.getConfigurationSection("player-data." + uhcPlayer.getUUID()) != null;
     }
 
     public double getMoney() {
-        if (GameManager.getGameManager().isVaultEnabled()) {
+        if (gameManager.isVaultEnabled()) {
             return UHCRun.getVault().getBalance(uhcPlayer.getPlayer());
         }
         return 0.00;
     }
     public void addMoney(double money) {
-        if (GameManager.getGameManager().isVaultEnabled()) {
+        if (gameManager.isVaultEnabled()) {
             UHCRun.getVault().depositPlayer(uhcPlayer.getPlayer(), money);
         }
     }
@@ -70,7 +73,7 @@ public class PlayerData {
     }
     public void addWin(int wins) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins()+wins);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         double money = 500;
         double exp = 300;
@@ -85,7 +88,7 @@ public class PlayerData {
     }
     public void addLose(int losses) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", getLosses()+losses);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         if (!GameManager.getGameManager().areStatsAddOnEnd()) {
             double money = 100;
@@ -102,9 +105,9 @@ public class PlayerData {
     }
     public void addKills(int kills) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills()+kills);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (!GameManager.getGameManager().areStatsAddOnEnd()) {
+        if (!gameManager.areStatsAddOnEnd()) {
             double money = 20;
             double exp = 25;
             addMoney(money);
@@ -119,7 +122,7 @@ public class PlayerData {
     }
     public void addDeaths(int deaths) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths()+deaths);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public int getUHCLevel() {
@@ -132,7 +135,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()-getRequiredUHCExp());
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+1);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", getRequiredUHCExp()*3.75);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
                 .replace("%uhc-level%", String.valueOf(getUHCLevel()))
