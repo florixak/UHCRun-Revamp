@@ -31,6 +31,8 @@ public class PlaceholderUtil {
 
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
+        if (uhcPlayer == null) return " ";
+
         if (text.contains("%player%") && uhcPlayer != null)
             text = text.replace("%player%", uhcPlayer.getName());
 

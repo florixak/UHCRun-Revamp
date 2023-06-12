@@ -20,6 +20,7 @@ public class PlayerData {
     public PlayerData(UHCPlayer uhcPlayer) {
         this.uhcPlayer = uhcPlayer;
         this.player_data = GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+        FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.moneyForGameResult = 0;
         this.moneyForKills = 0;
@@ -27,7 +28,9 @@ public class PlayerData {
         this.uhcExpForKills = 0;
 
         setData();
-        GameManager.getGameManager().getData().createPlayer(uhcPlayer.getPlayer());
+        if (GameManager.getGameManager().getSQL() != null && !config.getBoolean("settings.mysql.enabled", false)) {
+            GameManager.getGameManager().getData().createPlayer(uhcPlayer.getPlayer());
+        }
     }
 
     public void setData() {

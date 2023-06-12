@@ -133,7 +133,6 @@ public class Utils {
         p.addPotionEffect(potion.buildPotionEffect(duration, power));
     }
 
-
     public void timber(Block block) {
 
         if (!(block.getType() == XMaterial.OAK_LOG.parseMaterial()
