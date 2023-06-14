@@ -129,7 +129,7 @@ public class PlayerData {
     }
     public void addUHCLevel() {
 
-        gameManager.getData().addUHCLevel(uhcPlayer.getUUID());
+        // gameManager.getData().addUHCLevel(uhcPlayer.getUUID());
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()-getRequiredUHCExp());
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+1);
@@ -174,7 +174,7 @@ public class PlayerData {
     }
     public void addUHCExp(double amount) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()+amount);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         if (getUHCExp() >= getRequiredUHCExp()) {
             addUHCLevel();
