@@ -12,6 +12,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -92,7 +93,6 @@ public class UHCPlayer {
     public PlayerData getData() {
         return this.data;
     }
-
 
     public void setWinner(boolean win) {
         if (this.hasWon == win) return;

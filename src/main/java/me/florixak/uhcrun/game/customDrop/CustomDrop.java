@@ -90,7 +90,8 @@ public class CustomDrop {
 
                 Material drop = getDrops().get(ran.nextInt(getDrops().size()));
                 if (drop != XMaterial.AIR.parseMaterial()) {
-                    int amount = getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
+
+                    int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
                     ItemStack dropItem = new ItemStack(drop, amount);
 
                     Location location = loc.add(0.5, 0.5, 0.5);

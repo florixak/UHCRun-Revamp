@@ -24,7 +24,6 @@ public class PlayerData {
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.player_data = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
 
-
         this.moneyForGameResult = 0;
         this.moneyForKills = 0;
         this.uhcExpForGameResult = 0;
@@ -130,7 +129,7 @@ public class PlayerData {
     }
     public void addUHCLevel() {
 
-        GameManager.getGameManager().getData().addUHCLevel(uhcPlayer.getUUID());
+        gameManager.getData().addUHCLevel(uhcPlayer.getUUID());
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()-getRequiredUHCExp());
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+1);
@@ -141,24 +140,29 @@ public class PlayerData {
                 .replace("%uhc-level%", String.valueOf(getUHCLevel()))
                 .replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
 
+        gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
+
         switch (getUHCLevel()) {
             case 5:
                 addMoney(50);
                 break;
             case 10:
-                addMoney(100);
-                break;
-            case 15:
-                addMoney(150);
-                break;
-            case 20:
                 addMoney(200);
                 break;
-            case 30:
+            case 15:
                 addMoney(300);
                 break;
+            case 20:
+                addMoney(350);
+                break;
+            case 30:
+                addMoney(750);
+                break;
             case 40:
-                addMoney(400);
+                addMoney(1000);
+                break;
+            case 50:
+                addMoney(2000);
                 break;
             default:
                 addMoney(20);

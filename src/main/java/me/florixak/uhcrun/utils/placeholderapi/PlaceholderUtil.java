@@ -180,10 +180,4 @@ public class PlaceholderUtil {
         return text;
 
     }
-
-    public static void replace(UHCPlayer player, String text, String late, String now) {
-        if (text.contains(late)) {
-            text.replace(late, now);
-        }
-    }
 }

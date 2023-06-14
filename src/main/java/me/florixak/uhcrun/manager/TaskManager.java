@@ -15,6 +15,8 @@ public class TaskManager {
     private final long delay = 20L;
     private final long period = 20L;
 
+    // private int cooldown;
+
     private StartingCD startingCd;
     private MiningCD miningCd;
     private FightingCD fightingCd;

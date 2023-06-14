@@ -41,6 +41,7 @@ public class CustomDropManager {
                     drops.add(b);
                     if (amount_list.get(0) >= 0) {
                         minAmount = amount_list.get(0);
+                        maxAmount = minAmount;
                     }
                     if (amount_list.size() > 1) {
                         maxAmount = amount_list.get(1);
