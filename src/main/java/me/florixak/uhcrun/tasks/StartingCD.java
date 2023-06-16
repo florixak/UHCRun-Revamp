@@ -36,7 +36,7 @@ public class StartingCD extends BukkitRunnable {
             return;
         }
 
-        if (gameManager.getKitsManager().canOpenWhenStarting() &&
+        if (gameManager.getKitsManager().willOpenWhenStarting() &&
                 countdown == gameManager.getKitsManager().getOpenWhenStartingAt()) {
             gameManager.getPlayerManager().getPlayers().stream()
                     .filter(UHCPlayer::isOnline)

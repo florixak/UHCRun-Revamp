@@ -97,7 +97,7 @@ public class KitsManager {
     public int getOpenWhenStartingAt() {
         return this.openWhenStartingAt;
     }
-    public boolean canOpenWhenStarting() {
+    public boolean willOpenWhenStarting() {
         return this.openWhenStartingAt != -1;
     }
 

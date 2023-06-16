@@ -298,6 +298,7 @@ public class GameManager {
     public SQLGetter getData() {
         return this.data;
     }
+
     private void connectToDatabase() {
         String path = "settings.mysql";
         if (!config.getBoolean( path + ".enabled", false)) return;
@@ -314,6 +315,9 @@ public class GameManager {
         if (config.getBoolean("settings.MySQL.enabled", false)) {
             mysql.disconnect();
         }
+    }
+    public boolean isDatabaseConnected() {
+        return this.mysql != null && this.mysql.hasConnection();
     }
 
     private void registerListeners() {

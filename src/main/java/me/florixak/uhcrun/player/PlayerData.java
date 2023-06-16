@@ -7,6 +7,8 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.UUID;
+
 public class PlayerData {
 
     private final GameManager gameManager;
@@ -76,6 +78,11 @@ public class PlayerData {
 
         double money = 500;
         double exp = 300;
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getData().addWin(uhcPlayer.getUUID());
+        }
+
         addMoney(money);
         addUHCExp(exp);
         this.moneyForGameResult += money;
@@ -175,6 +182,10 @@ public class PlayerData {
     public void addUHCExp(double amount) {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()+amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getData().addUHCExp(uhcPlayer.getUUID(), amount);
+        }
 
         if (getUHCExp() >= getRequiredUHCExp()) {
             addUHCLevel();
