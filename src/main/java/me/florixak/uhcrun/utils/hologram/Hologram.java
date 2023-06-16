@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.utils.hologram;
 
 import me.florixak.uhcrun.utils.TextUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -21,7 +20,7 @@ public class Hologram {
 
     public void createHologram() {
 
-        this.hologram = (ArmorStand) Bukkit.getWorld(loc.getWorld().getName()).spawnEntity(loc, EntityType.ARMOR_STAND);
+        this.hologram = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
         this.hologram.setVisible(false);
         this.hologram.setCollidable(false);
         this.hologram.setInvulnerable(true);
