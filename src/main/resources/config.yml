@@ -159,10 +159,6 @@ settings:
     random-messages: true
     period: 10 # seconds
 
-  # Economy
-  economy:
-    string-coins: 0.0
-
   # Custom nick
   custom-nick:
     enabled: true

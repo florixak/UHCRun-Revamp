@@ -12,6 +12,7 @@ import me.florixak.uhcrun.tasks.MiningCD;
 import me.florixak.uhcrun.tasks.StartingCD;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -55,10 +56,9 @@ public class PlaceholderUtil {
         if (text.contains("%min-online%"))
             text = text.replace("%min_online%", String.valueOf(config.getInt("min-players")));
 
-//        if (text.contains("%money%")) {
-//            String formatted = Utils.formatMoney(uhcPlayer.getUUID());
-//            text = text.replace("%money%", String.valueOf(formatted));
-//        }
+        if (text.contains("%money%")) {
+            text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
+        }
 
         if (text.contains("%kills%")) {
             text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));

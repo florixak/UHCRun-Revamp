@@ -84,7 +84,7 @@ public class UHCTeam {
     }
 
     public boolean isAlive() {
-        return getAliveMembers() != null;
+        return getAliveMembers() != null && getAliveMembers().size() != 0;
     }
 
     public void teleport(Location loc) {

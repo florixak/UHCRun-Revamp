@@ -119,13 +119,8 @@ public class GameListener implements Listener {
         if (!gameManager.areStatsAddOnEnd()) {
             if (killer != null) {
                 killer.getData().addKills(1);
-                killer.getData().addUHCExp(config.getDouble("settings.rewards.kill.uhc-exp"));
             }
             victim.getData().addDeaths(1);
-
-            if (!victim.getTeam().isAlive() && gameManager.isTeamMode()) {
-                victim.getData().addLose(1);
-            }
         }
 
         if (!victim.getTeam().isAlive() && gameManager.isTeamMode()) {

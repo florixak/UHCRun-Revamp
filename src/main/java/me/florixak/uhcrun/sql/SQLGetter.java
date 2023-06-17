@@ -314,10 +314,10 @@ public class SQLGetter {
         }
     }
 
-    public void addDeath(UUID uuid) {
+    public void addDeath(UUID uuid, int deaths) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET deaths=? WHERE uuid=?");
-            ps.setDouble(1, getDeaths(uuid)+1);
+            ps.setDouble(1, getDeaths(uuid)+deaths);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
