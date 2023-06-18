@@ -108,6 +108,8 @@ settings:
       first-level: 0
       first-required-exp: 100.0
       required-exp-multiplier: 3.75
+      first-reward: 100
+      reward-multiplier: 1.75 # %first-reward% * %multiplier% * %uhc-level%
 
     player-stats:
       display-item: PLAYER_HEAD
