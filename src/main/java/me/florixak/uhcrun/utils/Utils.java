@@ -6,6 +6,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
+import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -142,8 +143,8 @@ public class Utils {
                 || block.getType() == XMaterial.SPRUCE_LOG.parseMaterial()
                 || block.getType() == XMaterial.DARK_OAK_LOG.parseMaterial())) return;
 
-        block.getWorld().playSound(block.getLocation(), Sound.BLOCK_WOOD_BREAK, 2f, 1f);
-        block.breakNaturally();
+        XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
+        block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
 
         timber(block.getLocation().add(0,1,0).getBlock());
         timber(block.getLocation().add(1,0,0).getBlock());

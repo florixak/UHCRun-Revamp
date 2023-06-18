@@ -195,6 +195,7 @@ public class PlayerData {
                 getUHCLevel();
 
         addMoney(reward);
+        uhcPlayer.sendMessage("+" + reward + " for level up");
     }
     public int getPreviousUHCLevel() {
         if (gameManager.isDatabaseConnected()) {
