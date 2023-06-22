@@ -150,18 +150,17 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCD.countdown)));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 break;
 
             case MINING:
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
-
                 getPlayerManager().getPlayers().stream().filter(UHCPlayer::isOnline).forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.countdown)));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 
             case FIGHTING:
@@ -263,6 +262,9 @@ public class GameManager {
     }
     public boolean isTeamMode() {
         return config.getBoolean("settings.teams.team-mode", true);
+    }
+    public boolean isFriendlyFire() {
+        return config.getBoolean("settings.teams.friendly-fire", false);
     }
     public boolean isTeleportAfterMining() {
         return config.getBoolean("settings.game.teleport-after-mining", true);

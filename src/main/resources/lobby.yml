@@ -1,13 +1,13 @@
 lobby:
   waiting:
-    world: "wait-lobby"
+    world: "lobby"
     x: 0.0
     y: 4.0
     z: 0.0
     yaw: 0.0
     pitch: 0.0
   ending:
-    world: "end-lobby"
+    world: "lobby"
     x: 0.0
     y: 4.0
     z: 0.0

@@ -42,7 +42,6 @@ public class DeathChest {
         }
         createChest();
     }
-
     public void createChest() {
         Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
         BlockState state = loc.getBlock().getState();
@@ -77,7 +76,7 @@ public class DeathChest {
         return this.deathChestExpire;
     }
     public String getExpireTime() {
-        return TimeUtils.getFormattedTime(DeathChestExpire.expireTime);
+        return TimeUtils.getFormattedTime(getExpireTask().getExpireTime());
     }
 
     public List<ItemStack> getContents() {
@@ -95,16 +94,19 @@ public class DeathChest {
         return this.hologram;
     }
 
-    public void remove() {
+    public void removeChest() {
 
         if (getExpireTask() != null && !getExpireTask().isCancelled()) {
             getExpireTask().cancel();
         }
 
         Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
-        block.getDrops().clear();
+        Chest chest = (Chest) block;
+        chest.getInventory().clear();
         block.setType(XMaterial.AIR.parseMaterial());
         getHologram().remove();
+
+        // TODO create explode
 
         /*for (ItemStack itemStack : getContents()) {
             if (itemStack == null || itemStack.equals(XMaterial.AIR.parseMaterial())) return;

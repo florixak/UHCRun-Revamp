@@ -226,7 +226,7 @@ public class GameListener implements Listener {
 
         if (gameManager.getGameState() == GameState.MINING) {
             List<String> disabled_causes = config.getStringList("settings.game.disabled-in-mining");
-            if (!disabled_causes.isEmpty() && disabled_causes != null) {
+            if (!disabled_causes.isEmpty()) {
                 for (String cause_name : disabled_causes) {
                     if (cause.name().equalsIgnoreCase(cause_name)) {
                         event.setCancelled(true);
@@ -254,9 +254,7 @@ public class GameListener implements Listener {
             return;
         }
 
-        if (gameManager.getGameState().equals(GameState.MINING)
-                || gameManager.getGameState().equals(GameState.ENDING)
-                || !gameManager.isPvP()) {
+        if (gameManager.getGameState().equals(GameState.MINING) || !gameManager.isPvP()) {
             if (!(event.getEntity() instanceof Player)) return;
             event.setCancelled(true);
             return;
@@ -266,9 +264,9 @@ public class GameListener implements Listener {
             Player entity = (Player) event.getEntity();
             UHCPlayer uhcPlayerE = gameManager.getPlayerManager().getUHCPlayer(entity.getUniqueId());
 
-            if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && config.getBoolean("settings.teams.friendly-fire")) {
+            if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !gameManager.isFriendlyFire()) {
                 event.setCancelled(true);
-                uhcPlayerD.sendMessage("Baka, this is your teammate...");
+                uhcPlayerD.sendMessage("Baka, this is your teammate..");
             }
         }
     }

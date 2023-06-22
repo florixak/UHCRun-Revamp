@@ -46,7 +46,7 @@ public class DeathChestManager {
 
     public void removeDeathChest(DeathChest deathChest) {
         if (deathChest == null) return;
-        deathChest.remove();
+        deathChest.removeChest();
         this.deathChests.remove(deathChest);
     }
 

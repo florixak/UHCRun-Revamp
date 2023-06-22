@@ -168,7 +168,7 @@ settings:
 
   # Selectors
   selectors:
-    # Available gui - teams, kits, perks, custom-crafts, statistics
+    # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true
       display-name: "&fTeams"

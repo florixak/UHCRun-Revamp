@@ -35,7 +35,7 @@ public class DeathmatchManager {
         config.set(path + ".location.x", location.getX());
         config.set(path + ".location.y", location.getY());
         config.set(path + ".location.z", location.getZ());
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).save();
+        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
     }
 
     public void resetDeathmatchLocation() {
@@ -43,7 +43,7 @@ public class DeathmatchManager {
         config.set(path + ".location.x", 0.0);
         config.set(path + ".location.y", 75.0);
         config.set(path + ".location.z", 0.0);
-        GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).save();
+        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
     }
 
     public double getDeathmatchBorderSize() {

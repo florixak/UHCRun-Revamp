@@ -35,7 +35,6 @@ public class OreGenManager {
             Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
             if (canSkip(material)) {
-                System.out.println("[POTOM SMAZAT] - " + materialN + " is doubled! Skipping material...");
                 return;
             }
 
