@@ -115,3 +115,26 @@ kits:
         enchantments:
           PROTECTION_FALL: 3
           DURABILITY: 3
+  Trapper:
+    display-item: STICKY_PISTON
+    cost: 50
+    items:
+      STONE_AXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 2
+          DURABILITY: 2
+      STONE_PICKAXE:
+        amount: 1
+        enchantments:
+          DIG_SPEED: 2
+          DURABILITY: 2
+      COBWEB:
+        amount: 5
+      STICKY_PISTON:
+        amount: 6
+      REDSTONE:
+        amount: 32
+      REPEATER:
+        amount: 4
+

@@ -37,20 +37,27 @@ public class KitsManager {
         if (!gameManager.areKitsEnabled()) return;
 
         for (String kitName : kits_config.getConfigurationSection("kits").getKeys(false)) {
+
             List<ItemStack> items = new ArrayList<>();
             Material display_item = XMaterial.BARRIER.parseMaterial();
             double cost = 0;
+
             for (String param : kits_config.getConfigurationSection("kits." + kitName).getKeys(false)) {
+
                 if (param.equalsIgnoreCase("display-item")) {
                     display_item = XMaterial.matchXMaterial(kits_config.getString("kits." + kitName + "." + param, "BARRIER").toUpperCase()).get().parseMaterial();
+
                 } else if (param.equalsIgnoreCase("cost")) {
                     cost = kits_config.getDouble("kits." + kitName + "." + param, 0);
+
                 } else if (param.equalsIgnoreCase("items")) {
+
                     if (kits_config.getConfigurationSection("kits." + kitName + "." + param) != null) {
                         for (String item : kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false)) {
                             ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null
                                     ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem()
                                     : XMaterial.STONE.parseItem();
+
                             int amount = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".amount", 1);
                             ItemStack newI = ItemUtils.createItem(i, null, amount, null);
 

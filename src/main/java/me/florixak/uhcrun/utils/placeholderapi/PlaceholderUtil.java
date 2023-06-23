@@ -27,10 +27,9 @@ public class PlaceholderUtil {
 
         GameManager gameManager = GameManager.getGameManager();
         BorderManager borderManager = gameManager.getBorderManager();
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         if (uhcPlayer == null) return "Error";
 
@@ -65,18 +64,27 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%assists%")) {
-            text = text.replace("%kills%", String.valueOf(uhcPlayer.getAssists()));
+            text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
         }
 
         if (text.contains("%time%")) {
-            if (gameManager.getGameState() == GameState.STARTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.countdown));
-            if (gameManager.getGameState() == GameState.MINING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.countdown));
-            if (gameManager.getGameState() == GameState.FIGHTING)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.countdown));
-            if (gameManager.getGameState() == GameState.DEATHMATCH)
-                text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.countdown));
+            switch (gameManager.getGameState()) {
+                case STARTING:
+                    text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.countdown));
+                    break;
+                case MINING:
+                    text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.countdown));
+                    break;
+                case FIGHTING:
+                    text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.countdown));
+                    break;
+                case DEATHMATCH:
+                    text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.countdown));
+                    break;
+                default:
+                    text = text.replace("%time%", "{Error}");
+                    break;
+            }
         }
 
         if (text.contains("%border%")) {
@@ -158,9 +166,9 @@ public class PlaceholderUtil {
 
         if (text.contains("%game-mode%")) {
             if (!gameManager.isTeamMode()) {
-                text = text.replace("%team%", "SOLO");
+                text = text.replace("%game-mode%", "SOLO");
             } else {
-                text = text.replace("%team%", "TEAM");
+                text = text.replace("%game-mode%", "TEAM");
             }
         }
 

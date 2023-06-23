@@ -15,7 +15,7 @@ public class DeathChestExpire extends BukkitRunnable {
     public DeathChestExpire(DeathChest deathChest) {
         this.deathChest = deathChest;
         this.deathChestManager = GameManager.getGameManager().getDeathChestManager();
-        expireTime = deathChestManager.getExpireTime();
+        this.expireTime = deathChestManager.getExpireTime();
     }
 
     public int getExpireTime() {
@@ -32,6 +32,6 @@ public class DeathChestExpire extends BukkitRunnable {
         deathChest.getHologram().setText(deathChest.getHologram().getText()
                 .replace("%player%", deathChest.getPlayer().getName())
                 .replace("%countdown%", TimeUtils.getFormattedTime(expireTime)));
-        expireTime--;
+        this.expireTime--;
     }
 }

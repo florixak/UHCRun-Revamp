@@ -98,7 +98,7 @@ public class UHCTeam {
     public void join(UHCPlayer uhcPlayer) {
 
         if (isMember(uhcPlayer)) {
-            uhcPlayer.sendMessage(Messages.TEAM_ALREADY_IN_TEAM.toString());
+            uhcPlayer.sendMessage(Messages.TEAM_ALREADY_IN.toString());
             return;
         }
 
@@ -117,7 +117,7 @@ public class UHCTeam {
     public void leave(UHCPlayer uhcPlayer) {
 
         if (!uhcPlayer.hasTeam()) {
-            uhcPlayer.sendMessage(Messages.TEAM_NOT_IN_TEAM.toString());
+            uhcPlayer.sendMessage(Messages.TEAM_NOT_IN.toString());
             return;
         }
 

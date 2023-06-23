@@ -23,7 +23,7 @@ public class UHCPlayer {
     private final UUID uuid;
     private final String name;
 
-    private PlayerData data;
+    private final PlayerData data;
     private PlayerState state;
 
     private UHCTeam team;
@@ -143,7 +143,9 @@ public class UHCPlayer {
         return this.kit;
     }
     public void setKit(Kit kit) {
+        if (this.kit == kit) return;
         this.kit = kit;
+        sendMessage("Peníze budou odečteny po začátku hry.");
     }
 
     public boolean hasPerk() {
@@ -153,6 +155,7 @@ public class UHCPlayer {
         return this.perk;
     }
     public void setPerk(Perk perk) {
+        if (this.perk == perk) return;
         this.perk = perk;
     }
 

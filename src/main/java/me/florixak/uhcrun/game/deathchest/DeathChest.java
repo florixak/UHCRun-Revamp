@@ -27,7 +27,7 @@ public class DeathChest {
     private Hologram hologram;
 
     private final boolean expire;
-    private DeathChestExpire deathChestExpire;
+    private final DeathChestExpire deathChestExpire;
 
     public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents, boolean expire) {
         this.uhcPlayer = uhcPlayer;
@@ -35,6 +35,7 @@ public class DeathChest {
         this.title = title;
         this.contents = contents;
 
+        this.deathChestExpire = new DeathChestExpire(this);
         this.expire = expire;
 
         if (this.title.isEmpty() || this.title == null) {
@@ -69,7 +70,6 @@ public class DeathChest {
         return this.expire;
     }
     public void startExpiring() {
-        this.deathChestExpire = new DeathChestExpire(this);
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
     }
     public DeathChestExpire getExpireTask() {

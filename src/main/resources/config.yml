@@ -16,8 +16,7 @@ settings:
 
   # Game
   game:
-#    game-world: "uhc-world"
-    auto-map-reset: true # name of map is "world"
+    auto-map-reset: true # name of game world is "world"
     allow-nether: false
 
     min-players-to-start: 2
@@ -61,7 +60,7 @@ settings:
     start-at: 3 # players, if -1 then automatic
     border-size: 40.0
     pvp-resistance-countdown: 10 # seconds, -1 = disable
-    location:
+    location: # center of deathmatch
       world: "world"
       x: 0.0
       y: 75.0
@@ -94,7 +93,7 @@ settings:
 
   # Kits
   perks:
-    enabled: true
+    enabled: false # in progress
     full-time: false # true - not yet
 
   # Statistics

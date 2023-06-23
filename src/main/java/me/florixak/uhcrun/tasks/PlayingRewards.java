@@ -26,7 +26,7 @@ public class PlayingRewards extends BukkitRunnable {
                 double money = config.getDouble(path + ".money");
                 double player_exp = config.getDouble(path + ".player-exp");
 
-                uhcPlayer.getData().addMoney(money);
+                uhcPlayer.getData().depositMoney(money);
                 uhcPlayer.getData().addUHCExp(player_exp);
 
                 uhcPlayer.sendMessage(Messages.REWARDS_PER_TIME.toString()

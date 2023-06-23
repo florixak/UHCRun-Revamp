@@ -62,8 +62,8 @@ public enum Messages {
     TEAM_JOIN("teams.join"),
     TEAM_LEAVE("teams.leave"),
     TEAM_FULL("teams.full"),
-    TEAM_ALREADY_IN_TEAM("teams.already-in-team"),
-    TEAM_NOT_IN_TEAM("teams.not-in-team"),
+    TEAM_ALREADY_IN("teams.already-in-team"),
+    TEAM_NOT_IN("teams.not-in-team"),
     TEAM_DEFEATED("teams.defeated"),
     TEAM_NO_TEAMS("teams.no-teams"),
 

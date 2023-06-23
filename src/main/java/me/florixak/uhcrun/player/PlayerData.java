@@ -7,8 +7,6 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.UUID;
-
 public class PlayerData {
 
     private final GameManager gameManager;
@@ -65,9 +63,14 @@ public class PlayerData {
         }
         return 0.00;
     }
-    public void addMoney(double amount) {
+    public void depositMoney(double amount) {
         if (gameManager.isVaultEnabled()) {
             UHCRun.getVault().depositPlayer(uhcPlayer.getPlayer(), amount);
+        }
+    }
+    public void withdrawMoney(double amount) {
+        if (gameManager.isVaultEnabled()) {
+            UHCRun.getVault().withdrawPlayer(uhcPlayer.getPlayer(), amount);
         }
     }
 
@@ -88,7 +91,7 @@ public class PlayerData {
         double money = config.getDouble("settings.rewards.win.money", 0);
         double exp = config.getDouble("settings.rewards.win.uhc-exp", 0);
 
-        addMoney(money);
+        depositMoney(money);
         addUHCExp(exp);
         this.moneyForGameResult += money;
         this.uhcExpForGameResult += exp;
@@ -111,7 +114,7 @@ public class PlayerData {
         double money = config.getDouble("settings.rewards.lose.money", 0);
         double exp = config.getDouble("settings.rewards.lose.uhc-exp", 0);
 
-        addMoney(money);
+        depositMoney(money);
         addUHCExp(exp);
         this.moneyForGameResult += money;
         this.uhcExpForGameResult += exp;
@@ -135,7 +138,7 @@ public class PlayerData {
         double money = config.getDouble("settings.rewards.kill.money", 0);
         double exp = config.getDouble("settings.rewards.kill.uhc-exp", 0);
 
-        addMoney(money);
+        depositMoney(money);
         addUHCExp(exp);
         this.moneyForKills += money;
         this.uhcExpForKills += exp;
@@ -194,7 +197,7 @@ public class PlayerData {
                 *
                 getUHCLevel();
 
-        addMoney(reward);
+        depositMoney(reward);
         uhcPlayer.sendMessage("+" + reward + " for level up");
     }
     public int getPreviousUHCLevel() {
@@ -239,7 +242,7 @@ public class PlayerData {
     }
 
     public void addStatistics() {
-        addMoney(moneyForGameResult+moneyForKills);
+        depositMoney(moneyForGameResult+moneyForKills);
         addUHCExp(uhcExpForGameResult+uhcExpForKills);
         addGameResult();
         addKills(uhcPlayer.getKills());
