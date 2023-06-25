@@ -109,7 +109,7 @@ public class UHCPlayer {
         return getState() == PlayerState.DEAD;
     }
     public boolean isSpectator() {
-        return getState() == PlayerState.SPECTATOR;
+        return getState() == PlayerState.SPECTATOR || getState() == PlayerState.DEAD;
     }
 
     public void setTeam(UHCTeam team) {
