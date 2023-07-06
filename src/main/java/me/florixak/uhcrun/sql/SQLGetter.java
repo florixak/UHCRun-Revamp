@@ -2,7 +2,6 @@ package me.florixak.uhcrun.sql;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -36,8 +35,8 @@ public class SQLGetter {
                     + "(uuid VARCHAR(100) PRIMARY KEY,"
                     + "name VARCHAR(100),"
                     + "uhc_level INT(100) DEFAULT " + startUHCLevel + ","
-                    + "uhc_exp INT(100) DECIMAL(24,9) 0,"
-                    + "required_uhc_exp DECIMAL(24,9) DEFAULT " + startRequiredUHCExp + ","
+                    + "uhc_exp DECIMAL(24,2) DEFAULT 0,"
+                    + "required_uhc_exp DECIMAL(24,2) DEFAULT " + startRequiredUHCExp + ","
                     + "wins INT(100) DEFAULT 0,"
                     + "losses INT(100) DEFAULT 0,"
                     + "kills INT(100) DEFAULT 0,"
@@ -53,7 +52,7 @@ public class SQLGetter {
             UUID uuid = p.getUniqueId();
 
             if (!exists(uuid)) {
-                PreparedStatement ps2 = conn.prepareStatement("INSERT INGORE INTO " + table + " (uuid,name) VALUES (?,?)");
+                PreparedStatement ps2 = conn.prepareStatement("INSERT IGNORE INTO " + table + " (uuid,name) VALUES (?,?)");
                 ps2.setString(1, uuid.toString());
                 ps2.setString(2, p.getName());
                 ps2.executeUpdate();

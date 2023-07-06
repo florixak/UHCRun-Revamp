@@ -191,9 +191,9 @@ public class PlayerData {
 
         gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
 
-        double reward = config.getInt("settings.statistics.player-level.first-reward", 100)
+        double reward = config.getInt("settings.statistics.rewards.first-reward", 100)
                 *
-                config.getDouble("settings.statistics.player-level.reward-multiplier", 1)
+                config.getDouble("settings.statistics.rewards.reward-multiplier", 1)
                 *
                 getUHCLevel();
 

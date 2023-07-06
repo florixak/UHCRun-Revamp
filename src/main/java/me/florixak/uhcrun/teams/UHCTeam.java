@@ -116,16 +116,20 @@ public class UHCTeam {
     }
     public void leave(UHCPlayer uhcPlayer) {
 
-        if (!uhcPlayer.hasTeam()) {
-            uhcPlayer.sendMessage(Messages.TEAM_NOT_IN.toString());
-            return;
+        if (uhcPlayer.isOnline()) {
+            if (!uhcPlayer.hasTeam()) {
+                uhcPlayer.sendMessage(Messages.TEAM_NOT_IN.toString());
+                return;
+            }
+
+            uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
+                    .replace("%player%", uhcPlayer.getName())
+                    .replace("%team%", TextUtils.color(getDisplayName())));
         }
 
-        uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
-                .replace("%player%", uhcPlayer.getName())
-                .replace("%team%", TextUtils.color(getDisplayName())));
         getMembers().remove(uhcPlayer);
         uhcPlayer.setTeam(null);
+
     }
     public void sendHotBarMessage(String message) {
         if (message.isEmpty() || message == null) return;

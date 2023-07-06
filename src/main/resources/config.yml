@@ -107,8 +107,7 @@ settings:
       first-level: 0
       first-required-exp: 100.0
       required-exp-multiplier: 3.75
-      first-reward: 100
-      reward-multiplier: 1.75 # %first-reward% * %multiplier% * %uhc-level%
+
 
     player-stats:
       display-item: PLAYER_HEAD
@@ -123,28 +122,32 @@ settings:
         - "&fKills: &a%uhc-kills%"
         - "&fDeaths: &a%uhc-deaths%"
 
-  # Rewards
-  rewards:
-    kill:
-      money: 30
-      exp: 60
-      uhc-exp: 60
-    win:
-      money: 150
-      uhc-exp: 300
-    lose:
-      money: 50
-      uhc-exp: 150
-    playing-time:
-      enabled: false
-      each-phase: false
-      money: 10
-      uhc-exp: 20
-      period: 60 # seconds
+    # Rewards
+    rewards:
+      kill:
+        money: 30
+        exp: 60
+        uhc-exp: 60
+      win:
+        money: 150
+        uhc-exp: 300
+      lose:
+        money: 50
+        uhc-exp: 150
+      playing-time:
+        enabled: false
+        each-phase: false
+        money: 10
+        uhc-exp: 20
+        period: 60 # seconds
+      level-up:
+        first-reward: 100
+        reward-multiplier: 0.2 # %first-reward% * %multiplier% * %uhc-level%
 
   # End game commands - commands which is executed on game ends
   # Soon...
-  end-game-commands: []
+  end-game-commands:
+    - "give FloriXak diamond_sword 2"
 
   # Tablist
   tablist:

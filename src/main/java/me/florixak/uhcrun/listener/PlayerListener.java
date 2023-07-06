@@ -80,6 +80,11 @@ public class PlayerListener implements Listener {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
+
+            if (uhcPlayer.hasTeam()) {
+                uhcPlayer.getTeam().leave(uhcPlayer);
+            }
+
             gameManager.getPlayerManager().removePlayer(uhcPlayer);
         } else {
             if (!gameManager.areStatsAddOnEnd()) {
