@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
+import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -44,6 +45,7 @@ public class PlayerListener implements Listener {
         if (gameManager.isPlaying() || uhcPlayer.isDead()) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer);
             uhcPlayer.setSinceStart(false);
+            uhcPlayer.setState(PlayerState.SPECTATOR);
             return;
         }
 
@@ -73,17 +75,12 @@ public class PlayerListener implements Listener {
         event.setQuitMessage(null);
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
 
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
-
-            if (uhcPlayer.hasTeam()) {
-                uhcPlayer.getTeam().leave(uhcPlayer);
-            }
 
             gameManager.getPlayerManager().removePlayer(uhcPlayer);
         } else {

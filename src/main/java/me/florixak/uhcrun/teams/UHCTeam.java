@@ -108,18 +108,18 @@ public class UHCTeam {
             return;
         }
 
-        if (uhcPlayer.hasTeam()) {
-            leave(uhcPlayer);
-        }
+        leave(uhcPlayer);
 
-        getMembers().add(uhcPlayer);
         uhcPlayer.setTeam(this);
+        getMembers().add(uhcPlayer);
+
+        uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
+                .replace("%team%", uhcPlayer.getTeam().getDisplayName()));
     }
     public void leave(UHCPlayer uhcPlayer) {
-
         if (!uhcPlayer.hasTeam()) return;
 
-        getMembers().remove(uhcPlayer);
+        this.members.remove(uhcPlayer);
         uhcPlayer.setTeam(null);
     }
     public void sendHotBarMessage(String message) {

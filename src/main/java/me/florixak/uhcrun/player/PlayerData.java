@@ -88,8 +88,8 @@ public class PlayerData {
             gameManager.getData().addWin(uhcPlayer.getUUID());
         }
 
-        double money = config.getDouble("settings.rewards.win.money", 0);
-        double exp = config.getDouble("settings.rewards.win.uhc-exp", 0);
+        double money = config.getDouble("settings.statistics.rewards.win.money", 0);
+        double exp = config.getDouble("settings.statistics.rewards.win.uhc-exp", 0);
 
         depositMoney(money);
         addUHCExp(exp);
@@ -111,8 +111,8 @@ public class PlayerData {
             gameManager.getData().addLose(uhcPlayer.getUUID());
         }
 
-        double money = config.getDouble("settings.rewards.lose.money", 0);
-        double exp = config.getDouble("settings.rewards.lose.uhc-exp", 0);
+        double money = config.getDouble("settings.statistics.rewards.lose.money", 0);
+        double exp = config.getDouble("settings.statistics.rewards.lose.uhc-exp", 0);
 
         depositMoney(money);
         addUHCExp(exp);
@@ -135,8 +135,8 @@ public class PlayerData {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
 
-        double money = config.getDouble("settings.rewards.kill.money", 0);
-        double exp = config.getDouble("settings.rewards.kill.uhc-exp", 0);
+        double money = config.getDouble("settings.statistics.rewards.kill.money", 0);
+        double exp = config.getDouble("settings.statistics.rewards.kill.uhc-exp", 0);
 
         depositMoney(money);
         addUHCExp(exp);

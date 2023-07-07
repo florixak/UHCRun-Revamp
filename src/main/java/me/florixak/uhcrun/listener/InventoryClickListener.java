@@ -47,10 +47,8 @@ public class InventoryClickListener implements Listener {
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
 
                 if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
-                    p.closeInventory();
                     team.join(uhcPlayer);
-                    uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
-                            .replace("%team%", TextUtils.color(team.getDisplayName())));
+                    p.closeInventory();
                 }
             }
         }
