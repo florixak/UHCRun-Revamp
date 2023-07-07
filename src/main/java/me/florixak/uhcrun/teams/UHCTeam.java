@@ -107,17 +107,17 @@ public class UHCTeam {
             uhcPlayer.sendMessage(Messages.TEAM_FULL.toString());
             return;
         }
-
-        leave(uhcPlayer);
+        if (uhcPlayer.hasTeam()) {
+            uhcPlayer.getTeam().leave(uhcPlayer);
+        }
 
         uhcPlayer.setTeam(this);
-        getMembers().add(uhcPlayer);
+        this.members.add(uhcPlayer);
 
         uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
                 .replace("%team%", uhcPlayer.getTeam().getDisplayName()));
     }
     public void leave(UHCPlayer uhcPlayer) {
-        if (!uhcPlayer.hasTeam()) return;
 
         this.members.remove(uhcPlayer);
         uhcPlayer.setTeam(null);

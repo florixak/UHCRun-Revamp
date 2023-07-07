@@ -31,8 +31,9 @@ public class PlayerManager {
     public void removePlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
 
-        p.getTeam().leave(p);
-
+        if (p.hasTeam()) {
+            p.getTeam().leave(p);
+        }
         if (p.hasKit()) {
             p.setKit(null);
         }
