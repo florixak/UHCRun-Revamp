@@ -4,6 +4,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -125,7 +126,11 @@ public class UHCTeam {
             uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%team%", TextUtils.color(getDisplayName())));
+
+            Bukkit.broadcastMessage("He left...");
         }
+
+        if (!uhcPlayer.hasTeam()) return;
 
         getMembers().remove(uhcPlayer);
         uhcPlayer.setTeam(null);
