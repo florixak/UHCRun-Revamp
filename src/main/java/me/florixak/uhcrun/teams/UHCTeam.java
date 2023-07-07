@@ -117,24 +117,17 @@ public class UHCTeam {
     }
     public void leave(UHCPlayer uhcPlayer) {
 
-        if (uhcPlayer.isOnline()) {
-            if (!uhcPlayer.hasTeam()) {
-                uhcPlayer.sendMessage(Messages.TEAM_NOT_IN.toString());
-                return;
-            }
-
-            uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
-                    .replace("%player%", uhcPlayer.getName())
-                    .replace("%team%", TextUtils.color(getDisplayName())));
-
-            Bukkit.broadcastMessage("He left...");
-        }
-
         if (!uhcPlayer.hasTeam()) return;
 
         getMembers().remove(uhcPlayer);
         uhcPlayer.setTeam(null);
 
+        if (uhcPlayer.isOnline()) {
+
+            uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
+                    .replace("%player%", uhcPlayer.getName())
+                    .replace("%team%", TextUtils.color(getDisplayName())));
+        }
     }
     public void sendHotBarMessage(String message) {
         if (message.isEmpty() || message == null) return;

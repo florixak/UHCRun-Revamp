@@ -29,7 +29,8 @@ public class MySQL {
 
     public void connect() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
+            this.conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
+            UHCRun.getInstance().getLogger().info(TextUtils.color("&aMySQL connected!"));
         } catch (SQLException e) {
             UHCRun.getInstance().getLogger().info(TextUtils.color("&cMySQL can not be connected!"));
         }

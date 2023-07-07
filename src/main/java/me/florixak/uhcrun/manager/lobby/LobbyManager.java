@@ -31,7 +31,7 @@ public class LobbyManager {
     public Location getLocation(LobbyType lobbyType) {
         Location loc = new Location(Bukkit.getWorld("world"), 0.0, 75.0, 0.0);
 
-        if (!existsLobby(lobbyType)) return loc;
+        if (!existsLobby(lobbyType) || Bukkit.getWorld(gameManager.getLobbyManager().getWorld(LobbyType.WAITING)) == null) return loc;
 
         loc = new Location(
                 Bukkit.getWorld(lobby_config.getString("lobby."+ lobbyType.name().toLowerCase() + ".world", "world")),

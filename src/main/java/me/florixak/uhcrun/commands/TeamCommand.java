@@ -41,6 +41,11 @@ public class TeamCommand implements CommandExecutor {
             return true;
         }
         if (args[0].equalsIgnoreCase("leave")) {
+
+            if (!uhcPlayer.hasTeam()) {
+                uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString().replace("%team%", uhcPlayer.getTeam().getDisplayName()));
+                return true;
+            }
             uhcPlayer.getTeam().leave(uhcPlayer);
 
         } else if (args.length == 1) {

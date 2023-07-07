@@ -83,7 +83,6 @@ public class PlayerListener implements Listener {
 
             uhcPlayer.getTeam().leave(uhcPlayer);
 
-
             gameManager.getPlayerManager().removePlayer(uhcPlayer);
         } else {
             if (!gameManager.areStatsAddOnEnd()) {
