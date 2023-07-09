@@ -13,7 +13,7 @@ scoreboard:
 
   starting:
     - ""
-    - "&fStart in: &a%time%"
+    - "&fStart in: &a%countdown%"
     - "&fPlayers: &a%online%&f/&2%max-online%"
     - ""
     - "&fTeam: &a%team%"
@@ -23,7 +23,7 @@ scoreboard:
 
   mining:
     - ""
-    - "&fPVP in: &a%time%"
+    - "&fPvP in: &a%countdown%"
     - "&fPlayers left: &a%alive%"
     - "&fBorder: &a%border%"
     - ""
@@ -33,9 +33,9 @@ scoreboard:
     - ""
     - "&7www.florixak.tk"
 
-  fighting:
+  pvp:
     - ""
-    - "&fDeathmatch in: &a%time%"
+    - "&fDeathmatch in: &a%countdown%"
     - "&fPlayers left: &a%alive%"
     - "&fBorder: &a%border%"
     - ""
@@ -47,7 +47,7 @@ scoreboard:
 
   deathmatch:
     - ""
-    - "&fEnd in: &a%time%"
+    - "&fEnd in: &a%countdown%"
     - "&fPlayers left: &a%alive%"
     - "&fBorder: &a%border%"
     - ""
@@ -59,9 +59,11 @@ scoreboard:
 
   ending:
     - ""
-    - "&fRestarting..."
+    - "&fEnding in: &a%countdown%"
     - ""
     - "&aWinner:"
     - "%winner%"
+    - ""
+    - "Thx for playing!"
     - ""
     - "&7www.florixak.tk"

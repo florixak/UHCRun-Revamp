@@ -65,8 +65,6 @@ public class InventoryClickListener implements Listener {
                 if (gameManager.getKitsManager().getKits().get(event.getSlot()) == kit) {
                     p.closeInventory();
                     uhcPlayer.setKit(kit);
-                    uhcPlayer.sendMessage(Messages.KITS_SELECTED.toString()
-                            .replace("%kit%", TextUtils.color(kit.getName())));
                 }
             }
         }

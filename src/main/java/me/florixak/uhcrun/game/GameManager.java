@@ -163,13 +163,12 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 
-            case FIGHTING:
-
+            case PVP:
                 if (isTeleportAfterMining()) {
                     getTeamManager().teleportAfterMining();
                 }
                 setPvP(true);
-                getTaskManager().startFightingCD();
+                getTaskManager().startPvPCD();
 
                 Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
@@ -196,6 +195,24 @@ public class GameManager {
         }
     }
 
+    public int getCountdown() {
+        switch (gameState) {
+            case LOBBY:
+                return 0;
+            case STARTING:
+                return StartingCD.countdown;
+            case MINING:
+                return MiningCD.countdown;
+            case PVP:
+                return PvPCD.countdown;
+            case DEATHMATCH:
+                return DeathmatchCD.countdown;
+            case ENDING:
+                return EndingCD.countdown;
+        }
+        return -1;
+    }
+
     public void onDisable() {
         getDeathChestManager().onDisable();
         getPlayerManager().onDisable();
@@ -207,7 +224,7 @@ public class GameManager {
 
     public boolean isPlaying() {
         return gameState.equals(GameState.MINING)
-                || gameState.equals(GameState.FIGHTING)
+                || gameState.equals(GameState.PVP)
                 || gameState.equals(GameState.DEATHMATCH)
                 || gameState.equals(GameState.ENDING);
     }

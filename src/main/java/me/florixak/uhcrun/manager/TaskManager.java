@@ -15,11 +15,9 @@ public class TaskManager {
     private final long delay = 20L;
     private final long period = 20L;
 
-    // private int cooldown;
-
     private StartingCD startingCd;
     private MiningCD miningCd;
-    private FightingCD fightingCd;
+    private PvPCD pvpCD;
     private DeathmatchCD deathmatchCd;
     private DeathmatchResist deathmatchResist;
     private EndingCD endingCd;
@@ -45,9 +43,9 @@ public class TaskManager {
         this.miningCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
-    public void startFightingCD() {
-        this.fightingCd = new FightingCD(gameManager);
-        this.fightingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
+    public void startPvPCD() {
+        this.pvpCD = new PvPCD(gameManager);
+        this.pvpCD.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
     public void startDeathmatchCD() {

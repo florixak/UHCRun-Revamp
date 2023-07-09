@@ -28,7 +28,7 @@ settings:
     countdowns:
       starting: 15 # seconds
       mining: 30 # seconds
-      fighting: 30 # seconds
+      pvp: 30 # seconds
       deathmatch: 30 # seconds
       ending: 15 # seconds
 
@@ -145,9 +145,9 @@ settings:
         reward-multiplier: 0.2 # %first-reward% * %multiplier% * %uhc-level%
 
   # End game commands - commands which is executed on game ends
-  # Soon...
+  # IN PROGRESS...
   end-game-commands:
-    - "give FloriXak diamond_sword 2"
+    - "give FloriXak diamond_sword"
 
   # Tablist
   tablist:

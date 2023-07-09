@@ -4,15 +4,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
-import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathmatchCD;
-import me.florixak.uhcrun.tasks.FightingCD;
+import me.florixak.uhcrun.tasks.PvPCD;
 import me.florixak.uhcrun.tasks.MiningCD;
 import me.florixak.uhcrun.tasks.StartingCD;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
-import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -67,24 +65,8 @@ public class PlaceholderUtil {
             text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
         }
 
-        if (text.contains("%time%")) {
-            switch (gameManager.getGameState()) {
-                case STARTING:
-                    text = text.replace("%time%", TimeUtils.getFormattedTime(StartingCD.countdown));
-                    break;
-                case MINING:
-                    text = text.replace("%time%", TimeUtils.getFormattedTime(MiningCD.countdown));
-                    break;
-                case FIGHTING:
-                    text = text.replace("%time%", TimeUtils.getFormattedTime(FightingCD.countdown));
-                    break;
-                case DEATHMATCH:
-                    text = text.replace("%time%", TimeUtils.getFormattedTime(DeathmatchCD.countdown));
-                    break;
-                default:
-                    text = text.replace("%time%", "{Error}");
-                    break;
-            }
+        if (text.contains("%countdown%")) {
+            text = text.replace("%countdown%", TimeUtils.getFormattedTime(gameManager.getCountdown()));
         }
 
         if (text.contains("%border%")) {

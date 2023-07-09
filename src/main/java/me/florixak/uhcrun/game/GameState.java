@@ -5,7 +5,7 @@ public enum GameState {
     LOBBY,
     STARTING,
     MINING,
-    FIGHTING,
+    PVP,
     DEATHMATCH,
     ENDING
 }

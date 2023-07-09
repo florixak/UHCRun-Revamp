@@ -36,7 +36,7 @@ public class ScoreboardManager {
         this.waiting = config.getStringList("scoreboard.waiting");
         this.starting = config.getStringList("scoreboard.starting");
         this.mining = config.getStringList("scoreboard.mining");
-        this.pvp = config.getStringList("scoreboard.fighting");
+        this.pvp = config.getStringList("scoreboard.pvp");
         this.deathmatch = config.getStringList("scoreboard.deathmatch");
         this.ending = config.getStringList("scoreboard.ending");
     }
@@ -186,7 +186,7 @@ public class ScoreboardManager {
             case MINING:
                 createMiningSb(p);
                 break;
-            case FIGHTING:
+            case PVP:
                 createPvPSb(p);
                 break;
             case DEATHMATCH:

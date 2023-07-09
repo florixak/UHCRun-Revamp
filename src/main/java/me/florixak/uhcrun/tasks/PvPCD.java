@@ -10,15 +10,15 @@ import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class FightingCD extends BukkitRunnable {
+public class PvPCD extends BukkitRunnable {
 
     private final GameManager gameManager;
     public static int countdown;
 
-    public FightingCD(GameManager gameManager) {
+    public PvPCD(GameManager gameManager) {
         this.gameManager = gameManager;
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        countdown = config.getInt("settings.game.countdowns.fighting");
+        countdown = config.getInt("settings.game.countdowns.pvp");
     }
 
     @Override

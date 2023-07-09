@@ -26,7 +26,7 @@ public class MiningCD extends BukkitRunnable {
 
         if (countdown <= 0) {
             cancel();
-            gameManager.setGameState(GameState.FIGHTING);
+            gameManager.setGameState(GameState.PVP);
             return;
         }
 

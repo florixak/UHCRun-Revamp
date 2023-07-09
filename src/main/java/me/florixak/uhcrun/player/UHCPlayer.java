@@ -8,14 +8,13 @@ import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UHCPlayer {
@@ -33,6 +32,7 @@ public class UHCPlayer {
     private Kit kit;
     private Perk perk;
     private boolean hasWon;
+    private List<UHCPlayer> assistsList;
 
     private String nickname;
     private boolean sinceStart;
@@ -52,6 +52,7 @@ public class UHCPlayer {
         this.perk = null;
         this.nickname = null;
         this.team = null;
+        this.assistsList = new ArrayList<>();
     }
 
     public UUID getUUID() {
@@ -59,8 +60,7 @@ public class UHCPlayer {
     }
 
     public Player getPlayer() {
-        Player player = Bukkit.getPlayer(this.uuid);
-        return player != null ? player : null;
+        return Bukkit.getPlayer(this.uuid);
     }
 
     public String getName() {
@@ -145,7 +145,9 @@ public class UHCPlayer {
     public void setKit(Kit kit) {
         if (this.kit == kit) return;
         this.kit = kit;
-        sendMessage("Peníze budou odečteny po začátku hry.");
+        sendMessage(Messages.KITS_SELECTED.toString()
+                .replace("%kit%", kit.getName()));
+        sendMessage(Messages.KITS_MONEY_DEDUCT.toString());
     }
 
     public boolean hasPerk() {
@@ -157,6 +159,16 @@ public class UHCPlayer {
     public void setPerk(Perk perk) {
         if (this.perk == perk) return;
         this.perk = perk;
+    }
+
+    public boolean wasDamagedByMorePeople() {
+        return !this.assistsList.isEmpty() && this.assistsList.size() >= 2;
+    }
+    public UHCPlayer getKillAssistPlayer() {
+        return this.assistsList.get(this.assistsList.size()-2);
+    }
+    public void addKillAssistPlayer(UHCPlayer uhcPlayer) {
+        this.assistsList.add(uhcPlayer);
     }
 
     public boolean hasNickname() {

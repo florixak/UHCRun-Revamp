@@ -42,7 +42,7 @@ public class GameChecking extends BukkitRunnable {
                 }
                 break;
             case MINING:
-            case FIGHTING:
+            case PVP:
             case DEATHMATCH:
                 if (gameManager.isForceStarted()) {
                     return;

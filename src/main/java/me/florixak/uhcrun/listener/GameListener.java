@@ -8,6 +8,7 @@ import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -37,10 +38,12 @@ public class GameListener implements Listener {
 
     private final GameManager gameManager;
     private final FileConfiguration config;
+    private final PlayerManager playerManager;
 
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        this.playerManager = gameManager.getPlayerManager();
     }
 
     @EventHandler
@@ -48,7 +51,7 @@ public class GameListener implements Listener {
 
         String winner = event.getWinner();
         List<String> gameResultsMsg = Messages.GAME_RESULTS.toList();
-        List<UHCPlayer> top_killers = gameManager.getPlayerManager().getTopKillers();
+        List<UHCPlayer> top_killers = playerManager.getTopKillers();
         List<String> commands = config.getStringList("settings.end-game-commands");
 
         // Game results and top killers
@@ -70,25 +73,27 @@ public class GameListener implements Listener {
         }
 
         // End game commands
-        if (commands != null && !commands.isEmpty()) {
+        if (!commands.isEmpty()) {
             for (String command : commands) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             }
         }
 
         // Statistics
-        for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getPlayers()) {
+        for (UHCPlayer uhcPlayer : playerManager.getPlayers()) {
 
-            if (!uhcPlayer.isSinceStart() || !uhcPlayer.isOnline()) return;
+            if (!uhcPlayer.isOnline()) return;
 
-            if (gameManager.areStatsAddOnEnd()) {
-                uhcPlayer.getData().addStatistics();
-            } else {
-                uhcPlayer.getData().addGameResult();
+            if (uhcPlayer.isSinceStart()) {
+                if (gameManager.areStatsAddOnEnd()) {
+                    uhcPlayer.getData().addStatistics();
+                } else {
+                    uhcPlayer.getData().addGameResult();
+                }
             }
 
             if (uhcPlayer.isOnline()) {
-
+                playerManager.clearPlayerInventory(uhcPlayer.getPlayer());
                 uhcPlayer.getPlayer().setGameMode(GameMode.ADVENTURE);
                 uhcPlayer.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
 
@@ -116,6 +121,11 @@ public class GameListener implements Listener {
                     .replace("%player%", victim.getName()));
         }
 
+        if (victim.wasDamagedByMorePeople()) {
+            UHCPlayer assistPlayer = victim.getKillAssistPlayer();
+            assistPlayer.addAssist();
+        }
+
         if (!gameManager.areStatsAddOnEnd()) {
             if (killer != null) {
                 killer.getData().addKills(1);
@@ -128,14 +138,14 @@ public class GameListener implements Listener {
                     .replace("%team%", victim.getTeam().getDisplayName()));
         }
 
-        gameManager.getPlayerManager().clearPlayerInventory(victim.getPlayer());
-        gameManager.getPlayerManager().setSpectator(victim);
+        playerManager.clearPlayerInventory(victim.getPlayer());
+        playerManager.setSpectator(victim);
     }
 
     @EventHandler
     public void handleBlockBreak(BlockBreakEvent event) {
         Player p = event.getPlayer();
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = playerManager.getUHCPlayer(p.getUniqueId());
         Block block = event.getBlock();
 
         if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
@@ -168,7 +178,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleBlockPlace(BlockPlaceEvent event) {
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
+        UHCPlayer uhcPlayer = playerManager.getUHCPlayer(event.getPlayer().getUniqueId());
         if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             uhcPlayer.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
@@ -247,7 +257,7 @@ public class GameListener implements Listener {
         }
 
         Player damager = (Player) event.getDamager();
-        UHCPlayer uhcPlayerD = gameManager.getPlayerManager().getUHCPlayer(damager.getUniqueId());
+        UHCPlayer uhcPlayerD = playerManager.getUHCPlayer(damager.getUniqueId());
 
         if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             event.setCancelled(true);
@@ -262,7 +272,9 @@ public class GameListener implements Listener {
 
         if (event.getEntity() instanceof Player) {
             Player entity = (Player) event.getEntity();
-            UHCPlayer uhcPlayerE = gameManager.getPlayerManager().getUHCPlayer(entity.getUniqueId());
+            UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
+
+            uhcPlayerE.addKillAssistPlayer(uhcPlayerD);
 
             if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !gameManager.isFriendlyFire()) {
                 event.setCancelled(true);
@@ -293,7 +305,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void handleHunger(FoodLevelChangeEvent event) {
         Player p = (Player) event.getEntity();
-        UHCPlayer player = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer player = playerManager.getUHCPlayer(p.getUniqueId());
         if (!gameManager.isPlaying() || player.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             p.setFoodLevel(20);
             event.setCancelled(true);
