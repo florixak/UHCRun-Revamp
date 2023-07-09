@@ -64,7 +64,7 @@ Messages:
   kits:
     selected: "&a[!] &fKit %kit% was selected!"
     disabled: "&c[!] &fKits are disabled!"
-    money-withdraw: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct: "&e[!] &fMoney for kit will be deducted after game starts!"
 
   perks:
     selected: "&a[!] &fPerk %perk% was selected!"

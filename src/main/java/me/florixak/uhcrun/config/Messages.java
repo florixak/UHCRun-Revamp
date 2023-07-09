@@ -50,7 +50,7 @@ public enum Messages {
 
     KITS_SELECTED("kits.selected"),
     KITS_DISABLED("kits.disabled"),
-    KITS_MONEY_DEDUCT("kits.money-withdraw"),
+    KITS_MONEY_DEDUCT("kits.money-deduct"),
 
     PERKS_SELECTED("perks.selected"),
     PERKS_DISABLED("perks.disabled"),
