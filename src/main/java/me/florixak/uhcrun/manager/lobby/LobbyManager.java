@@ -29,12 +29,12 @@ public class LobbyManager {
     }
 
     public Location getLocation(LobbyType lobbyType) {
-        Location loc = new Location(Bukkit.getWorld("world"), 0.0, 75.0, 0.0);
+        Location loc = new Location(Bukkit.getWorld("lobby"), 0.0, 75.0, 0.0);
 
         if (!existsLobby(lobbyType) || Bukkit.getWorld(gameManager.getLobbyManager().getWorld(LobbyType.WAITING)) == null) return loc;
 
         loc = new Location(
-                Bukkit.getWorld(lobby_config.getString("lobby."+ lobbyType.name().toLowerCase() + ".world", "world")),
+                Bukkit.getWorld(lobby_config.getString("lobby."+ lobbyType.name().toLowerCase() + ".world", "lobby")),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".x"),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".y"),
                 lobby_config.getDouble("lobby." + lobbyType.name().toLowerCase() + ".z"),

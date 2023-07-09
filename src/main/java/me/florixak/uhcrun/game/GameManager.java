@@ -113,10 +113,10 @@ public class GameManager {
 
         // getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.WAITING)) == null) {
-            getWorldManager().createWorld("wait-lobby", WorldType.FLAT);
+            getWorldManager().createWorld("lobby", WorldType.FLAT);
         }
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
-            getWorldManager().createWorld("end-lobby", WorldType.FLAT);
+            getWorldManager().createWorld("lobby", WorldType.FLAT);
         }
 
         getBorderManager().setBorder();

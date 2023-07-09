@@ -107,27 +107,20 @@ public class UHCTeam {
             uhcPlayer.sendMessage(Messages.TEAM_FULL.toString());
             return;
         }
-
         if (uhcPlayer.hasTeam()) {
             uhcPlayer.getTeam().leave(uhcPlayer);
         }
 
-        getMembers().add(uhcPlayer);
         uhcPlayer.setTeam(this);
+        this.members.add(uhcPlayer);
+
+        uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
+                .replace("%team%", uhcPlayer.getTeam().getDisplayName()));
     }
     public void leave(UHCPlayer uhcPlayer) {
 
-        if (!uhcPlayer.hasTeam()) return;
-
-        getMembers().remove(uhcPlayer);
+        this.members.remove(uhcPlayer);
         uhcPlayer.setTeam(null);
-
-        if (uhcPlayer.isOnline()) {
-
-            uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString()
-                    .replace("%player%", uhcPlayer.getName())
-                    .replace("%team%", TextUtils.color(getDisplayName())));
-        }
     }
     public void sendHotBarMessage(String message) {
         if (message.isEmpty() || message == null) return;
