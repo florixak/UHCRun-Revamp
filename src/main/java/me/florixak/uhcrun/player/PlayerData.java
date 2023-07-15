@@ -221,7 +221,11 @@ public class PlayerData {
                 getUHCLevel();
 
         depositMoney(reward);
-        uhcPlayer.sendMessage("+" + reward + " for level up");
+        uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString()
+                .replace("%money-for-level-up%", String.valueOf(reward))
+                .replace("%prev-level%", String.valueOf(getPreviousUHCLevel()))
+                .replace("%new-level%", String.valueOf(getUHCLevel()))
+        );
     }
     public int getPreviousUHCLevel() {
         if (gameManager.isDatabaseConnected()) {

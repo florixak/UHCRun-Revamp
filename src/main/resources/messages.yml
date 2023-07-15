@@ -30,7 +30,7 @@ Messages:
     shot-hp: "&6[🏹] &f%player% has &c%hp%❤"
 
     uhc-level:
-      level-up: "&a[!] &fLEVEL UP! (%previous-uhc-level% → %uhc-level%)"
+      level-up: "&a[LEVEL UP] &f%previous-uhc-level% → %uhc-level%"
 
   game:
     solo: "SOLO"
@@ -106,7 +106,7 @@ Messages:
 
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
 
-    level-up: "&a[LEVEL UP] &a+%money-for-level-up% &fcoins for level up! &7(%last-level% -> %new-level%)"
+    level-up: "&a[LEVEL UP] &a+%money-for-level-up% &fcoins for level up!"
 
 
 

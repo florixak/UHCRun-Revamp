@@ -62,8 +62,9 @@ public class PlayerListener implements Listener {
         gameManager.getPlayerManager().clearPlayerInventory(p);
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);
 
-        Utils.broadcast(Messages.JOIN.toString("%player%", p.getDisplayName(),
-                "%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
+        Utils.broadcast(Messages.JOIN.toString()
+                .replace("%player%", p.getDisplayName())
+                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
                 .replace("%min-players%", "" + GameConst.MIN_PLAYERS));
     }

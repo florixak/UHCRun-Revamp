@@ -75,13 +75,6 @@ public class GameListener implements Listener {
             }
         }
 
-        // End game commands
-        if (!commands.isEmpty()) {
-            for (String command : commands) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-            }
-        }
-
         // Statistics
         for (UHCPlayer uhcPlayer : playerManager.getPlayers()) {
 
@@ -101,6 +94,13 @@ public class GameListener implements Listener {
                 uhcPlayer.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
 
                 uhcPlayer.getData().showStatistics();
+            }
+        }
+
+        // End game commands
+        if (!commands.isEmpty()) {
+            for (String command : commands) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             }
         }
     }

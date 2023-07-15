@@ -117,7 +117,7 @@ public enum Messages {
     }
 
 
-    public String toString(String... replace) {
+    /*public String toString(String... replace) {
         String message = config.getString("Messages." + this.path);
 
         if (message == null || message.isEmpty()) {
@@ -131,9 +131,7 @@ public enum Messages {
         }
 
         return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
-    }
-
-
+    }*/
 
     public List<String> toList() {
         List<String> messages = new ArrayList<>();
