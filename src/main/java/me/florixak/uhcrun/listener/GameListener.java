@@ -1,7 +1,9 @@
 package me.florixak.uhcrun.listener;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
@@ -9,6 +11,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
+import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -109,9 +112,8 @@ public class GameListener implements Listener {
 
         if (killer != null) {
             killer.addKill();
-
+            killer.getPlayer().giveExp(GameConst.EXP_FOR_KILL);
             gameManager.getPerksManager().givePerk(killer);
-            killer.getPlayer().giveExp(config.getInt("settings.rewards.kill.exp"));
 
             Utils.broadcast(Messages.KILL.toString()
                     .replace("%player%", victim.getName())
@@ -123,7 +125,23 @@ public class GameListener implements Listener {
 
         if (victim.wasDamagedByMorePeople()) {
             UHCPlayer assistPlayer = victim.getKillAssistPlayer();
+
+            if (assistPlayer.getUUID().equals(killer.getUUID())) {
+                UHCRun.getInstance().getLogger().info("Chyba kill assistu!");
+                return;
+            }
             assistPlayer.addAssist();
+            assistPlayer.getPlayer().giveExp(GameConst.EXP_FOR_ASSIST);
+            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%money-for-assist%", String.valueOf(GameConst.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp-for-assist%", String.valueOf(GameConst.UHC_EXP_FOR_ASSIST))
+                    .replace("%exp-for-assist%", String.valueOf(GameConst.EXP_FOR_ASSIST))
+            );
+
+            if (!gameManager.areStatsAddOnEnd()) {
+                victim.getData().addAssists(1);
+            }
         }
 
         if (!gameManager.areStatsAddOnEnd()) {
@@ -139,7 +157,7 @@ public class GameListener implements Listener {
         }
 
         playerManager.clearPlayerInventory(victim.getPlayer());
-        playerManager.setSpectator(victim);
+        playerManager.setSpectator(victim, PlayerState.DEAD);
     }
 
     @EventHandler

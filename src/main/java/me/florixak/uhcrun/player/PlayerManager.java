@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -25,7 +24,7 @@ public class PlayerManager {
         this.players.add(p);
     }
 
-    public void removePlayer(UHCPlayer p) {
+    public void resetPlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
 
         if (p.hasTeam()) {
@@ -45,16 +44,20 @@ public class PlayerManager {
         return this.players;
     }
 
+    public List<UHCPlayer> getOnlinePlayers() {
+        return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
+    }
+
     public List<UHCPlayer> getAlivePlayers() {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isAlive()).collect(Collectors.toList());
+        return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
 
     public List<UHCPlayer> getDeadPlayers() {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isDead()).collect(Collectors.toList());
+        return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
 
     public List<UHCPlayer> getSpectators() {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.isSpectator()).collect(Collectors.toList());
+        return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
 
     public UHCPlayer getUHCPlayer(UUID uuid) {
@@ -75,7 +78,7 @@ public class PlayerManager {
         return null;
     }
 
-    public UHCPlayer getOrCreateHOCPlayer(UUID uuid) {
+    public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
         for (UHCPlayer hocPlayer : getPlayers()) {
             if (hocPlayer.getUUID().equals(uuid)) {
                 return hocPlayer;
@@ -83,7 +86,6 @@ public class PlayerManager {
         }
         return new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName());
     }
-
 
     public UHCPlayer getWinnerPlayer() {
         for (UHCPlayer uhcPlayer : getAlivePlayers()) {
@@ -98,8 +100,7 @@ public class PlayerManager {
     }
 
     public List<UHCPlayer> getTopKillers() {
-        List<UHCPlayer> topKillers = findTopKillers(getPlayers());
-        return topKillers;
+        return findTopKillers(getPlayers());
     }
 
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
@@ -128,11 +129,11 @@ public class PlayerManager {
         }
     }
 
-    public void setSpectator(UHCPlayer uhcPlayer) {
+    public void setSpectator(UHCPlayer uhcPlayer, PlayerState pState) {
         Player p = uhcPlayer.getPlayer();
         Location playerLoc = p.getLocation();
 
-        uhcPlayer.setState(PlayerState.DEAD);
+        uhcPlayer.setState(pState);
 
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
@@ -152,7 +153,7 @@ public class PlayerManager {
 
         //clear player armor
         ItemStack[] emptyArmor = new ItemStack[4];
-        for(int i=0 ; i<emptyArmor.length ; i++){
+        for(int i = 0; i < emptyArmor.length; i++){
             emptyArmor[i] = new ItemStack(Material.AIR);
         }
         p.getInventory().setArmorContents(emptyArmor);

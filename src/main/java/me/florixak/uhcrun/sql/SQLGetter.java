@@ -27,19 +27,20 @@ public class SQLGetter {
         PreparedStatement ps;
         FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-        int startUHCLevel = config.getInt("settings.statistics.player-level.first-level", 0);
-        double startRequiredUHCExp = config.getDouble("settings.statistics.player-level.first-required-exp", 100);
+        int firstUHCLevel = config.getInt("settings.statistics.player-level.first-level", 0);
+        double firstRequiredUHCExp = config.getDouble("settings.statistics.player-level.first-required-exp", 100);
 
         try {
             ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + table + " "
                     + "(uuid VARCHAR(100) PRIMARY KEY,"
                     + "name VARCHAR(100),"
-                    + "uhc_level INT(100) DEFAULT " + startUHCLevel + ","
+                    + "uhc_level INT(100) DEFAULT " + firstUHCLevel + ","
                     + "uhc_exp DECIMAL(24,2) DEFAULT 0,"
-                    + "required_uhc_exp DECIMAL(24,2) DEFAULT " + startRequiredUHCExp + ","
+                    + "required_uhc_exp DECIMAL(24,2) DEFAULT " + firstRequiredUHCExp + ","
                     + "wins INT(100) DEFAULT 0,"
                     + "losses INT(100) DEFAULT 0,"
                     + "kills INT(100) DEFAULT 0,"
+                    + "assists INT(100) DEFAULT 0,"
                     + "deaths INT(100) DEFAULT 0)");
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -199,7 +200,7 @@ public class SQLGetter {
     public void addWin(UUID uuid) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET wins=? WHERE uuid=?");
-            ps.setDouble(1, getWins(uuid)+1);
+            ps.setInt(1, getWins(uuid)+1);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -225,7 +226,7 @@ public class SQLGetter {
     public void setWins(UUID uuid, int wins) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET wins=? WHERE uuid=?");
-            ps.setDouble(1, wins);
+            ps.setInt(1, wins);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -238,7 +239,7 @@ public class SQLGetter {
     public void addLose(UUID uuid) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET losses=? WHERE uuid=?");
-            ps.setDouble(1, getLosses(uuid)+1);
+            ps.setInt(1, getLosses(uuid)+1);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -264,7 +265,7 @@ public class SQLGetter {
     public void setLosses(UUID uuid, int losses) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET losses=? WHERE uuid=?");
-            ps.setDouble(1, losses);
+            ps.setInt(1, losses);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -277,7 +278,7 @@ public class SQLGetter {
     public void addKill(UUID uuid, int kills) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET kills=? WHERE uuid=?");
-            ps.setDouble(1, getKills(uuid)+kills);
+            ps.setInt(1, getKills(uuid)+kills);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -303,7 +304,46 @@ public class SQLGetter {
     public void setKills(UUID uuid, int kills) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET kills=? WHERE uuid=?");
-            ps.setDouble(1, kills);
+            ps.setInt(1, kills);
+            ps.setString(2, uuid.toString());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAssist(UUID uuid, int assists) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET assists=? WHERE uuid=?");
+            ps.setInt(1, getAssists(uuid)+assists);
+            ps.setString(2, uuid.toString());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getAssists(UUID uuid) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT assists FROM uhcrun WHERE uuid=?");
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("assists");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public void setAssists(UUID uuid, int assists) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET assists=? WHERE uuid=?");
+            ps.setInt(1, assists);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -316,7 +356,7 @@ public class SQLGetter {
     public void addDeath(UUID uuid, int deaths) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET deaths=? WHERE uuid=?");
-            ps.setDouble(1, getDeaths(uuid)+deaths);
+            ps.setInt(1, getDeaths(uuid)+deaths);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -342,7 +382,7 @@ public class SQLGetter {
     public void setDeaths(UUID uuid, int deaths) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET deaths=? WHERE uuid=?");
-            ps.setDouble(1, deaths);
+            ps.setInt(1, deaths);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();

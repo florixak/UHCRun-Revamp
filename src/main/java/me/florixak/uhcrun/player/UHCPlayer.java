@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;

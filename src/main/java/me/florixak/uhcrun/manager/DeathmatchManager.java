@@ -21,7 +21,6 @@ public class DeathmatchManager {
     }
 
     public Location getDeathmatchLocation() {
-
         return new Location(
                 Bukkit.getWorld(config.getString(path + ".location.world", "world")),
                 config.getDouble(path + ".location.x", 0.0),
@@ -30,7 +29,6 @@ public class DeathmatchManager {
     }
 
     public void setDeathmatchLocation(Location location) {
-
         config.set(path + ".location.world", location.getWorld().getName());
         config.set(path + ".location.x", location.getX());
         config.set(path + ".location.y", location.getY());
@@ -58,9 +56,9 @@ public class DeathmatchManager {
         Location loc = getDeathmatchLocation();
 
         return new Location(loc.getWorld(),
-                (loc.getX() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getX()+5)))/2,
+                (loc.getX() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getX()+5)))/2.2,
                 loc.getWorld().getHighestBlockYAt(loc),
-                (loc.getZ() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getZ()+5)))/2
+                (loc.getZ() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getZ()+5)))/2.2
         );
     }
 

@@ -2,16 +2,13 @@ package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.tasks.DeathmatchCD;
-import me.florixak.uhcrun.tasks.PvPCD;
-import me.florixak.uhcrun.tasks.MiningCD;
-import me.florixak.uhcrun.tasks.StartingCD;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -25,7 +22,6 @@ public class PlaceholderUtil {
 
         GameManager gameManager = GameManager.getGameManager();
         BorderManager borderManager = gameManager.getBorderManager();
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
@@ -35,23 +31,16 @@ public class PlaceholderUtil {
             text = text.replace("%player%", uhcPlayer.getName());
 
         if (text.contains("%ping%"))
-            text = text.replace("%ping%", p.getPing() + " ms");
+            text = text.replace("%ping%", String.valueOf(p.getPing()));
 
         if (text.contains("%online%"))
-            text = text.replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
+            text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size()));
 
         if (text.contains("%max-online%"))
-            if (!gameManager.isTeamMode()) {
-                text = text.replace("%max-online%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
-            } else {
-                text = text.replace("%max-online%", String.valueOf(
-                        gameManager.getTeamManager().getTeams().size()*config.getInt("settings.teams.max-size"))
-                );
-            }
-
+            text = text.replace("%max-online%", String.valueOf(GameConst.MAX_PLAYERS));
 
         if (text.contains("%min-online%"))
-            text = text.replace("%min_online%", String.valueOf(config.getInt("min-players")));
+            text = text.replace("%min_online%", String.valueOf(GameConst.MIN_PLAYERS));
 
         if (text.contains("%money%")) {
             text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
@@ -87,26 +76,26 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%kit%")) {
-            if (config.getBoolean("settings.kits.enabled")) {
+            if (gameManager.areKitsEnabled()) {
                 if (uhcPlayer.hasKit()) {
                     text = text.replace("%kit%", uhcPlayer.getKit().getName());
                 } else {
-                    text = text.replace("%kit%", "None");
+                    text = text.replace("%kit%", Messages.KITS_SB_SELECTED_NONE.toString());
                 }
             } else {
-                text = text.replace("%kit%", "Disabled");
+                text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());
             }
         }
 
         if (text.contains("%perk%")) {
-            if (config.getBoolean("settings.perks.enabled")) {
+            if (gameManager.arePerksEnabled()) {
                 if (uhcPlayer.hasPerk()) {
                     text = text.replace("%perk%", uhcPlayer.getPerk().getName());
                 } else {
-                    text = text.replace("%perk%", "None");
+                    text = text.replace("%perk%", Messages.PERKS_SB_SELECTED_NONE.toString());
                 }
             } else {
-                text = text.replace("%perk%", "Disabled");
+                text = text.replace("%perk%", Messages.PERKS_SB_DISABLED.toString());
             }
         }
 
@@ -136,21 +125,21 @@ public class PlaceholderUtil {
 
         if (text.contains("%team%")) {
             if (!gameManager.isTeamMode()) {
-                text = text.replace("%team%", "Solo");
+                text = text.replace("%team%", Messages.TEAM_SOLO.toString());
             } else {
                 if (uhcPlayer.hasTeam()) {
                     text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getName()));
                 } else {
-                    text = text.replace("%team%", "None");
+                    text = text.replace("%team%", Messages.TEAM_NONE.toString());
                 }
             }
         }
 
         if (text.contains("%game-mode%")) {
             if (!gameManager.isTeamMode()) {
-                text = text.replace("%game-mode%", "SOLO");
+                text = text.replace("%game-mode%", Messages.GAME_SOLO.toString());
             } else {
-                text = text.replace("%game-mode%", "TEAM");
+                text = text.replace("%game-mode%", Messages.GAME_TEAMS.toString());
             }
         }
 

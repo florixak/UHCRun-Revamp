@@ -4,7 +4,6 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.commands.*;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
@@ -150,16 +149,16 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(StartingCD.countdown)));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 break;
 
             case MINING:
-                getPlayerManager().getPlayers().stream().filter(UHCPlayer::isOnline).forEach(getPlayerManager()::readyPlayerForGame);
+                getPlayerManager().getOnlinePlayers().forEach(getPlayerManager()::readyPlayerForGame);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(MiningCD.countdown)));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 
@@ -200,17 +199,17 @@ public class GameManager {
             case LOBBY:
                 return 0;
             case STARTING:
-                return StartingCD.countdown;
+                return StartingCD.getCountdown();
             case MINING:
-                return MiningCD.countdown;
+                return MiningCD.getCountdown();
             case PVP:
-                return PvPCD.countdown;
+                return PvPCD.getCountdown();
             case DEATHMATCH:
-                return DeathmatchCD.countdown;
+                return DeathmatchCD.getCountdown();
             case ENDING:
-                return EndingCD.countdown;
+                return EndingCD.getCountdown();
         }
-        return -1;
+        return 0;
     }
 
     public void onDisable() {
@@ -274,6 +273,7 @@ public class GameManager {
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
+    // TODO - move to GameConst.java
     public World getGameWorld() {
         return Bukkit.getWorld("world");
     }

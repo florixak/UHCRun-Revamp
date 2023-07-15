@@ -33,6 +33,9 @@ Messages:
       level-up: "&a[!] &fLEVEL UP! (%previous-uhc-level% → %uhc-level%)"
 
   game:
+    solo: "SOLO"
+    teams: "TEAMS"
+
     starting: "&6[!] &fGame starts in %countdown%!"
     already-starting: "&c[!] &fGame is already about to start!"
     starting-canceled: "&c[!] &fGame starting has been canceled!"
@@ -60,33 +63,52 @@ Messages:
     not-in-team: "&c[!] &fYou are not in any team!"
     no-teams: "%prefix% &cThere are no set teams, please contact STAFF member!"
     defeated: "&6[!] &fTeam %team% &cwas defeated!"
+    none: "None"
+    solo: "Solo"
 
   kits:
     selected: "&a[!] &fKit %kit% was selected!"
     disabled: "&c[!] &fKits are disabled!"
+    inv-selected: "&aSelected"
+    sb-selected-none: "None"
+    sb-disabled: "Disabled"
     money-deduct: "&e[!] &fMoney for kit will be deducted after game starts!"
 
   perks:
     selected: "&a[!] &fPerk %perk% was selected!"
     disabled: "&c[!] &Perks are disabled!"
+    inv-selected: "&aSelected"
+    sb-selected-none: "None"
+    sb-disabled: "Disabled"
 
   rewards:
     win:
       - "&7---------- %prefix% &7----------"
       - " &a+%money-for-win% &fcoins for win"
       - " &a+%money-for-kills% &fcoins for kills"
+      - " &a+%money-for-assists% &fcoins for assists"
       - " &a+%uhc-exp-for-win% &fexp for win"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
+      - " &a+%uhc-exp-for-assists% &fexp for assists"
       - "&7--------------------------------"
     lose:
       - "&7---------- %prefix% &7----------"
       - " &a+%money-for-lose% &fcoins for lose"
       - " &a+%money-for-kills% &fcoins for kills"
+      - " &a+%money-for-assists% &fcoins for assists"
       - " &a+%uhc-exp-for-lose% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
+      - " &a+%uhc-exp-for-assists% &fexp for assists"
       - "&7--------------------------------"
 
+    kill: "&e[!] &a+%money-for-kill% &fcoins and &a+%exp-for-kill% &fexp for kill! &7(%player%)"
+    assist: "&e[!] &a+%money-for-assist% &fcoins and &a+%exp-for-assist% &fexp for assist! &7(%player%)"
+
     per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
+
+    level-up: "&a[LEVEL UP] &a+%money-for-level-up% &fcoins for level up! &7(%last-level% -> %new-level%)"
+
+
 
   game-results:
     - "&7---------- %prefix% &3----------"

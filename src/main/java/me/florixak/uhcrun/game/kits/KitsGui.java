@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -8,8 +8,6 @@ import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

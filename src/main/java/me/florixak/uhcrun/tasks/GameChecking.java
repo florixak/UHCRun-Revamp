@@ -1,12 +1,11 @@
 package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameChecking extends BukkitRunnable {
@@ -17,9 +16,8 @@ public class GameChecking extends BukkitRunnable {
 
     public GameChecking(GameManager gameManager) {
         this.gameManager = gameManager;
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-        this.minPlayers = config.getInt("settings.game.min-players-to-start");
+        this.minPlayers = GameConst.MIN_PLAYERS;
     }
 
     @Override

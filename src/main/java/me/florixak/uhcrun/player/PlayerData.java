@@ -2,8 +2,9 @@ package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -13,10 +14,8 @@ public class PlayerData {
     private final UHCPlayer uhcPlayer;
     private final FileConfiguration player_data, config;
 
-    private double moneyForGameResult;
-    private double moneyForKills;
-    private double uhcExpForGameResult;
-    private double uhcExpForKills;
+    private double moneyForGameResult, moneyForKills, moneyForAssists;
+    private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists;
 
     public PlayerData(UHCPlayer uhcPlayer) {
         this.uhcPlayer = uhcPlayer;
@@ -26,8 +25,10 @@ public class PlayerData {
 
         this.moneyForGameResult = 0;
         this.moneyForKills = 0;
+        this.moneyForAssists = 0;
         this.uhcExpForGameResult = 0;
         this.uhcExpForKills = 0;
+        this.uhcExpForAssists = 0;
 
         setData();
     }
@@ -49,6 +50,7 @@ public class PlayerData {
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".assists", 0);
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -88,8 +90,8 @@ public class PlayerData {
             gameManager.getData().addWin(uhcPlayer.getUUID());
         }
 
-        double money = config.getDouble("settings.statistics.rewards.win.money", 0);
-        double exp = config.getDouble("settings.statistics.rewards.win.uhc-exp", 0);
+        double money = GameConst.MONEY_FOR_WIN;
+        double exp = GameConst.UHC_EXP_FOR_WIN;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -111,8 +113,8 @@ public class PlayerData {
             gameManager.getData().addLose(uhcPlayer.getUUID());
         }
 
-        double money = config.getDouble("settings.statistics.rewards.lose.money", 0);
-        double exp = config.getDouble("settings.statistics.rewards.lose.uhc-exp", 0);
+        double money = GameConst.MONEY_FOR_LOSE;
+        double exp = GameConst.UHC_EXP_FOR_LOSE;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -135,13 +137,36 @@ public class PlayerData {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
 
-        double money = config.getDouble("settings.statistics.rewards.kill.money", 0);
-        double exp = config.getDouble("settings.statistics.rewards.kill.uhc-exp", 0);
+        double money = GameConst.MONEY_FOR_KILL;
+        double exp = GameConst.UHC_EXP_FOR_KILL;
 
         depositMoney(money);
         addUHCExp(exp);
         this.moneyForKills += money;
         this.uhcExpForKills += exp;
+    }
+
+    public int getAssists() {
+        if (gameManager.isDatabaseConnected()) {
+            return gameManager.getData().getAssists(uhcPlayer.getUUID());
+        }
+        return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".assists", 0);
+    }
+    public void addAssists(int amount) {
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".assists", getAssists()+amount);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getData().addAssist(uhcPlayer.getUUID(), amount);
+        }
+
+        double money = GameConst.MONEY_FOR_ASSIST;
+        double exp = GameConst.UHC_EXP_FOR_ASSIST;
+
+        depositMoney(money);
+        addUHCExp(exp);
+        this.moneyForAssists += money;
+        this.uhcExpForAssists += exp;
     }
 
     public int getDeaths() {
@@ -174,15 +199,13 @@ public class PlayerData {
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp()-getRequiredUHCExp());
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", getUHCLevel()+1);
-        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp",
-                getRequiredUHCExp()*config.getDouble("settings.statistics.player-level.required-exp-multiplier", 1));
+        player_data.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", setRequiredUHCExp());
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().setUHCExp(uhcPlayer.getUUID(),getUHCExp()-getRequiredUHCExp());
             gameManager.getData().addUHCLevel(uhcPlayer.getUUID());
-            gameManager.getData().setRequiredUHCExp(uhcPlayer.getUUID(),
-                    getRequiredUHCExp()*config.getDouble("settings.statistics.player-level.required-exp-multiplier", 1));
+            gameManager.getData().setRequiredUHCExp(uhcPlayer.getUUID(), setRequiredUHCExp());
         }
 
         uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
@@ -231,6 +254,9 @@ public class PlayerData {
         }
         return player_data.getDouble("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", 0);
     }
+    public double setRequiredUHCExp() {
+        return getRequiredUHCExp()*config.getDouble("settings.statistics.player-level.required-exp-multiplier", 1.2);
+    }
 
     public void addGameResult() {
         if (uhcPlayer.isWinner()) {
@@ -246,27 +272,31 @@ public class PlayerData {
         addUHCExp(uhcExpForGameResult+uhcExpForKills);
         addGameResult();
         addKills(uhcPlayer.getKills());
+        addAssists(uhcPlayer.getAssists());
         addDeaths(!uhcPlayer.isWinner() ? 1 : 0);
     }
     public void showStatistics() {
         if (uhcPlayer.isWinner()) {
-            for (String message : Messages.WIN_REWARDS.toList()) {
-
+            for (String message : Messages.REWARDS_WIN.toList()) {
                 message = message
                         .replace("%money-for-win%", String.valueOf(moneyForGameResult))
                         .replace("%money-for-kills%", String.valueOf(moneyForKills))
+                        .replace("%money-for-assists%", String.valueOf(moneyForAssists))
                         .replace("%uhc-exp-for-win%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills));
+                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
+                        .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists));
                 uhcPlayer.sendMessage(TextUtils.color(message));
             }
         } else {
-            for (String message : Messages.LOSE_REWARDS.toList()) {
+            for (String message : Messages.REWARDS_LOSE.toList()) {
 
                 message = message
                         .replace("%money-for-lose%", String.valueOf(moneyForGameResult))
                         .replace("%money-for-kills%", String.valueOf(moneyForKills))
+                        .replace("%money-for-assists%", String.valueOf(moneyForAssists))
                         .replace("%uhc-exp-for-lose%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills));
+                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
+                        .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists));
                 uhcPlayer.sendMessage(TextUtils.color(message));
             }
         }

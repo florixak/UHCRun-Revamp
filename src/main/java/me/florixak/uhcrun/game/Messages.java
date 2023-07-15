@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.config;
+package me.florixak.uhcrun.game;
 
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,18 +42,27 @@ public enum Messages {
     GAME_STARTING_CANCELED("game.starting-canceled"),
     GAME_STARTED("game.started"),
     GAME_ENDED("game.ended"),
-    RESTARTING("game.restarting"),
+    GAME_SOLO("game.solo"),
+    GAME_TEAMS("game.teams"),
+    GAME_RESTARTING("game.restarting"),
 
-    WIN_REWARDS("rewards.win"),
-    LOSE_REWARDS("rewards.lose"),
+    REWARDS_WIN("rewards.win"),
+    REWARDS_LOSE("rewards.lose"),
     REWARDS_PER_TIME("rewards.per-time"),
+    REWARDS_KILL("rewards.kill"),
+    REWARDS_ASSIST("rewards.assist"),
+    REWARDS_LEVEL_UP("rewards.level-up"),
 
     KITS_SELECTED("kits.selected"),
     KITS_DISABLED("kits.disabled"),
+    KITS_SB_SELECTED_NONE("kits.sb-selected-none"),
+    KITS_SB_DISABLED("kits.sb-disabled"),
     KITS_MONEY_DEDUCT("kits.money-deduct"),
 
     PERKS_SELECTED("perks.selected"),
     PERKS_DISABLED("perks.disabled"),
+    PERKS_SB_SELECTED_NONE("perks.sb-selected-none"),
+    PERKS_SB_DISABLED("perks.sb-disabled"),
 
     LEVEL_UP("player.uhc-level.level-up"),
 
@@ -67,6 +76,8 @@ public enum Messages {
     TEAM_NOT_IN("teams.not-in-team"),
     TEAM_DEFEATED("teams.defeated"),
     TEAM_NO_TEAMS("teams.no-teams"),
+    TEAM_NONE("teams.none"),
+    TEAM_SOLO("teams.solo"),
 
     NICK_NICKED("nick.nicked"),
     NICK_UNNICKED("nick.unnicked"),
@@ -98,12 +109,31 @@ public enum Messages {
         String message = config.getString("Messages." + this.path);
 
         if (message == null || message.isEmpty()) {
-            return "UHCRun: message not found (" + this.path + ")";
+            return TextUtils.color("&cMessage not found! &7(" + this.path + ")");
         }
 
         String prefix = config.getString("Messages." + PREFIX.getPath());
         return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
     }
+
+
+    public String toString(String... replace) {
+        String message = config.getString("Messages." + this.path);
+
+        if (message == null || message.isEmpty()) {
+            return TextUtils.color("&cMessage not found! &7(" + this.path + ")");
+        }
+
+        String prefix = config.getString("Messages." + PREFIX.getPath());
+
+        for (int i = 0; i < replace.length; i++) {
+            message = message.replace(replace[i], replace[i+1]);
+        }
+
+        return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
+    }
+
+
 
     public List<String> toList() {
         List<String> messages = new ArrayList<>();

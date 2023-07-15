@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -29,9 +29,7 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
-        event.setCancelled(true);
-
+    public void handlePlayerChat(AsyncPlayerChatEvent event){
         PlayerManager pm = gameManager.getPlayerManager();
 
         Player p = event.getPlayer();
@@ -43,36 +41,44 @@ public class ChatListener implements Listener {
 
         if (format == null || format.isEmpty()) return;
 
+        event.setCancelled(true);
+
         String playerName = uhcPlayer.getName();
         String lp_prefix = uhcPlayer.getLuckPermsPrefix();
         String playerLevel = String.valueOf(uhcPlayer.getData().getUHCLevel());
         String message = p.hasPermission("uhcrun.color-chat") ? TextUtils.color(event.getMessage()) : event.getMessage();
-        String team = uhcPlayer.getTeam() != null ? TextUtils.color(uhcPlayer.getTeam().getDisplayName()) : "";
+        String team = uhcPlayer.hasTeam() ? TextUtils.color(uhcPlayer.getTeam().getDisplayName()) : "";
 
-        String formattedMessage = format
+        format = format
                 .replace("%player%", playerName)
                 .replace("%message%", message)
                 .replace("%luckperms-prefix%", TextUtils.color(lp_prefix))
                 .replace("%uhc-level%", TextUtils.color(playerLevel))
                 .replace("%team%", team);
 
-        for (UHCPlayer players : pm.getPlayers()) {
+        for (UHCPlayer players : pm.getOnlinePlayers()) {
 
             if (!gameManager.isPlaying()) {
-                players.sendMessage(formattedMessage);
+                players.sendMessage(format);
                 return;
             }
 
-            if (players.isDead()) {
-                players.sendMessage(formattedMessage);
+            if (players.isSpectator()) {
+                players.sendMessage(format);
                 return;
             }
-            players.sendMessage(formattedMessage);
+
+            if (!message.startsWith("!") && gameManager.isTeamMode()) {
+                players.getTeam().sendMessage(format);
+                return;
+            }
+
+            players.sendMessage(TextUtils.color("&6[GLOBAL] ") + format);
         }
     }
 
     @EventHandler
-    public void onPlayerCommandProcess(PlayerCommandPreprocessEvent event){
+    public void handlePlayerCommand(PlayerCommandPreprocessEvent event){
 
         this.blockedCommands = config.getStringList("settings.chat.blocked-commands");
 

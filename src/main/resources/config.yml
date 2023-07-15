@@ -19,8 +19,8 @@ settings:
     auto-map-reset: true # name of game world is "world"
     allow-nether: false
 
-    min-players-to-start: 2
-    warning-time-at: 10 # start at <_> seconds
+    min-players: 2
+    starting-message-at: 10 # start at <_> seconds
 
     teleport-after-mining: true
 
@@ -128,6 +128,10 @@ settings:
         money: 30
         exp: 60
         uhc-exp: 60
+      assist:
+        money: 10
+        exp: 0
+        uhc-exp: 20
       win:
         money: 150
         uhc-exp: 300
@@ -216,7 +220,7 @@ settings:
 
     lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
     in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
-    dead-format: "&7[SPECTATOR] &8[%uhc-level%] %team% &7%player% » %message%"
+    dead-format: "&8[SPECTATOR] &7[%uhc-level%] %team% &7%player% » %message%"
 
     blocked-commands:
       - /pl

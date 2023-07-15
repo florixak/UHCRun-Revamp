@@ -59,7 +59,7 @@ public class TaskManager {
     }
 
     public void startEndingCD() {
-        this.endingCd = new EndingCD(gameManager);
+        this.endingCd = new EndingCD();
         this.endingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 

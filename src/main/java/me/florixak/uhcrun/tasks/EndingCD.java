@@ -1,18 +1,19 @@
 package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameConst;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class EndingCD extends BukkitRunnable {
 
-    public static int countdown;
+    private static int countdown;
 
-    public EndingCD(GameManager gameManager) {
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        countdown = config.getInt("settings.game.countdowns.ending");
+    public EndingCD() {
+        countdown = GameConst.ENDING_COUNTDOWN;
+    }
+
+    public static int getCountdown() {
+        return countdown;
     }
 
     @Override

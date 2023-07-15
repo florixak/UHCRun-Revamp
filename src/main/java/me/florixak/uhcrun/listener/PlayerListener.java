@@ -1,7 +1,8 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.game.GameManager;
@@ -34,18 +35,18 @@ public class PlayerListener implements Listener {
         Player p = event.getPlayer();
         event.setJoinMessage(null);
 
-        if (gameManager.getGameState().equals(GameState.ENDING)) {
-            p.kickPlayer("Game is restarting!");
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
+        gameManager.getPlayerManager().addPlayer(uhcPlayer);
+
+        if (gameManager.getPlayerManager().getOnlinePlayers().size() >= GameConst.MAX_PLAYERS) {
+            uhcPlayer.setSinceStart(false);
+            p.kickPlayer("Full game, sorry...");
             return;
         }
 
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateHOCPlayer(p.getUniqueId());
-        gameManager.getPlayerManager().addPlayer(uhcPlayer);
-
-        if (gameManager.isPlaying() || uhcPlayer.isDead()) {
-            gameManager.getPlayerManager().setSpectator(uhcPlayer);
+        if (gameManager.isPlaying()) {
+            gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
             uhcPlayer.setSinceStart(false);
-            uhcPlayer.setState(PlayerState.SPECTATOR);
             return;
         }
 
@@ -61,11 +62,10 @@ public class PlayerListener implements Listener {
         gameManager.getPlayerManager().clearPlayerInventory(p);
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);
 
-        Utils.broadcast(Messages.JOIN.toString()
-                .replace("%player%", p.getDisplayName())
-                .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size())));
+        Utils.broadcast(Messages.JOIN.toString("%player%", p.getDisplayName(),
+                "%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + config.getInt("min-players-to-start")));
+                .replace("%min-players%", "" + GameConst.MIN_PLAYERS));
     }
 
     @EventHandler
@@ -82,7 +82,7 @@ public class PlayerListener implements Listener {
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
 
-            gameManager.getPlayerManager().removePlayer(uhcPlayer);
+            gameManager.getPlayerManager().resetPlayer(uhcPlayer);
         } else {
             if (!gameManager.areStatsAddOnEnd()) {
                 uhcPlayer.getData().addLose(1);
@@ -118,6 +118,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @Deprecated
     @EventHandler
     public void handleItemPickUp(PlayerPickupItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
@@ -128,7 +129,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void handlePortals(PlayerTeleportEvent event) {
+    public void handlePortalTeleport(PlayerTeleportEvent event) {
         if (!gameManager.isNetherAllowed() && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             event.setCancelled(true);
         }
