@@ -151,7 +151,6 @@ settings:
   # End game commands - commands which is executed on game ends
   # IN PROGRESS...
   end-game-commands:
-    - "give FloriXak diamond_sword"
 
   # Tablist
   tablist:

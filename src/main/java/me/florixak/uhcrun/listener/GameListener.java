@@ -100,7 +100,7 @@ public class GameListener implements Listener {
         // End game commands
         if (!commands.isEmpty()) {
             for (String command : commands) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
             }
         }
     }
@@ -109,6 +109,9 @@ public class GameListener implements Listener {
     public void handleGameKill(GameKillEvent event) {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
+
+        playerManager.clearPlayerInventory(victim.getPlayer());
+        playerManager.setSpectator(victim, PlayerState.DEAD);
 
         if (killer != null) {
             killer.addKill();
@@ -155,9 +158,6 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString()
                     .replace("%team%", victim.getTeam().getDisplayName()));
         }
-
-        playerManager.clearPlayerInventory(victim.getPlayer());
-        playerManager.setSpectator(victim, PlayerState.DEAD);
     }
 
     @EventHandler

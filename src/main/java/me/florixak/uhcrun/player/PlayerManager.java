@@ -106,7 +106,9 @@ public class PlayerManager {
     public void readyPlayerForGame(UHCPlayer uhcPlayer) {
         Player p = uhcPlayer.getPlayer();
 
-        uhcPlayer.getData().withdrawMoney(uhcPlayer.getKit().getCost());
+        if (uhcPlayer.hasKit()) {
+            uhcPlayer.getData().withdrawMoney(uhcPlayer.getKit().getCost());
+        }
 
         uhcPlayer.setState(PlayerState.ALIVE);
 

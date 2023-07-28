@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.utils.TextUtils;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class PlayerData {
@@ -72,7 +73,8 @@ public class PlayerData {
     }
     public void withdrawMoney(double amount) {
         if (gameManager.isVaultEnabled()) {
-            UHCRun.getVault().withdrawPlayer(uhcPlayer.getPlayer(), amount);
+            Economy economy = UHCRun.getVault();
+            economy.withdrawPlayer(uhcPlayer.getPlayer(), amount);
         }
     }
 

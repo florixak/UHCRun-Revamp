@@ -62,7 +62,7 @@ Messages:
     already-in-team: "&c[!] &fYou are already in this team!"
     not-in-team: "&c[!] &fYou are not in any team!"
     no-teams: "%prefix% &cThere are no set teams, please contact STAFF member!"
-    defeated: "&6[!] &fTeam %team% &cwas defeated!"
+    defeated: "&6[!] &cTeam %team% &cwas defeated!"
     none: "None"
     solo: "Solo"
 

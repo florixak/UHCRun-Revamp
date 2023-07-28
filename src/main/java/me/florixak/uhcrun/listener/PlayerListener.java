@@ -106,6 +106,12 @@ public class PlayerListener implements Listener {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
         }
 
+        event.getEntity().setHealth(20);
+        event.getEntity().setFoodLevel(20);
+        event.getEntity().setFireTicks(0);
+        event.getEntity().getActivePotionEffects().clear();
+        event.getEntity().spigot().respawn();
+
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
         event.getDrops().clear();
     }
