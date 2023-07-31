@@ -7,7 +7,10 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.List;
 
 public class PlayerData {
 
@@ -132,6 +135,7 @@ public class PlayerData {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".kills", 0);
     }
     public void addKills(int amount) {
+
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills()+amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -144,6 +148,7 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
+        Bukkit.broadcastMessage("Add kill!");
         this.moneyForKills += money;
         this.uhcExpForKills += exp;
     }
@@ -155,6 +160,7 @@ public class PlayerData {
         return player_data.getInt("player-data." + uhcPlayer.getUUID() + ".assists", 0);
     }
     public void addAssists(int amount) {
+
         player_data.set("player-data." + uhcPlayer.getUUID() + ".assists", getAssists()+amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -216,9 +222,9 @@ public class PlayerData {
 
         gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
 
-        double reward = config.getInt("settings.statistics.rewards.first-reward", 100)
+        double reward = config.getInt("settings.statistics.rewards.base-reward", 100)
                 *
-                config.getDouble("settings.statistics.rewards.reward-multiplier", 1)
+                config.getDouble("settings.statistics.rewards.reward-coefficient", 1)
                 *
                 getUHCLevel();
 
@@ -277,36 +283,26 @@ public class PlayerData {
         depositMoney(moneyForGameResult+moneyForKills);
         addUHCExp(uhcExpForGameResult+uhcExpForKills);
         addGameResult();
-        addKills(uhcPlayer.getKills());
-        addAssists(uhcPlayer.getAssists());
-        addDeaths(!uhcPlayer.isWinner() ? 1 : 0);
+        if (uhcPlayer.getKills() > 0) {
+            addKills(uhcPlayer.getKills());
+        }
+        if (uhcPlayer.getAssists() > 0) {
+            addAssists(uhcPlayer.getAssists());
+        }
+        addDeaths(uhcPlayer.isWinner() ? 0 : 1);
     }
     public void showStatistics() {
-        if (uhcPlayer.isWinner()) {
-            for (String message : Messages.REWARDS_WIN.toList()) {
-                message = message
-                        .replace("%money-for-win%", String.valueOf(moneyForGameResult))
-                        .replace("%money-for-kills%", String.valueOf(moneyForKills))
-                        .replace("%money-for-assists%", String.valueOf(moneyForAssists))
-                        .replace("%uhc-exp-for-win%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
-                        .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists));
-                uhcPlayer.sendMessage(TextUtils.color(message));
-            }
-        } else {
-            for (String message : Messages.REWARDS_LOSE.toList()) {
+        List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
-                message = message
-                        .replace("%money-for-lose%", String.valueOf(moneyForGameResult))
-                        .replace("%money-for-kills%", String.valueOf(moneyForKills))
-                        .replace("%money-for-assists%", String.valueOf(moneyForAssists))
-                        .replace("%uhc-exp-for-lose%", String.valueOf(uhcExpForGameResult))
-                        .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
-                        .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists));
-                uhcPlayer.sendMessage(TextUtils.color(message));
-            }
+        for (String message : rewards) {
+            message = message
+                    .replace("%money-for-game%", String.valueOf(moneyForGameResult))
+                    .replace("%money-for-kills%", String.valueOf(moneyForKills))
+                    .replace("%money-for-assists%", String.valueOf(moneyForAssists))
+                    .replace("%uhc-exp-for-game%", String.valueOf(uhcExpForGameResult))
+                    .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
+                    .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists));
+            uhcPlayer.sendMessage(TextUtils.color(message));
         }
     }
-
-
 }

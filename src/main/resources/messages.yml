@@ -84,19 +84,19 @@ Messages:
   rewards:
     win:
       - "&7---------- %prefix% &7----------"
-      - " &a+%money-for-win% &fcoins for win"
+      - " &a+%money-for-game% &fcoins for win"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
-      - " &a+%uhc-exp-for-win% &fexp for win"
+      - " &a+%uhc-exp-for-game% &fexp for win"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
       - "&7--------------------------------"
     lose:
       - "&7---------- %prefix% &7----------"
-      - " &a+%money-for-lose% &fcoins for lose"
+      - " &a+%money-for-game% &fcoins for lose"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
-      - " &a+%uhc-exp-for-lose% &fexp for lose"
+      - " &a+%uhc-exp-for-game% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
       - "&7--------------------------------"

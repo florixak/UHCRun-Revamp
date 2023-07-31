@@ -145,12 +145,12 @@ settings:
         uhc-exp: 20
         period: 60 # seconds
       level-up:
-        first-reward: 100
-        reward-multiplier: 0.2 # %first-reward% * %multiplier% * %uhc-level%
+        base-reward: 10
+        reward-coefficient: 1.2 # %base-reward% + (%coefficient% ^ %uhc-level%)
 
   # End game commands - commands which is executed on game ends
   # IN PROGRESS...
-  end-game-commands:
+  end-game-commands: []
 
   # Tablist
   tablist:

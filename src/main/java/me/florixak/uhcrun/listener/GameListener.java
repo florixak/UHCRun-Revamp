@@ -53,15 +53,15 @@ public class GameListener implements Listener {
     public void handleGameEnd(GameEndEvent event) {
 
         String winner = event.getWinner();
-        List<String> gameResultsMsg = Messages.GAME_RESULTS.toList();
-        List<UHCPlayer> top_killers = playerManager.getTopKillers();
+        List<String> gameResults = Messages.GAME_RESULTS.toList();
+        List<UHCPlayer> topKillers = playerManager.getTopKillers();
         List<String> commands = config.getStringList("settings.end-game-commands");
 
         // Game results and top killers
-        if (gameResultsMsg != null && !gameResultsMsg.isEmpty()) {
-            for (String message : gameResultsMsg) {
-                for (int i = 0; i < gameResultsMsg.size(); i++) {
-                    UHCPlayer topKiller = i < top_killers.size() && top_killers.get(i) != null ? top_killers.get(i) : null;
+        if (gameResults != null && !gameResults.isEmpty()) {
+            for (String message : gameResults) {
+                for (int i = 0; i < gameResults.size(); i++) {
+                    UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
                     message = message.replace("%winner%", winner)
                             .replace("%top-killer-" + (i+1) + "%", isUHCPlayer ? topKiller.getName() : "None")
@@ -77,8 +77,6 @@ public class GameListener implements Listener {
 
         // Statistics
         for (UHCPlayer uhcPlayer : playerManager.getPlayers()) {
-
-            if (!uhcPlayer.isOnline()) return;
 
             if (uhcPlayer.isSinceStart()) {
                 if (gameManager.areStatsAddOnEnd()) {
