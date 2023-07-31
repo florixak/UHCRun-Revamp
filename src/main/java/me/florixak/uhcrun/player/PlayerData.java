@@ -143,12 +143,14 @@ public class PlayerData {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
 
+        if (amount == 0) return;
+
         double money = GameConst.MONEY_FOR_KILL;
         double exp = GameConst.UHC_EXP_FOR_KILL;
 
         depositMoney(money);
         addUHCExp(exp);
-        Bukkit.broadcastMessage("Add kill!");
+
         this.moneyForKills += money;
         this.uhcExpForKills += exp;
     }
@@ -167,6 +169,8 @@ public class PlayerData {
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().addAssist(uhcPlayer.getUUID(), amount);
         }
+
+        if (amount == 0) return;
 
         double money = GameConst.MONEY_FOR_ASSIST;
         double exp = GameConst.UHC_EXP_FOR_ASSIST;
@@ -283,12 +287,8 @@ public class PlayerData {
         depositMoney(moneyForGameResult+moneyForKills);
         addUHCExp(uhcExpForGameResult+uhcExpForKills);
         addGameResult();
-        if (uhcPlayer.getKills() > 0) {
-            addKills(uhcPlayer.getKills());
-        }
-        if (uhcPlayer.getAssists() > 0) {
-            addAssists(uhcPlayer.getAssists());
-        }
+        addKills(uhcPlayer.getKills());
+        addAssists(uhcPlayer.getAssists());
         addDeaths(uhcPlayer.isWinner() ? 0 : 1);
     }
     public void showStatistics() {
