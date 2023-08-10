@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;

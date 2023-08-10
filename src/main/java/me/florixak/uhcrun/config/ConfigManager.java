@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.config;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.game.Messages;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

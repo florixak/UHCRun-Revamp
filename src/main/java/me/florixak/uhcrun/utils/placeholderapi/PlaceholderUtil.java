@@ -1,15 +1,13 @@
 package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;

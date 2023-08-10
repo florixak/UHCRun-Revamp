@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
@@ -59,7 +59,7 @@ public class PlayerListener implements Listener {
 
         p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
 
-        gameManager.getPlayerManager().clearPlayerInventory(p);
+        uhcPlayer.clearInventory();
         gameManager.getKitsManager().getWaitingKit(uhcPlayer);
 
         Utils.broadcast(Messages.JOIN.toString()

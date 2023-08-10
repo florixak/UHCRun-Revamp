@@ -2,7 +2,7 @@ package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
@@ -87,7 +87,7 @@ public class GameListener implements Listener {
             }
 
             if (uhcPlayer.isOnline()) {
-                playerManager.clearPlayerInventory(uhcPlayer.getPlayer());
+                uhcPlayer.clearInventory();
                 uhcPlayer.getPlayer().setGameMode(GameMode.ADVENTURE);
                 uhcPlayer.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
 
@@ -108,7 +108,7 @@ public class GameListener implements Listener {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
 
-        playerManager.clearPlayerInventory(victim.getPlayer());
+        victim.clearInventory();
         playerManager.setSpectator(victim, PlayerState.DEAD);
 
         if (killer != null) {

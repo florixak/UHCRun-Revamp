@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.commands.*;
 import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
@@ -45,9 +46,6 @@ public class GameManager {
     private MySQL mysql;
     private SQLGetter data;
 
-    private boolean forceStarted;
-    private boolean pvp;
-
     private final ConfigManager configManager;
     private final PlayerManager playerManager;
     private final ScoreboardManager scoreboardManager;
@@ -66,8 +64,11 @@ public class GameManager {
     private final DeathmatchManager deathmatchManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
-
     private final Utils utils;
+
+    private boolean forceStarted;
+    private boolean pvp;
+
 
     public GameManager(UHCRun plugin){
         this.plugin = plugin;
@@ -110,7 +111,6 @@ public class GameManager {
 
         connectToDatabase();
 
-        // getWorldManager().createWorld("uhc-world", WorldType.NORMAL);
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.WAITING)) == null) {
             getWorldManager().createWorld("lobby", WorldType.FLAT);
         }
@@ -154,7 +154,7 @@ public class GameManager {
                 break;
 
             case MINING:
-                getPlayerManager().getOnlinePlayers().forEach(getPlayerManager()::readyPlayerForGame);
+                getPlayerManager().getOnlinePlayers().forEach(getPlayerManager()::readyPlayer);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
@@ -222,10 +222,7 @@ public class GameManager {
     }
 
     public boolean isPlaying() {
-        return gameState.equals(GameState.MINING)
-                || gameState.equals(GameState.PVP)
-                || gameState.equals(GameState.DEATHMATCH)
-                || gameState.equals(GameState.ENDING);
+        return !gameState.equals(GameState.LOBBY) && !gameState.equals(GameState.STARTING);
     }
 
     public boolean isForceStarted() {

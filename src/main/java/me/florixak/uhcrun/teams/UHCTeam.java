@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.teams;
 
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -67,14 +67,7 @@ public class UHCTeam {
         return this.members;
     }
     public String getMembersToString() {
-        StringBuilder members = new StringBuilder();
-
-        for (int i = 0; i < getMembers().size(); i++) {
-            members.append(getMembers().get(i).getName());
-            if (i < getMembers().size()-1) members.append(", ");
-        }
-
-        return members.toString();
+        return getMembers().stream().map(UHCPlayer::getName).collect(Collectors.joining(", "));
     }
     private List<UHCPlayer> getMembers(Predicate<UHCPlayer> filter){
         return getMembers().stream().filter(filter).collect(Collectors.toList());

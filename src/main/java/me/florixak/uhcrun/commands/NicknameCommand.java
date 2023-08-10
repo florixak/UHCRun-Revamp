@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.commands;
 
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.command.Command;

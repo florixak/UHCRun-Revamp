@@ -19,7 +19,7 @@ public final class UHCRun extends JavaPlugin {
     private static Economy econ = null;
     private static LuckPerms luckPerms = null;
 
-    public static String nmsver;
+    public static String nmsVer;
     public static boolean useOldMethods;
 
     private GameManager gameManager;
@@ -38,17 +38,12 @@ public final class UHCRun extends JavaPlugin {
         getLogger().info("Web: www.florixak.tk");
         getLogger().info("Version: " + getDescription().getVersion());
 
-        nmsver = Bukkit.getServer().getClass().getPackage().getName();
-        nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
+        checkNMSVersion();
 
-        if (nmsver.equalsIgnoreCase("v1_8_R1") || nmsver.startsWith("v1_7_")) {
-            useOldMethods = true;
-        }
-
-        this.gameManager = new GameManager(plugin);
+        this.gameManager = new GameManager(this);
 
         registerDependency();
-        this.gameManager.loadNewGame();
+        getGameManager().loadNewGame();
     }
 
     @Override
@@ -56,12 +51,12 @@ public final class UHCRun extends JavaPlugin {
         getGameManager().onDisable();
     }
 
-    public static UHCRun getInstance() {
-        return plugin;
+    public String getAuthor() {
+        return getDescription().getAuthors().get(0);
     }
 
-    public String getAuthor() {
-        return "FloriXak";
+    public static UHCRun getInstance() {
+        return plugin;
     }
 
     public GameManager getGameManager() {
@@ -96,7 +91,6 @@ public final class UHCRun extends JavaPlugin {
             }
         }
     }
-
     private boolean setupVault() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -128,6 +122,15 @@ public final class UHCRun extends JavaPlugin {
     }
     public static LuckPerms getLuckPerms() {
         return luckPerms;
+    }
+
+    public void checkNMSVersion() {
+        nmsVer = Bukkit.getServer().getClass().getPackage().getName();
+        nmsVer = nmsVer.substring(nmsVer.lastIndexOf(".") + 1);
+
+        if (nmsVer.equalsIgnoreCase("v1_8_R1") || nmsVer.startsWith("v1_7_")) {
+            useOldMethods = true;
+        }
     }
 
 }

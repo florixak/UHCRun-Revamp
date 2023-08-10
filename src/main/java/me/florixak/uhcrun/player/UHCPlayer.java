@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
@@ -11,7 +11,9 @@ import me.florixak.uhcrun.utils.Utils;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,6 +201,24 @@ public class UHCPlayer {
         this.sinceStart = b;
     }
 
+    public void teleport(Location loc) {
+        if (loc == null) return;
+        getPlayer().teleport(loc);
+    }
+    public void clearInventory() {
+        getPlayer().getInventory().clear();
+
+        //clear player armor
+        ItemStack[] emptyArmor = new ItemStack[4];
+        for(int i = 0; i < emptyArmor.length; i++){
+            emptyArmor[i] = new ItemStack(Material.AIR);
+        }
+        getPlayer().getInventory().setArmorContents(emptyArmor);
+    }
+    public void clearPotions() {
+        getPlayer().getActivePotionEffects().clear();
+    }
+
     public void sendMessage(String message) {
         if (message.isEmpty() || message == null || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));
@@ -211,9 +231,5 @@ public class UHCPlayer {
         if (title.isEmpty() || title == null || !isOnline()) return;
         String[] split_title = title.split("\n");
         getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
-    }
-    public void teleport(Location loc) {
-        if (loc == null) return;
-        getPlayer().teleport(loc);
     }
 }

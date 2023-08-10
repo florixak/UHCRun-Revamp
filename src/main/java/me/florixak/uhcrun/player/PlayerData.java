@@ -2,12 +2,11 @@ package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameConst;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;

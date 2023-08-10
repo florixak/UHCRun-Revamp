@@ -23,7 +23,6 @@ public class PlayerManager {
         if (players.contains(p)) return;
         this.players.add(p);
     }
-
     public void resetPlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
 
@@ -43,67 +42,41 @@ public class PlayerManager {
     public List<UHCPlayer> getPlayers() {
         return this.players;
     }
-
     public List<UHCPlayer> getOnlinePlayers() {
         return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
-
     public List<UHCPlayer> getAlivePlayers() {
         return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
-
     public List<UHCPlayer> getDeadPlayers() {
         return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
-
     public List<UHCPlayer> getSpectators() {
         return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
 
     public UHCPlayer getUHCPlayer(UUID uuid) {
-        for (UHCPlayer uhcPlayer : getPlayers()) {
-            if (uhcPlayer.getUUID().equals(uuid)) {
-                return uhcPlayer;
-            }
-        }
-        return null;
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(null);
     }
-
     public UHCPlayer getUHCPlayer(String name) {
-        for (UHCPlayer uhcPlayer : getPlayers()) {
-            if (uhcPlayer.getName().equals(name)) {
-                return uhcPlayer;
-            }
-        }
-        return null;
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
-
     public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
-        for (UHCPlayer hocPlayer : getPlayers()) {
-            if (hocPlayer.getUUID().equals(uuid)) {
-                return hocPlayer;
-            }
-        }
-        return new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName());
+        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
     }
 
     public UHCPlayer getWinnerPlayer() {
-        for (UHCPlayer uhcPlayer : getAlivePlayers()) {
-            if (uhcPlayer.isWinner()) return uhcPlayer;
-        }
-        return null;
+        return getAlivePlayers().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
-
     private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
         Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
         return players;
     }
-
     public List<UHCPlayer> getTopKillers() {
         return findTopKillers(getPlayers());
     }
 
-    public void readyPlayerForGame(UHCPlayer uhcPlayer) {
+    public void readyPlayer(UHCPlayer uhcPlayer) {
         Player p = uhcPlayer.getPlayer();
 
         if (uhcPlayer.hasKit()) {
@@ -130,7 +103,6 @@ public class PlayerManager {
             uhcPlayer.getKit().getKit(uhcPlayer);
         }
     }
-
     public void setSpectator(UHCPlayer uhcPlayer, PlayerState pState) {
         Player p = uhcPlayer.getPlayer();
         Location playerLoc = p.getLocation();

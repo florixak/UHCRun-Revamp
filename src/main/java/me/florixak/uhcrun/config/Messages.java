@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game;
+package me.florixak.uhcrun.config;
 
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;

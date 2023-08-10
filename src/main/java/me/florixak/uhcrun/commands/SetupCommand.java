@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.commands;
 
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;

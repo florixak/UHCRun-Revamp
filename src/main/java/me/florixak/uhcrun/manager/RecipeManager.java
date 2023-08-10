@@ -7,15 +7,14 @@ import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class RecipeManager {
@@ -29,20 +28,22 @@ public class RecipeManager {
         this.recipes = new ArrayList<>();
     }
 
-    @Deprecated
     public void registerRecipes() {
 
         if (recipe_config.getConfigurationSection("custom-recipes") == null) return;
 
         for (String recipe : recipe_config.getConfigurationSection("custom-recipes").getKeys(false)) {
-            ItemStack item = new ItemStack(XMaterial.matchXMaterial(recipe.toUpperCase()).get().parseMaterial(),
-                    recipe_config.getInt("custom-recipes." + recipe + ".amount"));
+            ConfigurationSection recipeSection = recipe_config.getConfigurationSection("custom-recipes." + recipe);
+            String itemName = recipe.toUpperCase();
+            int amount = recipeSection.getInt("amount");
+            ItemStack item = new ItemStack(XMaterial.matchXMaterial(itemName).get().parseMaterial(), amount);
 
-            if (recipe_config.getConfigurationSection("custom-recipes." + recipe + ".enchantments") != null) {
-                for (String enchant : recipe_config.getConfigurationSection("custom-recipes." + recipe + ".enchantments").getKeys(false)) {
-                    String enchantment = enchant.toUpperCase();
-                    Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                    int level = recipe_config.getInt("custom-recipes." + recipe + ".enchantments." + enchantment, 1);
+            ConfigurationSection enchantmentsSection = recipeSection.getConfigurationSection("enchantments");
+            if (enchantmentsSection != null) {
+                for (String enchant : enchantmentsSection.getKeys(false)) {
+                    String enchantmentName = enchant.toUpperCase();
+                    Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
+                    int level = recipeSection.getInt("enchantments." + enchantmentName, 1);
                     ItemUtils.addEnchant(item, e, level, true);
                 }
             }

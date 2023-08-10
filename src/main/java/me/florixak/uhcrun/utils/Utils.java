@@ -2,7 +2,7 @@ package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.Messages;
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
@@ -51,22 +51,22 @@ public class Utils {
 
         // Call the event, if cancelled don't send Action Bar
         try {
-            Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + UHCRun.nmsver + ".entity.CraftPlayer");
+            Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + UHCRun.nmsVer + ".entity.CraftPlayer");
             Object craftPlayer = craftPlayerClass.cast(player);
             Object packet;
-            Class<?> packetPlayOutChatClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".PacketPlayOutChat");
-            Class<?> packetClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".Packet");
+            Class<?> packetPlayOutChatClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".PacketPlayOutChat");
+            Class<?> packetClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".Packet");
             if (UHCRun.useOldMethods) {
-                Class<?> chatSerializerClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatSerializer");
-                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".IChatBaseComponent");
+                Class<?> chatSerializerClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".ChatSerializer");
+                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".IChatBaseComponent");
                 Method m3 = chatSerializerClass.getDeclaredMethod("a", String.class);
                 Object cbc = iChatBaseComponentClass.cast(m3.invoke(chatSerializerClass, "{\"text\": \"" + TextUtils.color(message) + "\"}"));
                 packet = packetPlayOutChatClass.getConstructor(new Class<?>[]{iChatBaseComponentClass, byte.class}).newInstance(cbc, (byte) 2);
             } else {
-                Class<?> chatComponentTextClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatComponentText");
-                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".IChatBaseComponent");
+                Class<?> chatComponentTextClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".ChatComponentText");
+                Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".IChatBaseComponent");
                 try {
-                    Class<?> chatMessageTypeClass = Class.forName("net.minecraft.server." + UHCRun.nmsver + ".ChatMessageType");
+                    Class<?> chatMessageTypeClass = Class.forName("net.minecraft.server." + UHCRun.nmsVer + ".ChatMessageType");
                     Object[] chatMessageTypes = chatMessageTypeClass.getEnumConstants();
                     Object chatMessageType = null;
                     for (Object obj : chatMessageTypes) {
