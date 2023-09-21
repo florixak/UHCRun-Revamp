@@ -5,7 +5,6 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
-import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

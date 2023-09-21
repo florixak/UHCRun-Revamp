@@ -22,7 +22,6 @@ public class Gui implements InventoryHolder {
     public Gui(int size, String title) {
         this.size = size;
         this.title = title;
-        this.inventory = Bukkit.createInventory(null, size, TextUtils.color(title));
     }
 
     public Player getWhoOpen() {
@@ -46,6 +45,7 @@ public class Gui implements InventoryHolder {
     }
 
     public void init() {
+        this.inventory = Bukkit.createInventory(null, size, TextUtils.color(title));
         ItemStack empty = createItem(XMaterial.AIR.parseMaterial(), " ", null);
 
         for (int i = 0; i < getSize(); i++) {
