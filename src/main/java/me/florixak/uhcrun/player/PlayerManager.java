@@ -31,16 +31,16 @@ public class PlayerManager {
     public List<UHCPlayer> getPlayers() {
         return this.players;
     }
-    public List<UHCPlayer> getOnlinePlayers() {
+    public List<UHCPlayer> getOnlineList() {
         return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
-    public List<UHCPlayer> getAlivePlayers() {
+    public List<UHCPlayer> getAliveList() {
         return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
-    public List<UHCPlayer> getDeadPlayers() {
+    public List<UHCPlayer> getDeadList() {
         return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
-    public List<UHCPlayer> getSpectators() {
+    public List<UHCPlayer> getSpectatorList() {
         return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
 
@@ -55,7 +55,7 @@ public class PlayerManager {
     }
 
     public UHCPlayer getWinnerPlayer() {
-        return getAlivePlayers().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
+        return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
     private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
         Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
@@ -82,7 +82,7 @@ public class PlayerManager {
 
         if (gameManager.isTeamMode() && !uhcPlayer.hasTeam()) {
             gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-        } else if (!gameManager.isTeamMode()){
+        } else if (!gameManager.isTeamMode()) {
             UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
             gameManager.getTeamManager().addTeam(uhcTeam);
             uhcPlayer.setTeam(uhcTeam);

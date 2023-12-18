@@ -39,7 +39,7 @@ public class PvPCD extends BukkitRunnable {
             Utils.broadcast(Messages.DEATHMATCH_IN.toString()
                     .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
 
-            gameManager.getPlayerManager().getAlivePlayers()
+            gameManager.getPlayerManager().getAliveList()
                     .forEach(uhcPlayer -> gameManager.getSoundManager().playDMStarts(uhcPlayer.getPlayer()));
         }
         gameManager.getBorderManager().setSize(gameManager.getBorderManager().getSize()-gameManager.getBorderManager().getSpeed());

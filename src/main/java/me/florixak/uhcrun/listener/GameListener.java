@@ -76,7 +76,7 @@ public class GameListener implements Listener {
         }
 
         // Statistics
-        for (UHCPlayer uhcPlayer : playerManager.getOnlinePlayers()) {
+        for (UHCPlayer uhcPlayer : playerManager.getOnlineList()) {
 
             if (gameManager.areStatsAddOnEnd()) {
                 uhcPlayer.getData().addStatistics();

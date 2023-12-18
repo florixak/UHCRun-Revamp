@@ -22,7 +22,7 @@ public class PlayingRewards extends BukkitRunnable {
     @Override
     public void run() {
         if (gameManager.isPlaying()) {
-            for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
+            for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAliveList()) {
                 double money = config.getDouble(path + ".money");
                 double player_exp = config.getDouble(path + ".player-exp");
 

@@ -32,7 +32,7 @@ public class PlaceholderUtil {
             text = text.replace("%ping%", String.valueOf(p.getPing()));
 
         if (text.contains("%online%"))
-            text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size()));
+            text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));
 
         if (text.contains("%max-online%"))
             text = text.replace("%max-online%", String.valueOf(GameConst.MAX_PLAYERS));
@@ -62,15 +62,15 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%alive%")) {
-            text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAlivePlayers().size()));
+            text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAliveList().size()));
         }
 
         if (text.contains("%dead%")) {
-            text = text.replace("%dead%", String.valueOf(gameManager.getPlayerManager().getDeadPlayers().size()));
+            text = text.replace("%dead%", String.valueOf(gameManager.getPlayerManager().getDeadList().size()));
         }
 
         if (text.contains("%spectators%")) {
-            text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectators().size()));
+            text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectatorList().size()));
         }
 
         if (text.contains("%kit%")) {

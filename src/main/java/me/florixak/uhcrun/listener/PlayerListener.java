@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
-        if (gameManager.getPlayerManager().getOnlinePlayers().size() >= GameConst.MAX_PLAYERS) {
+        if (gameManager.getPlayerManager().getOnlineList().size() >= GameConst.MAX_PLAYERS) {
             p.kickPlayer("Full game, sorry...");
             return;
         }
@@ -58,7 +58,7 @@ public class PlayerListener implements Listener {
 
         Utils.broadcast(Messages.JOIN.toString()
                 .replace("%player%", p.getDisplayName())
-                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
+                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
                 .replace("%min-players%", "" + GameConst.MIN_PLAYERS));
     }

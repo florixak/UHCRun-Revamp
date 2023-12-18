@@ -154,7 +154,7 @@ public class GameManager {
                 break;
 
             case MINING:
-                getPlayerManager().getOnlinePlayers().forEach(getPlayerManager()::readyPlayer);
+                getPlayerManager().getOnlineList().forEach(getPlayerManager()::readyPlayer);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
@@ -240,13 +240,13 @@ public class GameManager {
 
     public void setUHCWinner() {
 
-        if (getPlayerManager().getAlivePlayers().isEmpty()) return;
+        if (getPlayerManager().getAliveList().isEmpty()) return;
 
-        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0) != null ?
-                getPlayerManager().getAlivePlayers().get(0) : null;
+        UHCPlayer winner = getPlayerManager().getAliveList().get(0) != null ?
+                getPlayerManager().getAliveList().get(0) : null;
 
         if (winner != null) {
-            for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
+            for (UHCPlayer uhcPlayer : getPlayerManager().getAliveList()) {
                 if (!uhcPlayer.isOnline()) return;
                 if (uhcPlayer.getKills() > winner.getKills()) {
                     winner = uhcPlayer;

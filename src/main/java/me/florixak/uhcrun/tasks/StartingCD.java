@@ -44,7 +44,7 @@ public class StartingCD extends BukkitRunnable {
         }
 
         if (kitsManager.willOpenWhenStarting() && countdown == kitsManager.getOpenWhenStartingAt()) {
-            gameManager.getPlayerManager().getOnlinePlayers()
+            gameManager.getPlayerManager().getOnlineList()
                     .forEach(uhcPlayer -> gameManager.getGuiManager().getInventory("kits").openInv(uhcPlayer.getPlayer()));
         }
 
