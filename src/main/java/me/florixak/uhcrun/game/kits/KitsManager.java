@@ -108,7 +108,7 @@ public class KitsManager {
         return this.openWhenStartingAt != -1;
     }
 
-    public void getWaitingKit(UHCPlayer p) {
+    public void getLobbyKit(UHCPlayer p) {
 
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
             if (config.getBoolean("settings.selectors." + selector + ".enabled")) {

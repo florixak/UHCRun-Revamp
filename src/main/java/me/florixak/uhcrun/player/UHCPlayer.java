@@ -37,7 +37,6 @@ public class UHCPlayer {
     private List<UHCPlayer> assistsList;
 
     private String nickname;
-    private boolean sinceStart;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -45,7 +44,6 @@ public class UHCPlayer {
         this.data = new PlayerData(this);
 
         setState(PlayerState.LOBBY);
-        setSinceStart(true);
 
         this.hasWon = false;
         this.kills = 0;
@@ -164,7 +162,7 @@ public class UHCPlayer {
     }
 
     public boolean wasDamagedByMorePeople() {
-        return !this.assistsList.isEmpty() && this.assistsList.size() >= 2;
+        return this.assistsList.size() > 1;
     }
     public UHCPlayer getKillAssistPlayer() {
         return this.assistsList.get(this.assistsList.size()-2);
@@ -192,13 +190,6 @@ public class UHCPlayer {
         }
         sendMessage(Messages.NICK_NICKED.toString().replace("%nick%", nickname));
         this.nickname = nickname;
-    }
-
-    public boolean isSinceStart() {
-        return this.sinceStart;
-    }
-    public void setSinceStart(boolean b) {
-        this.sinceStart = b;
     }
 
     public void teleport(Location loc) {

@@ -53,7 +53,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%countdown%")) {
-            text = text.replace("%countdown%", TimeUtils.getFormattedTime(gameManager.getCountdown()));
+            text = text.replace("%countdown%", TimeUtils.getFormattedTime(gameManager.getCurrentCountdown()));
         }
 
         if (text.contains("%border%")) {

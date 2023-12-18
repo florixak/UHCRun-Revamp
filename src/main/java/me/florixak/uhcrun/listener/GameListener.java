@@ -76,23 +76,20 @@ public class GameListener implements Listener {
         }
 
         // Statistics
-        for (UHCPlayer uhcPlayer : playerManager.getPlayers()) {
+        for (UHCPlayer uhcPlayer : playerManager.getOnlinePlayers()) {
 
-            if (uhcPlayer.isSinceStart()) {
-                if (gameManager.areStatsAddOnEnd()) {
-                    uhcPlayer.getData().addStatistics();
-                } else {
-                    uhcPlayer.getData().addGameResult();
-                }
+            if (gameManager.areStatsAddOnEnd()) {
+                uhcPlayer.getData().addStatistics();
+            } else {
+                uhcPlayer.getData().addGameResult();
             }
 
-            if (uhcPlayer.isOnline()) {
-                uhcPlayer.clearInventory();
-                uhcPlayer.getPlayer().setGameMode(GameMode.ADVENTURE);
-                uhcPlayer.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
+            uhcPlayer.clearInventory();
+            uhcPlayer.getPlayer().setGameMode(GameMode.ADVENTURE);
+            uhcPlayer.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
 
-                uhcPlayer.getData().showStatistics();
-            }
+            uhcPlayer.getData().showStatistics();
+
         }
 
         // End game commands

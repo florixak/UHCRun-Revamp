@@ -149,7 +149,7 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCountdown())));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 break;
 
@@ -158,7 +158,7 @@ public class GameManager {
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCountdown())));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 
@@ -194,7 +194,7 @@ public class GameManager {
         }
     }
 
-    public int getCountdown() {
+    public int getCurrentCountdown() {
         switch (gameState) {
             case LOBBY:
                 return 0;
@@ -240,25 +240,27 @@ public class GameManager {
 
     public void setUHCWinner() {
 
-        if (getPlayerManager().getAlivePlayers().isEmpty()
-                || getPlayerManager().getAlivePlayers().size() == 0) return;
+        if (getPlayerManager().getAlivePlayers().isEmpty()) return;
 
-        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0);
-        for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
-            if (!uhcPlayer.isOnline()) return;
-            if (uhcPlayer.getKills() > winner.getKills()) {
-                winner = uhcPlayer;
+        UHCPlayer winner = getPlayerManager().getAlivePlayers().get(0) != null ?
+                getPlayerManager().getAlivePlayers().get(0) : null;
+
+        if (winner != null) {
+            for (UHCPlayer uhcPlayer : getPlayerManager().getAlivePlayers()) {
+                if (!uhcPlayer.isOnline()) return;
+                if (uhcPlayer.getKills() > winner.getKills()) {
+                    winner = uhcPlayer;
+                }
             }
-        }
 
-        if (isTeamMode()) {
-            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
-                teamMember.setWinner(true);
+            if (isTeamMode()) {
+                for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                    teamMember.setWinner(true);
+                }
+                return;
             }
-            return;
+            winner.setWinner(true);
         }
-        winner.setWinner(true);
-
     }
     public String getUHCWinner() {
         if (isTeamMode()) {

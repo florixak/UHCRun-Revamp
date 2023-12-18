@@ -23,19 +23,8 @@ public class PlayerManager {
         if (players.contains(p)) return;
         this.players.add(p);
     }
-    public void resetPlayer(UHCPlayer p) {
+    public void removePlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
-
-        if (p.hasTeam()) {
-            p.getTeam().leave(p);
-        }
-        if (p.hasKit()) {
-            p.setKit(null);
-        }
-        if (p.hasPerk()) {
-            p.setPerk(null);
-        }
-
         this.players.remove(p);
     }
 

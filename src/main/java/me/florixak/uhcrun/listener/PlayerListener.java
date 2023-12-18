@@ -1,18 +1,16 @@
 package me.florixak.uhcrun.listener;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
-import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,11 +20,9 @@ import org.bukkit.event.player.*;
 public class PlayerListener implements Listener {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
     public PlayerListener(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     @EventHandler
@@ -39,28 +35,26 @@ public class PlayerListener implements Listener {
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
         if (gameManager.getPlayerManager().getOnlinePlayers().size() >= GameConst.MAX_PLAYERS) {
-            uhcPlayer.setSinceStart(false);
             p.kickPlayer("Full game, sorry...");
             return;
         }
 
         if (gameManager.isPlaying()) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
-            uhcPlayer.setSinceStart(false);
             return;
         }
 
         p.setGameMode(GameMode.ADVENTURE);
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
-        p.setLevel(0);
-        p.setTotalExperience(0);
         p.giveExp(-p.getTotalExperience());
+        p.setTotalExperience(0);
+        p.setLevel(0);
 
         p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
 
         uhcPlayer.clearInventory();
-        gameManager.getKitsManager().getWaitingKit(uhcPlayer);
+        gameManager.getKitsManager().getLobbyKit(uhcPlayer);
 
         Utils.broadcast(Messages.JOIN.toString()
                 .replace("%player%", p.getDisplayName())
@@ -82,14 +76,14 @@ public class PlayerListener implements Listener {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
-
-            gameManager.getPlayerManager().resetPlayer(uhcPlayer);
         } else {
             if (!gameManager.areStatsAddOnEnd()) {
                 uhcPlayer.getData().addLose(1);
                 uhcPlayer.getData().addDeaths(1);
             }
         }
+
+        gameManager.getPlayerManager().removePlayer(uhcPlayer);
     }
 
     @EventHandler
