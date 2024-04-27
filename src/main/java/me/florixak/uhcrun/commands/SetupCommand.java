@@ -11,7 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.florixak.uhcrun.utils.Permissions.SETUP;
+import static me.florixak.uhcrun.game.Permissions.SETUP;
 
 public class SetupCommand implements CommandExecutor {
 

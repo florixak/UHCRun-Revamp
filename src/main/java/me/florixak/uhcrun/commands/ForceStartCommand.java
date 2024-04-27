@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import static me.florixak.uhcrun.utils.Permissions.FORCE_START;
+import static me.florixak.uhcrun.game.Permissions.FORCE_START;
 
 public class ForceStartCommand implements CommandExecutor {
 

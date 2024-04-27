@@ -323,7 +323,7 @@ public class GameManager {
     }
 
     public boolean isGameFull() {
-        return playerManager.getOnlineList().size() >= GameConst.MAX_PLAYERS;
+        return playerManager.getOnlineList().size() >= GameConstants.MAX_PLAYERS;
     }
 
     public MySQL getSQL() {

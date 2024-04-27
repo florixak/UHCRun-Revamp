@@ -4,7 +4,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class GameConst {
+public class GameConstants {
 
     private static final GameManager gameManager = GameManager.getGameManager();
     private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
@@ -31,5 +31,4 @@ public class GameConst {
     public static final double MONEY_FOR_ASSIST = config.getDouble("settings.statistics.rewards.assist.money", 0);
     public static final double UHC_EXP_FOR_ASSIST = config.getDouble("settings.statistics.rewards.assist.uhc-exp", 0);
     public static final int EXP_FOR_ASSIST = config.getInt("settings.statistics.rewards.assist.exp", 0);
-
 }

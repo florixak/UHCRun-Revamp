@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.utils.TimeUtils;
@@ -15,7 +15,7 @@ public class PvPCD extends BukkitRunnable {
 
     public PvPCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameConst.PVP_COUNTDOWN;
+        countdown = GameConstants.PVP_COUNTDOWN;
     }
 
     public static int getCountdown() {

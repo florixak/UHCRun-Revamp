@@ -210,16 +210,25 @@ public class UHCPlayer {
         getPlayer().getActivePotionEffects().clear();
     }
 
+    public boolean hasPermission(String permission) {
+        return getPlayer().hasPermission(permission);
+    }
+
+    public void kick(String message) {
+        if (message == null || message.isEmpty() || !isOnline()) return;
+        getPlayer().kickPlayer(TextUtils.color(message));
+    }
+
     public void sendMessage(String message) {
-        if (message.isEmpty() || message == null || !isOnline()) return;
+        if (message == null || message.isEmpty() || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));
     }
     public void sendHotBarMessage(String message) {
-        if (message.isEmpty() || message == null || !isOnline()) return;
+        if (message == null || message.isEmpty() || !isOnline()) return;
         Utils.sendHotBarMessage(getPlayer(), TextUtils.color(message));
     }
     public void sendTitle(String title) {
-        if (title.isEmpty() || title == null || !isOnline()) return;
+        if (title == null || title.isEmpty() || !isOnline()) return;
         String[] split_title = title.split("\n");
         getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
     }

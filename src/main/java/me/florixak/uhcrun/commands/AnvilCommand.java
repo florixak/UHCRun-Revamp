@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import static me.florixak.uhcrun.utils.Permissions.ANVIL;
+import static me.florixak.uhcrun.game.Permissions.ANVIL;
 
 public class AnvilCommand implements CommandExecutor {
 

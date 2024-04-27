@@ -4,7 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -94,8 +94,8 @@ public class PlayerData {
             gameManager.getData().addWin(uhcPlayer.getUUID());
         }
 
-        double money = GameConst.MONEY_FOR_WIN;
-        double exp = GameConst.UHC_EXP_FOR_WIN;
+        double money = GameConstants.MONEY_FOR_WIN;
+        double exp = GameConstants.UHC_EXP_FOR_WIN;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -117,8 +117,8 @@ public class PlayerData {
             gameManager.getData().addLose(uhcPlayer.getUUID());
         }
 
-        double money = GameConst.MONEY_FOR_LOSE;
-        double exp = GameConst.UHC_EXP_FOR_LOSE;
+        double money = GameConstants.MONEY_FOR_LOSE;
+        double exp = GameConstants.UHC_EXP_FOR_LOSE;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -144,8 +144,8 @@ public class PlayerData {
 
         if (amount == 0) return;
 
-        double money = GameConst.MONEY_FOR_KILL;
-        double exp = GameConst.UHC_EXP_FOR_KILL;
+        double money = GameConstants.MONEY_FOR_KILL;
+        double exp = GameConstants.UHC_EXP_FOR_KILL;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -171,8 +171,8 @@ public class PlayerData {
 
         if (amount == 0) return;
 
-        double money = GameConst.MONEY_FOR_ASSIST;
-        double exp = GameConst.UHC_EXP_FOR_ASSIST;
+        double money = GameConstants.MONEY_FOR_ASSIST;
+        double exp = GameConstants.UHC_EXP_FOR_ASSIST;
 
         depositMoney(money);
         addUHCExp(exp);

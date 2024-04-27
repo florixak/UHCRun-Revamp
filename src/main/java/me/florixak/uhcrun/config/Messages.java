@@ -45,6 +45,9 @@ public enum Messages {
     GAME_SOLO("game.solo"),
     GAME_TEAMS("game.teams"),
     GAME_RESTARTING("game.restarting"),
+    GAME_FULL("game.full"),
+
+    KICK_DUE_RESERVED_SLOT("game.kick-due-reserved-slot"),
 
     REWARDS_WIN("rewards.win"),
     REWARDS_LOSE("rewards.lose"),

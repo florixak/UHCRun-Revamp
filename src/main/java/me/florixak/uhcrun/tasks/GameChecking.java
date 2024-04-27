@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.utils.Utils;
@@ -17,7 +17,7 @@ public class GameChecking extends BukkitRunnable {
     public GameChecking(GameManager gameManager) {
         this.gameManager = gameManager;
 
-        this.minPlayers = GameConst.MIN_PLAYERS;
+        this.minPlayers = GameConstants.MIN_PLAYERS;
     }
 
     @Override

@@ -2,7 +2,7 @@ package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.config.ConfigType;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.kits.KitsManager;
@@ -24,7 +24,7 @@ public class StartingCD extends BukkitRunnable {
         this.gameManager = gameManager;
         this.kitsManager = gameManager.getKitsManager();
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        countdown = GameConst.STARTING_COUNTDOWN;
+        countdown = GameConstants.STARTING_COUNTDOWN;
         this.startWarning = config.getInt("settings.game.starting-message-at");
     }
 

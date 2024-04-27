@@ -1,14 +1,14 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.Permissions;
+import me.florixak.uhcrun.game.Permissions;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -35,18 +35,19 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
-        if (gameManager.isPlaying() && gameManager.isGameFull()) {
-            p.kickPlayer("Full game, sorry...");
-            return;
-        } else if (!gameManager.isPlaying() && gameManager.isGameFull() && p.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+        boolean isPlaying = gameManager.isPlaying();
+        boolean isFull = gameManager.isGameFull();
+
+        if (!isPlaying && isFull && uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
             UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
-            while (randomUHCPlayer.getPlayer().hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+            while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
                 randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
             }
-            randomUHCPlayer.getPlayer().kickPlayer("Player with higher rank joined!");
-        }
-
-        if (gameManager.isPlaying()) {
+            randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
+        } else if (isPlaying && isFull) {
+            uhcPlayer.kick(Messages.GAME_FULL.toString());
+            return;
+        } else if (isPlaying) {
             gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
             return;
         }
@@ -67,7 +68,7 @@ public class PlayerListener implements Listener {
                 .replace("%player%", p.getDisplayName())
                 .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + GameConst.MIN_PLAYERS));
+                .replace("%min-players%", "" + GameConstants.MIN_PLAYERS));
     }
 
     @EventHandler

@@ -24,6 +24,8 @@ Messages:
     join: "&a[+] &f%player% joined! (%online%)"
     quit: "&c[-] &f%player% left! (%online%)"
 
+    kick-due-reserved-slot: "You were kicked because player with reserved slot joined!"
+
     kill: "&6[†] &f%player% wak killed by %killer%!"
     death: "&6[†] &f%player% died!"
 
@@ -54,6 +56,7 @@ Messages:
 
     ended: "&c[!] &fGame has ended!"
     restarting: "%prefix% &fGame is restarting!"
+    full: "Game is full!"
 
   teams:
     join: "&a[!] &fJoined team %team%&f!"

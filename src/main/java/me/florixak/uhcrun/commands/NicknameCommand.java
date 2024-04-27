@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.florixak.uhcrun.utils.Permissions.NICKNAME;
+import static me.florixak.uhcrun.game.Permissions.NICKNAME;
 
 public class NicknameCommand implements CommandExecutor {
 

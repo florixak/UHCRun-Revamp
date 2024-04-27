@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.florixak.uhcrun.utils.Permissions.WORKBENCH;
+import static me.florixak.uhcrun.game.Permissions.WORKBENCH;
 
 public class WorkbenchCommand implements CommandExecutor {
 

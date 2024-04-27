@@ -3,7 +3,7 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConst;
+import me.florixak.uhcrun.game.GameConstants;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
@@ -110,7 +110,7 @@ public class GameListener implements Listener {
 
         if (killer != null) {
             killer.addKill();
-            killer.getPlayer().giveExp(GameConst.EXP_FOR_KILL);
+            killer.getPlayer().giveExp(GameConstants.EXP_FOR_KILL);
             gameManager.getPerksManager().givePerk(killer);
 
             Utils.broadcast(Messages.KILL.toString()
@@ -129,12 +129,12 @@ public class GameListener implements Listener {
                 return;
             }
             assistPlayer.addAssist();
-            assistPlayer.getPlayer().giveExp(GameConst.EXP_FOR_ASSIST);
+            assistPlayer.getPlayer().giveExp(GameConstants.EXP_FOR_ASSIST);
             assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
                     .replace("%player%", victim.getName())
-                    .replace("%money-for-assist%", String.valueOf(GameConst.MONEY_FOR_ASSIST))
-                    .replace("%uhc-exp-for-assist%", String.valueOf(GameConst.UHC_EXP_FOR_ASSIST))
-                    .replace("%exp-for-assist%", String.valueOf(GameConst.EXP_FOR_ASSIST))
+                    .replace("%money-for-assist%", String.valueOf(GameConstants.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp-for-assist%", String.valueOf(GameConstants.UHC_EXP_FOR_ASSIST))
+                    .replace("%exp-for-assist%", String.valueOf(GameConstants.EXP_FOR_ASSIST))
             );
 
             if (!gameManager.areStatsAddOnEnd()) {
