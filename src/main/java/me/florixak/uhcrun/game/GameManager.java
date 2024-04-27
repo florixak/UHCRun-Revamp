@@ -70,7 +70,7 @@ public class GameManager {
     private boolean pvp;
 
 
-    public GameManager(UHCRun plugin){
+    public GameManager(UHCRun plugin) {
         this.plugin = plugin;
         gameManager = this;
 
@@ -138,7 +138,7 @@ public class GameManager {
         return this.gameState;
     }
 
-    public void setGameState(GameState gameState){
+    public void setGameState(GameState gameState) {
         if (this.gameState == gameState) return;
         this.gameState = gameState;
 
@@ -228,12 +228,15 @@ public class GameManager {
     public boolean isForceStarted() {
         return this.forceStarted;
     }
+
     public void setForceStarted(boolean b) {
         this.forceStarted = b;
     }
+
     public boolean isPvP() {
         return this.pvp;
     }
+
     public void setPvP(boolean b) {
         this.pvp = b;
     }
@@ -242,8 +245,7 @@ public class GameManager {
 
         if (getPlayerManager().getAliveList().isEmpty()) return;
 
-        UHCPlayer winner = getPlayerManager().getAliveList().get(0) != null ?
-                getPlayerManager().getAliveList().get(0) : null;
+        UHCPlayer winner = getPlayerManager().getAliveList().get(0) != null ? getPlayerManager().getAliveList().get(0) : null;
 
         if (winner != null) {
             for (UHCPlayer uhcPlayer : getPlayerManager().getAliveList()) {
@@ -262,12 +264,11 @@ public class GameManager {
             winner.setWinner(true);
         }
     }
+
     public String getUHCWinner() {
         if (isTeamMode()) {
             UHCTeam winnerTeam = teamManager.getWinnerTeam();
-            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName()
-                    : winnerTeam.getName())
-                    : "None";
+            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
         }
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
@@ -276,36 +277,47 @@ public class GameManager {
     public World getGameWorld() {
         return Bukkit.getWorld("world");
     }
+
     public boolean isTeamMode() {
         return config.getBoolean("settings.teams.team-mode", true);
     }
+
     public boolean isFriendlyFire() {
         return config.getBoolean("settings.teams.friendly-fire", false);
     }
+
     public boolean isTeleportAfterMining() {
         return config.getBoolean("settings.game.teleport-after-mining", true);
     }
+
     public boolean areKitsEnabled() {
         return config.getBoolean("settings.kits.enabled", true);
     }
+
     public boolean arePerksEnabled() {
         return config.getBoolean("settings.perks.enabled", true);
     }
+
     public boolean areCustomDropsEnabled() {
         return config.getBoolean("settings.game.custom-drops", true);
     }
+
     public boolean areStatsAddOnEnd() {
         return config.getBoolean("settings.statistics.add-up-game-ends", false);
     }
+
     public boolean isDeathChestEnabled() {
         return config.getBoolean("settings.death-chest.enabled", true);
     }
+
     public boolean areExplosionsEnabled() {
         return !config.getBoolean("settings.game.no-explosions", true);
     }
+
     public boolean isRandomDrop() {
         return config.getBoolean("settings.game.random-drops", false);
     }
+
     public boolean isNetherAllowed() {
         return config.getBoolean("settings.game.allow-nether", false);
     }
@@ -313,27 +325,25 @@ public class GameManager {
     public MySQL getSQL() {
         return this.mysql;
     }
+
     public SQLGetter getData() {
         return this.data;
     }
 
     private void connectToDatabase() {
         String path = "settings.mysql";
-        if (!config.getBoolean( path + ".enabled", false)) return;
+        if (!config.getBoolean(path + ".enabled", false)) return;
 
-        this.mysql = new MySQL(
-                config.getString(path + ".host", "localhost"),
-                config.getString(path + ".port", "3306"),
-                config.getString(path + ".database", "uhcrun"),
-                config.getString(path + ".username", "root"),
-                config.getString(path + ".password", ""));
+        this.mysql = new MySQL(config.getString(path + ".host", "localhost"), config.getString(path + ".port", "3306"), config.getString(path + ".database", "uhcrun"), config.getString(path + ".username", "root"), config.getString(path + ".password", ""));
         this.data = new SQLGetter(this);
     }
+
     private void disconnectDatabase() {
         if (config.getBoolean("settings.MySQL.enabled", false)) {
             mysql.disconnect();
         }
     }
+
     public boolean isDatabaseConnected() {
         return this.mysql != null && this.mysql.hasConnection();
     }
@@ -351,6 +361,7 @@ public class GameManager {
             Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
         }
     }
+
     private void registerCommands() {
         registerCommand("uhcrun", new SetupCommand(gameManager));
         registerCommand("forcestart", new ForceStartCommand(gameManager));
@@ -362,6 +373,7 @@ public class GameManager {
         registerCommand("kits", new KitsCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
     }
+
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = plugin.getCommand(commandN);
 
@@ -375,53 +387,75 @@ public class GameManager {
     public static GameManager getGameManager() {
         return gameManager;
     }
+
     public ConfigManager getConfigManager() {
         return configManager;
     }
+
     public PlayerManager getPlayerManager() {
         return playerManager;
     }
+
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }
+
     public TabManager getTabManager() {
         return tabManager;
     }
-    public LobbyManager getLobbyManager() { return lobbyManager; }
-    public BorderManager getBorderManager() { return borderManager; }
+
+    public LobbyManager getLobbyManager() {
+        return lobbyManager;
+    }
+
+    public BorderManager getBorderManager() {
+        return borderManager;
+    }
+
     public TeamManager getTeamManager() {
         return teamManager;
     }
+
     public GuiManager getGuiManager() {
         return guiManager;
     }
+
     public CustomDropManager getCustomDropManager() {
         return customDropManager;
     }
+
     public KitsManager getKitsManager() {
         return kitsManager;
     }
+
     public PerksManager getPerksManager() {
         return perksManager;
     }
+
     public SoundManager getSoundManager() {
         return soundManager;
     }
+
     public TaskManager getTaskManager() {
         return taskManager;
     }
+
     public RecipeManager getRecipeManager() {
         return recipeManager;
     }
+
     public DeathChestManager getDeathChestManager() {
         return deathChestManager;
     }
+
     public DeathmatchManager getDeathmatchManager() {
         return deathmatchManager;
     }
+
     public OreGenManager getOreGenManager() {
         return oreGenManager;
     }
+
     public WorldManager getWorldManager() {
         return worldManager;
     }
@@ -433,9 +467,11 @@ public class GameManager {
     public boolean isVaultEnabled() {
         return config.getBoolean("settings.addons.use-Vault", false) && UHCRun.getVault() != null;
     }
+
     public boolean areLuckPermsEnabled() {
         return config.getBoolean("settings.addons.use-LuckPerms", false) && UHCRun.getLuckPerms() != null;
     }
+
     public boolean isProtocolLibEnabled() {
         return config.getBoolean("settings.addons.use-ProtocolLib", false) && Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
     }

@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.florixak.uhcrun.utils.Permissions.Commands.SETUP;
+
 public class SetupCommand implements CommandExecutor {
 
     private final GameManager gameManager;
@@ -27,7 +29,7 @@ public class SetupCommand implements CommandExecutor {
         DeathmatchManager deathmatchM = gameManager.getDeathmatchManager();
         Location loc = p.getLocation();
 
-        if (!p.hasPermission("uhcrun.setup")) {
+        if (!p.hasPermission(SETUP.getPermission())) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }

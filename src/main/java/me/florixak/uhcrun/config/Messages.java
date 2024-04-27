@@ -92,7 +92,6 @@ public enum Messages {
     SETUP_SET_DEATHMATCH("setup.deathmatch-set"),
     SETUP_RESET_DEATHMATCH("setup.deathmatch-reset");
 
-
     private static FileConfiguration config;
     private String path;
 
