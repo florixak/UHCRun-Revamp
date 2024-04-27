@@ -53,6 +53,10 @@ public class PlayerManager {
     public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
     }
+    public UHCPlayer getRandomOnlineUHCPlayer() {
+        Random ran = new Random();
+        return getOnlineList().get(ran.nextInt(getOnlineList().size()));
+    }
 
     public UHCPlayer getWinnerPlayer() {
         return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);

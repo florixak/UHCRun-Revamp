@@ -8,6 +8,7 @@ import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.Permissions;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -34,9 +35,15 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
-        if (gameManager.getPlayerManager().getOnlineList().size() >= GameConst.MAX_PLAYERS) {
+        if (gameManager.isPlaying() && gameManager.isGameFull()) {
             p.kickPlayer("Full game, sorry...");
             return;
+        } else if (!gameManager.isPlaying() && gameManager.isGameFull() && p.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+            UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+            while (randomUHCPlayer.getPlayer().hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+                randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+            }
+            randomUHCPlayer.getPlayer().kickPlayer("Player with higher rank joined!");
         }
 
         if (gameManager.isPlaying()) {
@@ -75,7 +82,7 @@ public class PlayerListener implements Listener {
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
-                    .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()-1)));
+                    .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
         } else {
             if (!gameManager.areStatsAddOnEnd()) {
                 uhcPlayer.getData().addLose(1);

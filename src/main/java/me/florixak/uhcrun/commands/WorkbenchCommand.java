@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.florixak.uhcrun.utils.Permissions.Commands.WORKBENCH;
+import static me.florixak.uhcrun.utils.Permissions.WORKBENCH;
 
 public class WorkbenchCommand implements CommandExecutor {
 
@@ -23,7 +23,7 @@ public class WorkbenchCommand implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!p.hasPermission(WORKBENCH.getPermission())) {
+        if (!p.hasPermission(WORKBENCH.getPerm())) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }

@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import static me.florixak.uhcrun.utils.Permissions.Commands.FORCE_START;
+import static me.florixak.uhcrun.utils.Permissions.FORCE_START;
 
 public class ForceStartCommand implements CommandExecutor {
 
@@ -20,7 +20,7 @@ public class ForceStartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!sender.hasPermission(FORCE_START.getPermission())) {
+        if (!sender.hasPermission(FORCE_START.getPerm())) {
             sender.sendMessage(Messages.NO_PERM.toString());
             return true;
         }

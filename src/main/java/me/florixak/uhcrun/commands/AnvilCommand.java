@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import static me.florixak.uhcrun.utils.Permissions.Commands.ANVIL;
+import static me.florixak.uhcrun.utils.Permissions.ANVIL;
 
 public class AnvilCommand implements CommandExecutor {
 
@@ -24,7 +24,7 @@ public class AnvilCommand implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!p.hasPermission(ANVIL.getPermission())) {
+        if (!p.hasPermission(ANVIL.getPerm())) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }

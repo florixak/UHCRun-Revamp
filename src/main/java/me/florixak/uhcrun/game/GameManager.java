@@ -322,6 +322,10 @@ public class GameManager {
         return config.getBoolean("settings.game.allow-nether", false);
     }
 
+    public boolean isGameFull() {
+        return playerManager.getOnlineList().size() >= GameConst.MAX_PLAYERS;
+    }
+
     public MySQL getSQL() {
         return this.mysql;
     }

@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.florixak.uhcrun.utils.Permissions.Commands.NICKNAME;
+import static me.florixak.uhcrun.utils.Permissions.NICKNAME;
 
 public class NicknameCommand implements CommandExecutor {
 
@@ -26,7 +26,7 @@ public class NicknameCommand implements CommandExecutor {
         Player player = (Player) sender;
         UHCPlayer uhcPlayer = playerManager.getUHCPlayer(player.getUniqueId());
 
-        if (!player.hasPermission(NICKNAME.getPermission())) {
+        if (!player.hasPermission(NICKNAME.getPerm())) {
             uhcPlayer.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
