@@ -25,7 +25,7 @@ public class PlaceholderUtil {
 
         if (uhcPlayer == null) return "Error";
 
-        if (text.contains("%player%") && uhcPlayer != null)
+        if (text.contains("%player%"))
             text = text.replace("%player%", uhcPlayer.getName());
 
         if (text.contains("%ping%"))
