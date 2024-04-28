@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.teams.UHCTeam;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -84,9 +85,9 @@ public class PlayerManager {
 
         clearPlayerInventory(p);
 
-        if (gameManager.isTeamMode() && !uhcPlayer.hasTeam()) {
+        if (GameValues.TEAM_MODE && !uhcPlayer.hasTeam()) {
             gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-        } else if (!gameManager.isTeamMode()) {
+        } else if (!GameValues.TEAM_MODE) {
             UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
             gameManager.getTeamManager().addTeam(uhcTeam);
             uhcPlayer.setTeam(uhcTeam);

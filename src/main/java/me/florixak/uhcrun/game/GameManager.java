@@ -74,7 +74,6 @@ public class GameManager {
     private boolean forceStarted;
     private boolean pvp;
 
-
     public GameManager(UHCRun plugin) {
         this.plugin = plugin;
         gameManager = this;
@@ -115,10 +114,10 @@ public class GameManager {
         connectToDatabase();
 
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.WAITING)) == null) {
-            getWorldManager().createWorld("lobby", WorldType.FLAT);
+            getWorldManager().createWorld("lobby", WorldType.FLAT, false);
         }
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
-            getWorldManager().createWorld("lobby", WorldType.FLAT);
+            getWorldManager().createWorld("lobby", WorldType.FLAT, false);
         }
 
         getBorderManager().setBorder();
@@ -166,7 +165,7 @@ public class GameManager {
                 break;
 
             case PVP:
-                if (isTeleportAfterMining()) {
+                if (GameValues.TELEPORT_AFTER_MINING) {
                     getTeamManager().teleportAfterMining();
                 }
                 setPvP(true);
@@ -200,7 +199,7 @@ public class GameManager {
     public int getCurrentCountdown() {
         switch (gameState) {
             case LOBBY:
-                return 0;
+                return -1;
             case STARTING:
                 return StartingCD.getCountdown();
             case MINING:
@@ -248,28 +247,27 @@ public class GameManager {
 
         if (getPlayerManager().getAliveList().isEmpty()) return;
 
-        UHCPlayer winner = getPlayerManager().getAliveList().get(0) != null ? getPlayerManager().getAliveList().get(0) : null;
+        UHCPlayer winner = getPlayerManager().getAliveList().get(0);
+        if (winner == null) return;
 
-        if (winner != null) {
-            for (UHCPlayer uhcPlayer : getPlayerManager().getAliveList()) {
-                if (!uhcPlayer.isOnline()) return;
-                if (uhcPlayer.getKills() > winner.getKills()) {
-                    winner = uhcPlayer;
-                }
+        for (UHCPlayer uhcPlayer : getPlayerManager().getAliveList()) {
+            if (!uhcPlayer.isOnline()) return;
+            if (uhcPlayer.getKills() > winner.getKills()) {
+                winner = uhcPlayer;
             }
-
-            if (GameValues.IS_TEAM_MODE) {
-                for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
-                    teamMember.setWinner(true);
-                }
-                return;
-            }
-            winner.setWinner(true);
         }
+        if (GameValues.TEAM_MODE) {
+            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                teamMember.setWinner(true);
+            }
+            return;
+        }
+        winner.setWinner(true);
+
     }
 
     public String getUHCWinner() {
-        if (GameValues.IS_TEAM_MODE) {
+        if (GameValues.TEAM_MODE) {
             UHCTeam winnerTeam = teamManager.getWinnerTeam();
             return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
         }
@@ -279,7 +277,7 @@ public class GameManager {
     public void clearDrops() {
         List<Entity> entList = GameValues.GAME_WORLD.getEntities();
 
-        for(Entity current : entList) {
+        for (Entity current : entList) {
             if (current instanceof Item) {
                 current.remove();
             }
@@ -298,55 +296,13 @@ public class GameManager {
         XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
         block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
 
-        timber(block.getLocation().add(0,1,0).getBlock());
-        timber(block.getLocation().add(1,0,0).getBlock());
-        timber(block.getLocation().add(0,1,1).getBlock());
+        timber(block.getLocation().add(0, 1, 0).getBlock());
+        timber(block.getLocation().add(1, 0, 0).getBlock());
+        timber(block.getLocation().add(0, 1, 1).getBlock());
 
-        timber(block.getLocation().subtract(0,1,0).getBlock());
-        timber(block.getLocation().subtract(1,0,0).getBlock());
-        timber(block.getLocation().subtract(0,0,1).getBlock());
-    }
-
-    // TODO - move to GameConst.java
-
-    public boolean isFriendlyFire() {
-        return config.getBoolean("settings.teams.friendly-fire", false);
-    }
-
-    public boolean isTeleportAfterMining() {
-        return config.getBoolean("settings.game.teleport-after-mining", true);
-    }
-
-    public boolean areKitsEnabled() {
-        return config.getBoolean("settings.kits.enabled", true);
-    }
-
-    public boolean arePerksEnabled() {
-        return config.getBoolean("settings.perks.enabled", true);
-    }
-
-    public boolean areCustomDropsEnabled() {
-        return config.getBoolean("settings.game.custom-drops", true);
-    }
-
-    public boolean areStatsAddOnEnd() {
-        return config.getBoolean("settings.statistics.add-up-game-ends", false);
-    }
-
-    public boolean isDeathChestEnabled() {
-        return config.getBoolean("settings.death-chest.enabled", true);
-    }
-
-    public boolean areExplosionsEnabled() {
-        return !config.getBoolean("settings.game.no-explosions", true);
-    }
-
-    public boolean isRandomDrop() {
-        return config.getBoolean("settings.game.random-drops", false);
-    }
-
-    public boolean isNetherAllowed() {
-        return config.getBoolean("settings.game.allow-nether", false);
+        timber(block.getLocation().subtract(0, 1, 0).getBlock());
+        timber(block.getLocation().subtract(1, 0, 0).getBlock());
+        timber(block.getLocation().subtract(0, 0, 1).getBlock());
     }
 
     public boolean isGameFull() {

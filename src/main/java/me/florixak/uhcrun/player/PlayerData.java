@@ -195,7 +195,7 @@ public class PlayerData {
             gameManager.getData().addDeath(uhcPlayer.getUUID(), amount);
         }
 
-        if (gameManager.isTeamMode() && !uhcPlayer.getTeam().isAlive()) {
+        if (GameValues.TEAM_MODE && !uhcPlayer.getTeam().isAlive()) {
             addLose(1);
         }
     }

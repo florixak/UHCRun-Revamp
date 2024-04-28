@@ -66,7 +66,7 @@ public class ChatListener implements Listener {
             pm.getSpectatorList().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
             return;
         }
-        if (!message.startsWith("!") && GameValues.IS_TEAM_MODE) {
+        if (!message.startsWith("!") && GameValues.TEAM_MODE) {
             uhcPlayer.getTeam().sendMessage(TextUtils.color(format));
             return;
         }

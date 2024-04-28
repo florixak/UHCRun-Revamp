@@ -33,6 +33,7 @@ public class UHCTeam {
     public String getName() {
         return this.name;
     }
+
     public String getDisplayName() {
         return getColor() + this.name;
     }
@@ -44,6 +45,7 @@ public class UHCTeam {
     public int getSize() {
         return size;
     }
+
     public String getColor() {
         return this.color;
     }
@@ -55,29 +57,33 @@ public class UHCTeam {
     public boolean isFull() {
         return getMembers().size() >= this.size;
     }
+
     public boolean isMember(UHCPlayer uhcPlayer) {
         return getMembers().contains(uhcPlayer);
-    }
-
-    public int getKills() {
-        return getMembers().stream().mapToInt(UHCPlayer::getKills).sum();
     }
 
     public List<UHCPlayer> getMembers() {
         return this.members;
     }
+
     public String getMembersToString() {
         return getMembers().stream().map(UHCPlayer::getName).collect(Collectors.joining(", "));
     }
-    private List<UHCPlayer> getMembers(Predicate<UHCPlayer> filter){
+
+    private List<UHCPlayer> getMembers(Predicate<UHCPlayer> filter) {
         return getMembers().stream().filter(filter).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getAliveMembers() {
         return getMembers(UHCPlayer::isAlive);
     }
 
     public boolean isAlive() {
         return getAliveMembers() != null && getAliveMembers().size() != 0;
+    }
+
+    public int getKills() {
+        return getMembers().stream().mapToInt(UHCPlayer::getKills).sum();
     }
 
     public void teleport(Location loc) {
@@ -88,7 +94,7 @@ public class UHCTeam {
         }
     }
 
-    public void join(UHCPlayer uhcPlayer) {
+    public void addMember(UHCPlayer uhcPlayer) {
 
         if (isMember(uhcPlayer)) {
             uhcPlayer.sendMessage(Messages.TEAM_ALREADY_IN.toString());
@@ -100,7 +106,7 @@ public class UHCTeam {
             return;
         }
         if (uhcPlayer.hasTeam()) {
-            uhcPlayer.getTeam().leave(uhcPlayer);
+            uhcPlayer.getTeam().removeMember(uhcPlayer);
         }
 
         uhcPlayer.setTeam(this);
@@ -109,15 +115,17 @@ public class UHCTeam {
         uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
                 .replace("%team%", uhcPlayer.getTeam().getDisplayName()));
     }
-    public void leave(UHCPlayer uhcPlayer) {
 
+    public void removeMember(UHCPlayer uhcPlayer) {
         this.members.remove(uhcPlayer);
         uhcPlayer.setTeam(null);
     }
+
     public void sendHotBarMessage(String message) {
         if (message.isEmpty() || message == null) return;
         getMembers().stream().filter(UHCPlayer::isAlive).forEach(uhcPlayer -> Utils.sendHotBarMessage(uhcPlayer.getPlayer(), message));
     }
+
     public void sendMessage(String message) {
         if (message.isEmpty() || message == null) return;
         getMembers().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayer -> uhcPlayer.sendMessage(TextUtils.color(message)));

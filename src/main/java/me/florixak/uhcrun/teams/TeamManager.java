@@ -3,6 +3,7 @@ package me.florixak.uhcrun.teams;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Location;
@@ -19,21 +20,17 @@ public class TeamManager {
     private final GameManager gameManager;
     private final FileConfiguration teams_config;
 
-    private final int maxSize;
-
     private List<UHCTeam> teams;
 
     public TeamManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
-        this.maxSize = config.getInt("settings.teams.max-size");
         this.teams = new ArrayList<>();
     }
 
     public void loadTeams() {
-        if (!gameManager.isTeamMode()) return;
+        if (!GameValues.TEAM_MODE) return;
 
         if (teams_config.contains("teams") && teams_config.getConfigurationSection("teams").getKeys(false).isEmpty()) {
             UHCRun.getInstance().getLogger().info("Team file is empty!");
@@ -42,9 +39,9 @@ public class TeamManager {
 
         for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
             ItemStack display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item", "STONE")
-                            .toUpperCase()).get().parseItem();
+                    .toUpperCase()).get().parseItem();
             String color = teams_config.getString("teams." + teamName + ".color");
-            UHCTeam team = new UHCTeam(display_item, teamName, color, maxSize);
+            UHCTeam team = new UHCTeam(display_item, teamName, color, GameValues.TEAM_SIZE);
             this.teams.add(team);
         }
     }
@@ -52,12 +49,15 @@ public class TeamManager {
     public UHCTeam getTeam(String name) {
         return teams.stream().filter(team -> team.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
+
     public List<UHCTeam> getTeams() {
         return this.teams;
     }
+
     public String getTeamsString() {
         return getTeams().stream().map(UHCTeam::getDisplayName).collect(Collectors.joining(", "));
     }
+
     public List<UHCTeam> getLivingTeams() {
         return teams.stream().filter(UHCTeam::isAlive).collect(Collectors.toList());
     }
@@ -66,6 +66,7 @@ public class TeamManager {
         if (exists(team.getName()) || team == null) return;
         this.teams.add(team);
     }
+
     public void removeTeam(String teamName) {
         if (!exists(teamName) || teamName == null) return;
 
@@ -99,7 +100,7 @@ public class TeamManager {
 
     public void joinRandomTeam(UHCPlayer uhcPlayer) {
         if (uhcPlayer.hasTeam()) return;
-        findFreeTeam().join(uhcPlayer);
+        findFreeTeam().addMember(uhcPlayer);
     }
 
     public UHCTeam getWinnerTeam() {

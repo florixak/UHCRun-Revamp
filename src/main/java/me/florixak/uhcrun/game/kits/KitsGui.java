@@ -2,6 +2,7 @@ package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
@@ -15,17 +16,17 @@ import java.util.List;
 
 public class KitsGui extends Gui {
 
-    public KitsGui() {
-        super(27, "Kits");
+    public KitsGui(GameManager gameManager) {
+        super(gameManager, 27, "Kits");
     }
 
     @Override
     public void init() {
         super.init();
         ItemStack kit_item;
-        List<Kit> kits = GameManager.getGameManager().getKitsManager().getKits();
+        List<Kit> kits = gameManager.getKitsManager().getKits();
         Player p = getWhoOpen();
-        UHCPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         for (int i = 0; i < kits.size(); i++) {
             Kit kit = kits.get(i);
@@ -34,7 +35,7 @@ public class KitsGui extends Gui {
             if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
                 lore.add(TextUtils.color("&aSelected"));
             } else {
-                lore.add(TextUtils.color(GameManager.getGameManager().getKitsManager().getKitCost(kit.getName())));
+                lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
             }
 
             for (ItemStack item : kit.getItems()) {
@@ -43,7 +44,7 @@ public class KitsGui extends Gui {
                     StringBuilder enchants = new StringBuilder();
                     for (int j = 0; j < enchantmentsList.size(); j++) {
                         enchants.append(TextUtils.toNormalCamelText(enchantmentsList.get(j).getName()) + " " + item.getEnchantments().get(enchantmentsList.get(j)));
-                        if (j < enchantmentsList.size()-1) enchants.append(", ");
+                        if (j < enchantmentsList.size() - 1) enchants.append(", ");
                     }
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));
                 } else {
@@ -58,7 +59,7 @@ public class KitsGui extends Gui {
 
     @Override
     public void openInv(Player p) {
-        if (!GameManager.getGameManager().areKitsEnabled()) {
+        if (!GameValues.KITS_ENABLED) {
             p.sendMessage(Messages.KITS_DISABLED.toString());
             return;
         }

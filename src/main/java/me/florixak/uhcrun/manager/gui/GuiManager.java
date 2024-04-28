@@ -21,10 +21,10 @@ public class GuiManager {
     }
 
     public void loadInventories() {
-        this.guis.add(new TeamGui());
-        this.guis.add(new KitsGui());
+        this.guis.add(new TeamGui(gameManager));
+        this.guis.add(new KitsGui(gameManager));
         this.guis.add(new StatisticsGui(gameManager));
-        this.guis.add(new PerksGui());
+        this.guis.add(new PerksGui(gameManager));
     }
 
     public Gui getInventory(String gui_name) {

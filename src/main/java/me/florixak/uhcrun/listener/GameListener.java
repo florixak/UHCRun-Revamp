@@ -43,10 +43,14 @@ public class GameListener implements Listener {
     private final FileConfiguration config;
     private final PlayerManager playerManager;
 
+    private final boolean addUpStatsOnEnd;
+
     public GameListener(GameManager gameManager) {
         this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.playerManager = gameManager.getPlayerManager();
+
+        this.addUpStatsOnEnd = GameValues.STATS_ADD_ON_END;
     }
 
     @EventHandler
@@ -63,7 +67,7 @@ public class GameListener implements Listener {
                 for (int i = 0; i < gameResults.size(); i++) {
                     UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
-                    message = message.replace("%winner%", winner).replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None").replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0").replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.IS_TEAM_MODE ? topKiller.getTeam().getDisplayName() : "").replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
+                    message = message.replace("%winner%", winner).replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None").replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0").replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "").replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
@@ -74,7 +78,7 @@ public class GameListener implements Listener {
         // Statistics
         for (UHCPlayer uhcPlayer : playerManager.getOnlineList()) {
 
-            if (gameManager.areStatsAddOnEnd()) {
+            if (addUpStatsOnEnd) {
                 uhcPlayer.getData().addStatistics();
             } else {
                 uhcPlayer.getData().addGameResult();
@@ -125,19 +129,19 @@ public class GameListener implements Listener {
             assistPlayer.giveExp(GameValues.EXP_FOR_ASSIST);
             assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString().replace("%player%", victim.getName()).replace("%money-for-assist%", String.valueOf(GameValues.MONEY_FOR_ASSIST)).replace("%uhc-exp-for-assist%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)).replace("%exp-for-assist%", String.valueOf(GameValues.EXP_FOR_ASSIST)));
 
-            if (!gameManager.areStatsAddOnEnd()) {
+            if (!addUpStatsOnEnd) {
                 victim.getData().addAssists(1);
             }
         }
 
-        if (!gameManager.areStatsAddOnEnd()) {
+        if (!addUpStatsOnEnd) {
             if (killer != null) {
                 killer.getData().addKills(1);
             }
             victim.getData().addDeaths(1);
         }
 
-        if (!victim.getTeam().isAlive() && GameValues.IS_TEAM_MODE) {
+        if (!victim.getTeam().isAlive() && GameValues.TEAM_MODE) {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
     }
@@ -150,13 +154,13 @@ public class GameListener implements Listener {
 
         if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             event.setCancelled(true);
-            p.sendMessage(Messages.CANT_BREAK.toString());
+            uhcPlayer.sendMessage(Messages.CANT_BREAK.toString());
             return;
         }
 
         gameManager.timber(block);
 
-        if (gameManager.isRandomDrop()) {
+        if (GameValues.RANDOM_DROPS_ENABLED) {
             event.setDropItems(false);
             event.setExpToDrop(0);
 
@@ -182,7 +186,6 @@ public class GameListener implements Listener {
         if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
             uhcPlayer.sendMessage(Messages.CANT_PLACE.toString());
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -276,7 +279,7 @@ public class GameListener implements Listener {
 
             uhcPlayerE.addKillAssistPlayer(uhcPlayerD);
 
-            if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !gameManager.isFriendlyFire()) {
+            if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.FRIENDLY_FIRE) {
                 event.setCancelled(true);
                 uhcPlayerD.sendMessage("Baka, this is your teammate..");
             }
@@ -355,10 +358,6 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleExplode(EntityExplodeEvent event) {
-
-        if (!gameManager.areExplosionsEnabled()) {
-            event.setCancelled(true);
-            return;
-        }
+        if (GameValues.EXPLOSIONS_DISABLED) event.setCancelled(true);
     }
 }

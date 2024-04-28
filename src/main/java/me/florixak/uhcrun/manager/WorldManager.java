@@ -1,7 +1,11 @@
 package me.florixak.uhcrun.manager;
 
+import me.florixak.uhcrun.game.GameValues;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +15,7 @@ public class WorldManager {
     public void createNewUHCWorld() {
 
         try {
-            File world = new File(Bukkit.getWorldContainer(), "world");
+            File world = new File(Bukkit.getWorldContainer(), GameValues.GAME_WORLD.getName());
             FileUtils.deleteDirectory(world);
 
             world.mkdirs();
@@ -27,11 +31,11 @@ public class WorldManager {
         }
     }
 
-    public void createWorld(String name, WorldType type) {
+    public void createWorld(String name, WorldType type, boolean genStruct) {
         if (Bukkit.getWorld(name) != null) return;
         WorldCreator c = new WorldCreator(name);
         c.type(type);
-        c.generateStructures(false);
+        c.generateStructures(genStruct);
         World world = c.createWorld();
     }
 }

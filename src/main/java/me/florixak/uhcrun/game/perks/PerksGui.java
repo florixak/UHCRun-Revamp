@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.game.perks;
 
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
@@ -12,17 +13,17 @@ import java.util.List;
 
 public class PerksGui extends Gui {
 
-    public PerksGui() {
-        super(27, "Perks");
+    public PerksGui(GameManager gameManager) {
+        super(gameManager, 27, "Perks");
     }
 
     @Override
     public void init() {
         super.init();
         ItemStack perk_item;
-        List<Perk> perks = GameManager.getGameManager().getPerksManager().getPerks();
+        List<Perk> perks = gameManager.getPerksManager().getPerks();
         Player p = getWhoOpen();
-        UHCPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         for (int i = 0; i < perks.size(); i++) {
             Perk perk = perks.get(i);
@@ -42,7 +43,7 @@ public class PerksGui extends Gui {
 
     @Override
     public void openInv(Player p) {
-        if (!GameManager.getGameManager().arePerksEnabled()) {
+        if (!GameValues.PERKS_ENABLED) {
             p.sendMessage("Perks are disabled!");
             return;
         }

@@ -85,7 +85,7 @@ public class PlayerListener implements Listener {
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
         } else {
-            if (!gameManager.areStatsAddOnEnd()) {
+            if (!GameValues.STATS_ADD_ON_END) {
                 uhcPlayer.getData().addLose(1);
                 uhcPlayer.getData().addDeaths(1);
             }
@@ -104,7 +104,7 @@ public class PlayerListener implements Listener {
         }
         UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
-        if (gameManager.isDeathChestEnabled()) {
+        if (GameValues.DEATH_CHESTS_ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
         }
 
@@ -139,7 +139,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void handlePortalTeleport(PlayerTeleportEvent event) {
-        if (!gameManager.isNetherAllowed() && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
+        if (!GameValues.NETHER_ENABLED && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             event.setCancelled(true);
         }
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {

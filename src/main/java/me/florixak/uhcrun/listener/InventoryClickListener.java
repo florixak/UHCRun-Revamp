@@ -43,7 +43,7 @@ public class InventoryClickListener implements Listener {
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
 
                 if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
-                    team.join(uhcPlayer);
+                    team.addMember(uhcPlayer);
                     p.closeInventory();
                 }
             }

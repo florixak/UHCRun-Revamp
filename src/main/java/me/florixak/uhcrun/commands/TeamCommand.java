@@ -46,7 +46,7 @@ public class TeamCommand implements CommandExecutor {
                 uhcPlayer.sendMessage(Messages.TEAM_LEAVE.toString().replace("%team%", uhcPlayer.getTeam().getDisplayName()));
                 return true;
             }
-            uhcPlayer.getTeam().leave(uhcPlayer);
+            uhcPlayer.getTeam().removeMember(uhcPlayer);
 
         } else if (args.length == 1) {
 
@@ -56,7 +56,7 @@ public class TeamCommand implements CommandExecutor {
             }
 
             UHCTeam team = gameManager.getTeamManager().getTeam(args[0]);
-            team.join(uhcPlayer);
+            team.addMember(uhcPlayer);
 
         } else if (args[0].equalsIgnoreCase("join")) {
 
@@ -71,7 +71,7 @@ public class TeamCommand implements CommandExecutor {
             }
 
             UHCTeam team = gameManager.getTeamManager().getTeam(args[1]);
-            team.join(uhcPlayer);
+            team.addMember(uhcPlayer);
         } else {
             teams_gui.openInv(p);
         }
