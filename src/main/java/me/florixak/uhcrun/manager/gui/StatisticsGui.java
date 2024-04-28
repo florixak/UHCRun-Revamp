@@ -5,6 +5,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,25 +16,23 @@ import java.util.List;
 
 public class StatisticsGui extends Gui {
 
-    public StatisticsGui() {
-        super(9, "Statistics");
+    public StatisticsGui(GameManager gameManager) {
+        super(gameManager, 9, "Statistics");
     }
 
     @Override
     public void init() {
         super.init();
         Player p = getWhoOpen();
-        UHCPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
-
-        GameManager gameManager = GameManager.getGameManager();
-        FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         List<String> lore = new ArrayList<>();
 
         ItemStack itemStack = XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item").toUpperCase())
-                    .get().parseItem() == null || config.getString("settings.statistics.player-stats.display-item").equalsIgnoreCase("PLAYER_HEAD")
-                ? gameManager.getUtils().getPlayerHead(p, uhcPlayer.getName())
+                .get().parseItem() == null || config.getString("settings.statistics.player-stats.display-item").equalsIgnoreCase("PLAYER_HEAD")
+                ? Utils.getPlayerHead(p, uhcPlayer.getName())
                 : XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item", "STONE").toUpperCase())
-                    .get().parseItem();
+                .get().parseItem();
 
         String name = config.getString("settings.statistics.player-stats.custom-name") != null
                 ? config.getString("settings.statistics.player-stats.custom-name", uhcPlayer.getName())

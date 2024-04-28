@@ -2,15 +2,20 @@ package me.florixak.uhcrun.game;
 
 import me.florixak.uhcrun.config.ConfigType;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class GameConstants {
+public class GameValues {
 
     private static final GameManager gameManager = GameManager.getGameManager();
     private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
+    public static final World GAME_WORLD = Bukkit.getWorld("world");
+
+    public static final boolean IS_TEAM_MODE = config.getBoolean("settings.teams.team-mode", true);
+
     public static final int MIN_PLAYERS = config.getInt("min-players", 2);
-    public static final int MAX_PLAYERS = !gameManager.isTeamMode() ? Bukkit.getMaxPlayers() : gameManager.getTeamManager().getTeams().size()*config.getInt("settings.teams.max-size", 3);
+    public static final int MAX_PLAYERS = !IS_TEAM_MODE ? Bukkit.getMaxPlayers() : gameManager.getTeamManager().getTeams().size()*config.getInt("settings.teams.max-size", 3);
 
     public static final int STARTING_COUNTDOWN = config.getInt("settings.game.countdowns.starting", 20);
     public static final int MINING_COUNTDOWN = config.getInt("settings.game.countdowns.mining", 600);

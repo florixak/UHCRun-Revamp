@@ -8,8 +8,10 @@ import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
+import me.florixak.uhcrun.utils.XSeries.XPotion;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -192,6 +194,9 @@ public class UHCPlayer {
         this.nickname = nickname;
     }
 
+    public boolean hasPermission(String permission) {
+        return getPlayer().hasPermission(permission);
+    }
     public void teleport(Location loc) {
         if (loc == null) return;
         getPlayer().teleport(loc);
@@ -206,19 +211,22 @@ public class UHCPlayer {
         }
         getPlayer().getInventory().setArmorContents(emptyArmor);
     }
+    public void giveExp(int exp) {
+        getPlayer().giveExp(exp);
+    }
+    public void addPotion(XPotion potion, int duration, int power) {
+        getPlayer().addPotionEffect(potion.buildPotionEffect(duration, power));
+    }
     public void clearPotions() {
         getPlayer().getActivePotionEffects().clear();
     }
-
-    public boolean hasPermission(String permission) {
-        return getPlayer().hasPermission(permission);
-    }
-
     public void kick(String message) {
         if (message == null || message.isEmpty() || !isOnline()) return;
         getPlayer().kickPlayer(TextUtils.color(message));
     }
-
+    public void setGameMode(GameMode gameMode) {
+        getPlayer().setGameMode(gameMode);
+    }
     public void sendMessage(String message) {
         if (message == null || message.isEmpty() || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));

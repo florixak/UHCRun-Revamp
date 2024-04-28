@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.listener;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConstants;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
@@ -68,7 +68,7 @@ public class PlayerListener implements Listener {
                 .replace("%player%", p.getDisplayName())
                 .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + GameConstants.MIN_PLAYERS));
+                .replace("%min-players%", "" + GameValues.MIN_PLAYERS));
     }
 
     @EventHandler

@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConstants;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.utils.TimeUtils;
@@ -16,7 +16,7 @@ public class MiningCD extends BukkitRunnable {
 
     public MiningCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameConstants.MINING_COUNTDOWN;
+        countdown = GameValues.MINING_COUNTDOWN;
     }
 
     public static int getCountdown() {

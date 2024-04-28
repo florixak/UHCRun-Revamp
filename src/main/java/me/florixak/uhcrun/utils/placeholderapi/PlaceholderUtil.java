@@ -2,7 +2,7 @@ package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameConstants;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.player.UHCPlayer;
@@ -35,10 +35,10 @@ public class PlaceholderUtil {
             text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));
 
         if (text.contains("%max-online%"))
-            text = text.replace("%max-online%", String.valueOf(GameConstants.MAX_PLAYERS));
+            text = text.replace("%max-online%", String.valueOf(GameValues.MAX_PLAYERS));
 
         if (text.contains("%min-online%"))
-            text = text.replace("%min_online%", String.valueOf(GameConstants.MIN_PLAYERS));
+            text = text.replace("%min_online%", String.valueOf(GameValues.MIN_PLAYERS));
 
         if (text.contains("%money%")) {
             text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));

@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.manager.gui;
 
+import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
@@ -14,12 +15,14 @@ import java.util.List;
 
 public class Gui implements InventoryHolder {
 
+    protected GameManager gameManager;
     private Player whoOpen;
     private Inventory inventory;
     private int size;
     private String title;
 
-    public Gui(int size, String title) {
+    public Gui(GameManager gameManager, int size, String title) {
+        this.gameManager = gameManager;
         this.size = size;
         this.title = title;
     }

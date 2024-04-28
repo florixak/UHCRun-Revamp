@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.game.deathchest.DeathChest;
-import me.florixak.uhcrun.game.deathchest.DeathChestManager;
+import me.florixak.uhcrun.game.deathChest.DeathChest;
+import me.florixak.uhcrun.game.deathChest.DeathChestManager;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.scheduler.BukkitRunnable;

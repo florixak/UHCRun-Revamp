@@ -4,14 +4,9 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.XSeries.XPotion;
-import me.florixak.uhcrun.utils.XSeries.XSound;
-import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -19,30 +14,15 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Utils {
 
-    private GameManager gameManager;
-    private FileConfiguration config;
+    private static GameManager gameManager = GameManager.getGameManager();
+    private static FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();;
 
     public static DecimalFormat format = new DecimalFormat("##,###,##0.00");
-
-    public Utils(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-    }
-
-    public void clearDrops() {
-        List<Entity> entList = gameManager.getGameWorld().getEntities();
-
-        for(Entity current : entList) {
-            if (current instanceof Item) {
-                current.remove();
-            }
-        }
-    }
 
     public static void sendHotBarMessage(Player player, String message) {
         if (!player.isOnline()) {
@@ -91,9 +71,11 @@ public class Utils {
             e.printStackTrace();
         }
     }
-
+    public static void broadcast(String msg) {
+        Bukkit.broadcastMessage(TextUtils.color(msg));
+    }
     @SuppressWarnings("deprecation")
-    public ItemStack getPlayerHead(Player player, String name) {
+    public static ItemStack getPlayerHead(Player player, String name) {
         boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
 
@@ -124,35 +106,6 @@ public class Utils {
                 }
             }
         }
-    }
-
-    public static void broadcast(String msg) {
-        Bukkit.broadcastMessage(TextUtils.color(msg));
-    }
-
-    public void addPotion(Player p, XPotion potion, int duration, int power) {
-        p.addPotionEffect(potion.buildPotionEffect(duration, power));
-    }
-
-    public void timber(Block block) {
-
-        if (!(block.getType() == XMaterial.OAK_LOG.parseMaterial()
-                || block.getType() == XMaterial.BIRCH_LOG.parseMaterial()
-                || block.getType() == XMaterial.ACACIA_LOG.parseMaterial()
-                || block.getType() == XMaterial.JUNGLE_LOG.parseMaterial()
-                || block.getType() == XMaterial.SPRUCE_LOG.parseMaterial()
-                || block.getType() == XMaterial.DARK_OAK_LOG.parseMaterial())) return;
-
-        XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
-        block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
-
-        timber(block.getLocation().add(0,1,0).getBlock());
-        timber(block.getLocation().add(1,0,0).getBlock());
-        timber(block.getLocation().add(0,1,1).getBlock());
-
-        timber(block.getLocation().subtract(0,1,0).getBlock());
-        timber(block.getLocation().subtract(1,0,0).getBlock());
-        timber(block.getLocation().subtract(0,0,1).getBlock());
     }
 
 

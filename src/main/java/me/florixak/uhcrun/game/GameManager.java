@@ -6,7 +6,7 @@ import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
-import me.florixak.uhcrun.game.deathchest.DeathChestManager;
+import me.florixak.uhcrun.game.deathChest.DeathChestManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
@@ -26,11 +26,17 @@ import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.*;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +70,6 @@ public class GameManager {
     private final DeathmatchManager deathmatchManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
-    private final Utils utils;
 
     private boolean forceStarted;
     private boolean pvp;
@@ -85,7 +90,7 @@ public class GameManager {
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
-        this.guiManager = new GuiManager();
+        this.guiManager = new GuiManager(this);
         this.customDropManager = new CustomDropManager(this);
         this.taskManager = new TaskManager(this);
         this.deathChestManager = new DeathChestManager(this);
@@ -94,8 +99,6 @@ public class GameManager {
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager(this);
         this.worldManager = new WorldManager();
-
-        this.utils = new Utils(this);
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -217,7 +220,7 @@ public class GameManager {
         getPlayerManager().onDisable();
         getTeamManager().onDisable();
         getTaskManager().onDisable();
-        getUtils().clearDrops();
+        getGameManager().clearDrops();
         disconnectDatabase();
     }
 
@@ -255,7 +258,7 @@ public class GameManager {
                 }
             }
 
-            if (isTeamMode()) {
+            if (GameValues.IS_TEAM_MODE) {
                 for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
                     teamMember.setWinner(true);
                 }
@@ -266,21 +269,45 @@ public class GameManager {
     }
 
     public String getUHCWinner() {
-        if (isTeamMode()) {
+        if (GameValues.IS_TEAM_MODE) {
             UHCTeam winnerTeam = teamManager.getWinnerTeam();
             return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
         }
         return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
-    // TODO - move to GameConst.java
-    public World getGameWorld() {
-        return Bukkit.getWorld("world");
+    public void clearDrops() {
+        List<Entity> entList = GameValues.GAME_WORLD.getEntities();
+
+        for(Entity current : entList) {
+            if (current instanceof Item) {
+                current.remove();
+            }
+        }
     }
 
-    public boolean isTeamMode() {
-        return config.getBoolean("settings.teams.team-mode", true);
+    public void timber(Block block) {
+
+        if (!(block.getType() == XMaterial.OAK_LOG.parseMaterial()
+                || block.getType() == XMaterial.BIRCH_LOG.parseMaterial()
+                || block.getType() == XMaterial.ACACIA_LOG.parseMaterial()
+                || block.getType() == XMaterial.JUNGLE_LOG.parseMaterial()
+                || block.getType() == XMaterial.SPRUCE_LOG.parseMaterial()
+                || block.getType() == XMaterial.DARK_OAK_LOG.parseMaterial())) return;
+
+        XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
+        block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
+
+        timber(block.getLocation().add(0,1,0).getBlock());
+        timber(block.getLocation().add(1,0,0).getBlock());
+        timber(block.getLocation().add(0,1,1).getBlock());
+
+        timber(block.getLocation().subtract(0,1,0).getBlock());
+        timber(block.getLocation().subtract(1,0,0).getBlock());
+        timber(block.getLocation().subtract(0,0,1).getBlock());
     }
+
+    // TODO - move to GameConst.java
 
     public boolean isFriendlyFire() {
         return config.getBoolean("settings.teams.friendly-fire", false);
@@ -323,7 +350,7 @@ public class GameManager {
     }
 
     public boolean isGameFull() {
-        return playerManager.getOnlineList().size() >= GameConstants.MAX_PLAYERS;
+        return playerManager.getOnlineList().size() >= GameValues.MAX_PLAYERS;
     }
 
     public MySQL getSQL() {
@@ -462,10 +489,6 @@ public class GameManager {
 
     public WorldManager getWorldManager() {
         return worldManager;
-    }
-
-    public Utils getUtils() {
-        return utils;
     }
 
     public boolean isVaultEnabled() {

@@ -3,6 +3,7 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
@@ -65,7 +66,7 @@ public class ChatListener implements Listener {
             pm.getSpectatorList().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
             return;
         }
-        if (!message.startsWith("!") && gameManager.isTeamMode()) {
+        if (!message.startsWith("!") && GameValues.IS_TEAM_MODE) {
             uhcPlayer.getTeam().sendMessage(TextUtils.color(format));
             return;
         }

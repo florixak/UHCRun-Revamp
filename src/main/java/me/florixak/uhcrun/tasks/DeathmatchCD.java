@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.tasks;
 
-import me.florixak.uhcrun.game.GameConstants;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,7 +12,7 @@ public class DeathmatchCD extends BukkitRunnable {
 
     public DeathmatchCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameConstants.DEATHMATCH_COUNTDOWN;
+        countdown = GameValues.DEATHMATCH_COUNTDOWN;
     }
 
     public static int getCountdown() {
