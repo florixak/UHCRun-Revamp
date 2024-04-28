@@ -3,6 +3,7 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import org.bukkit.Bukkit;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -13,7 +14,7 @@ public class BorderManager {
 
     public BorderManager(GameManager gameManager) {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.wb = GameValues.GAME_WORLD.getWorldBorder();
+        this.wb = Bukkit.getWorld("world").getWorldBorder();
     }
 
     public void setBorder() {

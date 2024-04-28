@@ -15,7 +15,7 @@ public class WorldManager {
     public void createNewUHCWorld() {
 
         try {
-            File world = new File(Bukkit.getWorldContainer(), GameValues.GAME_WORLD.getName());
+            File world = new File(Bukkit.getWorldContainer(), "world");
             FileUtils.deleteDirectory(world);
 
             world.mkdirs();

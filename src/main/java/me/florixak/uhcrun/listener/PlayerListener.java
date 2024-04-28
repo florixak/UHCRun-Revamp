@@ -38,16 +38,25 @@ public class PlayerListener implements Listener {
         boolean isPlaying = gameManager.isPlaying();
         boolean isFull = gameManager.isGameFull();
 
-        if (!isPlaying && isFull && uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-            UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
-            while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+        if (!isPlaying && isFull) {
+            if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+                System.out.println("TEST - Game is not playing and full and has perms (kick random player)");
+                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+                while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+                    randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+                }
+                randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
+            } else {
+                System.out.println("TEST - Game is playing and full (kick)");
+                uhcPlayer.kick(Messages.GAME_FULL.toString());
+                return;
             }
-            randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
         } else if (isPlaying && isFull) {
+            System.out.println("TEST - Game is playing and full (kick)");
             uhcPlayer.kick(Messages.GAME_FULL.toString());
             return;
         } else if (isPlaying) {
+            System.out.println("TEST - Game is playing (set spectator)");
             gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
             return;
         }

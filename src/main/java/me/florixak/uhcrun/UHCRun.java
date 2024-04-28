@@ -2,6 +2,7 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.utils.TextUtils;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;

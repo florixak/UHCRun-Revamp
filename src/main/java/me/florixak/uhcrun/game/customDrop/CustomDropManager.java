@@ -2,6 +2,7 @@ package me.florixak.uhcrun.game.customDrop;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,7 +24,7 @@ public class CustomDropManager {
     }
 
     public void loadCustomDrops() {
-        if (!gameManager.areCustomDropsEnabled()) return;
+        if (!GameValues.CUSTOM_DROPS_ENABLED) return;
 
         for (String block : custom_drop_cfg.getConfigurationSection("custom-drops").getKeys(false)) {
             Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();

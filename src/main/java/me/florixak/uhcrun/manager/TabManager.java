@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,7 +43,7 @@ public class TabManager {
         }
 
         UHCPlayer hocPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        if (!gameManager.isTeamMode()) {
+        if (!GameValues.TEAM_MODE) {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.solo-mode-player-list"))
                     .replace("%player%", hocPlayer.getName())
                     .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")

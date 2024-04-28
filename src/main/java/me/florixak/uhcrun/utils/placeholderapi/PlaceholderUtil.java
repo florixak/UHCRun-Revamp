@@ -35,7 +35,7 @@ public class PlaceholderUtil {
             text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));
 
         if (text.contains("%max-online%"))
-            text = text.replace("%max-online%", String.valueOf(GameValues.MAX_PLAYERS));
+            text = text.replace("%max-online%", String.valueOf(gameManager.getPlayerManager().getMaxPlayers()));
 
         if (text.contains("%min-online%"))
             text = text.replace("%min_online%", String.valueOf(GameValues.MIN_PLAYERS));
@@ -74,7 +74,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%kit%")) {
-            if (gameManager.areKitsEnabled()) {
+            if (GameValues.KITS_ENABLED) {
                 if (uhcPlayer.hasKit()) {
                     text = text.replace("%kit%", uhcPlayer.getKit().getName());
                 } else {
@@ -86,7 +86,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%perk%")) {
-            if (gameManager.arePerksEnabled()) {
+            if (GameValues.PERKS_ENABLED) {
                 if (uhcPlayer.hasPerk()) {
                     text = text.replace("%perk%", uhcPlayer.getPerk().getName());
                 } else {
@@ -122,7 +122,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%team%")) {
-            if (!gameManager.isTeamMode()) {
+            if (!GameValues.TEAM_MODE) {
                 text = text.replace("%team%", Messages.TEAM_SOLO.toString());
             } else {
                 if (uhcPlayer.hasTeam()) {
@@ -134,7 +134,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%game-mode%")) {
-            if (!gameManager.isTeamMode()) {
+            if (!GameValues.TEAM_MODE) {
                 text = text.replace("%game-mode%", Messages.GAME_SOLO.toString());
             } else {
                 text = text.replace("%game-mode%", Messages.GAME_TEAMS.toString());

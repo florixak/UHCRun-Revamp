@@ -26,7 +26,6 @@ public class GameValues {
 
     public static final int TEAM_SIZE = getConfigInt("settings.teams.max-size", 3);
     public static final int MIN_PLAYERS = getConfigInt("min-players", 2);
-    public static final int MAX_PLAYERS = !TEAM_MODE ? Bukkit.getMaxPlayers() : gameManager.getTeamManager().getTeams().size()*TEAM_SIZE;
 
     public static final int STARTING_COUNTDOWN = getConfigInt("settings.game.countdowns.starting", 20);
     public static final int MINING_COUNTDOWN = getConfigInt("settings.game.countdowns.mining", 600);

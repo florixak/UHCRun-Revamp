@@ -6,7 +6,7 @@ import me.florixak.uhcrun.config.ConfigManager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
-import me.florixak.uhcrun.game.deathChest.DeathChestManager;
+import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
@@ -134,6 +134,8 @@ public class GameManager {
         getTaskManager().runScoreboardUpdate();
         getTaskManager().runActivityRewards();
         getTaskManager().runAutoBroadcast();
+
+        System.out.println(getPlayerManager().getMaxPlayers());
     }
 
     public GameState getGameState() {
@@ -306,7 +308,7 @@ public class GameManager {
     }
 
     public boolean isGameFull() {
-        return playerManager.getOnlineList().size() >= GameValues.MAX_PLAYERS;
+        return playerManager.getOnlineList().size() >= playerManager.getMaxPlayers();
     }
 
     public MySQL getSQL() {

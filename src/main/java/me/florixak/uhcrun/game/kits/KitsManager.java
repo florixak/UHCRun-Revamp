@@ -2,6 +2,7 @@ package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
@@ -34,7 +35,7 @@ public class KitsManager {
     }
 
     public void loadKits() {
-        if (!gameManager.areKitsEnabled()) return;
+        if (!GameValues.KITS_ENABLED) return;
 
         for (String kitName : kits_config.getConfigurationSection("kits").getKeys(false)) {
 

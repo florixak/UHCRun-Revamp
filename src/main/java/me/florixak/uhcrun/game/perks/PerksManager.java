@@ -2,6 +2,7 @@ package me.florixak.uhcrun.game.perks;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
@@ -33,7 +34,7 @@ public class PerksManager {
     }
 
     public void loadPerks() {
-        if (!gameManager.arePerksEnabled()) return;
+        if (!GameValues.PERKS_ENABLED) return;
 
         for (String perkName : perks_config.getConfigurationSection("perks").getKeys(false)) {
             List<String> actions = new ArrayList<>();

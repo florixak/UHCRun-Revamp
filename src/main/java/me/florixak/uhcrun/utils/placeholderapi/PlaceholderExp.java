@@ -4,6 +4,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.OfflinePlayer;
@@ -69,7 +70,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("team")) {
-            if (!gameManager.isTeamMode()) return "";
+            if (!GameValues.TEAM_MODE) return "";
             if (!uhcPlayer.hasTeam()) return "";
             return uhcPlayer.getTeam().getName();
         }

@@ -70,6 +70,10 @@ public class PlayerManager {
         return findTopKillers(getPlayers());
     }
 
+    public int getMaxPlayers() {
+        return GameValues.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
+    }
+
     public void readyPlayer(UHCPlayer uhcPlayer) {
         Player p = uhcPlayer.getPlayer();
 
