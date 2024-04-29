@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.config;
 
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;

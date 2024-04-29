@@ -6,7 +6,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.teams.UHCTeam;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
 import net.luckperms.api.model.user.User;

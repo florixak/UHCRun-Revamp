@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-public class OreGeneratorUtils {
+public class OreGenUtils {
 
     // https://www.spigotmc.org/threads/how-do-i-artificially-generate-ores-around-the-world.405941/
 
@@ -31,18 +30,18 @@ public class OreGeneratorUtils {
     public static void generateOre(Material material, World world, int minVein, int maxVein, int spawnAmount, int borderSize) {
         Location loc;
         for (int i = 0; i < spawnAmount; i++) {
-            loc = generateOreLocation(world, borderSize);
+            loc = getOreLocation(world, borderSize);
             world.getBlockAt(loc).setType(material);
             generateVein(material, world.getBlockAt(loc), minVein + (int)(Math.random() * (maxVein-minVein+1)));
         }
     }
 
-    private static Location generateOreLocation(World world, int borderSize) {
+    private static Location getOreLocation(World world, int borderSize) {
         Location loc;
-        Random random = new Random();
+        Random ran = RandomUtils.getRandom();
 
         do {
-            loc = new Location(world, random.nextInt(borderSize), random.nextInt(60), random.nextInt(borderSize));
+            loc = new Location(world, ran.nextInt(borderSize), ran.nextInt(60), ran.nextInt(borderSize));
         } while (!isLocationSafe(loc));
 
         return loc;

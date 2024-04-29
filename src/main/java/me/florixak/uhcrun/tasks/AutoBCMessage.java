@@ -2,7 +2,7 @@ package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -3,7 +3,7 @@ package me.florixak.uhcrun.game.oreGen;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.utils.OreGeneratorUtils;
+import me.florixak.uhcrun.utils.OreGenUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -69,7 +69,7 @@ public class OreGenManager {
         loadOres();
 
         for (OreGen oreGen : getOreGens()) {
-            OreGeneratorUtils.generateOre(oreGen.getMaterial(),
+            OreGenUtils.generateOre(oreGen.getMaterial(),
                     GameValues.GAME_WORLD,
                     oreGen.getMinVein(),
                     oreGen.getMaxVein(),

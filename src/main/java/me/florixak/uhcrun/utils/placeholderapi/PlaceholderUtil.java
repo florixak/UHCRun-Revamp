@@ -6,7 +6,7 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.manager.*;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.entity.Player;
 

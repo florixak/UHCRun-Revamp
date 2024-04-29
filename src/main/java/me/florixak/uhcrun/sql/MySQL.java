@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.sql;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.manager.gui;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utils;
+package me.florixak.uhcrun.utils.text;
 
 public enum DefaultFontInfo {
 

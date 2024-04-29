@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.utils;
+package me.florixak.uhcrun.utils.text;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;

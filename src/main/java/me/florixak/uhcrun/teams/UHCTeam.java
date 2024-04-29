@@ -2,7 +2,7 @@ package me.florixak.uhcrun.teams;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.TextUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

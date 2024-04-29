@@ -6,7 +6,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.TextUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
