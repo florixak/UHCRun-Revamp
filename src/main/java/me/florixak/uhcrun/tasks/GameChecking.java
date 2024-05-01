@@ -30,9 +30,9 @@ public class GameChecking extends BukkitRunnable {
                 }
                 break;
             case STARTING:
-                if (gameManager.isForceStarted()) {
-                    return;
-                }
+//                if (gameManager.isForceStarted()) {
+//                    return;
+//                }
                 if (Bukkit.getOnlinePlayers().size() < minPlayers) {
                     gameManager.getTaskManager().stopStartingCD();
                     Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
