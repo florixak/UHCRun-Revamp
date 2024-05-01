@@ -3,6 +3,9 @@ package me.florixak.uhcrun.commands;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
+import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.utils.Utils;
+import org.bukkit.Utility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,9 +35,16 @@ public class ForceStartCommand implements CommandExecutor {
             }
             sender.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
+        } else {
+            if (gameManager.getPlayerManager().getOnlineList().size() < GameValues.MIN_PLAYERS) {
+                sender.sendMessage(Messages.NOT_ENOUGH_PLAYERS.toString());
+                return true;
+            }
+
         }
 
         gameManager.setForceStarted(true);
+        Utils.broadcast(Messages.GAME_FORCE_STARTED.toString());
         gameManager.setGameState(GameState.STARTING);
         return true;
     }

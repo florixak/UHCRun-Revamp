@@ -36,6 +36,8 @@ public enum Messages {
     BORDER_SHRINK("game.border-shrink"),
 
     PLAYERS_TO_START("game.players-to-start"),
+    NOT_ENOUGH_PLAYERS("game.not-enough-players"),
+    GAME_FORCE_STARTED("game.force-started"),
 
     GAME_STARTING("game.starting"),
     GAME_ALREADY_STARTING("game.already-starting"),

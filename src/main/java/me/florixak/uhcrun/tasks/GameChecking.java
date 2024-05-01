@@ -42,9 +42,9 @@ public class GameChecking extends BukkitRunnable {
             case MINING:
             case PVP:
             case DEATHMATCH:
-                if (gameManager.isForceStarted()) {
-                    return;
-                }
+//                if (gameManager.isForceStarted()) {
+//                    return;
+//                }
                 if (gameManager.getPlayerManager().getAliveList().size() < minPlayers) {
                     gameManager.setGameState(GameState.ENDING);
                 }

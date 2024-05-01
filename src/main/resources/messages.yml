@@ -38,10 +38,11 @@ Messages:
     solo: "SOLO"
     teams: "TEAMS"
 
-    starting: "&6[!] &fGame starts in %countdown%!"
+    starting: "&6[!] &fGame is starting in %countdown%!"
     already-starting: "&c[!] &fGame is already about to start!"
     starting-canceled: "&c[!] &fGame starting has been canceled!"
     started: "&a[!] &fGame has started!"
+    force-started: "&a[!] &fGame has been force started!"
 
     mining: "&a[!] &fYou have %countdown% to mine!"
 
@@ -53,6 +54,7 @@ Messages:
 
     border-shrink: "&c[!] &fBorder has begun to shrink! Be careful!"
     players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
+    not-enough-players: "&c[!] &fNot enough players to start!"
 
     ended: "&c[!] &fGame has ended!"
     restarting: "%prefix% &fGame is restarting!"

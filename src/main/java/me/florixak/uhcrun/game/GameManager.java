@@ -134,8 +134,6 @@ public class GameManager {
         getTaskManager().runScoreboardUpdate();
         getTaskManager().runActivityRewards();
         getTaskManager().runAutoBroadcast();
-
-        System.out.println(getPlayerManager().getMaxPlayers());
     }
 
     public GameState getGameState() {
