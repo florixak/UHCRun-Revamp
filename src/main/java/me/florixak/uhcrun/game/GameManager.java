@@ -355,8 +355,6 @@ public class GameManager {
         registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));
         registerCommand("anvil", new AnvilCommand(gameManager));
-        registerCommand("nick", new NicknameCommand(playerManager));
-        registerCommand("unnick", new NicknameCommand(playerManager));
         registerCommand("kits", new KitsCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
     }

@@ -1,4 +1,4 @@
-name: UHCRun
+name: UHCRun-Remaked
 version: '${project.version}'
 main: me.florixak.uhcrun.UHCRun
 api-version: 1.19
@@ -17,12 +17,6 @@ commands:
     description: Opens remote workbench
   anvil:
     description: Opens remote anvil
-  nick:
-    aliases: [ nickname ]
-    description: Set custom nick
-  unnick:
-    aliases: [ unnickname ]
-    description: Reset custom nick
   team:
     aliases: [ teams ]
     description: Opens teams gui
