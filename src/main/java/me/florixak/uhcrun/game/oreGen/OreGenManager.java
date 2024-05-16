@@ -35,9 +35,7 @@ public class OreGenManager {
             Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
             Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
-            if (canSkip(material)) {
-                return;
-            }
+            if (canSkip(material)) return;
 
             int spawnAmount = ore_gen_config.getInt("ore-generation." + materialN + ".spawn-amount", 0);
             int minVein = ore_gen_config.getInt("ore-generation." + materialN + ".min-vein", 0);
