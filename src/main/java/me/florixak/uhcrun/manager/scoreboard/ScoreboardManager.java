@@ -16,12 +16,12 @@ public class ScoreboardManager {
     private Map<UUID, ScoreHelper> players;
 
     private final String title;
-    private List<String> waiting;
-    private List<String> starting;
-    private List<String> mining;
-    private List<String> pvp;
-    private List<String> deathmatch;
-    private List<String> ending;
+    private final List<String> waiting;
+    private final List<String> starting;
+    private final List<String> mining;
+    private final List<String> pvp;
+    private final List<String> deathmatch;
+    private final List<String> ending;
 
     private final GameManager gameManager;
 
@@ -63,10 +63,10 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createStartingSb(Player p){
+    private void createStartingSb(Player p){
         players.put(p.getUniqueId(), updateStartingSb(p.getUniqueId()));
     }
-    public ScoreHelper updateStartingSb(UUID uuid) {
+    private ScoreHelper updateStartingSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -85,10 +85,10 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createMiningSb(Player p){
+    private void createMiningSb(Player p){
         players.put(p.getUniqueId(), updateMiningSb(p.getUniqueId()));
     }
-    public ScoreHelper updateMiningSb(UUID uuid){
+    private ScoreHelper updateMiningSb(UUID uuid){
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -107,10 +107,10 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createPvPSb(Player p){
+    private void createPvPSb(Player p){
         players.put(p.getUniqueId(), updatePvPSb(p.getUniqueId()));
     }
-    public ScoreHelper updatePvPSb(UUID uuid){
+    private ScoreHelper updatePvPSb(UUID uuid){
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -129,10 +129,10 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createDeathmatchSb(Player p){
+    private void createDeathmatchSb(Player p){
         players.put(p.getUniqueId(), updateDeathmatchSb(p.getUniqueId()));
     }
-    public ScoreHelper updateDeathmatchSb(UUID uuid){
+    private ScoreHelper updateDeathmatchSb(UUID uuid){
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -151,10 +151,10 @@ public class ScoreboardManager {
         return helper;
     }
 
-    public void createEndingSb(Player p){
+    private void createEndingSb(Player p){
         players.put(p.getUniqueId(), updateEndingSb(p.getUniqueId()));
     }
-    public ScoreHelper updateEndingSb(UUID uuid){
+    private ScoreHelper updateEndingSb(UUID uuid){
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -172,7 +172,6 @@ public class ScoreboardManager {
         }
         return helper;
     }
-
 
     public void setScoreboard(Player p) {
         removeFromMap(p);
@@ -203,7 +202,6 @@ public class ScoreboardManager {
             players.remove(p.getUniqueId());
         }
     }
-
     public void removeScoreboard(Player p) {
         if (players.containsKey(p.getUniqueId())) {
             players.remove(p.getUniqueId());
