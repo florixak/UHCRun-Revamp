@@ -273,24 +273,22 @@ public class PlayerData {
         return getRequiredUHCExp()*config.getDouble("settings.statistics.player-level.required-exp-multiplier", 1.2);
     }
 
-    public void addGameResult() {
-        if (uhcPlayer.isWinner()) {
+    public void addWinOrLose() {
+        if (uhcPlayer.isWinner())
             addWin(1);
-        } else {
+        else
             addLose(1);
-        }
-        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public void addStatistics() {
         depositMoney(moneyForGameResult+moneyForKills);
         addUHCExp(uhcExpForGameResult+uhcExpForKills);
-        addGameResult();
+        addWinOrLose();
         addKills(uhcPlayer.getKills());
         addAssists(uhcPlayer.getAssists());
         addDeaths(uhcPlayer.isWinner() ? 0 : 1);
     }
-    public void showStatistics() {
+    public void displayStatistics() {
         List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
         for (String message : rewards) {
