@@ -13,16 +13,17 @@ public class GameValues {
     public static final World GAME_WORLD = Bukkit.getWorld("world");
 
     public static final boolean TEAM_MODE = getConfigBoolean("settings.teams.team-mode", true);
-    public static final boolean KITS_ENABLED = getConfigBoolean("settings.kits.enabled", true);;
-    public static final boolean PERKS_ENABLED = getConfigBoolean("settings.perks.enabled", true);;
+    public static final boolean KITS_ENABLED = getConfigBoolean("settings.kits.enabled", true);
+    public static final boolean PERKS_ENABLED = getConfigBoolean("settings.perks.enabled", true);
     public static final boolean FRIENDLY_FIRE = getConfigBoolean("settings.teams.friendly-fire", false);
-    public static final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);;
-    public static final boolean CUSTOM_DROPS_ENABLED = getConfigBoolean("settings.game.custom-drops", true);;
-    public static final boolean STATS_ADD_ON_END = getConfigBoolean("settings.statistics.add-up-game-ends", false);;
-    public static final boolean DEATH_CHESTS_ENABLED = getConfigBoolean("settings.death-chest.enabled", true);;
-    public static final boolean EXPLOSIONS_DISABLED = getConfigBoolean("settings.game.no-explosions", true);;
-    public static final boolean RANDOM_DROPS_ENABLED = getConfigBoolean("settings.game.random-drops", false);;
-    public static final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);;
+    public static final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);
+    public static final boolean CUSTOM_DROPS_ENABLED = getConfigBoolean("settings.game.custom-drops", true);
+    public static final boolean STATS_ADD_ON_END = getConfigBoolean("settings.statistics.add-up-game-ends", false);
+    public static final boolean DEATH_CHESTS_ENABLED = getConfigBoolean("settings.death-chest.enabled", true);
+    public static final boolean EXPLOSIONS_DISABLED = getConfigBoolean("settings.game.no-explosions", true);
+    public static final boolean RANDOM_DROPS_ENABLED = getConfigBoolean("settings.game.random-drops", false);
+    public static final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
+    public static final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
 
     public static final int TEAM_SIZE = getConfigInt("settings.teams.max-size", 3);
     public static final int MIN_PLAYERS = getConfigInt("min-players", 2);

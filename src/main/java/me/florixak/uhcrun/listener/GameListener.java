@@ -327,7 +327,7 @@ public class GameListener implements Listener {
     public void handleArrowHitHP(ProjectileHitEvent event) {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         if (!(event.getEntity() instanceof Arrow) && !(event.getEntity() instanceof Snowball)) return;
-        if (!config.getBoolean("settings.game.projectile-hit-hp", false)) return;
+        if (!GameValues.PROJECTILE_HIT_HP_ENABLED) return;
         if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) return;
 
         Player shooter = (Player) event.getEntity().getShooter();
