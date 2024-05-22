@@ -2,22 +2,19 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.hook.LuckPermsHook;
+import me.florixak.uhcrun.hook.PAPIHook;
+import me.florixak.uhcrun.hook.ProtocolLibHook;
+import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.utils.text.TextUtils;
-import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
-import net.luckperms.api.LuckPerms;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class UHCRun extends JavaPlugin {
 
     private static UHCRun plugin;
-    private static Economy econ = null;
-    private static LuckPerms luckPerms = null;
 
     public static String nmsVer;
     public static boolean useOldMethods;
@@ -66,62 +63,22 @@ public final class UHCRun extends JavaPlugin {
     private void registerDependency() {
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         if (config.getBoolean("settings.addons.use-Vault", true)) {
-            if (!setupVault()) {
-                getLogger().info(TextUtils.color("&cVault plugin not found."));
-            }
+            VaultHook.setupEconomy();
+            if (!VaultHook.hasEconomy()) getLogger().info(TextUtils.color("&cVault plugin not found."));
         }
 
         if (config.getBoolean("settings.addons.use-LuckPerms", false)) {
-            if (!setupLuckPerms()) {
-                getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
-            }
+            LuckPermsHook.setupLuckPerms();
+            if (!LuckPermsHook.hasLuckPerms()) getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
         }
 
         if (config.getBoolean("settings.addons.use-PlaceholderAPI", false)) {
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null){
-                getLogger().info(TextUtils.color("&cPlaceholderAPI plugin not found."));
-                return;
-            }
-            new PlaceholderExp(plugin).register();
+            PAPIHook.setupPlaceholderAPI();
         }
 
         if (config.getBoolean("settings.addons.use-ProtocolLib", false)) {
-            if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
-                getLogger().info(TextUtils.color("&cProtocolLib plugin not found."));
-            }
+            ProtocolLibHook.setupProtocolLib();
         }
-    }
-    private boolean setupVault() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-    private boolean setupLuckPerms() {
-        for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
-            if (plugin.getName().contains("LuckPerms")) {
-                return true;
-            }
-        }
-
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider == null) {
-            return false;
-        }
-        luckPerms = provider.getProvider();
-        return luckPerms != null;
-    }
-
-    public static Economy getVault() {
-        return econ;
-    }
-    public static LuckPerms getLuckPerms() {
-        return luckPerms;
     }
 
     public void checkNMSVersion() {

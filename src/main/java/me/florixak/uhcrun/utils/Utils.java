@@ -20,11 +20,6 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    private static GameManager gameManager = GameManager.getGameManager();
-    private static FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();;
-
-    public static DecimalFormat format = new DecimalFormat("##,###,##0.00");
-
     public static void sendHotBarMessage(Player player, String message) {
         if (!player.isOnline()) {
             return; // Player may have logged out

@@ -7,6 +7,8 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
+import me.florixak.uhcrun.hook.LuckPermsHook;
+import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
@@ -446,11 +448,11 @@ public class GameManager {
     }
 
     public boolean isVaultEnabled() {
-        return config.getBoolean("settings.addons.use-Vault", false) && UHCRun.getVault() != null;
+        return config.getBoolean("settings.addons.use-Vault", false) && VaultHook.hasEconomy();
     }
 
     public boolean areLuckPermsEnabled() {
-        return config.getBoolean("settings.addons.use-LuckPerms", false) && UHCRun.getLuckPerms() != null;
+        return config.getBoolean("settings.addons.use-LuckPerms", false) && LuckPermsHook.hasLuckPerms();
     }
 
     public boolean isProtocolLibEnabled() {

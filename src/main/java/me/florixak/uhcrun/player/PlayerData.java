@@ -5,6 +5,7 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -64,19 +65,18 @@ public class PlayerData {
 
     public double getMoney() {
         if (gameManager.isVaultEnabled()) {
-            return UHCRun.getVault().getBalance(uhcPlayer.getPlayer());
+            return VaultHook.getBalance(uhcPlayer.getPlayer());
         }
         return 0.00;
     }
     public void depositMoney(double amount) {
         if (gameManager.isVaultEnabled()) {
-            UHCRun.getVault().depositPlayer(uhcPlayer.getPlayer(), amount);
+            VaultHook.deposit(uhcPlayer.getPlayer(), amount);
         }
     }
     public void withdrawMoney(double amount) {
         if (gameManager.isVaultEnabled()) {
-            Economy economy = UHCRun.getVault();
-            economy.withdrawPlayer(uhcPlayer.getPlayer(), amount);
+            VaultHook.withdraw(uhcPlayer.getPlayer(), amount);
         }
     }
 
