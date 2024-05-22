@@ -447,10 +447,6 @@ public class GameManager {
         return worldManager;
     }
 
-    public boolean isVaultEnabled() {
-        return config.getBoolean("settings.addons.use-Vault", false) && VaultHook.hasEconomy();
-    }
-
     public boolean areLuckPermsEnabled() {
         return config.getBoolean("settings.addons.use-LuckPerms", false) && LuckPermsHook.hasLuckPerms();
     }

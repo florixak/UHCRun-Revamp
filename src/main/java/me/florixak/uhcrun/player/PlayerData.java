@@ -64,18 +64,18 @@ public class PlayerData {
     }
 
     public double getMoney() {
-        if (gameManager.isVaultEnabled()) {
+        if (VaultHook.hasEconomy()) {
             return VaultHook.getBalance(uhcPlayer.getPlayer());
         }
         return 0.00;
     }
     public void depositMoney(double amount) {
-        if (gameManager.isVaultEnabled()) {
+        if (VaultHook.hasEconomy()) {
             VaultHook.deposit(uhcPlayer.getPlayer(), amount);
         }
     }
     public void withdrawMoney(double amount) {
-        if (gameManager.isVaultEnabled()) {
+        if (VaultHook.hasEconomy()) {
             VaultHook.withdraw(uhcPlayer.getPlayer(), amount);
         }
     }

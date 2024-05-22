@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.hook;
 
+import me.florixak.uhcrun.game.GameValues;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +19,7 @@ public class VaultHook {
     }
 
     public static boolean hasEconomy() {
-        return economy != null;
+        return economy != null || !GameValues.CAN_USE_VAULT;
     }
 
     public static double getBalance(OfflinePlayer target) {
