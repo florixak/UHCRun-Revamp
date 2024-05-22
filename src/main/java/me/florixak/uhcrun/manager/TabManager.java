@@ -8,6 +8,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.hook.ProtocolLibHook;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,7 +26,7 @@ public class TabManager {
 
     public void setPlayerList(Player p) {
 
-        if (!gameManager.isProtocolLibEnabled() || !config.getBoolean("settings.tablist.enabled", false)) {
+        if (!ProtocolLibHook.hasProtocolLib() || !config.getBoolean("settings.tablist.enabled", false)) {
             return;
         }
 

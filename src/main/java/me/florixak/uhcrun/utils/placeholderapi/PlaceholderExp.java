@@ -99,7 +99,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("uhc-games-played")) {
-            return String.valueOf((uhcPlayer.getData().getWins()+uhcPlayer.getData().getLosses()));
+            return String.valueOf(uhcPlayer.getData().getTotalPlayed());
         }
 
         if (params.equalsIgnoreCase("uhc-money")) {

@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.hook;
 
+import me.florixak.uhcrun.game.GameValues;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class LuckPermsHook {
     }
 
     public static boolean hasLuckPerms() {
-        return luckPerms != null;
+        return luckPerms != null && GameValues.CAN_USE_LUCKPERMS;
     }
 
     public static String getPrefix(Player player) {

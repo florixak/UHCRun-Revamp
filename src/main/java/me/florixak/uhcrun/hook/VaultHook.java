@@ -19,7 +19,7 @@ public class VaultHook {
     }
 
     public static boolean hasEconomy() {
-        return economy != null || !GameValues.CAN_USE_VAULT;
+        return economy != null && GameValues.CAN_USE_VAULT;
     }
 
     public static double getBalance(OfflinePlayer target) {

@@ -446,12 +446,4 @@ public class GameManager {
     public WorldManager getWorldManager() {
         return worldManager;
     }
-
-    public boolean areLuckPermsEnabled() {
-        return config.getBoolean("settings.addons.use-LuckPerms", false) && LuckPermsHook.hasLuckPerms();
-    }
-
-    public boolean isProtocolLibEnabled() {
-        return config.getBoolean("settings.addons.use-ProtocolLib", false) && Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
-    }
 }

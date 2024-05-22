@@ -11,10 +11,14 @@ public class PAPIHook {
     }
 
     public static void setupPlaceholderAPI() {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null){
+        if (!hasPlaceholderAPI()){
             Bukkit.getLogger().info(TextUtils.color("&cPlaceholderAPI plugin not found."));
             return;
         }
         new PlaceholderExp(UHCRun.getInstance()).register();
+    }
+
+    public static boolean hasPlaceholderAPI() {
+        return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
     }
 }

@@ -2,6 +2,7 @@ package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
@@ -70,7 +71,7 @@ public class UHCPlayer {
     }
 
     public String getLuckPermsPrefix() {
-        if (!GameManager.getGameManager().areLuckPermsEnabled()) return "";
+        if (!GameValues.CAN_USE_LUCKPERMS) return "";
         return LuckPermsHook.getPrefix(getPlayer());
     }
 
@@ -170,23 +171,6 @@ public class UHCPlayer {
 
     public boolean hasNickname() {
         return this.nickname != null;
-    }
-    public void setNickname(String nickname) {
-
-        if (nickname == null) {
-            sendMessage(Messages.NICK_UNNICKED.toString());
-            this.nickname = null;
-            return;
-        }
-
-        if (this.nickname == nickname) return;
-
-        if (nickname.length() < 4) {
-            sendMessage(Messages.NICK_MIN_CHARS.toString());
-            return;
-        }
-        sendMessage(Messages.NICK_NICKED.toString().replace("%nick%", nickname));
-        this.nickname = nickname;
     }
 
     public boolean hasPermission(String permission) {

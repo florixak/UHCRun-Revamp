@@ -2,6 +2,7 @@ package me.florixak.uhcrun.hook;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import me.florixak.uhcrun.game.GameValues;
 import org.bukkit.Bukkit;
 
 public class ProtocolLibHook {
@@ -14,6 +15,6 @@ public class ProtocolLibHook {
     }
 
     public static boolean hasProtocolLib() {
-        return Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
+        return Bukkit.getPluginManager().getPlugin("ProtocolLib") != null && GameValues.CAN_USE_PROTOCOLLIB;
     }
 }
