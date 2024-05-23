@@ -89,6 +89,8 @@ public class PlayerData {
     }
 
     public void addWin(int amount) {
+        if (amount == 0) return;
+
         player_data.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -113,6 +115,8 @@ public class PlayerData {
     }
 
     public void addLose(int amount) {
+        if (amount == 0) return;
+
         player_data.set("player-data." + uhcPlayer.getUUID() + ".losses", getLosses() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -138,6 +142,7 @@ public class PlayerData {
     }
 
     public void addKills(int amount) {
+        if (amount == 0) return;
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -145,8 +150,6 @@ public class PlayerData {
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
-
-        if (amount == 0) return;
 
         double money = GameValues.MONEY_FOR_KILL;
         double exp = GameValues.UHC_EXP_FOR_KILL;
@@ -166,6 +169,7 @@ public class PlayerData {
     }
 
     public void addAssists(int amount) {
+        if (amount == 0) return;
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".assists", getAssists() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -173,8 +177,6 @@ public class PlayerData {
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().addAssist(uhcPlayer.getUUID(), amount);
         }
-
-        if (amount == 0) return;
 
         double money = GameValues.MONEY_FOR_ASSIST;
         double exp = GameValues.UHC_EXP_FOR_ASSIST;
@@ -197,6 +199,7 @@ public class PlayerData {
     }
 
     public void addDeaths(int amount) {
+        if (amount == 0) return;
 
         player_data.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -255,6 +258,8 @@ public class PlayerData {
     }
 
     public void addUHCExp(double amount) {
+        if (amount == 0.00) return;
+
         player_data.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
