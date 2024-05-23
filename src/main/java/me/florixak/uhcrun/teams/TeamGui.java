@@ -4,6 +4,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +31,7 @@ public class TeamGui extends Gui {
             for (UHCPlayer member : team.getMembers()) {
                 lore.add(TextUtils.color("&f" + member.getName()));
             }
-            item = this.createItem(team.getDisplayItem().getType(), "&l" + team.getDisplayName(), lore);
+            item = this.createItem(XMaterial.matchXMaterial(team.getDisplayItem().getType()), "&l" + team.getDisplayName(), lore);
 
             getInventory().setItem(i, item);
         }

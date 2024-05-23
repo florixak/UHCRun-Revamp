@@ -1,15 +1,13 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.teams.UHCTeam;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -19,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class UHCPlayer {
@@ -71,7 +70,6 @@ public class UHCPlayer {
     }
 
     public String getLuckPermsPrefix() {
-        if (!GameValues.CAN_USE_LUCKPERMS) return "";
         return LuckPermsHook.getPrefix(getPlayer());
     }
 
@@ -194,7 +192,7 @@ public class UHCPlayer {
         getPlayer().giveExp(exp);
     }
     public void addPotion(XPotion potion, int duration, int power) {
-        getPlayer().addPotionEffect(potion.buildPotionEffect(duration, power));
+        getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration, power), "Cannot create potion from null."));
     }
     public void clearPotions() {
         getPlayer().getActivePotionEffects().clear();

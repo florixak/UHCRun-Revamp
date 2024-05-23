@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import java.util.List;
 public class KitsGui extends Gui {
 
     public KitsGui(GameManager gameManager) {
-        super(gameManager, 27, "Kits");
+        super(gameManager, 9 * 3, "Kits");
     }
 
     @Override
@@ -51,7 +52,7 @@ public class KitsGui extends Gui {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
             }
-            kit_item = this.createItem(kit.getDisplayItem(), kit.getName(), lore);
+            kit_item = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getName(), lore);
 
             getInventory().setItem(i, kit_item);
         }

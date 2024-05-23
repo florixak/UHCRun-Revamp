@@ -30,7 +30,7 @@ public class LuckPermsHook {
 
     public static String getPrefix(Player player) {
         if (!hasLuckPerms())
-            throw new UnsupportedOperationException("Vault plugin not found!");
+            throw new UnsupportedOperationException("LuckPerms plugin not found or is disabled!");
 
         User user = luckPerms.getUserManager().getUser(player.getUniqueId());
         String prefix = user.getCachedData().getMetaData().getPrefix();

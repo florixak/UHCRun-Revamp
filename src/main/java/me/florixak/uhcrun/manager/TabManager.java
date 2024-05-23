@@ -43,18 +43,20 @@ public class TabManager {
             e.printStackTrace();
         }
 
-        UHCPlayer hocPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        UHCPlayer player = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         if (!GameValues.TEAM_MODE) {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.solo-mode-player-list"))
-                    .replace("%player%", hocPlayer.getName())
-                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
-                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getUHCLevel()))
+                    .replace("%player%", player.getName())
+                    .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
+                    .replace("%rank%", player.getLuckPermsPrefix())
+                    .replace("%uhc-level%", String.valueOf(player.getData().getUHCLevel()))
             );
         } else {
             p.setPlayerListName(TextUtils.color(config.getString("settings.tablist.team-mode-player-list")
-                    .replace("%player%", hocPlayer.getName())
-                    .replace("%team%", hocPlayer.hasTeam() ? hocPlayer.getTeam().getDisplayName() : "")
-                    .replace("%uhc-level%", String.valueOf(hocPlayer.getData().getUHCLevel())))
+                    .replace("%player%", player.getName())
+                    .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
+                    .replace("%rank%", player.getLuckPermsPrefix())
+                    .replace("%uhc-level%", String.valueOf(player.getData().getUHCLevel())))
             );
         }
     }
