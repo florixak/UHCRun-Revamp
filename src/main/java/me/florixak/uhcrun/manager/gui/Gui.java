@@ -60,10 +60,10 @@ public class Gui implements InventoryHolder {
         ItemStack item = new ItemStack(Objects.requireNonNull(material.parseMaterial(), "Cannot create item from null."));
         ItemMeta meta = item.getItemMeta();
         if (meta != null) meta.setDisplayName(TextUtils.color(name));
-        if (lore != null) {
+        if (lore != null && !lore.isEmpty()) {
             meta.setLore(lore);
-            item.setItemMeta(meta);
         }
+        item.setItemMeta(meta);
         return item;
     }
 
