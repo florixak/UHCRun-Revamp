@@ -14,18 +14,18 @@ import java.util.stream.Collectors;
 
 public class UHCTeam {
 
-    private final ItemStack display_item;
+    private final ItemStack displayItem;
     private final String name;
-    private final int size;
+    private final int maxSize;
 
     private final String color;
 
     private List<UHCPlayer> members;
 
-    public UHCTeam(ItemStack display_item, String name, String color, int size) {
-        this.display_item = display_item;
+    public UHCTeam(ItemStack displayItem, String name, String color, int maxSize) {
+        this.displayItem = displayItem;
         this.name = name;
-        this.size = size;
+        this.maxSize = maxSize;
         this.color = color;
         this.members = new ArrayList<>();
     }
@@ -39,11 +39,11 @@ public class UHCTeam {
     }
 
     public ItemStack getDisplayItem() {
-        return this.display_item;
+        return this.displayItem;
     }
 
-    public int getSize() {
-        return size;
+    public int getMaxSize() {
+        return maxSize;
     }
 
     public String getColor() {
@@ -55,7 +55,7 @@ public class UHCTeam {
     }
 
     public boolean isFull() {
-        return getMembers().size() >= this.size;
+        return getMembers().size() >= this.maxSize;
     }
 
     public boolean isMember(UHCPlayer uhcPlayer) {
@@ -112,8 +112,7 @@ public class UHCTeam {
         uhcPlayer.setTeam(this);
         this.members.add(uhcPlayer);
 
-        uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString()
-                .replace("%team%", uhcPlayer.getTeam().getDisplayName()));
+        uhcPlayer.sendMessage(Messages.TEAM_JOIN.toString().replace("%team%", uhcPlayer.getTeam().getDisplayName()));
     }
 
     public void removeMember(UHCPlayer uhcPlayer) {

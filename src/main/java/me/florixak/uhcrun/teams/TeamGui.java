@@ -27,7 +27,7 @@ public class TeamGui extends Gui {
         for (int i = 0; i < teams.size(); i++) {
             UHCTeam team = teams.get(i);
             List<String> lore = new ArrayList<>();
-            lore.add(TextUtils.color("&7(" + team.getMembers().size() + "/" + team.getSize() + ")"));
+            lore.add(TextUtils.color("&7(" + team.getMembers().size() + "/" + team.getMaxSize() + ")"));
             for (UHCPlayer member : team.getMembers()) {
                 lore.add(TextUtils.color("&f" + member.getName()));
             }

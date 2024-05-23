@@ -37,8 +37,6 @@ public class UHCPlayer {
     private boolean hasWon;
     private List<UHCPlayer> assistsList;
 
-    private String nickname;
-
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
@@ -51,7 +49,6 @@ public class UHCPlayer {
         this.assists = 0;
         this.kit = null;
         this.perk = null;
-        this.nickname = null;
         this.team = null;
         this.assistsList = new ArrayList<>();
     }
@@ -65,7 +62,6 @@ public class UHCPlayer {
     }
 
     public String getName() {
-        if (hasNickname()) return this.nickname;
         return this.name;
     }
 
@@ -165,10 +161,6 @@ public class UHCPlayer {
     }
     public void addKillAssistPlayer(UHCPlayer uhcPlayer) {
         this.assistsList.add(uhcPlayer);
-    }
-
-    public boolean hasNickname() {
-        return this.nickname != null;
     }
 
     public boolean hasPermission(String permission) {
