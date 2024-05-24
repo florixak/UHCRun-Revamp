@@ -10,7 +10,7 @@ public class ProtocolLibHook {
 
     public static void setupProtocolLib() {
         if (!hasProtocolLib()) {
-            Bukkit.getLogger().info("ProtocolLib plugin not found! Please download it, if you want to use it or disable in config.");
+            Bukkit.getLogger().info("ProtocolLib plugin not found! Please download it.");
             return;
         }
         protocolManager = ProtocolLibrary.getProtocolManager();

@@ -1,6 +1,5 @@
 package me.florixak.uhcrun;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.hook.LuckPermsHook;
@@ -8,9 +7,7 @@ import me.florixak.uhcrun.hook.PAPIHook;
 import me.florixak.uhcrun.hook.ProtocolLibHook;
 import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.manager.WorldManager;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class UHCRun extends JavaPlugin {
@@ -37,6 +34,7 @@ public final class UHCRun extends JavaPlugin {
         getLogger().info("Version: " + getDescription().getVersion());
 
         checkNMSVersion();
+        ProtocolLibHook.setupProtocolLib();
 
         this.gameManager = new GameManager(this);
 
@@ -70,9 +68,6 @@ public final class UHCRun extends JavaPlugin {
 
         if (GameValues.CAN_USE_PLACEHOLDERAPI)
             PAPIHook.setupPlaceholderAPI();
-
-        if (GameValues.CAN_USE_PROTOCOLLIB)
-            ProtocolLibHook.setupProtocolLib();
     }
 
     public void checkNMSVersion() {
