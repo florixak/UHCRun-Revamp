@@ -1,27 +1,33 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.utils.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 
 import java.io.File;
+import java.io.IOException;
 
 public class WorldManager {
 
     public void createNewUHCWorld() {
 
-        File world = new File(Bukkit.getWorldContainer(), "world");
-        FileUtils.deleteFile(world);
+        try {
+            File world = new File(Bukkit.getWorldContainer(), "world");
+            FileUtils.deleteDirectory(world);
 
-        world.mkdirs();
+            world.mkdirs();
 
-        new File(world, "data").mkdirs();
-        new File(world, "datapacks").mkdirs();
-        new File(world, "playerdata").mkdirs();
-        new File(world, "aoi").mkdirs();
-        new File(world, "region").mkdirs();
+            new File(world, "data").mkdirs();
+            new File(world, "datapacks").mkdirs();
+            new File(world, "playerdata").mkdirs();
+            new File(world, "aoi").mkdirs();
+            new File(world, "region").mkdirs();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createWorld(String name, WorldType type, boolean genStruct) {
