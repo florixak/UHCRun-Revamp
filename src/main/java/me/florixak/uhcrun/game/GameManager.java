@@ -7,8 +7,6 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
-import me.florixak.uhcrun.hook.LuckPermsHook;
-import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.manager.DeathmatchManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;

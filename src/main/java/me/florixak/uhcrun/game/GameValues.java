@@ -25,9 +25,10 @@ public class GameValues {
     public static final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
     public static final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
 
-    public static final boolean CAN_USE_VAULT = config.getBoolean("settings.addons.use-Vault", false);
-    public static final boolean CAN_USE_LUCKPERMS = config.getBoolean("settings.addons.use-LuckPerms", false);
-    public static final boolean CAN_USE_PROTOCOLLIB = config.getBoolean("settings.addons.use-ProtocolLib", false);
+    public static final boolean CAN_USE_VAULT = config.getBoolean("settings.addons.use-Vault", true);
+    public static final boolean CAN_USE_LUCKPERMS = config.getBoolean("settings.addons.use-LuckPerms", true);
+    public static final boolean CAN_USE_PLACEHOLDERAPI = config.getBoolean("settings.addons.use-PlaceholderAPI", true);
+    public static final boolean CAN_USE_PROTOCOLLIB = config.getBoolean("settings.addons.use-ProtocolLib", true);
 
     public static final int TEAM_SIZE = getConfigInt("settings.teams.max-size", 3);
     public static final int MIN_PLAYERS = getConfigInt("min-players", 2);

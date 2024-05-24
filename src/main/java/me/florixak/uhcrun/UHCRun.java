@@ -2,6 +2,7 @@ package me.florixak.uhcrun;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.hook.PAPIHook;
 import me.florixak.uhcrun.hook.ProtocolLibHook;
@@ -61,24 +62,17 @@ public final class UHCRun extends JavaPlugin {
     }
 
     private void registerDependency() {
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        if (config.getBoolean("settings.addons.use-Vault", true)) {
+        if (GameValues.CAN_USE_VAULT)
             VaultHook.setupEconomy();
-            if (!VaultHook.hasEconomy()) getLogger().info(TextUtils.color("&cVault plugin not found."));
-        }
 
-        if (config.getBoolean("settings.addons.use-LuckPerms", false)) {
+        if (GameValues.CAN_USE_LUCKPERMS)
             LuckPermsHook.setupLuckPerms();
-            if (!LuckPermsHook.hasLuckPerms()) getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
-        }
 
-        if (config.getBoolean("settings.addons.use-PlaceholderAPI", false)) {
+        if (GameValues.CAN_USE_PLACEHOLDERAPI)
             PAPIHook.setupPlaceholderAPI();
-        }
 
-        if (config.getBoolean("settings.addons.use-ProtocolLib", false)) {
+        if (GameValues.CAN_USE_PROTOCOLLIB)
             ProtocolLibHook.setupProtocolLib();
-        }
     }
 
     public void checkNMSVersion() {

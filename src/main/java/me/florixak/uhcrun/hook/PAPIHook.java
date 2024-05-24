@@ -2,7 +2,6 @@ package me.florixak.uhcrun.hook;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.utils.placeholderapi.PlaceholderExp;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 
 public class PAPIHook {
@@ -12,7 +11,7 @@ public class PAPIHook {
 
     public static void setupPlaceholderAPI() {
         if (!hasPlaceholderAPI()){
-            Bukkit.getLogger().info(TextUtils.color("&cPlaceholderAPI plugin not found."));
+            Bukkit.getLogger().info("PlaceholderAPI plugin not found! Please download it, if you want to use it or disable in config.");
             return;
         }
         new PlaceholderExp(UHCRun.getInstance()).register();

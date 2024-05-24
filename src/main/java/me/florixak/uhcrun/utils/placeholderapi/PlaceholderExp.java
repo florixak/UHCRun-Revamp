@@ -55,7 +55,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
         UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        if (params.equalsIgnoreCase("uhc-author")) {
+        if (params.equalsIgnoreCase("author")) {
             return getAuthor();
         }
 
@@ -78,31 +78,31 @@ public class PlaceholderExp extends PlaceholderExpansion {
             return String.valueOf(uhcPlayer.getKills());
         }
 
-        if (params.equalsIgnoreCase("uhc-level")) {
+        if (params.equalsIgnoreCase("level")) {
             return String.valueOf(uhcPlayer.getData().getUHCLevel());
         }
 
-        if (params.equalsIgnoreCase("uhc-kills")) {
+        if (params.equalsIgnoreCase("total-kills")) {
             return String.valueOf(uhcPlayer.getData().getKills());
         }
 
-        if (params.equalsIgnoreCase("uhc-deaths")) {
+        if (params.equalsIgnoreCase("deaths")) {
             return String.valueOf(uhcPlayer.getData().getDeaths());
         }
 
-        if (params.equalsIgnoreCase("uhc-wins")) {
+        if (params.equalsIgnoreCase("wins")) {
             return String.valueOf(uhcPlayer.getData().getWins());
         }
 
-        if (params.equalsIgnoreCase("uhc-losses")) {
+        if (params.equalsIgnoreCase("losses")) {
             return String.valueOf(uhcPlayer.getData().getDeaths());
         }
 
-        if (params.equalsIgnoreCase("uhc-games-played")) {
+        if (params.equalsIgnoreCase("games-played")) {
             return String.valueOf(uhcPlayer.getData().getTotalPlayed());
         }
 
-        if (params.equalsIgnoreCase("uhc-money")) {
+        if (params.equalsIgnoreCase("money")) {
             return String.valueOf(uhcPlayer.getData().getMoney());
         }
         return null;

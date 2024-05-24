@@ -30,7 +30,7 @@ public class TabManager {
             return;
         }
 
-        ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+        ProtocolManager pm = ProtocolLibHook.getProtocolManager();
         final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
 
         pc.getChatComponents()

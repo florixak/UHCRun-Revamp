@@ -23,7 +23,6 @@ public class TeleportUtils {
         bad_blocks.add(XMaterial.CACTUS.parseMaterial());
         bad_blocks.add(XMaterial.WATER.parseMaterial());
         bad_blocks.add(XMaterial.DIRT.parseMaterial());
-        bad_blocks.add(XMaterial.GRASS.parseMaterial());
         bad_blocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
         bad_blocks.add(XMaterial.STONE.parseMaterial());
     }
