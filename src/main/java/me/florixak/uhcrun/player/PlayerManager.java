@@ -98,7 +98,7 @@ public class PlayerManager {
         }
 
         if (uhcPlayer.hasKit()) {
-            uhcPlayer.getKit().getKit(uhcPlayer);
+            uhcPlayer.getKit().giveKit(uhcPlayer);
         }
     }
     public void setSpectator(UHCPlayer uhcPlayer, PlayerState pState) {

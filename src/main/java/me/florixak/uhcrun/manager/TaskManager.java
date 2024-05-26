@@ -3,6 +3,7 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.tasks.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,8 +35,9 @@ public class TaskManager {
         this.startingCd = new StartingCD(gameManager);
         this.startingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
+
     public void stopStartingCD() {
-        if (!this.startingCd.isCancelled()) this.startingCd.cancel();
+        if (startingCd == null || !startingCd.isCancelled()) this.startingCd.cancel();
     }
 
     public void startMiningCD() {
@@ -64,14 +66,15 @@ public class TaskManager {
     }
 
     public void runActivityRewards() {
-        if (config.getBoolean("settings.rewards.playing-time.enabled")) {
-            int interval = config.getInt("settings.rewards.playing-time.period")*20;
+        if (GameValues.ACTIVITY_REWARDS_ENABLED) {
+            int interval = GameValues.ACTIVITY_REWARDS_INTERVAL * 20;
             new PlayingRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
+
     public void runAutoBroadcast() {
-        if (config.getBoolean("settings.auto-broadcast.enabled")) {
-            int interval = config.getInt("settings.auto-broadcast.period")*20;
+        if (GameValues.BROADCAST_ENABLED) {
+            int interval = GameValues.BROADCAST_INTERVAL * 20;
             new AutoBCMessage(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }

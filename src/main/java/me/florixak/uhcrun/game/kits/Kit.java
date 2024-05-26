@@ -41,7 +41,7 @@ public class Kit {
         return this.items;
     }
 
-    public void getKit(UHCPlayer uhcPlayer) {
+    public void giveKit(UHCPlayer uhcPlayer) {
         Player p = uhcPlayer.getPlayer();
 
         for (ItemStack item : getItems()) {

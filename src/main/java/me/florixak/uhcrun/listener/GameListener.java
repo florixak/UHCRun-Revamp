@@ -108,7 +108,7 @@ public class GameListener implements Listener {
 
         if (killer != null) {
             killer.addKill();
-            killer.getPlayer().giveExp(GameValues.EXP_FOR_KILL);
+            killer.getPlayer().giveExp((int) GameValues.EXP_FOR_KILL);
             gameManager.getPerksManager().givePerk(killer);
 
             Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
@@ -124,7 +124,7 @@ public class GameListener implements Listener {
                 return;
             }
             assistPlayer.addAssist();
-            assistPlayer.giveExp(GameValues.EXP_FOR_ASSIST);
+            assistPlayer.giveExp((int) GameValues.EXP_FOR_ASSIST);
             assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString().replace("%player%", victim.getName()).replace("%money-for-assist%", String.valueOf(GameValues.MONEY_FOR_ASSIST)).replace("%uhc-exp-for-assist%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)).replace("%exp-for-assist%", String.valueOf(GameValues.EXP_FOR_ASSIST)));
 
             if (!addUpStatsOnEnd) {

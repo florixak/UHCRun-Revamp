@@ -10,6 +10,8 @@ public class GameValues {
     private static final GameManager gameManager = GameManager.getGameManager();
     private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
+    public static int ERROR_INT_VALUE = -1;
+
     public static final World GAME_WORLD = Bukkit.getWorld("world");
 
     public static final boolean TEAM_MODE = getConfigBoolean("settings.teams.team-mode", true);
@@ -39,25 +41,40 @@ public class GameValues {
     public static final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);
     public static final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
 
-    public static final double MONEY_FOR_WIN = getConfigInt("settings.statistics.rewards.win.money", 0);
+    public static final double BASE_REWARD = getConfigDouble("settings.statistics.rewards.base-reward", 100);
+    public static final double REWARD_COEFFICIENT = getConfigDouble("settings.statistics.rewards.reward-coefficient", 1);
+    public static final double REQUIRED_EXP_MULTIPLIER = getConfigDouble("settings.statistics.player-level.required-exp-multiplier", 1.2);
+
+    public static final double MONEY_FOR_WIN = getConfigDouble("settings.statistics.rewards.win.money", 0);
     public static final double UHC_EXP_FOR_WIN = getConfigInt("settings.statistics.rewards.win.uhc-exp", 0);
 
-    public static final double MONEY_FOR_LOSE = getConfigInt("settings.statistics.rewards.lose.money", 0);
+    public static final double MONEY_FOR_LOSE = getConfigDouble("settings.statistics.rewards.lose.money", 0);
     public static final double UHC_EXP_FOR_LOSE = getConfigInt("settings.statistics.rewards.lose.uhc-exp", 0);
 
-    public static final double MONEY_FOR_KILL = getConfigInt("settings.statistics.rewards.kill.money", 0);
-    public static final double UHC_EXP_FOR_KILL = getConfigInt("settings.statistics.rewards.kill.uhc-exp", 0);
-    public static final int EXP_FOR_KILL = getConfigInt("settings.statistics.rewards.kill.exp", 0);
+    public static final double MONEY_FOR_KILL = getConfigDouble("settings.statistics.rewards.kill.money", 0);
+    public static final double UHC_EXP_FOR_KILL = getConfigDouble("settings.statistics.rewards.kill.uhc-exp", 0);
+    public static final double EXP_FOR_KILL = getConfigDouble("settings.statistics.rewards.kill.exp", 0);
 
-    public static final double MONEY_FOR_ASSIST = getConfigInt("settings.statistics.rewards.assist.money", 0);
-    public static final double UHC_EXP_FOR_ASSIST = getConfigInt("settings.statistics.rewards.assist.uhc-exp", 0);
-    public static final int EXP_FOR_ASSIST = getConfigInt("settings.statistics.rewards.assist.exp", 0);
+    public static final double MONEY_FOR_ASSIST = getConfigDouble("settings.statistics.rewards.assist.money", 0);
+    public static final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.statistics.rewards.assist.uhc-exp", 0);
+    public static final double EXP_FOR_ASSIST = getConfigDouble("settings.statistics.rewards.assist.exp", 0);
+
+    public static final boolean BROADCAST_ENABLED = getConfigBoolean("settings.auto-broadcast.enabled", true);
+    public static final int BROADCAST_INTERVAL = getConfigInt("settings.auto-broadcast.period", 300);
+
+    public static final boolean ACTIVITY_REWARDS_ENABLED = getConfigBoolean("settings.rewards.playing-time.enabled", true);
+    public static final int ACTIVITY_REWARDS_INTERVAL = getConfigInt("settings.rewards.playing-time.period", 300);
+    public static final double ACTIVITY_REWARDS_MONEY = getConfigDouble("settings.rewards.playing-time.money", 300);
+    public static final double ACTIVITY_REWARDS_EXP = getConfigDouble("settings.rewards.playing-time.exp", 300);
 
     private static boolean getConfigBoolean(String path, boolean def) {
       return config.getBoolean(path, def);
     }
     private static int getConfigInt(String path, int def) {
         return config.getInt(path, def);
+    }
+    private static double getConfigDouble(String path, double def) {
+        return config.getDouble(path, def);
     }
 }
 
