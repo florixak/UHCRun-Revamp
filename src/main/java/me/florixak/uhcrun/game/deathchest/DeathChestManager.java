@@ -50,6 +50,7 @@ public class DeathChestManager {
     }
 
     public void onDisable() {
+        if (deathChests == null || deathChests.isEmpty()) return;
         for (DeathChest deathChest : deathChests) {
             removeDeathChest(deathChest);
         }
