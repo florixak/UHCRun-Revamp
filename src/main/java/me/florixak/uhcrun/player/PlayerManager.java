@@ -3,9 +3,9 @@ package me.florixak.uhcrun.player;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.teams.UHCTeam;
+import me.florixak.uhcrun.utils.RandomUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,15 +55,14 @@ public class PlayerManager {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
     }
     public UHCPlayer getRandomOnlineUHCPlayer() {
-        Random ran = new Random();
-        return getOnlineList().get(ran.nextInt(getOnlineList().size()));
+        return getOnlineList().get(RandomUtils.getRandom().nextInt(getOnlineList().size()));
     }
 
     public UHCPlayer getWinnerPlayer() {
         return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
     private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
-        Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
+        players.sort((uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
         return players;
     }
     public List<UHCPlayer> getTopKillers() {
@@ -87,7 +86,7 @@ public class PlayerManager {
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
 
-        clearPlayerInventory(p);
+        uhcPlayer.clearInventory();
 
         if (GameValues.TEAM_MODE && !uhcPlayer.hasTeam()) {
             gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
@@ -109,7 +108,7 @@ public class PlayerManager {
 
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(20);
-        clearPlayerInventory(p);
+        uhcPlayer.clearInventory();
 
         p.setGameMode(GameMode.SPECTATOR);
 
@@ -118,17 +117,6 @@ public class PlayerManager {
                 playerLoc.getX()+0,
                 playerLoc.getY()+10,
                 playerLoc.getZ()+0));
-    }
-
-    public void clearPlayerInventory(Player p) {
-        p.getInventory().clear();
-
-        //clear player armor
-        ItemStack[] emptyArmor = new ItemStack[4];
-        for(int i = 0; i < emptyArmor.length; i++){
-            emptyArmor[i] = new ItemStack(Material.AIR);
-        }
-        p.getInventory().setArmorContents(emptyArmor);
     }
 
     public void onDisable() {

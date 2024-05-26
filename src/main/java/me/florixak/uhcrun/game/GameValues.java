@@ -33,7 +33,7 @@ public class GameValues {
     public static final boolean CAN_USE_PROTOCOLLIB = config.getBoolean("settings.addons.use-ProtocolLib", true);
 
     public static final int TEAM_SIZE = getConfigInt("settings.teams.max-size", 3);
-    public static final int MIN_PLAYERS = getConfigInt("min-players", 2);
+    public static final int MIN_PLAYERS = getConfigInt("settings.game.min-players", 2);
 
     public static final int STARTING_COUNTDOWN = getConfigInt("settings.game.countdowns.starting", 20);
     public static final int MINING_COUNTDOWN = getConfigInt("settings.game.countdowns.mining", 600);

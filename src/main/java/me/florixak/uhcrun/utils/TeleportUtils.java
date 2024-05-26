@@ -29,12 +29,10 @@ public class TeleportUtils {
 
     public static Location generateLocation(){
 
-        Random random = new Random();
-
         World world = GameValues.GAME_WORLD;
-        double x = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
+        double x = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
         double y = 150.0;
-        double z = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
+        double z = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
 
         Location randomLocation = new Location(world, x, y, z);
         y = randomLocation.getWorld().getHighestBlockYAt(randomLocation);
