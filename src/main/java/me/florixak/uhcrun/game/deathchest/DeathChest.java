@@ -10,6 +10,7 @@ import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -38,20 +39,22 @@ public class DeathChest {
         this.deathChestExpire = new DeathChestExpire(this);
         this.expire = expire;
 
-        if (this.title.isEmpty() || this.title == null) {
-            this.title = "Death Chest";
+        if (this.title == null) {
+            this.title = uhcPlayer.getName() + "'s Death Chest";
         }
         createChest();
     }
+
     public void createChest() {
-        Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
+        World world = loc.getWorld();
+        world.getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
         BlockState state = loc.getBlock().getState();
 
         Chest chest = (Chest) state;
         chest.setCustomName(TextUtils.color(this.title));
         addHologram();
 
-        if (!getContents().isEmpty()) {
+        if (getContents() != null && !getContents().isEmpty()) {
             for (ItemStack item : getContents()) {
                 chest.getInventory().addItem(item);
             }
@@ -95,7 +98,6 @@ public class DeathChest {
     }
 
     public void removeChest() {
-
         if (getExpireTask() != null && !getExpireTask().isCancelled()) {
             getExpireTask().cancel();
         }
