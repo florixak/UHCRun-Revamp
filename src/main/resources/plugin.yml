@@ -27,3 +27,5 @@ commands:
   statistics:
     aliases: [ stats ]
     description: Opens players statistics
+  revive:
+    description: Revives dead player

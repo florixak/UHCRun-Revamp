@@ -8,6 +8,7 @@ public enum Permissions {
     NICKNAME("nickname"),
     SETUP("setup"),
     WORKBENCH("workbench"),
+    REVIVE("revive"),
 
     COLOR_CHAT("color-chat"),
     RESERVED_SLOT("reserved-slot");

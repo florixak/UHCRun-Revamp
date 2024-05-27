@@ -5,6 +5,7 @@ import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.teams.UHCTeam;
+import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -36,6 +37,7 @@ public class UHCPlayer {
     private Perk perk;
     private boolean hasWon;
     private List<UHCPlayer> assistsList;
+    private Location deathLoc;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -50,6 +52,7 @@ public class UHCPlayer {
         this.kit = null;
         this.perk = null;
         this.team = null;
+        this.deathLoc = null;
         this.assistsList = new ArrayList<>();
     }
 
@@ -139,7 +142,7 @@ public class UHCPlayer {
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString()
                 .replace("%kit%", kit.getName()));
-        sendMessage(Messages.KITS_MONEY_DEDUCT.toString());
+        if (!kit.isFree()) sendMessage(Messages.KITS_MONEY_DEDUCT.toString());
     }
 
     public boolean hasPerk() {
@@ -151,6 +154,19 @@ public class UHCPlayer {
     public void setPerk(Perk perk) {
         if (this.perk == perk) return;
         this.perk = perk;
+    }
+
+    public void setDeathLocation(Location deathLoc) {
+        this.deathLoc = deathLoc;
+    }
+    public Location getDeathLocation() {
+        return this.deathLoc;
+    }
+
+    public void revive() {
+        setState(PlayerState.ALIVE);
+        if (kit != null) getKit().giveKit(this);
+        teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
     }
 
     public boolean wasDamagedByMorePeople() {
