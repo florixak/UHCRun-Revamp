@@ -38,8 +38,23 @@ public class ReviveCommand implements CommandExecutor {
             }
             UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(((Player) sender).getUniqueId());
             uhcPlayer.revive();
+            sender.sendMessage("You revived yourself!");
+        } else if (args.length == 1) {
+            UHCPlayer target = gameManager.getPlayerManager().getUHCPlayer(args[0]);
+            if (!target.isOnline()) {
+                sender.sendMessage(Messages.OFFLINE_PLAYER.getPath());
+                return true;
+            }
+            if (target.isAlive()) {
+                sender.sendMessage("Player is alive!");
+                return true;
+            }
+            target.revive();
+            target.sendMessage("You were revived by " + sender.getName());
+            sender.sendMessage(target.getName() + " was revived!");
+        } else {
+            sender.sendMessage("Wrong usage... /revive %player%");
         }
-
         return true;
     }
 }

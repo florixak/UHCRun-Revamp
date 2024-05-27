@@ -11,12 +11,12 @@ public class Kit {
 
     private final String name;
     private List<ItemStack> items;
-    private final Material display_item;
+    private final Material displayItem;
     private final double cost;
 
-    public Kit(String name, Material display_item, double cost, List<ItemStack> items) {
+    public Kit(String name, Material displayItem, double cost, List<ItemStack> items) {
         this.name = name;
-        this.display_item = display_item;
+        this.displayItem = displayItem;
         this.cost = cost;
         this.items = items;
     }
@@ -26,7 +26,7 @@ public class Kit {
     }
 
     public Material getDisplayItem() {
-        return this.display_item;
+        return this.displayItem;
     }
 
     public double getCost() {

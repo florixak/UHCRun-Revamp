@@ -55,7 +55,7 @@ public class PlayerListener implements Listener {
             return;
         } else if (isPlaying) {
             Bukkit.getLogger().info("TEST - Game is playing (set spectator)");
-            gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
+            uhcPlayer.setSpectator();
             return;
         }
 
@@ -114,12 +114,6 @@ public class PlayerListener implements Listener {
         if (GameValues.DEATH_CHESTS_ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
         }
-
-        event.getEntity().setHealth(20);
-        event.getEntity().setFoodLevel(20);
-        event.getEntity().setFireTicks(0);
-        event.getEntity().getActivePotionEffects().clear();
-        event.getEntity().spigot().respawn();
 
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
         event.getDrops().clear();

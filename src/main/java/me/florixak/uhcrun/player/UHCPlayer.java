@@ -1,6 +1,8 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
@@ -163,10 +165,61 @@ public class UHCPlayer {
         return this.deathLoc;
     }
 
+    public void ready() {
+        if (hasKit())
+            getData().withdrawMoney(getKit().getCost());
+
+        setState(PlayerState.ALIVE);
+
+        setGameMode(GameMode.SURVIVAL);
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+
+        clearInventory();
+
+        if (GameValues.TEAM_MODE && !hasTeam()) {
+            GameManager.getGameManager().getTeamManager().joinRandomTeam(this);
+        } else if (!GameValues.TEAM_MODE) {
+            UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
+            GameManager.getGameManager().getTeamManager().addTeam(uhcTeam);
+            setTeam(uhcTeam);
+        }
+
+        if (hasKit()) {
+            getKit().giveKit(this);
+        }
+    }
     public void revive() {
         setState(PlayerState.ALIVE);
-        if (kit != null) getKit().giveKit(this);
+        //if (kit != null) getKit().giveKit(this);
         teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
+    }
+    public void die() {
+        getPlayer().setHealth(20);
+        getPlayer().setFoodLevel(20);
+        getPlayer().setFireTicks(0);
+        clearPotions();
+        clearInventory();
+
+        setDeathLocation(getPlayer().getLocation());
+
+        getPlayer().spigot().respawn();
+
+        teleport(new Location(
+                Bukkit.getWorld(getDeathLocation().getWorld().getName()),
+                getDeathLocation().getX()+0,
+                getDeathLocation().getY()+10,
+                getDeathLocation().getZ()+0));
+
+        setSpectator();
+    }
+
+    public void setSpectator() {
+        if (state != PlayerState.DEAD) {
+            setState(PlayerState.SPECTATOR);
+            teleport(getPlayer().getLocation().getWorld().getBlockAt(0, 100, 0).getLocation());
+        }
+        setGameMode(GameMode.SPECTATOR);
     }
 
     public boolean wasDamagedByMorePeople() {

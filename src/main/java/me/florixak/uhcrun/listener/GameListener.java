@@ -3,19 +3,18 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
-import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
-import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -103,8 +102,7 @@ public class GameListener implements Listener {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
 
-        victim.clearInventory();
-        playerManager.setSpectator(victim, PlayerState.DEAD);
+        victim.die();
 
         if (killer != null) {
             killer.addKill();
@@ -166,8 +164,8 @@ public class GameListener implements Listener {
 
             ItemStack drop_is = new ItemStack(XMaterial.values()[pick].parseMaterial());
             Location loc = block.getLocation();
-
             Location location = loc.add(0.5, 0.5, 0.5);
+
             Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
             return;
         }

@@ -21,6 +21,9 @@ public class GameValues {
     public static final String CHAT_FORMAT_LOBBY = getConfigString("settings.chat.lobby-format", "");
     public static final List<String> CHAT_BLOCKED_COMMANDS = getConfigStringList("settings.chat.blocked-commands");
 
+    public static final double INIT_BORDER_SIZE = getConfigDouble("settings.border.size", 300);
+    public static final double BORDER_SPEED = getConfigDouble("settings.border.speed", 0);
+
     public static final boolean TEAM_MODE = getConfigBoolean("settings.teams.team-mode", true);
     public static final boolean KITS_ENABLED = getConfigBoolean("settings.kits.enabled", true);
     public static final boolean PERKS_ENABLED = getConfigBoolean("settings.perks.enabled", true);

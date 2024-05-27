@@ -19,6 +19,7 @@ import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
 import me.florixak.uhcrun.player.PlayerListener;
 import me.florixak.uhcrun.player.PlayerManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
@@ -86,7 +87,7 @@ public class GameManager {
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
         this.lobbyManager = new LobbyManager(this);
-        this.borderManager = new BorderManager(this);
+        this.borderManager = new BorderManager();
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
@@ -157,7 +158,7 @@ public class GameManager {
                 break;
 
             case MINING:
-                getPlayerManager().getOnlineList().forEach(getPlayerManager()::readyPlayer);
+                getPlayerManager().getOnlineList().forEach(UHCPlayer::ready);
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
@@ -328,6 +329,7 @@ public class GameManager {
         registerCommand("anvil", new AnvilCommand(gameManager));
         registerCommand("kits", new KitsCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
+        registerCommand("revive", new ReviveCommand(gameManager));
     }
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = plugin.getCommand(commandN);

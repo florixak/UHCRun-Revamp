@@ -4,10 +4,11 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.RandomUtils;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlayerManager {
@@ -100,52 +101,6 @@ public class PlayerManager {
 
     public int getMaxPlayers() {
         return GameValues.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
-    }
-
-    public void readyPlayer(UHCPlayer uhcPlayer) {
-        Player p = uhcPlayer.getPlayer();
-
-        if (uhcPlayer.hasKit()) {
-            uhcPlayer.getData().withdrawMoney(uhcPlayer.getKit().getCost());
-        }
-
-        uhcPlayer.setState(PlayerState.ALIVE);
-
-        p.setGameMode(GameMode.SURVIVAL);
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-
-        uhcPlayer.clearInventory();
-
-        if (GameValues.TEAM_MODE && !uhcPlayer.hasTeam()) {
-            gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-        } else if (!GameValues.TEAM_MODE) {
-            UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
-            gameManager.getTeamManager().addTeam(uhcTeam);
-            uhcPlayer.setTeam(uhcTeam);
-        }
-
-        if (uhcPlayer.hasKit()) {
-            uhcPlayer.getKit().giveKit(uhcPlayer);
-        }
-    }
-    public void setSpectator(UHCPlayer uhcPlayer, PlayerState pState) {
-        Player p = uhcPlayer.getPlayer();
-        Location playerLoc = p.getLocation();
-
-        uhcPlayer.setState(pState);
-
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-        uhcPlayer.clearInventory();
-
-        p.setGameMode(GameMode.SPECTATOR);
-
-        p.teleport(new Location(
-                Bukkit.getWorld(playerLoc.getWorld().getName()),
-                playerLoc.getX()+0,
-                playerLoc.getY()+10,
-                playerLoc.getZ()+0));
     }
 
     public void onDisable() {
