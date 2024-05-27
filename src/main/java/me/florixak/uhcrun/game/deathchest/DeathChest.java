@@ -96,13 +96,15 @@ public class DeathChest {
 
     public void removeChest() {
 
-        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
-        block.setType(XMaterial.AIR.parseMaterial());
-        getHologram().remove();
-
         if (getExpireTask() != null && !getExpireTask().isCancelled()) {
             getExpireTask().cancel();
         }
+
+        getHologram().remove();
+
+        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
+        block.setType(XMaterial.AIR.parseMaterial());
+
 
         // TODO create explode
 

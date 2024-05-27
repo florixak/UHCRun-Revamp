@@ -278,4 +278,23 @@ public class UHCPlayer {
         String[] split_title = title.split("\n");
         getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
     }
+    public void leaveTeam() {
+        if (getTeam() == null) return;
+        getTeam().removeMember(this);
+    }
+
+    public void onQuit() {
+        leaveTeam();
+    }
+
+    public void reset() {
+        this.hasWon = false;
+        this.kills = 0;
+        this.assists = 0;
+        this.kit = null;
+        this.perk = null;
+        getTeam().removeMember(this);
+        this.deathLoc = null;
+        this.assistsList = null;
+    }
 }

@@ -217,10 +217,10 @@ public class GameManager {
     }
 
     public void onDisable() {
-        getDeathChestManager().onDisable();
         getPlayerManager().onDisable();
         getTeamManager().onDisable();
         getTaskManager().onDisable();
+        getDeathChestManager().onDisable();
         getGameManager().clearDrops();
         disconnectDatabase();
     }
