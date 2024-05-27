@@ -1,12 +1,16 @@
 package me.florixak.uhcrun.commands;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static me.florixak.uhcrun.game.Permissions.ANVIL;
 
@@ -28,10 +32,28 @@ public class AnvilCommand implements CommandExecutor {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
-        gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId()).setKit(gameManager.getKitsManager().getKit("librarian"));
-        for (ItemStack item : gameManager.getKitsManager().getKit("librarian").getItems()) {
-            p.getInventory().addItem(item);
-        }
+
+        new AnvilGUI.Builder()
+                .onClose(stateSnapshot -> {
+                    stateSnapshot.getPlayer().sendMessage("You closed the inventory.");
+                })
+                .onClick((slot, stateSnapshot) -> { // Either use sync or async variant, not both
+                    if(slot != AnvilGUI.Slot.OUTPUT) {
+                        return Collections.emptyList();
+                    }
+
+                    if(stateSnapshot.getText().equalsIgnoreCase("you")) {
+                        stateSnapshot.getPlayer().sendMessage("You have magical powers!");
+                        return Arrays.asList(AnvilGUI.ResponseAction.close());
+                    } else {
+                        return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText("Try again"));
+                    }
+                })
+                .preventClose()                                                    //prevents the inventory from being closed
+                .text("What is the meaning of life?")                              //sets the text the GUI should start with
+                .title("Enter your answer.")                                       //set the title of the GUI (only works in 1.14+)
+                .plugin(UHCRun.getInstance())                                          //set the plugin instance
+                .open(p);
         return true;
     }
 }
