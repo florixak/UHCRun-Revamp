@@ -61,6 +61,35 @@ public class PlayerManager {
     public UHCPlayer getWinnerPlayer() {
         return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
+    public void setUHCWinner() {
+
+        if (getAliveList().isEmpty()) return;
+
+        UHCPlayer winner = getAliveList().get(0);
+        if (winner == null) return;
+
+        for (UHCPlayer uhcPlayer : getAliveList()) {
+            if (!uhcPlayer.isOnline()) return;
+            if (uhcPlayer.getKills() > winner.getKills()) {
+                winner = uhcPlayer;
+            }
+        }
+        if (GameValues.TEAM_MODE) {
+            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                teamMember.setWinner(true);
+            }
+            return;
+        }
+        winner.setWinner(true);
+    }
+    public String getUHCWinner() {
+        if (GameValues.TEAM_MODE) {
+            UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
+            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
+        }
+        return getWinnerPlayer() != null ? getWinnerPlayer().getName() : "None";
+    }
+
     private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
         players.sort((uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
         return players;

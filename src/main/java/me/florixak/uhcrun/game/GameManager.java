@@ -7,28 +7,29 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
-import me.florixak.uhcrun.manager.DeathmatchManager;
+import me.florixak.uhcrun.game.kits.KitsManager;
+import me.florixak.uhcrun.game.oreGen.OreGenManager;
+import me.florixak.uhcrun.game.perks.PerksManager;
 import me.florixak.uhcrun.listener.*;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
-import me.florixak.uhcrun.manager.gui.GuiManager;
-import me.florixak.uhcrun.game.kits.KitsManager;
 import me.florixak.uhcrun.manager.*;
+import me.florixak.uhcrun.manager.gui.GuiManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
-import me.florixak.uhcrun.game.perks.PerksManager;
-import me.florixak.uhcrun.game.oreGen.OreGenManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.player.PlayerManager;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
+import me.florixak.uhcrun.player.PlayerListener;
+import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
-import me.florixak.uhcrun.teams.UHCTeam;
-import me.florixak.uhcrun.utils.*;
+import me.florixak.uhcrun.utils.TeleportUtils;
+import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XSound;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -187,8 +188,8 @@ public class GameManager {
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
 
-                setUHCWinner();
-                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getUHCWinner()));
+                getPlayerManager().setUHCWinner();
+                plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
 
                 getTaskManager().startEndingCD();
 
@@ -223,14 +224,19 @@ public class GameManager {
         disconnectDatabase();
     }
 
+    public boolean isStarting() {
+        return gameState.equals(GameState.STARTING);
+    }
     public boolean isPlaying() {
         return !gameState.equals(GameState.LOBBY) && !gameState.equals(GameState.STARTING);
+    }
+    public boolean isEnding() {
+        return gameState.equals(GameState.ENDING);
     }
 
     public boolean isForceStarted() {
         return this.forceStarted;
     }
-
     public void setForceStarted(boolean b) {
         this.forceStarted = b;
     }
@@ -238,40 +244,8 @@ public class GameManager {
     public boolean isPvP() {
         return this.pvp;
     }
-
     public void setPvP(boolean b) {
         this.pvp = b;
-    }
-
-    public void setUHCWinner() {
-
-        if (getPlayerManager().getAliveList().isEmpty()) return;
-
-        UHCPlayer winner = getPlayerManager().getAliveList().get(0);
-        if (winner == null) return;
-
-        for (UHCPlayer uhcPlayer : getPlayerManager().getAliveList()) {
-            if (!uhcPlayer.isOnline()) return;
-            if (uhcPlayer.getKills() > winner.getKills()) {
-                winner = uhcPlayer;
-            }
-        }
-        if (GameValues.TEAM_MODE) {
-            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
-                teamMember.setWinner(true);
-            }
-            return;
-        }
-        winner.setWinner(true);
-
-    }
-
-    public String getUHCWinner() {
-        if (GameValues.TEAM_MODE) {
-            UHCTeam winnerTeam = teamManager.getWinnerTeam();
-            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
-        }
-        return getPlayerManager().getWinnerPlayer() != null ? getPlayerManager().getWinnerPlayer().getName() : "None";
     }
 
     public void clearDrops() {
@@ -312,7 +286,6 @@ public class GameManager {
     public MySQL getSQL() {
         return this.mysql;
     }
-
     public SQLGetter getData() {
         return this.data;
     }
@@ -324,13 +297,11 @@ public class GameManager {
         this.mysql = new MySQL(config.getString(path + ".host", "localhost"), config.getString(path + ".port", "3306"), config.getString(path + ".database", "uhcrun"), config.getString(path + ".username", "root"), config.getString(path + ".password", ""));
         this.data = new SQLGetter(this);
     }
-
     private void disconnectDatabase() {
         if (config.getBoolean("settings.MySQL.enabled", false)) {
             mysql.disconnect();
         }
     }
-
     public boolean isDatabaseConnected() {
         return this.mysql != null && this.mysql.hasConnection();
     }
@@ -358,7 +329,6 @@ public class GameManager {
         registerCommand("kits", new KitsCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
     }
-
     private void registerCommand(String commandN, CommandExecutor executor) {
         PluginCommand command = plugin.getCommand(commandN);
 

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.listener;
+package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameValues;
@@ -6,8 +6,6 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.player.PlayerState;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.game.Permissions;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -40,23 +38,23 @@ public class PlayerListener implements Listener {
 
         if (!isPlaying && isFull) {
             if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                System.out.println("TEST - Game is not playing and full and has perms (kick random player)");
+                Bukkit.getLogger().info("TEST - Game is not playing and full and has perms (kick random player)");
                 UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
                 while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
                     randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
                 }
                 randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
             } else {
-                System.out.println("TEST - Game is playing and full (kick)");
+                Bukkit.getLogger().info("TEST - Game is playing and full (kick)");
                 uhcPlayer.kick(Messages.GAME_FULL.toString());
                 return;
             }
         } else if (isPlaying && isFull) {
-            System.out.println("TEST - Game is playing and full (kick)");
+            Bukkit.getLogger().info("TEST - Game is playing and full (kick)");
             uhcPlayer.kick(Messages.GAME_FULL.toString());
             return;
         } else if (isPlaying) {
-            System.out.println("TEST - Game is playing (set spectator)");
+            Bukkit.getLogger().info("TEST - Game is playing (set spectator)");
             gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
             return;
         }

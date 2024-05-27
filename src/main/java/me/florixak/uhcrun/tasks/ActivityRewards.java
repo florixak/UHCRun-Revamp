@@ -6,11 +6,11 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class PlayingRewards extends BukkitRunnable {
+public class ActivityRewards extends BukkitRunnable {
 
     private final GameManager gameManager;
 
-    public PlayingRewards(GameManager gameManager) {
+    public ActivityRewards(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 

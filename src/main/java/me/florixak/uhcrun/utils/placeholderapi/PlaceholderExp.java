@@ -64,8 +64,8 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("winner")) {
-            if (plugin.getGameManager().getUHCWinner() != null) return "None";
-            return plugin.getGameManager().getUHCWinner();
+            if (plugin.getGameManager().getPlayerManager().getUHCWinner() != null) return "None";
+            return plugin.getGameManager().getPlayerManager().getUHCWinner();
         }
 
         if (params.equalsIgnoreCase("team")) {

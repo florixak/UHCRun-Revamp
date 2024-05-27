@@ -1,17 +1,14 @@
 package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.tasks.*;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 
 public class TaskManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
     private final long delay = 20L;
     private final long period = 20L;
@@ -28,7 +25,6 @@ public class TaskManager {
 
     public TaskManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     public void startStartingCD() {
@@ -68,7 +64,7 @@ public class TaskManager {
     public void runActivityRewards() {
         if (GameValues.ACTIVITY_REWARDS_ENABLED) {
             int interval = GameValues.ACTIVITY_REWARDS_INTERVAL * 20;
-            new PlayingRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
+            new ActivityRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
 

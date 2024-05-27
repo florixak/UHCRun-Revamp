@@ -9,10 +9,11 @@ public enum Permissions {
     SETUP("setup"),
     WORKBENCH("workbench"),
 
+    COLOR_CHAT("color-chat"),
     RESERVED_SLOT("reserved-slot");
 
     private final String PREFIX = "uhcrun.";
-    private String permission;
+    private final String permission;
 
     Permissions(String permission) {
         this.permission = PREFIX + permission;
@@ -22,5 +23,8 @@ public enum Permissions {
         return permission;
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
