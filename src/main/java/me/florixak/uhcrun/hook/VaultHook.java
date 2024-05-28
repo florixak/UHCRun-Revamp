@@ -2,7 +2,7 @@ package me.florixak.uhcrun.hook;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultHook {
@@ -29,21 +29,21 @@ public class VaultHook {
         return economy != null;
     }
 
-    public static double getBalance(OfflinePlayer target) {
+    public static double getBalance(Player target) {
         if (!hasEconomy())
             return -1.00;
 
         return economy.getBalance(target);
     }
 
-    public static String withdraw(OfflinePlayer target, double amount) {
+    public static String withdraw(Player target, double amount) {
         if (!hasEconomy())
             return "ERROR";
 
         return economy.withdrawPlayer(target, amount).errorMessage;
     }
 
-    public static String deposit(OfflinePlayer target, double amount) {
+    public static String deposit(Player target, double amount) {
         if (!hasEconomy())
             return "ERROR";
 
