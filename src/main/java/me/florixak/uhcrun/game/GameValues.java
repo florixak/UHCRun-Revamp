@@ -37,10 +37,10 @@ public class GameValues {
     public static final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
     public static final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
 
-    public static final boolean CAN_USE_VAULT = config.getBoolean("settings.addons.use-Vault", true);
-    public static final boolean CAN_USE_LUCKPERMS = config.getBoolean("settings.addons.use-LuckPerms", true);
-    public static final boolean CAN_USE_PLACEHOLDERAPI = config.getBoolean("settings.addons.use-PlaceholderAPI", true);
-    public static final boolean CAN_USE_PROTOCOLLIB = config.getBoolean("settings.addons.use-ProtocolLib", true);
+    public static final boolean CAN_USE_VAULT = getConfigBoolean("settings.addons.use-Vault", true);
+    public static final boolean CAN_USE_LUCKPERMS = getConfigBoolean("settings.addons.use-LuckPerms", true);
+    public static final boolean CAN_USE_PLACEHOLDERAPI = getConfigBoolean("settings.addons.use-PlaceholderAPI", true);
+    public static final boolean CAN_USE_PROTOCOLLIB = getConfigBoolean("settings.addons.use-ProtocolLib", true);
 
     public static final int TEAM_SIZE = getConfigInt("settings.teams.max-size", 3);
     public static final int MIN_PLAYERS = getConfigInt("settings.game.min-players", 2);
@@ -71,6 +71,9 @@ public class GameValues {
 
     public static final boolean BROADCAST_ENABLED = getConfigBoolean("settings.auto-broadcast.enabled", true);
     public static final int BROADCAST_INTERVAL = getConfigInt("settings.auto-broadcast.period", 300);
+
+    public static final double FIRST_UHC_LEVEL = getConfigDouble("settings.statistics.player-level.first-uhc-level", 0);
+    public static final double FIRST_REQUIRED_EXP = getConfigDouble("settings.statistics.player-level.first-required-exp", 0);
 
     public static final boolean ACTIVITY_REWARDS_ENABLED = getConfigBoolean("settings.rewards.activity.enabled", true);
     public static final int ACTIVITY_REWARDS_INTERVAL = getConfigInt("settings.rewards.activity.period", 300);

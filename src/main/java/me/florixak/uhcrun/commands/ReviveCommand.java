@@ -19,7 +19,7 @@ public class ReviveCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!sender.hasPermission(REVIVE.getPerm())) {
             sender.sendMessage(Messages.NO_PERM.toString());

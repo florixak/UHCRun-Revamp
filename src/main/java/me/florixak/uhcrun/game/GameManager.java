@@ -153,7 +153,7 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCurrentCountdown())));
+                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 break;
 
@@ -162,7 +162,7 @@ public class GameManager {
                 getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", "" + TimeUtils.getFormattedTime(getCurrentCountdown())));
+                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 
