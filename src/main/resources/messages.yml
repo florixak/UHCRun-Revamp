@@ -77,7 +77,8 @@ Messages:
     inv-selected: "&aSelected"
     sb-selected-none: "None"
     sb-disabled: "Disabled"
-    money-deduct: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct: "&e[!] &f%money% - %kit-cost% = %current-money% (kit %kit%)"
 
   perks:
     selected: "&a[!] &fPerk %perk% was selected!"

@@ -62,6 +62,7 @@ public enum Messages {
     KITS_DISABLED("kits.disabled"),
     KITS_SB_SELECTED_NONE("kits.sb-selected-none"),
     KITS_SB_DISABLED("kits.sb-disabled"),
+    KITS_MONEY_DEDUCT_INFO("kits.money-deduct-info"),
     KITS_MONEY_DEDUCT("kits.money-deduct"),
 
     PERKS_SELECTED("perks.selected"),

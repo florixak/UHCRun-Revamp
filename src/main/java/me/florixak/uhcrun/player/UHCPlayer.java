@@ -144,7 +144,7 @@ public class UHCPlayer {
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString()
                 .replace("%kit%", kit.getName()));
-        if (!kit.isFree()) sendMessage(Messages.KITS_MONEY_DEDUCT.toString());
+        sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
     }
 
     public boolean hasPerk() {
@@ -166,9 +166,6 @@ public class UHCPlayer {
     }
 
     public void ready() {
-        if (hasKit())
-            getData().withdrawMoney(getKit().getCost());
-
         setState(PlayerState.ALIVE);
 
         setGameMode(GameMode.SURVIVAL);
@@ -186,6 +183,13 @@ public class UHCPlayer {
         }
 
         if (hasKit()) {
+            sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
+                    .replace("%money%", String.valueOf(getData().getMoney()))
+                    .replace("%current-money%", String.valueOf(getData().getMoney()-getKit().getCost()))
+                    .replace("%kit-cost%", String.valueOf(getKit().getCost()))
+                    .replace("%kit%", getKit().getName())
+            );
+            getData().withdrawMoney(getKit().getCost());
             getKit().giveKit(this);
         }
     }
@@ -286,10 +290,6 @@ public class UHCPlayer {
     public void leaveTeam() {
         if (getTeam() == null) return;
         getTeam().removeMember(this);
-    }
-
-    public void onQuit() {
-        leaveTeam();
     }
 
     public void reset() {

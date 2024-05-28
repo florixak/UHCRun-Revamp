@@ -86,12 +86,13 @@ public class PlayerListener implements Listener {
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
-        uhcPlayer.onQuit();
+
 
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
+            uhcPlayer.leaveTeam();
         } else {
             if (!GameValues.STATS_ADD_ON_END) {
                 uhcPlayer.getData().addLose(1);
