@@ -199,20 +199,22 @@ public class UHCPlayer {
         getPlayer().setFireTicks(0);
         clearPotions();
         clearInventory();
+
         setState(PlayerState.ALIVE);
+
         //if (kit != null) getKit().giveKit(this);
         teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
     }
     public void die() {
         setDeathLocation(getPlayer().getLocation());
 
+        getPlayer().spigot().respawn();
+
         getPlayer().setHealth(getPlayer().getMaxHealth());
         getPlayer().setFoodLevel(20);
         getPlayer().setFireTicks(0);
         clearPotions();
         clearInventory();
-
-        getPlayer().spigot().respawn();
 
         teleport(new Location(
                 Bukkit.getWorld(getDeathLocation().getWorld().getName()),
