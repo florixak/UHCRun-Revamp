@@ -190,18 +190,23 @@ public class UHCPlayer {
         }
     }
     public void revive() {
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setFireTicks(0);
+        clearPotions();
+        clearInventory();
         setState(PlayerState.ALIVE);
         //if (kit != null) getKit().giveKit(this);
         teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
     }
     public void die() {
-        getPlayer().setHealth(20);
+        setDeathLocation(getPlayer().getLocation());
+
+        getPlayer().setHealth(getPlayer().getMaxHealth());
         getPlayer().setFoodLevel(20);
         getPlayer().setFireTicks(0);
         clearPotions();
         clearInventory();
-
-        setDeathLocation(getPlayer().getLocation());
 
         getPlayer().spigot().respawn();
 

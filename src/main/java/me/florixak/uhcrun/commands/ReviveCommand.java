@@ -47,7 +47,7 @@ public class ReviveCommand implements CommandExecutor {
         } else if (args.length == 1) {
             UHCPlayer target = gameManager.getPlayerManager().getUHCPlayer(args[0]);
             if (!target.isOnline()) {
-                sender.sendMessage(Messages.OFFLINE_PLAYER.getPath());
+                sender.sendMessage(Messages.OFFLINE_PLAYER.toString());
                 return true;
             }
             if (target.isAlive()) {
