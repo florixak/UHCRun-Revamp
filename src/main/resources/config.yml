@@ -124,11 +124,11 @@ settings:
       display-item: PAPER
       custom-name: "&aTOP STATS - %top-stats-mode%"
       lore:
-        - "&f1. %top-1% - %top-stat-1%"
-        - "&f2. %top-2% - %top-stat-2%"
-        - "&f3. %top-3% - %top-stat-3%"
-        - "&f4. %top-4% - %top-stat-4%"
-        - "&f5. %top-5% - %top-stat-5%"
+        - "&f1. %top-1% - %top-1-value%"
+        - "&f2. %top-2% - %top-2-value%"
+        - "&f3. %top-3% - %top-3-value%"
+        - "&f4. %top-4% - %top-4-value%"
+        - "&f5. %top-5% - %top-5-value%"
 
   # Rewards
   rewards:

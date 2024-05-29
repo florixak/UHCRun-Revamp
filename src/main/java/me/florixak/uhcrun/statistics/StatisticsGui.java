@@ -1,14 +1,13 @@
-package me.florixak.uhcrun.manager.gui;
+package me.florixak.uhcrun.statistics;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.manager.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,12 +16,7 @@ import java.util.List;
 
 public class StatisticsGui extends Gui {
 
-    enum TopType {
-        TOP_KILLS,
-        TOP_DEATHS,
-        TOP_WINS,
-        TOP_LOSSES
-    }
+    private static String totalTopMode = "Kills";
 
     public StatisticsGui(GameManager gameManager) {
         super(gameManager, 9, "Statistics");
@@ -31,6 +25,10 @@ public class StatisticsGui extends Gui {
     @Override
     public void init() {
         super.init();
+        preLoad();
+    }
+
+    private void preLoad() {
         Player p = getWhoOpen();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
@@ -78,28 +76,26 @@ public class StatisticsGui extends Gui {
                 : "TOP STATS";
 
         List<String> topStatsLore = new ArrayList<>();
+        List<TopStatistic> totalTopList = gameManager.getPlayerManager().getTotalTop("kills");
 
-        for (int i = 0; i < GameValues.STATS_TOP_STATS_LORE.size(); i++) {
-            String lore = getString(i);
-            topStatsLore.add(lore);
-        }
-
-        getInventory().setItem(8, ItemUtils.createItem(topStatsItem, topStatsName, 1, topStatsLore));
-    }
-
-    private String getString(int i) {
-        String lore = GameValues.STATS_TOP_STATS_LORE.get(i);
-        for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
-            if (gameManager.getPlayerManager().getTotalTopWinners() == null) {
-                lore = lore.replace("%top-" + (j+1) + "%", "NONE");
-            } else if (gameManager.getPlayerManager().getTotalTopWinners().get(j) == null) {
-                lore = lore.replace("%top-" + (j+1) + "%", "NONE");
-            } else {
-                String name = gameManager.getPlayerManager().getTotalTopWinners().get(j);
-                lore = lore.replace("%top-" + (j+1) + "%", name);
+        for (String lore : GameValues.STATS_TOP_STATS_LORE) {
+            for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
+                if (totalTopList.size() > j) {
+                    String name = totalTopList.get(j).getName();
+                    int value = totalTopList.get(j).getValue();
+                    lore = lore
+                            .replace("%top-" + (j + 1) + "%", name != null ? name : "None")
+                            .replace("%top-" + (j + 1) + "-value%", name != null ? String.valueOf(value) : String.valueOf(0));
+                } else {
+                    lore = lore
+                            .replace("%top-" + (j + 1) + "%", "None")
+                            .replace("%top-" + (j + 1) + "-value%", String.valueOf(0));
+                }
             }
+            topStatsLore.add(TextUtils.color(lore));
         }
-        return lore;
+
+        getInventory().setItem(8, ItemUtils.createItem(topStatsItem, topStatsName.replace("%top-stats-mode%", totalTopMode), 1, topStatsLore));
     }
 
     @Override

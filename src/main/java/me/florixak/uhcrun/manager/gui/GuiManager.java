@@ -4,6 +4,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.kits.KitsGui;
 import me.florixak.uhcrun.game.perks.PerksGui;
+import me.florixak.uhcrun.statistics.StatisticsGui;
 import me.florixak.uhcrun.teams.TeamGui;
 
 import java.util.ArrayList;

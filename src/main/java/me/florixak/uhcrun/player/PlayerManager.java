@@ -1,10 +1,13 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.statistics.TopStatistic;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,12 +102,16 @@ public class PlayerManager {
         return findTopKillers(getPlayers());
     }
 
-    public List<String> getTotalTopWinners() {
-        // projet všechny uuid foreachem a přidávat k ním + name, to poslat sem
-        return null;
-    }
-    public List<String> getTotalTopKillers() {
-        return null;
+    public List<TopStatistic> getTotalTop(String type) {
+        List<TopStatistic> topTotal = new ArrayList<>();
+        FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+        for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
+            String name = playerData.getString("player-data." + uuid + ".name");
+            int wins = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
+            topTotal.add(new TopStatistic(name, wins));
+        }
+        topTotal.sort((name1, name2) -> Integer.compare(name2.getValue(), name1.getValue()));
+        return topTotal;
     }
 
     public int getMaxPlayers() {
