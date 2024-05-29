@@ -99,6 +99,13 @@ public class PlayerManager {
         return findTopKillers(getPlayers());
     }
 
+    public List<String> getTotalTopWinners() {
+        return null;
+    }
+    public List<String> getTotalTopKillers() {
+        return null;
+    }
+
     public int getMaxPlayers() {
         return GameValues.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
     }

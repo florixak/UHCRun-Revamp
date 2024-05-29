@@ -35,7 +35,7 @@ public class StatisticsGui extends Gui {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-        ItemStack playerStatsIs = XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
+        ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATS_PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(p, uhcPlayer.getName())
                 : XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
@@ -62,45 +62,40 @@ public class StatisticsGui extends Gui {
         }
 
         getInventory().setItem(4, ItemUtils.createItem(
-                playerStatsIs,
+                playerStatsItem,
                 playerStatsName.replace("%player%", uhcPlayer.getName()),
                 1,
                 playerStatsLore));
 
 
-        ItemStack topStatsIs = XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item").toUpperCase())
-                .get().parseItem() == null || config.getString("settings.statistics.player-stats.display-item").equalsIgnoreCase("PLAYER_HEAD")
+        ItemStack topStatsItem = XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
+                .get().parseItem() == null || GameValues.STATS_TOP_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(p, uhcPlayer.getName())
-                : XMaterial.matchXMaterial(config.getString("settings.statistics.player-stats.display-item", "STONE").toUpperCase())
+                : XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem();
 
-        String topStatsName = config.getString("settings.statistics.player-stats.custom-name") != null
-                ? config.getString("settings.statistics.player-stats.custom-name", uhcPlayer.getName())
+        String topStatsName = GameValues.STATS_TOP_STATS_CUST_NAME != null
+                ? config.getString("settings.statistics.top-stats.custom-name", uhcPlayer.getName())
                 : uhcPlayer.getName();
 
         List<String> topStatsLore = new ArrayList<>();
 
         for (int i = 0; i < GameValues.STATS_TOP_STATS_LORE.size(); i++) {
             String lore = TextUtils.color(GameValues.STATS_TOP_STATS_LORE.get(i));
-            for (int j = 1; j <= GameValues.STATS_TOP_STATS_LORE.size(); j++) {
-                lore = lore.replace("%top-" + j + "%", gameManager.getPlayerManager().getTopKillers().get(j).getName());
+            for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
+                if (gameManager.getPlayerManager().getTotalTopWinners() == null) {
+                    lore = lore.replace("%top-" + (j+1) + "%", "NONE");
+                } else if (gameManager.getPlayerManager().getTotalTopWinners().get(j) == null) {
+                    lore = lore.replace("%top-" + (j+1) + "%", "NONE");
+                } else {
+                    String name = gameManager.getPlayerManager().getTotalTopWinners().get(j);
+                    lore = lore.replace("%top-" + (j+1) + "%", name);
+                }
             }
             topStatsLore.add(lore);
         }
 
-        for (String text : config.getStringList("settings.statistics.player-stats.lore")) {
-            playerStatsLore.add(TextUtils.color(text
-                    .replace("%top-1%", uhcPlayer.getName())
-                    .replace("%top-2%", String.valueOf(uhcPlayer.getData().getUHCLevel()))
-                    .replace("%top-3%", String.valueOf(uhcPlayer.getData().getUHCExp()))
-                    .replace("%top-4%", String.valueOf(uhcPlayer.getData().getWins()))
-                    .replace("%top-5%", String.valueOf(uhcPlayer.getData().getLosses()))
-                    .replace("%top-6%", String.valueOf(uhcPlayer.getData().getKills()))
-                    .replace("%top-7%", String.valueOf(uhcPlayer.getData().getDeaths()))
-            ));
-        }
-
-        getInventory().setItem(8, ItemUtils.createItem(new ItemStack(XMaterial.OAK_SIGN.parseMaterial()), "TOP", 1, null));
+        getInventory().setItem(8, ItemUtils.createItem(topStatsItem, topStatsName, 1, topStatsLore));
     }
 
     @Override
