@@ -100,6 +100,7 @@ public class PlayerManager {
     }
 
     public List<String> getTotalTopWinners() {
+        // projet všechny uuid foreachem a přidávat k ním + name, to poslat sem
         return null;
     }
     public List<String> getTotalTopKillers() {

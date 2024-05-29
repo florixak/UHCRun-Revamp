@@ -33,7 +33,6 @@ public class StatisticsGui extends Gui {
         super.init();
         Player p = getWhoOpen();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
         ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATS_PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
@@ -75,27 +74,32 @@ public class StatisticsGui extends Gui {
                 .get().parseItem();
 
         String topStatsName = GameValues.STATS_TOP_STATS_CUST_NAME != null
-                ? config.getString("settings.statistics.top-stats.custom-name", uhcPlayer.getName())
-                : uhcPlayer.getName();
+                ? GameValues.STATS_TOP_STATS_CUST_NAME
+                : "TOP STATS";
 
         List<String> topStatsLore = new ArrayList<>();
 
         for (int i = 0; i < GameValues.STATS_TOP_STATS_LORE.size(); i++) {
-            String lore = TextUtils.color(GameValues.STATS_TOP_STATS_LORE.get(i));
-            for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
-                if (gameManager.getPlayerManager().getTotalTopWinners() == null) {
-                    lore = lore.replace("%top-" + (j+1) + "%", "NONE");
-                } else if (gameManager.getPlayerManager().getTotalTopWinners().get(j) == null) {
-                    lore = lore.replace("%top-" + (j+1) + "%", "NONE");
-                } else {
-                    String name = gameManager.getPlayerManager().getTotalTopWinners().get(j);
-                    lore = lore.replace("%top-" + (j+1) + "%", name);
-                }
-            }
+            String lore = getString(i);
             topStatsLore.add(lore);
         }
 
         getInventory().setItem(8, ItemUtils.createItem(topStatsItem, topStatsName, 1, topStatsLore));
+    }
+
+    private String getString(int i) {
+        String lore = GameValues.STATS_TOP_STATS_LORE.get(i);
+        for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
+            if (gameManager.getPlayerManager().getTotalTopWinners() == null) {
+                lore = lore.replace("%top-" + (j+1) + "%", "NONE");
+            } else if (gameManager.getPlayerManager().getTotalTopWinners().get(j) == null) {
+                lore = lore.replace("%top-" + (j+1) + "%", "NONE");
+            } else {
+                String name = gameManager.getPlayerManager().getTotalTopWinners().get(j);
+                lore = lore.replace("%top-" + (j+1) + "%", name);
+            }
+        }
+        return lore;
     }
 
     @Override

@@ -84,7 +84,7 @@ public class GameValues {
     public static final String STATS_PLAYER_STATS_CUST_NAME = getConfigString("settings.statistics.player-stats.custom-name", "YOUR STATS");
     public static final List<String> STATS_PLAYER_STATS_LORE = getConfigStringList("settings.statistics.player-stats.lore");
 
-    public static final String STATS_TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "STONE");
+    public static final String STATS_TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "PAPER");
     public static final String STATS_TOP_STATS_CUST_NAME = getConfigString("settings.statistics.top-stats.custom-name", "TOP STATS");
     public static final List<String> STATS_TOP_STATS_LORE = getConfigStringList("settings.statistics.top-stats.lore");
 

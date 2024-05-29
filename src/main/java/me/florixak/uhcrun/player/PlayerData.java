@@ -62,7 +62,7 @@ public class PlayerData {
     }
 
     public String getName() {
-        return playerData.getString("player-data." + uhcPlayer.getUUID())
+        return playerData.getString("player-data." + uhcPlayer.getUUID() + ".name");
     }
 
     public double getMoney() {

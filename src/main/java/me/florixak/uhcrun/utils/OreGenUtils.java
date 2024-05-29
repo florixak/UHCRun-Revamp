@@ -38,7 +38,7 @@ public class OreGenUtils {
 
     private static Location getOreLocation(World world, int borderSize) {
         Location loc;
-        Random ran = RandomUtils.getRandom();
+        Random ran = new Random();
 
         do {
             loc = new Location(world, ran.nextInt(borderSize), ran.nextInt(60), ran.nextInt(borderSize));
