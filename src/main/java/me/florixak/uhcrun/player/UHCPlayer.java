@@ -67,6 +67,9 @@ public class UHCPlayer {
     }
 
     public String getName() {
+        if (Bukkit.getPlayer(name) == null) {
+            return getData().getName()
+        }
         return this.name;
     }
 

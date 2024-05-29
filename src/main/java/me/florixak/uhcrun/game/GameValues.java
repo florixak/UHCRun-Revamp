@@ -80,6 +80,14 @@ public class GameValues {
     public static final double ACTIVITY_REWARDS_MONEY = getConfigDouble("settings.rewards.activity.money", 10);
     public static final double ACTIVITY_REWARDS_EXP = getConfigDouble("settings.rewards.activity.uhc-exp", 20);
 
+    public static final String STATS_PLAYER_STATS_DIS_ITEM = getConfigString("settings.statistics.player-stats.display-item", "STONE");
+    public static final String STATS_PLAYER_STATS_CUST_NAME = getConfigString("settings.statistics.player-stats.custom-name", "YOUR STATS");
+    public static final List<String> STATS_PLAYER_STATS_LORE = getConfigStringList("settings.statistics.player-stats.lore");
+
+    public static final String STATS_TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "STONE");
+    public static final String STATS_TOP_STATS_CUST_NAME = getConfigString("settings.statistics.top-stats.custom-name", "TOP STATS");
+    public static final List<String> STATS_TOP_STATS_LORE = getConfigStringList("settings.statistics.top-stats.lore");
+
     private static boolean getConfigBoolean(String path, boolean def) {
       return config.getBoolean(path, def);
     }

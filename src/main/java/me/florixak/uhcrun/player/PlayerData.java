@@ -61,6 +61,10 @@ public class PlayerData {
         return playerData.getConfigurationSection("player-data." + uhcPlayer.getUUID()) != null;
     }
 
+    public String getName() {
+        return playerData.getString("player-data." + uhcPlayer.getUUID())
+    }
+
     public double getMoney() {
         if (VaultHook.hasEconomy()) {
             return VaultHook.getBalance(uhcPlayer.getPlayer());
