@@ -1,9 +1,9 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.kits.Kit;
+import me.florixak.uhcrun.game.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
@@ -16,19 +16,17 @@ import java.util.List;
 
 public class KitsGui extends Gui {
 
-    private UHCPlayer uhcPlayer;
-    private List<Kit> kits;
+    private final List<Kit> kits;
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
         super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_KITS_TITLE));
-        this.uhcPlayer = uhcPlayer;
         this.kits = gameManager.getKitsManager().getKits();
     }
 
     @Override
     public void init() {
         super.init();
-        ItemStack kit_item;
+        ItemStack kitDisplayItem;
 
         for (int i = 0; i < kits.size(); i++) {
             Kit kit = kits.get(i);
@@ -53,9 +51,9 @@ public class KitsGui extends Gui {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
             }
-            kit_item = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getName(), lore);
+            kitDisplayItem = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getName(), lore);
 
-            getInventory().setItem(i, kit_item);
+            getInventory().setItem(i, kitDisplayItem);
         }
     }
 

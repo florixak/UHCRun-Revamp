@@ -22,10 +22,11 @@ public class StatisticsGui extends Gui {
     @Override
     public void init() {
         super.init();
-        load();
+        getInventory().setItem(4, getPlayerStats());
+        getInventory().setItem(8, getTopStats());
     }
 
-    private void load() {
+    public ItemStack getPlayerStats() {
         ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATS_PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
@@ -52,13 +53,14 @@ public class StatisticsGui extends Gui {
             ));
         }
 
-        getInventory().setItem(4, ItemUtils.createItem(
+        return ItemUtils.createItem(
                 playerStatsItem,
                 playerStatsName.replace("%player%", uhcPlayer.getName()),
                 1,
-                playerStatsLore));
+                playerStatsLore);
+    }
 
-
+    public ItemStack getTopStats() {
         ItemStack topStatsItem = XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATS_TOP_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
@@ -91,7 +93,10 @@ public class StatisticsGui extends Gui {
                 topStatsLore.add(TextUtils.color(lore));
             }
         }
-        getInventory().setItem(8, ItemUtils.createItem(topStatsItem, topStatsName.replace("%top-stats-mode%", playerDisplayedTop), 1, topStatsLore));
+        return ItemUtils.createItem(topStatsItem,
+                topStatsName.replace("%top-stats-mode%", playerDisplayedTop),
+                1,
+                topStatsLore);
     }
 
     @Override

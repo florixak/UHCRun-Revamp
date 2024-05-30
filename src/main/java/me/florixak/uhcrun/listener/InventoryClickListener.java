@@ -3,6 +3,7 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
+import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.game.statistics.StatisticsGui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.UHCTeam;
@@ -36,6 +37,10 @@ public class InventoryClickListener implements Listener {
 
         String title = event.getView().getTitle();
 
+        if (!gameManager.isPlaying()) {
+            event.setCancelled(true);
+        }
+
         if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_TEAMS_TITLE))) {
             event.setCancelled(true);
 
@@ -47,9 +52,7 @@ public class InventoryClickListener implements Listener {
                     p.closeInventory();
                 }
             }
-        }
-
-        if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_KITS_TITLE))) {
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_KITS_TITLE))) {
             event.setCancelled(true);
 
             if (gameManager.isPlaying()) return;
@@ -60,12 +63,19 @@ public class InventoryClickListener implements Listener {
                     uhcPlayer.setKit(kit);
                 }
             }
-        }
-
-        if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_STATS_TITLE))) {
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_PERKS_TITLE))) {
             event.setCancelled(true);
-            p.closeInventory();
-            new StatisticsGui(gameManager, uhcPlayer).open();
+
+            if (gameManager.isPlaying()) return;
+
+            for (Perk perk : gameManager.getPerksManager().getPerks()) {
+                if (gameManager.getPerksManager().getPerks().get(event.getSlot()) == perk) {
+                    p.closeInventory();
+                    uhcPlayer.setPerk(perk);
+                }
+            }
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_STATS_TITLE))) {
+            event.setCancelled(true);
 
             if (event.getCurrentItem() == XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
                     .get().parseItem()) {
@@ -79,11 +89,9 @@ public class InventoryClickListener implements Listener {
                             uhcPlayer.getData().setDisplayedTop(displayedTops.get(i + 1));
                     }
                 }
+                p.closeInventory();
+                new StatisticsGui(gameManager, uhcPlayer).open();
             }
-        }
-
-        if (!gameManager.isPlaying()) {
-            event.setCancelled(true);
         }
     }
 

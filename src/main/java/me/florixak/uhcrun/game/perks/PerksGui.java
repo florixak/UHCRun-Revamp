@@ -1,8 +1,8 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.game.perks;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.perks.Perk;
+import me.florixak.uhcrun.game.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -13,15 +13,17 @@ import java.util.List;
 
 public class PerksGui extends Gui {
 
+    private final List<Perk> perks;
+
     public PerksGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 9 * 3, "Perks");
+        super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_PERKS_TITLE));
+        this.perks = gameManager.getPerksManager().getPerks();
     }
 
     @Override
     public void init() {
         super.init();
         ItemStack perk_item;
-        List<Perk> perks = gameManager.getPerksManager().getPerks();
 
         for (int i = 0; i < perks.size(); i++) {
             Perk perk = perks.get(i);

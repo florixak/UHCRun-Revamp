@@ -107,8 +107,8 @@ public class PlayerManager {
         FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
         for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
             String name = playerData.getString("player-data." + uuid + ".name");
-            int wins = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
-            topTotal.add(new TopStatistic(name, wins));
+            int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
+            topTotal.add(new TopStatistic(name, value));
         }
         topTotal.sort((name1, name2) -> Integer.compare(name2.getValue(), name1.getValue()));
         return topTotal;

@@ -278,7 +278,7 @@ public class PlayerData {
 
     public String getDisplayedTop() {
         if (gameManager.isDatabaseConnected()) {
-            return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase();
+            return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
         }
         return playerData.getString("player-data." + uhcPlayer.getUUID() + ".displayedTop", "wins").toLowerCase();
     }
