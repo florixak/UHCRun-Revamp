@@ -126,11 +126,11 @@ settings:
       display-item: PAPER
       custom-name: "&aTOP STATS - %top-stats-mode%"
       lore:
-        - "&f1. %top-1% - %top-1-value%"
-        - "&f2. %top-2% - %top-2-value%"
-        - "&f3. %top-3% - %top-3-value%"
-        - "&f4. %top-4% - %top-4-value%"
-        - "&f5. %top-5% - %top-5-value%"
+        - "&f1. %uhc-top-1% - %uhc-top-1-value%"
+        - "&f2. %uhc-top-2% - %uhc-top-2-value%"
+        - "&f3. %uhc-top-3% - %uhc-top-3-value%"
+        - "&f4. %uhc-top-4% - %uhc-top-4-value%"
+        - "&f5. %uhc-top-5% - %uhc-top-5-value%"
         - " "
         - "&7(Click to change)"
 

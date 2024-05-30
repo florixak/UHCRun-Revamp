@@ -82,12 +82,12 @@ public class StatisticsGui extends Gui {
                         String name = totalTopList.get(j).getName();
                         int value = totalTopList.get(j).getValue();
                         lore = lore
-                                .replace("%top-" + (j + 1) + "%", name != null ? name : "None")
-                                .replace("%top-" + (j + 1) + "-value%", name != null ? String.valueOf(value) : String.valueOf(0));
+                                .replace("%uhc-top-" + (j + 1) + "%", name != null ? name : "None")
+                                .replace("%uhc-top-" + (j + 1) + "-value%", name != null ? String.valueOf(value) : String.valueOf(0));
                     } else {
                         lore = lore
-                                .replace("%top-" + (j + 1) + "%", "None")
-                                .replace("%top-" + (j + 1) + "-value%", String.valueOf(0));
+                                .replace("%uhc-top-" + (j + 1) + "%", "None")
+                                .replace("%uhc-top-" + (j + 1) + "-value%", String.valueOf(0));
                     }
                 }
                 topStatsLore.add(TextUtils.color(lore));
