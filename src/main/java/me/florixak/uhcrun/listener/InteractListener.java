@@ -3,6 +3,12 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
+import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.gui.KitsGui;
+import me.florixak.uhcrun.game.gui.PerksGui;
+import me.florixak.uhcrun.game.statistics.StatisticsGui;
+import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.teams.TeamGui;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,6 +33,7 @@ public class InteractListener implements Listener {
     public void onItemClick(PlayerInteractEvent event) {
 
         Player p = event.getPlayer();
+        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         ItemStack item = p.getInventory().getItemInMainHand();
 
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
@@ -35,21 +42,21 @@ public class InteractListener implements Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("settings.selectors.teams.display-name")))) {
-                    gameManager.getGuiManager().getInventory("teams").openInv(p);
+                        TextUtils.color(GameValues.INV_TEAMS_TITLE))) {
+                    new TeamGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("settings.selectors.kits.display-name")))) {
-                    gameManager.getGuiManager().getInventory("kits").openInv(p);
+                        TextUtils.color(GameValues.INV_KITS_TITLE))) {
+                    // gameManager.getGuiManager().getInventory("kits").openInv(p);
+                    new KitsGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("settings.selectors.perks.display-name")))) {
-                    gameManager.getGuiManager().getInventory("perks").openInv(p);
+                        TextUtils.color(GameValues.INV_PERKS_TITLE))) {
+                    new PerksGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(config.getString("settings.selectors.statistics.display-name")))) {
-                    gameManager.getGuiManager().getInventory("statistics").openInv(p);
-
+                        TextUtils.color(GameValues.INV_STATS_TITLE))) {
+                    new StatisticsGui(gameManager, uhcPlayer).open();
                 }
             }
         }

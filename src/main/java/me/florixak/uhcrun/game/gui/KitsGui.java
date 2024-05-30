@@ -1,15 +1,14 @@
-package me.florixak.uhcrun.game.kits;
+package me.florixak.uhcrun.game.gui;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.manager.gui.Gui;
+import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -17,17 +16,19 @@ import java.util.List;
 
 public class KitsGui extends Gui {
 
-    public KitsGui(GameManager gameManager) {
-        super(gameManager, 9 * 3, "Kits");
+    private UHCPlayer uhcPlayer;
+    private List<Kit> kits;
+
+    public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
+        super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_KITS_TITLE));
+        this.uhcPlayer = uhcPlayer;
+        this.kits = gameManager.getKitsManager().getKits();
     }
 
     @Override
     public void init() {
         super.init();
         ItemStack kit_item;
-        List<Kit> kits = gameManager.getKitsManager().getKits();
-        Player p = getWhoOpen();
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
         for (int i = 0; i < kits.size(); i++) {
             Kit kit = kits.get(i);
@@ -59,11 +60,11 @@ public class KitsGui extends Gui {
     }
 
     @Override
-    public void openInv(Player p) {
+    public void open() {
         if (!GameValues.KITS_ENABLED) {
-            p.sendMessage(Messages.KITS_DISABLED.toString());
+            uhcPlayer.sendMessage(Messages.KITS_DISABLED.toString());
             return;
         }
-        super.openInv(p);
+        super.open();
     }
 }

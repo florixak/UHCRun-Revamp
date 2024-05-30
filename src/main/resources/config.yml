@@ -101,6 +101,8 @@ settings:
     # If false, player gets each kill to statistics immediately
     add-up-game-ends: false
 
+    displayed-tops: ["Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level"]
+
     player-level:
       # Players will gain xp and increase their uhc run level
       enabled: true
@@ -129,6 +131,8 @@ settings:
         - "&f3. %top-3% - %top-3-value%"
         - "&f4. %top-4% - %top-4-value%"
         - "&f5. %top-5% - %top-5-value%"
+        - " "
+        - "&7(Click to change)"
 
   # Rewards
   rewards:
@@ -184,7 +188,7 @@ settings:
     teams:
       enabled: true
       display-name: "&fTeams"
-      material: NETHER_STAR
+      material: WHITE_WOOL
       slot: 0
     kits:
       enabled: true

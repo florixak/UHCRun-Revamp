@@ -38,23 +38,19 @@ public class PlayerListener implements Listener {
 
         if (!isPlaying && isFull) {
             if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                Bukkit.getLogger().info("TEST - Game is not playing and full and has perms (kick random player)");
                 UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
                 while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
                     randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
                 }
                 randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
             } else {
-                Bukkit.getLogger().info("TEST - Game is playing and full (kick)");
                 uhcPlayer.kick(Messages.GAME_FULL.toString());
                 return;
             }
         } else if (isPlaying && isFull) {
-            Bukkit.getLogger().info("TEST - Game is playing and full (kick)");
             uhcPlayer.kick(Messages.GAME_FULL.toString());
             return;
         } else if (isPlaying) {
-            Bukkit.getLogger().info("TEST - Game is playing (set spectator)");
             uhcPlayer.setSpectator();
             return;
         }

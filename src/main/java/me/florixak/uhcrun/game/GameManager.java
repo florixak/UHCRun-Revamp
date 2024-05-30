@@ -8,12 +8,13 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.game.kits.KitsManager;
-import me.florixak.uhcrun.game.oreGen.OreGenManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
-import me.florixak.uhcrun.listener.*;
+import me.florixak.uhcrun.listener.ChatListener;
+import me.florixak.uhcrun.listener.GameListener;
+import me.florixak.uhcrun.listener.InteractListener;
+import me.florixak.uhcrun.listener.InventoryClickListener;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.manager.*;
-import me.florixak.uhcrun.manager.gui.GuiManager;
 import me.florixak.uhcrun.manager.lobby.LobbyManager;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.manager.scoreboard.ScoreboardManager;
@@ -64,7 +65,6 @@ public class GameManager {
     private final PerksManager perksManager;
     private final TaskManager taskManager;
     private final TeamManager teamManager;
-    private final GuiManager guiManager;
     private final CustomDropManager customDropManager;
     private final SoundManager soundManager;
     private final RecipeManager recipeManager;
@@ -91,7 +91,6 @@ public class GameManager {
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
-        this.guiManager = new GuiManager(this);
         this.customDropManager = new CustomDropManager(this);
         this.taskManager = new TaskManager(this);
         this.deathChestManager = new DeathChestManager(this);
@@ -130,7 +129,6 @@ public class GameManager {
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
         // TODO getPerksManager().loadPerks();
-        getGuiManager().loadInventories();
 
         getTaskManager().runGameChecking();
         getTaskManager().runScoreboardUpdate();
@@ -371,10 +369,6 @@ public class GameManager {
 
     public TeamManager getTeamManager() {
         return teamManager;
-    }
-
-    public GuiManager getGuiManager() {
-        return guiManager;
     }
 
     public CustomDropManager getCustomDropManager() {

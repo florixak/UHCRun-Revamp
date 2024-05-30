@@ -87,6 +87,17 @@ public class GameValues {
     public static final String STATS_TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "PAPER");
     public static final String STATS_TOP_STATS_CUST_NAME = getConfigString("settings.statistics.top-stats.custom-name", "TOP STATS");
     public static final List<String> STATS_TOP_STATS_LORE = getConfigStringList("settings.statistics.top-stats.lore");
+    public static final List<String> STATS_DISPLAYED_TOPS = getConfigStringList("settings.statistics.displayed-tops");
+
+    public static final String INV_TEAMS_TITLE = getConfigString("settings.selectors.teams.display-name", "Teams");
+    public static final String INV_TEAMS_DIS_ITEM = getConfigString("settings.selectors.teams.display-item", "WHITE_WOOL");
+    public static final String INV_KITS_TITLE = getConfigString("settings.selectors.kits.display-name", "Kits");
+    public static final String INV_KITS_DIS_ITEM = getConfigString("settings.selectors.kits.display-item", "IRON_PICKAXE");
+    public static final String INV_PERKS_TITLE = getConfigString("settings.selectors.perks.display-name", "Perks");
+    public static final String INV_PERKS_DIS_ITEM = getConfigString("settings.selectors.perks.display-item", "ARROW");
+    public static final String INV_STATS_TITLE = getConfigString("settings.selectors.stats.display-name", "Statistics");
+    public static final String INV_STATS_DIS_ITEM = getConfigString("settings.selectors.stats.display-item", "PAPER");
+
 
     private static boolean getConfigBoolean(String path, boolean def) {
       return config.getBoolean(path, def);

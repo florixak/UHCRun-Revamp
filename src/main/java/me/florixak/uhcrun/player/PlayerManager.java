@@ -3,7 +3,7 @@ package me.florixak.uhcrun.player;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.statistics.TopStatistic;
+import me.florixak.uhcrun.game.statistics.TopStatistic;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.RandomUtils;
 import org.bukkit.Bukkit;

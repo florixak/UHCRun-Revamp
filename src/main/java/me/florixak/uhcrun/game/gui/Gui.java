@@ -1,10 +1,10 @@
-package me.florixak.uhcrun.manager.gui;
+package me.florixak.uhcrun.game.gui;
 
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -15,20 +15,17 @@ import java.util.Objects;
 
 public class Gui implements InventoryHolder {
 
+    protected UHCPlayer uhcPlayer;
     protected GameManager gameManager;
-    private Player whoOpen;
     private Inventory inventory;
     private int size;
     private String title;
 
-    public Gui(GameManager gameManager, int size, String title) {
+    public Gui(GameManager gameManager, UHCPlayer uhcPlayer, int size, String title) {
         this.gameManager = gameManager;
+        this.uhcPlayer = uhcPlayer;
         this.size = size;
         this.title = title;
-    }
-
-    public Player getWhoOpen() {
-        return this.whoOpen;
     }
 
     public void setSize(int slots) {
@@ -67,10 +64,9 @@ public class Gui implements InventoryHolder {
         return item;
     }
 
-    public void openInv(Player p) {
-        this.whoOpen = p;
+    public void open() {
         init();
-        p.openInventory(inventory);
+        uhcPlayer.openInventory(getInventory());
     }
 
     @Override

@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.HashSet;
-import java.util.Random;
 
 public class TeleportUtils {
 

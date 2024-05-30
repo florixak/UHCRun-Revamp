@@ -16,6 +16,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -282,6 +283,9 @@ public class UHCPlayer {
     public void sendMessage(String message) {
         if (message == null || message.isEmpty() || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));
+    }
+    public void openInventory(Inventory inventory) {
+        getPlayer().openInventory(inventory);
     }
     public void sendHotBarMessage(String message) {
         if (message == null || message.isEmpty() || !isOnline()) return;

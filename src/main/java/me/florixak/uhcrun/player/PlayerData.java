@@ -54,6 +54,8 @@ public class PlayerData {
         playerData.set("player-data." + uhcPlayer.getUUID() + ".assists", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
 
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins");
+
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
@@ -271,6 +273,24 @@ public class PlayerData {
 
         if (getUHCExp() >= getRequiredUHCExp()) {
             addUHCLevel();
+        }
+    }
+
+    public String getDisplayedTop() {
+        if (gameManager.isDatabaseConnected()) {
+            return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase();
+        }
+        return playerData.getString("player-data." + uhcPlayer.getUUID() + ".displayedTop", "wins").toLowerCase();
+    }
+
+    public void setDisplayedTop(String topMode) {
+        if (getDisplayedTop().equalsIgnoreCase(topMode)) return;
+
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths() + topMode.toLowerCase());
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getData().setDisplayedTop(uhcPlayer.getUUID(), topMode.toLowerCase());
         }
     }
 

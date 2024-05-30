@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.statistics;
+package me.florixak.uhcrun.game.statistics;
 
 public class TopStatistic {
 
