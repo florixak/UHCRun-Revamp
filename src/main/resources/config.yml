@@ -101,7 +101,7 @@ settings:
     # If false, player gets each kill to statistics immediately
     add-up-game-ends: false
 
-    displayed-tops: ["Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level"]
+    displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ]
 
     player-level:
       # Players will gain xp and increase their uhc run level
@@ -161,7 +161,7 @@ settings:
 
   # End game commands - commands which is executed on game ends
   # IN PROGRESS...
-  end-game-commands: []
+  end-game-commands: [ ]
 
   # Tablist
   tablist:
@@ -187,27 +187,27 @@ settings:
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true
-      display-name: "&fTeams"
+      display-name: "&aTeams"
       material: WHITE_WOOL
       slot: 0
     kits:
       enabled: true
-      display-name: "&fKits"
+      display-name: "&aKits"
       material: IRON_PICKAXE
       slot: 3
     perks:
       enabled: true
-      display-name: "&fPerks"
+      display-name: "&aPerks"
       material: ARROW
       slot: 5
     custom-crafts:
       enabled: true
-      display-name: "&fCustom Crafts"
+      display-name: "&aCustom Crafts"
       material: CRAFTING_TABLE
       slot: 4
     statistics:
       enabled: true
-      display-name: "&fStatistics"
+      display-name: "&aStatistics"
       material: PAPER # if null then player head
       slot: 8
 

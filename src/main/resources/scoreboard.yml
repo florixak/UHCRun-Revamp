@@ -16,8 +16,8 @@ scoreboard:
     - "&fStart in: &a%countdown%"
     - "&fPlayers: &a%online%&f/&2%max-online%"
     - ""
-    - "&fTeam: &a%team%"
-    - "&fKit: &a%kit%"
+    - "&fTeam: %team%"
+    - "&fKit: %kit%"
     - ""
     - "&7www.florixak.tk"
 

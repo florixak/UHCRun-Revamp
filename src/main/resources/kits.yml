@@ -1,6 +1,7 @@
 #
 # Kit creating example:
 # {kit_name}:
+#   display-name: "{name}"
 #   display-item: {item}
 #   cost: {cost}
 #   items:
@@ -12,6 +13,7 @@
 
 kits:
   Starter:
+    display-name: "&aStarter"
     display-item: WOODEN_PICKAXE
     cost: 0
     items:
@@ -31,6 +33,7 @@ kits:
           DIG_SPEED: 3
           DURABILITY: 3
   Miner:
+    display-name: "&fMiner"
     display-item: DIAMOND_PICKAXE
     cost: 100
     items:
@@ -52,6 +55,7 @@ kits:
       COOKED_PORKCHOP:
         amount: 16
   Librarian:
+    display-name: "&fLibrarian"
     display-item: ENCHANTED_BOOK
     cost: 100
     items:
@@ -74,6 +78,7 @@ kits:
       EXPERIENCE_BOTTLE:
         amount: 32
   Healer:
+    display-name: "&fHealer"
     display-item: GOLDEN_APPLE
     cost: 30
     items:
@@ -90,6 +95,7 @@ kits:
       GOLDEN_APPLE:
         amount: 3
   Teleporter:
+    display-name: "&fTeleporter"
     display-item: ENDER_PEARL
     cost: 80
     items:
@@ -116,6 +122,7 @@ kits:
           PROTECTION_FALL: 3
           DURABILITY: 3
   Trapper:
+    display-name: "&fTrapper"
     display-item: STICKY_PISTON
     cost: 50
     items:

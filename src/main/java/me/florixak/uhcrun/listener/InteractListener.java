@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.listener;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
@@ -11,7 +10,6 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.TeamGui;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,11 +20,9 @@ import org.bukkit.inventory.ItemStack;
 public class InteractListener implements Listener {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
     public InteractListener(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     @EventHandler

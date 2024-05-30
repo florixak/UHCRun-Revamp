@@ -280,13 +280,13 @@ public class PlayerData {
         if (gameManager.isDatabaseConnected()) {
             return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
         }
-        return playerData.getString("player-data." + uhcPlayer.getUUID() + ".displayedTop", "wins").toLowerCase();
+        return playerData.getString("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins").toLowerCase();
     }
 
     public void setDisplayedTop(String topMode) {
         if (getDisplayedTop().equalsIgnoreCase(topMode)) return;
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", getDeaths() + topMode.toLowerCase());
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", topMode.toLowerCase());
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         if (gameManager.isDatabaseConnected()) {

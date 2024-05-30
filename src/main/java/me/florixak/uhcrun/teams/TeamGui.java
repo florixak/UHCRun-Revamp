@@ -14,8 +14,7 @@ import java.util.List;
 public class TeamGui extends Gui {
 
     public TeamGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 27, "Teams");
-        this.uhcPlayer = uhcPlayer;
+        super(gameManager, uhcPlayer, 3 * 9, TextUtils.color(GameValues.INV_TEAMS_TITLE));
     }
 
     @Override

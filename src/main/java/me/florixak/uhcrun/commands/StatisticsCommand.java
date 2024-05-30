@@ -3,6 +3,7 @@ package me.florixak.uhcrun.commands;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.gui.Gui;
+import me.florixak.uhcrun.game.statistics.StatisticsGui;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,15 +26,10 @@ public class StatisticsCommand implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        Gui stats_gui = gameManager.getGuiManager().getInventory("statistics");
 
         if (args.length == 0) {
-            stats_gui.openInv(p);
-        } else {
-            stats_gui.openInv(p);
+            new StatisticsGui(gameManager, gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId())).open();
         }
-
-
         return true;
     }
 }

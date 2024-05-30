@@ -20,7 +20,7 @@ public class KitsGui extends Gui {
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
         super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_KITS_TITLE));
-        this.kits = gameManager.getKitsManager().getKits();
+        this.kits = gameManager.getKitsManager().getKitsList();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class KitsGui extends Gui {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
             }
-            kitDisplayItem = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getName(), lore);
+            kitDisplayItem = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getDisplayName(), lore);
 
             getInventory().setItem(i, kitDisplayItem);
         }

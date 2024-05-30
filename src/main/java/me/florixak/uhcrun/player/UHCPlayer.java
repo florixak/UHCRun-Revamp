@@ -147,7 +147,7 @@ public class UHCPlayer {
         if (this.kit == kit) return;
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString()
-                .replace("%kit%", kit.getName()));
+                .replace("%kit%", kit.getDisplayName()));
         sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
     }
 
@@ -191,7 +191,7 @@ public class UHCPlayer {
                     .replace("%money%", String.valueOf(getData().getMoney()))
                     .replace("%current-money%", String.valueOf(getData().getMoney()-getKit().getCost()))
                     .replace("%kit-cost%", String.valueOf(getKit().getCost()))
-                    .replace("%kit%", getKit().getName())
+                    .replace("%kit%", getKit().getDisplayName())
             );
             getData().withdrawMoney(getKit().getCost());
             getKit().giveKit(this);

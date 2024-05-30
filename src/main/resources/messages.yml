@@ -72,7 +72,7 @@ Messages:
     solo: "Solo"
 
   kits:
-    selected: "&a[!] &fKit %kit% was selected!"
+    selected: "&a[!] &fKit %kit% &fwas selected!"
     disabled: "&c[!] &fKits are disabled!"
     inv-selected: "&aSelected"
     sb-selected-none: "None"
@@ -81,7 +81,7 @@ Messages:
     money-deduct: "&e[!] &f%money% - %kit-cost% = %current-money% (kit %kit%)"
 
   perks:
-    selected: "&a[!] &fPerk %perk% was selected!"
+    selected: "&a[!] &fPerk %perk% &fwas selected!"
     disabled: "&c[!] &Perks are disabled!"
     inv-selected: "&aSelected"
     sb-selected-none: "None"

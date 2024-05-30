@@ -57,8 +57,8 @@ public class InventoryClickListener implements Listener {
 
             if (gameManager.isPlaying()) return;
 
-            for (Kit kit : gameManager.getKitsManager().getKits()) {
-                if (gameManager.getKitsManager().getKits().get(event.getSlot()) == kit) {
+            for (Kit kit : gameManager.getKitsManager().getKitsList()) {
+                if (gameManager.getKitsManager().getKitsList().get(event.getSlot()) == kit) {
                     p.closeInventory();
                     uhcPlayer.setKit(kit);
                 }
@@ -77,20 +77,21 @@ public class InventoryClickListener implements Listener {
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_STATS_TITLE))) {
             event.setCancelled(true);
 
-            if (event.getCurrentItem() == XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
-                    .get().parseItem()) {
-                String displayedTop = uhcPlayer.getData().getDisplayedTop();
-                List<String> displayedTops = GameValues.STATS_DISPLAYED_TOPS;
-                for (int i = 0; i < displayedTops.size(); i++) {
-                    if (displayedTop.equalsIgnoreCase(displayedTops.get(i))) {
-                        if (displayedTops.get(i).equalsIgnoreCase(displayedTops.get(displayedTops.size() - 1)))
-                            uhcPlayer.getData().setDisplayedTop(displayedTops.get(0));
-                        else
-                            uhcPlayer.getData().setDisplayedTop(displayedTops.get(i + 1));
+            if (event.getCurrentItem().getItemMeta() != null) {
+                if (event.getRawSlot() == 8) {
+                    String displayedTop = uhcPlayer.getData().getDisplayedTop();
+                    List<String> displayedTops = GameValues.STATS_DISPLAYED_TOPS;
+                    for (int i = 0; i < displayedTops.size(); i++) {
+                        if (displayedTop.equalsIgnoreCase(displayedTops.get(i))) {
+                            if (displayedTops.get(i).equalsIgnoreCase(displayedTops.get(displayedTops.size() - 1)))
+                                uhcPlayer.getData().setDisplayedTop(displayedTops.get(0));
+                            else
+                                uhcPlayer.getData().setDisplayedTop(displayedTops.get(i + 1));
+                        }
                     }
+                    p.closeInventory();
+                    new StatisticsGui(gameManager, uhcPlayer).open();
                 }
-                p.closeInventory();
-                new StatisticsGui(gameManager, uhcPlayer).open();
             }
         }
     }

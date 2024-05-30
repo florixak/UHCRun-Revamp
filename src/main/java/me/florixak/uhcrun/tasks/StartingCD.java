@@ -5,6 +5,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.kits.KitsGui;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -42,7 +43,7 @@ public class StartingCD extends BukkitRunnable {
 
         if (gameManager.getKitsManager().willOpenWhenStarting() && countdown == gameManager.getKitsManager().getOpenWhenStartingAt()) {
             gameManager.getPlayerManager().getOnlineList()
-                    .forEach(uhcPlayer -> gameManager.getGuiManager().getInventory("kits").openInv(uhcPlayer.getPlayer()));
+                    .forEach(uhcPlayer -> new KitsGui(gameManager, uhcPlayer).open());
         }
 
         if (countdown <= startWarning) {
