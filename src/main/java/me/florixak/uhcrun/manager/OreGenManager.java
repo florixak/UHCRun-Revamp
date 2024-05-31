@@ -49,7 +49,7 @@ public class OreGenManager {
             if (minVein <= 0 || maxVein <= 0 || spawnAmount <= 0) return;
             if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
 
-            OreGen oreGen = new OreGen(material, spawnAmount, minVein, maxVein);
+            OreGen oreGen = new OreGen(material, minVein, maxVein, spawnAmount);
 
             Bukkit.getLogger().info("_______Ore Gen Load Test_______");
             Bukkit.getLogger().info(oreGen.getMaterial().toString() + " material");

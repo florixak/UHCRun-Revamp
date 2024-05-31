@@ -19,8 +19,6 @@ public class OreGenUtils {
     private static HashSet<Material> bad_blocks = new HashSet<>();
 
     static {
-        System.out.println("OreGen utils init!");
-
         bad_blocks.add(XMaterial.WATER.parseMaterial());
         bad_blocks.add(XMaterial.LAVA.parseMaterial());
         bad_blocks.add(XMaterial.AIR.parseMaterial());

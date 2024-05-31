@@ -105,18 +105,22 @@ custom-drops:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   AZALEA_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   BIRCH_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   DARK_OAK_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   FLOWERING_AZALEA_LEAVES:
     exp: 0
     drops:
@@ -125,15 +129,19 @@ custom-drops:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   MANGROVE_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   OAK_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]
   SPRUCE_LEAVES:
     exp: 0
     drops:
       APPLE: [ 0, 1 ]
+      AIR: [ 0 ]

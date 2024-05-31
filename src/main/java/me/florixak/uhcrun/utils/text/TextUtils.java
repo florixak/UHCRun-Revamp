@@ -50,7 +50,7 @@ public class TextUtils {
     }
 
     public static String toCamelCaseText(String text) {
-        String[] words = text.split("_");
+        String[] words = text.split(" ");
         StringBuilder sb = new StringBuilder();
         for (String word : words) {
             sb.append(word.substring(0, 1).toUpperCase());

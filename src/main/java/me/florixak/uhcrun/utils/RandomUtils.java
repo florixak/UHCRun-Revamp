@@ -9,7 +9,6 @@ public class RandomUtils {
 
     static {
         RandomUtils.r = new Random();
-        System.out.println("Random utils init!");
     }
 
     public static Random getRandom() {
