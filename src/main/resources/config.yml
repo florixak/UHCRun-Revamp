@@ -101,14 +101,16 @@ settings:
     # If false, player gets each kill to statistics immediately
     add-up-game-ends: false
 
+    # Options: [ Wins, Kills, Deaths, Assists, Losses, Games-Played, UHC-Level ]
+    # Need to be in []
     displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ]
 
-    player-level:
+    uhc-level:
       # Players will gain xp and increase their uhc run level
       enabled: true
       first-level: 0
       first-required-exp: 100.0
-      required-exp-multiplier: 3.75
+      exp-multiplier: 3.75
 
     player-stats:
       display-item: PLAYER_HEAD
@@ -124,7 +126,7 @@ settings:
         - "&fDeaths: &a%uhc-deaths%"
     top-stats:
       display-item: PAPER
-      custom-name: "&aTOP STATS - %top-stats-mode%"
+      custom-name: "&aTop Stats - %top-stats-mode%"
       lore:
         - "&f1. %uhc-top-1% - %uhc-top-1-value%"
         - "&f2. %uhc-top-2% - %uhc-top-2-value%"
@@ -132,7 +134,7 @@ settings:
         - "&f4. %uhc-top-4% - %uhc-top-4-value%"
         - "&f5. %uhc-top-5% - %uhc-top-5-value%"
         - " "
-        - "&7(Click to change)"
+        - "&7(Click to change...)"
 
   # Rewards
   rewards:

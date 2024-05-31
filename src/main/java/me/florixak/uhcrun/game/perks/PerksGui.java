@@ -16,7 +16,7 @@ public class PerksGui extends Gui {
     private final List<Perk> perks;
 
     public PerksGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_PERKS_TITLE));
+        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_PERKS_TITLE));
         this.perks = gameManager.getPerksManager().getPerks();
     }
 

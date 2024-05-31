@@ -19,21 +19,28 @@ import java.util.List;
 
 public class RecipeManager {
 
-    private final FileConfiguration recipe_config;
-
+    private final FileConfiguration recipeConfig;
     private List<ShapedRecipe> recipes;
 
     public RecipeManager(GameManager gameManager) {
-        this.recipe_config = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
+        this.recipeConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
         this.recipes = new ArrayList<>();
     }
 
     public void registerRecipes() {
+        loadRecipes();
+        for (ShapedRecipe recipe : recipes) {
+            Bukkit.getServer().addRecipe(recipe);
+            Bukkit.getLogger().info("Recipe " + recipe.toString() + " was registered!");
+        }
+    }
 
-        if (recipe_config.getConfigurationSection("custom-recipes") == null) return;
+    public void loadRecipes() {
 
-        for (String recipe : recipe_config.getConfigurationSection("custom-recipes").getKeys(false)) {
-            ConfigurationSection recipeSection = recipe_config.getConfigurationSection("custom-recipes." + recipe);
+        if (recipeConfig.getConfigurationSection("custom-recipes") == null) return;
+
+        for (String recipe : recipeConfig.getConfigurationSection("custom-recipes").getKeys(false)) {
+            ConfigurationSection recipeSection = recipeConfig.getConfigurationSection("custom-recipes." + recipe);
             String itemName = recipe.toUpperCase();
             int amount = recipeSection.getInt("amount");
             ItemStack item = new ItemStack(XMaterial.matchXMaterial(itemName).get().parseMaterial(), amount);
@@ -50,28 +57,31 @@ public class RecipeManager {
 
             ShapedRecipe itemRecipe = new ShapedRecipe(new NamespacedKey(UHCRun.getInstance(), recipe.toLowerCase()), item);
 
-            itemRecipe.shape("ABC", "DEF", "GHI");
+            itemRecipe.shape(
+                            "ABC",
+                            "DEF",
+                            "GHI"
+            );
 
             itemRecipe.setIngredient('A', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".top-left", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".top-left").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('B', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".top-middle", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".top-middle").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('C', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".top-right", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".top-right").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('D', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".middle-left", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".middle-left").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('E', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".middle", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".middle").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('F', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".middle-right", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".middle-right").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('G', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".bottom-left", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-left").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('H', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".bottom-middle", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-middle").toUpperCase()).get().parseMaterial());
             itemRecipe.setIngredient('I', XMaterial.matchXMaterial(
-                    recipe_config.getString("custom-recipes." + recipe + ".bottom-right", "BARRIER").toUpperCase()).get().parseMaterial());
+                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-right").toUpperCase()).get().parseMaterial());
 
-            Bukkit.getServer().addRecipe(itemRecipe);
             this.recipes.add(itemRecipe);
         }
     }

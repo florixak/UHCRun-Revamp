@@ -25,9 +25,7 @@ import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
-import me.florixak.uhcrun.utils.TeleportUtils;
-import me.florixak.uhcrun.utils.TimeUtils;
-import me.florixak.uhcrun.utils.Utils;
+import me.florixak.uhcrun.utils.*;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.Bukkit;
@@ -49,27 +47,27 @@ public class GameManager {
     private final UHCRun plugin;
     private final FileConfiguration config;
 
-    private static GameManager gameManager;
     private GameState gameState;
 
     private MySQL mysql;
     private SQLGetter data;
 
+    private static GameManager gameManager;
     private final ConfigManager configManager;
     private final PlayerManager playerManager;
+    private final TeamManager teamManager;
+    private final DeathmatchManager deathmatchManager;
+    private final PerksManager perksManager;
+    private final KitsManager kitsManager;
+    private final TaskManager taskManager;
+    private final BorderManager borderManager;
     private final ScoreboardManager scoreboardManager;
     private final TabManager tabManager;
     private final LobbyManager lobbyManager;
-    private final BorderManager borderManager;
-    private final KitsManager kitsManager;
-    private final PerksManager perksManager;
-    private final TaskManager taskManager;
-    private final TeamManager teamManager;
     private final CustomDropManager customDropManager;
     private final SoundManager soundManager;
     private final RecipeManager recipeManager;
     private final DeathChestManager deathChestManager;
-    private final DeathmatchManager deathmatchManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
 
@@ -82,12 +80,11 @@ public class GameManager {
 
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
-
+        this.borderManager = new BorderManager();
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
         this.tabManager = new TabManager(this);
         this.lobbyManager = new LobbyManager(this);
-        this.borderManager = new BorderManager();
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
         this.teamManager = new TeamManager(this);
@@ -99,6 +96,8 @@ public class GameManager {
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager(this);
         this.worldManager = new WorldManager();
+
+
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }

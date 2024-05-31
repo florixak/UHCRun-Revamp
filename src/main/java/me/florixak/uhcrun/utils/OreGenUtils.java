@@ -19,6 +19,8 @@ public class OreGenUtils {
     private static HashSet<Material> bad_blocks = new HashSet<>();
 
     static {
+        System.out.println("OreGen utils init!");
+
         bad_blocks.add(XMaterial.WATER.parseMaterial());
         bad_blocks.add(XMaterial.LAVA.parseMaterial());
         bad_blocks.add(XMaterial.AIR.parseMaterial());
@@ -38,10 +40,10 @@ public class OreGenUtils {
 
     private static Location getOreLocation(World world, int borderSize) {
         Location loc;
-        Random ran = new Random();
+        Random ran = RandomUtils.getRandom();
 
         do {
-            loc = new Location(world, ran.nextInt(borderSize), ran.nextInt(60), ran.nextInt(borderSize));
+            loc = new Location(world, ran.nextInt(borderSize), RandomUtils.randomInteger(-64, 60), ran.nextInt(borderSize));
         } while (!isLocationSafe(loc));
 
         return loc;

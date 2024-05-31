@@ -16,14 +16,14 @@ import java.util.List;
 public class StatisticsGui extends Gui {
 
     public StatisticsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 9, TextUtils.color(GameValues.INV_STATS_TITLE));
+        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_STATS_TITLE));
     }
 
     @Override
     public void init() {
         super.init();
-        getInventory().setItem(4, getPlayerStats());
-        getInventory().setItem(8, getTopStats());
+        getInventory().setItem(GameValues.STATS_PLAYER_STATS_SLOT, getPlayerStats());
+        getInventory().setItem(GameValues.STATS_TOP_SLOT, getTopStats());
     }
 
     public ItemStack getPlayerStats() {
@@ -93,7 +93,7 @@ public class StatisticsGui extends Gui {
             }
         }
         return ItemUtils.createItem(topStatsItem,
-                topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
+                topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toCamelCaseText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
     }

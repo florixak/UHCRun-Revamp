@@ -302,7 +302,7 @@ public class PlayerData {
     }
 
     public double setRequiredUHCExp() {
-        return getRequiredUHCExp() * GameValues.REQUIRED_EXP_MULTIPLIER;
+        return getRequiredUHCExp() * GameValues.EXP_MULTIPLIER;
     }
 
     public void addWinOrLose() {

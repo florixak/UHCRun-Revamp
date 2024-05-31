@@ -19,7 +19,7 @@ public class KitsGui extends Gui {
     private final List<Kit> kits;
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 9 * 3, TextUtils.color(GameValues.INV_KITS_TITLE));
+        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_KITS_TITLE));
         this.kits = gameManager.getKitsManager().getKitsList();
     }
 

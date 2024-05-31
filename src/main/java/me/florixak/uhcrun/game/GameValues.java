@@ -13,6 +13,7 @@ public class GameValues {
     private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
     public static int ERROR_INT_VALUE = -1;
+    public static int COLUMNS = 9;
 
     public static final World GAME_WORLD = Bukkit.getWorld("world");
 
@@ -53,7 +54,6 @@ public class GameValues {
 
     public static final double BASE_REWARD = getConfigDouble("settings.rewards.base-reward", 100);
     public static final double REWARD_COEFFICIENT = getConfigDouble("settings.rewards.reward-coefficient", 1);
-    public static final double REQUIRED_EXP_MULTIPLIER = getConfigDouble("settings.player-level.required-exp-multiplier", 1.2);
 
     public static final double MONEY_FOR_WIN = getConfigDouble("settings.rewards.win.money", 0);
     public static final double UHC_EXP_FOR_WIN = getConfigInt("settings.rewards.win.uhc-exp", 0);
@@ -72,8 +72,10 @@ public class GameValues {
     public static final boolean BROADCAST_ENABLED = getConfigBoolean("settings.auto-broadcast.enabled", true);
     public static final int BROADCAST_INTERVAL = getConfigInt("settings.auto-broadcast.period", 300);
 
-    public static final double FIRST_UHC_LEVEL = getConfigDouble("settings.statistics.player-level.first-uhc-level", 0);
-    public static final double FIRST_REQUIRED_EXP = getConfigDouble("settings.statistics.player-level.first-required-exp", 0);
+    public static final boolean UHC_LEVEL_ENABLED = getConfigBoolean("settings.statistics.uhc-level.enabled", true);
+    public static final int FIRST_UHC_LEVEL = getConfigInt("settings.statistics.uhc-level.first-uhc-level", 0);
+    public static final double FIRST_REQUIRED_EXP = getConfigDouble("settings.statistics.uhc-level.first-required-exp", 100.0);
+    public static final double EXP_MULTIPLIER = getConfigDouble("settings.statistics.uhc-level.exp-multiplier", 3.75);
 
     public static final boolean ACTIVITY_REWARDS_ENABLED = getConfigBoolean("settings.rewards.activity.enabled", true);
     public static final int ACTIVITY_REWARDS_INTERVAL = getConfigInt("settings.rewards.activity.period", 300);
@@ -83,11 +85,13 @@ public class GameValues {
     public static final String STATS_PLAYER_STATS_DIS_ITEM = getConfigString("settings.statistics.player-stats.display-item", "STONE");
     public static final String STATS_PLAYER_STATS_CUST_NAME = getConfigString("settings.statistics.player-stats.custom-name", "YOUR STATS");
     public static final List<String> STATS_PLAYER_STATS_LORE = getConfigStringList("settings.statistics.player-stats.lore");
+    public static final int STATS_PLAYER_STATS_SLOT = 13;
 
     public static final String STATS_TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "PAPER");
     public static final String STATS_TOP_STATS_CUST_NAME = getConfigString("settings.statistics.top-stats.custom-name", "TOP STATS");
     public static final List<String> STATS_TOP_STATS_LORE = getConfigStringList("settings.statistics.top-stats.lore");
     public static final List<String> STATS_DISPLAYED_TOPS = getConfigStringList("settings.statistics.displayed-tops");
+    public static final int STATS_TOP_SLOT = 17;
 
     public static final String INV_TEAMS_TITLE = getConfigString("settings.selectors.teams.display-name", "Teams");
     public static final String INV_TEAMS_DIS_ITEM = getConfigString("settings.selectors.teams.display-item", "BARRIER");

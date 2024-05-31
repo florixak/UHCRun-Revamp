@@ -101,3 +101,39 @@ custom-drops:
     exp: 20
     drops:
       OAK_PLANKS: [ 4 ]
+  ACACIA_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  AZALEA_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  BIRCH_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  DARK_OAK_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  FLOWERING_AZALEA_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  JUNGLE_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  MANGROVE_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  OAK_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]
+  SPRUCE_LEAVES:
+    exp: 0
+    drops:
+      APPLE: [ 0, 1 ]

@@ -69,6 +69,10 @@ public class Gui implements InventoryHolder {
         uhcPlayer.openInventory(getInventory());
     }
 
+    public void close() {
+        uhcPlayer.getPlayer().closeInventory();
+    }
+
     @Override
     public Inventory getInventory() {
         return this.inventory;

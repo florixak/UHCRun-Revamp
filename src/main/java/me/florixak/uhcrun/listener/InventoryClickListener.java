@@ -78,7 +78,7 @@ public class InventoryClickListener implements Listener {
             event.setCancelled(true);
 
             if (event.getCurrentItem().getItemMeta() != null) {
-                if (event.getRawSlot() == 8) {
+                if (event.getRawSlot() == GameValues.STATS_TOP_SLOT) {
                     String displayedTop = uhcPlayer.getData().getDisplayedTop();
                     List<String> displayedTops = GameValues.STATS_DISPLAYED_TOPS;
                     for (int i = 0; i < displayedTops.size(); i++) {
