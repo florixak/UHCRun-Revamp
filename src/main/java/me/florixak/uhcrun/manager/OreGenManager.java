@@ -38,7 +38,7 @@ public class OreGenManager {
             Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
             if (canSkip(material)) {
-                Bukkit.getLogger().info("[TEST]" + materialN + " skipped!");
+                Bukkit.getLogger().info(materialN + " does not exist!");
                 return;
             }
 
@@ -50,14 +50,6 @@ public class OreGenManager {
             if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
 
             OreGen oreGen = new OreGen(material, minVein, maxVein, spawnAmount);
-
-            Bukkit.getLogger().info("_______Ore Gen Load Test_______");
-            Bukkit.getLogger().info(oreGen.getMaterial().toString() + " material");
-            Bukkit.getLogger().info(oreGen.getSpawnAmount() + " spawn amount");
-            Bukkit.getLogger().info(oreGen.getMinVein() + " min vein");
-            Bukkit.getLogger().info(oreGen.getMaxVein() + " max vein");
-            Bukkit.getLogger().info("__________________");
-
             oreGenList.add(oreGen);
         }
     }

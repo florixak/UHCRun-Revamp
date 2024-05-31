@@ -93,7 +93,7 @@ public class StatisticsGui extends Gui {
             }
         }
         return ItemUtils.createItem(topStatsItem,
-                topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toCamelCaseText(playerDisplayedTop.replace("-", " ")))),
+                topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
     }

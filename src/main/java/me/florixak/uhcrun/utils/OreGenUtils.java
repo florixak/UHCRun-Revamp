@@ -1,6 +1,7 @@
 package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -32,7 +33,8 @@ public class OreGenUtils {
         for (int i = 0; i < spawnAmount; i++) {
             loc = getOreLocation(world, borderSize);
             world.getBlockAt(loc).setType(material);
-            generateVein(material, world.getBlockAt(loc), minVein + (int)(Math.random() * (maxVein-minVein+1)));
+            generateVein(material, world.getBlockAt(loc), RandomUtils.randomInteger(minVein, maxVein));
+            Bukkit.getLogger().info(material.name() + ": " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ", " + loc.getWorld().getName());
         }
     }
 
