@@ -34,11 +34,10 @@ public class OreGenUtils {
             loc = getOreLocation(world, borderSize);
             world.getBlockAt(loc).setType(material);
             generateVein(material, world.getBlockAt(loc), RandomUtils.randomInteger(minVein, maxVein));
-            Bukkit.getLogger().info(material.name() + ": " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ", " + loc.getWorld().getName());
         }
     }
 
-    private static Location getOreLocation(World world, int borderSize) {
+    public static Location getOreLocation(World world, int borderSize) {
         Location loc;
         Random ran = RandomUtils.getRandom();
 
@@ -62,7 +61,7 @@ public class OreGenUtils {
         return !bad_blocks.contains(below.getType()) && block.getType().isSolid() && above.getType().isSolid();
     }
 
-    private static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
+    public static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
         final List<Block> blocks = getAdjacentsBlocks(startBlock, nbrBlocks);
 
         for (final Block block : blocks) {

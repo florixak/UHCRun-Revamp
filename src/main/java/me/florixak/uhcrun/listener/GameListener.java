@@ -12,12 +12,12 @@ import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.OreGenUtils;
+import me.florixak.uhcrun.utils.RandomUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -31,6 +31,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -279,6 +280,33 @@ public class GameListener implements Listener {
                 event.setCancelled(true);
                 uhcPlayerD.sendMessage("Baka, this is your teammate..");
             }
+        }
+    }
+
+    @EventHandler
+    public void onChunkPopulate(ChunkPopulateEvent event) {
+        World world = event.getWorld();
+
+        if (!world.getName().equals("world")) return;
+
+        int chunkX = 240;
+        int chunkZ = 240;
+
+        for (int x = chunkX; x < chunkX + 16; x++) {
+            for (int z = chunkZ; z < chunkZ + 16; z++) {
+                for (int y = 1; y < 64; y++) { // Generování gold ore až do výšky 64
+                    addOre(world, x, y, z, Material.GOLD_ORE, 10); // 10% šance pro gold ore
+                    addOre(world, x, y, z, Material.DIAMOND_ORE, 2); // 2% šance pro diamond ore
+                    addOre(world, x, y, z, Material.EMERALD_ORE, 15); // 15% šance pro iron ore
+                }
+            }
+        }
+    }
+
+    private void addOre(World world, int x, int y, int z, Material oreType, int chance) {
+        Random random = new Random();
+        if (world.getBlockAt(x, y, z).getType() == Material.STONE && random.nextInt(100) < chance) {
+            world.getBlockAt(x, y, z).setType(oreType);
         }
     }
 

@@ -97,8 +97,6 @@ public class GameManager {
         this.recipeManager = new RecipeManager(this);
         this.worldManager = new WorldManager();
 
-
-
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
