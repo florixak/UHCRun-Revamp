@@ -6,7 +6,6 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.oreGen.OreGen;
 import me.florixak.uhcrun.utils.OreGenUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -37,11 +36,8 @@ public class OreGenManager {
             Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
             Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
-            if (canSkip(material)) {
-                Bukkit.getLogger().info(materialN + " does not exist!");
-                return;
-            }
-
+            if (canSkip(material)) return;
+            
             int spawnAmount = oreGenConfig.getInt("ore-generation." + materialN + ".spawn-amount", 0);
             int minVein = oreGenConfig.getInt("ore-generation." + materialN + ".min-vein", 0);
             int maxVein = oreGenConfig.getInt("ore-generation." + materialN + ".max-vein", 0);
