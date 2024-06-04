@@ -27,7 +27,7 @@ public class DeathmatchCD extends BukkitRunnable {
             gameManager.setGameState(GameState.ENDING);
             return;
         }
-
+        gameManager.getBorderManager().shrinkBorder();
         countdown--;
     }
 }

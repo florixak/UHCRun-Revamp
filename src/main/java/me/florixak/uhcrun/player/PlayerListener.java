@@ -90,9 +90,10 @@ public class PlayerListener implements Listener {
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
             uhcPlayer.leaveTeam();
         } else {
-            if (!GameValues.STATS_ADD_ON_END) {
+            if (!GameValues.STATS_ADD_ON_END && !gameManager.getGameState().equals(GameState.ENDING)) {
                 uhcPlayer.getData().addLose(1);
                 uhcPlayer.getData().addDeaths(1);
+                uhcPlayer.getData().setGamesPlayed();
             }
         }
 

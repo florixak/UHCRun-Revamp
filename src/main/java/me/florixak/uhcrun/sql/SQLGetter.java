@@ -42,6 +42,7 @@ public class SQLGetter {
                     + "kills INT(100) DEFAULT 0,"
                     + "assists INT(100) DEFAULT 0,"
                     + "deaths INT(100) DEFAULT 0),"
+                    + "games_played INT(100) DEFAULT 0),"
                     + "displayed_top VARCHAR(100) DEFAULT Wins)");
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -384,6 +385,33 @@ public class SQLGetter {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET deaths=? WHERE uuid=?");
             ps.setInt(1, deaths);
+            ps.setString(2, uuid.toString());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getGamesPlayed(UUID uuid) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT deaths FROM uhcrun WHERE uuid=?");
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("deaths");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public void setGamesPlayed(UUID uuid, int gamesPlayed) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE uhcrun SET games_played=? WHERE uuid=?");
+            ps.setInt(1, gamesPlayed);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();

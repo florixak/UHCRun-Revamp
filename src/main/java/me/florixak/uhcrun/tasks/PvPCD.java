@@ -42,7 +42,7 @@ public class PvPCD extends BukkitRunnable {
             gameManager.getPlayerManager().getAliveList()
                     .forEach(uhcPlayer -> gameManager.getSoundManager().playDMStarts(uhcPlayer.getPlayer()));
         }
-        gameManager.getBorderManager().setSize(gameManager.getBorderManager().getSize()-gameManager.getBorderManager().getSpeed());
+        gameManager.getBorderManager().shrinkBorder();
         countdown--;
     }
 }

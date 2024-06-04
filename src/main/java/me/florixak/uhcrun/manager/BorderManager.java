@@ -48,4 +48,8 @@ public class BorderManager {
     public void checkBorder() {
         if (!exists()) setBorder();
     }
+
+    public void shrinkBorder() {
+        setSize(getSize()-getSpeed());
+    }
 }

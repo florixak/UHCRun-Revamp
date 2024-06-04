@@ -53,6 +53,7 @@ public class PlayerData {
         playerData.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".assists", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", 0);
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins");
 
@@ -191,10 +192,6 @@ public class PlayerData {
         this.uhcExpForAssists += exp;
     }
 
-    public int getTotalPlayed() {
-        return (getWins() + getLosses());
-    }
-
     public int getDeaths() {
         if (gameManager.isDatabaseConnected()) {
             return gameManager.getData().getDeaths(uhcPlayer.getUUID());
@@ -214,6 +211,19 @@ public class PlayerData {
 
         if (GameValues.TEAM_MODE && !uhcPlayer.getTeam().isAlive()) {
             addLose(1);
+        }
+    }
+
+    public int getGamesPlayed() {
+        return (getWins() + getDeaths());
+    }
+
+    public void setGamesPlayed() {
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", getGamesPlayed());
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getData().setGamesPlayed(uhcPlayer.getUUID(), getGamesPlayed());
         }
     }
 
@@ -308,6 +318,7 @@ public class PlayerData {
     public void addWinOrLose() {
         if (uhcPlayer.isWinner()) addWin(1);
         else addLose(1);
+        setGamesPlayed();
     }
 
     public void addStatistics() {
