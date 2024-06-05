@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.listener;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
@@ -7,7 +8,6 @@ import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.game.statistics.StatisticsGui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.UHCTeam;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

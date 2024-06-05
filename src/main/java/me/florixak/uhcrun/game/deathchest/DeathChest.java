@@ -1,12 +1,12 @@
 package me.florixak.uhcrun.game.deathchest;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

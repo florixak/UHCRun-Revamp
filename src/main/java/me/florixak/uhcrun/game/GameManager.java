@@ -1,5 +1,7 @@
 package me.florixak.uhcrun.game;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.commands.*;
 import me.florixak.uhcrun.config.ConfigManager;
@@ -26,8 +28,6 @@ import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
 import me.florixak.uhcrun.utils.*;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldType;
 import org.bukkit.block.Block;

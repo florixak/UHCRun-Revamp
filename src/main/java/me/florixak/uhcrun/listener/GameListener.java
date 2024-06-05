@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.listener;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
@@ -13,7 +14,6 @@ import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -52,7 +52,6 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void handleGameEnd(GameEndEvent event) {
-
         String winner = event.getWinner();
         List<String> gameResults = Messages.GAME_RESULTS.toList();
         List<UHCPlayer> topKillers = playerManager.getTopKillers();

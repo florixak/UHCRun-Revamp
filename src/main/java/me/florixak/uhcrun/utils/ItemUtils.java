@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.utils;
 
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;

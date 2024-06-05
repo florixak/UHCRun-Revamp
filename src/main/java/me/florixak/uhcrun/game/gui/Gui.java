@@ -1,8 +1,8 @@
 package me.florixak.uhcrun.game.gui;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;

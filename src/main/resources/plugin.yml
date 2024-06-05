@@ -1,7 +1,7 @@
 name: UHCRun-Revamp
 version: '${project.version}'
 main: me.florixak.uhcrun.UHCRun
-api-version: 1.19
+api-version: 1.13
 authors: [ FloriXak ]
 depend: [ ProtocolLib ]
 softdepend: [ Vault, LuckPerms, PlaceholderAPI ]

@@ -1,11 +1,11 @@
 package me.florixak.uhcrun.manager;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.oreGen.OreGen;
 import me.florixak.uhcrun.utils.OreGenUtils;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.player;
 
+import com.cryptomorin.xseries.XPotion;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
@@ -9,7 +10,6 @@ import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.Utils;
-import me.florixak.uhcrun.utils.XSeries.XPotion;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

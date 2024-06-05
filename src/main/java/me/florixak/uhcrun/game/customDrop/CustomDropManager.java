@@ -1,10 +1,10 @@
 package me.florixak.uhcrun.game.customDrop;
 
+import com.cryptomorin.xseries.XEntityType;
+import com.cryptomorin.xseries.XMaterial;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.utils.XSeries.XEntityType;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,13 +1,12 @@
 package me.florixak.uhcrun.game.perks;
 
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.XSeries.XPotion;
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XPotion;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Perk {

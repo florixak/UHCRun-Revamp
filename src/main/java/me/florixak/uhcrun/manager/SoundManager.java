@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.utils.XSeries.XSound;
-import org.bukkit.Location;
+import com.cryptomorin.xseries.XSound;
 import org.bukkit.entity.Player;
 
 public class SoundManager {
