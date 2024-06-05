@@ -122,7 +122,7 @@ public class GameManager {
         getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();
-        getCustomDropManager().loadCustomDrops();
+        getCustomDropManager().loadDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
         // TODO getPerksManager().loadPerks();

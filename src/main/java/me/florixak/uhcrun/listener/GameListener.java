@@ -12,8 +12,6 @@ import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.OreGenUtils;
-import me.florixak.uhcrun.utils.RandomUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -31,7 +29,6 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
-import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -171,9 +168,9 @@ public class GameListener implements Listener {
             return;
         }
 
-        if (gameManager.getCustomDropManager().hasCustomDrop(block.getType())) {
-            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomDrop(block.getType());
-            customDrop.dropItem(event, null);
+        if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
+            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+            customDrop.dropBlockItem(event);
         }
     }
 
@@ -190,35 +187,9 @@ public class GameListener implements Listener {
     public void handleEntityDrop(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof Animals)) return;
 
-        Random ran = new Random();
-        int amount = 1;
-
-        if (event.getEntity() instanceof Cow) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Pig) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Sheep) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_MUTTON.parseMaterial(), amount));
-            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Chicken) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_CHICKEN.parseMaterial(), amount));
-            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Rabbit) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_RABBIT.parseMaterial(), amount));
+        if (gameManager.getCustomDropManager().hasMobCustomDrop(event.getEntityType())) {
+            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomMobDrop(event.getEntityType());
+            customDrop.dropMobItem(event);
         }
     }
 
@@ -280,33 +251,6 @@ public class GameListener implements Listener {
                 event.setCancelled(true);
                 uhcPlayerD.sendMessage("Baka, this is your teammate..");
             }
-        }
-    }
-
-    @EventHandler
-    public void onChunkPopulate(ChunkPopulateEvent event) {
-        World world = event.getWorld();
-
-        if (!world.getName().equals("world")) return;
-
-        int chunkX = 240;
-        int chunkZ = 240;
-
-        for (int x = chunkX; x < chunkX + 16; x++) {
-            for (int z = chunkZ; z < chunkZ + 16; z++) {
-                for (int y = 1; y < 64; y++) { // Generování gold ore až do výšky 64
-                    addOre(world, x, y, z, Material.GOLD_ORE, 10); // 10% šance pro gold ore
-                    addOre(world, x, y, z, Material.DIAMOND_ORE, 2); // 2% šance pro diamond ore
-                    addOre(world, x, y, z, Material.EMERALD_ORE, 15); // 15% šance pro iron ore
-                }
-            }
-        }
-    }
-
-    private void addOre(World world, int x, int y, int z, Material oreType, int chance) {
-        Random random = new Random();
-        if (world.getBlockAt(x, y, z).getType() == Material.STONE && random.nextInt(100) < chance) {
-            world.getBlockAt(x, y, z).setType(oreType);
         }
     }
 
