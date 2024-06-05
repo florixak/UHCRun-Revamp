@@ -161,7 +161,6 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
-
         this.moneyForKills += money;
         this.uhcExpForKills += exp;
     }
@@ -215,7 +214,7 @@ public class PlayerData {
     }
 
     public int getGamesPlayed() {
-        return (getWins() + getDeaths());
+        return (getWins() + getLosses());
     }
 
     public void setGamesPlayed() {
