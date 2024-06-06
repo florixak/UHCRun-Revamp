@@ -35,7 +35,15 @@ public class KitsGui extends Gui {
             if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
                 lore.add(TextUtils.color("&aSelected"));
             } else {
-                lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
+                if (!GameValues.BOUGHT_KITS_FOREVER) {
+                    lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
+                } else {
+                    if (uhcPlayer.getData().alreadyBoughtKit(kit)) {
+                        lore.add(TextUtils.color("&eClick to select"));
+                    } else {
+                        lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
+                    }
+                }
             }
 
             for (ItemStack item : kit.getItems()) {

@@ -57,9 +57,7 @@ public class KitsManager {
 
                     if (kitsConfig.getConfigurationSection("kits." + kit + "." + param) != null) {
                         for (String item : kitsConfig.getConfigurationSection("kits." + kit + "." + param).getKeys(false)) {
-                            ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null
-                                    ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem()
-                                    : XMaterial.STONE.parseItem();
+                            ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
 
                             int amount = kitsConfig.getInt("kits." + kit + "." + param + "." + item + ".amount", 1);
                             ItemStack newI = ItemUtils.createItem(i, null, amount, null);
@@ -106,6 +104,7 @@ public class KitsManager {
     public int getOpenWhenStartingAt() {
         return this.openWhenStartingAt;
     }
+
     public boolean willOpenWhenStarting() {
         return this.openWhenStartingAt != -1;
     }

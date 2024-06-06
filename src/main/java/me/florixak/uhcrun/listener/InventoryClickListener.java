@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.listener;
 
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
@@ -60,7 +61,27 @@ public class InventoryClickListener implements Listener {
             for (Kit kit : gameManager.getKitsManager().getKitsList()) {
                 if (gameManager.getKitsManager().getKitsList().get(event.getSlot()) == kit) {
                     p.closeInventory();
-                    uhcPlayer.setKit(kit);
+                    if (!GameValues.BOUGHT_KITS_FOREVER) {
+                        if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
+                            uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
+                            return;
+                        }
+                        uhcPlayer.setKit(kit);
+                        uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
+                    } else {
+                        if (uhcPlayer.getData().alreadyBoughtKit(kit) || kit.isFree()) {
+                            uhcPlayer.setKit(kit);
+                        } else {
+                            uhcPlayer.getData().buyKit(kit, kit.getCost());
+                            uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
+                                    .replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()))
+                                    .replace("%current-money%", String.valueOf(uhcPlayer.getData().getMoney()-uhcPlayer.getKit().getCost()))
+                                    .replace("%kit-cost%", String.valueOf(uhcPlayer.getKit().getCost()))
+                                    .replace("%kit%", uhcPlayer.getKit().getDisplayName())
+                            );
+                            uhcPlayer.setKit(kit);
+                        }
+                    }
                 }
             }
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_PERKS_TITLE))) {

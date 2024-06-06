@@ -148,7 +148,6 @@ public class UHCPlayer {
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString()
                 .replace("%kit%", kit.getDisplayName()));
-        sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
     }
 
     public boolean hasPerk() {
@@ -193,7 +192,7 @@ public class UHCPlayer {
                     .replace("%kit-cost%", String.valueOf(getKit().getCost()))
                     .replace("%kit%", getKit().getDisplayName())
             );
-            getData().withdrawMoney(getKit().getCost());
+            if (!GameValues.BOUGHT_KITS_FOREVER) getData().withdrawMoney(getKit().getCost());
             getKit().giveKit(this);
         }
     }

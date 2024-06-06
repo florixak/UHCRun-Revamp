@@ -27,6 +27,7 @@ public class GameValues {
 
     public static final boolean TEAM_MODE = getConfigBoolean("settings.teams.team-mode", true);
     public static final boolean KITS_ENABLED = getConfigBoolean("settings.kits.enabled", true);
+    public static final boolean BOUGHT_KITS_FOREVER = getConfigBoolean("settings.kits.bought-forever", true);
     public static final boolean PERKS_ENABLED = getConfigBoolean("settings.perks.enabled", true);
     public static final boolean FRIENDLY_FIRE = getConfigBoolean("settings.teams.friendly-fire", false);
     public static final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);

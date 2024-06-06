@@ -37,7 +37,7 @@ public class PlayerData {
         this.boughtKits = new ArrayList<>();
 
         setData();
-        //loadBoughtKits();
+        loadBoughtKits();
     }
 
     public void setData() {

@@ -88,7 +88,7 @@ settings:
   # Kits
   kits:
     enabled: true
-    full-time: false # true - not yet
+    bought-forever: false # true - not yet
     open-when-starting-at: 10 # seconds, -1 = false, kits gui will open, like warning to choose kit
 
   # Kits
