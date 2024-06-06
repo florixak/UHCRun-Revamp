@@ -4,10 +4,12 @@ import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerData {
@@ -15,6 +17,7 @@ public class PlayerData {
     private final GameManager gameManager;
     private final UHCPlayer uhcPlayer;
     private final FileConfiguration playerData;
+    private ArrayList<Kit> boughtKits;
 
     private double moneyForGameResult, moneyForKills, moneyForAssists;
     private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists;
@@ -31,7 +34,10 @@ public class PlayerData {
         this.uhcExpForKills = 0;
         this.uhcExpForAssists = 0;
 
+        this.boughtKits = new ArrayList<>();
+
         setData();
+        //loadBoughtKits();
     }
 
     public void setData() {
@@ -54,6 +60,8 @@ public class PlayerData {
         playerData.set("player-data." + uhcPlayer.getUUID() + ".assists", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", 0);
+
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", boughtKits);
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins");
 
@@ -211,6 +219,36 @@ public class PlayerData {
         if (GameValues.TEAM_MODE && !uhcPlayer.getTeam().isAlive()) {
             addLose(1);
         }
+    }
+
+    public void buyKit(Kit kit, double cost) {
+        boughtKits.add(kit);
+        withdrawMoney(cost);
+        saveKits();
+    }
+
+    public boolean alreadyBoughtKit(Kit kit) {
+        return boughtKits.contains(kit);
+    }
+
+    public void loadBoughtKits() {
+        List<Kit> kits = gameManager.getKitsManager().getKitsList();
+        List<String> stringKits = playerData.getStringList("player-data." + uhcPlayer + ".kits");
+
+        if (stringKits.isEmpty()) return;
+
+        for (Kit kit : kits) {
+            if (stringKits.contains(kit.getName()) || kit.isFree()) boughtKits.add(kit);
+        }
+    }
+
+    public List<Kit> getBoughtKits() {
+        return boughtKits;
+    }
+
+    private void saveKits() {
+        playerData.set("player-data." + uhcPlayer + ".kits", boughtKits);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public int getGamesPlayed() {

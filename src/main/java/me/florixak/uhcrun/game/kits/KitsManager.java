@@ -124,4 +124,11 @@ public class KitsManager {
             }
         }
     }
+
+    public boolean exists(String kitName) {
+        for (Kit kit : kitsList) {
+            if (kit.getName().equalsIgnoreCase(kitName)) return true;
+        }
+        return false;
+    }
 }
