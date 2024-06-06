@@ -101,6 +101,10 @@ custom-drops:
       exp: 0
       drops:
         COBBLESTONE: [ 1 ]
+    GRANITE:
+      exp: 0
+      drops:
+        COBBLESTONE: [ 1 ]
     SPAWNER:
       exp: 70
       drops:

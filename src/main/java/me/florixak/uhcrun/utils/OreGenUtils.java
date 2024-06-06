@@ -1,6 +1,8 @@
 package me.florixak.uhcrun.utils;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,6 +25,7 @@ public class OreGenUtils {
         badBlocks.add(XMaterial.AIR.parseMaterial());
         badBlocks.add(XMaterial.BEDROCK.parseMaterial());
         badBlocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
+        badBlocks.add(XMaterial.DIRT.parseMaterial());
     }
 
     public static void generateOre(Material material, World world, int minVein, int maxVein, int spawnAmount, int borderSize) {
@@ -31,15 +34,15 @@ public class OreGenUtils {
             loc = getOreLocation(world, borderSize);
             world.getBlockAt(loc).setType(material);
             generateVein(material, world.getBlockAt(loc), RandomUtils.randomInteger(minVein, maxVein));
+            UHCRun.getInstance().getLogger().info("OreGenUtils - " + material.name() + " at: X: " + loc.getX() + ", Y: " + loc.getY() + ", Z: " + loc.getZ());
         }
     }
 
     private static Location getOreLocation(World world, int borderSize) {
         Location loc;
         do {
-            loc = new Location(world, RandomUtils.randomInteger(0, borderSize), RandomUtils.randomInteger(-64, 60), RandomUtils.randomInteger(0, borderSize));
+            loc = new Location(world, RandomUtils.randomInteger(0, borderSize), RandomUtils.randomInteger(0, 60), RandomUtils.randomInteger(0, borderSize));
         } while (!isLocationSafe(loc));
-
         return loc;
     }
 
