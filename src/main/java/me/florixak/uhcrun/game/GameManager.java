@@ -262,11 +262,7 @@ public class GameManager {
         if (!GameValues.WOOD_LOGS.contains(block.getType())) return;
 
         XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
-        //block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
-        block.getDrops().clear();
-        Location loc = block.getLocation();
-        Location location = loc.add(0.5, 0.5, 0.5);
-        Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
+        block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
 
         timber(block.getLocation().add(0, 1, 0).getBlock());
         timber(block.getLocation().add(1, 0, 0).getBlock());
