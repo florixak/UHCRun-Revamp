@@ -29,9 +29,11 @@ public class LobbyManager {
     }
 
     public Location getLocation(LobbyType lobbyType) {
-        Location loc = new Location(Bukkit.getWorld("lobby"), 0.0, 75.0, 0.0);
+        Location loc = new Location(Bukkit.getWorld("lobby"), 0.0, Bukkit.getWorld("lobby").getHighestBlockYAt(0, 0), 0.0);
 
-        if (!existsLobby(lobbyType) || Bukkit.getWorld(gameManager.getLobbyManager().getWorld(LobbyType.WAITING)) == null)
+        if (!existsLobby(lobbyType)
+                || Bukkit.getWorld(getWorld(LobbyType.WAITING)) == null
+                || Bukkit.getWorld(getWorld(LobbyType.ENDING)) == null)
             return loc;
 
         loc = new Location(

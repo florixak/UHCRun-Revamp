@@ -25,10 +25,13 @@ import me.florixak.uhcrun.sql.MySQL;
 import me.florixak.uhcrun.sql.SQLGetter;
 import me.florixak.uhcrun.tasks.*;
 import me.florixak.uhcrun.teams.TeamManager;
-import me.florixak.uhcrun.utils.*;
+import me.florixak.uhcrun.utils.TeleportUtils;
+import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.XSeries.XSound;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
@@ -256,15 +259,14 @@ public class GameManager {
 
     public void timber(Block block) {
 
-        if (!(block.getType() == XMaterial.OAK_LOG.parseMaterial()
-                || block.getType() == XMaterial.BIRCH_LOG.parseMaterial()
-                || block.getType() == XMaterial.ACACIA_LOG.parseMaterial()
-                || block.getType() == XMaterial.JUNGLE_LOG.parseMaterial()
-                || block.getType() == XMaterial.SPRUCE_LOG.parseMaterial()
-                || block.getType() == XMaterial.DARK_OAK_LOG.parseMaterial())) return;
+        if (!GameValues.WOOD_LOGS.contains(block.getType())) return;
 
         XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
-        block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
+        //block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
+        block.getDrops().clear();
+        Location loc = block.getLocation();
+        Location location = loc.add(0.5, 0.5, 0.5);
+        Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
 
         timber(block.getLocation().add(0, 1, 0).getBlock());
         timber(block.getLocation().add(1, 0, 0).getBlock());

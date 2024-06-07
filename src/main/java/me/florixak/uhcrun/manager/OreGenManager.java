@@ -7,6 +7,7 @@ import me.florixak.uhcrun.game.oreGen.OreGen;
 import me.florixak.uhcrun.utils.OreGenUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -27,12 +28,10 @@ public class OreGenManager {
     }
 
     public void loadOres() {
-        if (oreGenConfig.getConfigurationSection("ore-generation") == null
-                || oreGenConfig.getConfigurationSection("ore-generation").getKeys(false) == null) {
-            return;
-        }
+        ConfigurationSection section = oreGenConfig.getConfigurationSection("ore-generation");
+        if (section == null || section.getKeys(false) == null) return;
 
-        for (String materialN : oreGenConfig.getConfigurationSection("ore-generation").getKeys(false)) {
+        for (String materialN : section.getKeys(false)) {
             Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
             Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 

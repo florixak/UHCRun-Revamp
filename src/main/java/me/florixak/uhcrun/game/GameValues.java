@@ -1,10 +1,13 @@
 package me.florixak.uhcrun.game;
 
 import me.florixak.uhcrun.config.ConfigType;
+import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class GameValues {
@@ -103,6 +106,13 @@ public class GameValues {
     public static final String INV_STATS_TITLE = getConfigString("settings.selectors.statistics.display-name", "Statistics");
     public static final String INV_STATS_DIS_ITEM = getConfigString("settings.selectors.statistics.display-item", "BARRIER");
 
+    public static List<Material> WOOD_LOGS = Arrays.asList(
+            XMaterial.OAK_LOG.parseMaterial(),
+            XMaterial.BIRCH_LOG.parseMaterial(),
+            XMaterial.ACACIA_LOG.parseMaterial(),
+            XMaterial.JUNGLE_LOG.parseMaterial(),
+            XMaterial.SPRUCE_LOG.parseMaterial(),
+            XMaterial.DARK_OAK_LOG.parseMaterial());
 
     private static boolean getConfigBoolean(String path, boolean def) {
       return config.getBoolean(path, def);
