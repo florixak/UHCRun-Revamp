@@ -10,7 +10,7 @@ public class TaskManager {
 
     private final GameManager gameManager;
 
-    private final long delay = 20L;
+    private final long delay = 0L;
     private final long period = 20L;
 
     private StartingCD startingCd;
@@ -77,12 +77,12 @@ public class TaskManager {
 
     public void runGameChecking() {
         this.gameChecking = new GameChecking(gameManager);
-        this.gameChecking.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
+        this.gameChecking.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
     public void runScoreboardUpdate() {
         this.scoreboardUpdate = new ScoreboardUpdate(gameManager);
-        this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
+        this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
     public void onDisable() {

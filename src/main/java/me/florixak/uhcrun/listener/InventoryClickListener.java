@@ -38,14 +38,14 @@ public class InventoryClickListener implements Listener {
 
         String title = event.getView().getTitle();
 
-        if (!gameManager.isPlaying()) {
+        if (!gameManager.isPlaying() || gameManager.isEnding()) {
             event.setCancelled(true);
         }
 
         if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_TEAMS_TITLE))) {
             event.setCancelled(true);
 
-            if (gameManager.isPlaying()) return;
+            if (gameManager.isPlaying() || gameManager.isEnding()) return;
 
             for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
                 if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
@@ -56,7 +56,7 @@ public class InventoryClickListener implements Listener {
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_KITS_TITLE))) {
             event.setCancelled(true);
 
-            if (gameManager.isPlaying()) return;
+            if (gameManager.isPlaying() || gameManager.isEnding()) return;
 
             for (Kit kit : gameManager.getKitsManager().getKitsList()) {
                 if (gameManager.getKitsManager().getKitsList().get(event.getSlot()) == kit) {
@@ -72,14 +72,18 @@ public class InventoryClickListener implements Listener {
                         if (uhcPlayer.getData().alreadyBoughtKit(kit) || kit.isFree()) {
                             uhcPlayer.setKit(kit);
                         } else {
+                            if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
+                                uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
+                                return;
+                            }
                             uhcPlayer.getData().buyKit(kit, kit.getCost());
+                            uhcPlayer.setKit(kit);
                             uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
                                     .replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()))
                                     .replace("%current-money%", String.valueOf(uhcPlayer.getData().getMoney()-uhcPlayer.getKit().getCost()))
                                     .replace("%kit-cost%", String.valueOf(uhcPlayer.getKit().getCost()))
                                     .replace("%kit%", uhcPlayer.getKit().getDisplayName())
                             );
-                            uhcPlayer.setKit(kit);
                         }
                     }
                 }
@@ -87,7 +91,7 @@ public class InventoryClickListener implements Listener {
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_PERKS_TITLE))) {
             event.setCancelled(true);
 
-            if (gameManager.isPlaying()) return;
+            if (gameManager.isPlaying() || gameManager.isEnding()) return;
 
             for (Perk perk : gameManager.getPerksManager().getPerks()) {
                 if (gameManager.getPerksManager().getPerks().get(event.getSlot()) == perk) {

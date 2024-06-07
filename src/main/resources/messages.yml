@@ -93,28 +93,30 @@ Messages:
       - " &a+%money-for-game% &fcoins for win"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
+      - " &a+%money-for-activity% &fcoins for activity"
       - " &a+%uhc-exp-for-game% &fexp for win"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
+      - " &a+%uhc-exp-for-activity% &exp for activity"
       - "&7--------------------------------"
     lose:
       - "&7---------- %prefix% &7----------"
       - " &a+%money-for-game% &fcoins for lose"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
+      - " &a+%money-for-activity% &fcoins for activity"
       - " &a+%uhc-exp-for-game% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
+      - " &a+%uhc-exp-for-activity% &exp for activity"
       - "&7--------------------------------"
 
-    kill: "&e[!] &a+%money-for-kill% &fcoins and &a+%exp-for-kill% &fexp for kill! &7(%player%)"
-    assist: "&e[!] &a+%money-for-assist% &fcoins and &a+%exp-for-assist% &fexp for assist! &7(%player%)"
+    kill: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for kill! &7(%player%)"
+    assist: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for assist! &7(%player%)"
 
-    per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
+    activity: "&6[+] &f%money% coins and %uhc-exp% XP for activity!"
 
-    level-up: "&a[LEVEL UP] &a+%money-for-level-up% &fcoins for level up!"
-
-
+    level-up: "&a[LEVEL UP] &a+%money% &fcoins for level up!"
 
   game-results:
     - "&7---------- %prefix% &3----------"

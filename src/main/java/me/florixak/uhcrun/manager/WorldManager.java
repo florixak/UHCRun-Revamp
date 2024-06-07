@@ -12,7 +12,6 @@ import java.io.IOException;
 public class WorldManager {
 
     public void createNewUHCWorld() {
-
         try {
             File world = new File(Bukkit.getWorldContainer(), "world");
             FileUtils.deleteDirectory(world);

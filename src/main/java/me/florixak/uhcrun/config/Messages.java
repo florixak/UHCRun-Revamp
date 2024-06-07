@@ -25,6 +25,7 @@ public enum Messages {
     QUIT("player.quit"),
 
     KILL("player.kill"),
+    KILL_REWARDS("player.kill"),
     DEATH("player.death"),
 
     PVP("game.pvp"),
@@ -53,7 +54,7 @@ public enum Messages {
 
     REWARDS_WIN("rewards.win"),
     REWARDS_LOSE("rewards.lose"),
-    REWARDS_PER_TIME("rewards.per-time"),
+    REWARDS_ACTIVITY("rewards.activity"),
     REWARDS_KILL("rewards.kill"),
     REWARDS_ASSIST("rewards.assist"),
     REWARDS_LEVEL_UP("rewards.level-up"),

@@ -107,6 +107,11 @@ public class GameListener implements Listener {
             killer.getPlayer().giveExp((int) GameValues.EXP_FOR_KILL);
             gameManager.getPerksManager().givePerk(killer);
 
+            killer.sendMessage(Messages.REWARDS_KILL.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
+
             Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
         } else {
             Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
@@ -121,7 +126,10 @@ public class GameListener implements Listener {
             }
             assistPlayer.addAssist();
             assistPlayer.giveExp((int) GameValues.EXP_FOR_ASSIST);
-            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString().replace("%player%", victim.getName()).replace("%money-for-assist%", String.valueOf(GameValues.MONEY_FOR_ASSIST)).replace("%uhc-exp-for-assist%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)).replace("%exp-for-assist%", String.valueOf(GameValues.EXP_FOR_ASSIST)));
+            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
 
             if (!addUpStatsOnEnd) {
                 victim.getData().addAssists(1);

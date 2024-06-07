@@ -13,7 +13,7 @@
 
 kits:
   Starter:
-    display-name: "&aStarter"
+    display-name: "&fStarter"
     display-item: WOODEN_PICKAXE
     cost: 0
     items:
