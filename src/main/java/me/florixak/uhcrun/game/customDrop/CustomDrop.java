@@ -114,6 +114,27 @@ public class CustomDrop {
         }
     }
 
+    public void dropBlockItem(Block block) {
+        if (block != null) {
+            Location loc = block.getLocation();
+
+            if (hasDrops()) {
+                block.setType(XMaterial.AIR.parseMaterial());
+
+                Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
+                if (drop != XMaterial.AIR.parseMaterial()) {
+
+                    // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
+                    int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : RandomUtils.randomInteger(getMinAmount(), getMaxAmount());
+                    ItemStack dropItem = new ItemStack(drop, amount);
+
+                    Location location = loc.add(0.5, 0.5, 0.5);
+                    Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropItem);
+                }
+            }
+        }
+    }
+
     public void dropMobItem(EntityDeathEvent deathEvent) {
         if (deathEvent != null) {
             Player p = deathEvent.getEntity().getKiller();
