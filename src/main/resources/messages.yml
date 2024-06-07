@@ -108,7 +108,7 @@ Messages:
       - " &a+%uhc-exp-for-game% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
-      - " &a+%uhc-exp-for-activity% &exp for activity"
+      - " &a+%uhc-exp-for-activity% &fexp for activity"
       - "&7--------------------------------"
 
     kill: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for kill! &7(%player%)"
