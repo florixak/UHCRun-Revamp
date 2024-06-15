@@ -64,7 +64,11 @@ public class GameListener implements Listener {
                 for (int i = 0; i < gameResults.size(); i++) {
                     UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
-                    message = message.replace("%winner%", winner).replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None").replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0").replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "").replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
+                    message = message.replace("%winner%", winner)
+                            .replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None")
+                            .replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
+                            .replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "")
+                            .replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
@@ -75,10 +79,8 @@ public class GameListener implements Listener {
         // Statistics
         for (UHCPlayer player : playerManager.getOnlineList()) {
 
-            if (addUpStatsOnEnd)
-                player.getData().addStatistics();
-            else
-                player.getData().addWinOrLose();
+            if (!addUpStatsOnEnd) player.getData().addWinOrLose();
+            else player.getData().addStatistics();
 
             player.clearInventory();
             player.setGameMode(GameMode.ADVENTURE);
@@ -112,9 +114,12 @@ public class GameListener implements Listener {
                     .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
                     .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
 
-            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
+            Utils.broadcast(Messages.KILL.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%killer%", killer.getName()));
         } else {
-            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
+            Utils.broadcast(Messages.DEATH.toString()
+                    .replace("%player%", victim.getName()));
         }
 
         if (victim.wasDamagedByMorePeople()) {
@@ -125,15 +130,14 @@ public class GameListener implements Listener {
                 return;
             }
             assistPlayer.addAssist();
+            if (!addUpStatsOnEnd) {
+                assistPlayer.getData().addAssists(1);
+            }
             assistPlayer.giveExp((int) GameValues.EXP_FOR_ASSIST);
             assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
                     .replace("%player%", victim.getName())
                     .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
                     .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
-
-            if (!addUpStatsOnEnd) {
-                victim.getData().addAssists(1);
-            }
         }
 
         if (!addUpStatsOnEnd) {
@@ -143,7 +147,7 @@ public class GameListener implements Listener {
             victim.getData().addDeaths(1);
         }
 
-        if (!victim.getTeam().isAlive() && GameValues.TEAM_MODE) {
+        if (GameValues.TEAM_MODE && !victim.getTeam().isAlive()) {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
     }

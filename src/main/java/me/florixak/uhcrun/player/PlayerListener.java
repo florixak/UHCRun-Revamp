@@ -38,9 +38,10 @@ public class PlayerListener implements Listener {
 
         if (!isPlaying && isFull) {
             if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
-                while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                    randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayerWithoutPerm(Permissions.RESERVED_SLOT.getPerm());
+                if (randomUHCPlayer == null) {
+                    uhcPlayer.kick(Messages.GAME_FULL.toString());
+                    return;
                 }
                 randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
             } else {
@@ -89,12 +90,10 @@ public class PlayerListener implements Listener {
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
             uhcPlayer.leaveTeam();
-        } else {
-            if (!GameValues.STATS_ADD_ON_END && !gameManager.getGameState().equals(GameState.ENDING)) {
-                uhcPlayer.getData().addLose(1);
-                uhcPlayer.getData().addDeaths(1);
-                uhcPlayer.getData().setGamesPlayed();
-            }
+        } else if (!GameValues.STATS_ADD_ON_END && gameManager.isPlaying()) {
+            uhcPlayer.getData().addDeaths(1);
+            uhcPlayer.getData().addLose(1);
+            uhcPlayer.getData().setGamesPlayed();
         }
 
         gameManager.getPlayerManager().removePlayer(uhcPlayer);
@@ -112,10 +111,10 @@ public class PlayerListener implements Listener {
 
         if (GameValues.DEATH_CHESTS_ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
+            event.getDrops().clear();
         }
 
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
-        event.getDrops().clear();
     }
 
     @EventHandler

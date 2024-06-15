@@ -56,6 +56,9 @@ public class GameValues {
     public static final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);
     public static final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
 
+    public static final String HOLOGRAM_TEXT = getConfigString("settings.death-chest.hologram-text", "&a%player%'s chest");
+    public static final int HOLOGRAM_EXPIRE_TIME = getConfigInt("settings.death-chest.expire", -1);
+
     public static final double BASE_REWARD = getConfigDouble("settings.rewards.base-reward", 100);
     public static final double REWARD_COEFFICIENT = getConfigDouble("settings.rewards.reward-coefficient", 1);
 

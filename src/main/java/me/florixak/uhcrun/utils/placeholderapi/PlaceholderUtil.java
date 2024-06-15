@@ -78,7 +78,7 @@ public class PlaceholderUtil {
                 if (uhcPlayer.hasKit()) {
                     text = text.replace("%kit%", uhcPlayer.getKit().getDisplayName());
                 } else {
-                    text = text.replace("%kit%", Messages.KITS_SB_SELECTED_NONE.toString());
+                    text = text.replace("%kit%", Messages.KITS_SELECTED_NONE.toString());
                 }
             } else {
                 text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());

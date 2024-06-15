@@ -82,7 +82,7 @@ settings:
   # death chest
   death-chest:
     enabled: true
-    expire: 30 # seconds, not expire if -1
+    expire: -1 # seconds, not expire if -1
     hologram-text: "&a%player%'s chest &7(%countdown%)"
 
   # Kits
@@ -171,7 +171,7 @@ settings:
     header: "&2&lUHC&a&lRun\n"
     solo-mode-player-list: "&7[%uhc-level%] &f%player%"
     team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
-    footer: "\n&8www.florixak.tk"
+    footer: "\n&7www.florixak.tk"
 
   # Auto broadcast
   auto-broadcast:

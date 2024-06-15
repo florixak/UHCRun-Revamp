@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PlayerData {
+
+    // TODO - CHECK PLAYER DEATHS AND LOSSES STATS
 
     private final GameManager gameManager;
     private final UHCPlayer uhcPlayer;
@@ -209,10 +212,6 @@ public class PlayerData {
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().addDeath(uhcPlayer.getUUID(), amount);
         }
-
-        if (GameValues.TEAM_MODE && !uhcPlayer.getTeam().isAlive()) {
-            addLose(1);
-        }
     }
 
     public void buyKit(Kit kit, double cost) {
@@ -273,14 +272,19 @@ public class PlayerData {
             gameManager.getData().setRequiredUHCExp(uhcPlayer.getUUID(), setRequiredUHCExp());
         }
 
-        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString().replace("%uhc-level%", String.valueOf(getUHCLevel())).replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
+        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
+                .replace("%uhc-level%", String.valueOf(getUHCLevel()))
+                .replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
 
         gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
 
         double reward = GameValues.BASE_REWARD * GameValues.REWARD_COEFFICIENT * getUHCLevel();
 
         depositMoney(reward);
-        uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString().replace("%money-for-level-up%", String.valueOf(reward)).replace("%prev-level%", String.valueOf(getPreviousUHCLevel())).replace("%new-level%", String.valueOf(getUHCLevel())));
+        uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString()
+                .replace("%money%", String.valueOf(reward))
+                .replace("%prev-level%", String.valueOf(getPreviousUHCLevel()))
+                .replace("%new-level%", String.valueOf(getUHCLevel())));
     }
     public int getPreviousUHCLevel() {
         if (gameManager.isDatabaseConnected()) {
@@ -344,10 +348,10 @@ public class PlayerData {
     public void addStatistics() {
         depositMoney(moneyForGameResult + moneyForKills);
         addUHCExp(uhcExpForGameResult + uhcExpForKills);
-        addWinOrLose();
         addKills(uhcPlayer.getKills());
         addAssists(uhcPlayer.getAssists());
         addDeaths(uhcPlayer.isWinner() ? 0 : 1);
+        addWinOrLose();
     }
 
     public void addActivityRewards() {

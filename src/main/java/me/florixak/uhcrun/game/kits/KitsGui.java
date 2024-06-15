@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
+import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
@@ -8,6 +9,7 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,10 +18,12 @@ import java.util.List;
 
 public class KitsGui extends Gui {
 
+    private FileConfiguration messages;
     private final List<Kit> kits;
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
         super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_KITS_TITLE));
+        this.messages = gameManager.getConfigManager().getFile(ConfigType.MESSAGES).getConfig();
         this.kits = gameManager.getKitsManager().getKitsList();
     }
 
@@ -33,13 +37,13 @@ public class KitsGui extends Gui {
             List<String> lore = new ArrayList<>();
 
             if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
-                lore.add(TextUtils.color("&aSelected"));
+                lore.add(Messages.KITS_INV_SELECTED.toString());
             } else {
                 if (!GameValues.BOUGHT_KITS_FOREVER) {
                     lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
                 } else {
                     if (uhcPlayer.getData().alreadyBoughtKit(kit)) {
-                        lore.add(TextUtils.color("&eClick to select"));
+                        lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
                     } else {
                         lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
                     }

@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
+import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -186,13 +187,15 @@ public class UHCPlayer {
         }
 
         if (hasKit()) {
-            sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
-                    .replace("%money%", String.valueOf(getData().getMoney()))
-                    .replace("%current-money%", String.valueOf(getData().getMoney()-getKit().getCost()))
-                    .replace("%kit-cost%", String.valueOf(getKit().getCost()))
-                    .replace("%kit%", getKit().getDisplayName())
-            );
-            if (!GameValues.BOUGHT_KITS_FOREVER) getData().withdrawMoney(getKit().getCost());
+            if (!GameValues.BOUGHT_KITS_FOREVER) {
+                getData().withdrawMoney(getKit().getCost());
+                sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
+                        .replace("%previous-money%", String.valueOf((getData().getMoney()+getKit().getCost())))
+                        .replace("%current-money%", String.valueOf(getData().getMoney()))
+                        .replace("%kit-cost%", String.valueOf(getKit().getCost()))
+                        .replace("%kit%", getKit().getDisplayName())
+                );
+            }
             getKit().giveKit(this);
         }
     }

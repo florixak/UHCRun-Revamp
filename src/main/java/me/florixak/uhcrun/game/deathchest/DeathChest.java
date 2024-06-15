@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.game.deathchest;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -52,7 +52,7 @@ public class DeathChest {
 
         Chest chest = (Chest) state;
         chest.setCustomName(TextUtils.color(this.title));
-        addHologram();
+        setHologram();
 
         if (getContents() != null && !getContents().isEmpty()) {
             for (ItemStack item : getContents()) {
@@ -73,25 +73,29 @@ public class DeathChest {
         return this.expire;
     }
     public void startExpiring() {
-        this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
+        this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 0L, 20L);
     }
     public DeathChestExpire getExpireTask() {
         return this.deathChestExpire;
     }
-    public String getExpireTime() {
+    public String getFormattedExpireTime() {
         return TimeUtils.getFormattedTime(getExpireTask().getExpireTime());
+    }
+    public int getExpireTime() {
+        return getExpireTask().getExpireTime();
     }
 
     public List<ItemStack> getContents() {
         return this.contents;
     }
 
-    public void addHologram() {
-        String text = GameManager.getGameManager().getDeathChestManager().getHologramText()
+    public void setHologram() {
+        String text = GameValues.HOLOGRAM_TEXT
                 .replace("%player%", uhcPlayer.getName())
-                .replace("%countdown%", getExpireTime());
+                .replace("%countdown%", getFormattedExpireTime());
 
-        this.hologram = new Hologram(text, loc.add(0.5, -0.5, 0.5));
+        this.hologram = new Hologram(text);
+        this.hologram.spawn(loc);
     }
     public Hologram getHologram() {
         return this.hologram;

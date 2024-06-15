@@ -60,9 +60,11 @@ public enum Messages {
     REWARDS_LEVEL_UP("rewards.level-up"),
 
     KITS_SELECTED("kits.selected"),
+    KITS_INV_SELECTED("kits.inventory-selected"),
+    KITS_INV_CLICK_TO_SELECT("kits.inventory-click-to-select"),
     KITS_DISABLED("kits.disabled"),
-    KITS_SB_SELECTED_NONE("kits.sb-selected-none"),
-    KITS_SB_DISABLED("kits.sb-disabled"),
+    KITS_SELECTED_NONE("kits.selected-none"),
+    KITS_SB_DISABLED("kits.scoreboard-disabled"),
     KITS_MONEY_DEDUCT_INFO("kits.money-deduct-info"),
     KITS_MONEY_DEDUCT("kits.money-deduct"),
 

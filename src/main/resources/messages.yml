@@ -5,6 +5,7 @@
 # %player% - player name
 # %online% - current online number
 # %countdown% - countdown in phase
+# %money% - money for action (not for all)
 # -----------------------------------------
 
 Messages:
@@ -73,12 +74,13 @@ Messages:
 
   kits:
     selected: "&a[!] &fKit %kit% &fwas selected!"
+    inventory-selected: "&aSelected"
+    inventory-click-to-select: "&eClick to select"
     disabled: "&c[!] &fKits are disabled!"
-    inv-selected: "&aSelected"
-    sb-selected-none: "None"
-    sb-disabled: "Disabled"
+    scoreboard-disabled: "Disabled"
+    selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%money% - %kit-cost% = %current-money% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %current-money% (kit %kit%)"
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
@@ -128,13 +130,6 @@ Messages:
     - "&l3. &7[%top-killer-3-uhc-level%] %top-killer-3-team% &a%top-killer-3% &7- &f%top-killer-3-kills% kills"
     - " "
     - "&7--------------------------------"
-
-  nick:
-    nicked: "&a[!] &fYou are now %nick%!"
-    unnicked: "&a[!] &fYou unnicked!"
-    not-nicked: "&c[!] &fYou are not nicked!"
-    min-chars: "&c[!] &fNick must have minimum of 4 letters!"
-    occupied: "&c[!] &fThis nick is already occupied!"
 
   auto-messages:
     - "%prefix% &fCreated by FloriXak!"

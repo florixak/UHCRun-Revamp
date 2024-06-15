@@ -28,6 +28,7 @@ public class PlayerManager {
         if (players.contains(p)) return;
         this.players.add(p);
     }
+
     public void removePlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
         this.players.remove(p);
@@ -36,15 +37,19 @@ public class PlayerManager {
     public List<UHCPlayer> getPlayers() {
         return this.players;
     }
+
     public List<UHCPlayer> getOnlineList() {
         return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getAliveList() {
         return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getDeadList() {
         return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getSpectatorList() {
         return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
@@ -52,19 +57,28 @@ public class PlayerManager {
     public UHCPlayer getUHCPlayer(UUID uuid) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(null);
     }
+
     public UHCPlayer getUHCPlayer(String name) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
+
     public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
     }
+
     public UHCPlayer getRandomOnlineUHCPlayer() {
         return getOnlineList().get(RandomUtils.getRandom().nextInt(getOnlineList().size()));
+    }
+
+    public UHCPlayer getRandomOnlineUHCPlayerWithoutPerm(String perm) {
+        List<UHCPlayer> onlineListWithoutPerm = getOnlineList().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
+        return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
     }
 
     public UHCPlayer getWinnerPlayer() {
         return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
+
     public void setUHCWinner() {
 
         if (getAliveList().isEmpty()) return;
@@ -86,6 +100,7 @@ public class PlayerManager {
         }
         winner.setWinner(true);
     }
+
     public String getUHCWinner() {
         if (GameValues.TEAM_MODE) {
             UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
@@ -98,6 +113,7 @@ public class PlayerManager {
         players.sort((uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
         return players;
     }
+
     public List<UHCPlayer> getTopKillers() {
         return findTopKillers(getPlayers());
     }
