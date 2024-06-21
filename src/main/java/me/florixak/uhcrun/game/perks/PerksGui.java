@@ -35,7 +35,7 @@ public class PerksGui extends Gui {
                 lore.add(TextUtils.color("soon..."));
             }
 
-            perk_item = this.createItem(XMaterial.matchXMaterial(perk.getDisplayItem()), perk.getName(), lore);
+            perk_item = this.createItem(perk.getDisplayItem(), perk.getName(), lore);
 
             getInventory().setItem(i, perk_item);
         }

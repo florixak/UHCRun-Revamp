@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.manager;
+package me.florixak.uhcrun.game.world;
 
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;

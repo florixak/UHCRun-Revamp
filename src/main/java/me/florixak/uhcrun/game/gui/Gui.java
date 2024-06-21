@@ -5,6 +5,7 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -46,15 +47,16 @@ public class Gui implements InventoryHolder {
 
     public void init() {
         this.inventory = Bukkit.createInventory(null, size, TextUtils.color(title));
-        ItemStack empty = createItem(XMaterial.AIR, " ", null);
+        ItemStack empty = createItem(Material.AIR, " ", null);
 
         for (int i = 0; i < getSize(); i++) {
             getInventory().setItem(i, empty);
         }
     }
 
-    public ItemStack createItem(XMaterial material, String name, List<String> lore) {
-        ItemStack item = new ItemStack(Objects.requireNonNull(material.parseMaterial(), "Cannot create item from null."));
+    public ItemStack createItem(Material material, String name, List<String> lore) {
+        ItemStack item = new ItemStack(Objects.requireNonNull(XMaterial.matchXMaterial(material).parseMaterial(), "Cannot create item from null."));
+        //if (item == XMaterial.AIR.parseItem()) return item;
         ItemMeta meta = item.getItemMeta();
         if (meta != null) meta.setDisplayName(TextUtils.color(name));
         if (lore != null && !lore.isEmpty()) {

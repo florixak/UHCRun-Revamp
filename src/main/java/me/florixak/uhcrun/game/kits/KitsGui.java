@@ -63,7 +63,7 @@ public class KitsGui extends Gui {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }
             }
-            kitDisplayItem = this.createItem(XMaterial.matchXMaterial(kit.getDisplayItem()), kit.getDisplayName(), lore);
+            kitDisplayItem = this.createItem(kit.getDisplayItem(), kit.getDisplayName(), lore);
 
             getInventory().setItem(i, kitDisplayItem);
         }
