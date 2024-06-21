@@ -7,27 +7,27 @@
 
 ore-generation:
   COAL_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 3
     max-vein: 6
   IRON_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 3
     max-vein: 5
   GOLD_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 3
     max-vein: 5
   DIAMOND_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 2
     max-vein: 4
   REDSTONE_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 3
     max-vein: 5
   EMERALD_ORE:
-    spawn-amount: 400
+    spawn-amount: 500
     min-vein: 2
     max-vein: 5
   OBSIDIAN:

@@ -2,8 +2,9 @@ package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.manager.gui.Gui;
+import me.florixak.uhcrun.game.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.teams.TeamGui;
 import me.florixak.uhcrun.teams.UHCTeam;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,10 +30,8 @@ public class TeamCommand implements CommandExecutor {
         Player p = (Player) sender;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        Gui teams_gui = gameManager.getGuiManager().getInventory("teams");
-
         if (args.length == 0) {
-            teams_gui.openInv(p);
+            new TeamGui(gameManager, uhcPlayer).open();
             return true;
         }
 
@@ -51,7 +50,7 @@ public class TeamCommand implements CommandExecutor {
         } else if (args.length == 1) {
 
             if (!gameManager.getTeamManager().exists(args[0])) {
-                teams_gui.openInv(p);
+                new TeamGui(gameManager, uhcPlayer).open();
                 return true;
             }
 
@@ -66,14 +65,14 @@ public class TeamCommand implements CommandExecutor {
             }
 
             if (!gameManager.getTeamManager().exists(args[1])) {
-                teams_gui.openInv(p);
+                new TeamGui(gameManager, uhcPlayer).open();
                 return true;
             }
 
             UHCTeam team = gameManager.getTeamManager().getTeam(args[1]);
             team.addMember(uhcPlayer);
         } else {
-            teams_gui.openInv(p);
+            new TeamGui(gameManager, uhcPlayer).open();
         }
         return true;
     }

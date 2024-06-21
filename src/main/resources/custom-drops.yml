@@ -2,73 +2,170 @@
 # number after material is amount, you can use static number - [8], or interval - ([1, 5])
 
 custom-drops:
+  mobs:
+    CHICKEN:
+      exp: 5
+      drops:
+        COOKED_CHICKEN: [ 1, 2 ]
+        STRING: [ 1, 2 ]
+    COW:
+      exp: 5
+      drops:
+        COOKED_BEEF: [ 1, 2 ]
+    PIG:
+      exp: 5
+      drops:
+        COOKED_BEEF: [ 1, 2 ]
+    SHEEP:
+      exp: 5
+      drops:
+        COOKED_MUTTON: [ 1, 2 ]
+        STRING: [ 1, 2 ]
+    RABBIT:
+      exp: 5
+      drops:
+        COOKED_RABBIT: [ 1, 2 ]
 
-  COAL_ORE:
-    exp: 30
-    drops:
-      TORCH: [4, 8]
-  IRON_ORE:
-    exp: 50
-    drops:
-      IRON_INGOT: [1, 2]
-  GOLD_ORE:
-    exp: 60
-    drops:
-      GOLD_INGOT: [1, 2]
-  REDSTONE_ORE:
-    exp: 80
-    drops:
-      NETHER_WART: [2, 5]
-  LAPIS_ORE:
-    exp: 60
-    drops:
-      BOOK: [1, 3]
-      LAPIS_LAZULI: [2, 6]
-  DIAMOND_ORE:
-    exp: 70
-    drops:
-      DIAMOND: [1, 2]
-  EMERALD_ORE:
-    exp: 120
-    drops:
-      AIR: [0]
-  GRAVEL:
-    exp: 10
-    drops:
-      ARROW: [4, 8]
-  SAND:
-    exp: 10
-    drops:
-      GLASS: [4, 8]
-  ANDESITE:
-    exp: 0
-    drops:
-      COBBLESTONE: [1]
-  DIORITE:
-    exp: 0
-    drops:
-      COBBLESTONE: [1]
-  SPAWNER:
-    exp: 70
-    drops:
-      GOLDEN_APPLE: [2]
-  TALL_GRASS:
-    exp: 0
-    drops:
-      BREAD: [0, 1]
-  FERN:
-    exp: 0
-    drops:
-      BREAD: [0, 1]
-  OAK_LOG:
-    exp: 20
-    drops:
-      OAK_PLANKS: [4, 4]
-  BIRCH_LOG:
-    exp: 20
-    drops:
-      OAK_PLANKS: [4]
-  SPRUCE_LOG:
-    exp: 20
-    drops:
-      OAK_PLANKS: [4]
+  blocks:
+    COAL_ORE:
+      exp: 30
+      drops:
+        TORCH: [ 4, 8 ]
+    DEEPSLATE_COAL_ORE:
+      exp: 30
+      drops:
+        TORCH: [ 4, 8 ]
+    IRON_ORE:
+      exp: 50
+      drops:
+        IRON_INGOT: [ 1, 2 ]
+    DEEPSLATE_IRON_ORE:
+      exp: 50
+      drops:
+        IRON_INGOT: [ 1, 2 ]
+    GOLD_ORE:
+      exp: 60
+      drops:
+        GOLD_INGOT: [ 1, 2 ]
+    DEEPSLATE_GOLD_ORE:
+      exp: 60
+      drops:
+        GOLD_INGOT: [ 1, 2 ]
+    REDSTONE_ORE:
+      exp: 80
+      drops:
+        NETHER_WART: [ 2, 5 ]
+    DEEPSLATE_REDSTONE_ORE:
+      exp: 80
+      drops:
+        NETHER_WART: [ 2, 5 ]
+    LAPIS_ORE:
+      exp: 60
+      drops:
+        BOOK: [ 1, 3 ]
+        LAPIS_LAZULI: [ 2, 6 ]
+    DEEPSLATE_LAPIS_ORE:
+      exp: 60
+      drops:
+        BOOK: [ 1, 3 ]
+        LAPIS_LAZULI: [ 2, 6 ]
+    DIAMOND_ORE:
+      exp: 70
+      drops:
+        DIAMOND: [ 1, 2 ]
+    DEEPSLATE_DIAMOND_ORE:
+      exp: 70
+      drops:
+        DIAMOND: [ 1, 2 ]
+    EMERALD_ORE:
+      exp: 120
+      drops:
+        AIR: [ 0 ]
+    DEEPSLATE_EMERALD_ORE:
+      exp: 120
+      drops:
+        AIR: [ 0 ]
+    GRAVEL:
+      exp: 10
+      drops:
+        ARROW: [ 4, 8 ]
+    SAND:
+      exp: 10
+      drops:
+        GLASS: [ 4, 8 ]
+    ANDESITE:
+      exp: 0
+      drops:
+        COBBLESTONE: [ 1 ]
+    DIORITE:
+      exp: 0
+      drops:
+        COBBLESTONE: [ 1 ]
+    GRANITE:
+      exp: 0
+      drops:
+        COBBLESTONE: [ 1 ]
+    SPAWNER:
+      exp: 70
+      drops:
+        GOLDEN_APPLE: [ 2 ]
+    TALL_GRASS:
+      exp: 0
+      drops:
+        BREAD: [ 0, 1 ]
+    FERN:
+      exp: 0
+      drops:
+        BREAD: [ 0, 1 ]
+    OAK_LOG:
+      exp: 20
+      drops:
+        OAK_PLANKS: [ 4, 4 ]
+    BIRCH_LOG:
+      exp: 20
+      drops:
+        OAK_PLANKS: [ 4 ]
+    SPRUCE_LOG:
+      exp: 20
+      drops:
+        OAK_PLANKS: [ 4 ]
+    ACACIA_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    AZALEA_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    BIRCH_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    DARK_OAK_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    FLOWERING_AZALEA_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    JUNGLE_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    MANGROVE_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    OAK_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    SPRUCE_LEAVES:
+      exp: 0
+      drops:
+        APPLE: [ 0, 0, 1 ]
+    PUMPKIN:
+      exp: 5
+      drops:
+        PUMPKIN_PIE: [ 1, 2 ]

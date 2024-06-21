@@ -1,21 +1,17 @@
 package me.florixak.uhcrun.utils;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.text.DecimalFormat;
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -67,9 +63,11 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
     public static void broadcast(String msg) {
         Bukkit.broadcastMessage(TextUtils.color(msg));
     }
+
     @SuppressWarnings("deprecation")
     public static ItemStack getPlayerHead(Player player, String name) {
         boolean isNewVersion = Arrays.stream(Material.values())
@@ -87,6 +85,7 @@ public class Utils {
         item.setItemMeta(meta);
         return item;
     }
+
     public static void skullTeleport(Player p, ItemStack item) {
         if (item.getType() != Material.AIR && item.getType() != null) {
             SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -104,5 +103,33 @@ public class Utils {
         }
     }
 
+    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer>> list =
+                new LinkedList<Map.Entry<String, Integer>>(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+    public static <K, V> K getKeyByValue(Map<K, V> map, V value) {
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 
 }

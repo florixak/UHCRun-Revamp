@@ -82,13 +82,13 @@ settings:
   # death chest
   death-chest:
     enabled: true
-    expire: 30 # seconds, not expire if -1
+    expire: -1 # seconds, not expire if -1
     hologram-text: "&a%player%'s chest &7(%countdown%)"
 
   # Kits
   kits:
     enabled: true
-    full-time: false # true - not yet
+    bought-forever: true
     open-when-starting-at: 10 # seconds, -1 = false, kits gui will open, like warning to choose kit
 
   # Kits
@@ -101,13 +101,16 @@ settings:
     # If false, player gets each kill to statistics immediately
     add-up-game-ends: false
 
-    player-level:
+    # Options: [ Wins, Kills, Deaths, Assists, Losses, Games-Played, UHC-Level ]
+    # Need to be in []
+    displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ]
+
+    uhc-level:
       # Players will gain xp and increase their uhc run level
       enabled: true
       first-level: 0
       first-required-exp: 100.0
-      required-exp-multiplier: 3.75
-
+      exp-multiplier: 3.75
 
     player-stats:
       display-item: PLAYER_HEAD
@@ -121,36 +124,46 @@ settings:
         - "&fLosses: &a%uhc-losses%"
         - "&fKills: &a%uhc-kills%"
         - "&fDeaths: &a%uhc-deaths%"
+    top-stats:
+      display-item: PAPER
+      custom-name: "&aTop Stats - %top-stats-mode%"
+      lore:
+        - "&f1. %uhc-top-1% - %uhc-top-1-value%"
+        - "&f2. %uhc-top-2% - %uhc-top-2-value%"
+        - "&f3. %uhc-top-3% - %uhc-top-3-value%"
+        - "&f4. %uhc-top-4% - %uhc-top-4-value%"
+        - "&f5. %uhc-top-5% - %uhc-top-5-value%"
+        - " "
+        - "&7(Click to change...)"
 
-    # Rewards
-    rewards:
-      kill:
-        money: 30
-        exp: 60
-        uhc-exp: 60
-      assist:
-        money: 10
-        exp: 0
-        uhc-exp: 20
-      win:
-        money: 150
-        uhc-exp: 300
-      lose:
-        money: 50
-        uhc-exp: 150
-      playing-time:
-        enabled: false
-        each-phase: false
-        money: 10
-        uhc-exp: 20
-        period: 60 # seconds
-      level-up:
-        base-reward: 10
-        reward-coefficient: 1.2 # %base-reward% + (%coefficient% ^ %uhc-level%)
+  # Rewards
+  rewards:
+    kill:
+      money: 30
+      exp: 60
+      uhc-exp: 60
+    assist:
+      money: 10
+      exp: 0
+      uhc-exp: 20
+    win:
+      money: 150
+      uhc-exp: 300
+    lose:
+      money: 50
+      uhc-exp: 150
+    activity:
+      enabled: true
+      money: 10
+      uhc-exp: 20
+      period: 300 # seconds
+    level-up:
+      base-reward: 10
+      reward-coefficient: 1.2 # %base-reward% + (%reward-coefficient% ^ %uhc-level%)
 
   # End game commands - commands which is executed on game ends
   # IN PROGRESS...
-  end-game-commands: []
+  end-game-commands: [ ]
 
   # Tablist
   tablist:
@@ -158,7 +171,7 @@ settings:
     header: "&2&lUHC&a&lRun\n"
     solo-mode-player-list: "&7[%uhc-level%] &f%player%"
     team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
-    footer: "\n&8www.florixak.tk"
+    footer: "\n&7www.florixak.tk"
 
   # Auto broadcast
   auto-broadcast:
@@ -176,27 +189,27 @@ settings:
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true
-      display-name: "&fTeams"
-      material: NETHER_STAR
+      display-name: "&aTeams"
+      material: WHITE_WOOL
       slot: 0
     kits:
       enabled: true
-      display-name: "&fKits"
+      display-name: "&aKits"
       material: IRON_PICKAXE
       slot: 3
     perks:
       enabled: true
-      display-name: "&fPerks"
+      display-name: "&aPerks"
       material: ARROW
       slot: 5
     custom-crafts:
       enabled: true
-      display-name: "&fCustom Crafts"
+      display-name: "&aCustom Crafts"
       material: CRAFTING_TABLE
       slot: 4
     statistics:
       enabled: true
-      display-name: "&fStatistics"
+      display-name: "&aStatistics"
       material: PAPER # if null then player head
       slot: 8
 

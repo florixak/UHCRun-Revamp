@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.game.deathchest;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -10,6 +10,7 @@ import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -38,20 +39,22 @@ public class DeathChest {
         this.deathChestExpire = new DeathChestExpire(this);
         this.expire = expire;
 
-        if (this.title.isEmpty() || this.title == null) {
-            this.title = "Death Chest";
+        if (this.title == null) {
+            this.title = uhcPlayer.getName() + "'s Death Chest";
         }
         createChest();
     }
+
     public void createChest() {
-        Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
+        World world = loc.getWorld();
+        world.getBlockAt(loc).setType(XMaterial.CHEST.parseMaterial());
         BlockState state = loc.getBlock().getState();
 
         Chest chest = (Chest) state;
         chest.setCustomName(TextUtils.color(this.title));
-        addHologram();
+        setHologram();
 
-        if (!getContents().isEmpty()) {
+        if (getContents() != null && !getContents().isEmpty()) {
             for (ItemStack item : getContents()) {
                 chest.getInventory().addItem(item);
             }
@@ -70,39 +73,44 @@ public class DeathChest {
         return this.expire;
     }
     public void startExpiring() {
-        this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 20L, 20L);
+        this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 0L, 20L);
     }
     public DeathChestExpire getExpireTask() {
         return this.deathChestExpire;
     }
-    public String getExpireTime() {
+    public String getFormattedExpireTime() {
         return TimeUtils.getFormattedTime(getExpireTask().getExpireTime());
+    }
+    public int getExpireTime() {
+        return getExpireTask().getExpireTime();
     }
 
     public List<ItemStack> getContents() {
         return this.contents;
     }
 
-    public void addHologram() {
-        String text = GameManager.getGameManager().getDeathChestManager().getHologramText()
+    public void setHologram() {
+        String text = GameValues.HOLOGRAM_TEXT
                 .replace("%player%", uhcPlayer.getName())
-                .replace("%countdown%", getExpireTime());
+                .replace("%countdown%", getFormattedExpireTime());
 
-        this.hologram = new Hologram(text, loc.add(0.5, -0.5, 0.5));
+        this.hologram = new Hologram(text);
+        this.hologram.spawn(loc);
     }
     public Hologram getHologram() {
         return this.hologram;
     }
 
     public void removeChest() {
-
-        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
-        block.setType(XMaterial.AIR.parseMaterial());
-        getHologram().remove();
-
         if (getExpireTask() != null && !getExpireTask().isCancelled()) {
             getExpireTask().cancel();
         }
+
+        getHologram().remove();
+
+        Block block = Bukkit.getWorld(loc.getWorld().getName()).getBlockAt(loc.add(0.5, 1, 0.5));
+        block.setType(XMaterial.AIR.parseMaterial());
+
 
         // TODO create explode
 

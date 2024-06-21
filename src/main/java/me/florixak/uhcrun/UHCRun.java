@@ -1,15 +1,13 @@
 package me.florixak.uhcrun;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.hook.PAPIHook;
 import me.florixak.uhcrun.hook.ProtocolLibHook;
 import me.florixak.uhcrun.hook.VaultHook;
-import me.florixak.uhcrun.manager.WorldManager;
-import me.florixak.uhcrun.utils.text.TextUtils;
+import me.florixak.uhcrun.game.world.WorldManager;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class UHCRun extends JavaPlugin {
@@ -36,6 +34,7 @@ public final class UHCRun extends JavaPlugin {
         getLogger().info("Version: " + getDescription().getVersion());
 
         checkNMSVersion();
+        ProtocolLibHook.setupProtocolLib();
 
         this.gameManager = new GameManager(this);
 
@@ -61,24 +60,14 @@ public final class UHCRun extends JavaPlugin {
     }
 
     private void registerDependency() {
-        FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        if (config.getBoolean("settings.addons.use-Vault", true)) {
+        if (GameValues.CAN_USE_VAULT)
             VaultHook.setupEconomy();
-            if (!VaultHook.hasEconomy()) getLogger().info(TextUtils.color("&cVault plugin not found."));
-        }
 
-        if (config.getBoolean("settings.addons.use-LuckPerms", false)) {
+        if (GameValues.CAN_USE_LUCKPERMS)
             LuckPermsHook.setupLuckPerms();
-            if (!LuckPermsHook.hasLuckPerms()) getLogger().info(TextUtils.color("&cLuckPerms plugin not found."));
-        }
 
-        if (config.getBoolean("settings.addons.use-PlaceholderAPI", false)) {
+        if (GameValues.CAN_USE_PLACEHOLDERAPI)
             PAPIHook.setupPlaceholderAPI();
-        }
-
-        if (config.getBoolean("settings.addons.use-ProtocolLib", false)) {
-            ProtocolLibHook.setupProtocolLib();
-        }
     }
 
     public void checkNMSVersion() {

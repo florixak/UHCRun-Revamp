@@ -1,13 +1,17 @@
 package me.florixak.uhcrun.player;
 
+import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.statistics.TopStatistic;
 import me.florixak.uhcrun.teams.UHCTeam;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import me.florixak.uhcrun.utils.RandomUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlayerManager {
@@ -24,6 +28,7 @@ public class PlayerManager {
         if (players.contains(p)) return;
         this.players.add(p);
     }
+
     public void removePlayer(UHCPlayer p) {
         if (!players.contains(p)) return;
         this.players.remove(p);
@@ -32,15 +37,19 @@ public class PlayerManager {
     public List<UHCPlayer> getPlayers() {
         return this.players;
     }
+
     public List<UHCPlayer> getOnlineList() {
         return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getAliveList() {
         return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getDeadList() {
         return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
+
     public List<UHCPlayer> getSpectatorList() {
         return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
@@ -48,87 +57,81 @@ public class PlayerManager {
     public UHCPlayer getUHCPlayer(UUID uuid) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(null);
     }
+
     public UHCPlayer getUHCPlayer(String name) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
+
     public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
         return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
     }
+
     public UHCPlayer getRandomOnlineUHCPlayer() {
-        Random ran = new Random();
-        return getOnlineList().get(ran.nextInt(getOnlineList().size()));
+        return getOnlineList().get(RandomUtils.getRandom().nextInt(getOnlineList().size()));
+    }
+
+    public UHCPlayer getRandomOnlineUHCPlayerWithoutPerm(String perm) {
+        List<UHCPlayer> onlineListWithoutPerm = getOnlineList().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
+        return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
     }
 
     public UHCPlayer getWinnerPlayer() {
         return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
+
+    public void setUHCWinner() {
+
+        if (getAliveList().isEmpty()) return;
+
+        UHCPlayer winner = getAliveList().get(0);
+        if (winner == null) return;
+
+        for (UHCPlayer uhcPlayer : getAliveList()) {
+            if (!uhcPlayer.isOnline()) return;
+            if (uhcPlayer.getKills() > winner.getKills()) {
+                winner = uhcPlayer;
+            }
+        }
+        if (GameValues.TEAM_MODE) {
+            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
+                teamMember.setWinner(true);
+            }
+            return;
+        }
+        winner.setWinner(true);
+    }
+
+    public String getUHCWinner() {
+        if (GameValues.TEAM_MODE) {
+            UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
+            return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
+        }
+        return getWinnerPlayer() != null ? getWinnerPlayer().getName() : "None";
+    }
+
     private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
-        Collections.sort(players, (uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
+        players.sort((uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
         return players;
     }
+
     public List<UHCPlayer> getTopKillers() {
         return findTopKillers(getPlayers());
     }
 
+    public List<TopStatistic> getTotalTop(String type) {
+        List<TopStatistic> topTotal = new ArrayList<>();
+        FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+        for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
+            String name = playerData.getString("player-data." + uuid + ".name");
+            int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
+            topTotal.add(new TopStatistic(name, value));
+        }
+        topTotal.sort((name1, name2) -> Integer.compare(name2.getValue(), name1.getValue()));
+        return topTotal;
+    }
+
     public int getMaxPlayers() {
         return GameValues.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
-    }
-
-    public void readyPlayer(UHCPlayer uhcPlayer) {
-        Player p = uhcPlayer.getPlayer();
-
-        if (uhcPlayer.hasKit()) {
-            uhcPlayer.getData().withdrawMoney(uhcPlayer.getKit().getCost());
-        }
-
-        uhcPlayer.setState(PlayerState.ALIVE);
-
-        p.setGameMode(GameMode.SURVIVAL);
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-
-        clearPlayerInventory(p);
-
-        if (GameValues.TEAM_MODE && !uhcPlayer.hasTeam()) {
-            gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-        } else if (!GameValues.TEAM_MODE) {
-            UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
-            gameManager.getTeamManager().addTeam(uhcTeam);
-            uhcPlayer.setTeam(uhcTeam);
-        }
-
-        if (uhcPlayer.hasKit()) {
-            uhcPlayer.getKit().getKit(uhcPlayer);
-        }
-    }
-    public void setSpectator(UHCPlayer uhcPlayer, PlayerState pState) {
-        Player p = uhcPlayer.getPlayer();
-        Location playerLoc = p.getLocation();
-
-        uhcPlayer.setState(pState);
-
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-        clearPlayerInventory(p);
-
-        p.setGameMode(GameMode.SPECTATOR);
-
-        p.teleport(new Location(
-                Bukkit.getWorld(playerLoc.getWorld().getName()),
-                playerLoc.getX()+0,
-                playerLoc.getY()+10,
-                playerLoc.getZ()+0));
-    }
-
-    public void clearPlayerInventory(Player p) {
-        p.getInventory().clear();
-
-        //clear player armor
-        ItemStack[] emptyArmor = new ItemStack[4];
-        for(int i = 0; i < emptyArmor.length; i++){
-            emptyArmor[i] = new ItemStack(Material.AIR);
-        }
-        p.getInventory().setArmorContents(emptyArmor);
     }
 
     public void onDisable() {

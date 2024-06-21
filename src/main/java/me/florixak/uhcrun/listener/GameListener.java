@@ -3,22 +3,19 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
-import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.player.PlayerManager;
-import me.florixak.uhcrun.player.PlayerState;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import me.florixak.uhcrun.utils.text.TextUtils;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -67,7 +64,11 @@ public class GameListener implements Listener {
                 for (int i = 0; i < gameResults.size(); i++) {
                     UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
                     boolean isUHCPlayer = topKiller != null;
-                    message = message.replace("%winner%", winner).replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None").replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0").replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "").replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
+                    message = message.replace("%winner%", winner)
+                            .replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None")
+                            .replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
+                            .replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "")
+                            .replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
 
@@ -78,10 +79,8 @@ public class GameListener implements Listener {
         // Statistics
         for (UHCPlayer player : playerManager.getOnlineList()) {
 
-            if (addUpStatsOnEnd)
-                player.getData().addStatistics();
-            else
-                player.getData().addWinOrLose();
+            if (!addUpStatsOnEnd) player.getData().addWinOrLose();
+            else player.getData().addStatistics();
 
             player.clearInventory();
             player.setGameMode(GameMode.ADVENTURE);
@@ -103,17 +102,24 @@ public class GameListener implements Listener {
         UHCPlayer killer = event.getKiller();
         UHCPlayer victim = event.getVictim();
 
-        victim.clearInventory();
-        playerManager.setSpectator(victim, PlayerState.DEAD);
+        victim.die();
 
         if (killer != null) {
             killer.addKill();
-            killer.getPlayer().giveExp(GameValues.EXP_FOR_KILL);
+            killer.getPlayer().giveExp((int) GameValues.EXP_FOR_KILL);
             gameManager.getPerksManager().givePerk(killer);
 
-            Utils.broadcast(Messages.KILL.toString().replace("%player%", victim.getName()).replace("%killer%", killer.getName()));
+            killer.sendMessage(Messages.REWARDS_KILL.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
+
+            Utils.broadcast(Messages.KILL.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%killer%", killer.getName()));
         } else {
-            Utils.broadcast(Messages.DEATH.toString().replace("%player%", victim.getName()));
+            Utils.broadcast(Messages.DEATH.toString()
+                    .replace("%player%", victim.getName()));
         }
 
         if (victim.wasDamagedByMorePeople()) {
@@ -124,12 +130,14 @@ public class GameListener implements Listener {
                 return;
             }
             assistPlayer.addAssist();
-            assistPlayer.giveExp(GameValues.EXP_FOR_ASSIST);
-            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString().replace("%player%", victim.getName()).replace("%money-for-assist%", String.valueOf(GameValues.MONEY_FOR_ASSIST)).replace("%uhc-exp-for-assist%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)).replace("%exp-for-assist%", String.valueOf(GameValues.EXP_FOR_ASSIST)));
-
             if (!addUpStatsOnEnd) {
-                victim.getData().addAssists(1);
+                assistPlayer.getData().addAssists(1);
             }
+            assistPlayer.giveExp((int) GameValues.EXP_FOR_ASSIST);
+            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
+                    .replace("%player%", victim.getName())
+                    .replace("%money%", String.valueOf(GameValues.MONEY_FOR_ASSIST))
+                    .replace("%uhc-exp%", String.valueOf(GameValues.UHC_EXP_FOR_ASSIST)));
         }
 
         if (!addUpStatsOnEnd) {
@@ -139,7 +147,7 @@ public class GameListener implements Listener {
             victim.getData().addDeaths(1);
         }
 
-        if (!victim.getTeam().isAlive() && GameValues.TEAM_MODE) {
+        if (GameValues.TEAM_MODE && !victim.getTeam().isAlive()) {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
     }
@@ -166,15 +174,15 @@ public class GameListener implements Listener {
 
             ItemStack drop_is = new ItemStack(XMaterial.values()[pick].parseMaterial());
             Location loc = block.getLocation();
-
             Location location = loc.add(0.5, 0.5, 0.5);
+
             Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
             return;
         }
 
-        if (gameManager.getCustomDropManager().hasCustomDrop(block.getType())) {
-            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomDrop(block.getType());
-            customDrop.dropItem(event, null);
+        if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
+            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+            customDrop.dropBlockItem(event);
         }
     }
 
@@ -191,35 +199,9 @@ public class GameListener implements Listener {
     public void handleEntityDrop(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof Animals)) return;
 
-        Random ran = new Random();
-        int amount = 1;
-
-        if (event.getEntity() instanceof Cow) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Pig) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_BEEF.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Sheep) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_MUTTON.parseMaterial(), amount));
-            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Chicken) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_CHICKEN.parseMaterial(), amount));
-            event.getDrops().add(new ItemStack(XMaterial.STRING.parseMaterial(), amount));
-        }
-        if (event.getEntity() instanceof Rabbit) {
-            event.getDrops().clear();
-            amount = ran.nextInt(3) + 1;
-            event.getDrops().add(new ItemStack(XMaterial.COOKED_RABBIT.parseMaterial(), amount));
+        if (gameManager.getCustomDropManager().hasMobCustomDrop(event.getEntityType())) {
+            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomMobDrop(event.getEntityType());
+            customDrop.dropMobItem(event);
         }
     }
 

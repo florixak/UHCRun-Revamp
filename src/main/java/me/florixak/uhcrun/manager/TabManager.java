@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.manager;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
@@ -30,7 +29,7 @@ public class TabManager {
             return;
         }
 
-        ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+        ProtocolManager pm = ProtocolLibHook.getProtocolManager();
         final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
 
         pc.getChatComponents()

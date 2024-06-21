@@ -76,9 +76,9 @@ public class PlaceholderUtil {
         if (text.contains("%kit%")) {
             if (GameValues.KITS_ENABLED) {
                 if (uhcPlayer.hasKit()) {
-                    text = text.replace("%kit%", uhcPlayer.getKit().getName());
+                    text = text.replace("%kit%", uhcPlayer.getKit().getDisplayName());
                 } else {
-                    text = text.replace("%kit%", Messages.KITS_SB_SELECTED_NONE.toString());
+                    text = text.replace("%kit%", Messages.KITS_SELECTED_NONE.toString());
                 }
             } else {
                 text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());
@@ -118,7 +118,7 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%winner%")) {
-            text = text.replace("%winner%", gameManager.getUHCWinner());
+            text = text.replace("%winner%", gameManager.getPlayerManager().getUHCWinner());
         }
 
         if (text.contains("%team%")) {
@@ -126,7 +126,7 @@ public class PlaceholderUtil {
                 text = text.replace("%team%", Messages.TEAM_SOLO.toString());
             } else {
                 if (uhcPlayer.hasTeam()) {
-                    text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getName()));
+                    text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getDisplayName()));
                 } else {
                     text = text.replace("%team%", Messages.TEAM_NONE.toString());
                 }

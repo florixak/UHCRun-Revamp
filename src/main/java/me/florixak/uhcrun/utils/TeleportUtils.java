@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.HashSet;
-import java.util.Random;
 
 public class TeleportUtils {
 
@@ -23,19 +22,16 @@ public class TeleportUtils {
         bad_blocks.add(XMaterial.CACTUS.parseMaterial());
         bad_blocks.add(XMaterial.WATER.parseMaterial());
         bad_blocks.add(XMaterial.DIRT.parseMaterial());
-        bad_blocks.add(XMaterial.GRASS.parseMaterial());
         bad_blocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
         bad_blocks.add(XMaterial.STONE.parseMaterial());
     }
 
     public static Location generateLocation(){
 
-        Random random = new Random();
-
         World world = GameValues.GAME_WORLD;
-        double x = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
+        double x = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
         double y = 150.0;
-        double z = random.nextInt(((int) gameManager.getBorderManager().getSize()/2)-10);
+        double z = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
 
         Location randomLocation = new Location(world, x, y, z);
         y = randomLocation.getWorld().getHighestBlockYAt(randomLocation);

@@ -1,6 +1,5 @@
-package me.florixak.uhcrun.manager;
+package me.florixak.uhcrun.game.world;
 
-import me.florixak.uhcrun.game.GameValues;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -13,7 +12,6 @@ import java.io.IOException;
 public class WorldManager {
 
     public void createNewUHCWorld() {
-
         try {
             File world = new File(Bukkit.getWorldContainer(), "world");
             FileUtils.deleteDirectory(world);

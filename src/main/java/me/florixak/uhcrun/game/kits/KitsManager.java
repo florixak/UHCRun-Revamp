@@ -17,56 +17,56 @@ import java.util.List;
 
 public class KitsManager {
 
-    private final GameManager gameManager;
-    private final FileConfiguration config, kits_config;
+    private final FileConfiguration config, kitsConfig;
 
     private final int openWhenStartingAt;
 
-    private List<Kit> kits;
+    private List<Kit> kitsList;
 
     public KitsManager(GameManager gameManager) {
-        this.gameManager = gameManager;
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.kits_config = gameManager.getConfigManager().getFile(ConfigType.KITS).getConfig();
+        this.kitsConfig = gameManager.getConfigManager().getFile(ConfigType.KITS).getConfig();
 
         this.openWhenStartingAt = config.getInt("settings.kits.open-when-starting-at");
 
-        this.kits = new ArrayList<>();
+        this.kitsList = new ArrayList<>();
     }
 
     public void loadKits() {
         if (!GameValues.KITS_ENABLED) return;
 
-        for (String kitName : kits_config.getConfigurationSection("kits").getKeys(false)) {
+        for (String kit : kitsConfig.getConfigurationSection("kits").getKeys(false)) {
 
             List<ItemStack> items = new ArrayList<>();
-            Material display_item = XMaterial.BARRIER.parseMaterial();
+            String displayName = kit;
+            Material displayItem = XMaterial.BARRIER.parseMaterial();
             double cost = 0;
 
-            for (String param : kits_config.getConfigurationSection("kits." + kitName).getKeys(false)) {
+            for (String param : kitsConfig.getConfigurationSection("kits." + kit).getKeys(false)) {
 
-                if (param.equalsIgnoreCase("display-item")) {
-                    display_item = XMaterial.matchXMaterial(kits_config.getString("kits." + kitName + "." + param, "BARRIER").toUpperCase()).get().parseMaterial();
+                if (param.equalsIgnoreCase("display-name")) {
+                    displayName = kitsConfig.getString("kits." + kit + "." + param, kit);
+
+                } else if (param.equalsIgnoreCase("display-item")) {
+                    displayItem = XMaterial.matchXMaterial(kitsConfig.getString("kits." + kit + "." + param, "BARRIER").toUpperCase()).get().parseMaterial();
 
                 } else if (param.equalsIgnoreCase("cost")) {
-                    cost = kits_config.getDouble("kits." + kitName + "." + param, 0);
+                    cost = kitsConfig.getDouble("kits." + kit + "." + param, 0);
 
                 } else if (param.equalsIgnoreCase("items")) {
 
-                    if (kits_config.getConfigurationSection("kits." + kitName + "." + param) != null) {
-                        for (String item : kits_config.getConfigurationSection("kits." + kitName + "." + param).getKeys(false)) {
-                            ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null
-                                    ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem()
-                                    : XMaterial.STONE.parseItem();
+                    if (kitsConfig.getConfigurationSection("kits." + kit + "." + param) != null) {
+                        for (String item : kitsConfig.getConfigurationSection("kits." + kit + "." + param).getKeys(false)) {
+                            ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
 
-                            int amount = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".amount", 1);
+                            int amount = kitsConfig.getInt("kits." + kit + "." + param + "." + item + ".amount", 1);
                             ItemStack newI = ItemUtils.createItem(i, null, amount, null);
 
-                            if (kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments") != null) {
-                                for (String enchant : kits_config.getConfigurationSection("kits." + kitName + "." + param + "." + item + ".enchantments").getKeys(false)) {
+                            if (kitsConfig.getConfigurationSection("kits." + kit + "." + param + "." + item + ".enchantments") != null) {
+                                for (String enchant : kitsConfig.getConfigurationSection("kits." + kit + "." + param + "." + item + ".enchantments").getKeys(false)) {
                                     String enchantment = enchant.toUpperCase();
                                     Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                                    int level = kits_config.getInt("kits." + kitName + "." + param + "." + item + ".enchantments." + enchantment, 1);
+                                    int level = kitsConfig.getInt("kits." + kit + "." + param + "." + item + ".enchantments." + enchantment, 1);
                                     ItemUtils.addEnchant(newI, e, level, true);
                                 }
                             }
@@ -75,17 +75,16 @@ public class KitsManager {
                     }
                 }
             }
-            Kit kit = new Kit(kitName, display_item, cost, items);
-            addKit(kit);
+            addKit(new Kit(kit, displayName, displayItem, cost, items));
         }
     }
 
     public void addKit(Kit kit) {
-        this.kits.add(kit);
+        this.kitsList.add(kit);
     }
 
     public Kit getKit(String name) {
-        for (Kit kit : this.kits) {
+        for (Kit kit : this.kitsList) {
             if (kit.getName().equalsIgnoreCase(name)) {
                 return kit;
             }
@@ -93,8 +92,8 @@ public class KitsManager {
         return null;
     }
 
-    public List<Kit> getKits() {
-        return this.kits;
+    public List<Kit> getKitsList() {
+        return this.kitsList;
     }
 
     public String getKitCost(String name) {
@@ -105,6 +104,7 @@ public class KitsManager {
     public int getOpenWhenStartingAt() {
         return this.openWhenStartingAt;
     }
+
     public boolean willOpenWhenStarting() {
         return this.openWhenStartingAt != -1;
     }
@@ -114,7 +114,7 @@ public class KitsManager {
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
             if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
                 String display_name = config.getString("settings.selectors." + selector + ".display-name");
-                String material = config.getConfigurationSection("settings.selectors." + selector).getString("material").toUpperCase();
+                String material = config.getConfigurationSection("settings.selectors." + selector).getString("material", "BARRIER").toUpperCase();
                 ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
                 int slot = config.getInt("settings.selectors." + selector + ".slot");
 
@@ -122,5 +122,12 @@ public class KitsManager {
                 p.getPlayer().getInventory().setItem(slot, newItem);
             }
         }
+    }
+
+    public boolean exists(String kitName) {
+        for (Kit kit : kitsList) {
+            if (kit.getName().equalsIgnoreCase(kitName)) return true;
+        }
+        return false;
     }
 }

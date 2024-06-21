@@ -1,18 +1,16 @@
 package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.UHCRun;
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.tasks.*;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 
 public class TaskManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
-    private final long delay = 20L;
+    private final long delay = 0L;
     private final long period = 20L;
 
     private StartingCD startingCd;
@@ -27,15 +25,15 @@ public class TaskManager {
 
     public TaskManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
 
     public void startStartingCD() {
         this.startingCd = new StartingCD(gameManager);
         this.startingCd.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
+
     public void stopStartingCD() {
-        if (!this.startingCd.isCancelled()) this.startingCd.cancel();
+        if (startingCd == null || !startingCd.isCancelled()) this.startingCd.cancel();
     }
 
     public void startMiningCD() {
@@ -64,26 +62,27 @@ public class TaskManager {
     }
 
     public void runActivityRewards() {
-        if (config.getBoolean("settings.rewards.playing-time.enabled")) {
-            int interval = config.getInt("settings.rewards.playing-time.period")*20;
-            new PlayingRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
+        if (GameValues.ACTIVITY_REWARDS_ENABLED) {
+            int interval = GameValues.ACTIVITY_REWARDS_INTERVAL * 20;
+            new ActivityRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
+
     public void runAutoBroadcast() {
-        if (config.getBoolean("settings.auto-broadcast.enabled")) {
-            int interval = config.getInt("settings.auto-broadcast.period")*20;
+        if (GameValues.BROADCAST_ENABLED) {
+            int interval = GameValues.BROADCAST_INTERVAL * 20;
             new AutoBCMessage(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
 
     public void runGameChecking() {
         this.gameChecking = new GameChecking(gameManager);
-        this.gameChecking.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
+        this.gameChecking.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
     public void runScoreboardUpdate() {
         this.scoreboardUpdate = new ScoreboardUpdate(gameManager);
-        this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), this.delay, this.period);
+        this.scoreboardUpdate.runTaskTimer(UHCRun.getInstance(), delay, period);
     }
 
     public void onDisable() {

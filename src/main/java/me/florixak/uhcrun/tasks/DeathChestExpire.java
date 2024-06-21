@@ -1,21 +1,17 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.game.deathchest.DeathChest;
-import me.florixak.uhcrun.game.deathchest.DeathChestManager;
-import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.TimeUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathChestExpire extends BukkitRunnable {
 
-    private final DeathChestManager deathChestManager;
     private final DeathChest deathChest;
     private int expireTime;
 
     public DeathChestExpire(DeathChest deathChest) {
         this.deathChest = deathChest;
-        this.deathChestManager = GameManager.getGameManager().getDeathChestManager();
-        this.expireTime = deathChestManager.getExpireTime();
+        this.expireTime = deathChest.getExpireTime();
     }
 
     public int getExpireTime() {
@@ -26,7 +22,7 @@ public class DeathChestExpire extends BukkitRunnable {
     public void run() {
         if (expireTime <= 0) {
             cancel();
-            deathChestManager.removeDeathChest(deathChest);
+            deathChest.removeChest();
             return;
         }
         deathChest.getHologram().setText(deathChest.getHologram().getText()

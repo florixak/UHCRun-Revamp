@@ -1,9 +1,8 @@
 package me.florixak.uhcrun.game.deathchest;
 
-import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,33 +12,25 @@ import java.util.List;
 public class DeathChestManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration config;
 
     private List<DeathChest> deathChests;
-    private final String hologramText;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-
         this.deathChests = new ArrayList<>();
-        this.hologramText = config.getString("settings.death-chest.hologram-text");
     }
 
     public int getExpireTime() {
-        return config.getInt("settings.death-chest.expire");
+        return GameValues.HOLOGRAM_EXPIRE_TIME;
     }
-    public boolean willExpire() {
+    public boolean canExpire() {
         return getExpireTime() != -1;
     }
 
-    public String getHologramText() {
-        return hologramText;
-    }
-
     public void createDeathChest(Player p, List<ItemStack> items) {
+        if (gameManager.getPlayerManager().getAliveList().size() <= 1) return;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        DeathChest deathChest = new DeathChest(uhcPlayer, p.getLocation(), uhcPlayer.getName(), items, willExpire());
+        DeathChest deathChest = new DeathChest(uhcPlayer, uhcPlayer.getDeathLocation(), uhcPlayer.getName(), items, canExpire());
         this.deathChests.add(deathChest);
     }
 
@@ -50,6 +41,7 @@ public class DeathChestManager {
     }
 
     public void onDisable() {
+        if (deathChests == null || deathChests.isEmpty()) return;
         for (DeathChest deathChest : deathChests) {
             removeDeathChest(deathChest);
         }

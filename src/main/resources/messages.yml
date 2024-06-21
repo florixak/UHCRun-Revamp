@@ -5,6 +5,7 @@
 # %player% - player name
 # %online% - current online number
 # %countdown% - countdown in phase
+# %money% - money for action (not for all)
 # -----------------------------------------
 
 Messages:
@@ -72,19 +73,24 @@ Messages:
     solo: "Solo"
 
   kits:
-    selected: "&a[!] &fKit %kit% was selected!"
+    selected: "&a[!] &fKit %kit% &fwas selected!"
+    inventory-selected: "&aSelected"
+    inventory-click-to-select: "&eClick to select"
     disabled: "&c[!] &fKits are disabled!"
-    inv-selected: "&aSelected"
-    sb-selected-none: "None"
-    sb-disabled: "Disabled"
-    money-deduct: "&e[!] &fMoney for kit will be deducted after game starts!"
+    scoreboard-disabled: "Disabled"
+    selected-none: "None"
+    money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %current-money% (kit %kit%)"
 
   perks:
-    selected: "&a[!] &fPerk %perk% was selected!"
+    selected: "&a[!] &fPerk %perk% &fwas selected!"
+    inventory-selected: "&aSelected"
+    inventory-click-to-select: "&eClick to select"
     disabled: "&c[!] &Perks are disabled!"
-    inv-selected: "&aSelected"
-    sb-selected-none: "None"
-    sb-disabled: "Disabled"
+    scoreboard-disabled: "Disabled"
+    selected-none: "None"
+    money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %current-money% (kit %kit%)"
 
   rewards:
     win:
@@ -92,28 +98,30 @@ Messages:
       - " &a+%money-for-game% &fcoins for win"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
+      - " &a+%money-for-activity% &fcoins for activity"
       - " &a+%uhc-exp-for-game% &fexp for win"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
+      - " &a+%uhc-exp-for-activity% &exp for activity"
       - "&7--------------------------------"
     lose:
       - "&7---------- %prefix% &7----------"
       - " &a+%money-for-game% &fcoins for lose"
       - " &a+%money-for-kills% &fcoins for kills"
       - " &a+%money-for-assists% &fcoins for assists"
+      - " &a+%money-for-activity% &fcoins for activity"
       - " &a+%uhc-exp-for-game% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
+      - " &a+%uhc-exp-for-activity% &fexp for activity"
       - "&7--------------------------------"
 
-    kill: "&e[!] &a+%money-for-kill% &fcoins and &a+%exp-for-kill% &fexp for kill! &7(%player%)"
-    assist: "&e[!] &a+%money-for-assist% &fcoins and &a+%exp-for-assist% &fexp for assist! &7(%player%)"
+    kill: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for kill! &7(%player%)"
+    assist: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for assist! &7(%player%)"
 
-    per-time: "&6[+] &f%money-per-time% coins and %xp-per-time% XP for activity!"
+    activity: "&6[+] &f%money% coins and %uhc-exp% XP for activity!"
 
-    level-up: "&a[LEVEL UP] &a+%money-for-level-up% &fcoins for level up!"
-
-
+    level-up: "&a[LEVEL UP] &a+%money% &fcoins for level up!"
 
   game-results:
     - "&7---------- %prefix% &3----------"
@@ -125,13 +133,6 @@ Messages:
     - "&l3. &7[%top-killer-3-uhc-level%] %top-killer-3-team% &a%top-killer-3% &7- &f%top-killer-3-kills% kills"
     - " "
     - "&7--------------------------------"
-
-  nick:
-    nicked: "&a[!] &fYou are now %nick%!"
-    unnicked: "&a[!] &fYou unnicked!"
-    not-nicked: "&c[!] &fYou are not nicked!"
-    min-chars: "&c[!] &fNick must have minimum of 4 letters!"
-    occupied: "&c[!] &fThis nick is already occupied!"
 
   auto-messages:
     - "%prefix% &fCreated by FloriXak!"

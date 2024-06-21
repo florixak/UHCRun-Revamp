@@ -1,9 +1,8 @@
 package me.florixak.uhcrun.hook;
 
-import me.florixak.uhcrun.game.GameValues;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultHook {
@@ -14,38 +13,46 @@ public class VaultHook {
     }
 
     public static void setupEconomy() {
+        if (!hasVault()) {
+            Bukkit.getLogger().info("Vault plugin not found! Please download it, if you want to use it or disable in config.");
+            return;
+        }
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
         if (rsp != null) economy = rsp.getProvider();
     }
 
-    public static boolean hasEconomy() {
-        return economy != null && GameValues.CAN_USE_VAULT;
+    public static boolean hasVault() {
+        return Bukkit.getPluginManager().getPlugin("Vault") != null;
     }
 
-    public static double getBalance(OfflinePlayer target) {
+    public static boolean hasEconomy() {
+        return economy != null;
+    }
+
+    public static double getBalance(Player target) {
         if (!hasEconomy())
-            throw new UnsupportedOperationException("Vault plugin not found!");
+            return -1.00;
 
         return economy.getBalance(target);
     }
 
-    public static String withdraw(OfflinePlayer target, double amount) {
+    public static String withdraw(Player target, double amount) {
         if (!hasEconomy())
-            throw new UnsupportedOperationException("Vault plugin not found!");
+            return "ERROR";
 
         return economy.withdrawPlayer(target, amount).errorMessage;
     }
 
-    public static String deposit(OfflinePlayer target, double amount) {
+    public static String deposit(Player target, double amount) {
         if (!hasEconomy())
-            throw new UnsupportedOperationException("Vault plugin not found!");
+            return "ERROR";
 
         return economy.depositPlayer(target, amount).errorMessage;
     }
 
     public static String formatCurrencySymbol(double amount) {
         if (!hasEconomy())
-            throw new UnsupportedOperationException("Vault plugin not found!");
+            return "ERROR";
 
         return economy.format(amount);
     }

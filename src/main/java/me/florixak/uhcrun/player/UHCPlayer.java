@@ -1,10 +1,14 @@
 package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
+import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
+import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
+import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XPotion;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -13,6 +17,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -36,6 +41,7 @@ public class UHCPlayer {
     private Perk perk;
     private boolean hasWon;
     private List<UHCPlayer> assistsList;
+    private Location deathLoc;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -50,6 +56,7 @@ public class UHCPlayer {
         this.kit = null;
         this.perk = null;
         this.team = null;
+        this.deathLoc = null;
         this.assistsList = new ArrayList<>();
     }
 
@@ -62,6 +69,9 @@ public class UHCPlayer {
     }
 
     public String getName() {
+        if (Bukkit.getPlayer(name) == null) {
+            return getData().getName();
+        }
         return this.name;
     }
 
@@ -138,8 +148,7 @@ public class UHCPlayer {
         if (this.kit == kit) return;
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString()
-                .replace("%kit%", kit.getName()));
-        sendMessage(Messages.KITS_MONEY_DEDUCT.toString());
+                .replace("%kit%", kit.getDisplayName()));
     }
 
     public boolean hasPerk() {
@@ -151,6 +160,83 @@ public class UHCPlayer {
     public void setPerk(Perk perk) {
         if (this.perk == perk) return;
         this.perk = perk;
+    }
+
+    public void setDeathLocation(Location deathLoc) {
+        this.deathLoc = deathLoc;
+    }
+    public Location getDeathLocation() {
+        return this.deathLoc;
+    }
+
+    public void ready() {
+        setState(PlayerState.ALIVE);
+
+        setGameMode(GameMode.SURVIVAL);
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+
+        clearInventory();
+
+        if (GameValues.TEAM_MODE && !hasTeam()) {
+            GameManager.getGameManager().getTeamManager().joinRandomTeam(this);
+        } else if (!GameValues.TEAM_MODE) {
+            UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
+            GameManager.getGameManager().getTeamManager().addTeam(uhcTeam);
+            setTeam(uhcTeam);
+        }
+
+        if (hasKit()) {
+            if (!GameValues.BOUGHT_KITS_FOREVER) {
+                getData().withdrawMoney(getKit().getCost());
+                sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
+                        .replace("%previous-money%", String.valueOf((getData().getMoney()+getKit().getCost())))
+                        .replace("%current-money%", String.valueOf(getData().getMoney()))
+                        .replace("%kit-cost%", String.valueOf(getKit().getCost()))
+                        .replace("%kit%", getKit().getDisplayName())
+                );
+            }
+            getKit().giveKit(this);
+        }
+    }
+    public void revive() {
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setFireTicks(0);
+        clearPotions();
+        clearInventory();
+
+        setState(PlayerState.ALIVE);
+
+        //if (kit != null) getKit().giveKit(this);
+        teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
+    }
+    public void die() {
+        setDeathLocation(getPlayer().getLocation());
+
+        getPlayer().spigot().respawn();
+
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setFireTicks(0);
+        clearPotions();
+        clearInventory();
+
+        teleport(new Location(
+                Bukkit.getWorld(getDeathLocation().getWorld().getName()),
+                getDeathLocation().getX()+0,
+                getDeathLocation().getY()+10,
+                getDeathLocation().getZ()+0));
+
+        setSpectator();
+    }
+
+    public void setSpectator() {
+        if (state != PlayerState.DEAD) {
+            setState(PlayerState.SPECTATOR);
+            teleport(getPlayer().getLocation().getWorld().getBlockAt(0, 100, 0).getLocation());
+        }
+        setGameMode(GameMode.SPECTATOR);
     }
 
     public boolean wasDamagedByMorePeople() {
@@ -200,6 +286,9 @@ public class UHCPlayer {
         if (message == null || message.isEmpty() || !isOnline()) return;
         getPlayer().sendMessage(TextUtils.color(message));
     }
+    public void openInventory(Inventory inventory) {
+        getPlayer().openInventory(inventory);
+    }
     public void sendHotBarMessage(String message) {
         if (message == null || message.isEmpty() || !isOnline()) return;
         Utils.sendHotBarMessage(getPlayer(), TextUtils.color(message));
@@ -208,5 +297,20 @@ public class UHCPlayer {
         if (title == null || title.isEmpty() || !isOnline()) return;
         String[] split_title = title.split("\n");
         getPlayer().sendTitle(TextUtils.color(split_title[0]), TextUtils.color(split_title[1]));
+    }
+    public void leaveTeam() {
+        if (getTeam() == null) return;
+        getTeam().removeMember(this);
+    }
+
+    public void reset() {
+        this.hasWon = false;
+        this.kills = 0;
+        this.assists = 0;
+        this.kit = null;
+        this.perk = null;
+        getTeam().removeMember(this);
+        this.deathLoc = null;
+        this.assistsList = null;
     }
 }

@@ -2,11 +2,10 @@ package me.florixak.uhcrun.teams;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.manager.gui.Gui;
+import me.florixak.uhcrun.game.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.List;
 
 public class TeamGui extends Gui {
 
-    public TeamGui(GameManager gameManager) {
-        super(gameManager,27, "Teams");
+    public TeamGui(GameManager gameManager, UHCPlayer uhcPlayer) {
+        super(gameManager, uhcPlayer, 3 * 9, TextUtils.color(GameValues.INV_TEAMS_TITLE));
     }
 
     @Override
@@ -31,19 +30,19 @@ public class TeamGui extends Gui {
             for (UHCPlayer member : team.getMembers()) {
                 lore.add(TextUtils.color("&f" + member.getName()));
             }
-            item = this.createItem(XMaterial.matchXMaterial(team.getDisplayItem().getType()), "&l" + team.getDisplayName(), lore);
+            item = this.createItem(team.getDisplayItem().getType(), "&l" + team.getDisplayName(), lore);
 
             getInventory().setItem(i, item);
         }
     }
 
     @Override
-    public void openInv(Player p) {
+    public void open() {
         if (!GameValues.TEAM_MODE) {
-            p.sendMessage("This is solo mode!");
+            uhcPlayer.sendMessage("This is solo mode!");
             return;
         }
-        super.openInv(p);
+        super.open();
     }
 
 }

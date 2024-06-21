@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.listener;
+package me.florixak.uhcrun.player;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameValues;
@@ -6,8 +6,6 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.player.PlayerState;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.game.Permissions;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
@@ -40,24 +38,21 @@ public class PlayerListener implements Listener {
 
         if (!isPlaying && isFull) {
             if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                System.out.println("TEST - Game is not playing and full and has perms (kick random player)");
-                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
-                while (randomUHCPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                    randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayer();
+                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayerWithoutPerm(Permissions.RESERVED_SLOT.getPerm());
+                if (randomUHCPlayer == null) {
+                    uhcPlayer.kick(Messages.GAME_FULL.toString());
+                    return;
                 }
                 randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
             } else {
-                System.out.println("TEST - Game is playing and full (kick)");
                 uhcPlayer.kick(Messages.GAME_FULL.toString());
                 return;
             }
         } else if (isPlaying && isFull) {
-            System.out.println("TEST - Game is playing and full (kick)");
             uhcPlayer.kick(Messages.GAME_FULL.toString());
             return;
         } else if (isPlaying) {
-            System.out.println("TEST - Game is playing (set spectator)");
-            gameManager.getPlayerManager().setSpectator(uhcPlayer, PlayerState.SPECTATOR);
+            uhcPlayer.setSpectator();
             return;
         }
 
@@ -89,15 +84,16 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
 
+
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             Utils.broadcast(Messages.QUIT.toString()
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
-        } else {
-            if (!GameValues.STATS_ADD_ON_END) {
-                uhcPlayer.getData().addLose(1);
-                uhcPlayer.getData().addDeaths(1);
-            }
+            uhcPlayer.leaveTeam();
+        } else if (!GameValues.STATS_ADD_ON_END && gameManager.isPlaying()) {
+            uhcPlayer.getData().addDeaths(1);
+            uhcPlayer.getData().addLose(1);
+            uhcPlayer.getData().setGamesPlayed();
         }
 
         gameManager.getPlayerManager().removePlayer(uhcPlayer);
@@ -115,16 +111,10 @@ public class PlayerListener implements Listener {
 
         if (GameValues.DEATH_CHESTS_ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
+            event.getDrops().clear();
         }
 
-        event.getEntity().setHealth(20);
-        event.getEntity().setFoodLevel(20);
-        event.getEntity().setFireTicks(0);
-        event.getEntity().getActivePotionEffects().clear();
-        event.getEntity().spigot().respawn();
-
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
-        event.getDrops().clear();
     }
 
     @EventHandler

@@ -25,7 +25,7 @@ public class LuckPermsHook {
     }
 
     public static boolean hasLuckPerms() {
-        return luckPerms != null && GameValues.CAN_USE_LUCKPERMS;
+        return luckPerms != null;
     }
 
     public static String getPrefix(Player player) {
