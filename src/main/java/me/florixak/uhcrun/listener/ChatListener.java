@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void handlePlayerChat(AsyncPlayerChatEvent event){
+    public void handlePlayerChat(AsyncPlayerChatEvent event) {
         PlayerManager pm = gameManager.getPlayerManager();
 
         Player p = event.getPlayer();
@@ -68,7 +68,7 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void handlePlayerCommand(PlayerCommandPreprocessEvent event){
+    public void handlePlayerCommand(PlayerCommandPreprocessEvent event) {
         Player p = event.getPlayer();
         String msg = event.getMessage();
         String args[] = msg.split(" ");
@@ -78,7 +78,7 @@ public class ChatListener implements Listener {
             p.sendMessage(Messages.NO_PERM.toString());
         }
 
-        if (Bukkit.getServer().getHelpMap().getHelpTopic(args[0]) == null){
+        if (Bukkit.getServer().getHelpMap().getHelpTopic(args[0]) == null) {
             event.setCancelled(true);
             p.sendMessage(Messages.INVALID_CMD.toString());
         }
