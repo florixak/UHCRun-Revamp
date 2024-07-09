@@ -1,6 +1,8 @@
 package me.florixak.uhcrun.game.gui;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.GameManager;
+import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -10,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +71,7 @@ public class Gui implements InventoryHolder {
 
     public void open() {
         init();
+        uhcPlayer.getPlayer().setMetadata(TextUtils.color(GameValues.INV_TEAMS_TITLE), new FixedMetadataValue(UHCRun.getInstance(), getInventory()));
         uhcPlayer.openInventory(getInventory());
     }
 

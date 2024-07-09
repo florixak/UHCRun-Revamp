@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
+import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
@@ -8,6 +9,7 @@ import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -35,48 +37,64 @@ public class KitsManager {
     public void loadKits() {
         if (!GameValues.KITS_ENABLED) return;
 
-        for (String kit : kitsConfig.getConfigurationSection("kits").getKeys(false)) {
+        ConfigurationSection kitsSection = kitsConfig.getConfigurationSection("kits");
+        for (String kitName : kitsSection.getKeys(false)) {
 
             List<ItemStack> items = new ArrayList<>();
-            String displayName = kit;
+            String displayName = kitName;
             Material displayItem = XMaterial.BARRIER.parseMaterial();
             double cost = 0;
 
-            for (String param : kitsConfig.getConfigurationSection("kits." + kit).getKeys(false)) {
+            ConfigurationSection kitSection = kitsSection.getConfigurationSection(kitName);
+            for (String param : kitSection.getKeys(false)) {
 
                 if (param.equalsIgnoreCase("display-name")) {
-                    displayName = kitsConfig.getString("kits." + kit + "." + param, kit);
+                    displayName = kitSection.getString(param, kitName);
 
                 } else if (param.equalsIgnoreCase("display-item")) {
-                    displayItem = XMaterial.matchXMaterial(kitsConfig.getString("kits." + kit + "." + param, "BARRIER").toUpperCase()).get().parseMaterial();
+                    displayItem = XMaterial.matchXMaterial(kitSection.getString(param, "BARRIER").toUpperCase()).get().parseMaterial();
 
                 } else if (param.equalsIgnoreCase("cost")) {
-                    cost = kitsConfig.getDouble("kits." + kit + "." + param, 0);
+                    cost = kitSection.getDouble(param, 0);
 
                 } else if (param.equalsIgnoreCase("items")) {
-
-                    if (kitsConfig.getConfigurationSection("kits." + kit + "." + param) != null) {
-                        for (String item : kitsConfig.getConfigurationSection("kits." + kit + "." + param).getKeys(false)) {
-                            ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
-
-                            int amount = kitsConfig.getInt("kits." + kit + "." + param + "." + item + ".amount", 1);
-                            ItemStack newI = ItemUtils.createItem(i, null, amount, null);
-
-                            if (kitsConfig.getConfigurationSection("kits." + kit + "." + param + "." + item + ".enchantments") != null) {
-                                for (String enchant : kitsConfig.getConfigurationSection("kits." + kit + "." + param + "." + item + ".enchantments").getKeys(false)) {
-                                    String enchantment = enchant.toUpperCase();
-                                    Enchantment e = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                                    int level = kitsConfig.getInt("kits." + kit + "." + param + "." + item + ".enchantments." + enchantment, 1);
-                                    ItemUtils.addEnchant(newI, e, level, true);
-                                }
-                            }
-                            items.add(newI);
-                        }
-                    }
+                    items = loadItems(kitSection);
                 }
             }
-            addKit(new Kit(kit, displayName, displayItem, cost, items));
+            Kit kit = new Kit(kitName, displayName, displayItem, cost, items);
+            UHCRun.getInstance().getLogger().info("Name: " + kit.getName() + ", " + "Display Name: " + kit.getDisplayName() + ", Cost: " + kit.getCost() + ", Items: " + kit.getItems().toString());
+            addKit(kit);
         }
+    }
+
+    private List<ItemStack> loadItems(ConfigurationSection section) {
+        List<ItemStack> items = new ArrayList<>();
+        try {
+            ConfigurationSection itemsSection = section.getConfigurationSection("items");
+
+            if (itemsSection != null) {
+                for (String item : itemsSection.getKeys(false)) {
+                    ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
+                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
+                    int amount = itemSection.getInt("amount", 1);
+                    ItemStack newI = ItemUtils.createItem(i, null, amount, null);
+                    ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
+
+                    if (enchantsSection != null) {
+                        for (String enchant : enchantsSection.getKeys(false)) {
+                            String enchantmentName = enchant.toUpperCase();
+                            Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
+                            int level = enchantsSection.getInt(enchantmentName);
+                            ItemUtils.addEnchant(newI, e, level, true);
+                        }
+                    }
+                    items.add(newI);
+                }
+            }
+        } catch (Exception e) {
+            UHCRun.getInstance().getLogger().info("There is a problem with loading kit items!");
+        }
+        return items;
     }
 
     public void addKit(Kit kit) {

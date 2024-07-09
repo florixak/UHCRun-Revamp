@@ -6,7 +6,7 @@ import me.florixak.uhcrun.hook.LuckPermsHook;
 import me.florixak.uhcrun.hook.PAPIHook;
 import me.florixak.uhcrun.hook.ProtocolLibHook;
 import me.florixak.uhcrun.hook.VaultHook;
-import me.florixak.uhcrun.game.world.WorldManager;
+import me.florixak.uhcrun.manager.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

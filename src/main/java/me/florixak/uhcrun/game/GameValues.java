@@ -109,6 +109,12 @@ public class GameValues {
     public static final String INV_STATS_TITLE = getConfigString("settings.selectors.statistics.display-name", "Statistics");
     public static final String INV_STATS_DIS_ITEM = getConfigString("settings.selectors.statistics.display-item", "BARRIER");
 
+    public static final boolean TABLIST_ENABLED = getConfigBoolean("settings.tablist.enabled", true);
+    public static final String TABLIST_HEADER = getConfigString("settings.tablist.header", "Tablist Header");
+    public static final String TABLIST_FOOTER = getConfigString("settings.tablist.footer", "Tablist Footer");
+    public static final String TABLIST_SOLO_MODE = getConfigString("settings.tablist.solo-mode-player-list", "&f%player%");
+    public static final String TABLIST_TEAM_MODE = getConfigString("settings.tablist.team-mode-player-list", "%team% &f%player%");
+
     public static List<Material> WOOD_LOGS = Arrays.asList(
             XMaterial.OAK_LOG.parseMaterial(),
             XMaterial.BIRCH_LOG.parseMaterial(),

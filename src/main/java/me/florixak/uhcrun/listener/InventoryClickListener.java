@@ -5,7 +5,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
-import me.florixak.uhcrun.game.statistics.StatisticsGui;
+import me.florixak.uhcrun.game.gui.StatisticsGui;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;

@@ -1,9 +1,8 @@
-package me.florixak.uhcrun.utils.hologram;
+package me.florixak.uhcrun.game.hologram;
 
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 
 public class Hologram {
 

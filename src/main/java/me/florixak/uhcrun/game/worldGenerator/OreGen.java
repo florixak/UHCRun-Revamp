@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.oreGen;
+package me.florixak.uhcrun.game.worldGenerator;
 
 import org.bukkit.Material;
 

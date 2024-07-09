@@ -7,7 +7,7 @@ import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.hologram.Hologram;
+import me.florixak.uhcrun.game.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

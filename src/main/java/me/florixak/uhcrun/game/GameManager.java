@@ -9,7 +9,7 @@ import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.game.kits.KitsManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
-import me.florixak.uhcrun.game.world.WorldManager;
+import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.listener.ChatListener;
 import me.florixak.uhcrun.listener.GameListener;
 import me.florixak.uhcrun.listener.InteractListener;
@@ -189,9 +189,7 @@ public class GameManager {
 
                 getPlayerManager().setUHCWinner();
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
-
                 getTaskManager().startEndingCD();
-
                 break;
         }
     }
@@ -210,8 +208,9 @@ public class GameManager {
                 return DeathmatchCD.getCountdown();
             case ENDING:
                 return EndingCD.getCountdown();
+            default:
+                return 0;
         }
-        return 0;
     }
 
     public void onDisable() {
