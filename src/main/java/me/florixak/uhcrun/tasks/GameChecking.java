@@ -17,7 +17,7 @@ public class GameChecking extends BukkitRunnable {
     public GameChecking(GameManager gameManager) {
         this.gameManager = gameManager;
 
-        this.minPlayers = GameValues.MIN_PLAYERS;
+        this.minPlayers = GameValues.GAME.MIN_PLAYERS;
     }
 
     @Override

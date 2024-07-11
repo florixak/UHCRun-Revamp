@@ -72,7 +72,7 @@ public class PlayerListener implements Listener {
                 .replace("%player%", p.getDisplayName())
                 .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + GameValues.MIN_PLAYERS));
+                .replace("%min-players%", "" + GameValues.GAME.MIN_PLAYERS));
     }
 
     @EventHandler
@@ -90,7 +90,7 @@ public class PlayerListener implements Listener {
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
             uhcPlayer.leaveTeam();
-        } else if (!GameValues.STATS_ADD_ON_END && gameManager.isPlaying()) {
+        } else if (!GameValues.GAME.STATS_ADD_ON_END && gameManager.isPlaying()) {
             uhcPlayer.getData().addDeaths(1);
             uhcPlayer.getData().addLose(1);
             uhcPlayer.getData().setGamesPlayed();
@@ -109,7 +109,7 @@ public class PlayerListener implements Listener {
         }
         UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
-        if (GameValues.DEATH_CHESTS_ENABLED) {
+        if (GameValues.DEATH_CHEST.ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
             event.getDrops().clear();
         }
@@ -138,7 +138,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void handlePortalTeleport(PlayerTeleportEvent event) {
-        if (!GameValues.NETHER_ENABLED && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
+        if (!GameValues.GAME.NETHER_ENABLED && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
             event.setCancelled(true);
         }
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {

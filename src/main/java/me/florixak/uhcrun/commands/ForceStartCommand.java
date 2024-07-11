@@ -35,7 +35,7 @@ public class ForceStartCommand implements CommandExecutor {
             sender.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
         } else {
-            if (gameManager.getPlayerManager().getOnlineList().size() < GameValues.MIN_PLAYERS) {
+            if (gameManager.getPlayerManager().getOnlineList().size() < GameValues.GAME.MIN_PLAYERS) {
                 sender.sendMessage(Messages.NOT_ENOUGH_PLAYERS.toString());
                 return true;
             }

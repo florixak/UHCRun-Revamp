@@ -4,7 +4,6 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.gui.Gui;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class TeamGui extends Gui {
 
     public TeamGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 3 * 9, TextUtils.color(GameValues.INV_TEAMS_TITLE));
+        super(gameManager, uhcPlayer, 3 * 9, TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE));
     }
 
     @Override
@@ -38,7 +37,7 @@ public class TeamGui extends Gui {
 
     @Override
     public void open() {
-        if (!GameValues.TEAM_MODE) {
+        if (!GameValues.TEAM.TEAM_MODE) {
             uhcPlayer.sendMessage("This is solo mode!");
             return;
         }

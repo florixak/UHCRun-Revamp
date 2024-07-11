@@ -9,7 +9,7 @@ public class EndingCD extends BukkitRunnable {
     private static int countdown;
 
     public EndingCD() {
-        countdown = GameValues.ENDING_COUNTDOWN;
+        countdown = GameValues.GAME.ENDING_COUNTDOWN;
     }
 
     public static int getCountdown() {

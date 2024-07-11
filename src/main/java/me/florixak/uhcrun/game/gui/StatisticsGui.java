@@ -16,30 +16,30 @@ import java.util.List;
 public class StatisticsGui extends Gui {
 
     public StatisticsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_STATS_TITLE));
+        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INVENTORY.STATS_TITLE));
     }
 
     @Override
     public void init() {
         super.init();
-        getInventory().setItem(GameValues.STATS_PLAYER_STATS_SLOT, getPlayerStats());
-        getInventory().setItem(GameValues.STATS_TOP_SLOT, getTopStats());
+        getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, getPlayerStats());
+        getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, getTopStats());
     }
 
     public ItemStack getPlayerStats() {
-        ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
-                .get().parseItem() == null || GameValues.STATS_PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
+        ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
+                .get().parseItem() == null || GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
-                : XMaterial.matchXMaterial(GameValues.STATS_PLAYER_STATS_DIS_ITEM.toUpperCase())
+                : XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem();
 
-        String playerStatsName = GameValues.STATS_PLAYER_STATS_CUST_NAME != null
-                ? GameValues.STATS_PLAYER_STATS_CUST_NAME
+        String playerStatsName = GameValues.STATISTICS.PLAYER_STATS_CUST_NAME != null
+                ? GameValues.STATISTICS.PLAYER_STATS_CUST_NAME
                 : uhcPlayer.getName();
 
         List<String> playerStatsLore = new ArrayList<>();
 
-        for (String text : GameValues.STATS_PLAYER_STATS_LORE) {
+        for (String text : GameValues.STATISTICS.PLAYER_STATS_LORE) {
             playerStatsLore.add(TextUtils.color(text
                     .replace("%player%", uhcPlayer.getName())
                     .replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()))
@@ -60,14 +60,14 @@ public class StatisticsGui extends Gui {
     }
 
     public ItemStack getTopStats() {
-        ItemStack topStatsItem = XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
-                .get().parseItem() == null || GameValues.STATS_TOP_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
+        ItemStack topStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.TOP_STATS_DIS_ITEM.toUpperCase())
+                .get().parseItem() == null || GameValues.STATISTICS.TOP_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
-                : XMaterial.matchXMaterial(GameValues.STATS_TOP_STATS_DIS_ITEM.toUpperCase())
+                : XMaterial.matchXMaterial(GameValues.STATISTICS.TOP_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem();
 
-        String topStatsName = GameValues.STATS_TOP_STATS_CUST_NAME != null
-                ? GameValues.STATS_TOP_STATS_CUST_NAME
+        String topStatsName = GameValues.STATISTICS.TOP_STATS_CUST_NAME != null
+                ? GameValues.STATISTICS.TOP_STATS_CUST_NAME
                 : "TOP STATS";
 
         List<String> topStatsLore = new ArrayList<>();
@@ -75,8 +75,8 @@ public class StatisticsGui extends Gui {
         List<TopStatistic> totalTopList = gameManager.getPlayerManager().getTotalTop(playerDisplayedTop);
 
         if (totalTopList != null) {
-            for (String lore : GameValues.STATS_TOP_STATS_LORE) {
-                for (int j = 0; j < GameValues.STATS_TOP_STATS_LORE.size(); j++) {
+            for (String lore : GameValues.STATISTICS.TOP_STATS_LORE) {
+                for (int j = 0; j < GameValues.STATISTICS.TOP_STATS_LORE.size(); j++) {
                     if (totalTopList.size() > j) {
                         String name = totalTopList.get(j).getName();
                         int value = totalTopList.get(j).getValue();

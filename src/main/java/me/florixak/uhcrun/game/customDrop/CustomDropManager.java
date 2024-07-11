@@ -32,7 +32,7 @@ public class CustomDropManager {
     }
 
     public void loadOreDrops() {
-        if (!GameValues.CUSTOM_DROPS_ENABLED) return;
+        if (!GameValues.GAME.CUSTOM_DROPS_ENABLED) return;
 
         for (String block : customDropConfig.getConfigurationSection("custom-drops.blocks").getKeys(false)) {
             Material material = XMaterial.matchXMaterial(block.toUpperCase()).get().parseMaterial();
@@ -75,7 +75,7 @@ public class CustomDropManager {
     }
 
     public void loadMobDrops() {
-        if (!GameValues.CUSTOM_DROPS_ENABLED) return;
+        if (!GameValues.GAME.CUSTOM_DROPS_ENABLED) return;
 
         for (String entity : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
             EntityType entityType = XEntityType.valueOf(entity.toUpperCase()).get();

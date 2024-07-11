@@ -12,7 +12,7 @@ public class DeathmatchCD extends BukkitRunnable {
 
     public DeathmatchCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameValues.DEATHMATCH_COUNTDOWN;
+        countdown = GameValues.GAME.DEATHMATCH_COUNTDOWN;
     }
 
     public static int getCountdown() {

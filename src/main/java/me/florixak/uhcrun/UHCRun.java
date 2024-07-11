@@ -60,13 +60,13 @@ public final class UHCRun extends JavaPlugin {
     }
 
     private void registerDependency() {
-        if (GameValues.CAN_USE_VAULT)
+        if (GameValues.ADDONS.CAN_USE_VAULT)
             VaultHook.setupEconomy();
 
-        if (GameValues.CAN_USE_LUCKPERMS)
+        if (GameValues.ADDONS.CAN_USE_LUCKPERMS)
             LuckPermsHook.setupLuckPerms();
 
-        if (GameValues.CAN_USE_PLACEHOLDERAPI)
+        if (GameValues.ADDONS.CAN_USE_PLACEHOLDERAPI)
             PAPIHook.setupPlaceholderAPI();
     }
 

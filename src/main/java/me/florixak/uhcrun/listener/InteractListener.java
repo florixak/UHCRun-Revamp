@@ -38,20 +38,20 @@ public class InteractListener implements Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(GameValues.INV_TEAMS_TITLE))) {
+                        TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE))) {
                     new TeamGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(GameValues.INV_KITS_TITLE))) {
+                        TextUtils.color(GameValues.INVENTORY.KITS_TITLE))) {
                     // gameManager.getGuiManager().getInventory("kits").openInv(p);
                     new KitsGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(GameValues.INV_PERKS_TITLE))) {
+                        TextUtils.color(GameValues.INVENTORY.PERKS_TITLE))) {
                     new PerksGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
-                        TextUtils.color(GameValues.INV_STATS_TITLE))) {
+                        TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {
                     new StatisticsGui(gameManager, uhcPlayer).open();
                 }
             }

@@ -90,7 +90,7 @@ public class DeathChest {
     }
 
     public void setHologram() {
-        String text = GameValues.HOLOGRAM_TEXT
+        String text = GameValues.DEATH_CHEST.HOLOGRAM_TEXT
                 .replace("%player%", uhcPlayer.getName())
                 .replace("%countdown%", getFormattedExpireTime());
 

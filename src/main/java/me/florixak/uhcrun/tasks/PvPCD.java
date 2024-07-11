@@ -15,7 +15,7 @@ public class PvPCD extends BukkitRunnable {
 
     public PvPCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameValues.PVP_COUNTDOWN;
+        countdown = GameValues.GAME.PVP_COUNTDOWN;
     }
 
     public static int getCountdown() {

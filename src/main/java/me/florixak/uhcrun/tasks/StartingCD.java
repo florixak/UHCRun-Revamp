@@ -22,7 +22,7 @@ public class StartingCD extends BukkitRunnable {
     public StartingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        countdown = GameValues.STARTING_COUNTDOWN;
+        countdown = GameValues.GAME.STARTING_COUNTDOWN;
         this.startWarning = config.getInt("settings.game.starting-message-at");
     }
 

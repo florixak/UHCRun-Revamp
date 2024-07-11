@@ -54,9 +54,9 @@ public class PlayerData {
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".name", uhcPlayer.getName());
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", GameValues.FIRST_UHC_LEVEL);
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", GameValues.STATISTICS.FIRST_UHC_LEVEL);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", GameValues.FIRST_REQUIRED_EXP);
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", GameValues.STATISTICS.FIRST_REQUIRED_EXP);
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".losses", 0);
@@ -116,8 +116,8 @@ public class PlayerData {
             gameManager.getData().addWin(uhcPlayer.getUUID());
         }
 
-        double money = GameValues.MONEY_FOR_WIN;
-        double exp = GameValues.UHC_EXP_FOR_WIN;
+        double money = GameValues.REWARDS.MONEY_FOR_WIN;
+        double exp = GameValues.REWARDS.UHC_EXP_FOR_WIN;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -142,8 +142,8 @@ public class PlayerData {
             gameManager.getData().addLose(uhcPlayer.getUUID());
         }
 
-        double money = GameValues.MONEY_FOR_LOSE;
-        double exp = GameValues.UHC_EXP_FOR_LOSE;
+        double money = GameValues.REWARDS.MONEY_FOR_LOSE;
+        double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -168,8 +168,8 @@ public class PlayerData {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
 
-        double money = GameValues.MONEY_FOR_KILL;
-        double exp = GameValues.UHC_EXP_FOR_KILL;
+        double money = GameValues.REWARDS.MONEY_FOR_KILL;
+        double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -194,8 +194,8 @@ public class PlayerData {
             gameManager.getData().addAssist(uhcPlayer.getUUID(), amount);
         }
 
-        double money = GameValues.MONEY_FOR_ASSIST;
-        double exp = GameValues.UHC_EXP_FOR_ASSIST;
+        double money = GameValues.REWARDS.MONEY_FOR_ASSIST;
+        double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
 
         depositMoney(money);
         addUHCExp(exp);
@@ -291,7 +291,7 @@ public class PlayerData {
 
         gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
 
-        double reward = GameValues.BASE_REWARD * GameValues.REWARD_COEFFICIENT * getUHCLevel();
+        double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * getUHCLevel();
 
         depositMoney(reward);
         uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString()
@@ -337,7 +337,7 @@ public class PlayerData {
     }
 
     public double setRequiredUHCExp() {
-        return getRequiredUHCExp() * GameValues.EXP_MULTIPLIER;
+        return getRequiredUHCExp() * GameValues.STATISTICS.EXP_MULTIPLIER;
     }
 
     public String getDisplayedTop() {
@@ -374,8 +374,8 @@ public class PlayerData {
     }
 
     public void addActivityRewards() {
-        double money = GameValues.ACTIVITY_REWARDS_MONEY;
-        double uhcExp = GameValues.ACTIVITY_REWARDS_EXP;
+        double money = GameValues.ACTIVITY_REWARDS.MONEY;
+        double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
 
         this.moneyForActivity += money;
         this.uhcExpForActivity += uhcExp;

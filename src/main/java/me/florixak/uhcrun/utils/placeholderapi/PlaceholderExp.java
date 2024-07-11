@@ -69,7 +69,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("team")) {
-            if (!GameValues.TEAM_MODE) return "";
+            if (!GameValues.TEAM.TEAM_MODE) return "";
             if (!uhcPlayer.hasTeam()) return "";
             return uhcPlayer.getTeam().getName();
         }

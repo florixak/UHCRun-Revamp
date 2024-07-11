@@ -15,7 +15,7 @@ public class PerksGui extends Gui {
     private final List<Perk> perks;
 
     public PerksGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INV_PERKS_TITLE));
+        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INVENTORY.PERKS_TITLE));
         this.perks = gameManager.getPerksManager().getPerks();
     }
 
@@ -42,7 +42,7 @@ public class PerksGui extends Gui {
 
     @Override
     public void open() {
-        if (!GameValues.PERKS_ENABLED) {
+        if (!GameValues.PERKS.ENABLED) {
             uhcPlayer.sendMessage("Perks are disabled!");
             return;
         }

@@ -42,7 +42,7 @@ public class InventoryClickListener implements Listener {
             event.setCancelled(true);
         }
 
-        if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_TEAMS_TITLE))) {
+        if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE))) {
             event.setCancelled(true);
 
             if (gameManager.isPlaying() || gameManager.isEnding()) return;
@@ -53,7 +53,7 @@ public class InventoryClickListener implements Listener {
                     p.closeInventory();
                 }
             }
-        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_KITS_TITLE))) {
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.KITS_TITLE))) {
             event.setCancelled(true);
 
             if (gameManager.isPlaying() || gameManager.isEnding()) return;
@@ -61,7 +61,7 @@ public class InventoryClickListener implements Listener {
             for (Kit kit : gameManager.getKitsManager().getKitsList()) {
                 if (gameManager.getKitsManager().getKitsList().get(event.getSlot()) == kit) {
                     p.closeInventory();
-                    if (!GameValues.BOUGHT_KITS_FOREVER) {
+                    if (!GameValues.KITS.BOUGHT_FOREVER) {
                         if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
                             uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
                             return;
@@ -88,7 +88,7 @@ public class InventoryClickListener implements Listener {
                     }
                 }
             }
-        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_PERKS_TITLE))) {
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.PERKS_TITLE))) {
             event.setCancelled(true);
 
             if (gameManager.isPlaying() || gameManager.isEnding()) return;
@@ -99,13 +99,13 @@ public class InventoryClickListener implements Listener {
                     uhcPlayer.setPerk(perk);
                 }
             }
-        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INV_STATS_TITLE))) {
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {
             event.setCancelled(true);
 
             if (event.getCurrentItem().getItemMeta() != null) {
-                if (event.getRawSlot() == GameValues.STATS_TOP_SLOT) {
+                if (event.getRawSlot() == GameValues.STATISTICS.TOP_SLOT) {
                     String displayedTop = uhcPlayer.getData().getDisplayedTop();
-                    List<String> displayedTops = GameValues.STATS_DISPLAYED_TOPS;
+                    List<String> displayedTops = GameValues.STATISTICS.DISPLAYED_TOPS;
                     for (int i = 0; i < displayedTops.size(); i++) {
                         if (displayedTop.equalsIgnoreCase(displayedTops.get(i))) {
                             if (displayedTops.get(i).equalsIgnoreCase(displayedTops.get(displayedTops.size() - 1)))

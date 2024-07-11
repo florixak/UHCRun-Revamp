@@ -15,7 +15,7 @@ public class BorderManager {
 
     public void setBorder() {
         wb.setCenter(0, 0);
-        wb.setSize(GameValues.INIT_BORDER_SIZE);
+        wb.setSize(GameValues.BORDER.INIT_BORDER_SIZE);
     }
     public void removeBorder() {
         wb.setSize(0);
@@ -29,11 +29,11 @@ public class BorderManager {
         return wb.getSize();
     }
     public double getMaxSize() {
-        return GameValues.INIT_BORDER_SIZE;
+        return GameValues.BORDER.INIT_BORDER_SIZE;
     }
 
     public double getSpeed() {
-        return GameValues.BORDER_SPEED;
+        return GameValues.BORDER.BORDER_SPEED;
     }
 
     public boolean exists() {

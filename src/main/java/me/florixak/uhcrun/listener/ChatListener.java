@@ -29,9 +29,9 @@ public class ChatListener implements Listener {
         Player p = event.getPlayer();
         UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
 
-        String format = gameManager.isPlaying() ? (!uhcPlayer.isDead() ? GameValues.CHAT_FORMAT_IN_GAME
-                : GameValues.CHAT_FORMAT_DEAD)
-                : GameValues.CHAT_FORMAT_LOBBY;
+        String format = gameManager.isPlaying() ? (!uhcPlayer.isDead() ? GameValues.CHAT.IN_GAME_FORMAT
+                : GameValues.CHAT.DEAD_FORMAT)
+                : GameValues.CHAT.LOBBY_FORMAT;
 
         if (format == null || format.isEmpty()) return;
 
@@ -60,7 +60,7 @@ public class ChatListener implements Listener {
             pm.getSpectatorList().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
             return;
         }
-        if (GameValues.TEAM_MODE && !message.startsWith("!")) {
+        if (GameValues.TEAM.TEAM_MODE && !message.startsWith("!")) {
             uhcPlayer.getTeam().sendMessage(TextUtils.color(format));
             return;
         }
@@ -73,7 +73,7 @@ public class ChatListener implements Listener {
         String msg = event.getMessage();
         String args[] = msg.split(" ");
 
-        if (GameValues.CHAT_BLOCKED_COMMANDS.contains(event.getMessage().toLowerCase())) {
+        if (GameValues.CHAT.BLOCKED_COMMANDS.contains(event.getMessage().toLowerCase())) {
             event.setCancelled(true);
             p.sendMessage(Messages.NO_PERM.toString());
         }

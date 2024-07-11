@@ -21,7 +21,7 @@ public class DeathChestManager {
     }
 
     public int getExpireTime() {
-        return GameValues.HOLOGRAM_EXPIRE_TIME;
+        return GameValues.DEATH_CHEST.HOLOGRAM_EXPIRE_TIME;
     }
     public boolean canExpire() {
         return getExpireTime() != -1;

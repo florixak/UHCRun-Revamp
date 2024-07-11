@@ -30,7 +30,7 @@ public class TeamManager {
     }
 
     public void loadTeams() {
-        if (!GameValues.TEAM_MODE) return;
+        if (!GameValues.TEAM.TEAM_MODE) return;
 
         if (teams_config.contains("teams") && teams_config.getConfigurationSection("teams").getKeys(false).isEmpty()) {
             UHCRun.getInstance().getLogger().info("Team file is empty!");
@@ -41,7 +41,7 @@ public class TeamManager {
             ItemStack display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item", "STONE")
                     .toUpperCase()).get().parseItem();
             String color = teams_config.getString("teams." + teamName + ".color");
-            UHCTeam team = new UHCTeam(display_item, teamName, color, GameValues.TEAM_SIZE);
+            UHCTeam team = new UHCTeam(display_item, teamName, color, GameValues.TEAM.TEAM_SIZE);
             this.teams.add(team);
         }
     }

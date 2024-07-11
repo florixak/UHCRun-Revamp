@@ -6,7 +6,6 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.hook.LuckPermsHook;
-import me.florixak.uhcrun.manager.lobby.LobbyType;
 import me.florixak.uhcrun.teams.UHCTeam;
 import me.florixak.uhcrun.utils.TeleportUtils;
 import me.florixak.uhcrun.utils.Utils;
@@ -178,16 +177,16 @@ public class UHCPlayer {
 
         clearInventory();
 
-        if (GameValues.TEAM_MODE && !hasTeam()) {
+        if (GameValues.TEAM.TEAM_MODE && !hasTeam()) {
             GameManager.getGameManager().getTeamManager().joinRandomTeam(this);
-        } else if (!GameValues.TEAM_MODE) {
+        } else if (!GameValues.TEAM.TEAM_MODE) {
             UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
             GameManager.getGameManager().getTeamManager().addTeam(uhcTeam);
             setTeam(uhcTeam);
         }
 
         if (hasKit()) {
-            if (!GameValues.BOUGHT_KITS_FOREVER) {
+            if (!GameValues.KITS.BOUGHT_FOREVER) {
                 getData().withdrawMoney(getKit().getCost());
                 sendMessage(Messages.KITS_MONEY_DEDUCT.toString()
                         .replace("%previous-money%", String.valueOf((getData().getMoney()+getKit().getCost())))

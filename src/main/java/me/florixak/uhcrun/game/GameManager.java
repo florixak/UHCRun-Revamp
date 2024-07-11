@@ -9,7 +9,6 @@ import me.florixak.uhcrun.game.customDrop.CustomDropManager;
 import me.florixak.uhcrun.game.deathchest.DeathChestManager;
 import me.florixak.uhcrun.game.kits.KitsManager;
 import me.florixak.uhcrun.game.perks.PerksManager;
-import me.florixak.uhcrun.manager.WorldManager;
 import me.florixak.uhcrun.listener.ChatListener;
 import me.florixak.uhcrun.listener.GameListener;
 import me.florixak.uhcrun.listener.InteractListener;
@@ -54,7 +53,6 @@ public class GameManager {
 
     private MySQL mysql;
     private SQLGetter data;
-
     private static GameManager gameManager;
     private final ConfigManager configManager;
     private final PlayerManager playerManager;
@@ -165,7 +163,7 @@ public class GameManager {
                 break;
 
             case PVP:
-                if (GameValues.TELEPORT_AFTER_MINING) {
+                if (GameValues.GAME.TELEPORT_AFTER_MINING) {
                     getTeamManager().teleportAfterMining();
                 }
                 setPvP(true);

@@ -16,7 +16,7 @@ public class MiningCD extends BukkitRunnable {
 
     public MiningCD(GameManager gameManager) {
         this.gameManager = gameManager;
-        countdown = GameValues.MINING_COUNTDOWN;
+        countdown = GameValues.GAME.MINING_COUNTDOWN;
     }
 
     public static int getCountdown() {

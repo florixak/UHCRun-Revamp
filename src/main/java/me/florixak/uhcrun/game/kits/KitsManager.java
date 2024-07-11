@@ -20,27 +20,22 @@ import java.util.List;
 public class KitsManager {
 
     private final FileConfiguration config, kitsConfig;
-
-    private final int openWhenStartingAt;
-
     private List<Kit> kitsList;
 
     public KitsManager(GameManager gameManager) {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
         this.kitsConfig = gameManager.getConfigManager().getFile(ConfigType.KITS).getConfig();
 
-        this.openWhenStartingAt = config.getInt("settings.kits.open-when-starting-at");
-
         this.kitsList = new ArrayList<>();
     }
 
     public void loadKits() {
-        if (!GameValues.KITS_ENABLED) return;
+        if (!GameValues.KITS.ENABLED) return;
 
         ConfigurationSection kitsSection = kitsConfig.getConfigurationSection("kits");
         for (String kitName : kitsSection.getKeys(false)) {
 
-            List<ItemStack> items = new ArrayList<>();
+            List<ItemStack> itemsList = new ArrayList<>();
             String displayName = kitName;
             Material displayItem = XMaterial.BARRIER.parseMaterial();
             double cost = 0;
@@ -58,17 +53,17 @@ public class KitsManager {
                     cost = kitSection.getDouble(param, 0);
 
                 } else if (param.equalsIgnoreCase("items")) {
-                    items = loadItems(kitSection);
+                    itemsList = loadItems(kitSection);
                 }
             }
-            Kit kit = new Kit(kitName, displayName, displayItem, cost, items);
+            Kit kit = new Kit(kitName, displayName, displayItem, cost, itemsList);
             UHCRun.getInstance().getLogger().info("Name: " + kit.getName() + ", " + "Display Name: " + kit.getDisplayName() + ", Cost: " + kit.getCost() + ", Items: " + kit.getItems().toString());
             addKit(kit);
         }
     }
 
     private List<ItemStack> loadItems(ConfigurationSection section) {
-        List<ItemStack> items = new ArrayList<>();
+        List<ItemStack> itemsList = new ArrayList<>();
         try {
             ConfigurationSection itemsSection = section.getConfigurationSection("items");
 
@@ -88,13 +83,13 @@ public class KitsManager {
                             ItemUtils.addEnchant(newI, e, level, true);
                         }
                     }
-                    items.add(newI);
+                    itemsList.add(newI);
                 }
             }
         } catch (Exception e) {
             UHCRun.getInstance().getLogger().info("There is a problem with loading kit items!");
         }
-        return items;
+        return itemsList;
     }
 
     public void addKit(Kit kit) {
@@ -120,11 +115,11 @@ public class KitsManager {
     }
 
     public int getOpenWhenStartingAt() {
-        return this.openWhenStartingAt;
+        return GameValues.KITS.OPEN_ON_STARTING_AT;
     }
 
     public boolean willOpenWhenStarting() {
-        return this.openWhenStartingAt != -1;
+        return GameValues.KITS.OPEN_ON_STARTING_AT != -1;
     }
 
     public void getLobbyKit(UHCPlayer p) {

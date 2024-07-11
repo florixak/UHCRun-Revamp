@@ -92,7 +92,7 @@ public class PlayerManager {
                 winner = uhcPlayer;
             }
         }
-        if (GameValues.TEAM_MODE) {
+        if (GameValues.TEAM.TEAM_MODE) {
             for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
                 teamMember.setWinner(true);
             }
@@ -102,7 +102,7 @@ public class PlayerManager {
     }
 
     public String getUHCWinner() {
-        if (GameValues.TEAM_MODE) {
+        if (GameValues.TEAM.TEAM_MODE) {
             UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
             return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
         }
@@ -131,7 +131,7 @@ public class PlayerManager {
     }
 
     public int getMaxPlayers() {
-        return GameValues.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
+        return GameValues.TEAM.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
     }
 
     public void onDisable() {

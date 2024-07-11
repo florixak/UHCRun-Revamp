@@ -26,7 +26,7 @@ public class PerksManager {
     }
 
     public void loadPerks() {
-        if (!GameValues.PERKS_ENABLED) return;
+        if (!GameValues.PERKS.ENABLED) return;
 
         for (String perkName : perks_config.getConfigurationSection("perks").getKeys(false)) {
             List<String> actions = new ArrayList<>();

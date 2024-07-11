@@ -62,15 +62,15 @@ public class TaskManager {
     }
 
     public void runActivityRewards() {
-        if (GameValues.ACTIVITY_REWARDS_ENABLED) {
-            int interval = GameValues.ACTIVITY_REWARDS_INTERVAL * 20;
+        if (GameValues.ACTIVITY_REWARDS.ENABLED) {
+            int interval = GameValues.ACTIVITY_REWARDS.INTERVAL * 20;
             new ActivityRewards(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }
 
     public void runAutoBroadcast() {
-        if (GameValues.BROADCAST_ENABLED) {
-            int interval = GameValues.BROADCAST_INTERVAL * 20;
+        if (GameValues.BROADCAST.ENABLED) {
+            int interval = GameValues.BROADCAST.INTERVAL * 20;
             new AutoBCMessage(gameManager).runTaskTimer(UHCRun.getInstance(), delay, interval);
         }
     }

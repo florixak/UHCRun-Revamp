@@ -20,7 +20,7 @@ public class TabManager {
     }
 
     public void setPlayerList(Player p) {
-        if (!ProtocolLibHook.hasProtocolLib() || !GameValues.TABLIST_ENABLED) {
+        if (!ProtocolLibHook.hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) {
             return;
         }
 
@@ -28,8 +28,8 @@ public class TabManager {
         final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
 
         pc.getChatComponents()
-                .write(0, WrappedChatComponent.fromText(TextUtils.color(GameValues.TABLIST_HEADER)))
-                .write(1, WrappedChatComponent.fromText(TextUtils.color(GameValues.TABLIST_FOOTER)));
+                .write(0, WrappedChatComponent.fromText(TextUtils.color(GameValues.TABLIST.HEADER)))
+                .write(1, WrappedChatComponent.fromText(TextUtils.color(GameValues.TABLIST.FOOTER)));
 
         try {
             pm.sendServerPacket(p, pc);
@@ -38,15 +38,15 @@ public class TabManager {
         }
 
         UHCPlayer player = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        if (!GameValues.TEAM_MODE) {
-            p.setPlayerListName(TextUtils.color(GameValues.TABLIST_SOLO_MODE
+        if (!GameValues.TEAM.TEAM_MODE) {
+            p.setPlayerListName(TextUtils.color(GameValues.TABLIST.SOLO_MODE
                     .replace("%player%", player.getName())
                     .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
                     .replace("%rank%", player.getLuckPermsPrefix())
                     .replace("%uhc-level%", String.valueOf(player.getData().getUHCLevel())))
             );
         } else {
-            p.setPlayerListName(TextUtils.color(GameValues.TABLIST_TEAM_MODE
+            p.setPlayerListName(TextUtils.color(GameValues.TABLIST.TEAM_MODE
                     .replace("%player%", player.getName())
                     .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
                     .replace("%rank%", player.getLuckPermsPrefix())
