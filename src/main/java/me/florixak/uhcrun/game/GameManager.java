@@ -120,7 +120,7 @@ public class GameManager {
         }
 
         getBorderManager().setBorder();
-        getOreGenManager().generateOres();
+        //getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadDrops();

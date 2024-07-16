@@ -5,21 +5,19 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PerksManager {
 
-    private final GameManager gameManager;
     private final FileConfiguration perks_config;
 
     private List<Perk> perks;
 
     public PerksManager(GameManager gameManager) {
-        this.gameManager = gameManager;
         this.perks_config = gameManager.getConfigManager().getFile(ConfigType.PERKS).getConfig();
 
         this.perks = new ArrayList<>();
@@ -30,11 +28,11 @@ public class PerksManager {
 
         for (String perkName : perks_config.getConfigurationSection("perks").getKeys(false)) {
             List<String> actions = new ArrayList<>();
-            Material display_item = Material.ITEM_FRAME;
+            ItemStack display_item = XMaterial.ITEM_FRAME.parseItem();
             double cost = 0;
             for (String param : perks_config.getConfigurationSection("perks." + perkName).getKeys(false)) {
                 if (param.equalsIgnoreCase("display-item")) {
-                    display_item = XMaterial.matchXMaterial(perks_config.getString("perks." + perkName + "." + param, "BARRIER").toUpperCase()).get().parseMaterial();
+                    display_item = XMaterial.matchXMaterial(perks_config.getString("perks." + perkName + "." + param, "BARRIER").toUpperCase()).get().parseItem();
                 } else if (param.equalsIgnoreCase("cost")) {
                     cost = perks_config.getDouble("perks." + perkName + "." + param, 0);
                 } else if (param.equalsIgnoreCase("actions")) {

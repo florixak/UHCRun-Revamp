@@ -53,7 +53,7 @@ public class StatisticsGui extends Gui {
             ));
         }
         return ItemUtils.createItem(
-                playerStatsItem,
+                playerStatsItem.getType(),
                 playerStatsName.replace("%player%", uhcPlayer.getName()),
                 1,
                 playerStatsLore);
@@ -92,7 +92,7 @@ public class StatisticsGui extends Gui {
                 topStatsLore.add(TextUtils.color(lore));
             }
         }
-        return ItemUtils.createItem(topStatsItem,
+        return ItemUtils.createItem(topStatsItem.getType(),
                 topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
@@ -101,6 +101,5 @@ public class StatisticsGui extends Gui {
     @Override
     public void open() {
         super.open();
-
     }
 }

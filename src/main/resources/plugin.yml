@@ -3,8 +3,8 @@ version: '${project.version}'
 main: me.florixak.uhcrun.UHCRun
 api-version: 1.19
 authors: [ FloriXak ]
-depend: [ ProtocolLib ]
-softdepend: [ Vault, LuckPerms, PlaceholderAPI ]
+depend: [ ProtocolLib, PlaceholderAPI ]
+softdepend: [ Vault, LuckPerms ]
 
 commands:
   uhcrun:

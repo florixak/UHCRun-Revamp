@@ -4,6 +4,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,7 +35,7 @@ public class PerksGui extends Gui {
                 lore.add(TextUtils.color("soon..."));
             }
 
-            perk_item = this.createItem(perk.getDisplayItem(), perk.getName(), lore);
+            perk_item = ItemUtils.createItem(perk.getDisplayItem().getType(), perk.getName(), 1, lore);
 
             getInventory().setItem(i, perk_item);
         }

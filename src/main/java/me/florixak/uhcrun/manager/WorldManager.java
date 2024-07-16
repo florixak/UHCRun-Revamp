@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.manager;
 
+import me.florixak.uhcrun.game.worldGenerator.CustomWorldGenerator;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -27,6 +28,25 @@ public class WorldManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void createNewUHCWorld(String name, WorldType type, boolean genStruct) {
+        try {
+            File worldDir = new File(Bukkit.getWorldContainer(), name);
+            if (worldDir.exists()) {
+                FileUtils.deleteDirectory(worldDir);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        WorldCreator creator = new WorldCreator(name)
+                .type(type)
+                .generateStructures(genStruct)
+                .generator(new CustomWorldGenerator())
+                ;
+
+        Bukkit.createWorld(creator);
     }
 
     public void createWorld(String name, WorldType type, boolean genStruct) {

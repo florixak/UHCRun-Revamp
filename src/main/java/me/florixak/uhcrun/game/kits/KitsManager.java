@@ -8,7 +8,6 @@ import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -37,7 +36,7 @@ public class KitsManager {
 
             List<ItemStack> itemsList = new ArrayList<>();
             String displayName = kitName;
-            Material displayItem = XMaterial.BARRIER.parseMaterial();
+            ItemStack displayItem = XMaterial.BARRIER.parseItem();
             double cost = 0;
 
             ConfigurationSection kitSection = kitsSection.getConfigurationSection(kitName);
@@ -47,7 +46,7 @@ public class KitsManager {
                     displayName = kitSection.getString(param, kitName);
 
                 } else if (param.equalsIgnoreCase("display-item")) {
-                    displayItem = XMaterial.matchXMaterial(kitSection.getString(param, "BARRIER").toUpperCase()).get().parseMaterial();
+                    displayItem = XMaterial.matchXMaterial(kitSection.getString(param, "BARRIER").toUpperCase()).get().parseItem();
 
                 } else if (param.equalsIgnoreCase("cost")) {
                     cost = kitSection.getDouble(param, 0);
@@ -57,7 +56,6 @@ public class KitsManager {
                 }
             }
             Kit kit = new Kit(kitName, displayName, displayItem, cost, itemsList);
-            UHCRun.getInstance().getLogger().info("Name: " + kit.getName() + ", " + "Display Name: " + kit.getDisplayName() + ", Cost: " + kit.getCost() + ", Items: " + kit.getItems().toString());
             addKit(kit);
         }
     }
@@ -72,7 +70,7 @@ public class KitsManager {
                     ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
                     ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
                     int amount = itemSection.getInt("amount", 1);
-                    ItemStack newI = ItemUtils.createItem(i, null, amount, null);
+                    ItemStack newI = ItemUtils.createItem(i.getType(), null, amount, null);
                     ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
 
                     if (enchantsSection != null) {
@@ -131,7 +129,7 @@ public class KitsManager {
                 ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
                 int slot = config.getInt("settings.selectors." + selector + ".slot");
 
-                ItemStack newItem = ItemUtils.createItem(item, display_name, 1, null);
+                ItemStack newItem = ItemUtils.createItem(item.getType(), display_name, 1, null);
                 p.getPlayer().getInventory().setItem(slot, newItem);
             }
         }

@@ -3,6 +3,7 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
@@ -17,8 +18,11 @@ import java.util.List;
 
 public class ItemUtils {
 
-    public static ItemStack createItem(ItemStack item, String name, int amount, List<String> lore){
+    public static ItemStack createItem(Material material, String name, int amount, List<String> lore){
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) return item;
+
         if (name != null) meta.setDisplayName(TextUtils.color(name));
         if (amount == 0) amount = 1;
         if (lore != null && !lore.isEmpty()) meta.setLore(lore);

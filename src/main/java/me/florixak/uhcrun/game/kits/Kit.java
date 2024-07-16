@@ -2,7 +2,6 @@ package me.florixak.uhcrun.game.kits;
 
 import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.text.TextUtils;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,10 +12,10 @@ public class Kit {
     private final String name;
     private final String displayName;
     private final List<ItemStack> items;
-    private final Material displayItem;
+    private final ItemStack displayItem;
     private final double cost;
 
-    public Kit(String name, String displayName, Material displayItem, double cost, List<ItemStack> items) {
+    public Kit(String name, String displayName, ItemStack displayItem, double cost, List<ItemStack> items) {
         this.name = name;
         this.displayName = displayName;
         this.displayItem = displayItem;
@@ -32,7 +31,7 @@ public class Kit {
         return TextUtils.color(this.displayName);
     }
 
-    public Material getDisplayItem() {
+    public ItemStack getDisplayItem() {
         return this.displayItem;
     }
 

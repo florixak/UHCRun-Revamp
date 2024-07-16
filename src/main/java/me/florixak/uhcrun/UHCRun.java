@@ -8,6 +8,7 @@ import me.florixak.uhcrun.hook.ProtocolLibHook;
 import me.florixak.uhcrun.hook.VaultHook;
 import me.florixak.uhcrun.manager.WorldManager;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class UHCRun extends JavaPlugin {
@@ -35,6 +36,10 @@ public final class UHCRun extends JavaPlugin {
 
         checkNMSVersion();
         ProtocolLibHook.setupProtocolLib();
+
+//        OreGeneratorTask oreGeneratorTask = new OreGeneratorTask(this);
+//        oreGeneratorTask.runTaskTimer(this, 20L, 20L); // Spustí task každý tick (20 ticků = 1 sekunda)
+        new WorldManager().createNewUHCWorld("world", WorldType.NORMAL, true);
 
         this.gameManager = new GameManager(this);
 

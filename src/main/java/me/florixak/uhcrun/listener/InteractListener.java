@@ -7,7 +7,7 @@ import me.florixak.uhcrun.game.gui.KitsGui;
 import me.florixak.uhcrun.game.gui.PerksGui;
 import me.florixak.uhcrun.game.gui.StatisticsGui;
 import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.teams.TeamGui;
+import me.florixak.uhcrun.game.gui.TeamGui;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

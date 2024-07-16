@@ -7,19 +7,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Perk {
 
     private final String name;
     private List<String> actions;
-    private final Material display_item;
+    private final ItemStack displayItem;
     private final double cost;
 
-    public Perk(String name, Material display_item, double cost, List<String> actions) {
+    public Perk(String name, ItemStack displayItem, double cost, List<String> actions) {
         this.name = name;
-        this.display_item = display_item;
+        this.displayItem = displayItem;
         this.cost = cost;
         this.actions = actions;
     }
@@ -28,8 +27,8 @@ public class Perk {
         return this.name;
     }
 
-    public Material getDisplayItem() {
-        return this.display_item;
+    public ItemStack getDisplayItem() {
+        return this.displayItem;
     }
 
     public double getCost() {
