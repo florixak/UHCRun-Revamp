@@ -2,9 +2,7 @@ package me.florixak.uhcrun.game;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
@@ -19,7 +17,6 @@ public class GameValues {
     public static final int COLUMNS = 9;
 
     public static final String WORLD_NAME = "UHCWorld";
-    public static final World WORLD = Bukkit.getWorld(WORLD_NAME);
 
     public static final ChatConfig CHAT = new ChatConfig();
     public static final BorderConfig BORDER = new BorderConfig();

@@ -3,9 +3,10 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.worldGenerator.OreGen;
+import me.florixak.uhcrun.game.worldGenerator.OreGenerator;
 import me.florixak.uhcrun.utils.OreGenUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +19,7 @@ public class OreGenManager {
     private final GameManager gameManager;
     private final FileConfiguration oreGenConfig;
 
-    private List<OreGen> oreGenList;
+    private List<OreGenerator> oreGenList;
 
     public OreGenManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -44,17 +45,17 @@ public class OreGenManager {
             if (minVein <= 0 || maxVein <= 0 || spawnAmount <= 0) return;
             if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
 
-            OreGen oreGen = new OreGen(material, minVein, maxVein, spawnAmount);
+            OreGenerator oreGen = new OreGenerator(material, minVein, maxVein, spawnAmount);
             oreGenList.add(oreGen);
         }
     }
 
-    private List<OreGen> getOreGens() {
+    public List<OreGenerator> getOreGeneratorList() {
         return this.oreGenList;
     }
 
     private boolean canSkip(Material material) {
-        for (OreGen oreGen : oreGenList) {
+        for (OreGenerator oreGen : oreGenList) {
             if (oreGen.getMaterial().equals(material)
                     || material.equals(XMaterial.STONE.parseMaterial())) {
                 return true;
@@ -66,9 +67,9 @@ public class OreGenManager {
     public void generateOres() {
         loadOres();
 
-        for (OreGen oreGen : getOreGens()) {
+        for (OreGenerator oreGen : getOreGeneratorList()) {
             OreGenUtils.generateOre(oreGen.getMaterial(),
-                    GameValues.WORLD,
+                    Bukkit.getWorld(GameValues.WORLD_NAME),
                     oreGen.getMinVein(),
                     oreGen.getMaxVein(),
                     oreGen.getSpawnAmount(),

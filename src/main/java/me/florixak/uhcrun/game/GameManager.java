@@ -118,7 +118,8 @@ public class GameManager {
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
             getWorldManager().createWorld("lobby", WorldType.FLAT, false);
         }
-        getWorldManager().removeWorld(GameValues.WORLD_NAME);
+        getOreGenManager().loadOres();
+
         getWorldManager().createNewUHCWorld();
 
         getBorderManager().setBorder();
@@ -247,7 +248,7 @@ public class GameManager {
     }
 
     public void clearDrops() {
-        List<Entity> entList = GameValues.WORLD.getEntities();
+        List<Entity> entList = Bukkit.getWorld(GameValues.WORLD_NAME).getEntities();
 
         for (Entity current : entList) {
             if (current instanceof Item) {

@@ -2,14 +2,14 @@ package me.florixak.uhcrun.game.worldGenerator;
 
 import org.bukkit.Material;
 
-public class OreGen {
+public class OreGenerator {
 
     private final Material material;
     private final int minVein;
     private final int maxVein;
     private final int spawnAmount;
 
-    public OreGen(Material material, int minVein, int maxVein, int spawnAmount) {
+    public OreGenerator(Material material, int minVein, int maxVein, int spawnAmount) {
         this.material = material;
         this.minVein = minVein;
         this.maxVein = maxVein;

@@ -3,6 +3,7 @@ package me.florixak.uhcrun.utils;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -28,7 +29,7 @@ public class TeleportUtils {
 
     public static Location generateLocation(){
 
-        World world = GameValues.WORLD;
+        World world = Bukkit.getWorld(GameValues.WORLD_NAME);
         double x = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
         double y = 150.0;
         double z = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);

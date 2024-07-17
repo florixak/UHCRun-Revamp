@@ -55,7 +55,7 @@ public class OreGenUtils {
         return !badBlocks.contains(block.getType()) && block.getType().isSolid();
     }
 
-    private static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
+    public static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
         final List<Block> blocks = getAdjacentsBlocks(startBlock, nbrBlocks);
 
         for (final Block block : blocks) {

@@ -3,11 +3,9 @@ package me.florixak.uhcrun.manager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.worldGenerator.CustomBlockPopulator;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 
+import java.io.File;
 import java.io.IOException;
 
 public class WorldManager {
@@ -31,17 +29,20 @@ public class WorldManager {
 //    }
 
     public void createNewUHCWorld() {
-        WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME);
+        removeWorld();
+
+        WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
         //worldCreator.generator(new CustomWorldGenerator());
-        Bukkit.createWorld(worldCreator);
-        Bukkit.getWorld(GameValues.WORLD_NAME).getPopulators().add(new CustomBlockPopulator());
+        World world = Bukkit.createWorld(worldCreator);
+        world.getPopulators().add(new CustomBlockPopulator());
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
     }
 
-    public void removeWorld(String name) {
-        if (Bukkit.getWorld(name) == null) return;
-        Bukkit.unloadWorld(name, false);
+    private void removeWorld() {
         try {
-            FileUtils.deleteDirectory(Bukkit.getWorld(name).getWorldFolder());
+            File world = new File(Bukkit.getWorldContainer(), GameValues.WORLD_NAME);
+            FileUtils.deleteDirectory(world);
         } catch (IOException e) {
             e.printStackTrace();
         }
