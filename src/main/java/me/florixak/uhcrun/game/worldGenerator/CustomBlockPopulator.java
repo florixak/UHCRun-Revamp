@@ -25,33 +25,32 @@ public class CustomBlockPopulator extends BlockPopulator {
             BlockFace.WEST,
             BlockFace.UP,
             BlockFace.DOWN,
-//            BlockFace.NORTH_EAST,
-//            BlockFace.NORTH_WEST,
-//            BlockFace.SOUTH_EAST,
-//            BlockFace.SOUTH_WEST,
+            BlockFace.NORTH_EAST,
+            BlockFace.NORTH_WEST,
+            BlockFace.SOUTH_EAST,
+            BlockFace.SOUTH_WEST,
     };
 
     private final static List<OreGenerator> ORE_GEN_LIST = GameManager.getGameManager().getOreGenManager().getOreGeneratorList();
-
     private static int populationCount = 0; // Counter to track the number of times populate has been called
-    //private final static int MAX_POPULATIONS = 350; // Maximum number of times to populate
     private final static int BORDER_SIZE = 450; // Size of the border within which to populate
 
     @Override
     public void populate(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, LimitedRegion limitedRegion) {
         World world = Bukkit.getWorld(GameValues.WORLD_NAME);
 
+        if (world == null) {
+            UHCRun.getInstance().getLogger().info("World does not exist!");
+            return;
+        }
+
         int startX = random.nextInt(16) + (chunkX * 16);
         int startZ = random.nextInt(16) + (chunkZ * 16);
         int startY = random.nextInt(55);
 
-        // Check if the starting location is within the 250x250 border
         Location location = new Location(world, startX, startY, startZ);
 
-        if (!limitedRegion.isInRegion(location)) {
-            UHCRun.getInstance().getLogger().info("1. Location is outside of border: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
-            return;
-        }
+        if (!limitedRegion.isInRegion(location)) return;
 
         if (isOutsideBorder(location, BORDER_SIZE)) {
             UHCRun.getInstance().getLogger().info("2. Location is outside of border: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
@@ -78,15 +77,15 @@ public class CustomBlockPopulator extends BlockPopulator {
             BlockFace blockFace = OFFSETS[random.nextInt(OFFSETS.length)];
             location.add(blockFace.getModX(), blockFace.getModY(), blockFace.getModZ());
 
-            // Check if the new location is still within the region and is stone or deepslate
             if (!limitedRegion.isInRegion(location) ||
                     (limitedRegion.getType(location) != Material.STONE && limitedRegion.getType(location) != Material.DEEPSLATE)) {
                 break;
             }
+            
         }
     }
 
     public boolean isOutsideBorder(Location location, int borderSize) {
-        return Math.abs(location.getX()) > borderSize || Math.abs(location.getZ()) > borderSize;
+        return Math.abs(location.getX()) > borderSize / 2 || Math.abs(location.getZ()) > borderSize / 2;
     }
 }
