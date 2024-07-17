@@ -18,7 +18,8 @@ public class GameValues {
     public static final int ERROR_INT_VALUE = -1;
     public static final int COLUMNS = 9;
 
-    public static final World GAME_WORLD = Bukkit.getWorld("world");
+    public static final String WORLD_NAME = "UHCWorld";
+    public static final World WORLD = Bukkit.getWorld(WORLD_NAME);
 
     public static final ChatConfig CHAT = new ChatConfig();
     public static final BorderConfig BORDER = new BorderConfig();

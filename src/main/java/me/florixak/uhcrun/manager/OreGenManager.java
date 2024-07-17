@@ -68,7 +68,7 @@ public class OreGenManager {
 
         for (OreGen oreGen : getOreGens()) {
             OreGenUtils.generateOre(oreGen.getMaterial(),
-                    GameValues.GAME_WORLD,
+                    GameValues.WORLD,
                     oreGen.getMinVein(),
                     oreGen.getMaxVein(),
                     oreGen.getSpawnAmount(),

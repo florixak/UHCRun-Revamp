@@ -14,21 +14,21 @@ public class TeleportUtils {
 
     private static final GameManager gameManager = GameManager.getGameManager();
 
-    public static HashSet<Material> bad_blocks = new HashSet<>();
+    public static HashSet<Material> forbiddenBlocks = new HashSet<>();
 
     static {
-        bad_blocks.add(XMaterial.LAVA.parseMaterial());
-        bad_blocks.add(XMaterial.FIRE.parseMaterial());
-        bad_blocks.add(XMaterial.CACTUS.parseMaterial());
-        bad_blocks.add(XMaterial.WATER.parseMaterial());
-        bad_blocks.add(XMaterial.DIRT.parseMaterial());
-        bad_blocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
-        bad_blocks.add(XMaterial.STONE.parseMaterial());
+        forbiddenBlocks.add(XMaterial.LAVA.parseMaterial());
+        forbiddenBlocks.add(XMaterial.FIRE.parseMaterial());
+        forbiddenBlocks.add(XMaterial.CACTUS.parseMaterial());
+        forbiddenBlocks.add(XMaterial.WATER.parseMaterial());
+        forbiddenBlocks.add(XMaterial.DIRT.parseMaterial());
+        forbiddenBlocks.add(XMaterial.GRASS_BLOCK.parseMaterial());
+        forbiddenBlocks.add(XMaterial.STONE.parseMaterial());
     }
 
     public static Location generateLocation(){
 
-        World world = GameValues.GAME_WORLD;
+        World world = GameValues.WORLD;
         double x = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
         double y = 150.0;
         double z = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize()/2)-10);
@@ -60,7 +60,7 @@ public class TeleportUtils {
         Block below = location.getWorld().getBlockAt(x, y - 1, z);
         Block above = location.getWorld().getBlockAt(x, y + 1, z);
 
-        return !(bad_blocks.contains(below.getType())) || (block.getType().isSolid()) || (above.getType().isSolid());
+        return !(forbiddenBlocks.contains(below.getType())) || (block.getType().isSolid()) || (above.getType().isSolid());
     }
 
 }

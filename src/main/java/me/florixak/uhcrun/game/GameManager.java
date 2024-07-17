@@ -81,6 +81,7 @@ public class GameManager {
 
         this.configManager = new ConfigManager();
         this.configManager.loadFiles(plugin);
+        this.worldManager = new WorldManager();
         this.borderManager = new BorderManager();
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
@@ -96,7 +97,6 @@ public class GameManager {
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
         this.recipeManager = new RecipeManager(this);
-        this.worldManager = new WorldManager();
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -118,6 +118,8 @@ public class GameManager {
         if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
             getWorldManager().createWorld("lobby", WorldType.FLAT, false);
         }
+        getWorldManager().removeWorld(GameValues.WORLD_NAME);
+        getWorldManager().createNewUHCWorld();
 
         getBorderManager().setBorder();
         //getOreGenManager().generateOres();
@@ -245,7 +247,7 @@ public class GameManager {
     }
 
     public void clearDrops() {
-        List<Entity> entList = GameValues.GAME_WORLD.getEntities();
+        List<Entity> entList = GameValues.WORLD.getEntities();
 
         for (Entity current : entList) {
             if (current instanceof Item) {

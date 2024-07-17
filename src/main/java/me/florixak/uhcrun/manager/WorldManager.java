@@ -1,52 +1,50 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.game.worldGenerator.CustomWorldGenerator;
+import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.worldGenerator.CustomBlockPopulator;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 
-import java.io.File;
 import java.io.IOException;
 
 public class WorldManager {
 
+//    public void createNewUHCWorld() {
+//        try {
+//            File world = new File(Bukkit.getWorldContainer(), "world");
+//            FileUtils.deleteDirectory(world);
+//
+//            world.mkdirs();
+//
+//            new File(world, "data").mkdirs();
+//            new File(world, "datapacks").mkdirs();
+//            new File(world, "playerdata").mkdirs();
+//            new File(world, "aoi").mkdirs();
+//            new File(world, "region").mkdirs();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     public void createNewUHCWorld() {
-        try {
-            File world = new File(Bukkit.getWorldContainer(), "world");
-            FileUtils.deleteDirectory(world);
-
-            world.mkdirs();
-
-            new File(world, "data").mkdirs();
-            new File(world, "datapacks").mkdirs();
-            new File(world, "playerdata").mkdirs();
-            new File(world, "aoi").mkdirs();
-            new File(world, "region").mkdirs();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME);
+        //worldCreator.generator(new CustomWorldGenerator());
+        Bukkit.createWorld(worldCreator);
+        Bukkit.getWorld(GameValues.WORLD_NAME).getPopulators().add(new CustomBlockPopulator());
     }
 
-    public void createNewUHCWorld(String name, WorldType type, boolean genStruct) {
+    public void removeWorld(String name) {
+        if (Bukkit.getWorld(name) == null) return;
+        Bukkit.unloadWorld(name, false);
         try {
-            File worldDir = new File(Bukkit.getWorldContainer(), name);
-            if (worldDir.exists()) {
-                FileUtils.deleteDirectory(worldDir);
-            }
+            FileUtils.deleteDirectory(Bukkit.getWorld(name).getWorldFolder());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        WorldCreator creator = new WorldCreator(name)
-                .type(type)
-                .generateStructures(genStruct)
-                .generator(new CustomWorldGenerator())
-                ;
-
-        Bukkit.createWorld(creator);
     }
 
     public void createWorld(String name, WorldType type, boolean genStruct) {

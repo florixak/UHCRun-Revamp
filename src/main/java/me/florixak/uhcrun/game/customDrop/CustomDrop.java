@@ -89,6 +89,8 @@ public class CustomDrop {
             Block block = breakEvent.getBlock();
             Location loc = block.getLocation();
 
+            if (p == null) return;
+
             int exp = getExp();
             if (exp > 0) {
                 p.giveExp(exp);
@@ -100,7 +102,7 @@ public class CustomDrop {
                 breakEvent.setDropItems(false);
                 breakEvent.setExpToDrop(0);
 
-                Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
+                Material drop = XMaterial.matchXMaterial(getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()))).parseMaterial();
                 if (drop != XMaterial.AIR.parseMaterial()) {
 
                     // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
@@ -121,7 +123,7 @@ public class CustomDrop {
             if (hasDrops()) {
                 block.setType(XMaterial.AIR.parseMaterial());
 
-                Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
+                Material drop = XMaterial.matchXMaterial(getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()))).parseMaterial();
                 if (drop != XMaterial.AIR.parseMaterial()) {
 
                     // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
@@ -141,6 +143,8 @@ public class CustomDrop {
             Entity entity = deathEvent.getEntity();
             Location loc = entity.getLocation();
 
+            if (p == null) return;
+
             if (hasDrops()) {
                 deathEvent.getDrops().clear();
                 deathEvent.setDroppedExp(0);
@@ -149,7 +153,6 @@ public class CustomDrop {
                 Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
                 if (drop != XMaterial.AIR.parseMaterial()) {
 
-                    //int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
                     int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : RandomUtils.randomInteger(getMinAmount(), getMaxAmount());
                     ItemStack dropItem = new ItemStack(drop, amount);
 
@@ -159,4 +162,6 @@ public class CustomDrop {
             }
         }
     }
+
+
 }
