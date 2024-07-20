@@ -28,6 +28,12 @@ public class PlaceholderUtil {
         if (text.contains("%player%"))
             text = text.replace("%player%", uhcPlayer.getName());
 
+        if (text.contains("%uhc-level%"))
+            text = text.replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
+
+        if (text.contains("%required-uhc-exp%"))
+            text = text.replace("%required-uhc-exp%", String.valueOf(uhcPlayer.getData().getRequiredUHCExp()));
+
         if (text.contains("%ping%"))
             text = text.replace("%ping%", String.valueOf(p.getPing()));
 
@@ -42,6 +48,10 @@ public class PlaceholderUtil {
 
         if (text.contains("%money%")) {
             text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
+        }
+
+        if (text.contains("%currency%")) {
+            text = text.replace("%currency%", Messages.CURRENCY.toString());
         }
 
         if (text.contains("%kills%")) {

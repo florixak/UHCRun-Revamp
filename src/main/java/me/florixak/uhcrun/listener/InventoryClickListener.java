@@ -77,29 +77,21 @@ public class InventoryClickListener implements Listener {
     }
 
     private void handleKitSelection(UHCPlayer uhcPlayer, InventoryClickEvent event) {
-        List<Kit> kitsList = gameManager.getKitsManager().getKitsList();
-        for (Kit kit : kitsList) {
-            if (kitsList.get(event.getSlot()) == kit) {
-                uhcPlayer.getPlayer().closeInventory();
-                if (!GameValues.KITS.BOUGHT_FOREVER) {
-                    if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
-                        uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
-                        return;
-                    }
-                    uhcPlayer.setKit(kit);
-                    uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
-                } else {
-                    if (uhcPlayer.getData().alreadyBoughtKit(kit) || kit.isFree()) {
-                        uhcPlayer.setKit(kit);
-                    } else {
-                        if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
-                            uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
-                            return;
-                        }
-                        uhcPlayer.getData().buyKit(kit);
-                        uhcPlayer.setKit(kit);
-                    }
-                }
+        Kit selectedKit = gameManager.getKitsManager().getKitsList().get(event.getSlot());
+        uhcPlayer.getPlayer().closeInventory();
+
+        if (!GameValues.KITS.BOUGHT_FOREVER) {
+            if (!selectedKit.isFree() && uhcPlayer.getData().getMoney() < selectedKit.getCost()) {
+                uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
+                return;
+            }
+            uhcPlayer.setKit(selectedKit);
+            uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
+        } else {
+            if (uhcPlayer.getData().alreadyBoughtKit(selectedKit)) {
+                uhcPlayer.setKit(selectedKit);
+            } else {
+                uhcPlayer.getData().buyKit(selectedKit);
             }
         }
     }

@@ -82,7 +82,7 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (kit %kit%)"
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
@@ -92,38 +92,39 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (Perk %perk%)"
 
   rewards:
+    currency: "coins"
     win:
       - "&7---------- %prefix% &7----------"
-      - " &a+%money-for-game% &fcoins for win"
-      - " &a+%money-for-kills% &fcoins for kills"
-      - " &a+%money-for-assists% &fcoins for assists"
-      - " &a+%money-for-activity% &fcoins for activity"
+      - " &a+%money-for-game% &f%currency% for win"
+      - " &a+%money-for-kills% &f%currency% for kills"
+      - " &a+%money-for-assists% &f%currency% for assists"
+      - " &a+%money-for-activity% &f%currency% for activity"
       - " &a+%uhc-exp-for-game% &fexp for win"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
-      - " &a+%uhc-exp-for-activity% &exp for activity"
+      - " &a+%uhc-exp-for-activity% &fexp for activity"
       - "&7--------------------------------"
     lose:
       - "&7---------- %prefix% &7----------"
-      - " &a+%money-for-game% &fcoins for lose"
-      - " &a+%money-for-kills% &fcoins for kills"
-      - " &a+%money-for-assists% &fcoins for assists"
-      - " &a+%money-for-activity% &fcoins for activity"
+      - " &a+%money-for-game% &f%currency% for lose"
+      - " &a+%money-for-kills% &f%currency% for kills"
+      - " &a+%money-for-assists% &f%currency% for assists"
+      - " &a+%money-for-activity% &f%currency% for activity"
       - " &a+%uhc-exp-for-game% &fexp for lose"
       - " &a+%uhc-exp-for-kills% &fexp for kills"
       - " &a+%uhc-exp-for-assists% &fexp for assists"
       - " &a+%uhc-exp-for-activity% &fexp for activity"
       - "&7--------------------------------"
 
-    kill: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for kill! &7(%player%)"
-    assist: "&e[!] &a+%money% &fcoins and &a+%uhc-exp% &fexp for assist! &7(%player%)"
+    kill: "&e[!] &a+%money% &f%currency% and &a+%uhc-exp% &fexp for kill! &7(%player%)"
+    assist: "&e[!] &a+%money% &f%currency% and &a+%uhc-exp% &fexp for assist! &7(%player%)"
 
-    activity: "&6[+] &f%money% coins and %uhc-exp% XP for activity!"
+    activity: "&6[+] &f%money% %currency% and %uhc-exp% exp for activity!"
 
-    level-up: "&a[LEVEL UP] &a+%money% &fcoins for level up!"
+    level-up: "&a[LEVEL UP] &a+%money% &f%currency% for level up!"
 
   game-results:
     - "&7---------- %prefix% &3----------"

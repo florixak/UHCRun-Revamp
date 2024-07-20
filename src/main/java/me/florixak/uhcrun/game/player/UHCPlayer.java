@@ -41,6 +41,7 @@ public class UHCPlayer {
     private boolean hasWon;
     private List<UHCPlayer> assistsList;
     private Location deathLoc;
+    private String displayedStat;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;

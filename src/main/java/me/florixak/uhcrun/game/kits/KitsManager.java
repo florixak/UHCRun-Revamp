@@ -64,26 +64,25 @@ public class KitsManager {
         List<ItemStack> itemsList = new ArrayList<>();
         try {
             ConfigurationSection itemsSection = section.getConfigurationSection("items");
+            if (itemsSection == null) return itemsList;
 
-            if (itemsSection != null) {
-                for (String item : itemsSection.getKeys(false)) {
-                    ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
-                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
-                    int amount = itemSection.getInt("amount", 1);
-                    ItemStack newI = ItemUtils.createItem(i.getType(), null, amount, null);
-                    ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
-
-                    if (enchantsSection != null) {
-                        for (String enchant : enchantsSection.getKeys(false)) {
-                            String enchantmentName = enchant.toUpperCase();
-                            Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
-                            int level = enchantsSection.getInt(enchantmentName);
-                            ItemUtils.addEnchant(newI, e, level, true);
-                        }
+            for (String item : itemsSection.getKeys(false)) {
+                ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
+                ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
+                int amount = itemSection.getInt("amount", 1);
+                ItemStack newI = ItemUtils.createItem(i.getType(), null, amount, null);
+                ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
+                if (enchantsSection != null) {
+                    for (String enchant : enchantsSection.getKeys(false)) {
+                        String enchantmentName = enchant.toUpperCase();
+                        Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
+                        int level = enchantsSection.getInt(enchantmentName);
+                        ItemUtils.addEnchant(newI, e, level, true);
                     }
-                    itemsList.add(newI);
                 }
+                itemsList.add(newI);
             }
+
         } catch (Exception e) {
             UHCRun.getInstance().getLogger().info("There is a problem with loading kit items!");
         }
@@ -124,12 +123,12 @@ public class KitsManager {
 
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
             if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
-                String display_name = config.getString("settings.selectors." + selector + ".display-name");
+                String displayName = config.getString("settings.selectors." + selector + ".display-name");
                 String material = config.getConfigurationSection("settings.selectors." + selector).getString("material", "BARRIER").toUpperCase();
                 ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
                 int slot = config.getInt("settings.selectors." + selector + ".slot");
 
-                ItemStack newItem = ItemUtils.createItem(item.getType(), display_name, 1, null);
+                ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);
                 p.getPlayer().getInventory().setItem(slot, newItem);
             }
         }

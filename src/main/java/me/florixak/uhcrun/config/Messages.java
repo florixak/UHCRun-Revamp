@@ -52,6 +52,8 @@ public enum Messages {
 
     KICK_DUE_RESERVED_SLOT("game.kick-due-reserved-slot"),
 
+    CURRENCY("rewards.currency"),
+
     REWARDS_WIN("rewards.win"),
     REWARDS_LOSE("rewards.lose"),
     REWARDS_ACTIVITY("rewards.activity"),
@@ -121,7 +123,11 @@ public enum Messages {
         }
 
         String prefix = config.getString("Messages." + PREFIX.getPath());
-        return TextUtils.color(message.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : ""));
+        String currency = config.getString("Messages." + CURRENCY.getPath());
+        return TextUtils.color(message
+                .replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : "")
+                .replace("%currency%", currency != null && !currency.isEmpty() ? currency : "")
+        );
     }
 
 

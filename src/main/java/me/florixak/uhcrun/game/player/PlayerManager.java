@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -80,25 +81,34 @@ public class PlayerManager {
     }
 
     public void setUHCWinner() {
+        UHCPlayer winner = getAliveList().stream()
+                .filter(UHCPlayer::isOnline)
+                .max(Comparator.comparingInt(UHCPlayer::getKills))
+                .orElse(null);
 
-        if (getAliveList().isEmpty()) return;
-
-        UHCPlayer winner = getAliveList().get(0);
         if (winner == null) return;
 
-        for (UHCPlayer uhcPlayer : getAliveList()) {
-            if (!uhcPlayer.isOnline()) return;
-            if (uhcPlayer.getKills() > winner.getKills()) {
-                winner = uhcPlayer;
-            }
-        }
         if (GameValues.TEAM.TEAM_MODE) {
-            for (UHCPlayer teamMember : winner.getTeam().getMembers()) {
-                teamMember.setWinner(true);
-            }
-            return;
+            winner.getTeam().getMembers().forEach(member -> member.setWinner(true));
+        } else {
+            winner.setWinner(true);
         }
-        winner.setWinner(true);
+//        if (getAliveList().isEmpty()) return;
+//
+//        UHCPlayer winner = getAliveList().get(0);
+//        if (winner == null) return;
+//
+//        for (UHCPlayer uhcPlayer : getAliveList()) {
+//            if (!uhcPlayer.isOnline()) return;
+//            if (uhcPlayer.getKills() > winner.getKills()) {
+//                winner = uhcPlayer;
+//            }
+//        }
+//        if (GameValues.TEAM.TEAM_MODE) {
+//            winner.getTeam().getMembers().forEach(member -> member.setWinner(true));
+//            return;
+//        }
+//        winner.setWinner(true);
     }
 
     public String getUHCWinner() {

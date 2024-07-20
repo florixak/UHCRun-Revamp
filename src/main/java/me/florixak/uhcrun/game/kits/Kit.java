@@ -47,6 +47,10 @@ public class Kit {
         return this.items;
     }
 
+    public String getFormattedCost() {
+        return TextUtils.color("&7" + getCost() + " " + "coins");
+    }
+
     public void giveKit(UHCPlayer uhcPlayer) {
         Player p = uhcPlayer.getPlayer();
 

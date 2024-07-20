@@ -21,7 +21,7 @@ public class PlayerData {
     private final UHCPlayer uhcPlayer;
     private final FileConfiguration playerData;
 
-    private final ArrayList<Kit> boughtKits;
+    private final List<Kit> boughtKitsList;
 //    private final ArrayList<Perk> boughtPerks;
 
     private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
@@ -40,7 +40,7 @@ public class PlayerData {
         this.uhcExpForKills = 0;
         this.uhcExpForAssists = 0;
 
-        this.boughtKits = new ArrayList<>();
+        this.boughtKitsList = new ArrayList<>();
 
         setData();
         loadBoughtKits();
@@ -67,7 +67,7 @@ public class PlayerData {
         playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
         playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", 0);
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", boughtKits);
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", boughtKitsList);
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins");
 
@@ -224,38 +224,41 @@ public class PlayerData {
     }
 
     public void buyKit(Kit kit) {
-        boughtKits.add(kit);
+        if (!kit.isFree() && uhcPlayer.getData().getMoney() < kit.getCost()) {
+            uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
+            return;
+        }
+        boughtKitsList.add(kit);
         withdrawMoney(kit.getCost());
+        saveKits();
         String kitCost = String.valueOf(kit.getCost());
         String money = String.valueOf(getMoney());
         String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
         uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString(), "%previous-money%", prevMoney, "%money%", money, "%kit%", kit.getDisplayName(), "%kit-cost%", kitCost);
-        saveKits();
+        uhcPlayer.setKit(kit);
     }
 
     public boolean alreadyBoughtKit(Kit kit) {
-        return boughtKits.contains(kit);
+        return boughtKitsList.contains(kit);
     }
 
     public void loadBoughtKits() {
-        List<String> stringKits = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
+        List<String> boughtKitsList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
 
-        for (String kitName : stringKits) {
+        for (String kitName : boughtKitsList) {
             Kit kit = gameManager.getKitsManager().getKit(kitName);
-            if (kit != null) boughtKits.add(kit);
+            if (kit != null) this.boughtKitsList.add(kit);
         }
         saveKits();
     }
 
     public List<Kit> getKits() {
-        return boughtKits;
+        return boughtKitsList;
     }
 
     private void saveKits() {
-        List<String> stringKits = boughtKits.stream()
-                .map(Kit::getName)
-                .collect(Collectors.toList());
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", stringKits);
+        List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", kitsNameList);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
@@ -292,19 +295,14 @@ public class PlayerData {
             gameManager.getData().setRequiredUHCExp(uhcPlayer.getUUID(), setRequiredUHCExp());
         }
 
-        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString()
-                .replace("%uhc-level%", String.valueOf(getUHCLevel()))
-                .replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
+        uhcPlayer.sendMessage(Messages.LEVEL_UP.toString().replace("%uhc-level%", String.valueOf(getUHCLevel())).replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
 
         gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
 
         double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * getUHCLevel();
 
         depositMoney(reward);
-        uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString()
-                .replace("%money%", String.valueOf(reward))
-                .replace("%prev-level%", String.valueOf(getPreviousUHCLevel()))
-                .replace("%new-level%", String.valueOf(getUHCLevel())));
+        uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString().replace("%money%", String.valueOf(reward)).replace("%prev-level%", String.valueOf(getPreviousUHCLevel())).replace("%new-level%", String.valueOf(getUHCLevel())));
     }
 
     public int getPreviousUHCLevel() {
@@ -324,7 +322,8 @@ public class PlayerData {
     public void addUHCExp(double amount) {
         if (amount == 0.00) return;
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", getUHCExp() + amount);
+        double newExp = getUHCExp() + amount;
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", newExp);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
         if (gameManager.isDatabaseConnected()) {
@@ -355,13 +354,15 @@ public class PlayerData {
     }
 
     public void setDisplayedTop(String topMode) {
-        if (getDisplayedTop().equalsIgnoreCase(topMode)) return;
+        String displayedTop = getDisplayedTop();
+        if (!displayedTop.equalsIgnoreCase(topMode)) {
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", topMode.toLowerCase());
-        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+            playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", topMode.toLowerCase());
+            gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
-        if (gameManager.isDatabaseConnected()) {
-            gameManager.getData().setDisplayedTop(uhcPlayer.getUUID(), topMode.toLowerCase());
+            if (gameManager.isDatabaseConnected()) {
+                gameManager.getData().setDisplayedTop(uhcPlayer.getUUID(), topMode.toLowerCase());
+            }
         }
     }
 
@@ -390,24 +391,14 @@ public class PlayerData {
         depositMoney(money);
         addUHCExp(uhcExp);
 
-        uhcPlayer.sendMessage(Messages.REWARDS_ACTIVITY.toString()
-                .replace("%money%", String.valueOf(money))
-                .replace("%uhc-exp%", String.valueOf(uhcExp)));
+        uhcPlayer.sendMessage(Messages.REWARDS_ACTIVITY.toString().replace("%money%", String.valueOf(money)).replace("%uhc-exp%", String.valueOf(uhcExp)));
     }
 
     public void showStatistics() {
         List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
         for (String message : rewards) {
-            message = message
-                    .replace("%money-for-game%", String.valueOf(moneyForGameResult))
-                    .replace("%money-for-kills%", String.valueOf(moneyForKills))
-                    .replace("%money-for-assists%", String.valueOf(moneyForAssists))
-                    .replace("%money-for-activity%", String.valueOf(moneyForActivity))
-                    .replace("%uhc-exp-for-game%", String.valueOf(uhcExpForGameResult))
-                    .replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills))
-                    .replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists))
-                    .replace("%uhc-exp-for-activity%", String.valueOf(uhcExpForActivity));
+            message = message.replace("%money-for-game%", String.valueOf(moneyForGameResult)).replace("%money-for-kills%", String.valueOf(moneyForKills)).replace("%money-for-assists%", String.valueOf(moneyForAssists)).replace("%money-for-activity%", String.valueOf(moneyForActivity)).replace("%uhc-exp-for-game%", String.valueOf(uhcExpForGameResult)).replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills)).replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists)).replace("%uhc-exp-for-activity%", String.valueOf(uhcExpForActivity));
             uhcPlayer.sendMessage(TextUtils.color(message));
         }
     }
