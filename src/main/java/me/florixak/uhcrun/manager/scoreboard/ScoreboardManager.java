@@ -16,6 +16,7 @@ public class ScoreboardManager {
     private Map<UUID, ScoreHelper> players;
 
     private final String title;
+    private final String footer;
     private final List<String> waiting;
     private final List<String> starting;
     private final List<String> mining;
@@ -25,13 +26,14 @@ public class ScoreboardManager {
 
     private final GameManager gameManager;
 
-    public ScoreboardManager(GameManager gameManager){
+    public ScoreboardManager(GameManager gameManager) {
         this.gameManager = gameManager;
         this.players = new HashMap<>();
 
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SCOREBOARD).getConfig();
 
         this.title = config.getString("scoreboard.title");
+        this.footer = config.getString("scoreboard.footer");
 
         this.waiting = config.getStringList("scoreboard.waiting");
         this.starting = config.getStringList("scoreboard.starting");
@@ -41,10 +43,11 @@ public class ScoreboardManager {
         this.ending = config.getStringList("scoreboard.ending");
     }
 
-    public void createWaitingSb(Player p){
+    public void createWaitingSb(Player p) {
         players.put(p.getUniqueId(), updateWaitingSb(p.getUniqueId()));
     }
-    public ScoreHelper updateWaitingSb(UUID uuid){
+
+    public ScoreHelper updateWaitingSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -56,16 +59,17 @@ public class ScoreboardManager {
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.waiting){
+        for (String text : this.waiting) {
             helper.setSlot(sb, text);
             sb--;
         }
         return helper;
     }
 
-    private void createStartingSb(Player p){
+    private void createStartingSb(Player p) {
         players.put(p.getUniqueId(), updateStartingSb(p.getUniqueId()));
     }
+
     private ScoreHelper updateStartingSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
@@ -85,10 +89,11 @@ public class ScoreboardManager {
         return helper;
     }
 
-    private void createMiningSb(Player p){
+    private void createMiningSb(Player p) {
         players.put(p.getUniqueId(), updateMiningSb(p.getUniqueId()));
     }
-    private ScoreHelper updateMiningSb(UUID uuid){
+
+    private ScoreHelper updateMiningSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -100,17 +105,18 @@ public class ScoreboardManager {
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.mining){
+        for (String text : this.mining) {
             helper.setSlot(sb, text);
             sb--;
         }
         return helper;
     }
 
-    private void createPvPSb(Player p){
+    private void createPvPSb(Player p) {
         players.put(p.getUniqueId(), updatePvPSb(p.getUniqueId()));
     }
-    private ScoreHelper updatePvPSb(UUID uuid){
+
+    private ScoreHelper updatePvPSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -122,17 +128,18 @@ public class ScoreboardManager {
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.pvp){
+        for (String text : this.pvp) {
             helper.setSlot(sb, text);
             sb--;
         }
         return helper;
     }
 
-    private void createDeathmatchSb(Player p){
+    private void createDeathmatchSb(Player p) {
         players.put(p.getUniqueId(), updateDeathmatchSb(p.getUniqueId()));
     }
-    private ScoreHelper updateDeathmatchSb(UUID uuid){
+
+    private ScoreHelper updateDeathmatchSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -144,17 +151,18 @@ public class ScoreboardManager {
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.deathmatch){
+        for (String text : this.deathmatch) {
             helper.setSlot(sb, text);
             sb--;
         }
         return helper;
     }
 
-    private void createEndingSb(Player p){
+    private void createEndingSb(Player p) {
         players.put(p.getUniqueId(), updateEndingSb(p.getUniqueId()));
     }
-    private ScoreHelper updateEndingSb(UUID uuid){
+
+    private ScoreHelper updateEndingSb(UUID uuid) {
 
         Player p = Bukkit.getPlayer(uuid);
 
@@ -166,7 +174,7 @@ public class ScoreboardManager {
         if (helper == null) helper = new ScoreHelper(p);
         helper.setTitle(title);
 
-        for (String text : this.ending){
+        for (String text : this.ending) {
             helper.setSlot(sb, text);
             sb--;
         }
@@ -197,11 +205,16 @@ public class ScoreboardManager {
         }
     }
 
+    public String getFooter() {
+        return footer;
+    }
+
     private void removeFromMap(Player p) {
         if (players.containsKey(p.getUniqueId())) {
             players.remove(p.getUniqueId());
         }
     }
+
     public void removeScoreboard(Player p) {
         if (players.containsKey(p.getUniqueId())) {
             players.remove(p.getUniqueId());

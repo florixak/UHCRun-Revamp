@@ -171,7 +171,7 @@ settings:
     header: "&2&lUHC&a&lRun\n"
     solo-mode-player-list: "&7[%uhc-level%] &f%player%"
     team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
-    footer: "\n&7www.florixak.tk"
+    footer: "\n&7www.github.com/florixak"
 
   # Auto broadcast
   auto-broadcast:

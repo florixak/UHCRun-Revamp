@@ -1,12 +1,12 @@
-package me.florixak.uhcrun.player;
+package me.florixak.uhcrun.game.player;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
+import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.Permissions;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.game.Permissions;
 import me.florixak.uhcrun.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

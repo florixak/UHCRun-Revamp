@@ -2,7 +2,7 @@ package me.florixak.uhcrun.manager;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -56,9 +56,9 @@ public class DeathmatchManager {
         Location loc = getDeathmatchLocation();
 
         return new Location(loc.getWorld(),
-                (loc.getX() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getX()+5)))/2.2,
+                (loc.getX() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getX() + 5))) / 2.2,
                 loc.getWorld().getHighestBlockYAt(loc),
-                (loc.getZ() + (int)(Math.random() * ((getDeathmatchBorderSize()-1)-loc.getZ()+5)))/2.2
+                (loc.getZ() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getZ() + 5))) / 2.2
         );
     }
 

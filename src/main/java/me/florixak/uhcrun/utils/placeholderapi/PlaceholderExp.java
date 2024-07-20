@@ -5,7 +5,7 @@ import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -39,14 +39,14 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if (player != null && player.isOnline()){
+        if (player != null && player.isOnline()) {
             return onPlaceholderRequest(player.getPlayer(), params);
         }
         return null; // Placeholder is unknown by the Expansion
     }
 
     @Override
-    public String onPlaceholderRequest(Player p, String params){
+    public String onPlaceholderRequest(Player p, String params) {
         GameManager gameManager = plugin.getGameManager();
         if (p == null || gameManager.getConfigManager().getFile(ConfigType.SETTINGS)
                 .getConfig().getBoolean("settings.addons.use-PlaceholderAPI", false)) {

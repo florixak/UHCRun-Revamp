@@ -2,12 +2,12 @@ package me.florixak.uhcrun.game.deathchest;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.hologram.Hologram;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.game.hologram.Hologram;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -72,15 +72,19 @@ public class DeathChest {
     public boolean canExpire() {
         return this.expire;
     }
+
     public void startExpiring() {
         this.deathChestExpire.runTaskTimer(UHCRun.getInstance(), 0L, 20L);
     }
+
     public DeathChestExpire getExpireTask() {
         return this.deathChestExpire;
     }
+
     public String getFormattedExpireTime() {
         return TimeUtils.getFormattedTime(getExpireTask().getExpireTime());
     }
+
     public int getExpireTime() {
         return getExpireTask().getExpireTime();
     }
@@ -97,6 +101,7 @@ public class DeathChest {
         this.hologram = new Hologram(text);
         this.hologram.spawn(loc);
     }
+
     public Hologram getHologram() {
         return this.hologram;
     }

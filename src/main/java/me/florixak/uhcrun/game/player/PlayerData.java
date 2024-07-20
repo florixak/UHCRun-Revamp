@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.player;
+package me.florixak.uhcrun.game.player;
 
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
@@ -20,7 +20,9 @@ public class PlayerData {
     private final GameManager gameManager;
     private final UHCPlayer uhcPlayer;
     private final FileConfiguration playerData;
-    private ArrayList<Kit> boughtKits;
+
+    private final ArrayList<Kit> boughtKits;
+//    private final ArrayList<Perk> boughtPerks;
 
     private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
     private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
@@ -41,7 +43,7 @@ public class PlayerData {
         this.boughtKits = new ArrayList<>();
 
         setData();
-        loadKits();
+        loadBoughtKits();
     }
 
     public void setData() {
@@ -221,9 +223,13 @@ public class PlayerData {
         }
     }
 
-    public void buyKit(Kit kit, double cost) {
+    public void buyKit(Kit kit) {
         boughtKits.add(kit);
-        withdrawMoney(cost);
+        withdrawMoney(kit.getCost());
+        String kitCost = String.valueOf(kit.getCost());
+        String money = String.valueOf(getMoney());
+        String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
+        uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString(), "%previous-money%", prevMoney, "%money%", money, "%kit%", kit.getDisplayName(), "%kit-cost%", kitCost);
         saveKits();
     }
 
@@ -231,11 +237,12 @@ public class PlayerData {
         return boughtKits.contains(kit);
     }
 
-    public void loadKits() {
+    public void loadBoughtKits() {
         List<String> stringKits = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
 
-        for (Kit kit : gameManager.getKitsManager().getKitsList()) {
-            if (stringKits.contains(kit.getName()) || kit.isFree()) boughtKits.add(kit);
+        for (String kitName : stringKits) {
+            Kit kit = gameManager.getKitsManager().getKit(kitName);
+            if (kit != null) boughtKits.add(kit);
         }
         saveKits();
     }
@@ -388,7 +395,7 @@ public class PlayerData {
                 .replace("%uhc-exp%", String.valueOf(uhcExp)));
     }
 
-    public void displayStatistics() {
+    public void showStatistics() {
         List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
         for (String message : rewards) {

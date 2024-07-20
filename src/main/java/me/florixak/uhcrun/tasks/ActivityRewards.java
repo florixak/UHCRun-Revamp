@@ -1,7 +1,7 @@
 package me.florixak.uhcrun.tasks;
 
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ActivityRewards extends BukkitRunnable {

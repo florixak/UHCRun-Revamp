@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ItemUtils {
 
-    public static ItemStack createItem(Material material, String name, int amount, List<String> lore){
+    public static ItemStack createItem(Material material, String name, int amount, List<String> lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
@@ -31,6 +31,10 @@ public class ItemUtils {
         return item;
     }
 
+    public static boolean hasItemMeta(ItemStack item) {
+        return item.hasItemMeta();
+    }
+
     public static ItemStack monsterEgg(EntityType entityType) {
         ItemStack item = new ItemStack(XMaterial.HORSE_SPAWN_EGG.parseMaterial());
         SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
@@ -39,33 +43,33 @@ public class ItemUtils {
         return item;
     }
 
-    public static void setArmorItemMeta(ItemStack item, Color armorColor){
+    public static void setArmorItemMeta(ItemStack item, Color armorColor) {
 
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         if (armorColor != null) meta.setColor(armorColor);
         item.setItemMeta(meta);
     }
 
-    public static void addEnchant(ItemStack item, Enchantment enchantment, int enchantLevel, boolean ignoreLevel){
+    public static void addEnchant(ItemStack item, Enchantment enchantment, int enchantLevel, boolean ignoreLevel) {
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(enchantment, enchantLevel, ignoreLevel);
         item.setItemMeta(meta);
     }
 
-    public static void addBookEnchantment(ItemStack item, Enchantment enchantment, int enchantLevel){
+    public static void addBookEnchantment(ItemStack item, Enchantment enchantment, int enchantLevel) {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(enchantment, enchantLevel, true);
         item.setItemMeta(meta);
     }
 
-    public static void addGlow(ItemStack item){
+    public static void addGlow(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.DURABILITY, 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
     }
 
-    public static void removeAttributes(ItemStack item){
+    public static void removeAttributes(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
@@ -79,7 +83,7 @@ public class ItemUtils {
         return enchantments;
     }
 
-    public static void addLore(ItemStack item, String line1, String line2, String line3){
+    public static void addLore(ItemStack item, String line1, String line2, String line3) {
         List<String> lore = new ArrayList<>();
         if (line1 != null) lore.add(TextUtils.color(line1));
         if (line2 != null) lore.add(TextUtils.color(line2));

@@ -53,7 +53,7 @@ public class CustomBlockPopulator extends BlockPopulator {
         if (!limitedRegion.isInRegion(location)) return;
 
         if (isOutsideBorder(location, BORDER_SIZE)) {
-            UHCRun.getInstance().getLogger().info("2. Location is outside of border: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
+            UHCRun.getInstance().getLogger().info("Location is outside of border: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
             return;
         }
 
@@ -66,12 +66,9 @@ public class CustomBlockPopulator extends BlockPopulator {
         OreGenerator oreGen = ORE_GEN_LIST.get(random.nextInt(ORE_GEN_LIST.size()));
         Material oreType = oreGen.getMaterial();
         int maxSize = RandomUtils.randomInteger(oreGen.getMinVein(), oreGen.getMaxVein()); // Reduce the maximum size of the ore vein
-
         for (int size = 0; size < maxSize; size++) {
             if (limitedRegion.isInRegion(location)) {
                 limitedRegion.setType(location, oreType);
-                populationCount++; // Increment the population count
-                UHCRun.getInstance().getLogger().info(populationCount + ". Setting " + oreType + " at: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
             }
 
             BlockFace blockFace = OFFSETS[random.nextInt(OFFSETS.length)];
@@ -81,8 +78,11 @@ public class CustomBlockPopulator extends BlockPopulator {
                     (limitedRegion.getType(location) != Material.STONE && limitedRegion.getType(location) != Material.DEEPSLATE)) {
                 break;
             }
-            
         }
+
+        populationCount++; // Increment the population count
+        UHCRun.getInstance().getLogger().info(populationCount + ". Setting " + oreType + " at: " + location.getX() + ", " + location.getY() + ", " + location.getZ());
+
     }
 
     public boolean isOutsideBorder(Location location, int borderSize) {

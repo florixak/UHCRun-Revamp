@@ -3,7 +3,7 @@ package me.florixak.uhcrun.game.perks;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;

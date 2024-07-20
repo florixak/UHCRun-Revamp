@@ -6,8 +6,8 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.gui.KitsGui;
 import me.florixak.uhcrun.game.gui.PerksGui;
 import me.florixak.uhcrun.game.gui.StatisticsGui;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.game.gui.TeamGui;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,7 +33,8 @@ public class InteractListener implements Listener {
         ItemStack item = p.getInventory().getItemInMainHand();
 
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
-            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null) return;
+            if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null)
+                return;
 
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 

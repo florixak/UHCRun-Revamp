@@ -4,7 +4,7 @@ import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;

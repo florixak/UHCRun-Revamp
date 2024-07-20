@@ -2,7 +2,7 @@ package me.florixak.uhcrun.game.deathchest;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +23,7 @@ public class DeathChestManager {
     public int getExpireTime() {
         return GameValues.DEATH_CHEST.HOLOGRAM_EXPIRE_TIME;
     }
+
     public boolean canExpire() {
         return getExpireTime() != -1;
     }

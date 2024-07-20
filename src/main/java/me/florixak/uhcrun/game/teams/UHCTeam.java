@@ -1,9 +1,9 @@
-package me.florixak.uhcrun.teams;
+package me.florixak.uhcrun.game.teams;
 
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.text.TextUtils;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 

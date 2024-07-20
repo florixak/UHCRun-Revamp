@@ -1,6 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

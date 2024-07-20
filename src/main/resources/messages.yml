@@ -1,6 +1,8 @@
 # Here you can edit game messages
 
 # -----------------------------------------
+# If you want to use color codes use & symbol
+# And if replace does not work, it means that it is not supported for that message
 # %prefix% - prefix
 # %player% - player name
 # %online% - current online number
@@ -80,7 +82,7 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %current-money% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% (kit %kit%)"
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
@@ -90,7 +92,7 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %current-money% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% (kit %kit%)"
 
   rewards:
     win:

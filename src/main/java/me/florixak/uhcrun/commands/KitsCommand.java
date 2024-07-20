@@ -2,9 +2,9 @@ package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.gui.KitsGui;
-import me.florixak.uhcrun.player.UHCPlayer;
+import me.florixak.uhcrun.game.kits.Kit;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

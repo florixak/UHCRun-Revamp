@@ -1,5 +1,6 @@
 scoreboard:
   title: "&2&lUHC&a&lRun"
+  footer: "&7www.github.com/florixak"
 
   waiting:
     - ""
@@ -9,7 +10,7 @@ scoreboard:
     - "&fTeam: &a%team%"
     - "&fKit: &a%kit%"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"
 
   starting:
     - ""
@@ -19,7 +20,7 @@ scoreboard:
     - "&fTeam: %team%"
     - "&fKit: %kit%"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"
 
   mining:
     - ""
@@ -31,7 +32,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"
 
   pvp:
     - ""
@@ -43,7 +44,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"
 
   deathmatch:
     - ""
@@ -55,7 +56,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"
 
   ending:
     - ""
@@ -66,4 +67,4 @@ scoreboard:
     - ""
     - "Thx for playing!"
     - ""
-    - "&7www.florixak.tk"
+    - "&7%sb-footer%"

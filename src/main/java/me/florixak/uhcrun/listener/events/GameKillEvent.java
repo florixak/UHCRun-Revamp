@@ -1,7 +1,6 @@
 package me.florixak.uhcrun.listener.events;
 
-import me.florixak.uhcrun.player.UHCPlayer;
-import org.bukkit.Bukkit;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -25,6 +24,7 @@ public class GameKillEvent extends Event {
         return this.victim;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

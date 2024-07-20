@@ -2,12 +2,12 @@ package me.florixak.uhcrun.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.manager.*;
-import me.florixak.uhcrun.player.UHCPlayer;
-import me.florixak.uhcrun.utils.text.TextUtils;
+import me.florixak.uhcrun.game.GameValues;
+import me.florixak.uhcrun.game.player.UHCPlayer;
+import me.florixak.uhcrun.manager.BorderManager;
 import me.florixak.uhcrun.utils.TimeUtils;
+import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -119,6 +119,10 @@ public class PlaceholderUtil {
 
         if (text.contains("%winner%")) {
             text = text.replace("%winner%", gameManager.getPlayerManager().getUHCWinner());
+        }
+
+        if (text.contains("%sb-footer%")) {
+            text = text.replace("%sb-footer%", TextUtils.color(gameManager.getScoreboardManager().getFooter()));
         }
 
         if (text.contains("%team%")) {

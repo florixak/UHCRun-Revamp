@@ -7,15 +7,17 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.customDrop.CustomDrop;
+import me.florixak.uhcrun.game.player.PlayerManager;
+import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
-import me.florixak.uhcrun.player.PlayerManager;
-import me.florixak.uhcrun.player.UHCPlayer;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -86,7 +88,7 @@ public class GameListener implements Listener {
             player.setGameMode(GameMode.ADVENTURE);
             player.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
 
-            player.getData().displayStatistics();
+            player.getData().showStatistics();
         }
 
         // End game commands

@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.player;
+package me.florixak.uhcrun.game.player;
 
 public enum PlayerState {
 
