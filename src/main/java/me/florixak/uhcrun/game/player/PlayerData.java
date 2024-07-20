@@ -39,14 +39,17 @@ public class PlayerData {
         this.uhcExpForGameResult = 0;
         this.uhcExpForKills = 0;
         this.uhcExpForAssists = 0;
-
         this.boughtKitsList = new ArrayList<>();
 
-        setData();
+        initializeData();
+    }
+
+    public void initializeData() {
+        setInitialData();
         loadBoughtKits();
     }
 
-    public void setData() {
+    public void setInitialData() {
 
         if (gameManager.isDatabaseConnected()) {
             gameManager.getData().createPlayer(uhcPlayer.getPlayer());
@@ -54,22 +57,21 @@ public class PlayerData {
 
         if (hasData()) return;
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".name", uhcPlayer.getName());
+        String path = "player-data." + uhcPlayer.getUUID();
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-level", GameValues.STATISTICS.FIRST_UHC_LEVEL);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".uhc-exp", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".required-uhc-exp", GameValues.STATISTICS.FIRST_REQUIRED_EXP);
+        playerData.set(path + ".name", uhcPlayer.getName());
 
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".losses", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".kills", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".assists", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".deaths", 0);
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", 0);
-
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", boughtKitsList);
-
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins");
+        playerData.set(path + ".uhc-level", GameValues.STATISTICS.FIRST_UHC_LEVEL);
+        playerData.set(path + ".uhc-exp", 0);
+        playerData.set(path + ".required-uhc-exp", GameValues.STATISTICS.FIRST_REQUIRED_EXP);
+        playerData.set(path + ".wins", 0);
+        playerData.set(path + ".losses", 0);
+        playerData.set(path + ".kills", 0);
+        playerData.set(path + ".assists", 0);
+        playerData.set(path + ".deaths", 0);
+        playerData.set(path + ".games-played", 0);
+        playerData.set(path + ".kits", new ArrayList<>());
+        playerData.set(path + ".displayed-top", "wins");
 
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
