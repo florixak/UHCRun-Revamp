@@ -34,8 +34,8 @@ public class PlaceholderUtil {
         if (text.contains("%required-uhc-exp%"))
             text = text.replace("%required-uhc-exp%", String.valueOf(uhcPlayer.getData().getRequiredUHCExp()));
 
-        if (text.contains("%ping%"))
-            text = text.replace("%ping%", String.valueOf(p.getPing()));
+//        if (text.contains("%ping%"))
+//            text = text.replace("%ping%", String.valueOf(p,getPing()));
 
         if (text.contains("%online%"))
             text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));

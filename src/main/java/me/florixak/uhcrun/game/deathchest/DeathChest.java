@@ -7,7 +7,6 @@ import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.tasks.DeathChestExpire;
 import me.florixak.uhcrun.utils.TimeUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
-import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -24,24 +23,18 @@ public class DeathChest {
     private final Location loc;
     private List<ItemStack> contents;
 
-    private String title;
     private Hologram hologram;
 
     private final boolean expire;
     private final DeathChestExpire deathChestExpire;
 
-    public DeathChest(UHCPlayer uhcPlayer, Location loc, String title, List<ItemStack> contents, boolean expire) {
+    public DeathChest(UHCPlayer uhcPlayer, Location loc, List<ItemStack> contents, boolean expire) {
         this.uhcPlayer = uhcPlayer;
         this.loc = loc;
-        this.title = title;
         this.contents = contents;
 
         this.deathChestExpire = new DeathChestExpire(this);
         this.expire = expire;
-
-        if (this.title == null) {
-            this.title = uhcPlayer.getName() + "'s Death Chest";
-        }
         createChest();
     }
 
@@ -51,7 +44,7 @@ public class DeathChest {
         BlockState state = loc.getBlock().getState();
 
         Chest chest = (Chest) state;
-        chest.setCustomName(TextUtils.color(this.title));
+        //chest.setCustomName(TextUtils.color(this.title));
         setHologram();
 
         if (getContents() != null && !getContents().isEmpty()) {
@@ -107,7 +100,7 @@ public class DeathChest {
     }
 
     public void removeChest() {
-        if (getExpireTask() != null && !getExpireTask().isCancelled()) {
+        if (getExpireTask() != null) {
             getExpireTask().cancel();
         }
 

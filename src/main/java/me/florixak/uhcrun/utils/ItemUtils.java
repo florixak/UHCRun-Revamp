@@ -6,13 +6,11 @@ import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +34,13 @@ public class ItemUtils {
         return item.hasItemMeta();
     }
 
-    public static ItemStack monsterEgg(EntityType entityType) {
-        ItemStack item = new ItemStack(XMaterial.HORSE_SPAWN_EGG.parseMaterial());
-        SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
-        meta.setSpawnedType(entityType);
-        item.setItemMeta(meta);
-        return item;
-    }
+//    public static ItemStack monsterEgg(EntityType entityType) {
+//        ItemStack item = new ItemStack(XMaterial.HORSE_SPAWN_EGG.parseMaterial());
+//        SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
+//        meta.setSpawnedType(entityType);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
 
     public static void setArmorItemMeta(ItemStack item, Color armorColor) {
 

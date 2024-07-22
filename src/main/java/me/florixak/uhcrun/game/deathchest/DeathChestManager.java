@@ -31,7 +31,7 @@ public class DeathChestManager {
     public void createDeathChest(Player p, List<ItemStack> items) {
         if (gameManager.getPlayerManager().getAliveList().size() <= 1) return;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        DeathChest deathChest = new DeathChest(uhcPlayer, uhcPlayer.getDeathLocation(), uhcPlayer.getName(), items, canExpire());
+        DeathChest deathChest = new DeathChest(uhcPlayer, uhcPlayer.getDeathLocation(), items, canExpire());
         this.deathChests.add(deathChest);
     }
 
