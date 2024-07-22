@@ -1,13 +1,11 @@
 package me.florixak.uhcrun.manager;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -55,12 +53,12 @@ public class RecipeManager {
                 }
             }
 
-            ShapedRecipe itemRecipe = new ShapedRecipe(new NamespacedKey(UHCRun.getInstance(), recipe.toLowerCase()), item);
+            ShapedRecipe itemRecipe = new ShapedRecipe(item);
 
             itemRecipe.shape(
-                            "ABC",
-                            "DEF",
-                            "GHI"
+                    "ABC",
+                    "DEF",
+                    "GHI"
             );
 
             itemRecipe.setIngredient('A', XMaterial.matchXMaterial(
