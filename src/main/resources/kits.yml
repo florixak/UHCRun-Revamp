@@ -144,4 +144,42 @@ kits:
         amount: 32
       REPEATER:
         amount: 4
-
+  Archer:
+    display-name: "&fArcher"
+    display-item: BOW
+    cost: 75
+    items:
+      BOW:
+        amount: 1
+        enchantments:
+          ARROW_DAMAGE: 4
+          DURABILITY: 3
+      ARROW:
+        amount: 64
+      LEATHER_CHESTPLATE:
+        amount: 1
+        enchantments:
+          PROTECTION_PROJECTILE: 4
+      GOLDEN_CARROT:
+        amount: 16
+  Alchemist:
+    display-name: "&fAlchemist"
+    display-item: POTION
+    cost: 120
+    items:
+      POTION:
+        amount: 3
+        enchantments:
+          STRONG_HEALING: 1
+      SPLASH_POTION:
+        amount: 2
+        enchantments:
+          STRONG_POISON: 1
+      BREWING_STAND:
+        amount: 1
+      NETHER_WART:
+        amount: 10
+      BLAZE_POWDER:
+        amount: 5
+      GLASS_BOTTLE:
+        amount: 15

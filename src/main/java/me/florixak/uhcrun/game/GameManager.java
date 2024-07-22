@@ -326,7 +326,7 @@ public class GameManager {
         registerCommand("forcestart", new ForceStartCommand(gameManager));
         registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));
-        registerCommand("anvil", new AnvilCommand(gameManager));
+        registerCommand("anvil", new AnvilCommand(plugin));
         registerCommand("kits", new KitsCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
         registerCommand("revive", new ReviveCommand(gameManager));

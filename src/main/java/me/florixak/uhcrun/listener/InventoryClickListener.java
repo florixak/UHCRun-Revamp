@@ -88,7 +88,7 @@ public class InventoryClickListener implements Listener {
             uhcPlayer.setKit(selectedKit);
             uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT_INFO.toString());
         } else {
-            if (uhcPlayer.getData().alreadyBoughtKit(selectedKit)) {
+            if (uhcPlayer.getData().hasKitBought(selectedKit)) {
                 uhcPlayer.setKit(selectedKit);
             } else {
                 uhcPlayer.getData().buyKit(selectedKit);

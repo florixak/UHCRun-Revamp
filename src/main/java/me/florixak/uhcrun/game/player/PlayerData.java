@@ -240,7 +240,7 @@ public class PlayerData {
         uhcPlayer.setKit(kit);
     }
 
-    public boolean alreadyBoughtKit(Kit kit) {
+    public boolean hasKitBought(Kit kit) {
         return boughtKitsList.contains(kit);
     }
 

@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -14,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KitsGui extends Gui {
-    private final List<Kit> kits;
+    private final List<Kit> kitsList;
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
         super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INVENTORY.KITS_TITLE));
-        this.kits = gameManager.getKitsManager().getKitsList();
+        this.kitsList = gameManager.getKitsManager().getKitsList();
     }
 
     @Override
@@ -26,8 +27,8 @@ public class KitsGui extends Gui {
         super.init();
         ItemStack kitDisplayItem;
 
-        for (int i = 0; i < kits.size(); i++) {
-            Kit kit = kits.get(i);
+        for (int i = 0; i < kitsList.size(); i++) {
+            Kit kit = kitsList.get(i);
             List<String> lore = new ArrayList<>();
 
             if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
@@ -36,7 +37,7 @@ public class KitsGui extends Gui {
                 if (!GameValues.KITS.BOUGHT_FOREVER) {
                     lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
                 } else {
-                    if (uhcPlayer.getData().alreadyBoughtKit(kit)) {
+                    if (uhcPlayer.getData().hasKitBought(kit)) {
                         lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
                     } else {
                         lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
@@ -49,7 +50,8 @@ public class KitsGui extends Gui {
                     List<Enchantment> enchantmentsList = ItemUtils.getEnchantments(item);
                     StringBuilder enchants = new StringBuilder();
                     for (int j = 0; j < enchantmentsList.size(); j++) {
-                        enchants.append(TextUtils.toNormalCamelText(enchantmentsList.get(j).getName()) + " " + item.getEnchantments().get(enchantmentsList.get(j)));
+                        String enchantment = XEnchantment.matchXEnchantment(enchantmentsList.get(j)).name();
+                        enchants.append(TextUtils.toNormalCamelText(enchantment) + " " + item.getEnchantments().get(enchantmentsList.get(j)));
                         if (j < enchantmentsList.size() - 1) enchants.append(", ");
                     }
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));

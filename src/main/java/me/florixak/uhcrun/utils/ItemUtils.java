@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.utils;
 
+import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Color;
@@ -64,7 +65,7 @@ public class ItemUtils {
 
     public static void addGlow(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(Enchantment.DURABILITY, 1, false);
+        meta.addEnchant(XEnchantment.UNBREAKING.getEnchant(), 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
     }

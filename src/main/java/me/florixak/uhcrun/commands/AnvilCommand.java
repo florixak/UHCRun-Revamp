@@ -2,7 +2,6 @@ package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.Messages;
-import me.florixak.uhcrun.game.GameManager;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -15,10 +14,10 @@ import static me.florixak.uhcrun.game.Permissions.ANVIL;
 
 public class AnvilCommand implements CommandExecutor {
 
-    private final GameManager gameManager;
+    private final UHCRun plugin;
 
-    public AnvilCommand(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public AnvilCommand(UHCRun plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -32,29 +31,47 @@ public class AnvilCommand implements CommandExecutor {
             return true;
         }
 
-        /*Location location = p.getLocation();
-        World world = p.getWorld();
-        Block block = world.getBlockAt(location);
-        block.setType(Material.ANVIL);
-        p.openInventory(block.getState());
-        block.setType(Material.AIR);*/
-
-
-        new AnvilGUI.Builder()
-                .onClose(playerClose -> { //Called when the inventory is closing
-                    System.out.println("The inventory is closing");
-                })
-                .onClick((playerComplete, text) -> { //Called when the text is submitted
-                    System.out.println("The player has submitted the text: " + text);
-                    return AnvilGUI.Response.close();
-                })
-                .text("") //Sets the default text that will be in the text box
-                .itemLeft(new ItemStack(Material.AIR)) //Sets the item on the left of the GUI
-                .itemRight(new ItemStack(Material.AIR)) //Sets the item on the right of the GUI
-                .title("Example GUI") //Sets the title of the GUI (only works in 1.14 and above, otherwise use a plugin)
-                .plugin(UHCRun.getInstance()) //Set the plugin instance
-                .open(p); //Opens the GUI for the player provided
-
+        openAnvilGUI(p);
         return true;
+    }
+
+    private void openAnvilGUI(Player p) {
+        new AnvilGUI.Builder()
+                .onClose(player -> {
+                    // This is where you would implement your item combination logic
+                    // For demonstration, let's assume player has items in both hands
+                    ItemStack leftItem = p.getInventory().getItemInMainHand();
+                    ItemStack rightItem = p.getInventory().getItemInOffHand();
+
+                    if (canCombine(leftItem, rightItem)) {
+                        ItemStack combinedItem = combineItems(leftItem, rightItem);
+                        // Assuming combineItems handles null cases and returns null if items can't be combined
+                        if (combinedItem != null) {
+                            // Remove items from player's inventory
+                            p.getInventory().remove(leftItem);
+                            p.getInventory().remove(rightItem);
+                            // Add the new or modified item
+                            p.getInventory().addItem(combinedItem);
+                        }
+                    }
+                })
+                .text("Combine items") // Initial text displayed in the input field
+                .itemLeft(new ItemStack(Material.AIR)) // Placeholder for the first item
+                .itemRight(new ItemStack(Material.AIR)) // Placeholder for the second item
+                .title("Custom Anvil") // GUI title
+                .plugin(plugin) // Your plugin instance
+                .open(p);
+    }
+
+    private boolean canCombine(ItemStack item1, ItemStack item2) {
+        // Implement logic to check if two items can be combined
+        // This is a placeholder and needs custom implementation
+        return true;
+    }
+
+    private ItemStack combineItems(ItemStack item1, ItemStack item2) {
+        // Implement logic to combine two items
+        // This is a placeholder and needs custom implementation
+        return new ItemStack(Material.DIAMOND_SWORD); // Example combined item
     }
 }
