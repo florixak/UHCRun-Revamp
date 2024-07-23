@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.manager;
+package me.florixak.uhcrevamp.game.customRecipe;
 
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;

@@ -1,8 +1,6 @@
-package me.florixak.uhcrevamp.manager;
+package me.florixak.uhcrevamp.game.worldGenerator;
 
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.worldGenerator.CustomBlockPopulator;
-import me.florixak.uhcrevamp.game.worldGenerator.LimitedRegion;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

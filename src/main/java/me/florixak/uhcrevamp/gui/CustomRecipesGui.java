@@ -2,8 +2,8 @@ package me.florixak.uhcrevamp.gui;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
+import me.florixak.uhcrevamp.game.customRecipe.RecipeManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.manager.RecipeManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
