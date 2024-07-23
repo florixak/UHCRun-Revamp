@@ -61,7 +61,7 @@ Each command is designed with both players and administrators in mind, ensuring 
 
 ## Support
 
-For support, questions, or to contribute to the project, please visit the [GitHub repository](https://github.com/florixak/UHCRevamp).
+For support, questions, or to contribute to the project, please visit the [GitHub repository](https://github.com/florixak/UHC-Revamp).
 
 ## Author
 
