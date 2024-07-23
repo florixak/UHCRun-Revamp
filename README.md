@@ -27,14 +27,27 @@ UHCRevamp is highly configurable, allowing server administrators to fine-tune th
 
 This plugin provides several commands to enhance the gameplay and administrative experience. Below is a list of available commands and their descriptions:
 
-- `/uhcrun` (Aliases: `/urun`, `/uhcr`): Only for admins to setup the game.
-- `/forcestart` (Aliases: `/start`): Force starts the game.
-- `/workbench` (Aliases: `/wb`, `/craftingtable`): Opens a remote workbench for the player.
-- `/anvil`: Opens a remote anvil interface.
-- `/team` (Aliases: `/teams`): Opens the teams GUI for team management.
-- `/kits` (Aliases: `/kit`): Opens the kits GUI for selecting kits.
-- `/statistics` (Aliases: `/stats`): Opens the player statistics GUI.
-- `/revive`: Revives a dead player.
+- `/uhcrun` (Aliases: `/urun`, `/uhcr`)
+  - Description: Only for admins to setup the game.
+  - Permission: `uhcrevamp.setup`
+- `/forcestart` (Aliases: `/start`)
+  - Description: Force starts the game.
+  - Permission: `uhcrevamp.forcestart`
+- `/workbench` (Aliases: `/wb`, `/craftingtable`)
+  - Description: Opens a remote workbench for the player.
+  - Permission: `uhcrevamp.workbench`
+- `/anvil`
+  - Description: Opens a remote anvil interface.
+  - Permission: `uhcrevamp.anvil`
+- `/team` (Aliases: `/teams`)
+  - Description: Opens the teams GUI for team management.
+- `/kits` (Aliases: `/kit`)
+  - Description: Opens the kits GUI for selecting kits.
+- `/statistics` (Aliases: `/stats`)
+  - Description: Opens the player statistics GUI.
+- `/revive`
+  - Description: Revives a dead player.
+  - Permission: `uhcrevamp.revive`
 
 Each command is designed with both players and administrators in mind, ensuring a smooth and enjoyable game experience.
 
