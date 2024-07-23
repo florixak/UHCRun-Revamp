@@ -23,13 +23,20 @@ UHCRevamp is a comprehensive Ultra Hardcore (UHC) plugin for Minecraft servers, 
 
 UHCRevamp is highly configurable, allowing server administrators to fine-tune the gameplay experience. Configuration files can be found in the `plugins/UHCRevamp` directory after the first server restart. For detailed information on each configuration option, please refer to the `config.yml` file comments.
 
-## Commands & Permissions
+## Commands
 
-- `/uhc start` - Starts a UHC game. Permission: `uhcrevamp.start`
-- `/uhc stop` - Stops the current UHC game. Permission: `uhcrevamp.stop`
-- `/uhc config` - Access the in-game configuration menu. Permission: `uhcrevamp.config`
+This plugin provides several commands to enhance the gameplay and administrative experience. Below is a list of available commands and their descriptions:
 
-For a full list of commands and permissions, please visit the [Wiki](https://github.com/florixak/UHCRevamp/wiki).
+- `/uhcrun` (Aliases: `/urun`, `/uhcr`): Only for admins to setup the game.
+- `/forcestart` (Aliases: `/start`): Force starts the game.
+- `/workbench` (Aliases: `/wb`, `/craftingtable`): Opens a remote workbench for the player.
+- `/anvil`: Opens a remote anvil interface.
+- `/team` (Aliases: `/teams`): Opens the teams GUI for team management.
+- `/kits` (Aliases: `/kit`): Opens the kits GUI for selecting kits.
+- `/statistics` (Aliases: `/stats`): Opens the player statistics GUI.
+- `/revive`: Revives a dead player.
+
+Each command is designed with both players and administrators in mind, ensuring a smooth and enjoyable game experience.
 
 ## Dependencies
 
