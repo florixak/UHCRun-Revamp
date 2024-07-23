@@ -1,4 +1,0 @@
-- custom drop z mobů
-- opravit level up
-
-- předělat random drop

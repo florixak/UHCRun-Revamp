@@ -61,7 +61,7 @@ settings:
     border-size: 40.0
     pvp-resistance-countdown: 10 # seconds, -1 = disable
     location: # center of deathmatch
-      world: "world"
+      world: "UHCWorld"
       x: 0.0
       y: 75.0
       z: 0.0
@@ -98,9 +98,6 @@ settings:
 
   # Statistics
   statistics:
-    # If false, player gets each kill to statistics immediately
-    add-up-game-ends: false
-
     # Options: [ Wins, Kills, Deaths, Assists, Losses, Games-Played, UHC-Level ]
     # Need to be in []
     displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ]
