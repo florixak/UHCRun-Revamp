@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -68,9 +67,8 @@ public class Utils {
         Bukkit.broadcastMessage(TextUtils.color(msg));
     }
 
-    @SuppressWarnings("deprecation")
     public static ItemStack getPlayerHead(Player player, String name) {
-        boolean isNewVersion = Arrays.stream(Material.values())
+        /*boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
 
         Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
@@ -83,6 +81,15 @@ public class Utils {
         meta.setOwner(player.getName());
 
         item.setItemMeta(meta);
+        return item;*/
+
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwner(player.getName());
+        if (name != null) meta.setDisplayName(TextUtils.color(name));
+        else meta.setDisplayName(player.getName());
+        item.setItemMeta(meta);
+
         return item;
     }
 
@@ -110,6 +117,7 @@ public class Utils {
 
         // Sort the list
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2) {
                 return (o1.getValue()).compareTo(o2.getValue());
@@ -123,6 +131,7 @@ public class Utils {
         }
         return temp;
     }
+
     public static <K, V> K getKeyByValue(Map<K, V> map, V value) {
         for (Map.Entry<K, V> entry : map.entrySet()) {
             if (value.equals(entry.getValue())) {

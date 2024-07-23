@@ -64,7 +64,7 @@ public class DeathmatchManager {
 
     public void prepareDeathmatch() {
         gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
-        gameManager.getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
+        gameManager.getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
         gameManager.getPlayerManager().getSpectatorList().stream()
                 .filter(UHCPlayer::isOnline)
                 .forEach(uhcPlayer -> uhcPlayer.teleport(getTeleportLocation()));

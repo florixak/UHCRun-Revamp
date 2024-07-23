@@ -190,27 +190,27 @@ settings:
     teams:
       enabled: true
       display-name: "&aTeams"
-      material: WHITE_WOOL
+      display-item: WHITE_WOOL
       slot: 0
     kits:
       enabled: true
       display-name: "&aKits"
-      material: IRON_PICKAXE
+      display-item: IRON_PICKAXE
       slot: 3
     perks:
       enabled: true
       display-name: "&aPerks"
-      material: ARROW
+      display-item: ARROW
       slot: 5
-    custom-crafts:
+    custom-recipes:
       enabled: true
-      display-name: "&aCustom Crafts"
-      material: CRAFTING_TABLE
+      display-name: "&aCustom Recipes"
+      display-item: CRAFTING_TABLE
       slot: 4
     statistics:
       enabled: true
-      display-name: "&aStatistics"
-      material: PAPER # if null then player head
+      display-name: "&aProfile"
+      display-item: PLAYER_HEAD
       slot: 8
 
   # MySQL database

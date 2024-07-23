@@ -85,7 +85,7 @@ public class GameManager {
         this.borderManager = new BorderManager();
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager(this);
-        this.tabManager = new TabManager(this);
+        this.tabManager = new TabManager();
         this.lobbyManager = new LobbyManager(this);
         this.kitsManager = new KitsManager(this);
         this.perksManager = new PerksManager(this);
@@ -158,7 +158,7 @@ public class GameManager {
 
             case MINING:
                 getPlayerManager().getOnlineList().forEach(UHCPlayer::ready);
-                getTeamManager().getTeams().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
+                getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
                 Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
@@ -215,11 +215,13 @@ public class GameManager {
     }
 
     public void onDisable() {
-        getPlayerManager().onDisable();
-        getTeamManager().onDisable();
-        getTaskManager().onDisable();
         getDeathChestManager().onDisable();
-        getGameManager().clearDrops();
+        getCustomDropManager().onDisable();
+        getRecipeManager().onDisable();
+        getTeamManager().onDisable();
+        getPlayerManager().onDisable();
+        getTaskManager().onDisable();
+        clearDrops();
         disconnectDatabase();
     }
 

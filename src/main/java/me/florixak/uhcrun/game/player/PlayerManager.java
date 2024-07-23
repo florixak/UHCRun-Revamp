@@ -71,7 +71,7 @@ public class PlayerManager {
         return getOnlineList().get(RandomUtils.getRandom().nextInt(getOnlineList().size()));
     }
 
-    public UHCPlayer getRandomOnlineUHCPlayerWithoutPerm(String perm) {
+    public UHCPlayer getUHCPlayerWithoutPerm(String perm) {
         List<UHCPlayer> onlineListWithoutPerm = getOnlineList().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
         return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
     }
@@ -128,6 +128,15 @@ public class PlayerManager {
         return findTopKillers(getPlayers());
     }
 
+    public void showTopKillers() {
+        List<UHCPlayer> topKillers = getTopKillers();
+        for (int i = 0; i < 10; i++) {
+            if (topKillers.size() <= i) break;
+            UHCPlayer uhcPlayer = topKillers.get(i);
+            Bukkit.broadcastMessage("§7" + (i + 1) + ". §e" + uhcPlayer.getName() + " §7- §e" + uhcPlayer.getKills() + " kills");
+        }
+    }
+
     public List<TopStatistic> getTotalTop(String type) {
         List<TopStatistic> topTotal = new ArrayList<>();
         FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
@@ -141,7 +150,7 @@ public class PlayerManager {
     }
 
     public int getMaxPlayers() {
-        return GameValues.TEAM.TEAM_SIZE * gameManager.getTeamManager().getTeams().size();
+        return GameValues.TEAM.TEAM_SIZE * gameManager.getTeamManager().getTeamsList().size();
     }
 
     public void onDisable() {

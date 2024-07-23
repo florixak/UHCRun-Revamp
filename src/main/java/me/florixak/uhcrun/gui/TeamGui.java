@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
@@ -21,7 +21,7 @@ public class TeamGui extends Gui {
     public void init() {
         super.init();
         ItemStack item;
-        List<UHCTeam> teams = gameManager.getTeamManager().getTeams();
+        List<UHCTeam> teams = gameManager.getTeamManager().getTeamsList();
 
         for (int i = 0; i < teams.size(); i++) {
             UHCTeam team = teams.get(i);

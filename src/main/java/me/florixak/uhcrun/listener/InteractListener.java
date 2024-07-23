@@ -3,11 +3,8 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameState;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.gui.KitsGui;
-import me.florixak.uhcrun.game.gui.PerksGui;
-import me.florixak.uhcrun.game.gui.StatisticsGui;
-import me.florixak.uhcrun.game.gui.TeamGui;
 import me.florixak.uhcrun.game.player.UHCPlayer;
+import me.florixak.uhcrun.gui.*;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,7 +27,7 @@ public class InteractListener implements Listener {
 
         Player p = event.getPlayer();
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        ItemStack item = p.getInventory().getItemInMainHand();
+        ItemStack item = p.getInventory().getItemInHand();
 
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.STARTING) {
             if (item == null || item.getItemMeta() == null || item.getType() == Material.AIR || item.getItemMeta().getDisplayName() == null)
@@ -50,6 +47,10 @@ public class InteractListener implements Listener {
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.PERKS_TITLE))) {
                     new PerksGui(gameManager, uhcPlayer).open();
+                }
+                if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+                        TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE))) {
+                    new CustomRecipesGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {

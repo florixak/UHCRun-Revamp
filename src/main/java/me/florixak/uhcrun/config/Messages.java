@@ -69,6 +69,7 @@ public enum Messages {
     KITS_SB_DISABLED("kits.scoreboard-disabled"),
     KITS_MONEY_DEDUCT_INFO("kits.money-deduct-info"),
     KITS_MONEY_DEDUCT("kits.money-deduct"),
+    KITS_COST("kits.cost"),
 
     PERKS_SELECTED("perks.selected"),
     PERKS_DISABLED("perks.disabled"),
@@ -89,6 +90,7 @@ public enum Messages {
     TEAM_NO_TEAMS("teams.no-teams"),
     TEAM_NONE("teams.none"),
     TEAM_SOLO("teams.solo"),
+    TEAM_NO_FRIENDLY_FIRE("teams.no-friendly-fire"),
 
     NICK_NICKED("nick.nicked"),
     NICK_UNNICKED("nick.unnicked"),

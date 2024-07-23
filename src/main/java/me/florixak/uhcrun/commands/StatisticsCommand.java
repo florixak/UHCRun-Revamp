@@ -2,16 +2,16 @@ package me.florixak.uhcrun.commands;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
-import me.florixak.uhcrun.game.gui.StatisticsGui;
+import me.florixak.uhcrun.gui.StatisticsGui;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class StatisticsCommand implements CommandExecutor {
-    
+
     private final GameManager gameManager;
-    
+
     public StatisticsCommand(GameManager gameManager) {
         this.gameManager = gameManager;
     }

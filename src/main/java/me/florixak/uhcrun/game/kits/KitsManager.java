@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.ItemUtils;
+import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.configuration.ConfigurationSection;
@@ -124,8 +125,13 @@ public class KitsManager {
         for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
             if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
                 String displayName = config.getString("settings.selectors." + selector + ".display-name");
-                String material = config.getConfigurationSection("settings.selectors." + selector).getString("material", "BARRIER").toUpperCase();
-                ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
+                String material = config.getConfigurationSection("settings.selectors." + selector).getString("display-item", "BARRIER").toUpperCase();
+                ItemStack item;
+                if (material.contains("HEAD")) {
+                    item = Utils.getPlayerHead(p.getPlayer(), p.getName());
+                } else {
+                    item = XMaterial.matchXMaterial(material).get().parseItem();
+                }
                 int slot = config.getInt("settings.selectors." + selector + ".slot");
 
                 ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);

@@ -33,7 +33,7 @@ public class TaskManager {
     }
 
     public void stopStartingCD() {
-        if (startingCd == null || !startingCd.isCancelled()) this.startingCd.cancel();
+        if (startingCd == null) this.startingCd.cancel();
     }
 
     public void startMiningCD() {

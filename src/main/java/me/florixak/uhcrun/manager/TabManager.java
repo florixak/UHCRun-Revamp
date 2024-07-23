@@ -4,22 +4,20 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.hook.ProtocolLibHook;
+import me.florixak.uhcrun.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 
 public class TabManager {
 
-    private final GameManager gameManager;
-
-    public TabManager(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public TabManager() {
     }
 
     public void setPlayerList(Player p) {
+        if (!GameValues.TABLIST.ENABLED) return;
+
         if (!ProtocolLibHook.hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) {
             return;
         }
@@ -37,21 +35,7 @@ public class TabManager {
             e.printStackTrace();
         }
 
-        UHCPlayer player = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-        if (!GameValues.TEAM.TEAM_MODE) {
-            p.setPlayerListName(TextUtils.color(GameValues.TABLIST.SOLO_MODE
-                    .replace("%player%", player.getName())
-                    .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
-                    .replace("%rank%", player.getLuckPermsPrefix())
-                    .replace("%uhc-level%", String.valueOf(player.getData().getUHCLevel())))
-            );
-        } else {
-            p.setPlayerListName(TextUtils.color(GameValues.TABLIST.TEAM_MODE
-                    .replace("%player%", player.getName())
-                    .replace("%team%", player.hasTeam() ? player.getTeam().getDisplayName() : "")
-                    .replace("%rank%", player.getLuckPermsPrefix())
-                    .replace("%uhc-level%", String.valueOf(player.getData().getUHCLevel())))
-            );
-        }
+        String tablist = !GameValues.TEAM.TEAM_MODE ? GameValues.TABLIST.SOLO_MODE : GameValues.TABLIST.TEAM_MODE;
+        p.setPlayerListName(TextUtils.color(PlaceholderUtil.setPlaceholders(tablist, p)));
     }
 }

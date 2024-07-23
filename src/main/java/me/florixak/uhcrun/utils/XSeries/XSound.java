@@ -1996,24 +1996,24 @@ public enum XSound {
      * @see #stopSound(Player)
      * @since 2.0.0
      */
-    public static void stopMusic(@Nonnull Player player) {
-        Objects.requireNonNull(player, "Cannot stop playing musics from null player");
-
-        // We don't need to cache because it's rarely used.
-        XSound[] musics = {
-                MUSIC_CREATIVE, MUSIC_CREDITS,
-                MUSIC_DISC_11, MUSIC_DISC_13, MUSIC_DISC_BLOCKS, MUSIC_DISC_CAT, MUSIC_DISC_CHIRP,
-                MUSIC_DISC_FAR, MUSIC_DISC_MALL, MUSIC_DISC_MELLOHI, MUSIC_DISC_STAL,
-                MUSIC_DISC_STRAD, MUSIC_DISC_WAIT, MUSIC_DISC_WARD,
-                MUSIC_DRAGON, MUSIC_END, MUSIC_GAME, MUSIC_MENU, MUSIC_NETHER_BASALT_DELTAS, MUSIC_UNDER_WATER,
-                MUSIC_NETHER_CRIMSON_FOREST, MUSIC_NETHER_WARPED_FOREST
-        };
-
-        for (XSound music : musics) {
-            Sound sound = music.parseSound();
-            if (sound != null) player.stopSound(sound);
-        }
-    }
+//    public static void stopMusic(@Nonnull Player player) {
+//        Objects.requireNonNull(player, "Cannot stop playing musics from null player");
+//
+//        // We don't need to cache because it's rarely used.
+//        XSound[] musics = {
+//                MUSIC_CREATIVE, MUSIC_CREDITS,
+//                MUSIC_DISC_11, MUSIC_DISC_13, MUSIC_DISC_BLOCKS, MUSIC_DISC_CAT, MUSIC_DISC_CHIRP,
+//                MUSIC_DISC_FAR, MUSIC_DISC_MALL, MUSIC_DISC_MELLOHI, MUSIC_DISC_STAL,
+//                MUSIC_DISC_STRAD, MUSIC_DISC_WAIT, MUSIC_DISC_WARD,
+//                MUSIC_DRAGON, MUSIC_END, MUSIC_GAME, MUSIC_MENU, MUSIC_NETHER_BASALT_DELTAS, MUSIC_UNDER_WATER,
+//                MUSIC_NETHER_CRIMSON_FOREST, MUSIC_NETHER_WARPED_FOREST
+//        };
+//
+//        for (XSound music : musics) {
+//            Sound sound = music.parseSound();
+//            if (sound != null) player.stopSound(sound);
+//        }
+//    }
 
     /**
      * Plays an instrument's notes in an ascending form.
@@ -2167,11 +2167,11 @@ public enum XSound {
      * @see #stopMusic(Player)
      * @since 2.0.0
      */
-    public void stopSound(@Nonnull Player player) {
-        Objects.requireNonNull(player, "Cannot stop playing sound from null player");
-        Sound sound = this.parseSound();
-        if (sound != null) player.stopSound(sound);
-    }
+//    public void stopSound(@Nonnull Player player) {
+//        Objects.requireNonNull(player, "Cannot stop playing sound from null player");
+//        Sound sound = this.parseSound();
+//        if (sound != null) player.stopSound(sound);
+//    }
 
     /**
      * A quick async way to play a sound from the config.
@@ -2291,11 +2291,11 @@ public enum XSound {
         static {
             byte level;
             try {
-                Player.class.getDeclaredMethod("playSound", Location.class, String.class, SoundCategory.class, float.class, float.class, long.class);
+                Player.class.getDeclaredMethod("playSound", Location.class, String.class, float.class, float.class, long.class);
                 level = 3;
             } catch (Throwable e) {
                 try {
-                    Player.class.getDeclaredMethod("playSound", Location.class, String.class, SoundCategory.class, float.class, float.class);
+                    Player.class.getDeclaredMethod("playSound", Location.class, String.class, float.class, float.class);
                     level = 2;
                 } catch (Throwable ee) {
                     try {
@@ -2465,20 +2465,14 @@ public enum XSound {
 
                 switch (SUPPORTED_METHOD_LEVEL) {
                     case 3:
-                        if (objSound != null)
-                            player.playSound(updatedLocation, objSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
-                        else
-                            player.playSound(updatedLocation, strSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch, record.generateSeed());
-                        break;
                     case 2:
                         if (objSound != null)
-                            player.playSound(updatedLocation, objSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch);
+                            player.playSound(updatedLocation, objSound, record.volume, record.pitch);
                         else
-                            player.playSound(updatedLocation, strSound, (SoundCategory) record.category.getBukkitObject(), record.volume, record.pitch);
+                            player.playSound(updatedLocation, strSound, record.volume, record.pitch);
                         break;
                     case 1:
-                        if (objSound != null) player.playSound(updatedLocation, objSound, record.volume, record.pitch);
-                        else player.playSound(updatedLocation, strSound, record.volume, record.pitch);
+                        player.playSound(updatedLocation, strSound, record.volume, record.pitch);
                         break;
                     default:
                         throw new IllegalStateException("Unknown format: " + SUPPORTED_METHOD_LEVEL);
@@ -2496,15 +2490,15 @@ public enum XSound {
          *
          * @since 7.0.2
          */
-        public void stopSound() {
-            if (heard == null || heard.isEmpty()) return;
-
-            List<Player> heardOnline = toOnlinePlayers(this.heard, Collectors.toList());
-            heardOnline.forEach(x -> {
-                if (record.sound instanceof XSound) x.stopSound(((XSound) record.sound).parseSound());
-                else x.stopSound((String) record.sound);
-            });
-        }
+//        public void stopSound() {
+//            if (heard == null || heard.isEmpty()) return;
+//
+//            List<Player> heardOnline = toOnlinePlayers(this.heard, Collectors.toList());
+//            heardOnline.forEach(x -> {
+//                if (record.sound instanceof XSound) x.stopSound(((XSound) record.sound).parseSound());
+//                else x.stopSound((String) record.sound);
+//            });
+//        }
     }
 
     /**

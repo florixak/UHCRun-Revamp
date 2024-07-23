@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
@@ -96,10 +96,5 @@ public class StatisticsGui extends Gui {
                 topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
-    }
-
-    @Override
-    public void open() {
-        super.open();
     }
 }

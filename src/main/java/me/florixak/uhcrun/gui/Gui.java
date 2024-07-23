@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.player.UHCPlayer;

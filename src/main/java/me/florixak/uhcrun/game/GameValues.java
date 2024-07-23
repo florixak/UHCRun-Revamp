@@ -99,7 +99,6 @@ public class GameValues {
         public final double EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.exp", 0);
         public final double MONEY_FOR_ASSIST = getConfigDouble("settings.rewards.assist.money", 0);
         public final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.uhc-exp", 0);
-        public final double EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.exp", 0);
     }
 
     public static class BroadcastConfig {
@@ -114,6 +113,8 @@ public class GameValues {
         public final String KITS_DIS_ITEM = getConfigString("settings.selectors.kits.display-item", "BARRIER");
         public final String PERKS_TITLE = getConfigString("settings.selectors.perks.display-name", "Perks");
         public final String PERKS_DIS_ITEM = getConfigString("settings.selectors.perks.display-item", "BARRIER");
+        public final String CUSTOM_RECIPES_TITLE = getConfigString("settings.selectors.custom-recipes.display-name", "Custom Recipes");
+        public final String CUSTOM_RECIPES_DIS_ITEM = getConfigString("settings.selectors.custom-recipes.display-item", "BARRIER");
         public final String STATS_TITLE = getConfigString("settings.selectors.statistics.display-name", "Statistics");
         public final String STATS_DIS_ITEM = getConfigString("settings.selectors.statistics.display-item", "BARRIER");
     }

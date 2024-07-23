@@ -155,6 +155,34 @@ public class PlaceholderUtil {
             }
         }
 
+        if (text.contains("%money-for-game%")) {
+            text = text.replace("%money-for-game%", String.valueOf(uhcPlayer.getData().getMoneyForGameResult()));
+        }
+        if (text.contains("%money-for-kills%")) {
+            text = text.replace("%money-for-kills%", String.valueOf(uhcPlayer.getData().getMoneyForKills()));
+        }
+        if (text.contains("%money-for-assists%")) {
+            text = text.replace("%money-for-assists%", String.valueOf(uhcPlayer.getData().getMoneyForAssists()));
+        }
+        if (text.contains("%money-for-activity%")) {
+            text = text.replace("%money-for-activity%", String.valueOf(uhcPlayer.getData().getMoneyForActivity()));
+        }
+        if (text.contains("%uhc-exp-for-game%")) {
+            text = text.replace("%uhc-exp-for-game%", String.valueOf(uhcPlayer.getData().getUhcExpForGameResult()));
+        }
+        if (text.contains("%uhc-exp-for-kills%")) {
+            text = text.replace("%uhc-exp-for-kills%", String.valueOf(uhcPlayer.getData().getUhcExpForKills()));
+        }
+        if (text.contains("%uhc-exp-for-assists%")) {
+            text = text.replace("%uhc-exp-for-assists%", String.valueOf(uhcPlayer.getData().getUhcExpForAssists()));
+        }
+        if (text.contains("%uhc-exp-for-activity%")) {
+            text = text.replace("%uhc-exp-for-activity%", String.valueOf(uhcPlayer.getData().getUhcExpForActivity()));
+        }
+
+
+
+
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";
             Pattern pattern = Pattern.compile(BUNGEE_PATTERN);

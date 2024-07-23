@@ -1,6 +1,5 @@
 package me.florixak.uhcrun.listener;
 
-import me.florixak.uhcrun.UHCRun;
 import me.florixak.uhcrun.config.ConfigType;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
@@ -12,12 +11,14 @@ import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.listener.events.GameEndEvent;
 import me.florixak.uhcrun.listener.events.GameKillEvent;
 import me.florixak.uhcrun.manager.lobby.LobbyType;
+import me.florixak.uhcrun.utils.RandomUtils;
 import me.florixak.uhcrun.utils.Utils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -34,7 +35,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 public class GameListener implements Listener {
 
@@ -119,27 +120,22 @@ public class GameListener implements Listener {
             Utils.broadcast(Messages.KILL.toString()
                     .replace("%player%", victim.getName())
                     .replace("%killer%", killer.getName()));
+
+            long deathTime = System.currentTimeMillis();
+            long assistWindow = 60000; // 60 seconds before death
+            List<UUID> assistants = victim.getAssistants(deathTime, assistWindow, killer.getUUID());
+
+            for (UUID assistantId : assistants) {
+                UHCPlayer assistant = playerManager.getUHCPlayer(assistantId);
+                if (assistant != null) {
+                    assistant.addAssist();
+                }
+            }
+
+            victim.clearDamageTrackers();
         } else {
             Utils.broadcast(Messages.DEATH.toString()
                     .replace("%player%", victim.getName()));
-        }
-
-        if (victim.wasDamagedByMorePeople()) {
-            UHCPlayer assistPlayer = victim.getKillAssistPlayer();
-
-            if (assistPlayer.getUUID() == killer.getUUID()) {
-                UHCRun.getInstance().getLogger().info("Chyba kill assistu!");
-                return;
-            }
-            assistPlayer.addAssist();
-            if (!addUpStatsOnEnd) {
-                assistPlayer.getData().addAssists(1);
-            }
-            assistPlayer.giveExp((int) GameValues.REWARDS.EXP_FOR_ASSIST);
-            assistPlayer.sendMessage(Messages.REWARDS_ASSIST.toString()
-                    .replace("%player%", victim.getName())
-                    .replace("%money%", String.valueOf(GameValues.REWARDS.MONEY_FOR_ASSIST))
-                    .replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
         }
 
         if (!addUpStatsOnEnd) {
@@ -169,16 +165,18 @@ public class GameListener implements Listener {
         gameManager.timber(block);
 
         if (GameValues.GAME.RANDOM_DROPS_ENABLED) {
-            event.setDropItems(false);
+            block.getDrops().clear();
             event.setExpToDrop(0);
 
-            int pick = new Random().nextInt(XMaterial.values().length);
+            int randomMaterialIndex = RandomUtils.getRandom().nextInt(XMaterial.values().length);
+            Material material = XMaterial.values()[randomMaterialIndex].parseMaterial();
+            if (material == null) return;
 
-            ItemStack drop_is = new ItemStack(XMaterial.values()[pick].parseMaterial());
+            ItemStack dropIs = new ItemStack(material);
             Location loc = block.getLocation();
             Location location = loc.add(0.5, 0.5, 0.5);
 
-            Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop_is);
+            Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropIs);
             return;
         }
 
@@ -220,10 +218,15 @@ public class GameListener implements Listener {
         DamageCause cause = event.getCause();
 
         if (gameManager.getGameState() == GameState.MINING) {
-            List<String> disabled_causes = config.getStringList("settings.game.disabled-in-mining");
-            if (!disabled_causes.isEmpty()) {
-                for (String cause_name : disabled_causes) {
-                    if (cause.name().equalsIgnoreCase(cause_name)) {
+            if (gameManager.getCurrentCountdown() >= (gameManager.getCurrentCountdown() - 60)) {
+                if (cause.equals(DamageCause.FALL)) {
+                    event.setCancelled(true);
+                }
+            }
+            List<String> disabledCauses = config.getStringList("settings.game.disabled-in-mining");
+            if (!disabledCauses.isEmpty()) {
+                for (String causeName : disabledCauses) {
+                    if (cause.name().equalsIgnoreCase(causeName)) {
                         event.setCancelled(true);
                     }
                 }
@@ -244,7 +247,7 @@ public class GameListener implements Listener {
         Player damager = (Player) event.getDamager();
         UHCPlayer uhcPlayerD = playerManager.getUHCPlayer(damager.getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
+        if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.isEnding()) {
             event.setCancelled(true);
             return;
         }
@@ -259,11 +262,9 @@ public class GameListener implements Listener {
             Player entity = (Player) event.getEntity();
             UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
 
-            uhcPlayerE.addKillAssistPlayer(uhcPlayerD);
-
             if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.TEAM.FRIENDLY_FIRE) {
                 event.setCancelled(true);
-                uhcPlayerD.sendMessage("Baka, this is your teammate..");
+                uhcPlayerD.sendMessage(Messages.TEAM_NO_FRIENDLY_FIRE.toString());
             }
         }
     }
@@ -308,15 +309,30 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void handleArrowHitHP(ProjectileHitEvent event) {
-        if (!(event.getEntity().getShooter() instanceof Player)) return;
-        if (!(event.getEntity() instanceof Arrow) && !(event.getEntity() instanceof Snowball)) return;
+    public void handleProjectileHit(EntityDamageByEntityEvent event) {
         if (!GameValues.GAME.PROJECTILE_HIT_HP_ENABLED) return;
-        if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) return;
+        if (!gameManager.isPlaying()) return;
+        if (!(event.getEntity() instanceof Player)) return;
 
-        Player shooter = (Player) event.getEntity().getShooter();
-        Player enemy = (Player) event.getHitEntity();
+        if (event.getDamager() instanceof Snowball) {
+            Snowball snowball = (Snowball) event.getDamager();
+            if (!(snowball.getShooter() instanceof Player)) return;
 
+            Player shooter = (Player) snowball.getShooter();
+            Player enemy = (Player) event.getEntity();
+            handleProjectileHit(shooter, enemy);
+
+        } else if (event.getDamager() instanceof Arrow) {
+            Arrow arrow = (Arrow) event.getDamager();
+            if (!(arrow.getShooter() instanceof Player)) return;
+
+            Player shooter = (Player) arrow.getShooter();
+            Player enemy = (Player) event.getEntity();
+            handleProjectileHit(shooter, enemy);
+        }
+    }
+
+    private void handleProjectileHit(Player shooter, Player enemy) {
         shooter.sendMessage(Messages.SHOT_HP.toString().replace("%player%", enemy.getDisplayName()).replace("%hp%", String.valueOf(enemy.getHealth())));
     }
 

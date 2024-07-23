@@ -19,13 +19,13 @@ public class Hologram {
             this.hologram = loc.getWorld().spawn(loc, ArmorStand.class);
 
             this.hologram.setVisible(false);
-            this.hologram.setCollidable(false);
+            //this.hologram.setCollidable(false);
             this.hologram.setCanPickupItems(false);
             this.hologram.setGravity(false);
             this.hologram.setBasePlate(false);
             this.hologram.setArms(false);
 
-            this.hologram.setInvulnerable(true);
+            //this.hologram.setInvulnerable(true);
             this.hologram.setCustomNameVisible(true);
 
             this.hologram.setCustomName(TextUtils.color(line));

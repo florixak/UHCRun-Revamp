@@ -28,8 +28,6 @@ import com.google.common.cache.CacheBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -790,7 +788,7 @@ public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Materia
     LADDER,
     LANTERN,
     LAPIS_BLOCK,
-    LAPIS_LAZULI(4, "INK_SACK"),
+    LAPIS_LAZULI(4, "LAPIS_LAZULI"),
     LAPIS_ORE,
     LARGE_AMETHYST_BUD,
     LARGE_FERN(3, "DOUBLE_PLANT"),
@@ -1909,13 +1907,13 @@ public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Materia
         byte data = (byte) (Data.ISFLAT || material.equals("MAP") || item.getType().getMaxDurability() > 0 ? 0 : item.getDurability());
 
         // Versions 1.9-1.12 didn't really use the items data value.
-        if (supports(9) && !supports(13) && item.hasItemMeta() && material.equals("MONSTER_EGG")) {
+        /*if (supports(9) && !supports(13) && item.hasItemMeta() && material.equals("MONSTER_EGG")) {
             ItemMeta meta = item.getItemMeta();
-            if (meta instanceof SpawnEggMeta) {
+            if (meta instanceof Spawn) {
                 SpawnEggMeta egg = (SpawnEggMeta) meta;
                 material = egg.getSpawnedType().name() + "_SPAWN_EGG";
             }
-        }
+        }*/
 
         // Potions used the items data value to store
         // information about the type of potion in 1.8

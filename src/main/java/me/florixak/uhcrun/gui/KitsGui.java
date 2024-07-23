@@ -1,4 +1,4 @@
-package me.florixak.uhcrun.game.gui;
+package me.florixak.uhcrun.gui;
 
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
@@ -35,12 +35,12 @@ public class KitsGui extends Gui {
                 lore.add(Messages.KITS_INV_SELECTED.toString());
             } else {
                 if (!GameValues.KITS.BOUGHT_FOREVER) {
-                    lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
+                    lore.add(kit.getFormattedCost());
                 } else {
-                    if (uhcPlayer.getData().hasKitBought(kit)) {
+                    if (uhcPlayer.getData().hasKitBought(kit) || kit.isFree()) {
                         lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
                     } else {
-                        lore.add(TextUtils.color(gameManager.getKitsManager().getKitCost(kit.getName())));
+                        lore.add(kit.getFormattedCost());
                     }
                 }
             }

@@ -19,10 +19,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UHCPlayer {
 
@@ -39,7 +37,7 @@ public class UHCPlayer {
     private Kit kit;
     private Perk perk;
     private boolean hasWon;
-    private List<UHCPlayer> assistsList;
+    private final Map<UUID, Long> damageTrackers;
     private Location deathLoc;
     private String displayedStat;
 
@@ -57,7 +55,7 @@ public class UHCPlayer {
         this.perk = null;
         this.team = null;
         this.deathLoc = null;
-        this.assistsList = new ArrayList<>();
+        this.damageTrackers = new HashMap<>();
     }
 
     public UUID getUUID() {
@@ -254,16 +252,19 @@ public class UHCPlayer {
         setGameMode(GameMode.SPECTATOR);
     }
 
-    public boolean wasDamagedByMorePeople() {
-        return this.assistsList.size() > 1;
+    public void addDamage(UUID damager, long time) {
+        damageTrackers.put(damager, time);
     }
 
-    public UHCPlayer getKillAssistPlayer() {
-        return this.assistsList.get(this.assistsList.size() - 2);
+    public List<UUID> getAssistants(long deathTime, long assistWindow, UUID killer) {
+        return damageTrackers.entrySet().stream()
+                .filter(entry -> entry.getValue() + assistWindow > deathTime && !entry.getKey().equals(killer))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
-    public void addKillAssistPlayer(UHCPlayer uhcPlayer) {
-        this.assistsList.add(uhcPlayer);
+    public void clearDamageTrackers() {
+        damageTrackers.clear();
     }
 
     public boolean hasPermission(String permission) {
@@ -350,6 +351,5 @@ public class UHCPlayer {
         this.perk = null;
         getTeam().removeMember(this);
         this.deathLoc = null;
-        this.assistsList = null;
     }
 }

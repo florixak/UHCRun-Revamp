@@ -20,7 +20,7 @@ public class CustomDrop {
 
     private final Material material;
     private final EntityType entityType;
-    private List<Material> drops;
+    private final List<Material> drops;
     private final int minAmount;
     private final int maxAmount;
     private final int exp;
@@ -56,7 +56,8 @@ public class CustomDrop {
     }
 
     public Material getMaterial() {
-        return material;
+        if (material == null) return null;
+        return XMaterial.matchXMaterial(material).parseMaterial();
     }
 
     public EntityType getEntityType() {
@@ -97,34 +98,13 @@ public class CustomDrop {
 
             if (hasDrops()) {
                 block.setType(XMaterial.AIR.parseMaterial());
-                breakEvent.setDropItems(false);
+                block.getDrops().clear();
                 breakEvent.setExpToDrop(0);
 
                 dropItem(loc);
             }
         }
     }
-
-    /*public void dropBlockItem(Block block) {
-        if (block != null) {
-            Location loc = block.getLocation();
-
-            if (hasDrops()) {
-                block.setType(XMaterial.AIR.parseMaterial());
-
-                Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
-                if (drop != XMaterial.AIR.parseMaterial()) {
-
-                    // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
-                    int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : RandomUtils.randomInteger(getMinAmount(), getMaxAmount());
-                    ItemStack dropItem = new ItemStack(drop, amount);
-
-                    Location location = loc.add(0.5, 0.5, 0.5);
-                    Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropItem);
-                }
-            }
-        }
-    }*/
 
     public void dropMobItem(EntityDeathEvent deathEvent) {
         if (deathEvent != null) {

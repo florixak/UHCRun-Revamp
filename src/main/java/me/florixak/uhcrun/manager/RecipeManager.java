@@ -6,6 +6,7 @@ import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XEnchantment;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -18,30 +19,52 @@ import java.util.List;
 public class RecipeManager {
 
     private final FileConfiguration recipeConfig;
-    private List<ShapedRecipe> recipes;
+    private final List<ShapedRecipe> recipesList;
 
     public RecipeManager(GameManager gameManager) {
         this.recipeConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
-        this.recipes = new ArrayList<>();
+        this.recipesList = new ArrayList<>();
     }
 
     public void registerRecipes() {
         loadRecipes();
-        for (ShapedRecipe recipe : recipes) {
-            Bukkit.getServer().addRecipe(recipe);
-            Bukkit.getLogger().info("Recipe " + recipe.toString() + " was registered!");
+    }
+
+    private final String[] pos = {
+            "top-left", "top-middle", "top-right",
+            "middle-left", "middle", "middle-right",
+            "bottom-left", "bottom-middle", "bottom-right"
+    };
+
+    private final char[] chars = {
+            'A', 'B', 'C',
+            'D', 'E', 'F',
+            'G', 'H', 'I'
+    };
+
+    public ShapedRecipe getRecipe(ItemStack item) {
+        for (ShapedRecipe recipe : recipesList) {
+            if (recipe.getResult().isSimilar(item)) {
+                return recipe;
+            }
         }
+        return null;
+    }
+
+    public List<ShapedRecipe> getRecipesList() {
+        return this.recipesList;
     }
 
     public void loadRecipes() {
+
 
         if (recipeConfig.getConfigurationSection("custom-recipes") == null) return;
 
         for (String recipe : recipeConfig.getConfigurationSection("custom-recipes").getKeys(false)) {
             ConfigurationSection recipeSection = recipeConfig.getConfigurationSection("custom-recipes." + recipe);
-            String itemName = recipe.toUpperCase();
+            String itemName = recipeSection.getString("custom-name");
             int amount = recipeSection.getInt("amount");
-            ItemStack item = new ItemStack(XMaterial.matchXMaterial(itemName).get().parseMaterial(), amount);
+            ItemStack item = ItemUtils.createItem(XMaterial.matchXMaterial(recipe).get().parseMaterial(), itemName, amount, null);
 
             ConfigurationSection enchantmentsSection = recipeSection.getConfigurationSection("enchantments");
             if (enchantmentsSection != null) {
@@ -61,26 +84,24 @@ public class RecipeManager {
                     "GHI"
             );
 
-            itemRecipe.setIngredient('A', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".top-left").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('B', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".top-middle").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('C', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".top-right").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('D', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".middle-left").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('E', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".middle").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('F', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".middle-right").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('G', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-left").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('H', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-middle").toUpperCase()).get().parseMaterial());
-            itemRecipe.setIngredient('I', XMaterial.matchXMaterial(
-                    recipeConfig.getString("custom-recipes." + recipe + ".bottom-right").toUpperCase()).get().parseMaterial());
+            for (int i = 0; i < pos.length; i++) {
+                char ch = this.chars[i];
+                String pos = this.pos[i];
+                String materialName = recipeConfig.getString("custom-recipes." + recipe + "." + pos);
+                Material material = XMaterial.matchXMaterial(materialName.toUpperCase()).get().parseMaterial();
+                itemRecipe.setIngredient(ch, material);
+                Bukkit.getLogger().info("Material " + material.toString() + " was loaded!");
+            }
 
-            this.recipes.add(itemRecipe);
+            this.recipesList.add(itemRecipe);
+            Bukkit.addRecipe(itemRecipe);
+            Bukkit.getLogger().info("Recipe " + itemRecipe.getResult().toString() + " was loaded! With shape: ");
+            Bukkit.getLogger().info(itemRecipe.getIngredientMap().toString());
+            Bukkit.getLogger().info(" ");
         }
+    }
+
+    public void onDisable() {
+        this.recipesList.clear();
     }
 }

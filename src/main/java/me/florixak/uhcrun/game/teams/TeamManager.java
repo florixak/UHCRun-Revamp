@@ -18,81 +18,77 @@ import java.util.stream.Collectors;
 public class TeamManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration teams_config;
+    private final FileConfiguration teamsConfig;
 
-    private List<UHCTeam> teams;
+    private final List<UHCTeam> teamsList;
 
     public TeamManager(GameManager gameManager) {
         this.gameManager = gameManager;
 
-        this.teams_config = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
-        this.teams = new ArrayList<>();
+        this.teamsConfig = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
+        this.teamsList = new ArrayList<>();
     }
 
     public void loadTeams() {
         if (!GameValues.TEAM.TEAM_MODE) return;
 
-        if (teams_config.contains("teams") && teams_config.getConfigurationSection("teams").getKeys(false).isEmpty()) {
+        if (teamsConfig.contains("teams") && teamsConfig.getConfigurationSection("teams").getKeys(false).isEmpty()) {
             UHCRun.getInstance().getLogger().info("Team file is empty!");
             return;
         }
 
-        for (String teamName : teams_config.getConfigurationSection("teams").getKeys(false)) {
-            ItemStack display_item = XMaterial.matchXMaterial(teams_config.getString("teams." + teamName + ".display-item", "STONE")
+        for (String teamName : teamsConfig.getConfigurationSection("teams").getKeys(false)) {
+            ItemStack display_item = XMaterial.matchXMaterial(teamsConfig.getString("teams." + teamName + ".display-item", "BARRIER")
                     .toUpperCase()).get().parseItem();
-            String color = teams_config.getString("teams." + teamName + ".color");
+            String color = teamsConfig.getString("teams." + teamName + ".color");
             UHCTeam team = new UHCTeam(display_item, teamName, color, GameValues.TEAM.TEAM_SIZE);
-            this.teams.add(team);
+            this.teamsList.add(team);
         }
     }
 
     public UHCTeam getTeam(String name) {
-        return teams.stream().filter(team -> team.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+        return teamsList.stream().filter(team -> team.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    public List<UHCTeam> getTeams() {
-        return this.teams;
+    public List<UHCTeam> getTeamsList() {
+        return this.teamsList;
     }
 
     public String getTeamsString() {
-        return getTeams().stream().map(UHCTeam::getDisplayName).collect(Collectors.joining(", "));
+        return getTeamsList().stream().map(UHCTeam::getDisplayName).collect(Collectors.joining(", "));
     }
 
     public List<UHCTeam> getLivingTeams() {
-        return teams.stream().filter(UHCTeam::isAlive).collect(Collectors.toList());
+        return teamsList.stream().filter(UHCTeam::isAlive).collect(Collectors.toList());
     }
 
     public void addTeam(UHCTeam team) {
         if (exists(team.getName()) || team == null) return;
-        this.teams.add(team);
+        this.teamsList.add(team);
     }
 
-    public void removeTeam(String teamName) {
+    /*public void removeTeam(String teamName) {
         if (!exists(teamName) || teamName == null) return;
 
-        List<String> teams_list = teams_config.getStringList("teams");
+        List<String> teams_list = teamsConfig.getStringList("teams");
         teams_list.remove(teamName);
 
         UHCTeam team = getTeam(teamName);
 
-        this.teams.remove(team);
-        teams_config.set("teams", teams_list);
+        this.teamsList.remove(team);
+        teamsConfig.set("teams", teams_list);
         gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
-    }
+    }*/
 
     private UHCTeam findFreeTeam() {
         UHCTeam emptyTeam = null;
-        for (UHCTeam team : this.teams) {
-            if (team.getMembers().size() == 0) {
+        for (UHCTeam team : this.teamsList) {
+            if (team.getMembers().isEmpty()) {
                 emptyTeam = team;
-                return emptyTeam;
-            }
-        }
-        if (emptyTeam == null) {
-            for (UHCTeam team : this.teams) {
-                if (!team.isFull()) {
-                    emptyTeam = team;
-                }
+            } else if (!team.isFull()) {
+                emptyTeam = team;
+            } else {
+                return null;
             }
         }
         return emptyTeam;
@@ -100,7 +96,8 @@ public class TeamManager {
 
     public void joinRandomTeam(UHCPlayer uhcPlayer) {
         if (uhcPlayer.hasTeam()) return;
-        findFreeTeam().addMember(uhcPlayer);
+        UHCTeam team = findFreeTeam();
+        team.addMember(uhcPlayer);
     }
 
     public UHCTeam getWinnerTeam() {
@@ -128,11 +125,11 @@ public class TeamManager {
     }
 
     public boolean exists(String teamName) {
-        return teams_config.getConfigurationSection("teams").getKeys(false).contains(teamName);
+        return teamsList.contains(getTeam(teamName));
     }
 
     public void onDisable() {
-        this.teams.clear();
+        this.teamsList.clear();
     }
 
 }

@@ -29,7 +29,7 @@ public class WorkbenchCommand implements CommandExecutor {
         }
 
         if (!gameManager.isPlaying()) {
-            p.sendMessage("You can not use this right now!");
+            p.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
         }
 

@@ -20,8 +20,11 @@ scoreboard:
     - "&fStart in: &a%countdown%"
     - "&fPlayers: &a%online%&f/&2%max-online%"
     - ""
-    - "&fTeam: %team%"
-    - "&fKit: %kit%"
+    - "&fCoins: &a%money%"
+    - "&fLevel: &a%uhc-level% (%required-uhc-exp%)"
+    - ""
+    - "&fTeam: &a%team%"
+    - "&fKit: &a%kit%"
     - ""
     - "&7%sb-footer%"
 

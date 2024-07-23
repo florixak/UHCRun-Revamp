@@ -1,5 +1,6 @@
 custom-recipes:
   GOLDEN_APPLE:
+    custom-name: "&6&lGolden Apple"
     amount: 1
     top-left: "AIR"
     top-middle: "GOLD_INGOT"
@@ -11,6 +12,7 @@ custom-recipes:
     bottom-middle: "GOLD_INGOT"
     bottom-right: "AIR"
   FISHING_ROD:
+    custom-name: "&eLight Rod"
     amount: 1
     top-left: "AIR"
     top-middle: "AIR"
@@ -22,13 +24,14 @@ custom-recipes:
     bottom-middle: "AIR"
     bottom-right: "AIR"
   STONE_AXE:
+    custom-name: ""
     amount: 1
     enchantments:
       DIG_SPEED: 3
       DURABILITY: 3
     top-left: "AIR"
-    top-middle: "OAK_PLANKS"
-    top-right: "OAK_PLANKS"
+    top-middle: "WOOD"
+    top-right: "WOOD"
     middle-left: "AIR"
     middle: "STICK"
     middle-right: "OAK_PLANKS"
@@ -36,13 +39,14 @@ custom-recipes:
     bottom-middle: "STICK"
     bottom-right: "AIR"
   STONE_PICKAXE:
+    custom-name: ""
     amount: 1
     enchantments:
       DIG_SPEED: 3
       DURABILITY: 3
-    top-left: "OAK_PLANKS"
-    top-middle: "OAK_PLANKS"
-    top-right: "OAK_PLANKS"
+    top-left: "WOOD"
+    top-middle: "WOOD"
+    top-right: "WOOD"
     middle-left: "AIR"
     middle: "STICK"
     middle-right: "AIR"
@@ -50,16 +54,29 @@ custom-recipes:
     bottom-middle: "STICK"
     bottom-right: "AIR"
   STONE_SHOVEL:
+    custom-name: ""
     amount: 1
     enchantments:
       DIG_SPEED: 3
       DURABILITY: 3
     top-left: "AIR"
-    top-middle: "OAK_PLANKS"
+    top-middle: "WOOD"
     top-right: "AIR"
     middle-left: "AIR"
     middle: "STICK"
     middle-right: "AIR"
     bottom-left: "AIR"
     bottom-middle: "STICK"
+    bottom-right: "AIR"
+  ARROW:
+    custom-name: "&fArrow Bundle"
+    amount: 16
+    top-left: "FLINT"
+    top-middle: "STICK"
+    top-right: "FEATHER"
+    middle-left: "AIR"
+    middle: "AIR"
+    middle-right: "AIR"
+    bottom-left: "AIR"
+    bottom-middle: "AIR"
     bottom-right: "AIR"

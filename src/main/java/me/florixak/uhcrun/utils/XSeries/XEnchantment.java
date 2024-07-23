@@ -23,8 +23,6 @@ package me.florixak.uhcrun.utils.XSeries;
 
 import com.google.common.base.Enums;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -144,7 +142,7 @@ public enum XEnchantment {
      * If an enchantment has {@code self} as it means that
      * the vanilla enchantment name matches the Bukkit name.
      *
-     * @see NamespacedKey#getKey()
+     * @see //NamespacedKey#getKey()
      */
     XEnchantment(@Nonnull String... aliases) {
         Enchantment enchantment = getBukkitEnchant(this.name());
@@ -162,13 +160,7 @@ public enum XEnchantment {
 
     @SuppressWarnings("deprecation")
     private static Enchantment getBukkitEnchant(String name) {
-        if (Data.IS_SUPER_FLAT) {
-            return Registry.ENCHANTMENT.get(NamespacedKey.minecraft(name.toLowerCase(Locale.ENGLISH)));
-        } else if (Data.ISFLAT) {
-            return Enchantment.getByKey(NamespacedKey.minecraft(name.toLowerCase(Locale.ENGLISH)));
-        } else {
-            return Enchantment.getByName(name);
-        }
+        return Enchantment.getByName(name);
     }
 
     /**

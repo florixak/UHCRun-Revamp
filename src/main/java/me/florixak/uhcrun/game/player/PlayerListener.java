@@ -25,6 +25,32 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void handleLogin(PlayerLoginEvent event) {
+
+        boolean isPlaying = gameManager.isPlaying();
+        boolean isFull = gameManager.isGameFull();
+        boolean isEnding = gameManager.isEnding();
+        if (isEnding) {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Messages.GAME_ENDED.toString());
+        } else if (!isPlaying && isFull) {
+            if (!event.getPlayer().hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
+                event.disallow(PlayerLoginEvent.Result.KICK_FULL, Messages.GAME_FULL.toString());
+                return;
+            }
+            UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getUHCPlayerWithoutPerm(Permissions.RESERVED_SLOT.getPerm());
+            if (randomUHCPlayer == null) {
+                event.disallow(PlayerLoginEvent.Result.KICK_FULL, Messages.GAME_FULL.toString());
+                return;
+            }
+            randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
+            event.allow();
+
+        } else if (isPlaying && isFull) {
+            event.disallow(PlayerLoginEvent.Result.KICK_FULL, Messages.GAME_FULL.toString());
+        }
+    }
+
+    @EventHandler
     public void handleJoin(PlayerJoinEvent event) {
 
         Player p = event.getPlayer();
@@ -34,24 +60,8 @@ public class PlayerListener implements Listener {
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
 
         boolean isPlaying = gameManager.isPlaying();
-        boolean isFull = gameManager.isGameFull();
 
-        if (!isPlaying && isFull) {
-            if (uhcPlayer.hasPermission(Permissions.RESERVED_SLOT.getPerm())) {
-                UHCPlayer randomUHCPlayer = gameManager.getPlayerManager().getRandomOnlineUHCPlayerWithoutPerm(Permissions.RESERVED_SLOT.getPerm());
-                if (randomUHCPlayer == null) {
-                    uhcPlayer.kick(Messages.GAME_FULL.toString());
-                    return;
-                }
-                randomUHCPlayer.kick(Messages.KICK_DUE_RESERVED_SLOT.toString());
-            } else {
-                uhcPlayer.kick(Messages.GAME_FULL.toString());
-                return;
-            }
-        } else if (isPlaying && isFull) {
-            uhcPlayer.kick(Messages.GAME_FULL.toString());
-            return;
-        } else if (isPlaying) {
+        if (isPlaying) {
             uhcPlayer.setSpectator();
             return;
         }

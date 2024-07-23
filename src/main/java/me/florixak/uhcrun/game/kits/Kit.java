@@ -1,5 +1,6 @@
 package me.florixak.uhcrun.game.kits;
 
+import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.entity.Player;
@@ -48,7 +49,7 @@ public class Kit {
     }
 
     public String getFormattedCost() {
-        return TextUtils.color("&7" + getCost() + " " + "coins");
+        return Messages.KITS_COST.toString().replace("%cost%", String.valueOf(getCost()));
     }
 
     public void giveKit(UHCPlayer uhcPlayer) {

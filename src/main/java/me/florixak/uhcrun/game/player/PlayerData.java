@@ -6,6 +6,7 @@ import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.hook.VaultHook;
+import me.florixak.uhcrun.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrun.utils.text.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -348,6 +349,38 @@ public class PlayerData {
         return getRequiredUHCExp() * GameValues.STATISTICS.EXP_MULTIPLIER;
     }
 
+    public double getMoneyForGameResult() {
+        return moneyForGameResult;
+    }
+
+    public double getMoneyForKills() {
+        return moneyForKills;
+    }
+
+    public double getMoneyForAssists() {
+        return moneyForAssists;
+    }
+
+    public double getMoneyForActivity() {
+        return moneyForActivity;
+    }
+
+    public double getUhcExpForGameResult() {
+        return uhcExpForGameResult;
+    }
+
+    public double getUhcExpForKills() {
+        return uhcExpForKills;
+    }
+
+    public double getUhcExpForAssists() {
+        return uhcExpForAssists;
+    }
+
+    public double getUhcExpForActivity() {
+        return uhcExpForActivity;
+    }
+
     public String getDisplayedTop() {
         if (gameManager.isDatabaseConnected()) {
             return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
@@ -400,7 +433,7 @@ public class PlayerData {
         List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
         for (String message : rewards) {
-            message = message.replace("%money-for-game%", String.valueOf(moneyForGameResult)).replace("%money-for-kills%", String.valueOf(moneyForKills)).replace("%money-for-assists%", String.valueOf(moneyForAssists)).replace("%money-for-activity%", String.valueOf(moneyForActivity)).replace("%uhc-exp-for-game%", String.valueOf(uhcExpForGameResult)).replace("%uhc-exp-for-kills%", String.valueOf(uhcExpForKills)).replace("%uhc-exp-for-assists%", String.valueOf(uhcExpForAssists)).replace("%uhc-exp-for-activity%", String.valueOf(uhcExpForActivity));
+            message = PlaceholderUtil.setPlaceholders(message, uhcPlayer.getPlayer());
             uhcPlayer.sendMessage(TextUtils.color(message));
         }
     }

@@ -3,11 +3,11 @@ package me.florixak.uhcrun.listener;
 import me.florixak.uhcrun.config.Messages;
 import me.florixak.uhcrun.game.GameManager;
 import me.florixak.uhcrun.game.GameValues;
-import me.florixak.uhcrun.game.gui.StatisticsGui;
 import me.florixak.uhcrun.game.kits.Kit;
 import me.florixak.uhcrun.game.perks.Perk;
 import me.florixak.uhcrun.game.player.UHCPlayer;
 import me.florixak.uhcrun.game.teams.UHCTeam;
+import me.florixak.uhcrun.gui.StatisticsGui;
 import me.florixak.uhcrun.utils.ItemUtils;
 import me.florixak.uhcrun.utils.XSeries.XMaterial;
 import me.florixak.uhcrun.utils.text.TextUtils;
@@ -53,12 +53,15 @@ public class InventoryClickListener implements Listener {
             if (gameManager.isPlaying() || gameManager.isEnding()) return;
             handleKitSelection(uhcPlayer, event);
 
-
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.PERKS_TITLE))) {
             event.setCancelled(true);
 
             if (gameManager.isPlaying() || gameManager.isEnding()) return;
             handlePerkSelection(uhcPlayer, event);
+        } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE))) {
+            event.setCancelled(true);
+
+            handleRecipeClick(uhcPlayer, event);
 
         } else if (title.equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {
             event.setCancelled(true);
@@ -67,9 +70,13 @@ public class InventoryClickListener implements Listener {
         }
     }
 
+    private void handleRecipeClick(UHCPlayer uhcPlayer, InventoryClickEvent event) {
+        uhcPlayer.sendMessage("Clicked on recipe: " + gameManager.getRecipeManager().getRecipe(event.getCurrentItem()).getResult().toString());
+    }
+
     private void handleTeamSelection(UHCPlayer uhcPlayer, InventoryClickEvent event) {
-        for (UHCTeam team : gameManager.getTeamManager().getTeams()) {
-            if (gameManager.getTeamManager().getTeams().get(event.getSlot()) == team) {
+        for (UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
+            if (gameManager.getTeamManager().getTeamsList().get(event.getSlot()) == team) {
                 team.addMember(uhcPlayer);
                 uhcPlayer.getPlayer().closeInventory();
             }

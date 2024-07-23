@@ -22,12 +22,8 @@
 package me.florixak.uhcrun.utils.XSeries;
 
 import com.google.common.base.Strings;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.ThrownPotion;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -361,24 +357,24 @@ public enum XPotion {
      * @return a thrown splash potion.
      * @since 1.0.0
      */
-    @Nonnull
-    public static ThrownPotion throwPotion(@Nonnull LivingEntity entity, @Nullable Color color, @Nullable PotionEffect... effects) {
-        Objects.requireNonNull(entity, "Cannot throw potion from null entity");
-        @SuppressWarnings("deprecation")
-        ItemStack potion = Material.getMaterial("SPLASH_POTION") == null ?
-                new ItemStack(Material.POTION, 1, (short) 16398) : // or 16384?
-                new ItemStack(Material.SPLASH_POTION);
-        // Why the fuck isn't Lingering potion supported?
-
-        PotionMeta meta = (PotionMeta) potion.getItemMeta();
-        meta.setColor(color);
-        if (effects != null) for (PotionEffect effect : effects) meta.addCustomEffect(effect, true);
-        potion.setItemMeta(meta);
-
-        ThrownPotion thrownPotion = entity.launchProjectile(ThrownPotion.class);
-        thrownPotion.setItem(potion);
-        return thrownPotion;
-    }
+//    @Nonnull
+//    public static ThrownPotion throwPotion(@Nonnull LivingEntity entity, @Nullable Color color, @Nullable PotionEffect... effects) {
+//        Objects.requireNonNull(entity, "Cannot throw potion from null entity");
+//        @SuppressWarnings("deprecation")
+//        ItemStack potion = Material.getMaterial("SPLASH_POTION") == null ?
+//                new ItemStack(Material.POTION, 1, (short) 16398) : // or 16384?
+//                new ItemStack(Material.SPLASH_POTION);
+//        // Why the fuck isn't Lingering potion supported?
+//
+//        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+//        meta.setColor(color);
+//        if (effects != null) for (PotionEffect effect : effects) meta.addCustomEffect(effect, true);
+//        potion.setItemMeta(meta);
+//
+//        ThrownPotion thrownPotion = entity.launchProjectile(ThrownPotion.class);
+//        thrownPotion.setItem(potion);
+//        return thrownPotion;
+//    }
 
     /**
      * Builds an item with the given type, color and effects.
@@ -398,22 +394,22 @@ public enum XPotion {
      * @return an item with the specified effects.
      * @since 1.0.0
      */
-    @Nonnull
-    public static ItemStack buildItemWithEffects(@Nonnull Material type, @Nullable Color color, @Nullable PotionEffect... effects) {
-        Objects.requireNonNull(type, "Cannot build an effected item with null type");
-        if (!canHaveEffects(type))
-            throw new IllegalArgumentException("Cannot build item with " + type.name() + " potion type");
-
-        ItemStack item = new ItemStack(type);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-
-        meta.setColor(color);
-        meta.setDisplayName(type == Material.POTION ? "Potion" : type == Material.SPLASH_POTION ? "Splash Potion" :
-                type == Material.TIPPED_ARROW ? "Tipped Arrow" : "Lingering Potion");
-        if (effects != null) for (PotionEffect effect : effects) meta.addCustomEffect(effect, true);
-        item.setItemMeta(meta);
-        return item;
-    }
+//    @Nonnull
+//    public static ItemStack buildItemWithEffects(@Nonnull Material type, @Nullable Color color, @Nullable PotionEffect... effects) {
+//        Objects.requireNonNull(type, "Cannot build an effected item with null type");
+//        if (!canHaveEffects(type))
+//            throw new IllegalArgumentException("Cannot build item with " + type.name() + " potion type");
+//
+//        ItemStack item = new ItemStack(type);
+//        PotionMeta meta = (PotionMeta) item.getItemMeta();
+//
+//        meta.setColor(color);
+//        meta.setDisplayName(type == Material.POTION ? "Potion" : type == Material.SPLASH_POTION ? "Splash Potion" :
+//                type == Material.TIPPED_ARROW ? "Tipped Arrow" : "Lingering Potion");
+//        if (effects != null) for (PotionEffect effect : effects) meta.addCustomEffect(effect, true);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
 
     /**
      * Checks if a material can have potion effects.
