@@ -71,7 +71,6 @@ public class GameValues {
     }
 
     public static class StatisticConfig {
-        public final boolean ADD_ON_END = getConfigBoolean("settings.statistics.add-up-game-ends", false);
         public final boolean UHC_LEVEL_ENABLED = getConfigBoolean("settings.statistics.uhc-level.enabled", true);
         public final int FIRST_UHC_LEVEL = getConfigInt("settings.statistics.uhc-level.first-uhc-level", 0);
         public final double FIRST_REQUIRED_EXP = getConfigDouble("settings.statistics.uhc-level.first-required-exp", 100.0);
@@ -144,6 +143,7 @@ public class GameValues {
         public final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
         public final int MIN_PLAYERS = getConfigInt("settings.game.min-players", 2);
         public final int STARTING_COUNTDOWN = getConfigInt("settings.game.countdowns.starting", 20);
+        public final int STARTING_MESSAGE_AT = getConfigInt("settings.game.starting-message-at", 10);
         public final int MINING_COUNTDOWN = getConfigInt("settings.game.countdowns.mining", 600);
         public final int PVP_COUNTDOWN = getConfigInt("settings.game.countdowns.pvp", 600);
         public final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);

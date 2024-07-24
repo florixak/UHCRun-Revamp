@@ -16,13 +16,16 @@ settings:
 
   # Game
   game:
-    auto-map-reset: true # name of game world is "world"
     allow-nether: false
+    teleport-after-mining: true
+    projectile-hit-hp: true
+    no-explosions: false # global disable of explosions
+    explode-block-destroy: true
+    custom-drops: true
+    random-drops: false # in development
 
     min-players: 2
-    starting-message-at: 10 # start at <_> seconds
-
-    teleport-after-mining: true
+    starting-message-at: 10 # message about starting at <_> seconds
 
     # Countdowns
     countdowns:
@@ -31,10 +34,6 @@ settings:
       pvp: 600 # seconds
       deathmatch: 300 # seconds
       ending: 15 # seconds
-
-    projectile-hit-hp: true
-    no-explosions: false # global disable of explosions
-    explode-block-destroy: true
 
     # Damage cause list:
     #   CONTACT, ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, PROJECTILE, SUFFOCATION, FALL,
@@ -50,9 +49,6 @@ settings:
       - FALLING_BLOCK
       - ENTITY_EXPLOSION
       - BLOCK_EXPLOSION
-
-    custom-drops: true
-    random-drops: false # in development
 
   # Deathmatch
   deathmatch:
