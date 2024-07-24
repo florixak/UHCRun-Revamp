@@ -14,7 +14,7 @@ import org.bukkit.generator.BlockPopulator;
 import java.util.List;
 import java.util.Random;
 
-public class CustomBlockPopulator extends BlockPopulator {
+public class OrePopulator extends BlockPopulator {
 
     private final static BlockFace[] OFFSETS = {
             BlockFace.NORTH,
@@ -34,7 +34,7 @@ public class CustomBlockPopulator extends BlockPopulator {
     private final static int BORDER_SIZE = 450; // Size of the border within which to populate
     private final LimitedRegion limitedRegion;
 
-    public CustomBlockPopulator(LimitedRegion limitedRegion) {
+    public OrePopulator(LimitedRegion limitedRegion) {
         this.limitedRegion = limitedRegion;
     }
 

@@ -7,13 +7,13 @@ import org.bukkit.WorldBorder;
 
 public class BorderManager {
 
-    private final WorldBorder wb;
+    private WorldBorder wb;
 
     public BorderManager() {
-        this.wb = Bukkit.getWorld("world").getWorldBorder();
     }
 
     public void setBorder() {
+        wb = Bukkit.getWorld(GameValues.WORLD_NAME).getWorldBorder();
         wb.setCenter(0, 0);
         wb.setSize(GameValues.BORDER.INIT_BORDER_SIZE);
     }

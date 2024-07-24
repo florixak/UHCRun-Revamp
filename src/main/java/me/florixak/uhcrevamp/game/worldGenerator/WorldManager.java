@@ -40,7 +40,7 @@ public class WorldManager {
         Location center = new Location(world, world.getSpawnLocation().getX(), 0, world.getSpawnLocation().getZ()); // Define the center
         int radius = 500; // Define the radius
         LimitedRegion limitedRegion = new LimitedRegion(center, radius);
-        world.getPopulators().add(new CustomBlockPopulator(limitedRegion));
+        world.getPopulators().add(new OrePopulator(limitedRegion));
 
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("announceAdvancements", "false");

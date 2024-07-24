@@ -5,8 +5,8 @@ import me.florixak.uhcrevamp.commands.*;
 import me.florixak.uhcrevamp.config.ConfigManager;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
+import me.florixak.uhcrevamp.game.customCrafts.CraftManager;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
-import me.florixak.uhcrevamp.game.customRecipe.RecipeManager;
 import me.florixak.uhcrevamp.game.deathchest.DeathChestManager;
 import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
@@ -66,7 +66,7 @@ public class GameManager {
     private final LobbyManager lobbyManager;
     private final CustomDropManager customDropManager;
     private final SoundManager soundManager;
-    private final RecipeManager recipeManager;
+    private final CraftManager craftManager;
     private final DeathChestManager deathChestManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
@@ -95,7 +95,7 @@ public class GameManager {
         this.deathmatchManager = new DeathmatchManager(this);
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
-        this.recipeManager = new RecipeManager(this);
+        this.craftManager = new CraftManager(this);
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -124,7 +124,7 @@ public class GameManager {
         getBorderManager().setBorder();
         //getOreGenManager().generateOres();
 
-        getRecipeManager().registerRecipes();
+        getCraftManager().registerRecipes();
         getCustomDropManager().loadDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
@@ -216,7 +216,7 @@ public class GameManager {
     public void onDisable() {
         getDeathChestManager().onDisable();
         getCustomDropManager().onDisable();
-        getRecipeManager().onDisable();
+        getCraftManager().onDisable();
         getTeamManager().onDisable();
         getPlayerManager().onDisable();
         getTaskManager().onDisable();
@@ -395,8 +395,8 @@ public class GameManager {
         return taskManager;
     }
 
-    public RecipeManager getRecipeManager() {
-        return recipeManager;
+    public CraftManager getCraftManager() {
+        return craftManager;
     }
 
     public DeathChestManager getDeathChestManager() {

@@ -71,7 +71,7 @@ public class InventoryClickListener implements Listener {
     }
 
     private void handleRecipeClick(UHCPlayer uhcPlayer, InventoryClickEvent event) {
-        uhcPlayer.sendMessage("Clicked on recipe: " + gameManager.getRecipeManager().getRecipe(event.getCurrentItem()).getResult().toString());
+        uhcPlayer.sendMessage("Clicked on recipe: " + gameManager.getCraftManager().getRecipe(event.getCurrentItem()).getResult().toString());
     }
 
     private void handleTeamSelection(UHCPlayer uhcPlayer, InventoryClickEvent event) {

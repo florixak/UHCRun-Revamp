@@ -1,6 +1,5 @@
 package me.florixak.uhcrevamp.utils;
 
-import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import org.bukkit.Bukkit;
@@ -10,14 +9,16 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class TeleportUtils {
 
-    private static final GameManager gameManager = GameManager.getGameManager();
+    private static final Random r;
 
     public static HashSet<Material> forbiddenBlocks = new HashSet<>();
 
     static {
+        r = new Random();
         forbiddenBlocks.add(XMaterial.LAVA.parseMaterial());
         forbiddenBlocks.add(XMaterial.FIRE.parseMaterial());
         forbiddenBlocks.add(XMaterial.CACTUS.parseMaterial());
@@ -30,9 +31,9 @@ public class TeleportUtils {
     public static Location generateLocation() {
 
         World world = Bukkit.getWorld(GameValues.WORLD_NAME);
-        double x = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize() / 2) - 10);
+        double x = r.nextDouble() * (GameValues.BORDER.INIT_BORDER_SIZE / 2 - 10);
         double y = 150.0;
-        double z = RandomUtils.randomDouble(0, (gameManager.getBorderManager().getSize() / 2) - 10);
+        double z = r.nextDouble() * (GameValues.BORDER.INIT_BORDER_SIZE / 2 - 10);
 
         Location randomLocation = new Location(world, x, y, z);
         y = randomLocation.getWorld().getHighestBlockYAt(randomLocation);

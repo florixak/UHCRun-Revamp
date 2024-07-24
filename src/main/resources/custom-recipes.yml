@@ -1,82 +1,66 @@
 custom-recipes:
-  GOLDEN_APPLE:
-    custom-name: "&6&lGolden Apple"
-    amount: 1
-    top-left: "AIR"
-    top-middle: "GOLD_INGOT"
-    top-right: "AIR"
-    middle-left: "GOLD_INGOT"
-    middle: "APPLE"
-    middle-right: "GOLD_INGOT"
-    bottom-left: "AIR"
-    bottom-middle: "GOLD_INGOT"
-    bottom-right: "AIR"
-  FISHING_ROD:
-    custom-name: "&eLight Rod"
-    amount: 1
-    top-left: "AIR"
-    top-middle: "AIR"
-    top-right: "STICK"
-    middle-left: "AIR"
-    middle: "STICK"
-    middle-right: "STRING"
-    bottom-left: "STICK"
-    bottom-middle: "AIR"
-    bottom-right: "AIR"
-  STONE_AXE:
-    custom-name: ""
-    amount: 1
+  '&eLight Apple':
+    result: GOLDEN_APPLE
+    shape:
+      - " B "
+      - "BCB"
+      - " B "
+    ingredients:
+      B: GOLD_INGOT
+      C: APPLE
+  '&fLight Rod':
+    result: FISHING_ROD
+    shape:
+      - "  A"
+      - " AB"
+      - "A  "
+    ingredients:
+      A: STICK
+      B: STRING
+  '&fSTONE_AXE':
+    result: STONE_AXE
     enchantments:
-      DIG_SPEED: 3
-      DURABILITY: 3
-    top-left: "AIR"
-    top-middle: "WOOD"
-    top-right: "WOOD"
-    middle-left: "AIR"
-    middle: "STICK"
-    middle-right: "OAK_PLANKS"
-    bottom-left: "AIR"
-    bottom-middle: "STICK"
-    bottom-right: "AIR"
-  STONE_PICKAXE:
-    custom-name: ""
-    amount: 1
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " AA"
+      - " BA"
+      - " B "
+    ingredients:
+      A: WOOD
+      B: STICK
+  '&fStone Pickaxe':
+    result: STONE_PICKAXE
     enchantments:
-      DIG_SPEED: 3
-      DURABILITY: 3
-    top-left: "WOOD"
-    top-middle: "WOOD"
-    top-right: "WOOD"
-    middle-left: "AIR"
-    middle: "STICK"
-    middle-right: "AIR"
-    bottom-left: "AIR"
-    bottom-middle: "STICK"
-    bottom-right: "AIR"
-  STONE_SHOVEL:
-    custom-name: ""
-    amount: 1
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " AA"
+      - " B "
+      - " B "
+    ingredients:
+      A: WOOD
+      B: STICK
+  '&fStone Shovel':
+    result: STONE_SHOVEL
     enchantments:
-      DIG_SPEED: 3
-      DURABILITY: 3
-    top-left: "AIR"
-    top-middle: "WOOD"
-    top-right: "AIR"
-    middle-left: "AIR"
-    middle: "STICK"
-    middle-right: "AIR"
-    bottom-left: "AIR"
-    bottom-middle: "STICK"
-    bottom-right: "AIR"
-  ARROW:
-    custom-name: "&fArrow Bundle"
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " A "
+      - " B "
+      - " B "
+    ingredients:
+      A: WOOD
+      B: STICK
+  '&fArrow Bundle':
+    result: ARROW
     amount: 16
-    top-left: "FLINT"
-    top-middle: "STICK"
-    top-right: "FEATHER"
-    middle-left: "AIR"
-    middle: "AIR"
-    middle-right: "AIR"
-    bottom-left: "AIR"
-    bottom-middle: "AIR"
-    bottom-right: "AIR"
+    shape:
+      - "A  "
+      - " B "
+      - "  C"
+    ingredients:
+      A: FLINT
+      B: STICK
+      C: FEATHER

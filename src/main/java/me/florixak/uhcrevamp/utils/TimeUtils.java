@@ -21,7 +21,7 @@ public class TimeUtils {
             if (m == 0) {
                 return time + "s";
             } else {
-                return m + "m " + time + "s";
+                return m + "m"/* + time + "s"*/;
             }
         } else {
             return h + "h " + m + "m " + time + "s";

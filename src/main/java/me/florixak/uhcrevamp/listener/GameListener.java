@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
+import me.florixak.uhcrevamp.game.customCrafts.CustomCraft;
 import me.florixak.uhcrevamp.game.customDrop.CustomDrop;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
@@ -21,6 +22,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -33,11 +35,8 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class GameListener implements Listener {
@@ -216,12 +215,12 @@ public class GameListener implements Listener {
         DamageCause cause = event.getCause();
 
         if (gameManager.getGameState() == GameState.MINING) {
-            if (gameManager.getCurrentCountdown() >= (gameManager.getCurrentCountdown() - 60)) {
+            if (gameManager.getCurrentCountdown() >= (GameValues.GAME.MINING_COUNTDOWN - 60)) {
                 if (cause.equals(DamageCause.FALL)) {
                     event.setCancelled(true);
                 }
             }
-            List<String> disabledCauses = config.getStringList("settings.game.disabled-in-mining");
+            List<String> disabledCauses = GameValues.GAME.DISABLED_IN_MINING;
             if (!disabledCauses.isEmpty()) {
                 for (String causeName : disabledCauses) {
                     if (cause.name().equalsIgnoreCase(causeName)) {
@@ -290,7 +289,7 @@ public class GameListener implements Listener {
     public void handleHunger(FoodLevelChangeEvent event) {
         Player p = (Player) event.getEntity();
         UHCPlayer player = playerManager.getUHCPlayer(p.getUniqueId());
-        if (!gameManager.isPlaying() || player.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
+        if (!gameManager.isPlaying() || player.isDead() || gameManager.isEnding()) {
             p.setFoodLevel(20);
             event.setCancelled(true);
         }
@@ -359,47 +358,21 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onCraftItem(CraftItemEvent event) {
-        ItemStack[] matrix = event.getInventory().getMatrix();
-        for (ShapedRecipe customRecipe : gameManager.getRecipeManager().getRecipesList()) {
-            if (matchesCustomRecipe(matrix, customRecipe)) {
-                event.setCurrentItem(customRecipe.getResult());
+        ItemStack[] matrix1D = event.getInventory().getMatrix();
+        ItemStack[][] matrix2D = new ItemStack[3][3]; // Assuming a 3x3 crafting table
+
+        // Convert 1D array to 2D array safely
+        for (int i = 0; i < matrix1D.length && i < 9; i++) { // Ensure not to exceed bounds of either array
+            matrix2D[i / 3][i % 3] = matrix1D[i];
+        }
+        // Iterate over all custom crafts to find a match
+        for (CustomCraft customCraft : gameManager.getCraftManager().getCustomCrafts()) {
+            if (customCraft.matches(matrix2D)) {
+                event.setResult(Event.Result.DENY);
+                event.setCurrentItem(customCraft.getResult());
+                Bukkit.getLogger().info("Crafted custom item: " + customCraft.getResult().getType());
                 return; // Stop checking after finding the first matching recipe
             }
         }
-    }
-
-    private boolean matchesCustomRecipe(ItemStack[] matrix, ShapedRecipe customRecipe) {
-        // Assuming a 3x3 crafting matrix
-        String[] shape = customRecipe.getShape();
-        Map<Character, ItemStack> ingredientMap = new HashMap<>();
-        for (char key : customRecipe.getIngredientMap().keySet()) {
-            ingredientMap.put(key, customRecipe.getIngredientMap().get(key).clone());
-        }
-
-        // Convert shape and ingredientMap to a 3x3 ItemStack matrix for comparison
-        ItemStack[][] recipeMatrix = new ItemStack[3][3];
-        int row = 0;
-        for (String line : shape) {
-            for (int col = 0; col < line.length(); col++) {
-                char ingredientChar = line.charAt(col);
-                if (ingredientMap.containsKey(ingredientChar)) {
-                    recipeMatrix[row][col] = ingredientMap.get(ingredientChar);
-                } else {
-                    recipeMatrix[row][col] = null;
-                }
-            }
-            row++;
-        }
-
-        // Compare the crafting matrix with the recipe matrix
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (recipeMatrix[i][j] == null && matrix[3 * i + j] != null) return false;
-                if (recipeMatrix[i][j] != null && (matrix[3 * i + j] == null || !matrix[3 * i + j].isSimilar(recipeMatrix[i][j])))
-                    return false;
-            }
-        }
-
-        return true;
     }
 }

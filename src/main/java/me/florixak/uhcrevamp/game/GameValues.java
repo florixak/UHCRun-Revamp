@@ -148,6 +148,7 @@ public class GameValues {
         public final int PVP_COUNTDOWN = getConfigInt("settings.game.countdowns.pvp", 600);
         public final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);
         public final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
+        public final List<String> DISABLED_IN_MINING = getConfigStringList("settings.game.disabled-in-mining");
     }
 
     public static class AddonConfig {

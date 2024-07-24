@@ -62,6 +62,7 @@ import java.util.stream.Collectors;
  * @see ItemStack
  */
 public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Material*/ {
+    WOOD("OAK_WOOD_PLANKS", "SPRUCE_WOOD_PLANKS", "BIRCH_WOOD_PLANKS", "JUNGLE_WOOD_PLANKS", "ACACIA_WOOD_PLANKS", "DARK_OAK_WOOD_PLANKS"),
     ACACIA_BOAT("BOAT_ACACIA"),
     ACACIA_BUTTON("WOOD_BUTTON"),
     ACACIA_CHEST_BOAT,
@@ -84,7 +85,7 @@ public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Materia
     ACTIVATOR_RAIL,
     /**
      * <a href="https://minecraft.wiki/w/Air">Air</a>
-     * {@link Material#isAir()}
+     * {@link Material#//isAir()}
      *
      * @see #VOID_AIR
      * @see #CAVE_AIR
@@ -1653,7 +1654,6 @@ public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Materia
     ZOMBIE_VILLAGER_SPAWN_EGG(27, "MONSTER_EGG"),
     ZOMBIE_WALL_HEAD(2, "SKULL", "SKULL_ITEM"),
     ZOMBIFIED_PIGLIN_SPAWN_EGG(57, "MONSTER_EGG", "ZOMBIE_PIGMAN_SPAWN_EGG");
-
 
     /**
      * Cached array of {@link XMaterial#values()} to avoid allocating memory for
