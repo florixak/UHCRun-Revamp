@@ -6,7 +6,6 @@ public enum ConfigType {
     MESSAGES,
     SCOREBOARD,
     PLAYER_DATA,
-    LOBBY,
     TEAMS,
     KITS,
     PERKS,

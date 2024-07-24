@@ -21,8 +21,6 @@ import me.florixak.uhcrevamp.listener.InteractListener;
 import me.florixak.uhcrevamp.listener.InventoryClickListener;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.manager.*;
-import me.florixak.uhcrevamp.manager.lobby.LobbyManager;
-import me.florixak.uhcrevamp.manager.lobby.LobbyType;
 import me.florixak.uhcrevamp.manager.scoreboard.ScoreboardManager;
 import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
@@ -113,10 +111,10 @@ public class GameManager {
 
         connectToDatabase();
 
-        if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.WAITING)) == null) {
+        if (Bukkit.getWorld(getLobbyManager().getWorld("waiting")) == null) {
             getWorldManager().createWorld("UHCLobby");
         }
-        if (Bukkit.getWorld(getLobbyManager().getWorld(LobbyType.ENDING)) == null) {
+        if (Bukkit.getWorld(getLobbyManager().getWorld("ending")) == null) {
             getWorldManager().createWorld("UHCLobby");
         }
         getOreGenManager().loadOres();
@@ -196,7 +194,7 @@ public class GameManager {
         }
     }
 
-    public int getCurrentCountdown() {
+    public long getCurrentCountdown() {
         switch (gameState) {
             case LOBBY:
                 return -1;

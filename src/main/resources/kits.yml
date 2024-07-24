@@ -167,14 +167,6 @@ kits:
     display-item: POTION
     cost: 120
     items:
-      POTION:
-        amount: 3
-        enchantments:
-          STRONG_HEALING: 1
-      SPLASH_POTION:
-        amount: 2
-        enchantments:
-          STRONG_POISON: 1
       BREWING_STAND:
         amount: 1
       NETHER_WART:
@@ -183,3 +175,12 @@ kits:
         amount: 5
       GLASS_BOTTLE:
         amount: 15
+    potions:
+      REGENERATION:
+        level: 2
+        amount: 3
+        splash: false
+      SLOWNESS:
+        level: 2
+        amount: 2
+        splash: true

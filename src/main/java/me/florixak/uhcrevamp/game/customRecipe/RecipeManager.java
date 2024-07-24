@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -56,15 +57,17 @@ public class RecipeManager {
     }
 
     public void loadRecipes() {
-
-
         if (recipeConfig.getConfigurationSection("custom-recipes") == null) return;
+        ConfigurationSection customRecipesSection = recipeConfig.getConfigurationSection("custom-recipes");
 
-        for (String recipe : recipeConfig.getConfigurationSection("custom-recipes").getKeys(false)) {
-            ConfigurationSection recipeSection = recipeConfig.getConfigurationSection("custom-recipes." + recipe);
+        for (String recipe : customRecipesSection.getKeys(false)) {
+            ConfigurationSection recipeSection = customRecipesSection.getConfigurationSection(recipe);
             String itemName = recipeSection.getString("custom-name");
+            Material resultMaterial = XMaterial.matchXMaterial(recipe).get().parseMaterial();
+            if (itemName == null || itemName.isEmpty())
+                itemName = TextUtils.toNormalCamelText(XMaterial.matchXMaterial(resultMaterial).name());
             int amount = recipeSection.getInt("amount");
-            ItemStack item = ItemUtils.createItem(XMaterial.matchXMaterial(recipe).get().parseMaterial(), itemName, amount, null);
+            ItemStack item = ItemUtils.createItem(resultMaterial, itemName, amount, null);
 
             ConfigurationSection enchantmentsSection = recipeSection.getConfigurationSection("enchantments");
             if (enchantmentsSection != null) {

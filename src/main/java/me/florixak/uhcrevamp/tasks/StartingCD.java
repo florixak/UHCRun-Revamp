@@ -15,25 +15,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class StartingCD extends BukkitRunnable {
 
     private final GameManager gameManager;
-
-    private static int countdown;
+    private final long startTime;
     private final int startWarning;
+    private final long durationInSeconds;
+    private static long countdown;
 
     public StartingCD(GameManager gameManager) {
         this.gameManager = gameManager;
         FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        countdown = GameValues.GAME.STARTING_COUNTDOWN;
+        this.durationInSeconds = GameValues.GAME.STARTING_COUNTDOWN;
         this.startWarning = config.getInt("settings.game.starting-message-at");
-    }
-
-    public static int getCountdown() {
-        return countdown;
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
+        long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000;
+        long remainingSeconds = durationInSeconds - elapsedSeconds;
 
-        if (countdown <= 0) {
+        if (remainingSeconds <= 0) {
             cancel();
             Utils.broadcast(Messages.GAME_STARTED.toString());
             Bukkit.getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playGameStarted(player));
@@ -41,17 +41,21 @@ public class StartingCD extends BukkitRunnable {
             return;
         }
 
-        if (gameManager.getKitsManager().willOpenWhenStarting() && countdown == gameManager.getKitsManager().getOpenWhenStartingAt()) {
+        if (gameManager.getKitsManager().willOpenWhenStarting() && remainingSeconds == gameManager.getKitsManager().getOpenWhenStartingAt()) {
             gameManager.getPlayerManager().getOnlineList()
                     .forEach(uhcPlayer -> new KitsGui(gameManager, uhcPlayer).open());
         }
 
-        if (countdown <= startWarning) {
+        if (remainingSeconds <= startWarning) {
             Utils.broadcast(Messages.GAME_STARTING.toString()
-                    .replace("%countdown%", "" + TimeUtils.getFormattedTime(countdown)));
+                    .replace("%countdown%", "" + TimeUtils.getFormattedTime((int) remainingSeconds)));
             Bukkit.getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playStartingSound(player));
         }
-        countdown--;
+
+        countdown = remainingSeconds;
     }
 
+    public static long getCountdown() {
+        return countdown;
+    }
 }

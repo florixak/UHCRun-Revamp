@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.utils;
 
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.Potion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +35,6 @@ public class ItemUtils {
     public static boolean hasItemMeta(ItemStack item) {
         return item.hasItemMeta();
     }
-
-//    public static ItemStack monsterEgg(EntityType entityType) {
-//        ItemStack item = new ItemStack(XMaterial.HORSE_SPAWN_EGG.parseMaterial());
-//        SpawnEggMeta meta = (SpawnEggMeta) item.getItemMeta();
-//        meta.setSpawnedType(entityType);
-//        item.setItemMeta(meta);
-//        return item;
-//    }
 
     public static void setArmorItemMeta(ItemStack item, Color armorColor) {
 
@@ -91,6 +85,20 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
         item.setItemMeta(meta);
+    }
+
+    public static ItemStack createPotionItem(String potionName, int level, int amount, boolean splash) {
+        ItemStack potion = new Potion(XPotion.matchXPotion(potionName).get().getPotionType(), level, splash, false).toItemStack(amount);
+        return potion;
+    }
+
+    public static boolean isPotion(ItemStack item) {
+        try {
+            Potion.fromItemStack(item);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     public static double getAttackDamage(ItemStack item) {

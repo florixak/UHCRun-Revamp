@@ -20,7 +20,7 @@ import java.util.List;
 public class KitsManager {
 
     private final FileConfiguration config, kitsConfig;
-    private List<Kit> kitsList;
+    private final List<Kit> kitsList;
 
     public KitsManager(GameManager gameManager) {
         this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
@@ -65,25 +65,37 @@ public class KitsManager {
         List<ItemStack> itemsList = new ArrayList<>();
         try {
             ConfigurationSection itemsSection = section.getConfigurationSection("items");
-            if (itemsSection == null) return itemsList;
-
-            for (String item : itemsSection.getKeys(false)) {
-                ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
-                ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
-                int amount = itemSection.getInt("amount", 1);
-                ItemStack newI = ItemUtils.createItem(i.getType(), null, amount, null);
-                ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
-                if (enchantsSection != null) {
-                    for (String enchant : enchantsSection.getKeys(false)) {
-                        String enchantmentName = enchant.toUpperCase();
-                        Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
-                        int level = enchantsSection.getInt(enchantmentName);
-                        ItemUtils.addEnchant(newI, e, level, true);
+            if (itemsSection != null && !itemsSection.getKeys(false).isEmpty()) {
+                for (String item : itemsSection.getKeys(false)) {
+                    ConfigurationSection itemSection = itemsSection.getConfigurationSection(item);
+                    ItemStack i = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() != null ? XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem() : XMaterial.STONE.parseItem();
+                    int amount = itemSection.getInt("amount", 1);
+                    ItemStack newI = ItemUtils.createItem(i.getType(), null, amount, null);
+                    ConfigurationSection enchantsSection = itemSection.getConfigurationSection("enchantments");
+                    if (enchantsSection != null) {
+                        for (String enchant : enchantsSection.getKeys(false)) {
+                            String enchantmentName = enchant.toUpperCase();
+                            Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
+                            int level = enchantsSection.getInt(enchantmentName);
+                            ItemUtils.addEnchant(newI, e, level, true);
+                        }
                     }
+                    itemsList.add(newI);
                 }
-                itemsList.add(newI);
             }
 
+            ConfigurationSection potionsSection = section.getConfigurationSection("potions");
+            if (potionsSection != null && !potionsSection.getKeys(false).isEmpty()) {
+                for (String potion : potionsSection.getKeys(false)) {
+                    ConfigurationSection potionSection = potionsSection.getConfigurationSection(potion);
+                    int level = potionSection.getInt("level", 2);
+                    int amount = potionSection.getInt("amount", 1);
+                    boolean splash = potionSection.getBoolean("splash", false);
+                    ItemStack potionItem = ItemUtils.createPotionItem(potion, level, amount, splash);
+
+                    itemsList.add(potionItem);
+                }
+            }
         } catch (Exception e) {
             UHCRevamp.getInstance().getLogger().info("There is a problem with loading kit items!");
         }

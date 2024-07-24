@@ -10,7 +10,6 @@ import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.listener.events.GameKillEvent;
-import me.florixak.uhcrevamp.manager.lobby.LobbyType;
 import me.florixak.uhcrevamp.utils.RandomUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
@@ -29,12 +28,16 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GameListener implements Listener {
@@ -82,7 +85,7 @@ public class GameListener implements Listener {
 
             player.clearInventory();
             player.setGameMode(GameMode.ADVENTURE);
-            player.teleport(gameManager.getLobbyManager().getLocation(LobbyType.ENDING));
+            player.teleport(gameManager.getLobbyManager().getLocation("ending"));
 
             player.getData().showStatistics();
         }
@@ -352,5 +355,51 @@ public class GameListener implements Listener {
     @EventHandler
     public void handleExplode(EntityExplodeEvent event) {
         if (GameValues.GAME.EXPLOSIONS_DISABLED) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onCraftItem(CraftItemEvent event) {
+        ItemStack[] matrix = event.getInventory().getMatrix();
+        for (ShapedRecipe customRecipe : gameManager.getRecipeManager().getRecipesList()) {
+            if (matchesCustomRecipe(matrix, customRecipe)) {
+                event.setCurrentItem(customRecipe.getResult());
+                return; // Stop checking after finding the first matching recipe
+            }
+        }
+    }
+
+    private boolean matchesCustomRecipe(ItemStack[] matrix, ShapedRecipe customRecipe) {
+        // Assuming a 3x3 crafting matrix
+        String[] shape = customRecipe.getShape();
+        Map<Character, ItemStack> ingredientMap = new HashMap<>();
+        for (char key : customRecipe.getIngredientMap().keySet()) {
+            ingredientMap.put(key, customRecipe.getIngredientMap().get(key).clone());
+        }
+
+        // Convert shape and ingredientMap to a 3x3 ItemStack matrix for comparison
+        ItemStack[][] recipeMatrix = new ItemStack[3][3];
+        int row = 0;
+        for (String line : shape) {
+            for (int col = 0; col < line.length(); col++) {
+                char ingredientChar = line.charAt(col);
+                if (ingredientMap.containsKey(ingredientChar)) {
+                    recipeMatrix[row][col] = ingredientMap.get(ingredientChar);
+                } else {
+                    recipeMatrix[row][col] = null;
+                }
+            }
+            row++;
+        }
+
+        // Compare the crafting matrix with the recipe matrix
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (recipeMatrix[i][j] == null && matrix[3 * i + j] != null) return false;
+                if (recipeMatrix[i][j] != null && (matrix[3 * i + j] == null || !matrix[3 * i + j].isSimilar(recipeMatrix[i][j])))
+                    return false;
+            }
+        }
+
+        return true;
     }
 }

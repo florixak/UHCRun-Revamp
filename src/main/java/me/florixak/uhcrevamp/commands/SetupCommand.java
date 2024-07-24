@@ -3,8 +3,7 @@ package me.florixak.uhcrevamp.commands;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.manager.DeathmatchManager;
-import me.florixak.uhcrevamp.manager.lobby.LobbyManager;
-import me.florixak.uhcrevamp.manager.lobby.LobbyType;
+import me.florixak.uhcrevamp.manager.LobbyManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,20 +39,20 @@ public class SetupCommand implements CommandExecutor {
             if (args.length == 1) {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
-                lobbyM.setLobby(LobbyType.WAITING, loc);
+                lobbyM.setLobby("waiting", loc);
                 p.sendMessage(Messages.SETUP_SET_WAIT_LOBBY.toString());
             } else if (args[1].contains("rem") || args[1].contains("del")) {
-                lobbyM.deleteLobby(LobbyType.WAITING);
+                lobbyM.deleteLobby("waiting");
                 p.sendMessage(Messages.SETUP_DEL_WAIT_LOBBY.toString());
             }
         } else if (args[0].equalsIgnoreCase("end")) {
             if (args.length == 1) {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
-                lobbyM.setLobby(LobbyType.ENDING, loc);
+                lobbyM.setLobby("ending", loc);
                 p.sendMessage(Messages.SETUP_SET_END_LOBBY.toString());
             } else if (args[1].contains("rem") || args[1].contains("del")) {
-                lobbyM.deleteLobby(LobbyType.ENDING);
+                lobbyM.deleteLobby("ending");
                 p.sendMessage(Messages.SETUP_DEL_END_LOBBY.toString());
             }
         } else if (args[0].equalsIgnoreCase("deathmatch")) {

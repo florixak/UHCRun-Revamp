@@ -6,7 +6,6 @@ import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.Permissions;
 import me.florixak.uhcrevamp.listener.events.GameKillEvent;
-import me.florixak.uhcrevamp.manager.lobby.LobbyType;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -73,7 +72,7 @@ public class PlayerListener implements Listener {
         p.setTotalExperience(0);
         p.setLevel(0);
 
-        p.teleport(gameManager.getLobbyManager().getLocation(LobbyType.WAITING));
+        p.teleport(gameManager.getLobbyManager().getLocation("waiting"));
 
         uhcPlayer.clearInventory();
         gameManager.getKitsManager().getLobbyKit(uhcPlayer);

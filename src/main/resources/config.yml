@@ -66,6 +66,18 @@ settings:
       y: 75.0
       z: 0.0
 
+  lobby:
+    waiting:
+      world: "UHCLobby"
+      x: 0
+      y: 60
+      z: 0
+    ending:
+      world: "UHCLobby"
+      x: 0
+      y: 60
+      z: 0
+
   # Border
   border:
     size: 450 # <..> x <..>

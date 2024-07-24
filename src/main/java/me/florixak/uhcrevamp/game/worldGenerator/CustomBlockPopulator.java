@@ -32,7 +32,7 @@ public class CustomBlockPopulator extends BlockPopulator {
     private final static List<OreGenerator> ORE_GEN_LIST = GameManager.getGameManager().getOreGenManager().getOreGeneratorList();
     private static int populationCount = 0; // Counter to track the number of times populate has been called
     private final static int BORDER_SIZE = 450; // Size of the border within which to populate
-    private LimitedRegion limitedRegion;
+    private final LimitedRegion limitedRegion;
 
     public CustomBlockPopulator(LimitedRegion limitedRegion) {
         this.limitedRegion = limitedRegion;
@@ -45,6 +45,8 @@ public class CustomBlockPopulator extends BlockPopulator {
             UHCRevamp.getInstance().getLogger().info("World does not exist!");
             return;
         }
+
+        if (RandomUtils.getRandom().nextInt(100) < 70) return;
 
         int startX = random.nextInt(16) + (chunk.getX() * 16);
         int startZ = random.nextInt(16) + (chunk.getZ() * 16);

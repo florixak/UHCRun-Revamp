@@ -82,7 +82,7 @@ public class TaskManager {
 
     public void runScoreboardUpdate() {
         this.scoreboardUpdate = new ScoreboardUpdate(gameManager);
-        this.scoreboardUpdate.runTaskTimer(UHCRevamp.getInstance(), delay, period);
+        this.scoreboardUpdate.runTaskTimer(UHCRevamp.getInstance(), 0L, period);
     }
 
     public void onDisable() {
