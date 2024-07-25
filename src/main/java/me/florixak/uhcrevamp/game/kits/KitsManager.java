@@ -1,6 +1,5 @@
 package me.florixak.uhcrevamp.game.kits;
 
-import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
@@ -9,6 +8,7 @@ import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -36,17 +36,13 @@ public class KitsManager {
         for (String kitName : kitsSection.getKeys(false)) {
 
             List<ItemStack> itemsList = new ArrayList<>();
-            String displayName = kitName;
             ItemStack displayItem = XMaterial.BARRIER.parseItem();
             double cost = 0;
 
             ConfigurationSection kitSection = kitsSection.getConfigurationSection(kitName);
             for (String param : kitSection.getKeys(false)) {
 
-                if (param.equalsIgnoreCase("display-name")) {
-                    displayName = kitSection.getString(param, kitName);
-
-                } else if (param.equalsIgnoreCase("display-item")) {
+                if (param.equalsIgnoreCase("display-item")) {
                     displayItem = XMaterial.matchXMaterial(kitSection.getString(param, "BARRIER").toUpperCase()).get().parseItem();
 
                 } else if (param.equalsIgnoreCase("cost")) {
@@ -56,7 +52,7 @@ public class KitsManager {
                     itemsList = loadItems(kitSection);
                 }
             }
-            Kit kit = new Kit(kitName, displayName, displayItem, cost, itemsList);
+            Kit kit = new Kit(kitName, kitName, displayItem, cost, itemsList);
             addKit(kit);
         }
     }
@@ -83,7 +79,11 @@ public class KitsManager {
                     itemsList.add(newI);
                 }
             }
+        } catch (Exception e) {
+            Bukkit.getLogger().info("There is a problem with loading kit items!");
+        }
 
+        try {
             ConfigurationSection potionsSection = section.getConfigurationSection("potions");
             if (potionsSection != null && !potionsSection.getKeys(false).isEmpty()) {
                 for (String potion : potionsSection.getKeys(false)) {
@@ -97,7 +97,7 @@ public class KitsManager {
                 }
             }
         } catch (Exception e) {
-            UHCRevamp.getInstance().getLogger().info("There is a problem with loading kit items!");
+            Bukkit.getLogger().info("There is a problem with loading kit potions!");
         }
         return itemsList;
     }

@@ -57,10 +57,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!--        <repository>-->
-        <!--            <id>spigotmc-repo</id>-->
-        <!--            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>-->
-        <!--        </repository>-->
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -84,18 +84,18 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <!--        <dependency>-->
         <!--            <groupId>org.spigotmc</groupId>-->
         <!--            <artifactId>spigot-api</artifactId>-->
-        <!--            <version>1.20.6-R0.1-SNAPSHOT</version>-->
+        <!--            <version>1.8.8-R0.1-SNAPSHOT</version>-->
         <!--            <scope>provided</scope>-->
         <!--        </dependency>-->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>

@@ -2,8 +2,8 @@ package me.florixak.uhcrevamp.gui;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.customCrafts.CraftManager;
-import me.florixak.uhcrevamp.game.customCrafts.CustomCraft;
+import me.florixak.uhcrevamp.game.customRecipes.CustomRecipe;
+import me.florixak.uhcrevamp.game.customRecipes.CustomRecipesManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,10 +16,10 @@ public class CustomRecipesGui extends Gui {
     @Override
     public void init() {
         super.init();
-        CraftManager craftManager = gameManager.getCraftManager();
+        CustomRecipesManager customRecipesManager = gameManager.getRecipeManager();
         int slot = 0;
 
-        for (CustomCraft recipe : craftManager.getCustomCrafts()) {
+        for (CustomRecipe recipe : customRecipesManager.getCustomCrafts()) {
             if (slot >= inventory.getSize()) break;
 
             // Create an ItemStack for the recipe result

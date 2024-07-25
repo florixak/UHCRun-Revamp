@@ -17,7 +17,7 @@ custom-recipes:
     ingredients:
       A: STICK
       B: STRING
-  '&fSTONE_AXE':
+  '&fStone Axe':
     result: STONE_AXE
     enchantments:
       EFFICIENCY: 3
@@ -35,7 +35,7 @@ custom-recipes:
       EFFICIENCY: 3
       UNBREAKING: 3
     shape:
-      - " AA"
+      - "AAA"
       - " B "
       - " B "
     ingredients:

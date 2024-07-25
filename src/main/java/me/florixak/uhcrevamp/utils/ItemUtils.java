@@ -2,7 +2,6 @@ package me.florixak.uhcrevamp.utils;
 
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
-import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -12,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.potion.Potion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,13 +86,13 @@ public class ItemUtils {
     }
 
     public static ItemStack createPotionItem(String potionName, int level, int amount, boolean splash) {
-        ItemStack potion = new Potion(XPotion.matchXPotion(potionName).get().getPotionType(), level, splash, false).toItemStack(amount);
-        return potion;
+        //ItemStack potion = new Potion(XPotion.matchXPotion(potionName).get().getPotionType(), level, splash, false).toItemStack(amount);
+        return new ItemStack(Material.POTION, amount);
     }
 
     public static boolean isPotion(ItemStack item) {
         try {
-            Potion.fromItemStack(item);
+            //Potion.fromItemStack(item);
         } catch (IllegalArgumentException e) {
             return false;
         }

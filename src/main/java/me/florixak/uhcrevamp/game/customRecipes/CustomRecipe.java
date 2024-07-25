@@ -1,13 +1,13 @@
-package me.florixak.uhcrevamp.game.customCrafts;
+package me.florixak.uhcrevamp.game.customRecipes;
 
 import org.bukkit.inventory.ItemStack;
 
-public class CustomCraft {
+public class CustomRecipe {
 
     private final ItemStack result;
     private final ItemStack[][] shapeMatrix;
 
-    public CustomCraft(ItemStack result, ItemStack[][] shapeMatrix) {
+    public CustomRecipe(ItemStack result, ItemStack[][] shapeMatrix) {
         this.result = result;
         this.shapeMatrix = shapeMatrix;
     }

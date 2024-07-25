@@ -7,16 +7,12 @@ import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
-import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class KitsGui extends Gui {
     private final List<Kit> kitsList;
@@ -60,15 +56,15 @@ public class KitsGui extends Gui {
                     }
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));
                 } else if (ItemUtils.isPotion(item)) {
-                    Potion potion = Potion.fromItemStack(item);
-                    List<PotionEffect> effectsList = potion.getEffects().stream().collect(Collectors.toList());
-                    StringBuilder effects = new StringBuilder();
-                    for (int j = 0; j < effectsList.size(); j++) {
-                        XPotion xpotion = XPotion.matchXPotion(potion.getType());
-                        effects.append(TextUtils.toNormalCamelText(xpotion.name()) + " " + potion.getLevel());
-                        if (j < effectsList.size() - 1) effects.append(", ");
-                    }
-                    lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects.toString() + "]"));
+//                    Potion potion = Potion.fromItemStack(item);
+//                    List<PotionEffect> effectsList = potion.getEffects().stream().collect(Collectors.toList());
+//                    StringBuilder effects = new StringBuilder();
+//                    for (int j = 0; j < effectsList.size(); j++) {
+//                        XPotion xpotion = XPotion.matchXPotion(potion.getType());
+//                        effects.append(TextUtils.toNormalCamelText(xpotion.name()) + " " + potion.getLevel());
+//                        if (j < effectsList.size() - 1) effects.append(", ");
+//                    }
+//                    lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects.toString() + "]"));
                 } else {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }

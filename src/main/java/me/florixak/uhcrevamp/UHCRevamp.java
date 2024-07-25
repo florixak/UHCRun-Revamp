@@ -68,7 +68,7 @@ public final class UHCRevamp extends JavaPlugin {
         nmsVer = Bukkit.getServer().getClass().getPackage().getName();
         nmsVer = nmsVer.substring(nmsVer.lastIndexOf(".") + 1);
 
-        if (nmsVer.equalsIgnoreCase("v1_8_R1") || nmsVer.startsWith("v1_7_")) {
+        if (nmsVer.contains("v1_8") || nmsVer.startsWith("v1_7_")) {
             useOldMethods = true;
         }
     }

@@ -5,8 +5,8 @@ import me.florixak.uhcrevamp.commands.*;
 import me.florixak.uhcrevamp.config.ConfigManager;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
-import me.florixak.uhcrevamp.game.customCrafts.CraftManager;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
+import me.florixak.uhcrevamp.game.customRecipes.CustomRecipesManager;
 import me.florixak.uhcrevamp.game.deathchest.DeathChestManager;
 import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
@@ -66,7 +66,7 @@ public class GameManager {
     private final LobbyManager lobbyManager;
     private final CustomDropManager customDropManager;
     private final SoundManager soundManager;
-    private final CraftManager craftManager;
+    private final CustomRecipesManager customRecipesManager;
     private final DeathChestManager deathChestManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
@@ -95,7 +95,7 @@ public class GameManager {
         this.deathmatchManager = new DeathmatchManager(this);
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
-        this.craftManager = new CraftManager(this);
+        this.customRecipesManager = new CustomRecipesManager(this);
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -124,7 +124,7 @@ public class GameManager {
         getBorderManager().setBorder();
         //getOreGenManager().generateOres();
 
-        getCraftManager().registerRecipes();
+        getRecipeManager().registerRecipes();
         getCustomDropManager().loadDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
@@ -216,7 +216,7 @@ public class GameManager {
     public void onDisable() {
         getDeathChestManager().onDisable();
         getCustomDropManager().onDisable();
-        getCraftManager().onDisable();
+        getRecipeManager().onDisable();
         getTeamManager().onDisable();
         getPlayerManager().onDisable();
         getTaskManager().onDisable();
@@ -329,6 +329,7 @@ public class GameManager {
         registerCommand("workbench", new WorkbenchCommand(gameManager));
         registerCommand("anvil", new AnvilCommand(plugin));
         registerCommand("kits", new KitsCommand(gameManager));
+        registerCommand("recipes", new RecipesCommand(gameManager));
         registerCommand("statistics", new StatisticsCommand(gameManager));
         registerCommand("revive", new ReviveCommand(gameManager));
     }
@@ -395,8 +396,8 @@ public class GameManager {
         return taskManager;
     }
 
-    public CraftManager getCraftManager() {
-        return craftManager;
+    public CustomRecipesManager getRecipeManager() {
+        return customRecipesManager;
     }
 
     public DeathChestManager getDeathChestManager() {

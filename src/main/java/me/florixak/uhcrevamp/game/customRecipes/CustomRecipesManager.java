@@ -1,5 +1,6 @@
-package me.florixak.uhcrevamp.game.customCrafts;
+package me.florixak.uhcrevamp.game.customRecipes;
 
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.ItemUtils;
@@ -17,31 +18,31 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.*;
 
-public class CraftManager {
+public class CustomRecipesManager {
 
     private final FileConfiguration recipeConfig;
-    private final List<CustomCraft> customCraftList;
+    private final List<CustomRecipe> customRecipeList;
 
-    public CraftManager(GameManager gameManager) {
+    public CustomRecipesManager(GameManager gameManager) {
         this.recipeConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
-        this.customCraftList = new ArrayList<>();
+        this.customRecipeList = new ArrayList<>();
     }
 
     public void registerRecipes() {
         loadRecipes();
     }
 
-    public CustomCraft getRecipe(ItemStack item) {
-        for (CustomCraft customCraft : customCraftList) {
-            if (customCraft.getResult().isSimilar(item)) {
-                return customCraft;
+    public CustomRecipe getRecipe(ItemStack item) {
+        for (CustomRecipe customRecipe : customRecipeList) {
+            if (customRecipe.getResult().isSimilar(item)) {
+                return customRecipe;
             }
         }
         return null;
     }
 
-    public List<CustomCraft> getCustomCrafts() {
-        return this.customCraftList;
+    public List<CustomRecipe> getCustomCrafts() {
+        return this.customRecipeList;
     }
 
     public void loadRecipes() {
@@ -62,17 +63,17 @@ public class CraftManager {
                 }
             }
 
-            if (material == Material.STONE_PICKAXE) {
+            if (material == XMaterial.STONE_PICKAXE.parseMaterial()) {
                 Iterator<Recipe> recipes = Bukkit.recipeIterator();
                 while (recipes.hasNext()) {
-                    if (recipes.next().getResult().getType().equals(Material.WOOD_PICKAXE)) {
+                    if (recipes.next().getResult().getType().equals(XMaterial.WOODEN_PICKAXE.parseMaterial())) {
                         recipes.remove();
                     }
                 }
-            } else if (material == Material.IRON_PICKAXE) {
+            } else if (material == XMaterial.IRON_PICKAXE.parseMaterial()) {
                 Iterator<Recipe> recipes = Bukkit.recipeIterator();
                 while (recipes.hasNext()) {
-                    if (recipes.next().getResult().getType().equals(Material.STONE_PICKAXE)) {
+                    if (recipes.next().getResult().getType().equals(XMaterial.STONE_PICKAXE.parseMaterial())) {
                         recipes.remove();
                     }
                 }
@@ -87,6 +88,8 @@ public class CraftManager {
                 ingredientMap.put(row.charAt(0), XMaterial.matchXMaterial(craftSection.getString("ingredients." + row).toUpperCase()).get().parseMaterial());
             }
 
+            Bukkit.getLogger().info("Ingredient Map: " + ingredientMap.toString());
+
             for (int i = 0; i < rows.size(); i++) {
                 for (int j = 0; j < rows.get(i).length(); j++) {
                     char ingredientChar = rows.get(i).charAt(j);
@@ -98,10 +101,11 @@ public class CraftManager {
                 }
             }
 
-            CustomCraft customCraft = new CustomCraft(result, matrix);
-            customCraftList.add(customCraft);
+            CustomRecipe customRecipe = new CustomRecipe(result, matrix);
+            customRecipeList.add(customRecipe);
 
-            ShapedRecipe recipe = new ShapedRecipe(result);
+            RecipeUtils recipeUtils = getRecipeUtils();
+            ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
             recipe.shape(rows.toArray(new String[0]));
 
             for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
@@ -109,10 +113,19 @@ public class CraftManager {
             }
 
             Bukkit.addRecipe(recipe);
+
+        }
+    }
+
+    public RecipeUtils getRecipeUtils() {
+        if (UHCRevamp.useOldMethods) {
+            return new RecipeUtils_1_8();
+        } else {
+            return new RecipeUtils_1_20();
         }
     }
 
     public void onDisable() {
-        this.customCraftList.clear();
+        this.customRecipeList.clear();
     }
 }

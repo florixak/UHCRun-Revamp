@@ -49,6 +49,10 @@ public class TextUtils {
         return newText;
     }
 
+    public static String removeSpecialCharacters(String text) {
+        return text.replaceAll("[^a-zA-Z0-9]", "");
+    }
+
     public static String toCamelCaseText(String text) {
         String[] words = text.split(" ");
         StringBuilder sb = new StringBuilder();

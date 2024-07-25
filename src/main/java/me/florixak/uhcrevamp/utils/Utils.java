@@ -2,7 +2,6 @@ package me.florixak.uhcrevamp.utils;
 
 import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
-import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,6 +12,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -68,8 +68,8 @@ public class Utils {
         Bukkit.broadcastMessage(TextUtils.color(msg));
     }
 
-    public static ItemStack getPlayerHead(Player player, String name) {
-        /*boolean isNewVersion = Arrays.stream(Material.values())
+    public static ItemStack getPlayerHead(Player player, String playerName) {
+        boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
 
         Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
@@ -78,19 +78,10 @@ public class Utils {
         if (!isNewVersion) item.setDurability((short) 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        if (name != null) meta.setDisplayName(TextUtils.color(name));
+        if (playerName != null) meta.setDisplayName(TextUtils.color(playerName));
         meta.setOwner(player.getName());
 
         item.setItemMeta(meta);
-        return item;*/
-
-        ItemStack item = new ItemStack(XMaterial.SKELETON_SKULL.parseMaterial(), 1, (short) 3);
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(player.getName());
-        if (name != null) meta.setDisplayName(TextUtils.color(name));
-        else meta.setDisplayName(player.getName());
-        item.setItemMeta(meta);
-
         return item;
     }
 

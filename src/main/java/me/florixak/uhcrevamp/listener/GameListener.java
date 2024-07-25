@@ -5,8 +5,8 @@ import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.customCrafts.CustomCraft;
 import me.florixak.uhcrevamp.game.customDrop.CustomDrop;
+import me.florixak.uhcrevamp.game.customRecipes.CustomRecipe;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
@@ -366,11 +366,11 @@ public class GameListener implements Listener {
             matrix2D[i / 3][i % 3] = matrix1D[i];
         }
         // Iterate over all custom crafts to find a match
-        for (CustomCraft customCraft : gameManager.getCraftManager().getCustomCrafts()) {
-            if (customCraft.matches(matrix2D)) {
+        for (CustomRecipe customRecipe : gameManager.getRecipeManager().getCustomCrafts()) {
+            if (customRecipe.matches(matrix2D)) {
                 event.setResult(Event.Result.DENY);
-                event.setCurrentItem(customCraft.getResult());
-                Bukkit.getLogger().info("Crafted custom item: " + customCraft.getResult().getType());
+                event.setCurrentItem(customRecipe.getResult());
+                Bukkit.getLogger().info("Crafted custom item: " + customRecipe.getResult().getType());
                 return; // Stop checking after finding the first matching recipe
             }
         }
