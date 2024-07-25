@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class RecipesCommand implements CommandExecutor {
 
     private final GameManager gameManager;
@@ -29,17 +31,18 @@ public class RecipesCommand implements CommandExecutor {
 
         Player p = (Player) sender;
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        List<CustomRecipe> recipes = gameManager.getRecipeManager().getRecipeList();
 
         if (args.length == 0) {
-            new CustomRecipesGui(gameManager, uhcPlayer).open();
+            new CustomRecipesGui(gameManager, uhcPlayer, recipes).open();
         } else if (args.length == 1) {
             CustomRecipe recipe = gameManager.getRecipeManager().getRecipe(XMaterial.matchXMaterial(args[0]).get().parseItem());
             if (recipe == null) {
-                new CustomRecipesGui(gameManager, uhcPlayer).open();
+                new CustomRecipesGui(gameManager, uhcPlayer, recipes).open();
                 return true;
             }
         } else {
-            new CustomRecipesGui(gameManager, uhcPlayer).open();
+            new CustomRecipesGui(gameManager, uhcPlayer, recipes).open();
         }
         return true;
     }

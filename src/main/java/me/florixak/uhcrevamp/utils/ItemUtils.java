@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.utils;
 
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +44,8 @@ public class ItemUtils {
         item.setItemMeta(meta);
     }
 
-    public static void addEnchant(ItemStack item, Enchantment enchantment, int enchantLevel, boolean ignoreLevel) {
-        ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(enchantment, enchantLevel, ignoreLevel);
-        item.setItemMeta(meta);
+    public static void addEnchant(ItemStack item, Enchantment enchantment, int enchantLevel) {
+        item.addUnsafeEnchantment(enchantment, enchantLevel);
     }
 
     public static void addBookEnchantment(ItemStack item, Enchantment enchantment, int enchantLevel) {
@@ -85,18 +86,34 @@ public class ItemUtils {
         item.setItemMeta(meta);
     }
 
-    public static ItemStack createPotionItem(String potionName, int level, int amount, boolean splash) {
-        //ItemStack potion = new Potion(XPotion.matchXPotion(potionName).get().getPotionType(), level, splash, false).toItemStack(amount);
-        return new ItemStack(Material.POTION, amount);
+    /**
+     * Creates a potion ItemStack.
+     *
+     * @param splash     Determines if the potion is a splash potion.
+     * @param effectType The type of potion effect.
+     * @param duration   The duration of the effect in ticks (20 ticks = 1 second).
+     * @param amplifier  The amplifier of the effect (0 = level 1).
+     * @return The created potion ItemStack.
+     */
+    public static ItemStack createPotionItem(PotionEffectType effectType, int amount, int duration, int amplifier, boolean splash) {
+        Material potionMaterial = splash ? XMaterial.SPLASH_POTION.parseMaterial() : XMaterial.POTION.parseMaterial();
+        ItemStack potion = new ItemStack(potionMaterial, amount);
+        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+
+        if (meta != null) {
+            meta.addCustomEffect(XPotion.matchXPotion(effectType).buildPotionEffect(duration, amplifier), true);
+            potion.setItemMeta(meta);
+        }
+
+        return potion;
     }
 
     public static boolean isPotion(ItemStack item) {
-        try {
-            //Potion.fromItemStack(item);
-        } catch (IllegalArgumentException e) {
+        if (item == null) {
             return false;
         }
-        return true;
+        Material type = XMaterial.matchXMaterial(item).parseMaterial();
+        return type == XMaterial.POTION.parseMaterial() || type == XMaterial.SPLASH_POTION.parseMaterial() || type == XMaterial.LINGERING_POTION.parseMaterial();
     }
 
     public static double getAttackDamage(ItemStack item) {

@@ -13,6 +13,7 @@ settings:
     use-LuckPerms: false
     use-ProtocolLib: true
     use-PlaceholderAPI: true
+    use-HeadDatabase: true
 
   # Game
   game:
@@ -97,12 +98,11 @@ settings:
   kits:
     enabled: true
     bought-forever: true
-    open-on-starting-at: 10 # seconds, -1 = false, kits gui will open, like warning to choose kit
 
-  # Kits
+  # Perks
   perks:
-    enabled: false # in progress
-    full-time: false # true - not yet
+    enabled: false
+    bought-forever: true
 
   # Statistics
   statistics:
@@ -190,7 +190,7 @@ settings:
     min-chars: 4 # < x
 
   # Selectors
-  selectors:
+  inventories:
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true
@@ -217,6 +217,15 @@ settings:
       display-name: "&aProfile"
       display-item: PLAYER_HEAD
       slot: 8
+    confirm-purchase:
+      enabled: true
+      display-name: "&6Are you sure?"
+      confirm: "&aConfirm"
+      confirm-item: EMERALD_BLOCK
+      cancel: "&cCancel"
+      cancel-item: REDSTONE_BLOCK
+      slot: -1 # -1 = not in the hotbar menu
+      back-item: BARRIER
 
   # MySQL database
   mysql:

@@ -2,8 +2,8 @@ package me.florixak.uhcrevamp.game.statistics;
 
 public class TopStatistic {
 
-    private String name;
-    private int value;
+    private final String name;
+    private final int value;
 
     public TopStatistic(String name, int value) {
         this.name = name;

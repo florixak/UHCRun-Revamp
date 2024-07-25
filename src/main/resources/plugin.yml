@@ -3,7 +3,7 @@ version: '${project.version}'
 main: me.florixak.uhcrevamp.UHCRevamp
 api-version: 1.13
 author: FloriXak
-softdepend: [ ProtocolLib, PlaceholderAPI, Vault, LuckPerms ]
+softdepend: [ ProtocolLib, PlaceholderAPI, Vault, LuckPerms, HeadDatabase ]
 
 commands:
   uhcrun:

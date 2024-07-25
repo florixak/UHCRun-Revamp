@@ -1,6 +1,11 @@
 package me.florixak.uhcrevamp.game.customRecipes;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomRecipe {
 
@@ -46,4 +51,18 @@ public class CustomRecipe {
         // All items matched
         return true;
     }
+
+    public List<Material> getIngredients() {
+        List<Material> ingredients = new ArrayList<>();
+        for (ItemStack[] row : shapeMatrix) {
+            for (ItemStack item : row) {
+                if (item != null) {
+                    ingredients.add(item.getType());
+                    Bukkit.getLogger().info("Added ingredient: " + item.getType());
+                }
+            }
+        }
+        return ingredients;
+    }
+
 }

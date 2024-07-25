@@ -15,7 +15,7 @@ public class PerksManager {
 
     private final FileConfiguration perks_config;
 
-    private List<Perk> perks;
+    private final List<Perk> perks;
 
     public PerksManager(GameManager gameManager) {
         this.perks_config = gameManager.getConfigManager().getFile(ConfigType.PERKS).getConfig();

@@ -13,7 +13,7 @@ public class DeathChestManager {
 
     private final GameManager gameManager;
 
-    private List<DeathChest> deathChests;
+    private final List<DeathChest> deathChests;
 
     public DeathChestManager(GameManager gameManager) {
         this.gameManager = gameManager;

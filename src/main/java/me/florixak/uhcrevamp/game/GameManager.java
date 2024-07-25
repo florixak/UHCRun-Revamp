@@ -253,6 +253,7 @@ public class GameManager {
     }
 
     public void clearDrops() {
+        if (Bukkit.getWorld(GameValues.WORLD_NAME) == null) return;
         List<Entity> entList = Bukkit.getWorld(GameValues.WORLD_NAME).getEntities();
 
         for (Entity current : entList) {

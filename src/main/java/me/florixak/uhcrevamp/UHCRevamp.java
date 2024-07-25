@@ -1,11 +1,7 @@
 package me.florixak.uhcrevamp;
 
 import me.florixak.uhcrevamp.game.GameManager;
-import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.hook.LuckPermsHook;
-import me.florixak.uhcrevamp.hook.PAPIHook;
-import me.florixak.uhcrevamp.hook.ProtocolLibHook;
-import me.florixak.uhcrevamp.hook.VaultHook;
+import me.florixak.uhcrevamp.hook.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,14 +50,10 @@ public final class UHCRevamp extends JavaPlugin {
     }
 
     private void registerDependency() {
-        if (GameValues.ADDONS.CAN_USE_VAULT)
-            VaultHook.setupEconomy();
-
-        if (GameValues.ADDONS.CAN_USE_LUCKPERMS)
-            LuckPermsHook.setupLuckPerms();
-
-        if (GameValues.ADDONS.CAN_USE_PLACEHOLDERAPI)
-            PAPIHook.setupPlaceholderAPI();
+        VaultHook.setupEconomy();
+        LuckPermsHook.setupLuckPerms();
+        PAPIHook.setupPlaceholderAPI();
+        HeadDatabaseHook.setupHeadDatabase();
     }
 
     public void checkNMSVersion() {

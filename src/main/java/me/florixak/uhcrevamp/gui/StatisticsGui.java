@@ -7,6 +7,7 @@ import me.florixak.uhcrevamp.game.statistics.TopStatistic;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,17 +41,8 @@ public class StatisticsGui extends Gui {
         List<String> playerStatsLore = new ArrayList<>();
 
         for (String text : GameValues.STATISTICS.PLAYER_STATS_LORE) {
-            playerStatsLore.add(TextUtils.color(text
-                    .replace("%player%", uhcPlayer.getName())
-                    .replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()))
-                    .replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()))
-                    .replace("%required-uhc-exp%", String.valueOf(uhcPlayer.getData().getRequiredUHCExp()))
-                    .replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()))
-                    .replace("%uhc-wins%", String.valueOf(uhcPlayer.getData().getWins()))
-                    .replace("%uhc-losses%", String.valueOf(uhcPlayer.getData().getLosses()))
-                    .replace("%uhc-kills%", String.valueOf(uhcPlayer.getData().getKills()))
-                    .replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()))
-            ));
+            text = PlaceholderUtil.setPlaceholders(text, uhcPlayer.getPlayer());
+            playerStatsLore.add(TextUtils.color(text));
         }
         return ItemUtils.createItem(
                 playerStatsItem.getType(),
@@ -96,5 +88,10 @@ public class StatisticsGui extends Gui {
                 topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
+    }
+
+    @Override
+    public void open() {
+        super.open();
     }
 }

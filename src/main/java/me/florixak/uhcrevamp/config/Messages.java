@@ -72,9 +72,14 @@ public enum Messages {
     KITS_COST("kits.cost"),
 
     PERKS_SELECTED("perks.selected"),
+    PERKS_INV_SELECTED("perks.inventory-selected"),
+    PERKS_INV_CLICK_TO_SELECT("perks.inventory-click-to-select"),
     PERKS_DISABLED("perks.disabled"),
-    PERKS_SB_SELECTED_NONE("perks.sb-selected-none"),
-    PERKS_SB_DISABLED("perks.sb-disabled"),
+    PERKS_SELECTED_NONE("perks.selected-none"),
+    PERKS_SB_DISABLED("perks.scoreboard-disabled"),
+    PERKS_MONEY_DEDUCT_INFO("perks.money-deduct-info"),
+    PERKS_MONEY_DEDUCT("perks.money-deduct"),
+    PERKS_COST("perks.cost"),
 
     LEVEL_UP("player.uhc-level.level-up"),
 

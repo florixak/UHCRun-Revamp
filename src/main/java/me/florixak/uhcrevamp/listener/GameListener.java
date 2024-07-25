@@ -366,7 +366,7 @@ public class GameListener implements Listener {
             matrix2D[i / 3][i % 3] = matrix1D[i];
         }
         // Iterate over all custom crafts to find a match
-        for (CustomRecipe customRecipe : gameManager.getRecipeManager().getCustomCrafts()) {
+        for (CustomRecipe customRecipe : gameManager.getRecipeManager().getRecipeList()) {
             if (customRecipe.matches(matrix2D)) {
                 event.setResult(Event.Result.DENY);
                 event.setCurrentItem(customRecipe.getResult());

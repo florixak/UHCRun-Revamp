@@ -169,10 +169,12 @@ kits:
         amount: 15
     potions:
       REGENERATION:
-        level: 2
+        amplifier: 2
+        duration: 44
         amount: 3
         splash: false
       SLOWNESS:
-        level: 2
+        amplifier: 2
+        duration: 44
         amount: 2
         splash: true

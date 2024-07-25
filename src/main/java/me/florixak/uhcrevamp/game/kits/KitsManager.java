@@ -8,6 +8,7 @@ import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -73,7 +74,7 @@ public class KitsManager {
                             String enchantmentName = enchant.toUpperCase();
                             Enchantment e = XEnchantment.matchXEnchantment(enchantmentName).get().getEnchant();
                             int level = enchantsSection.getInt(enchantmentName);
-                            ItemUtils.addEnchant(newI, e, level, true);
+                            ItemUtils.addEnchant(newI, e, level);
                         }
                     }
                     itemsList.add(newI);
@@ -88,10 +89,11 @@ public class KitsManager {
             if (potionsSection != null && !potionsSection.getKeys(false).isEmpty()) {
                 for (String potion : potionsSection.getKeys(false)) {
                     ConfigurationSection potionSection = potionsSection.getConfigurationSection(potion);
-                    int level = potionSection.getInt("level", 2);
+                    int amplifier = potionSection.getInt("amplifier", 2);
                     int amount = potionSection.getInt("amount", 1);
+                    int duration = potionSection.getInt("duration", 44);
                     boolean splash = potionSection.getBoolean("splash", false);
-                    ItemStack potionItem = ItemUtils.createPotionItem(potion, level, amount, splash);
+                    ItemStack potionItem = ItemUtils.createPotionItem(XPotion.matchXPotion(potion).get().getPotionEffectType(), amount, duration, amplifier, splash);
 
                     itemsList.add(potionItem);
                 }
@@ -119,36 +121,23 @@ public class KitsManager {
         return this.kitsList;
     }
 
-    public String getKitCost(String name) {
-        Kit kit = getKit(name);
-        return "&fCost: &e" + (kit.isFree() ? "&aFREE" : kit.getCost());
-    }
-
-    public int getOpenWhenStartingAt() {
-        return GameValues.KITS.OPEN_ON_STARTING_AT;
-    }
-
-    public boolean willOpenWhenStarting() {
-        return GameValues.KITS.OPEN_ON_STARTING_AT != -1;
-    }
-
     public void getLobbyKit(UHCPlayer p) {
-
-        for (String selector : config.getConfigurationSection("settings.selectors").getKeys(false)) {
-            if (config.getBoolean("settings.selectors." + selector + ".enabled")) {
-                String displayName = config.getString("settings.selectors." + selector + ".display-name");
-                String material = config.getConfigurationSection("settings.selectors." + selector).getString("display-item", "BARRIER").toUpperCase();
-                ItemStack item;
-                if (material.contains("HEAD")) {
-                    item = Utils.getPlayerHead(p.getPlayer(), p.getName());
-                } else {
-                    item = XMaterial.matchXMaterial(material).get().parseItem();
-                }
-                int slot = config.getInt("settings.selectors." + selector + ".slot");
-
-                ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);
-                p.getPlayer().getInventory().setItem(slot, newItem);
+        ConfigurationSection section = config.getConfigurationSection("settings.inventories");
+        if (section == null) return;
+        for (String selector : section.getKeys(false)) {
+            if (!section.getBoolean(selector + ".enabled")) return;
+            String displayName = section.getString(selector + ".display-name");
+            String material = section.getString(selector + ".display-item", "BARRIER").toUpperCase();
+            ItemStack item;
+            if (material.contains("HEAD") || material.contains("SKULL_ITEM")) {
+                item = Utils.getPlayerHead(p.getPlayer(), p.getName());
+            } else {
+                item = XMaterial.matchXMaterial(material).get().parseItem();
             }
+            int slot = section.getInt(selector + ".slot");
+            ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);
+            if (slot < 0 || slot > 8) return;
+            p.getPlayer().getInventory().setItem(slot, newItem);
         }
     }
 

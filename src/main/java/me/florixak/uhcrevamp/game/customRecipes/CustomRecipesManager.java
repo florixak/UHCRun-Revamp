@@ -41,7 +41,7 @@ public class CustomRecipesManager {
         return null;
     }
 
-    public List<CustomRecipe> getCustomCrafts() {
+    public List<CustomRecipe> getRecipeList() {
         return this.customRecipeList;
     }
 

@@ -46,5 +46,12 @@ public abstract class Gui {
         return this.inventory;
     }
 
+    public void setItem(int slot, ItemStack item) {
+        getInventory().setItem(slot, item);
+    }
+
+    public boolean isNull(ItemStack item) {
+        return item == null || item.getType().equals(XMaterial.AIR.parseMaterial());
+    }
 
 }

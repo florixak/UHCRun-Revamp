@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.hook;
 
+import me.florixak.uhcrevamp.game.GameValues;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,8 +14,9 @@ public class VaultHook {
     }
 
     public static void setupEconomy() {
+        if (!GameValues.ADDONS.CAN_USE_VAULT) return;
         if (!hasVault()) {
-            Bukkit.getLogger().info("Vault plugin not found! Please download it, if you want to use it or disable in config.");
+            Bukkit.getLogger().info("Vault plugin not found! Disabling Vault support.");
             return;
         }
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);

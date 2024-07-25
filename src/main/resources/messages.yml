@@ -77,10 +77,10 @@ Messages:
 
   kits:
     selected: "&a[!] &fKit %kit% &fwas selected!"
+    disabled: "&c[!] &fKits are currently disabled!"
     cost: "&fPrize: &e%cost% %currency%"
     inventory-selected: "&aSelected"
     inventory-click-to-select: "&eClick to select"
-    disabled: "&c[!] &fKits are disabled!"
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
@@ -88,10 +88,10 @@ Messages:
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
+    disabled: "&c[!] &Perks are currently disabled!"
     cost: "&e[!] &fPrize: %cost% %currency%"
     inventory-selected: "&aSelected"
     inventory-click-to-select: "&eClick to select"
-    disabled: "&c[!] &Perks are disabled!"
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"

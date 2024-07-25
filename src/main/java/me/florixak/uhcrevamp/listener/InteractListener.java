@@ -41,7 +41,6 @@ public class InteractListener implements Listener {
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.KITS_TITLE))) {
-                    // gameManager.getGuiManager().getInventory("kits").openInv(p);
                     new KitsGui(gameManager, uhcPlayer).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
@@ -50,7 +49,7 @@ public class InteractListener implements Listener {
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE))) {
-                    new CustomRecipesGui(gameManager, uhcPlayer).open();
+                    new CustomRecipesGui(gameManager, uhcPlayer, gameManager.getRecipeManager().getRecipeList()).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {

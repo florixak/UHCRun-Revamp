@@ -63,11 +63,11 @@ public class GameValues {
     public static class KitConfig {
         public final boolean ENABLED = getConfigBoolean("settings.kits.enabled", true);
         public final boolean BOUGHT_FOREVER = getConfigBoolean("settings.kits.bought-forever", true);
-        public final int OPEN_ON_STARTING_AT = getConfigInt("settings.kits.open-on-starting-at", 10);
     }
 
     public static class PerkConfig {
         public final boolean ENABLED = getConfigBoolean("settings.perks.enabled", true);
+        public final boolean BOUGHT_FOREVER = getConfigBoolean("settings.perks.bought-forever", true);
     }
 
     public static class StatisticConfig {
@@ -106,16 +106,25 @@ public class GameValues {
     }
 
     public static class InventoryConfig {
-        public final String TEAMS_TITLE = getConfigString("settings.selectors.teams.display-name", "Teams");
-        public final String TEAMS_DIS_ITEM = getConfigString("settings.selectors.teams.display-item", "BARRIER");
-        public final String KITS_TITLE = getConfigString("settings.selectors.kits.display-name", "Kits");
-        public final String KITS_DIS_ITEM = getConfigString("settings.selectors.kits.display-item", "BARRIER");
-        public final String PERKS_TITLE = getConfigString("settings.selectors.perks.display-name", "Perks");
-        public final String PERKS_DIS_ITEM = getConfigString("settings.selectors.perks.display-item", "BARRIER");
-        public final String CUSTOM_RECIPES_TITLE = getConfigString("settings.selectors.custom-recipes.display-name", "Custom Recipes");
-        public final String CUSTOM_RECIPES_DIS_ITEM = getConfigString("settings.selectors.custom-recipes.display-item", "BARRIER");
-        public final String STATS_TITLE = getConfigString("settings.selectors.statistics.display-name", "Statistics");
-        public final String STATS_DIS_ITEM = getConfigString("settings.selectors.statistics.display-item", "BARRIER");
+        public final String TEAMS_TITLE = getConfigString("settings.inventories.teams.display-name", "Teams");
+        public final String KITS_TITLE = getConfigString("settings.inventories.kits.display-name", "Kits");
+        public final String PERKS_TITLE = getConfigString("settings.inventories.perks.display-name", "Perks");
+        public final String CUSTOM_RECIPES_TITLE = getConfigString("settings.inventories.custom-recipes.display-name", "Custom Recipes");
+        public final String STATS_TITLE = getConfigString("settings.inventories.statistics.display-name", "Statistics");
+        public final String CONFIRM_PURCHASE_TITLE = getConfigString("settings.inventories.confirm-purchase.display-name", "Confirm Purchase");
+
+        public final boolean CONFIRM_PURCHASE_ENABLED = getConfigBoolean("settings.inventories.confirm-purchase.enabled", true);
+        public final String CONFIRM_PURCHASE_NAME = getConfigString("settings.inventories.confirm-purchase.confirm", "&aConfirm");
+        public final String CANCEL_PURCHASE_NAME = getConfigString("settings.inventories.confirm-purchase.cancel", "&cCancel");
+        public final String CONFIRM_PURCHASE_ITEM = getConfigString("settings.inventories.confirm-purchase.confirm-item", "BARRIER");
+        public final String CANCEL_PURCHASE_ITEM = getConfigString("settings.inventories.confirm-purchase.cancel-item", "BARRIER");
+        public final String BACK_ITEM = getConfigString("settings.inventories.confirm-purchase.back-item", "BARRIER");
+
+        public final String TEAMS_DIS_ITEM = getConfigString("settings.inventories.teams.display-item", "BARRIER");
+        public final String KITS_DIS_ITEM = getConfigString("settings.inventories.kits.display-item", "BARRIER");
+        public final String PERKS_DIS_ITEM = getConfigString("settings.inventories.perks.display-item", "BARRIER");
+        public final String CUSTOM_RECIPES_DIS_ITEM = getConfigString("settings.inventories.custom-recipes.display-item", "BARRIER");
+        public final String STATS_DIS_ITEM = getConfigString("settings.inventories.statistics.display-item", "BARRIER");
     }
 
     public static class TablistConfig {
@@ -156,6 +165,7 @@ public class GameValues {
         public final boolean CAN_USE_LUCKPERMS = getConfigBoolean("settings.addons.use-LuckPerms", true);
         public final boolean CAN_USE_PLACEHOLDERAPI = getConfigBoolean("settings.addons.use-PlaceholderAPI", true);
         public final boolean CAN_USE_PROTOCOLLIB = getConfigBoolean("settings.addons.use-ProtocolLib", true);
+        public final boolean CAN_USE_HEADDATABASE = getConfigBoolean("settings.addons.use-HeadDatabase", false);
     }
 
     public static class DeathChestConfig {

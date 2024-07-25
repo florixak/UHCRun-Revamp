@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.gui;
 
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.perks.Perk;
@@ -23,28 +24,36 @@ public class PerksGui extends Gui {
     @Override
     public void init() {
         super.init();
-        ItemStack perk_item;
+        ItemStack perkDisplayItem;
 
         for (int i = 0; i < perks.size(); i++) {
             Perk perk = perks.get(i);
             List<String> lore = new ArrayList<>();
 
             if (uhcPlayer.hasPerk() && uhcPlayer.getPerk().equals(perk)) {
-                lore.add(TextUtils.color("&aSelected"));
+                lore.add(Messages.PERKS_INV_SELECTED.toString());
             } else {
-                lore.add(TextUtils.color("soon..."));
+                if (!GameValues.PERKS.BOUGHT_FOREVER) {
+                    //lore.add(perk.getFormattedCost());
+                } else {
+//                    if (uhcPlayer.getData().hasPerkBought(kit) || perk.isFree()) {
+//                        lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
+//                    } else {
+//                        lore.add(perk.getFormattedCost());
+//                    }
+                }
             }
 
-            perk_item = ItemUtils.createItem(perk.getDisplayItem().getType(), perk.getName(), 1, lore);
+            perkDisplayItem = ItemUtils.createItem(perk.getDisplayItem().getType(), perk.getName(), 1, lore);
 
-            getInventory().setItem(i, perk_item);
+            getInventory().setItem(i, perkDisplayItem);
         }
     }
 
     @Override
     public void open() {
         if (!GameValues.PERKS.ENABLED) {
-            uhcPlayer.sendMessage("Perks are disabled!");
+            uhcPlayer.sendMessage(Messages.PERKS_DISABLED.toString());
             return;
         }
         super.open();

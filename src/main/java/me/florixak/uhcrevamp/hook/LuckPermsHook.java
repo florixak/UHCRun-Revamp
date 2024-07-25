@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.hook;
 
+import me.florixak.uhcrevamp.game.GameValues;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
@@ -20,6 +21,9 @@ public class LuckPermsHook {
                 RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
                 if (provider != null) luckPerms = provider.getProvider();
             }
+        }
+        if (!hasLuckPerms() && GameValues.ADDONS.CAN_USE_LUCKPERMS) {
+            Bukkit.getLogger().info("LuckPerms not found! Disabling LuckPerms support.");
         }
     }
 

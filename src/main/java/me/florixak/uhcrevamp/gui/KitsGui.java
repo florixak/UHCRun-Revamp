@@ -10,11 +10,14 @@ import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class KitsGui extends Gui {
+
     private final List<Kit> kitsList;
 
     public KitsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
@@ -56,15 +59,15 @@ public class KitsGui extends Gui {
                     }
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));
                 } else if (ItemUtils.isPotion(item)) {
-//                    Potion potion = Potion.fromItemStack(item);
-//                    List<PotionEffect> effectsList = potion.getEffects().stream().collect(Collectors.toList());
-//                    StringBuilder effects = new StringBuilder();
-//                    for (int j = 0; j < effectsList.size(); j++) {
-//                        XPotion xpotion = XPotion.matchXPotion(potion.getType());
-//                        effects.append(TextUtils.toNormalCamelText(xpotion.name()) + " " + potion.getLevel());
-//                        if (j < effectsList.size() - 1) effects.append(", ");
-//                    }
-//                    lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects.toString() + "]"));
+                    if (item.hasItemMeta()) {
+                        PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
+                        if (potionMeta != null && potionMeta.hasCustomEffects()) {
+                            String effects = potionMeta.getCustomEffects().stream()
+                                    .map(effect -> TextUtils.toNormalCamelText(effect.getType().getName()) + " " + (effect.getAmplifier() + 1) + " (" + effect.getDuration() + "s)")
+                                    .collect(Collectors.joining(", "));
+                            lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects + "]"));
+                        }
+                    }
                 } else {
                     lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
                 }

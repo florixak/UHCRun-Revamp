@@ -44,5 +44,4 @@ public class TeamGui extends Gui {
         }
         super.open();
     }
-
 }

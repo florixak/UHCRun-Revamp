@@ -31,11 +31,45 @@ public class PlaceholderUtil {
         if (text.contains("%uhc-level%"))
             text = text.replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
 
-        if (text.contains("%required-uhc-exp%"))
-            text = text.replace("%required-uhc-exp%", String.valueOf(uhcPlayer.getData().getRequiredUHCExp()));
+        if (text.contains("%uhc-exp%"))
+            text = text.replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()));
 
-//        if (text.contains("%ping%"))
-//            text = text.replace("%ping%", String.valueOf(p,getPing()));
+        if (text.contains("%required-uhc-exp%")) {
+            DecimalFormat format = new DecimalFormat("#######0");
+            text = text.replace("%required-uhc-exp%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
+        }
+
+        if (text.contains("%money%")) {
+            text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
+        }
+
+        if (text.contains("%uhc-wins%")) {
+            text = text.replace("%uhc-wins%", String.valueOf(uhcPlayer.getData().getWins()));
+        }
+
+        if (text.contains("%uhc-losses%")) {
+            text = text.replace("%uhc-losses%", String.valueOf(uhcPlayer.getData().getLosses()));
+        }
+
+        if (text.contains("%uhc-kills%")) {
+            text = text.replace("%uhc-kills%", String.valueOf(uhcPlayer.getData().getKills()));
+        }
+
+        if (text.contains("%uhc-assists%")) {
+            text = text.replace("%uhc-assists%", String.valueOf(uhcPlayer.getData().getAssists()));
+        }
+
+        if (text.contains("%uhc-deaths%")) {
+            text = text.replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
+        }
+
+        if (text.contains("%ping%")) {
+            try {
+                text = text.replace("%ping%", String.valueOf(p.getPing()));
+            } catch (Exception e) {
+                text = text.replace("%ping%", "0");
+            }
+        }
 
         if (text.contains("%online%"))
             text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));
@@ -45,10 +79,6 @@ public class PlaceholderUtil {
 
         if (text.contains("%min-online%"))
             text = text.replace("%min_online%", String.valueOf(GameValues.GAME.MIN_PLAYERS));
-
-        if (text.contains("%money%")) {
-            text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
-        }
 
         if (text.contains("%currency%")) {
             text = text.replace("%currency%", Messages.CURRENCY.toString());
@@ -100,7 +130,7 @@ public class PlaceholderUtil {
                 if (uhcPlayer.hasPerk()) {
                     text = text.replace("%perk%", uhcPlayer.getPerk().getName());
                 } else {
-                    text = text.replace("%perk%", Messages.PERKS_SB_SELECTED_NONE.toString());
+                    text = text.replace("%perk%", Messages.PERKS_SELECTED_NONE.toString());
                 }
             } else {
                 text = text.replace("%perk%", Messages.PERKS_SB_DISABLED.toString());
@@ -110,22 +140,6 @@ public class PlaceholderUtil {
         // TODO were alive
         // if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + plugin.getGame().getWereAlive());
 
-        if (text.contains("%stats-wins%")) {
-            text = text.replace("%stats-wins%", String.valueOf(uhcPlayer.getData().getWins()));
-        }
-        if (text.contains("%stats-kills%")) {
-            text = text.replace("%stats-kills%", String.valueOf(uhcPlayer.getData().getKills()));
-        }
-        if (text.contains("%stats-deaths%")) {
-            text = text.replace("%stats-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
-        }
-        if (text.contains("%stats-level%")) {
-            text = text.replace("%stats-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
-        }
-        if (text.contains("%requiredXP%")) {
-            DecimalFormat format = new DecimalFormat("#######0");
-            text = text.replace("%requiredXP%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
-        }
 
         if (text.contains("%winner%")) {
             text = text.replace("%winner%", gameManager.getPlayerManager().getUHCWinner());

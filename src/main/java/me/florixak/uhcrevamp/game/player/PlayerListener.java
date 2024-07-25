@@ -118,10 +118,10 @@ public class PlayerListener implements Listener {
         }
         UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
-        if (GameValues.DEATH_CHEST.ENABLED) {
+        /*if (GameValues.DEATH_CHEST.ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());
             event.getDrops().clear();
-        }
+        }*/
 
         Bukkit.getServer().getPluginManager().callEvent(new GameKillEvent(uhcKiller, uhcVictim));
     }

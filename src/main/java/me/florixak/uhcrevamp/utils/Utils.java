@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
+
     public static void sendHotBarMessage(Player player, String message) {
         if (!player.isOnline()) {
             return; // Player may have logged out
