@@ -1,6 +1,6 @@
 # UHC Revamp
 
-UHC Revamp is a comprehensive Ultra Hardcore (UHC) minigame for Minecraft servers, designed to enhance the survival
+UHC Revamp is a UHC minigame for Minecraft servers, designed to enhance the survival
 experience by adding a competitive edge. This plugin introduces a variety of new gameplay mechanics, making survival
 more challenging and rewarding. Developed with a focus on performance and customization, UHC Revamp offers a wide range
 of features to create the great UHC experience.
