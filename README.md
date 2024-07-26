@@ -65,7 +65,7 @@ available commands, their descriptions, and the required permissions:
 
 - `/uhc` (Aliases: `/uhcr`, `/uhcrevamp`)
     - Description: Command to display help information.
-    - Permission: `uhcrevamp.setup`
+    - Permission: `uhcrevamp.setup`, `uhcrevamp.vip`
 - `/forcestart` (Aliases: `/start`)
     - Description: Immediately starts the UHC game, bypassing minimal needed players.
     - Permission: `uhcrevamp.forcestart`
