@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.hook.*;
+import me.florixak.uhcrevamp.utils.CustomLogFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +18,7 @@ public final class UHCRevamp extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        getLogger().setFilter(new CustomLogFilter());
 
         getLogger().info(getDescription().getName());
         getLogger().info("Author: " + getAuthor());

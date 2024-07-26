@@ -7,10 +7,7 @@ import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
-import me.florixak.uhcrevamp.versions.CustomTags_1_20;
-import me.florixak.uhcrevamp.versions.RecipeUtils;
-import me.florixak.uhcrevamp.versions.RecipeUtils_1_20;
-import me.florixak.uhcrevamp.versions.RecipeUtils_1_8;
+import me.florixak.uhcrevamp.versions.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,10 +23,12 @@ public class CustomRecipesManager {
 
     private final FileConfiguration recipeConfig;
     private final List<CustomRecipe> customRecipeList;
+    private final Set<String> addedRecipes;
 
     public CustomRecipesManager(GameManager gameManager) {
         this.recipeConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
         this.customRecipeList = new ArrayList<>();
+        this.addedRecipes = new HashSet<>();
     }
 
     public void registerRecipes() {
@@ -86,6 +85,7 @@ public class CustomRecipesManager {
             customRecipeList.add(customRecipe);
 
             removeRecipe(result.getType());
+            RecipeUtils recipeUtils = getRecipeUtils();
 
             if (UHCRevamp.useOldMethods) {
                 for (int dataValue = 0; dataValue <= 5; dataValue++) { // 0 to 5 for different wood types
@@ -104,8 +104,7 @@ public class CustomRecipesManager {
                         }
                     }
                     customRecipe.setShapeMatrix(matrix);
-                    RecipeUtils recipeUtils = getRecipeUtils();
-                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key) + "_" + dataValue);
                     recipe.shape(rows.toArray(new String[0]));
 
                     for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
@@ -116,7 +115,10 @@ public class CustomRecipesManager {
                         }
                     }
 
-                    Bukkit.addRecipe(recipe);
+                    if (!addedRecipes.contains(recipe.toString())) {
+                        Bukkit.addRecipe(recipe);
+                        addedRecipes.add(recipe.toString());
+                    }
                 }
             } else {
                 for (Material plank : CustomTags_1_20.PLANKS.getValues()) {
@@ -136,8 +138,8 @@ public class CustomRecipesManager {
                     }
 
                     customRecipe.setShapeMatrix(matrix);
-                    RecipeUtils recipeUtils = getRecipeUtils();
-                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
+
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key) + "_" + plank.name());
                     recipe.shape(rows.toArray(new String[0]));
 
                     for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
@@ -148,7 +150,10 @@ public class CustomRecipesManager {
                         }
                     }
 
-                    Bukkit.addRecipe(recipe);
+                    if (!addedRecipes.contains(recipe.getKey().toString())) {
+                        Bukkit.addRecipe(recipe);
+                        addedRecipes.add(recipe.getKey().toString());
+                    }
                 }
             }
         }
@@ -160,6 +165,7 @@ public class CustomRecipesManager {
             Recipe recipe = recipes.next();
             if (recipe.getResult().getType().equals(material)) {
                 recipes.remove();
+//                Bukkit.getLogger().info("Removed recipe for: " + material);
             }
         }
     }
@@ -172,10 +178,16 @@ public class CustomRecipesManager {
         }
     }
 
-    public void onDisable() {
-        for (CustomRecipe customRecipe : customRecipeList) {
-            removeRecipe(customRecipe.getResult().getType());
+    public CustomTag getCustomTags() {
+        if (UHCRevamp.useOldMethods) {
+            return CustomTags_1_8.PLANKS;
+        } else {
+            return CustomTags_1_20.PLANKS;
         }
+    }
+
+    public void onDisable() {
         this.customRecipeList.clear();
+        this.addedRecipes.clear();
     }
 }
