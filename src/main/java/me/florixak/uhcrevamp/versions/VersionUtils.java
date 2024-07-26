@@ -1,9 +1,14 @@
 package me.florixak.uhcrevamp.versions;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-public interface RecipeUtils {
+import java.util.Set;
+
+public interface VersionUtils {
+
+    Set<Material> getWoodValues();
 
     ShapedRecipe createRecipe(ItemStack item, String key);
 }

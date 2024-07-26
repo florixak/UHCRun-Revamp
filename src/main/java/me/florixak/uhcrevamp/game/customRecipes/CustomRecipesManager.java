@@ -7,7 +7,9 @@ import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
-import me.florixak.uhcrevamp.versions.*;
+import me.florixak.uhcrevamp.versions.VersionUtils;
+import me.florixak.uhcrevamp.versions.VersionUtils_1_20;
+import me.florixak.uhcrevamp.versions.VersionUtils_1_8;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -85,7 +87,7 @@ public class CustomRecipesManager {
             customRecipeList.add(customRecipe);
 
             removeRecipe(result.getType());
-            RecipeUtils recipeUtils = getRecipeUtils();
+            VersionUtils recipeUtils = getVersionUtils();
 
             if (UHCRevamp.useOldMethods) {
                 for (int dataValue = 0; dataValue <= 5; dataValue++) { // 0 to 5 for different wood types
@@ -121,7 +123,7 @@ public class CustomRecipesManager {
                     }
                 }
             } else {
-                for (Material plank : CustomTags_1_20.PLANKS.getValues()) {
+                for (Material plank : getVersionUtils().getWoodValues()) {
                     for (int i = 0; i < rows.size(); i++) {
                         for (int j = 0; j < rows.get(i).length(); j++) {
                             char ingredientChar = rows.get(i).charAt(j);
@@ -170,19 +172,11 @@ public class CustomRecipesManager {
         }
     }
 
-    public RecipeUtils getRecipeUtils() {
+    public VersionUtils getVersionUtils() {
         if (UHCRevamp.useOldMethods) {
-            return new RecipeUtils_1_8();
+            return new VersionUtils_1_8();
         } else {
-            return new RecipeUtils_1_20();
-        }
-    }
-
-    public CustomTag getCustomTags() {
-        if (UHCRevamp.useOldMethods) {
-            return CustomTags_1_8.PLANKS;
-        } else {
-            return CustomTags_1_20.PLANKS;
+            return new VersionUtils_1_20();
         }
     }
 
