@@ -1,6 +1,6 @@
 package me.florixak.uhcrevamp.tasks;
 
-import me.florixak.uhcrevamp.game.deathchest.DeathChest;
+import me.florixak.uhcrevamp.game.deathChest.DeathChest;
 import me.florixak.uhcrevamp.utils.TimeUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 

@@ -21,53 +21,122 @@ public class PlaceholderUtil {
         GameManager gameManager = GameManager.getGameManager();
         BorderManager borderManager = gameManager.getBorderManager();
 
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+        if (p != null) {
+            UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        if (uhcPlayer == null) return "Error";
+            if (text.contains("%player%"))
+                text = text.replace("%player%", uhcPlayer.getName());
 
-        if (text.contains("%player%"))
-            text = text.replace("%player%", uhcPlayer.getName());
+            if (text.contains("%uhc-level%"))
+                text = text.replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
 
-        if (text.contains("%uhc-level%"))
-            text = text.replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
+            if (text.contains("%uhc-exp%"))
+                text = text.replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()));
 
-        if (text.contains("%uhc-exp%"))
-            text = text.replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()));
+            if (text.contains("%required-uhc-exp%")) {
+                DecimalFormat format = new DecimalFormat("#######0");
+                text = text.replace("%required-uhc-exp%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
+            }
 
-        if (text.contains("%required-uhc-exp%")) {
-            DecimalFormat format = new DecimalFormat("#######0");
-            text = text.replace("%required-uhc-exp%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
-        }
+            if (text.contains("%money%")) {
+                text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
+            }
 
-        if (text.contains("%money%")) {
-            text = text.replace("%money%", String.valueOf(uhcPlayer.getData().getMoney()));
-        }
+            if (text.contains("%uhc-wins%")) {
+                text = text.replace("%uhc-wins%", String.valueOf(uhcPlayer.getData().getWins()));
+            }
 
-        if (text.contains("%uhc-wins%")) {
-            text = text.replace("%uhc-wins%", String.valueOf(uhcPlayer.getData().getWins()));
-        }
+            if (text.contains("%uhc-losses%")) {
+                text = text.replace("%uhc-losses%", String.valueOf(uhcPlayer.getData().getLosses()));
+            }
 
-        if (text.contains("%uhc-losses%")) {
-            text = text.replace("%uhc-losses%", String.valueOf(uhcPlayer.getData().getLosses()));
-        }
+            if (text.contains("%uhc-kills%")) {
+                text = text.replace("%uhc-kills%", String.valueOf(uhcPlayer.getData().getKills()));
+            }
 
-        if (text.contains("%uhc-kills%")) {
-            text = text.replace("%uhc-kills%", String.valueOf(uhcPlayer.getData().getKills()));
-        }
+            if (text.contains("%uhc-assists%")) {
+                text = text.replace("%uhc-assists%", String.valueOf(uhcPlayer.getData().getAssists()));
+            }
 
-        if (text.contains("%uhc-assists%")) {
-            text = text.replace("%uhc-assists%", String.valueOf(uhcPlayer.getData().getAssists()));
-        }
+            if (text.contains("%uhc-deaths%")) {
+                text = text.replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
+            }
 
-        if (text.contains("%uhc-deaths%")) {
-            text = text.replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
-        }
+            if (text.contains("%ping%")) {
+                try {
+                    text = text.replace("%ping%", String.valueOf(p.getPing()));
+                } catch (Exception e) {
+                    text = text.replace("%ping%", "0");
+                }
+            }
 
-        if (text.contains("%ping%")) {
-            try {
-                text = text.replace("%ping%", String.valueOf(p.getPing()));
-            } catch (Exception e) {
-                text = text.replace("%ping%", "0");
+            if (text.contains("%kills%")) {
+                text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
+            }
+
+            if (text.contains("%assists%")) {
+                text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
+            }
+
+            if (text.contains("%kit%")) {
+                if (GameValues.KITS.ENABLED) {
+                    if (uhcPlayer.hasKit()) {
+                        text = text.replace("%kit%", uhcPlayer.getKit().getDisplayName());
+                    } else {
+                        text = text.replace("%kit%", Messages.KITS_SELECTED_NONE.toString());
+                    }
+                } else {
+                    text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());
+                }
+            }
+
+            if (text.contains("%perk%")) {
+                if (GameValues.PERKS.ENABLED) {
+                    if (uhcPlayer.hasPerk()) {
+                        text = text.replace("%perk%", uhcPlayer.getPerk().getName());
+                    } else {
+                        text = text.replace("%perk%", Messages.PERKS_SELECTED_NONE.toString());
+                    }
+                } else {
+                    text = text.replace("%perk%", Messages.PERKS_SB_DISABLED.toString());
+                }
+            }
+
+            if (text.contains("%team%")) {
+                if (!GameValues.TEAM.TEAM_MODE) {
+                    text = text.replace("%team%", Messages.TEAM_SOLO.toString());
+                } else {
+                    if (uhcPlayer.hasTeam()) {
+                        text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getDisplayName()));
+                    } else {
+                        text = text.replace("%team%", Messages.TEAM_NONE.toString());
+                    }
+                }
+            }
+
+            if (text.contains("%money-for-game%")) {
+                text = text.replace("%money-for-game%", String.valueOf(uhcPlayer.getData().getMoneyForGameResult()));
+            }
+            if (text.contains("%money-for-kills%")) {
+                text = text.replace("%money-for-kills%", String.valueOf(uhcPlayer.getData().getMoneyForKills()));
+            }
+            if (text.contains("%money-for-assists%")) {
+                text = text.replace("%money-for-assists%", String.valueOf(uhcPlayer.getData().getMoneyForAssists()));
+            }
+            if (text.contains("%money-for-activity%")) {
+                text = text.replace("%money-for-activity%", String.valueOf(uhcPlayer.getData().getMoneyForActivity()));
+            }
+            if (text.contains("%uhc-exp-for-game%")) {
+                text = text.replace("%uhc-exp-for-game%", String.valueOf(uhcPlayer.getData().getUhcExpForGameResult()));
+            }
+            if (text.contains("%uhc-exp-for-kills%")) {
+                text = text.replace("%uhc-exp-for-kills%", String.valueOf(uhcPlayer.getData().getUhcExpForKills()));
+            }
+            if (text.contains("%uhc-exp-for-assists%")) {
+                text = text.replace("%uhc-exp-for-assists%", String.valueOf(uhcPlayer.getData().getUhcExpForAssists()));
+            }
+            if (text.contains("%uhc-exp-for-activity%")) {
+                text = text.replace("%uhc-exp-for-activity%", String.valueOf(uhcPlayer.getData().getUhcExpForActivity()));
             }
         }
 
@@ -82,14 +151,6 @@ public class PlaceholderUtil {
 
         if (text.contains("%currency%")) {
             text = text.replace("%currency%", Messages.CURRENCY.toString());
-        }
-
-        if (text.contains("%kills%")) {
-            text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
-        }
-
-        if (text.contains("%assists%")) {
-            text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
         }
 
         if (text.contains("%countdown%")) {
@@ -113,30 +174,6 @@ public class PlaceholderUtil {
             text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectatorList().size()));
         }
 
-        if (text.contains("%kit%")) {
-            if (GameValues.KITS.ENABLED) {
-                if (uhcPlayer.hasKit()) {
-                    text = text.replace("%kit%", uhcPlayer.getKit().getDisplayName());
-                } else {
-                    text = text.replace("%kit%", Messages.KITS_SELECTED_NONE.toString());
-                }
-            } else {
-                text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());
-            }
-        }
-
-        if (text.contains("%perk%")) {
-            if (GameValues.PERKS.ENABLED) {
-                if (uhcPlayer.hasPerk()) {
-                    text = text.replace("%perk%", uhcPlayer.getPerk().getName());
-                } else {
-                    text = text.replace("%perk%", Messages.PERKS_SELECTED_NONE.toString());
-                }
-            } else {
-                text = text.replace("%perk%", Messages.PERKS_SB_DISABLED.toString());
-            }
-        }
-
         // TODO were alive
         // if (text.contains("%were-alive%")) text = text.replace("%were-alive%", "" + plugin.getGame().getWereAlive());
 
@@ -149,18 +186,6 @@ public class PlaceholderUtil {
             text = text.replace("%sb-footer%", TextUtils.color(gameManager.getScoreboardManager().getFooter()));
         }
 
-        if (text.contains("%team%")) {
-            if (!GameValues.TEAM.TEAM_MODE) {
-                text = text.replace("%team%", Messages.TEAM_SOLO.toString());
-            } else {
-                if (uhcPlayer.hasTeam()) {
-                    text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getDisplayName()));
-                } else {
-                    text = text.replace("%team%", Messages.TEAM_NONE.toString());
-                }
-            }
-        }
-
         if (text.contains("%game-mode%")) {
             if (!GameValues.TEAM.TEAM_MODE) {
                 text = text.replace("%game-mode%", Messages.GAME_SOLO.toString());
@@ -168,33 +193,6 @@ public class PlaceholderUtil {
                 text = text.replace("%game-mode%", Messages.GAME_TEAMS.toString());
             }
         }
-
-        if (text.contains("%money-for-game%")) {
-            text = text.replace("%money-for-game%", String.valueOf(uhcPlayer.getData().getMoneyForGameResult()));
-        }
-        if (text.contains("%money-for-kills%")) {
-            text = text.replace("%money-for-kills%", String.valueOf(uhcPlayer.getData().getMoneyForKills()));
-        }
-        if (text.contains("%money-for-assists%")) {
-            text = text.replace("%money-for-assists%", String.valueOf(uhcPlayer.getData().getMoneyForAssists()));
-        }
-        if (text.contains("%money-for-activity%")) {
-            text = text.replace("%money-for-activity%", String.valueOf(uhcPlayer.getData().getMoneyForActivity()));
-        }
-        if (text.contains("%uhc-exp-for-game%")) {
-            text = text.replace("%uhc-exp-for-game%", String.valueOf(uhcPlayer.getData().getUhcExpForGameResult()));
-        }
-        if (text.contains("%uhc-exp-for-kills%")) {
-            text = text.replace("%uhc-exp-for-kills%", String.valueOf(uhcPlayer.getData().getUhcExpForKills()));
-        }
-        if (text.contains("%uhc-exp-for-assists%")) {
-            text = text.replace("%uhc-exp-for-assists%", String.valueOf(uhcPlayer.getData().getUhcExpForAssists()));
-        }
-        if (text.contains("%uhc-exp-for-activity%")) {
-            text = text.replace("%uhc-exp-for-activity%", String.valueOf(uhcPlayer.getData().getUhcExpForActivity()));
-        }
-
-
 
 
         /*try {
@@ -208,7 +206,7 @@ public class PlaceholderUtil {
             ex.printStackTrace();
         }*/
 
-        if (PAPI && uhcPlayer != null) text = PlaceholderAPI.setPlaceholders(uhcPlayer.getPlayer(), text);
+        if (PAPI && p != null) text = PlaceholderAPI.setPlaceholders(p, text);
 
         return text;
 

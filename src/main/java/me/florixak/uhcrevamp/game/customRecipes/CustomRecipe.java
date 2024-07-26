@@ -10,7 +10,7 @@ import java.util.List;
 public class CustomRecipe {
 
     private final ItemStack result;
-    private final ItemStack[][] shapeMatrix;
+    private ItemStack[][] shapeMatrix;
 
     public CustomRecipe(ItemStack result, ItemStack[][] shapeMatrix) {
         this.result = result;
@@ -23,6 +23,10 @@ public class CustomRecipe {
 
     public ItemStack[][] getShapeMatrix() {
         return shapeMatrix;
+    }
+
+    public void setShapeMatrix(ItemStack[][] shapeMatrix) {
+        this.shapeMatrix = shapeMatrix;
     }
 
     public boolean matches(ItemStack[][] craftingMatrix) {

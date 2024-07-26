@@ -17,6 +17,42 @@ custom-recipes:
     ingredients:
       A: STICK
       B: STRING
+  '&fWooden Axe':
+    result: WOODEN_AXE
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " AA"
+      - " BA"
+      - " B "
+    ingredients:
+      A: WOOD_PLANKS
+      B: STICK
+  '&fWooden Pickaxe':
+    result: WOODEN_PICKAXE
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - "AAA"
+      - " B "
+      - " B "
+    ingredients:
+      A: WOOD_PLANKS
+      B: STICK
+  '&fWooden Shovel':
+    result: WOODEN_SHOVEL
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " A "
+      - " B "
+      - " B "
+    ingredients:
+      A: WOOD_PLANKS
+      B: STICK
   '&fStone Axe':
     result: STONE_AXE
     enchantments:
@@ -27,7 +63,7 @@ custom-recipes:
       - " BA"
       - " B "
     ingredients:
-      A: WOOD
+      A: COBBLESTONE
       B: STICK
   '&fStone Pickaxe':
     result: STONE_PICKAXE
@@ -39,7 +75,7 @@ custom-recipes:
       - " B "
       - " B "
     ingredients:
-      A: WOOD
+      A: COBBLESTONE
       B: STICK
   '&fStone Shovel':
     result: STONE_SHOVEL
@@ -51,7 +87,43 @@ custom-recipes:
       - " B "
       - " B "
     ingredients:
-      A: WOOD
+      A: COBBLESTONE
+      B: STICK
+  '&fIron Axe':
+    result: IRON_AXE
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " AA"
+      - " BA"
+      - " B "
+    ingredients:
+      A: IRON_INGOT
+      B: STICK
+  '&fIron Pickaxe':
+    result: IRON_PICKAXE
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - "AAA"
+      - " B "
+      - " B "
+    ingredients:
+      A: IRON_INGOT
+      B: STICK
+  '&fIron Shovel':
+    result: IRON_SHOVEL
+    enchantments:
+      EFFICIENCY: 3
+      UNBREAKING: 3
+    shape:
+      - " A "
+      - " B "
+      - " B "
+    ingredients:
+      A: IRON_INGOT
       B: STICK
   '&fArrow Bundle':
     result: ARROW
@@ -64,3 +136,13 @@ custom-recipes:
       A: FLINT
       B: STICK
       C: FEATHER
+  '&5Light Bookshelf':
+    result: BOOKSHELF
+    amount: 1
+    shape:
+      - " B "
+      - " A "
+      - " B "
+    ingredients:
+      A: BOOK
+      B: WOOD_PLANKS

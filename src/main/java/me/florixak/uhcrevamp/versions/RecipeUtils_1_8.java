@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.game.customRecipes;
+package me.florixak.uhcrevamp.versions;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;

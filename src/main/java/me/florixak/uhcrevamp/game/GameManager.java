@@ -7,7 +7,7 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
 import me.florixak.uhcrevamp.game.customRecipes.CustomRecipesManager;
-import me.florixak.uhcrevamp.game.deathchest.DeathChestManager;
+import me.florixak.uhcrevamp.game.deathChest.DeathChestManager;
 import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
 import me.florixak.uhcrevamp.game.player.PlayerListener;
@@ -26,10 +26,10 @@ import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
 import me.florixak.uhcrevamp.tasks.*;
 import me.florixak.uhcrevamp.utils.TeleportUtils;
-import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XSound;
+import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
@@ -151,7 +151,8 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
+//                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
+                Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
                 break;
 
@@ -160,7 +161,8 @@ public class GameManager {
                 getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
-                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
+//                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
+                Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.MINING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
                 break;
 

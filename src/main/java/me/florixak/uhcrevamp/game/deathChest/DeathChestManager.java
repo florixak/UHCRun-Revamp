@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.game.deathchest;
+package me.florixak.uhcrevamp.game.deathChest;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;

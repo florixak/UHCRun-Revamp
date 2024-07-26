@@ -5,7 +5,6 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.XSeries.XEntityType;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -74,7 +73,7 @@ public class CustomDropManager {
 
             CustomDrop customDrop = new CustomDrop(material, drops, minAmount, maxAmount, xp);
             this.blockDrops.add(customDrop);
-            Bukkit.getLogger().info("Loaded custom drop for block: " + blockName);
+//            Bukkit.getLogger().info("Loaded custom drop for block: " + blockName);
         }
     }
 

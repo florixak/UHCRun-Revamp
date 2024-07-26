@@ -7,6 +7,10 @@ import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
+import me.florixak.uhcrevamp.versions.CustomTags_1_20;
+import me.florixak.uhcrevamp.versions.RecipeUtils;
+import me.florixak.uhcrevamp.versions.RecipeUtils_1_20;
+import me.florixak.uhcrevamp.versions.RecipeUtils_1_8;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -63,57 +67,100 @@ public class CustomRecipesManager {
                 }
             }
 
-            if (material == XMaterial.STONE_PICKAXE.parseMaterial()) {
-                Iterator<Recipe> recipes = Bukkit.recipeIterator();
-                while (recipes.hasNext()) {
-                    if (recipes.next().getResult().getType().equals(XMaterial.WOODEN_PICKAXE.parseMaterial())) {
-                        recipes.remove();
-                    }
-                }
-            } else if (material == XMaterial.IRON_PICKAXE.parseMaterial()) {
-                Iterator<Recipe> recipes = Bukkit.recipeIterator();
-                while (recipes.hasNext()) {
-                    if (recipes.next().getResult().getType().equals(XMaterial.STONE_PICKAXE.parseMaterial())) {
-                        recipes.remove();
-                    }
-                }
-            }
-
-
             ItemStack[][] matrix = new ItemStack[3][3]; // Assuming a 3x3 crafting grid
             List<String> rows = craftSection.getStringList("shape");
             Map<Character, Material> ingredientMap = new HashMap<>();
 
             for (String row : craftSection.getConfigurationSection("ingredients").getKeys(false)) {
-                ingredientMap.put(row.charAt(0), XMaterial.matchXMaterial(craftSection.getString("ingredients." + row).toUpperCase()).get().parseMaterial());
-            }
-
-            Bukkit.getLogger().info("Ingredient Map: " + ingredientMap.toString());
-
-            for (int i = 0; i < rows.size(); i++) {
-                for (int j = 0; j < rows.get(i).length(); j++) {
-                    char ingredientChar = rows.get(i).charAt(j);
-                    if (ingredientMap.containsKey(ingredientChar)) {
-                        matrix[i][j] = new ItemStack(ingredientMap.get(ingredientChar));
-                    } else {
-                        matrix[i][j] = null;
-                    }
+                String ingredient = craftSection.getString("ingredients." + row).toUpperCase();
+                if (ingredient.equals("WOOD_PLANKS")) {
+                    ingredientMap.put(row.charAt(0), null); // Placeholder for CustomTags.PLANKS
+                } else {
+                    ingredientMap.put(row.charAt(0), XMaterial.matchXMaterial(ingredient).get().parseMaterial());
                 }
             }
+
+//            Bukkit.getLogger().info("Ingredient Map: " + ingredientMap.toString());
 
             CustomRecipe customRecipe = new CustomRecipe(result, matrix);
             customRecipeList.add(customRecipe);
 
-            RecipeUtils recipeUtils = getRecipeUtils();
-            ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
-            recipe.shape(rows.toArray(new String[0]));
+            removeRecipe(result.getType());
 
-            for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
-                recipe.setIngredient(entry.getKey(), entry.getValue());
+            if (UHCRevamp.useOldMethods) {
+                for (int dataValue = 0; dataValue <= 5; dataValue++) { // 0 to 5 for different wood types
+                    for (int i = 0; i < rows.size(); i++) {
+                        for (int j = 0; j < rows.get(i).length(); j++) {
+                            char ingredientChar = rows.get(i).charAt(j);
+                            if (ingredientMap.containsKey(ingredientChar)) {
+                                if (ingredientMap.get(ingredientChar) == null) {
+                                    matrix[i][j] = new ItemStack(Material.valueOf("WOOD"), 1, (short) dataValue);
+                                } else {
+                                    matrix[i][j] = new ItemStack(ingredientMap.get(ingredientChar));
+                                }
+                            } else {
+                                matrix[i][j] = null;
+                            }
+                        }
+                    }
+                    customRecipe.setShapeMatrix(matrix);
+                    RecipeUtils recipeUtils = getRecipeUtils();
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
+                    recipe.shape(rows.toArray(new String[0]));
+
+                    for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
+                        if (entry.getValue() == null) {
+                            recipe.setIngredient(entry.getKey(), Material.valueOf("WOOD"), dataValue);
+                        } else {
+                            recipe.setIngredient(entry.getKey(), entry.getValue());
+                        }
+                    }
+
+                    Bukkit.addRecipe(recipe);
+                }
+            } else {
+                for (Material plank : CustomTags_1_20.PLANKS.getValues()) {
+                    for (int i = 0; i < rows.size(); i++) {
+                        for (int j = 0; j < rows.get(i).length(); j++) {
+                            char ingredientChar = rows.get(i).charAt(j);
+                            if (ingredientMap.containsKey(ingredientChar)) {
+                                if (ingredientMap.get(ingredientChar) == null) {
+                                    matrix[i][j] = new ItemStack(plank);
+                                } else {
+                                    matrix[i][j] = new ItemStack(ingredientMap.get(ingredientChar));
+                                }
+                            } else {
+                                matrix[i][j] = null;
+                            }
+                        }
+                    }
+
+                    customRecipe.setShapeMatrix(matrix);
+                    RecipeUtils recipeUtils = getRecipeUtils();
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key));
+                    recipe.shape(rows.toArray(new String[0]));
+
+                    for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
+                        if (entry.getValue() == null) {
+                            recipe.setIngredient(entry.getKey(), plank);
+                        } else {
+                            recipe.setIngredient(entry.getKey(), entry.getValue());
+                        }
+                    }
+
+                    Bukkit.addRecipe(recipe);
+                }
             }
+        }
+    }
 
-            Bukkit.addRecipe(recipe);
-
+    public void removeRecipe(Material material) {
+        Iterator<Recipe> recipes = Bukkit.recipeIterator();
+        while (recipes.hasNext()) {
+            Recipe recipe = recipes.next();
+            if (recipe.getResult().getType().equals(material)) {
+                recipes.remove();
+            }
         }
     }
 
@@ -126,6 +173,9 @@ public class CustomRecipesManager {
     }
 
     public void onDisable() {
+        for (CustomRecipe customRecipe : customRecipeList) {
+            removeRecipe(customRecipe.getResult().getType());
+        }
         this.customRecipeList.clear();
     }
 }

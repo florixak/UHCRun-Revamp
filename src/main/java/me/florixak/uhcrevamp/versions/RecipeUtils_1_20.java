@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.game.customRecipes;
+package me.florixak.uhcrevamp.versions;
 
 import me.florixak.uhcrevamp.UHCRevamp;
 import org.bukkit.NamespacedKey;

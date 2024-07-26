@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
  * @see ItemStack
  */
 public enum XMaterial /* implements com.cryptomorin.xseries.abstractions.Material*/ {
-    PLANKS("OAK_PLANKS", "SPRUCE_PLANKS", "BIRCH_PLANKS", "JUNGLE_PLANKS", "ACACIA_PLANKS", "DARK_OAK_PLANKS"),
+    //    WOOD_PLANKS("OAK_PLANKS", "SPRUCE_PLANKS", "BIRCH_PLANKS", "JUNGLE_PLANKS", "ACACIA_PLANKS", "DARK_OAK_PLANKS"),
     ACACIA_BOAT("BOAT_ACACIA"),
     ACACIA_BUTTON("WOOD_BUTTON"),
     ACACIA_CHEST_BOAT,
