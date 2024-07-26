@@ -22,7 +22,7 @@ of features to create the great UHC experience.
 
 ## Prerequisites
 
-- Minecraft server version 1.x.x or higher
+- Minecraft server version 1.8 or higher
 - Java 8 or higher
 - PlaceholderAPI plugin (for placeholder support)
 - (Optional) Vault plugin (for economy integration)
