@@ -64,7 +64,7 @@ This plugin provides several commands to enhance the gameplay and administrative
 available commands, their descriptions, and the required permissions:
 
 - `/uhc` (Aliases: `/uhcr`, `/uhcrevamp`)
-    - Description: Admin command to configure and manage UHC game settings.
+    - Description: Command to display help information.
     - Permission: `uhcrevamp.setup`
 - `/forcestart` (Aliases: `/start`)
     - Description: Immediately starts the UHC game, bypassing minimal needed players.
