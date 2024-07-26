@@ -3,11 +3,11 @@ version: '${project.version}'
 main: me.florixak.uhcrevamp.UHCRevamp
 api-version: 1.13
 author: FloriXak
-softdepend: [ ProtocolLib, PlaceholderAPI, Vault, LuckPerms, HeadDatabase ]
+softdepend: [ ProtocolLib, PlaceholderAPI, Vault, LuckPerms ]
 
 commands:
-  uhcrun:
-    aliases: [ urun, uhcr ]
+  uhc:
+    aliases: [ uhcr, uhcrevamp ]
     description: Only for admins to setup
   forcestart:
     aliases: [ start ]

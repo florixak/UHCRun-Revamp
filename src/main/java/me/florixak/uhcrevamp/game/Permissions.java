@@ -8,6 +8,7 @@ public enum Permissions {
     SETUP("setup"),
     WORKBENCH("workbench"),
     REVIVE("revive"),
+    VIP("vip"),
 
     COLOR_CHAT("color-chat"),
     RESERVED_SLOT("reserved-slot");

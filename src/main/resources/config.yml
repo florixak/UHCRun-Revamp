@@ -1,42 +1,40 @@
-# Hello, I have just made this UHCRun plugin for fun.
+# This is the main configuration file of UHCRevamp
 # I am going to improve some things in the future.
 # I hope you will like it!
 # If you have problems contact me: https://github.com/florixak
-
-# This is main configuration file of UHCRun
 
 settings:
 
   # Expanding plugins
   addons:
-    use-Vault: true
-    use-LuckPerms: false
-    use-ProtocolLib: true
-    use-PlaceholderAPI: true
-    use-HeadDatabase: true
+    use-Vault: true # Enable integration with Vault for economy support
+    use-LuckPerms: false # Enable integration with LuckPerms for permission management
+    use-ProtocolLib: true # Enable integration with ProtocolLib for enhanced compatibility
+    use-PlaceholderAPI: true # Enable integration with PlaceholderAPI for custom placeholders
+    use-HeadDatabase: false # Enable integration with HeadDatabase (in development)
 
-  # Game
+  # Game settings
   game:
-    allow-nether: false
-    teleport-after-mining: true
-    projectile-hit-hp: true
-    no-explosions: false # global disable of explosions
-    explode-block-destroy: true
-    custom-drops: true
-    random-drops: false # in development
+    allow-nether: false # Allow players to enter the Nether
+    teleport-after-mining: true # Teleport players after mining phase
+    projectile-hit-hp: true # Enable health display on projectile hit
+    no-explosions: false # Globally disable explosions
+    explode-block-destroy: true # Allow explosions to destroy blocks
+    custom-drops: true # Enable custom item drops
+    random-drops: false # Enable random item drops (in development)
 
-    min-players: 2
-    starting-message-at: 10 # message about starting at <_> seconds
+    min-players: 2 # Minimum number of players to start the game
+    starting-message-at: 10 # Time in seconds to display starting message
 
-    # Countdowns
+    # Countdowns for different game phases
     countdowns:
-      starting: 15 # seconds
-      mining: 600 # seconds
-      pvp: 600 # seconds
-      deathmatch: 300 # seconds
-      ending: 15 # seconds
+      starting: 15 # Countdown for game start in seconds
+      mining: 600 # Countdown for mining phase in seconds
+      pvp: 600 # Countdown for PvP phase in seconds
+      deathmatch: 300 # Countdown for deathmatch phase in seconds
+      ending: 15 # Countdown for game ending in seconds
 
-    # Damage cause list:
+    # List of damage causes disabled during mining phase
     #   CONTACT, ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, PROJECTILE, SUFFOCATION, FALL,
     #   FIRE, FIRE_TICK, MELTING, LAVA, DROWNING, BLOCK_EXPLOSION, ENTITY_EXPLOSION, VOID,
     #   LIGHTNING, SUICIDE, STARVATION, POISON, MAGIC, WITHER, FALLING_BLOCK, THORNS,
@@ -51,18 +49,19 @@ settings:
       - ENTITY_EXPLOSION
       - BLOCK_EXPLOSION
 
-  # Deathmatch
+  # Deathmatch settings
   deathmatch:
-    enabled: true
-    start-at: 3 # players, if -1 then automatic
-    border-size: 40.0
-    pvp-resistance-countdown: 10 # seconds, -1 = disable
-    location: # center of deathmatch
+    enabled: true # Enable deathmatch phase
+    start-at: 3 # Number of players to start deathmatch, -1 for automatic
+    border-size: 40.0 # Size of the deathmatch border
+    pvp-resistance-countdown: 10 # PvP resistance time in seconds, -1 to disable
+    location: # Center location of deathmatch
       world: "UHCWorld"
       x: 0.0
       y: 75.0
       z: 0.0
 
+  # Lobby settings
   lobby:
     waiting:
       world: "UHCLobby"
@@ -75,51 +74,51 @@ settings:
       y: 60
       z: 0
 
-  # Border
+  # Border settings
   border:
-    size: 450 # <..> x <..>
-    damage: 1 # 2 = 1 HP, 4 = 2 HP ... 40 = 10HP
-    warning-distance: 10 # blocks
-    speed: 0.2 # blocks per second
+    size: 450 # Size of the game border
+    damage: 1 # Damage taken when outside the border
+    warning-distance: 10 # Distance from the border to show warning
+    speed: 0.2 # Speed at which the border shrinks
 
-  # Teams
+  # Team settings
   teams:
-    team-mode: true
-    max-size: 3
-    friendly-fire: false
+    team-mode: true # Enable team mode
+    max-size: 3 # Maximum team size
+    friendly-fire: false # Allow friendly fire within teams
 
-  # death chest
+  # Death chest settings - in progress
   death-chest:
-    enabled: true
-    expire: -1 # seconds, not expire if -1
-    hologram-text: "&a%player%'s chest &7(%countdown%)"
+    enabled: false # Enable death chests
+    expire: -1 # Time in seconds for death chest to expire, -1 for no expiration
+    hologram-text: "&a%player%'s chest &7(%countdown%)" # Hologram text for death chest
 
-  # Kits
+  # Kit settings
   kits:
-    enabled: true
-    bought-forever: true
+    enabled: true # Enable kits
+    bought-forever: true # Kits are bought permanently
 
-  # Perks
+  # Perk settings
   perks:
-    enabled: false
-    bought-forever: true
+    enabled: false # Enable perks
+    bought-forever: true # Perks are bought permanently
 
-  # Statistics
+  # Statistics settings
   statistics:
     # Options: [ Wins, Kills, Deaths, Assists, Losses, Games-Played, UHC-Level ]
     # Need to be in []
-    displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ]
+    displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ] # Statistics to display in top stats
 
     uhc-level:
-      # Players will gain xp and increase their uhc run level
-      enabled: true
-      first-level: 0
-      first-required-exp: 100.0
-      exp-multiplier: 3.75
+      # Players will gain xp and increase their UHC level
+      enabled: true # Enable UHC level system
+      first-level: 0 # Starting level
+      first-required-exp: 100.0 # Experience required for first level
+      exp-multiplier: 3.75 # Multiplier for experience required for each level
 
     player-stats:
-      display-item: PLAYER_HEAD
-      custom-name: "&a%player%"
+      display-item: PLAYER_HEAD # Item to display player stats
+      custom-name: "&a%player%" # Custom name for player stats
       lore:
         - "&fLevel: &a%uhc-level%"
         - "&fRequired EXP: &a%required-uhc-exp%"
@@ -130,8 +129,8 @@ settings:
         - "&fKills: &a%uhc-kills%"
         - "&fDeaths: &a%uhc-deaths%"
     top-stats:
-      display-item: PAPER
-      custom-name: "&aTop Stats - %top-stats-mode%"
+      display-item: PAPER # Item to display top stats
+      custom-name: "&aTop Stats - %top-stats-mode%" # Custom name for top stats
       lore:
         - "&f1. %uhc-top-1% - %uhc-top-1-value%"
         - "&f2. %uhc-top-2% - %uhc-top-2-value%"
@@ -141,100 +140,94 @@ settings:
         - " "
         - "&7(Click to change...)"
 
-  # Rewards
+  # Reward settings
   rewards:
     kill:
-      money: 30
-      exp: 60
-      uhc-exp: 60
+      money: 30 # Money reward for a kill
+      exp: 60 # Experience reward for a kill
+      uhc-exp: 60 # UHC experience reward for a kill
     assist:
-      money: 10
-      exp: 0
-      uhc-exp: 20
+      money: 10 # Money reward for an assist
+      exp: 0 # Experience reward for an assist
+      uhc-exp: 20 # UHC experience reward for an assist
     win:
-      money: 150
-      uhc-exp: 300
+      money: 150 # Money reward for a win
+      uhc-exp: 300 # UHC experience reward for a win
     lose:
-      money: 50
-      uhc-exp: 150
+      money: 50 # Money reward for a loss
+      uhc-exp: 150 # UHC experience reward for a loss
     activity:
-      enabled: true
-      money: 10
-      uhc-exp: 20
-      period: 300 # seconds
+      enabled: true # Enable activity rewards
+      money: 10 # Money reward for activity
+      uhc-exp: 20 # UHC experience reward for activity
+      period: 300 # Time period in seconds for activity rewards
     level-up:
-      base-reward: 10
+      base-reward: 10 # Base reward for leveling up
       reward-coefficient: 1.2 # %base-reward% + (%reward-coefficient% ^ %uhc-level%)
 
-  # End game commands - commands which is executed on game ends
-  # IN PROGRESS...
+  # End game commands - commands executed at the end of the game
   end-game-commands: [ ]
 
-  # Tablist
+  # Tablist settings
   tablist:
-    enabled: true # Works only with ProtocolLib!
-    header: "&2&lUHC&a&lRun\n"
-    solo-mode-player-list: "&7[%uhc-level%] &f%player%"
-    team-mode-player-list: "&7[%uhc-level%] %team% &f%player%"
-    footer: "\n&7www.github.com/florixak"
+    enabled: true # Enable custom tablist (requires ProtocolLib)
+    header: "&2&lUHC&a&lRevamp\n" # Header text for tablist
+    solo-mode-player-list: "&7[%uhc-level%] &f%player%" # Player list format for solo mode
+    team-mode-player-list: "&7[%uhc-level%] %team% &f%player%" # Player list format for team mode
+    footer: "\n&7www.github.com/florixak" # Footer text for tablist
 
-  # Auto broadcast
+  # Auto broadcast settings
   auto-broadcast:
-    enabled: false
-    random-messages: true
-    period: 10 # seconds
-
-  # Custom nick
-  custom-nick:
-    enabled: true
-    min-chars: 4 # < x
+    enabled: false # Enable auto broadcast
+    random-messages: true # Enable random messages for auto broadcast
+    period: 10 # Time period in seconds for auto broadcast
 
   # Selectors
   inventories:
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
-      enabled: true
-      display-name: "&aTeams"
-      display-item: WHITE_WOOL
-      slot: 0
+      enabled: true # Enable teams menu
+      display-name: "&aTeams" # Display name for teams menu
+      display-item: WHITE_WOOL # Display item for teams menu
+      slot: 0 # Slot for teams menu
     kits:
-      enabled: true
-      display-name: "&aKits"
-      display-item: IRON_PICKAXE
-      slot: 3
+      enabled: true # Enable kits menu
+      display-name: "&aKits" # Display name for kits menu
+      display-item: IRON_PICKAXE # Display item for kits menu
+      slot: 3 # Slot for kits menu
     perks:
-      enabled: true
-      display-name: "&aPerks"
-      display-item: ARROW
-      slot: 5
+      enabled: true # Enable perks menu
+      display-name: "&aPerks" # Display name for perks menu
+      display-item: ARROW # Display item for perks menu
+      slot: 5 # Slot for perks menu
     custom-recipes:
-      enabled: true
-      display-name: "&aCustom Recipes"
-      display-item: CRAFTING_TABLE
-      slot: 4
+      enabled: true # Enable custom recipes menu
+      display-name: "&aCustom Recipes" # Display name for custom recipes menu
+      display-item: CRAFTING_TABLE # Display item for custom recipes menu
+      slot: 4 # Slot for custom recipes menu
     statistics:
-      enabled: true
-      display-name: "&aProfile"
-      display-item: PLAYER_HEAD
-      slot: 8
+      enabled: true # Enable statistics menu
+      display-name: "&aProfile" # Display name for statistics menu
+      display-item: PLAYER_HEAD # Display item for statistics menu
+      slot: 8 # Slot for statistics menu
     confirm-purchase:
-      enabled: true
-      display-name: "&6Are you sure?"
-      confirm: "&aConfirm"
-      confirm-item: EMERALD_BLOCK
-      cancel: "&cCancel"
-      cancel-item: REDSTONE_BLOCK
-      slot: -1 # -1 = not in the hotbar menu
-      back-item: BARRIER
+      enabled: true # Enable confirm purchase menu
+      display-name: "&6Are you sure?" # Display name for confirm purchase menu
+      confirm: "&aConfirm" # Text for confirm button
+      confirm-item: EMERALD_BLOCK # Item for confirm button
+      cancel: "&cCancel" # Text for cancel button
+      cancel-item: REDSTONE_BLOCK # Item for cancel button
+      slot: -1 # Slot for confirm purchase menu, -1 = not in the hotbar menu
+      back-item: BARRIER # Item for back button
 
   # MySQL database
   mysql:
-    enabled: false
-    host: "localhost"
-    port: "3306"
-    database: "uhcrun"
-    username: "root"
-    password: ""
+    enabled: false # Enable MySQL database integration
+    host: "localhost" # MySQL server host
+    port: "3306" # MySQL server port
+    database: "uhcrevamp" # MySQL database name
+    username: "root" # MySQL username
+    password: "" # MySQL password
 
   # Chat
   chat:
@@ -244,11 +237,11 @@ settings:
     # %message% - Sent message
     # %level% - Player level
 
-    lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
-    in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%"
-    dead-format: "&8[SPECTATOR] &7[%uhc-level%] %team% &7%player% » %message%"
+    lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in the lobby
+    in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in-game
+    dead-format: "&8[SPECTATOR] &7[%uhc-level%] %team% &7%player% » %message%" # Format for chat messages from dead players
 
-    blocked-commands:
+    blocked-commands: # List of commands blocked in chat
       - /pl
       - /plugins
       - /lp

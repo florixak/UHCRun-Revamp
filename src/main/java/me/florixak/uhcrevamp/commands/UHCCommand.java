@@ -11,12 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static me.florixak.uhcrevamp.game.Permissions.SETUP;
+import static me.florixak.uhcrevamp.game.Permissions.VIP;
 
-public class SetupCommand implements CommandExecutor {
+public class UHCCommand implements CommandExecutor {
 
     private final GameManager gameManager;
 
-    public SetupCommand(GameManager gameManager) {
+    public UHCCommand(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
@@ -28,30 +29,45 @@ public class SetupCommand implements CommandExecutor {
         DeathmatchManager deathmatchM = gameManager.getDeathmatchManager();
         Location loc = p.getLocation();
 
+        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
+            if (p.hasPermission(SETUP.getPerm())) {
+                for (String message : Messages.UHC_ADMIN_HELP.toList()) {
+                    p.sendMessage(message);
+                }
+            } else if (p.hasPermission(VIP.getPerm())) {
+                for (String message : Messages.UHC_VIP_HELP.toList()) {
+                    p.sendMessage(message);
+                }
+            } else {
+                for (String message : Messages.UHC_PLAYER_HELP.toList()) {
+                    p.sendMessage(message);
+                }
+            }
+            return true;
+        }
+
         if (!p.hasPermission(SETUP.getPerm())) {
             p.sendMessage(Messages.NO_PERM.toString());
             return true;
         }
 
-        if (args.length == 0) {
-            p.sendMessage(Messages.INVALID_CMD.toString());
-        } else if (args[0].equalsIgnoreCase("wait")) {
+        if (args[0].equalsIgnoreCase("waiting-lobby")) {
             if (args.length == 1) {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
                 lobbyM.setLobby("waiting", loc);
                 p.sendMessage(Messages.SETUP_SET_WAIT_LOBBY.toString());
-            } else if (args[1].contains("rem") || args[1].contains("del")) {
+            } else if (args[1].contains("remove") || args[1].contains("delete")) {
                 lobbyM.deleteLobby("waiting");
                 p.sendMessage(Messages.SETUP_DEL_WAIT_LOBBY.toString());
             }
-        } else if (args[0].equalsIgnoreCase("end")) {
+        } else if (args[0].equalsIgnoreCase("ending-lobby")) {
             if (args.length == 1) {
                 p.sendMessage(Messages.INVALID_CMD.toString());
             } else if (args[1].equalsIgnoreCase("set")) {
                 lobbyM.setLobby("ending", loc);
                 p.sendMessage(Messages.SETUP_SET_END_LOBBY.toString());
-            } else if (args[1].contains("rem") || args[1].contains("del")) {
+            } else if (args[1].contains("remove") || args[1].contains("delete")) {
                 lobbyM.deleteLobby("ending");
                 p.sendMessage(Messages.SETUP_DEL_END_LOBBY.toString());
             }
@@ -61,13 +77,14 @@ public class SetupCommand implements CommandExecutor {
             } else if (args[1].equalsIgnoreCase("set")) {
                 deathmatchM.setDeathmatchLocation(loc);
                 p.sendMessage(Messages.SETUP_SET_DEATHMATCH.toString());
-            } else if (args[1].contains("rem") || args[1].contains("del")) {
+            } else if (args[1].contains("remove") || args[1].contains("delete")) {
                 deathmatchM.resetDeathmatchLocation();
                 p.sendMessage(Messages.SETUP_RESET_DEATHMATCH.toString());
             }
         } else {
             p.sendMessage(Messages.INVALID_CMD.toString());
         }
+
         return true;
     }
 }

@@ -18,6 +18,7 @@ public class GameValues {
 
     public static final String WORLD_NAME = "UHCWorld";
 
+    public static final GameSettings GAME = new GameSettings();
     public static final ChatConfig CHAT = new ChatConfig();
     public static final BorderConfig BORDER = new BorderConfig();
     public static final TeamConfig TEAM = new TeamConfig();
@@ -29,7 +30,6 @@ public class GameValues {
     public static final InventoryConfig INVENTORY = new InventoryConfig();
     public static final TablistConfig TABLIST = new TablistConfig();
     public static final ActivityRewardConfig ACTIVITY_REWARDS = new ActivityRewardConfig();
-    public static final GameSettings GAME = new GameSettings();
     public static final AddonConfig ADDONS = new AddonConfig();
     public static final DeathChestConfig DEATH_CHEST = new DeathChestConfig();
 
@@ -125,6 +125,10 @@ public class GameValues {
         public final String PERKS_DIS_ITEM = getConfigString("settings.inventories.perks.display-item", "BARRIER");
         public final String CUSTOM_RECIPES_DIS_ITEM = getConfigString("settings.inventories.custom-recipes.display-item", "BARRIER");
         public final String STATS_DIS_ITEM = getConfigString("settings.inventories.statistics.display-item", "BARRIER");
+    }
+
+    public static class ScoreboardConfig {
+        
     }
 
     public static class TablistConfig {

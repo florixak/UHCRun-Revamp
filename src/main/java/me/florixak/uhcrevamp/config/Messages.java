@@ -10,6 +10,10 @@ public enum Messages {
 
     PREFIX("prefix"),
 
+    UHC_ADMIN_HELP("help.admin"),
+    UHC_VIP_HELP("help.vip"),
+    UHC_PLAYER_HELP("help.player"),
+
     INVALID_CMD("invalid-command"),
     NO_PERM("no-perm"),
     OFFLINE_PLAYER("offline-player"),
@@ -18,8 +22,8 @@ public enum Messages {
     MONEY("money"),
     CANT_USE_NOW("cant-use-now"),
 
-    CANT_PLACE("cant_place"),
-    CANT_BREAK("cant_break"),
+    CANT_PLACE("cant-place"),
+    CANT_BREAK("cant-break"),
 
     JOIN("player.join"),
     QUIT("player.quit"),

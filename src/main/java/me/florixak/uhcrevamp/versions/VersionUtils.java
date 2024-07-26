@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface VersionUtils {
 
-    Set<Material> getWoodValues();
+    Set<Material> getWoodPlankValues();
 
     ShapedRecipe createRecipe(ItemStack item, String key);
 }

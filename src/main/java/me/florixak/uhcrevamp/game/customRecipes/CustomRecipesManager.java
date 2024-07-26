@@ -123,7 +123,7 @@ public class CustomRecipesManager {
                     }
                 }
             } else {
-                for (Material plank : getVersionUtils().getWoodValues()) {
+                for (Material plank : getVersionUtils().getWoodPlankValues()) {
                     for (int i = 0; i < rows.size(); i++) {
                         for (int j = 0; j < rows.get(i).length(); j++) {
                             char ingredientChar = rows.get(i).charAt(j);

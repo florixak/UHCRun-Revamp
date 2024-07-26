@@ -326,7 +326,7 @@ public class GameManager {
     }
 
     private void registerCommands() {
-        registerCommand("uhcrun", new SetupCommand(gameManager));
+        registerCommand("uhc", new UHCCommand(gameManager));
         registerCommand("forcestart", new ForceStartCommand(gameManager));
         registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));

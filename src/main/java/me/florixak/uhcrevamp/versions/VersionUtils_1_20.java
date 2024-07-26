@@ -12,7 +12,7 @@ import java.util.Set;
 public class VersionUtils_1_20 implements VersionUtils {
 
     @Override
-    public Set<Material> getWoodValues() {
+    public Set<Material> getWoodPlankValues() {
         return EnumSet.of(Material.OAK_PLANKS,
                 Material.SPRUCE_PLANKS,
                 Material.BIRCH_PLANKS,

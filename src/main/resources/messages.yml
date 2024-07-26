@@ -11,17 +11,17 @@
 # -----------------------------------------
 
 Messages:
-  prefix: "&2UHC&aRun"
+  prefix: "&2UHC&aRevamp"
 
-  invalid-command: "&c[!] &fInvalid command! Use help: /help"
+  invalid-command: "&c[!] &fInvalid command! Use help: /uhc help"
   no-perm: "&c[!] &fYou do not have permissions!"
   offline-player: "&c[!] &fThis player is offline!"
   only-for-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
   cant-use-now: "&c[!] &fYou can not use it right now!"
 
-  cant_break: "&c[!] &fYou can not break blocks right now!"
-  cant_place: "&c[!] &fYou can not place blocks right now!"
+  cant-break: "&c[!] &fYou can not break blocks right now!"
+  cant-place: "&c[!] &fYou can not place blocks right now!"
 
   player:
     join: "&a[+] &f%player% joined! (%online%)"
@@ -88,7 +88,7 @@ Messages:
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
-    disabled: "&c[!] &Perks are currently disabled!"
+    disabled: "&c[!] &fPerks are currently disabled!"
     cost: "&e[!] &fPrize: %cost% %currency%"
     inventory-selected: "&aSelected"
     inventory-click-to-select: "&eClick to select"
@@ -146,6 +146,39 @@ Messages:
     - "%prefix% &fwww.github.com/florixak"
     - "%prefix% &fIf you found bug contact admin staff!"
 
+  help:
+    admin:
+      - "&6Admin Commands Help:"
+      - "&e/forcestart &7(Aliases: /start) - Immediately starts the UHC game, bypassing any countdowns or prerequisites."
+      - "&e/workbench &7(Aliases: /wb, /craftingtable) - Opens a virtual crafting table for the player, allowing remote crafting."
+      - "&e/anvil - Opens a virtual anvil interface for the player, enabling remote item repair and renaming."
+      - "&e/team &7(Aliases: /teams) - Opens the team management GUI, allowing players to create, join, or manage teams."
+      - "&e/kits &7(Aliases: /kit) - Opens the kits selection GUI, where players can choose from available kits."
+      - "&e/recipes &7(Aliases: /crafts, /customrecipes) - Opens the custom recipes GUI, displaying all available custom crafting recipes."
+      - "&e/statistics &7(Aliases: /stats) - Opens the player statistics GUI, showing detailed player stats and achievements."
+      - "&e/revive - Revives a dead player, bringing them back into the game."
+      - "&e/uhc waiting-lobby set - Admin command to set various UHC game properties like border size, max players, and game duration."
+      - "&e/uhc waiting-lobby remove - Admin command to set various UHC game properties like border size, max players, and game duration."
+      - "&e/uhc ending-lobby set - Admin command to set various UHC game properties like border size, max players, and game duration."
+      - "&e/uhc ending-lobby remove - Admin command to set various UHC game properties like border size, max players, and game duration."
+      - "&e/uhc deathmatch set - Admin command to set various UHC game properties like border size, max players, and game duration."
+      - "&e/uhc deathmatch remove - Admin command to set various UHC game properties like border size, max players, and game duration."
+    player:
+      - "&6Player Commands Help:"
+      - "&e/team &7(Aliases: /teams) - Opens the team management GUI, allowing players to create, join, or manage teams."
+      - "&e/kits &7(Aliases: /kit) - Opens the kits selection GUI, where players can choose from available kits."
+      - "&e/recipes &7(Aliases: /crafts, /customrecipes) - Opens the custom recipes GUI, displaying all available custom crafting recipes."
+      - "&e/statistics &7(Aliases: /stats) - Opens the player statistics GUI, showing detailed player stats and achievements."
+    vip:
+      - "&6VIP Commands Help:"
+      - "&e/forcestart &7(Aliases: /start) - Immediately starts the UHC game, bypassing any countdowns or prerequisites."
+      - "&e/workbench &7(Aliases: /wb, /craftingtable) - Opens a virtual crafting table for the player, allowing remote crafting."
+      - "&e/anvil - Opens a virtual anvil interface for the player, enabling remote item repair and renaming."
+      - "&e/team &7(Aliases: /teams) - Opens the team management GUI, allowing players to create, join, or manage teams."
+      - "&e/kits &7(Aliases: /kit) - Opens the kits selection GUI, where players can choose from available kits."
+      - "&e/recipes &7(Aliases: /crafts, /customrecipes) - Opens the custom recipes GUI, displaying all available custom crafting recipes."
+      - "&e/statistics &7(Aliases: /stats) - Opens the player statistics GUI, showing detailed player stats and achievements."
+  
   setup:
     waiting-lobby-set: "%prefix% &fWaiting lobby was set!"
     waiting-lobby-removed: "%prefix% &fWaiting lobby was removed!"
