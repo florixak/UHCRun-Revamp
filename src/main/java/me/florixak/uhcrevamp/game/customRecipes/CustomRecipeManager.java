@@ -21,13 +21,13 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.*;
 
-public class CustomRecipesManager {
+public class CustomRecipeManager {
 
     private final FileConfiguration recipeConfig;
     private final List<CustomRecipe> customRecipeList;
     private final Set<String> addedRecipes;
 
-    public CustomRecipesManager(GameManager gameManager) {
+    public CustomRecipeManager(GameManager gameManager) {
         this.recipeConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_RECIPES).getConfig();
         this.customRecipeList = new ArrayList<>();
         this.addedRecipes = new HashSet<>();

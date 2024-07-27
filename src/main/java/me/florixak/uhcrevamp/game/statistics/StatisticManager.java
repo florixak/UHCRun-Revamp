@@ -1,9 +1,8 @@
-package me.florixak.uhcrevamp.gui;
+package me.florixak.uhcrevamp.game.statistics;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.game.statistics.TopStatistic;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
@@ -14,20 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticsGui extends Gui {
+public class StatisticManager {
 
-    public StatisticsGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 3 * GameValues.COLUMNS, TextUtils.color(GameValues.INVENTORY.STATS_TITLE));
-    }
-
-    @Override
-    public void init() {
-        super.init();
-        getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, getPlayerStats());
-        getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, getTopStats());
-    }
-
-    public ItemStack getPlayerStats() {
+    public static ItemStack getPlayerStats(UHCPlayer uhcPlayer) {
         ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
@@ -51,7 +39,7 @@ public class StatisticsGui extends Gui {
                 playerStatsLore);
     }
 
-    public ItemStack getTopStats() {
+    public static ItemStack getTopStats(UHCPlayer uhcPlayer) {
         ItemStack topStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.TOP_STATS_DIS_ITEM.toUpperCase())
                 .get().parseItem() == null || GameValues.STATISTICS.TOP_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
                 ? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
@@ -64,7 +52,7 @@ public class StatisticsGui extends Gui {
 
         List<String> topStatsLore = new ArrayList<>();
         String playerDisplayedTop = uhcPlayer.getData().getDisplayedTop();
-        List<TopStatistic> totalTopList = gameManager.getPlayerManager().getTotalTop(playerDisplayedTop);
+        List<TopStatistic> totalTopList = GameManager.getGameManager().getPlayerManager().getTotalTop(playerDisplayedTop);
 
         if (totalTopList != null) {
             for (String lore : GameValues.STATISTICS.TOP_STATS_LORE) {
@@ -88,10 +76,5 @@ public class StatisticsGui extends Gui {
                 topStatsName.replace("%top-stats-mode%", TextUtils.color(TextUtils.toNormalCamelText(playerDisplayedTop.replace("-", " ")))),
                 1,
                 topStatsLore);
-    }
-
-    @Override
-    public void open() {
-        super.open();
     }
 }

@@ -4,7 +4,12 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.gui.*;
+import me.florixak.uhcrevamp.gui.MenuManager;
+import me.florixak.uhcrevamp.gui.menu.CustomRecipesMenu;
+import me.florixak.uhcrevamp.gui.menu.KitsMenu;
+import me.florixak.uhcrevamp.gui.menu.StatisticsMenu;
+import me.florixak.uhcrevamp.gui.menu.TeamsMenu;
+import me.florixak.uhcrevamp.oldGui.PerksGui;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,11 +42,11 @@ public class InteractListener implements Listener {
 
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE))) {
-                    new TeamGui(gameManager, uhcPlayer).open();
+                    new TeamsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.KITS_TITLE))) {
-                    new KitsGui(gameManager, uhcPlayer).open();
+                    new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.PERKS_TITLE))) {
@@ -49,11 +54,11 @@ public class InteractListener implements Listener {
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE))) {
-                    new CustomRecipesGui(gameManager, uhcPlayer, gameManager.getRecipeManager().getRecipeList()).open();
+                    new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
                 }
                 if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
                         TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {
-                    new StatisticsGui(gameManager, uhcPlayer).open();
+                    new StatisticsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
                 }
             }
         }

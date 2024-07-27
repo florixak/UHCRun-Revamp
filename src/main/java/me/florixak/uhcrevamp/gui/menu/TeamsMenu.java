@@ -1,27 +1,48 @@
-package me.florixak.uhcrevamp.gui;
+package me.florixak.uhcrevamp.gui.menu;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
+import me.florixak.uhcrevamp.gui.Menu;
+import me.florixak.uhcrevamp.gui.MenuUtils;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamGui extends Gui {
+public class TeamsMenu extends Menu {
 
-    public TeamGui(GameManager gameManager, UHCPlayer uhcPlayer) {
-        super(gameManager, uhcPlayer, 3 * 9, TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE));
+    private final UHCPlayer uhcPlayer;
+    private final List<UHCTeam> teams;
+
+    public TeamsMenu(MenuUtils menuUtils) {
+        super(menuUtils);
+        this.uhcPlayer = menuUtils.getUHCPlayer();
+        this.teams = GameManager.getGameManager().getTeamManager().getTeamsList();
     }
 
     @Override
-    public void init() {
-        super.init();
+    public String getMenuName() {
+        return TextUtils.color(GameValues.INVENTORY.TEAMS_TITLE);
+    }
+
+    @Override
+    public int getSlots() {
+        return 27;
+    }
+
+    @Override
+    public void handleMenu(InventoryClickEvent event) {
+        handleTeamSelection(event);
+    }
+
+    @Override
+    public void setMenuItems() {
         ItemStack item;
-        List<UHCTeam> teams = gameManager.getTeamManager().getTeamsList();
 
         for (int i = 0; i < teams.size(); i++) {
             UHCTeam team = teams.get(i);
@@ -43,5 +64,10 @@ public class TeamGui extends Gui {
             return;
         }
         super.open();
+    }
+
+    private void handleTeamSelection(InventoryClickEvent event) {
+        close();
+        teams.get(event.getSlot()).addMember(uhcPlayer);
     }
 }

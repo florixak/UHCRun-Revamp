@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.gui;
+package me.florixak.uhcrevamp.oldGui;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;

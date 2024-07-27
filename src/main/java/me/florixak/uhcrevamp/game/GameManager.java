@@ -6,7 +6,7 @@ import me.florixak.uhcrevamp.config.ConfigManager;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
-import me.florixak.uhcrevamp.game.customRecipes.CustomRecipesManager;
+import me.florixak.uhcrevamp.game.customRecipes.CustomRecipeManager;
 import me.florixak.uhcrevamp.game.deathChest.DeathChestManager;
 import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
@@ -15,6 +15,7 @@ import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.game.teams.TeamManager;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldManager;
+import me.florixak.uhcrevamp.gui.MenuManager;
 import me.florixak.uhcrevamp.listener.ChatListener;
 import me.florixak.uhcrevamp.listener.GameListener;
 import me.florixak.uhcrevamp.listener.InteractListener;
@@ -66,10 +67,11 @@ public class GameManager {
     private final LobbyManager lobbyManager;
     private final CustomDropManager customDropManager;
     private final SoundManager soundManager;
-    private final CustomRecipesManager customRecipesManager;
+    private final CustomRecipeManager customRecipeManager;
     private final DeathChestManager deathChestManager;
     private final OreGenManager oreGenManager;
     private final WorldManager worldManager;
+    private final MenuManager menuManager;
 
     private boolean forceStarted;
     private boolean pvp;
@@ -95,7 +97,8 @@ public class GameManager {
         this.deathmatchManager = new DeathmatchManager(this);
         this.oreGenManager = new OreGenManager(this);
         this.soundManager = new SoundManager();
-        this.customRecipesManager = new CustomRecipesManager(this);
+        this.customRecipeManager = new CustomRecipeManager(this);
+        this.menuManager = new MenuManager();
 
         this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
     }
@@ -399,8 +402,8 @@ public class GameManager {
         return taskManager;
     }
 
-    public CustomRecipesManager getRecipeManager() {
-        return customRecipesManager;
+    public CustomRecipeManager getRecipeManager() {
+        return customRecipeManager;
     }
 
     public DeathChestManager getDeathChestManager() {
@@ -417,5 +420,9 @@ public class GameManager {
 
     public WorldManager getWorldManager() {
         return worldManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
     }
 }

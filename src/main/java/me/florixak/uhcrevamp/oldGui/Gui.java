@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.gui;
+package me.florixak.uhcrevamp.oldGui;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
@@ -7,9 +7,10 @@ import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class Gui {
+public abstract class Gui implements InventoryHolder {
 
     protected UHCPlayer uhcPlayer;
     protected GameManager gameManager;
@@ -42,6 +43,7 @@ public abstract class Gui {
         uhcPlayer.getPlayer().closeInventory();
     }
 
+    @Override
     public Inventory getInventory() {
         return this.inventory;
     }

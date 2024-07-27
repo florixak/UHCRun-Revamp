@@ -39,7 +39,10 @@ public class UHCPlayer {
     private boolean hasWon;
     private final Map<UUID, Long> damageTrackers;
     private Location deathLoc;
+
     private String displayedStat;
+    private Kit selectedKit;
+    private Perk selectedPerk;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -56,6 +59,10 @@ public class UHCPlayer {
         this.team = null;
         this.deathLoc = null;
         this.damageTrackers = new HashMap<>();
+
+        this.displayedStat = "Wins";
+        this.selectedKit = null;
+        this.selectedPerk = null;
     }
 
     public UUID getUUID() {
@@ -159,6 +166,10 @@ public class UHCPlayer {
                 .replace("%kit%", kit.getDisplayName()));
     }
 
+    public void setSelectedKit(Kit selectedKit) {
+        this.selectedKit = selectedKit;
+    }
+
     public boolean hasPerk() {
         return this.perk != null;
     }
@@ -170,6 +181,10 @@ public class UHCPlayer {
     public void setPerk(Perk perk) {
         if (this.perk == perk) return;
         this.perk = perk;
+    }
+
+    public void setSelectedPerk(Perk selectedPerk) {
+        this.selectedPerk = selectedPerk;
     }
 
     public void setDeathLocation(Location deathLoc) {

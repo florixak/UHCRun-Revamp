@@ -4,7 +4,8 @@ import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.gui.KitsGui;
+import me.florixak.uhcrevamp.gui.MenuManager;
+import me.florixak.uhcrevamp.gui.menu.KitsMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,16 +36,16 @@ public class KitsCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            new KitsGui(gameManager, uhcPlayer).open();
+            new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
         } else if (args.length == 1) {
             Kit kit = gameManager.getKitsManager().getKit(args[0]);
             if (kit == null) {
-                new KitsGui(gameManager, uhcPlayer).open();
+                new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
                 return true;
             }
             uhcPlayer.setKit(kit);
         } else {
-            new KitsGui(gameManager, uhcPlayer).open();
+            new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
         }
         return true;
     }
