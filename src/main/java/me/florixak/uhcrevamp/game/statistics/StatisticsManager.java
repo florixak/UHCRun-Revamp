@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticManager {
+public class StatisticsManager {
 
     public static ItemStack getPlayerStats(UHCPlayer uhcPlayer) {
         ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
@@ -52,7 +52,7 @@ public class StatisticManager {
 
         List<String> topStatsLore = new ArrayList<>();
         String playerDisplayedTop = uhcPlayer.getData().getDisplayedTop();
-        List<TopStatistic> totalTopList = GameManager.getGameManager().getPlayerManager().getTotalTop(playerDisplayedTop);
+        List<TopStatistics> totalTopList = GameManager.getGameManager().getPlayerManager().getTotalTop(playerDisplayedTop);
 
         if (totalTopList != null) {
             for (String lore : GameValues.STATISTICS.TOP_STATS_LORE) {

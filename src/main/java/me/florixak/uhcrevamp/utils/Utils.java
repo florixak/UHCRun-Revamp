@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -69,18 +68,17 @@ public class Utils {
         Bukkit.broadcastMessage(TextUtils.color(msg));
     }
 
+    @SuppressWarnings("deprecation")
     public static ItemStack getPlayerHead(Player player, String playerName) {
-        boolean isNewVersion = Arrays.stream(Material.values())
-                .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
-
-        Material type = Material.matchMaterial(isNewVersion ? "PLAYER_HEAD" : "SKULL_ITEM");
+        Material type = Material.matchMaterial(!UHCRevamp.useOldMethods ? "PLAYER_HEAD" : "SKULL_ITEM");
         ItemStack item = new ItemStack(type, 1);
 
-        if (!isNewVersion) item.setDurability((short) 3);
+        if (UHCRevamp.useOldMethods) item.setDurability((short) 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         if (playerName != null) meta.setDisplayName(TextUtils.color(playerName));
-        meta.setOwner(player.getName());
+        if (UHCRevamp.useOldMethods) meta.setOwner(player.getName());
+        else meta.setOwningPlayer(player);
 
         item.setItemMeta(meta);
         return item;

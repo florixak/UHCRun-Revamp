@@ -3,7 +3,7 @@ package me.florixak.uhcrevamp.game.player;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.statistics.TopStatistic;
+import me.florixak.uhcrevamp.game.statistics.TopStatistics;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.RandomUtils;
 import org.bukkit.Bukkit;
@@ -137,13 +137,13 @@ public class PlayerManager {
         }
     }
 
-    public List<TopStatistic> getTotalTop(String type) {
-        List<TopStatistic> topTotal = new ArrayList<>();
+    public List<TopStatistics> getTotalTop(String type) {
+        List<TopStatistics> topTotal = new ArrayList<>();
         FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
         for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
             String name = playerData.getString("player-data." + uuid + ".name");
             int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
-            topTotal.add(new TopStatistic(name, value));
+            topTotal.add(new TopStatistics(name, value));
         }
         topTotal.sort((name1, name2) -> Integer.compare(name2.getValue(), name1.getValue()));
         return topTotal;

@@ -2,7 +2,7 @@ package me.florixak.uhcrevamp.gui.menu;
 
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.game.statistics.StatisticManager;
+import me.florixak.uhcrevamp.game.statistics.StatisticsManager;
 import me.florixak.uhcrevamp.gui.Menu;
 import me.florixak.uhcrevamp.gui.MenuUtils;
 import me.florixak.uhcrevamp.utils.ItemUtils;
@@ -37,8 +37,8 @@ public class StatisticsMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, StatisticManager.getPlayerStats(uhcPlayer));
-        getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, StatisticManager.getTopStats(uhcPlayer));
+        getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, StatisticsManager.getPlayerStats(uhcPlayer));
+        getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, StatisticsManager.getTopStats(uhcPlayer));
     }
 
     private void handleStatistics(InventoryClickEvent event) {
