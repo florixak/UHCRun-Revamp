@@ -146,3 +146,39 @@ custom-recipes:
     ingredients:
       A: BOOK
       B: WOOD_PLANKS
+  '&5Light Enchanting Table':
+    result: ENCHANTING_TABLE
+    amount: 1
+    shape:
+      - " C "
+      - "ABA"
+      - " C "
+    ingredients:
+      A: OBSIDIAN
+      B: BOOK
+      C: DIAMOND
+  '&fLight Anvil':
+    result: ANVIL
+    amount: 1
+    shape:
+      - "AAA"
+      - " B "
+      - "AAA"
+    ingredients:
+      A: IRON_INGOT
+      B: IRON_BLOCK
+  '&fFast Strength I':
+    result: POTION
+    amount: 1
+    effect: STRENGTH
+    amplifier: 1
+    duration: 30
+    splash: false
+    shape:
+      - " A "
+      - " B "
+      - " C "
+    ingredients:
+      A: GLASS_BOTTLE
+      B: NETHER_WART
+      C: BLAZE_POWDER

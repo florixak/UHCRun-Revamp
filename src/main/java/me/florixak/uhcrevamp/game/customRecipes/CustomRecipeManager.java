@@ -6,6 +6,7 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import me.florixak.uhcrevamp.versions.VersionUtils;
 import me.florixak.uhcrevamp.versions.VersionUtils_1_20;
@@ -18,6 +19,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -52,20 +54,30 @@ public class CustomRecipeManager {
 
     public void loadRecipes() {
         if (recipeConfig.getConfigurationSection("custom-recipes") == null) return;
-        ConfigurationSection customRecipesSection = recipeConfig.getConfigurationSection("custom-recipes");
-        for (String key : customRecipesSection.getKeys(false)) {
-            ConfigurationSection craftSection = customRecipesSection.getConfigurationSection(key);
-            Material material = XMaterial.matchXMaterial(craftSection.getString("result").toUpperCase()).get().parseMaterial();
-            int amount = !craftSection.contains("amount") ? 1 : craftSection.getInt("amount");
-            ItemStack result = ItemUtils.createItem(material, TextUtils.color(key), amount, null);
 
-            if (craftSection.getConfigurationSection("enchantments") != null) {
-                ConfigurationSection enchantmentsSection = craftSection.getConfigurationSection("enchantments");
-                for (String enchantment : enchantmentsSection.getKeys(false)) {
-                    Enchantment enchant = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
-                    int level = enchantmentsSection.getInt(enchantment);
-                    result.addUnsafeEnchantment(enchant, level);
+        ConfigurationSection customRecipesSection = recipeConfig.getConfigurationSection("custom-recipes");
+
+        for (String recipeName : customRecipesSection.getKeys(false)) {
+            ConfigurationSection craftSection = customRecipesSection.getConfigurationSection(recipeName);
+            int amount = !craftSection.contains("amount") ? 1 : craftSection.getInt("amount");
+            Material material = XMaterial.matchXMaterial(craftSection.getString("result").toUpperCase()).get().parseMaterial();
+            ItemStack result = ItemUtils.createItem(material, recipeName, amount, null);
+            if (!result.getType().name().contains("POTION")) {
+                if (craftSection.getConfigurationSection("enchantments") != null) {
+                    ConfigurationSection enchantmentsSection = craftSection.getConfigurationSection("enchantments");
+                    for (String enchantment : enchantmentsSection.getKeys(false)) {
+                        Enchantment enchant = XEnchantment.matchXEnchantment(enchantment).get().getEnchant();
+                        int level = enchantmentsSection.getInt(enchantment);
+                        result.addUnsafeEnchantment(enchant, level);
+                    }
                 }
+            } else {
+                String potionType = craftSection.getString("effect");
+                PotionEffectType effectType = XPotion.matchXPotion(potionType).get().getPotionEffectType();
+                int duration = craftSection.getInt("duration");
+                int amplifier = craftSection.getInt("amplifier");
+                boolean splash = craftSection.getBoolean("splash");
+                result = ItemUtils.createPotionItem(effectType, recipeName, amount, duration, amplifier, splash);
             }
 
             ItemStack[][] matrix = new ItemStack[3][3]; // Assuming a 3x3 crafting grid
@@ -106,7 +118,7 @@ public class CustomRecipeManager {
                         }
                     }
                     customRecipe.setShapeMatrix(matrix);
-                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key) + "_" + dataValue);
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(recipeName) + "_" + dataValue);
                     recipe.shape(rows.toArray(new String[0]));
 
                     for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {
@@ -141,7 +153,7 @@ public class CustomRecipeManager {
 
                     customRecipe.setShapeMatrix(matrix);
 
-                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(key) + "_" + plank.name());
+                    ShapedRecipe recipe = recipeUtils.createRecipe(result, TextUtils.removeSpecialCharacters(recipeName) + "_" + plank.name());
                     recipe.shape(rows.toArray(new String[0]));
 
                     for (Map.Entry<Character, Material> entry : ingredientMap.entrySet()) {

@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.gui;
 
+import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -31,59 +32,54 @@ public abstract class PaginatedMenu extends Menu {
         if (getMaxPages() == 1) {
             return TextUtils.color(title);
         } else {
-            return TextUtils.color(title + " - " + getMaxPages());
+            return TextUtils.color(title + " - " + (currentPage + 1) + " / " + getMaxPages());
         }
     }
 
     public int getMaxPages() {
-        return (int) Math.ceil((double) getMaxItemsPerPage() / (double) getMaxItemsPerPage());
+        return (int) Math.ceil((double) getItemsCount() / getMaxItemsPerPage());
     }
+
+    public abstract int getItemsCount();
 
     @Override
     public int getSlots() {
         return slots;
     }
 
-    //Set the border and menu buttons for the menu
-    public void addMenuBorder() {
-        if (index > 0)
-            inventory.setItem(getSlots() - 6, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Previous"), 1, null));
-
-        inventory.setItem(getSlots() - 5, ItemUtils.createItem(XMaterial.BARRIER.parseMaterial(), TextUtils.color("&cClose"), 1, null));
-
-        if (index + 1 < getMaxPages())
-            inventory.setItem(getSlots() - 4, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Next"), 1, null));
-
-
-//        for (int i = 0; i < 10; i++) {
-//            if (inventory.getItem(i) == null) {
-//                inventory.setItem(i, super.FILLER);
-//            }
-//        }
-//
-//        inventory.setItem(17, super.FILLER);
-//        inventory.setItem(18, super.FILLER);
-//        inventory.setItem(26, super.FILLER);
-//        inventory.setItem(27, super.FILLER);
-//        inventory.setItem(35, super.FILLER);
-//        inventory.setItem(36, super.FILLER);
-//
-//        for (int i = slots - 10; i < slots; i++) {
-//            if (inventory.getItem(i) == null) {
-//                inventory.setItem(i, super.FILLER);
-//            }
-//        }
+    public int getStartIndex() {
+        return currentPage * getMaxItemsPerPage();
     }
 
-    public int getMaxItemsPerPage() {
+    public int getEndIndex() {
+        return Math.min(getStartIndex() + getMaxItemsPerPage(), getItemsCount());
+    }
+
+    public void addMenuBorder() {
+        if (currentPage > 0)
+            inventory.setItem(getSlots() - 6,
+                    ItemUtils.createItem(XMaterial.matchXMaterial(GameValues.INVENTORY.PREVIOUS_ITEM).get().parseMaterial(),
+                            TextUtils.color(GameValues.INVENTORY.PREVIOUS_TITLE), 1, null));
+
+        inventory.setItem(getSlots() - 5,
+                ItemUtils.createItem(XMaterial.matchXMaterial(GameValues.INVENTORY.CLOSE_ITEM).get().parseMaterial(),
+                        TextUtils.color(GameValues.INVENTORY.CLOSE_TITLE), 1, null));
+
+        if (currentPage < getMaxPages() - 1)
+            inventory.setItem(getSlots() - 4,
+                    ItemUtils.createItem(XMaterial.matchXMaterial(GameValues.INVENTORY.NEXT_ITEM).get().parseMaterial(),
+                            TextUtils.color(GameValues.INVENTORY.NEXT_TITLE), 1, null));
+    }
+
+    private int getMaxItemsPerPage() {
         return getSlots() - 9;
     }
 
     public void handlePaging(InventoryClickEvent event, List<?> recipesList) {
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Previous")) {
+        if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.PREVIOUS_TITLE))) {
             handlePrevious();
-        } else if (ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Next")) {
+        } else if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(TextUtils.color(GameValues.INVENTORY.NEXT_TITLE))) {
             handleNext(recipesList);
         }
     }

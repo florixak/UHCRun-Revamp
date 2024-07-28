@@ -32,6 +32,11 @@ public class PerksMenu extends PaginatedMenu {
     }
 
     @Override
+    public int getItemsCount() {
+        return perksList.size();
+    }
+
+    @Override
     public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
@@ -48,33 +53,30 @@ public class PerksMenu extends PaginatedMenu {
         addMenuBorder();
         ItemStack perkDisplayItem;
 
-        for (int i = 0; i < getMaxItemsPerPage(); i++) {
-            index = getMaxItemsPerPage() * currentPage + i;
-            if (index >= perksList.size()) break;
-            if (perksList.get(index) != null) {
-                Perk perk = perksList.get(index);
-                List<String> lore = new ArrayList<>();
+        for (int i = getStartIndex(); i < getEndIndex(); i++) {
+            Perk perk = perksList.get(i);
+            List<String> lore = new ArrayList<>();
 
-                if (uhcPlayer.hasPerk() && uhcPlayer.getPerk().equals(perk)) {
-                    lore.add(Messages.PERKS_INV_SELECTED.toString());
+            if (uhcPlayer.hasPerk() && uhcPlayer.getPerk().equals(perk)) {
+                lore.add(Messages.PERKS_INV_SELECTED.toString());
+            } else {
+                if (!GameValues.PERKS.BOUGHT_FOREVER) {
+                    lore.add(perk.getFormattedCost());
                 } else {
-                    if (!GameValues.PERKS.BOUGHT_FOREVER) {
-                        lore.add(perk.getFormattedCost());
+                    if (uhcPlayer.getData().hasPerkBought(perk) || perk.isFree()) {
+                        lore.add(Messages.PERKS_INV_CLICK_TO_SELECT.toString());
                     } else {
-                        if (uhcPlayer.getData().hasPerkBought(perk) || perk.isFree()) {
-                            lore.add(Messages.PERKS_INV_CLICK_TO_SELECT.toString());
-                        } else {
-                            lore.add(perk.getFormattedCost());
-                        }
+                        lore.add(perk.getFormattedCost());
                     }
                 }
-
-                lore.addAll(perk.getDescription());
-
-                perkDisplayItem = ItemUtils.createItem(perk.getDisplayItem().getType(), perk.getDisplayName(), 1, lore);
-
-                inventory.addItem(perkDisplayItem);
             }
+
+            lore.addAll(perk.getDescription());
+
+            perkDisplayItem = ItemUtils.createItem(perk.getDisplayItem().getType(), perk.getDisplayName(), 1, lore);
+
+            inventory.setItem(i - getStartIndex(), perkDisplayItem);
+
         }
     }
 

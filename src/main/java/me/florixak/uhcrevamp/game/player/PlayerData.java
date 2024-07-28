@@ -196,6 +196,8 @@ public class PlayerData {
     public void addAssists(int amount) {
         if (amount == 0) return;
 
+        uhcPlayer.sendMessage("[DEBUG MESSAGE] You have got assist!");
+
         playerData.set("player-data." + uhcPlayer.getUUID() + ".assists", getAssists() + amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 
@@ -243,6 +245,7 @@ public class PlayerData {
         String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
         uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString(), "%previous-money%", prevMoney, "%money%", money, "%kit%", kit.getDisplayName(), "%kit-cost%", kitCost);
         uhcPlayer.setKit(kit);
+        gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
     }
 
     public boolean hasKitBought(Kit kit) {
@@ -282,6 +285,7 @@ public class PlayerData {
         String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + perk.getCost());
         uhcPlayer.sendMessage(Messages.PERKS_MONEY_DEDUCT.toString().toString(), "%previous-money%", prevMoney, "%money%", money, "%perk%", perk.getDisplayName(), "%perk-cost%", perkCost);
         uhcPlayer.setPerk(perk);
+        gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
     }
 
     public boolean hasPerkBought(Perk perk) {
@@ -343,7 +347,7 @@ public class PlayerData {
 
         uhcPlayer.sendMessage(Messages.LEVEL_UP.toString().replace("%uhc-level%", String.valueOf(getUHCLevel())).replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
 
-        gameManager.getSoundManager().playLevelUP(uhcPlayer.getPlayer());
+        gameManager.getSoundManager().playUHCLevelUpSound(uhcPlayer.getPlayer());
 
         double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * getUHCLevel();
 

@@ -32,6 +32,11 @@ public class TeamsMenu extends PaginatedMenu {
     }
 
     @Override
+    public int getItemsCount() {
+        return teamsList.size();
+    }
+
+    @Override
     public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
@@ -47,20 +52,16 @@ public class TeamsMenu extends PaginatedMenu {
         addMenuBorder();
         ItemStack item;
 
-        for (int i = 0; i < getMaxItemsPerPage(); i++) {
-            index = getMaxItemsPerPage() * currentPage + i;
-            if (index >= teamsList.size()) break;
-            if (teamsList.get(index) != null) {
-                UHCTeam team = teamsList.get(i);
-                List<String> lore = new ArrayList<>();
-                lore.add(TextUtils.color("&7(" + team.getMembers().size() + "/" + team.getMaxSize() + ")"));
-                for (UHCPlayer member : team.getMembers()) {
-                    lore.add(TextUtils.color("&f" + member.getName()));
-                }
-                item = ItemUtils.createItem(team.getDisplayItem().getType(), "&l" + team.getDisplayName(), 1, lore);
-
-                getInventory().setItem(i, item);
+        for (int i = getStartIndex(); i < getEndIndex(); i++) {
+            UHCTeam team = teamsList.get(i);
+            List<String> lore = new ArrayList<>();
+            lore.add(TextUtils.color("&7(" + team.getMembers().size() + "/" + team.getMaxSize() + ")"));
+            for (UHCPlayer member : team.getMembers()) {
+                lore.add(TextUtils.color("&f" + member.getName()));
             }
+            item = ItemUtils.createItem(team.getDisplayItem().getType(), "&l" + team.getDisplayName(), 1, lore);
+
+            inventory.setItem(i - getStartIndex(), item);
         }
     }
 

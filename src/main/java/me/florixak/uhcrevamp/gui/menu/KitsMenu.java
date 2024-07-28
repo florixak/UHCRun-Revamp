@@ -10,6 +10,7 @@ import me.florixak.uhcrevamp.gui.PaginatedMenu;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XEnchantment;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -37,6 +38,11 @@ public class KitsMenu extends PaginatedMenu {
     }
 
     @Override
+    public int getItemsCount() {
+        return kitsList.size();
+    }
+
+    @Override
     public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
@@ -53,55 +59,51 @@ public class KitsMenu extends PaginatedMenu {
         addMenuBorder();
         ItemStack kitDisplayItem;
 
-        for (int i = 0; i < getMaxItemsPerPage(); i++) {
-            index = getMaxItemsPerPage() * currentPage + i;
-            if (index >= kitsList.size()) break;
-            if (kitsList.get(index) != null) {
-                Kit kit = kitsList.get(index);
-                List<String> lore = new ArrayList<>();
+        for (int i = getStartIndex(); i < getEndIndex(); i++) {
+            Kit kit = kitsList.get(i);
+            List<String> lore = new ArrayList<>();
 
-                if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
-                    lore.add(Messages.KITS_INV_SELECTED.toString());
+            if (uhcPlayer.hasKit() && uhcPlayer.getKit().equals(kit)) {
+                lore.add(Messages.KITS_INV_SELECTED.toString());
+            } else {
+                if (!GameValues.KITS.BOUGHT_FOREVER) {
+                    lore.add(kit.getFormattedCost());
                 } else {
-                    if (!GameValues.KITS.BOUGHT_FOREVER) {
+                    if (uhcPlayer.getData().hasKitBought(kit) || kit.isFree()) {
+                        lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
+                    } else {
                         lore.add(kit.getFormattedCost());
-                    } else {
-                        if (uhcPlayer.getData().hasKitBought(kit) || kit.isFree()) {
-                            lore.add(Messages.KITS_INV_CLICK_TO_SELECT.toString());
-                        } else {
-                            lore.add(kit.getFormattedCost());
-                        }
                     }
                 }
-
-                for (ItemStack item : kit.getItems()) {
-                    if (!item.getEnchantments().keySet().isEmpty()) {
-                        List<Enchantment> enchantmentsList = ItemUtils.getEnchantments(item);
-                        StringBuilder enchants = new StringBuilder();
-                        for (int j = 0; j < enchantmentsList.size(); j++) {
-                            String enchantment = XEnchantment.matchXEnchantment(enchantmentsList.get(j)).name();
-                            enchants.append(TextUtils.toNormalCamelText(enchantment) + " " + item.getEnchantments().get(enchantmentsList.get(j)));
-                            if (j < enchantmentsList.size() - 1) enchants.append(", ");
-                        }
-                        lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));
-                    } else if (ItemUtils.isPotion(item)) {
-                        if (item.hasItemMeta()) {
-                            PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
-                            if (potionMeta != null && potionMeta.hasCustomEffects()) {
-                                String effects = potionMeta.getCustomEffects().stream()
-                                        .map(effect -> TextUtils.toNormalCamelText(effect.getType().getName()) + " " + (effect.getAmplifier() + 1) + " (" + effect.getDuration() + "s)")
-                                        .collect(Collectors.joining(", "));
-                                lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects + "]"));
-                            }
-                        }
-                    } else {
-                        lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
-                    }
-                }
-                kitDisplayItem = ItemUtils.createItem(kit.getDisplayItem().getType(), kit.getDisplayName(), 1, lore);
-
-                inventory.addItem(kitDisplayItem);
             }
+
+            for (ItemStack item : kit.getItems()) {
+                if (!item.getEnchantments().keySet().isEmpty()) {
+                    List<Enchantment> enchantmentsList = ItemUtils.getEnchantments(item);
+                    StringBuilder enchants = new StringBuilder();
+                    for (int j = 0; j < enchantmentsList.size(); j++) {
+                        String enchantment = XEnchantment.matchXEnchantment(enchantmentsList.get(j)).name();
+                        enchants.append(TextUtils.toNormalCamelText(enchantment) + " " + item.getEnchantments().get(enchantmentsList.get(j)));
+                        if (j < enchantmentsList.size() - 1) enchants.append(", ");
+                    }
+                    lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + enchants.toString() + "]"));
+                } else if (ItemUtils.isPotion(item)) {
+                    if (item.hasItemMeta()) {
+                        PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
+                        if (potionMeta != null && potionMeta.hasCustomEffects()) {
+                            String effects = potionMeta.getCustomEffects().stream()
+                                    .map(effect -> TextUtils.toNormalCamelText(XPotion.matchXPotion(effect.getType()).name()) + " " + (effect.getAmplifier() + 1) + " (" + (effect.getDuration() / 20) + "s)")
+                                    .collect(Collectors.joining(", "));
+                            lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString()) + " [" + effects + "]"));
+                        }
+                    }
+                } else {
+                    lore.add(TextUtils.color("&7" + item.getAmount() + "x " + TextUtils.toNormalCamelText(item.getType().toString())));
+                }
+            }
+            kitDisplayItem = ItemUtils.createItem(kit.getDisplayItem().getType(), kit.getDisplayName(), 1, lore);
+
+            inventory.setItem(i - getStartIndex(), kitDisplayItem);
         }
     }
 

@@ -1,15 +1,17 @@
-#
-# Kit creating example:
-# {kit_name}:
-#   display-name: "{name}"
-#   display-item: {item}
-#   cost: {cost}
-#   items:
-#     {ITEM_NAME}:
-#         amount: {amount}
-#         enchantments:
-#           {ENCHANT_NAME}: {enchant_level}
-#
+# This is a list of kits that you can buy in the shop.
+# You can define the cost, display item, and the items included in the kit.
+# You can also define enchantments for the items in the kit.
+
+# How to create a kit?
+#     '&fStarter': # kit name
+#       display-item: WOODEN_PICKAXE # item that will be displayed in the shop
+#       cost: 0 # cost of the kit
+#       items: # items included in the kit
+#         WOODEN_AXE: # item name
+#           amount: 1 # item amount
+#           enchantments: # item enchantments
+#             DIG_SPEED: 3 # enchantment type and level
+#             DURABILITY: 3 # enchantment type and level
 
 kits:
   '&fStarter':
@@ -169,12 +171,12 @@ kits:
         amount: 15
     potions:
       REGENERATION:
-        amplifier: 2
-        duration: 44
-        amount: 3
-        splash: false
+        amplifier: 2 # Regeneration 2
+        duration: 44 # 44 seconds
+        amount: 3 # 3 potions
+        splash: false # Not splash potion
       SLOWNESS:
-        amplifier: 2
-        duration: 44
-        amount: 2
-        splash: true
+        amplifier: 2 # Slowness 2
+        duration: 44 # 44 seconds
+        amount: 2 # 2 potions
+        splash: true # Splash potion

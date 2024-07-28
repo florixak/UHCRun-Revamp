@@ -32,6 +32,11 @@ public class CustomRecipesMenu extends PaginatedMenu {
     }
 
     @Override
+    public int getItemsCount() {
+        return recipesList.size();
+    }
+
+    @Override
     public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
@@ -49,13 +54,9 @@ public class CustomRecipesMenu extends PaginatedMenu {
     public void setMenuItems() {
         addMenuBorder();
 
-        for (int i = 0; i < getMaxItemsPerPage(); i++) {
-            index = getMaxItemsPerPage() * currentPage + i;
-            if (index >= recipesList.size()) break;
-            if (recipesList.get(index) != null) {
-                CustomRecipe recipe = recipesList.get(index);
-                inventory.setItem(index, recipe.getResult());
-            }
+        for (int i = getStartIndex(); i < getEndIndex(); i++) {
+            CustomRecipe recipe = recipesList.get(i);
+            inventory.setItem(i - getStartIndex(), recipe.getResult());
         }
     }
 

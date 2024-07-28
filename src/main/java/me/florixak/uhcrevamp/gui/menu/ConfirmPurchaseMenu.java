@@ -1,6 +1,7 @@
 package me.florixak.uhcrevamp.gui.menu;
 
 import me.florixak.uhcrevamp.config.Messages;
+import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
@@ -53,6 +54,7 @@ public class ConfirmPurchaseMenu extends Menu {
             }
         } else if (event.getSlot() == 15) {
             uhcPlayer.sendMessage(Messages.CANCELLED_PURCHASE.toString());
+            GameManager.getGameManager().getSoundManager().playPurchaseCancelSound(uhcPlayer.getPlayer());
         }
     }
 

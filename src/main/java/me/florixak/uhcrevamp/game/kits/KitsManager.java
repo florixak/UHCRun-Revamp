@@ -14,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,11 +90,12 @@ public class KitsManager {
             if (potionsSection != null && !potionsSection.getKeys(false).isEmpty()) {
                 for (String potion : potionsSection.getKeys(false)) {
                     ConfigurationSection potionSection = potionsSection.getConfigurationSection(potion);
-                    int amplifier = potionSection.getInt("amplifier", 2);
+                    int amplifier = potionSection.getInt("amplifier", 1);
                     int amount = potionSection.getInt("amount", 1);
                     int duration = potionSection.getInt("duration", 44);
                     boolean splash = potionSection.getBoolean("splash", false);
-                    ItemStack potionItem = ItemUtils.createPotionItem(XPotion.matchXPotion(potion).get().getPotionEffectType(), amount, duration, amplifier, splash);
+                    PotionEffectType effectType = XPotion.matchXPotion(potion).get().getPotionEffectType();
+                    ItemStack potionItem = ItemUtils.createPotionItem(effectType, "", amount, duration, amplifier, splash);
 
                     itemsList.add(potionItem);
                 }
@@ -125,19 +127,21 @@ public class KitsManager {
         ConfigurationSection section = config.getConfigurationSection("settings.inventories");
         if (section == null) return;
         for (String selector : section.getKeys(false)) {
-            if (!section.getBoolean(selector + ".enabled")) return;
-            String displayName = section.getString(selector + ".display-name");
-            String material = section.getString(selector + ".display-item", "BARRIER").toUpperCase();
-            ItemStack item;
-            if (material.contains("HEAD") || material.contains("SKULL_ITEM")) {
-                item = Utils.getPlayerHead(p.getPlayer(), p.getName());
-            } else {
-                item = XMaterial.matchXMaterial(material).get().parseItem();
+            if (!selector.matches("next|next-item|previous|previous-item|back|back-item|close|close-item")) {
+                if (!section.getBoolean(selector + ".enabled")) return;
+                String displayName = section.getString(selector + ".display-name");
+                String material = section.getString(selector + ".display-item", "BARRIER").toUpperCase();
+                ItemStack item;
+                if (material.contains("HEAD") || material.contains("SKULL_ITEM")) {
+                    item = Utils.getPlayerHead(p.getPlayer(), p.getName());
+                } else {
+                    item = XMaterial.matchXMaterial(material).get().parseItem();
+                }
+                int slot = section.getInt(selector + ".slot");
+                ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);
+                if (slot < 0 || slot > 8) return;
+                p.getPlayer().getInventory().setItem(slot, newItem);
             }
-            int slot = section.getInt(selector + ".slot");
-            ItemStack newItem = ItemUtils.createItem(item.getType(), displayName, 1, null);
-            if (slot < 0 || slot > 8) return;
-            p.getPlayer().getInventory().setItem(slot, newItem);
         }
     }
 

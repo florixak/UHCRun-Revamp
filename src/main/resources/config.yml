@@ -13,6 +13,15 @@ settings:
     use-PlaceholderAPI: true # Enable integration with PlaceholderAPI for custom placeholders
     use-HeadDatabase: false # Enable integration with HeadDatabase (in development)
 
+  # MySQL database
+  mysql:
+    enabled: false # Enable MySQL database integration
+    host: "localhost" # MySQL server host
+    port: "3306" # MySQL server port
+    database: "uhcrevamp" # MySQL database name
+    username: "root" # MySQL username
+    password: "" # MySQL password
+
   # Game settings
   game:
     allow-nether: false # Allow players to enter the Nether
@@ -184,6 +193,15 @@ settings:
 
   # Selectors
   inventories:
+    next: "&6Next"
+    next-item: DARK_OAK_BUTTON
+    previous: "&6Previous"
+    previous-item: DARK_OAK_BUTTON
+    back: "&6Back"
+    back-item: DARK_OAK_BUTTON
+    close: "&cClose"
+    close-item: BARRIER
+
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true # Enable teams menu
@@ -217,23 +235,58 @@ settings:
       slots: 36 # Number of slots for statistics menu
     confirm-purchase:
       enabled: true # Enable confirm purchase menu
-      display-name: "&6Are you sure?" # Display name for confirm purchase menu
       confirm: "&aConfirm (%cost% %currency%)" # Text for confirm button
       confirm-item: EMERALD_BLOCK # Item for confirm button
       cancel: "&cCancel" # Text for cancel button
       cancel-item: REDSTONE_BLOCK # Item for cancel button
       slot: -1 # Slot for confirm purchase menu, -1 = not in the hotbar menu
       slots: 27 # Number of slots for confirm purchase menu
-      back-item: DARK_OAK_BUTTON # Item for back button
 
-  # MySQL database
-  mysql:
-    enabled: false # Enable MySQL database integration
-    host: "localhost" # MySQL server host
-    port: "3306" # MySQL server port
-    database: "uhcrevamp" # MySQL database name
-    username: "root" # MySQL username
-    password: "" # MySQL password
+  sounds:
+    started:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume: 1.0
+      pitch: 1.0
+    starting:
+      sound: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1.0
+      pitch: 1.0
+    win:
+      sound: ENTITY_FIREWORK_ROCKET_BLAST
+      volume: 1.0
+      pitch: 1.0
+    game-end:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume: 1.0
+      pitch: 1.0
+    deathmatch:
+      sound: ENTITY_ENDER_DRAGON_GROWL
+      volume: 1.0
+      pitch: 1.0
+    deathmatch-starting:
+      sound: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1.0
+      pitch: 1.0
+    uhc-level-up:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume: 1.0
+      pitch: 1.0
+    kill:
+      sound: ENTITY_LIGHTNING_BOLT_IMPACT
+      volume: 1.0
+      pitch: 1.0
+    select:
+      sound: ENTITY_EXPERIENCE_ORB_PICKUP
+      volume: 1.0
+      pitch: 1.0
+    buy:
+      sound: BLOCK_NOTE_BLOCK_PLING
+      volume: 1.0
+      pitch: 1.0
+    purchase-cancel:
+      sound: BLOCK_ANVIL_BREAK
+      volume: 1.0
+      pitch: 1.0
 
   # Chat
   chat:

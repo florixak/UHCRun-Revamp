@@ -159,6 +159,7 @@ public class UHCPlayer {
         if (this.kit == kit) return;
         this.kit = kit;
         sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
+        GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
     }
 
     public boolean hasPerk() {
@@ -173,6 +174,7 @@ public class UHCPlayer {
         if (this.perk == perk) return;
         this.perk = perk;
         sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
+        GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
     }
 
     public void setDeathLocation(Location deathLoc) {

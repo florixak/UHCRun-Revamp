@@ -111,14 +111,21 @@ public class GameValues {
         public final String PERKS_TITLE = getConfigString("settings.inventories.perks.display-name", "Perks");
         public final String CUSTOM_RECIPES_TITLE = getConfigString("settings.inventories.custom-recipes.display-name", "Custom Recipes");
         public final String STATS_TITLE = getConfigString("settings.inventories.statistics.display-name", "Statistics");
-        public final String CONFIRM_PURCHASE_TITLE = getConfigString("settings.inventories.confirm-purchase.display-name", "Confirm Purchase");
 
         public final boolean CONFIRM_PURCHASE_ENABLED = getConfigBoolean("settings.inventories.confirm-purchase.enabled", true);
         public final String CONFIRM_PURCHASE_NAME = getConfigString("settings.inventories.confirm-purchase.confirm", "&aConfirm");
         public final String CANCEL_PURCHASE_NAME = getConfigString("settings.inventories.confirm-purchase.cancel", "&cCancel");
         public final String CONFIRM_PURCHASE_ITEM = getConfigString("settings.inventories.confirm-purchase.confirm-item", "BARRIER");
         public final String CANCEL_PURCHASE_ITEM = getConfigString("settings.inventories.confirm-purchase.cancel-item", "BARRIER");
-        public final String BACK_ITEM = getConfigString("settings.inventories.confirm-purchase.back-item", "BARRIER");
+
+        public final String BACK_TITLE = getConfigString("settings.inventories.back", "&7Back");
+        public final String BACK_ITEM = getConfigString("settings.inventories.back-item", "DARK_OAK_BUTTON");
+        public final String NEXT_TITLE = getConfigString("settings.inventories.next", "&7Next");
+        public final String NEXT_ITEM = getConfigString("settings.inventories.next-item", "DARK_OAK_BUTTON");
+        public final String PREVIOUS_TITLE = getConfigString("settings.inventories.previous", "&7Previous");
+        public final String PREVIOUS_ITEM = getConfigString("settings.inventories.previous-item", "DARK_OAK_BUTTON");
+        public final String CLOSE_TITLE = getConfigString("settings.inventories.close", "&cClose");
+        public final String CLOSE_ITEM = getConfigString("settings.inventories.close-item", "BARRIER");
 
         public final int KITS_SLOTS = getConfigInt("settings.inventories.kits.slots", 45);
         public final int PERKS_SLOTS = getConfigInt("settings.inventories.perks.slots", 45);
@@ -183,6 +190,52 @@ public class GameValues {
         public final boolean ENABLED = getConfigBoolean("settings.death-chest.enabled", true);
         public final String HOLOGRAM_TEXT = getConfigString("settings.death-chest.hologram-text", "&a%player%'s chest");
         public final int HOLOGRAM_EXPIRE_TIME = getConfigInt("settings.death-chest.expire", -1);
+    }
+
+    public static class Sounds {
+        public static final String STARTED_SOUND = getConfigString("settings.sounds.started.sound", "");
+        public static final float STARTED_VOLUME = (float) getConfigDouble("settings.sounds.started.volume", 1.0);
+        public static final float STARTED_PITCH = (float) getConfigDouble("settings.sounds.started.pitch", 1.0);
+
+        public static final String STARTING_SOUND = getConfigString("settings.sounds.starting.sound", "");
+        public static final float STARTING_VOLUME = (float) getConfigDouble("settings.sounds.starting.volume", 1.0);
+        public static final float STARTING_PITCH = (float) getConfigDouble("settings.sounds.starting.pitch", 1.0);
+
+        public static final String WIN_SOUND = getConfigString("settings.sounds.win.sound", "");
+        public static final float WIN_VOLUME = (float) getConfigDouble("settings.sounds.win.volume", 1.0);
+        public static final float WIN_PITCH = (float) getConfigDouble("settings.sounds.win.pitch", 1.0);
+
+        public static final String GAME_END_SOUND = getConfigString("settings.sounds.game-end.sound", "");
+        public static final float GAME_END_VOLUME = (float) getConfigDouble("settings.sounds.game-end.volume", 1.0);
+        public static final float GAME_END_PITCH = (float) getConfigDouble("settings.sounds.game-end.pitch", 1.0);
+
+        public static final String DEATHMATCH_SOUND = getConfigString("settings.sounds.deathmatch.sound", "");
+        public static final float DEATHMATCH_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch.volume", 1.0);
+        public static final float DEATHMATCH_PITCH = (float) getConfigDouble("settings.sounds.deathmatch.pitch", 1.0);
+
+        public static final String DEATHMATCH_STARTING_SOUND = getConfigString("settings.sounds.deathmatch-starting.sound", "");
+        public static final float DEATHMATCH_STARTING_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch-starting.volume", 1.0);
+        public static final float DEATHMATCH_STARTING_PITCH = (float) getConfigDouble("settings.sounds.deathmatch-starting.pitch", 1.0);
+
+        public static final String UHC_LEVEL_UP_SOUND = getConfigString("settings.sounds.uhc-level-up.sound", "");
+        public static final float UHC_LEVEL_UP_VOLUME = (float) getConfigDouble("settings.sounds.uhc-level-up.volume", 1.0);
+        public static final float UHC_LEVEL_UP_PITCH = (float) getConfigDouble("settings.sounds.uhc-level-up.pitch", 1.0);
+
+        public static final String KILL_SOUND = getConfigString("settings.sounds.kill.sound", "");
+        public static final float KILL_VOLUME = (float) getConfigDouble("settings.sounds.kill.volume", 1.0);
+        public static final float KILL_PITCH = (float) getConfigDouble("settings.sounds.kill.pitch", 1.0);
+
+        public static final String SELECT_SOUND = getConfigString("settings.sounds.select.sound", "");
+        public static final float SELECT_VOLUME = (float) getConfigDouble("settings.sounds.select.volume", 1.0);
+        public static final float SELECT_PITCH = (float) getConfigDouble("settings.sounds.select.pitch", 1.0);
+
+        public static final String BUY_SOUND = getConfigString("settings.sounds.buy.sound", "");
+        public static final float BUY_VOLUME = (float) getConfigDouble("settings.sounds.buy.volume", 1.0);
+        public static final float BUY_PITCH = (float) getConfigDouble("settings.sounds.buy.pitch", 1.0);
+
+        public static final String PURCHASE_CANCEL_SOUND = getConfigString("settings.sounds.purchase-cancel.sound", "");
+        public static final float PURCHASE_CANCEL_VOLUME = (float) getConfigDouble("settings.sounds.purchase-cancel.volume", 1.0);
+        public static final float PURCHASE_CANCEL_PITCH = (float) getConfigDouble("settings.sounds.purchase-cancel.pitch", 1.0);
     }
 
     private static boolean getConfigBoolean(String path, boolean def) {

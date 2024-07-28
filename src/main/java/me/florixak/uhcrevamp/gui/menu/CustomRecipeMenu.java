@@ -8,7 +8,6 @@ import me.florixak.uhcrevamp.gui.MenuUtils;
 import me.florixak.uhcrevamp.utils.ItemUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,10 +32,12 @@ public class CustomRecipeMenu extends Menu {
 
     @Override
     public void handleMenuClicks(InventoryClickEvent event) {
-        Material backMaterial = XMaterial.matchXMaterial(GameValues.INVENTORY.BACK_ITEM).get().parseMaterial();
-        if (event.getCurrentItem().getType() != backMaterial) return;
-        close();
-        new CustomRecipesMenu(MenuManager.getMenuUtils(menuUtils.getUHCPlayer())).open();
+        if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
+            close();
+        } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {
+            close();
+            new CustomRecipesMenu(MenuManager.getMenuUtils(menuUtils.getUHCPlayer())).open();
+        }
     }
 
     @Override
@@ -51,6 +52,15 @@ public class CustomRecipeMenu extends Menu {
         }
 
         inventory.setItem(24, recipe.getResult());
-        inventory.setItem(36, ItemUtils.createItem(XMaterial.matchXMaterial(GameValues.INVENTORY.BACK_ITEM).get().parseMaterial(), "&cBack", 1, null));
+        inventory.setItem(getSlots() - 6, ItemUtils.createItem(
+                XMaterial.matchXMaterial(GameValues.INVENTORY.BACK_ITEM).get().parseMaterial(),
+                TextUtils.color(GameValues.INVENTORY.BACK_TITLE),
+                1,
+                null));
+        inventory.setItem(getSlots() - 5, ItemUtils.createItem(
+                XMaterial.matchXMaterial(GameValues.INVENTORY.CLOSE_ITEM).get().parseMaterial(),
+                TextUtils.color(GameValues.INVENTORY.CLOSE_TITLE),
+                1,
+                null));
     }
 }

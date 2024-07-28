@@ -156,7 +156,7 @@ public class GameManager {
                 getTaskManager().startStartingCD();
 //                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playStartingSound(player));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartingSound(player));
                 break;
 
             case MINING:
@@ -166,7 +166,7 @@ public class GameManager {
                 getTaskManager().startMiningCD();
 //                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.MINING.toString(), null));
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStarted(player));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartedSound(player));
                 break;
 
             case PVP:
@@ -185,12 +185,12 @@ public class GameManager {
                 getTaskManager().startDeathmatchCD();
 
                 Utils.broadcast(Messages.DEATHMATCH.toString());
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDMBegan(player));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDeathmatchSound(player));
                 break;
 
             case ENDING:
                 Utils.broadcast(Messages.GAME_ENDED.toString());
-                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEnd(player));
+                Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEndSound(player));
 
                 getPlayerManager().setUHCWinner();
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
