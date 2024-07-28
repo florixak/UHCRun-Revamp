@@ -17,7 +17,7 @@ of features to create the great UHC experience.
   with Vault.
 - **LuckPerms Support**: Utilize advanced permission management to control access to game features and commands.
 - **ProtocolLib Integration**: Ensure compatibility and performance with ProtocolLib, enhancing the player experience.
-- **Custom Kits, Drops, and Recipes**: Customize kits, loot drops, and crafting recipes for a unique gameplay
+- **Custom Kits, Perks, Drops, and Recipes**: Customize kits, loot drops, and crafting recipes for a unique gameplay
   experience.
 
 ## Prerequisites
