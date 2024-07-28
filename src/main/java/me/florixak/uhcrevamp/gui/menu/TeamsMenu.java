@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.gui.menu;
 
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
@@ -43,6 +44,10 @@ public class TeamsMenu extends PaginatedMenu {
         } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {
             handlePaging(event, teamsList);
         } else {
+            if (GameManager.getGameManager().isPlaying()) {
+                uhcPlayer.sendMessage(Messages.CANT_USE_NOW.toString());
+                return;
+            }
             handleTeamSelection(event);
         }
     }

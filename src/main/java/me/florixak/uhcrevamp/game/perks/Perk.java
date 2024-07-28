@@ -61,7 +61,7 @@ public class Perk {
                 for (PerkEffect effect : perkEffect) {
                     desc = desc
                             .replace("%effect%", effect.getEffectName())
-                            .replace("%effect-level%", String.valueOf(effect.getLevel()))
+                            .replace("%effect-level%", String.valueOf(effect.getAmplifier()))
                             .replace("%effect-duration%", String.valueOf(effect.getDuration()));
                 }
             }

@@ -10,7 +10,7 @@ public class TaskManager {
 
     private final GameManager gameManager;
 
-    private final long delay = 0L;
+    private final long delay = 20L;
     private final long period = 20L;
 
     private StartingCD startingCd;
@@ -37,16 +37,19 @@ public class TaskManager {
     }
 
     public void startMiningCD() {
+        if (startingCd != null) startingCd.cancel();
         this.miningCd = new MiningCD(gameManager);
         this.miningCd.runTaskTimer(UHCRevamp.getInstance(), delay, period);
     }
 
     public void startPvPCD() {
+        if (miningCd != null) miningCd.cancel();
         this.pvpCD = new PvPCD(gameManager);
         this.pvpCD.runTaskTimer(UHCRevamp.getInstance(), delay, period);
     }
 
     public void startDeathmatchCD() {
+        if (pvpCD != null) pvpCD.cancel();
         this.deathmatchCd = new DeathmatchCD(gameManager);
         this.deathmatchCd.runTaskTimer(UHCRevamp.getInstance(), delay, period);
     }
@@ -57,6 +60,8 @@ public class TaskManager {
     }
 
     public void startEndingCD() {
+        if (deathmatchCd != null) deathmatchCd.cancel();
+        if (deathmatchResist != null) deathmatchResist.cancel();
         this.endingCd = new EndingCD();
         this.endingCd.runTaskTimer(UHCRevamp.getInstance(), delay, period);
     }
@@ -65,13 +70,6 @@ public class TaskManager {
         if (GameValues.ACTIVITY_REWARDS.ENABLED) {
             int interval = GameValues.ACTIVITY_REWARDS.INTERVAL * 20;
             new ActivityRewards(gameManager).runTaskTimer(UHCRevamp.getInstance(), delay, interval);
-        }
-    }
-
-    public void runAutoBroadcast() {
-        if (GameValues.BROADCAST.ENABLED) {
-            int interval = GameValues.BROADCAST.INTERVAL * 20;
-            new AutoBCMessage(gameManager).runTaskTimer(UHCRevamp.getInstance(), delay, interval);
         }
     }
 
@@ -88,6 +86,14 @@ public class TaskManager {
     public void onDisable() {
         Bukkit.getScheduler().getActiveWorkers().clear();
         Bukkit.getScheduler().getPendingTasks().clear();
+        if (startingCd != null) startingCd.cancel();
+        if (miningCd != null) miningCd.cancel();
+        if (pvpCD != null) pvpCD.cancel();
+        if (deathmatchCd != null) deathmatchCd.cancel();
+        if (deathmatchResist != null) deathmatchResist.cancel();
+        if (endingCd != null) endingCd.cancel();
+        if (gameChecking != null) gameChecking.cancel();
+        if (scoreboardUpdate != null) scoreboardUpdate.cancel();
     }
 
 }

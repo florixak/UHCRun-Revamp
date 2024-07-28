@@ -185,12 +185,6 @@ settings:
     team-mode-player-list: "&7[%uhc-level%] %team% &f%player%" # Player list format for team mode
     footer: "\n&7www.github.com/florixak" # Footer text for tablist
 
-  # Auto broadcast settings
-  auto-broadcast:
-    enabled: false # Enable auto broadcast
-    random-messages: true # Enable random messages for auto broadcast
-    period: 10 # Time period in seconds for auto broadcast
-
   # Selectors
   inventories:
     next: "&6Next"

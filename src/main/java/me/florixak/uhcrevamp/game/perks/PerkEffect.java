@@ -12,7 +12,7 @@ public class PerkEffect {
 
     public PerkEffect(PotionEffect effectType) {
         this.effectType = effectType;
-        this.displayName = getEffectName() + " " + getLevel() + " (" + getDuration() + "s)";
+        this.displayName = getEffectName() + " " + getAmplifier() + " (" + getDuration() + "s)";
     }
 
     public PotionEffect getEffectType() {
@@ -31,12 +31,12 @@ public class PerkEffect {
         return effectType.getDuration();
     }
 
-    public int getLevel() {
+    public int getAmplifier() {
         return effectType.getAmplifier() + 1;
     }
 
     public void giveEffect(UHCPlayer uhcPlayer) {
-        uhcPlayer.getPlayer().addPotionEffect(effectType);
-        uhcPlayer.sendMessage(TextUtils.color("&aYou have received a perk effect! &e" + getDisplayName()));
+        uhcPlayer.addEffect(XPotion.matchXPotion(effectType.getType()), effectType.getAmplifier(), effectType.getDuration());
+        uhcPlayer.sendMessage(TextUtils.color("&aYou have received a perk effect! &e" + getDisplayName() + " &afor &6" + getDuration() + " &aseconds."));
     }
 }

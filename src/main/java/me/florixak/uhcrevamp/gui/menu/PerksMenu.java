@@ -43,6 +43,10 @@ public class PerksMenu extends PaginatedMenu {
         } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {
             handlePaging(event, perksList);
         } else {
+            if (GameManager.getGameManager().isPlaying()) {
+                uhcPlayer.sendMessage(Messages.CANT_USE_NOW.toString());
+                return;
+            }
             handlePerkSelection(event);
         }
 

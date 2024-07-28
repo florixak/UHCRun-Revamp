@@ -26,7 +26,6 @@ public class GameValues {
     public static final PerkConfig PERKS = new PerkConfig();
     public static final StatisticConfig STATISTICS = new StatisticConfig();
     public static final RewardConfig REWARDS = new RewardConfig();
-    public static final BroadcastConfig BROADCAST = new BroadcastConfig();
     public static final InventoryConfig INVENTORY = new InventoryConfig();
     public static final TablistConfig TABLIST = new TablistConfig();
     public static final ActivityRewardConfig ACTIVITY_REWARDS = new ActivityRewardConfig();
@@ -98,11 +97,6 @@ public class GameValues {
         public final double EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.exp", 0);
         public final double COINS_FOR_ASSIST = getConfigDouble("settings.rewards.assist.coins", 0);
         public final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.uhc-exp", 0);
-    }
-
-    public static class BroadcastConfig {
-        public final boolean ENABLED = getConfigBoolean("settings.auto-broadcast.enabled", true);
-        public final int INTERVAL = getConfigInt("settings.auto-broadcast.period", 300);
     }
 
     public static class InventoryConfig {

@@ -54,7 +54,7 @@ public class PerkBonus {
         int randomExp = RandomUtils.randomInteger(getExp().get(0), getExp().get(1));
         uhcPlayer.getData().depositMoney(randomCoins);
         uhcPlayer.getData().addUHCExp(randomUHCExp);
-        uhcPlayer.getPlayer().giveExp(randomExp);
+        uhcPlayer.giveExp(randomExp);
         uhcPlayer.sendMessage(TextUtils.color("&aYou have received a bonus! &eCoins: &6" + randomCoins + " &eUHC Exp: &6" + randomUHCExp + " &eExp: &6" + randomExp));
     }
 

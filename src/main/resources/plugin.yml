@@ -12,6 +12,9 @@ commands:
   forcestart:
     aliases: [ start ]
     description: Force game start
+  forceskip:
+    aliases: [ skip ]
+    description: Force game skip phase
   workbench:
     aliases: [ wb, craftingtable ]
     description: Opens remote workbench

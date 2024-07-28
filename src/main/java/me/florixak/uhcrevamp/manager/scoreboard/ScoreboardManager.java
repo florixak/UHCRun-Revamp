@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ScoreboardManager {
 
-    private Map<UUID, ScoreHelper> players;
+    private final Map<UUID, ScoreHelper> players;
 
     private final String title;
     private final String footer;
@@ -182,7 +182,6 @@ public class ScoreboardManager {
     }
 
     public void setScoreboard(Player p) {
-        removeFromMap(p);
         switch (gameManager.getGameState()) {
             case LOBBY:
                 createWaitingSb(p);

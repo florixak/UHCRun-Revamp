@@ -297,7 +297,7 @@ public class UHCPlayer {
     }
 
     public void addEffect(XPotion potion, int duration, int level) {
-        getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration, level), "Cannot create potion from null."));
+        getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration * 20, level), "Cannot create potion from null."));
     }
 
     public void clearPotions() {

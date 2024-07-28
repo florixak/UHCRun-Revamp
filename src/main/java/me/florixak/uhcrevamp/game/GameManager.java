@@ -73,7 +73,6 @@ public class GameManager {
     private final WorldManager worldManager;
     private final MenuManager menuManager;
 
-    private boolean forceStarted;
     private boolean pvp;
 
     public GameManager(UHCRevamp plugin) {
@@ -109,7 +108,6 @@ public class GameManager {
         registerCommands();
         registerListeners();
 
-        setForceStarted(false);
         setPvP(false);
 
         connectToDatabase();
@@ -136,7 +134,6 @@ public class GameManager {
         getTaskManager().runGameChecking();
         getTaskManager().runScoreboardUpdate();
         getTaskManager().runActivityRewards();
-        getTaskManager().runAutoBroadcast();
     }
 
     public GameState getGameState() {
@@ -154,7 +151,6 @@ public class GameManager {
 
             case STARTING:
                 getTaskManager().startStartingCD();
-//                Utils.broadcast(Messages.GAME_STARTING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartingSound(player));
                 break;
@@ -164,7 +160,6 @@ public class GameManager {
                 getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningCD();
-//                Utils.broadcast(Messages.MINING.toString().replace("%countdown%", TimeUtils.getFormattedTime(getCurrentCountdown())));
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.MINING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartedSound(player));
                 break;
@@ -199,7 +194,7 @@ public class GameManager {
         }
     }
 
-    public long getCurrentCountdown() {
+    public int getCurrentCountdown() {
         switch (gameState) {
             case LOBBY:
                 return -1;
@@ -239,14 +234,6 @@ public class GameManager {
 
     public boolean isEnding() {
         return gameState.equals(GameState.ENDING);
-    }
-
-    public boolean isForceStarted() {
-        return this.forceStarted;
-    }
-
-    public void setForceStarted(boolean b) {
-        this.forceStarted = b;
     }
 
     public boolean isPvP() {
@@ -300,7 +287,13 @@ public class GameManager {
         String path = "settings.mysql";
         if (!config.getBoolean(path + ".enabled", false)) return;
 
-        this.mysql = new MySQL(config.getString(path + ".host", "localhost"), config.getString(path + ".port", "3306"), config.getString(path + ".database", "uhcrun"), config.getString(path + ".username", "root"), config.getString(path + ".password", ""));
+        String host = config.getString(path + ".host", "localhost");
+        String port = config.getString(path + ".port", "3306");
+        String database = config.getString(path + ".database", "uhcrun");
+        String username = config.getString(path + ".username", "root");
+        String password = config.getString(path + ".password", "");
+
+        this.mysql = new MySQL(host, port, database, username, password);
         this.data = new SQLGetter(this);
     }
 
@@ -331,6 +324,7 @@ public class GameManager {
     private void registerCommands() {
         registerCommand("uhc", new UHCCommand(gameManager));
         registerCommand("forcestart", new ForceStartCommand(gameManager));
+        registerCommand("forceskip", new ForceSkipCommand(gameManager));
         registerCommand("team", new TeamCommand(gameManager));
         registerCommand("workbench", new WorkbenchCommand(gameManager));
         registerCommand("anvil", new AnvilCommand(plugin));

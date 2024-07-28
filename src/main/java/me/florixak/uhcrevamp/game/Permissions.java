@@ -4,6 +4,7 @@ public enum Permissions {
 
     ANVIL("anvil"),
     FORCE_START("forcestart"),
+    FORCE_SKIP("forceskip"),
     KITS("kits"),
     SETUP("setup"),
     WORKBENCH("workbench"),

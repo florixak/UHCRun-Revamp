@@ -45,6 +45,7 @@ public enum Messages {
     PLAYERS_TO_START("game.players-to-start"),
     NOT_ENOUGH_PLAYERS("game.not-enough-players"),
     GAME_FORCE_STARTED("game.force-started"),
+    GAME_PHASE_FORCE_SKIPPED("game.phase-force-skipped"),
 
     GAME_STARTING("game.starting"),
     GAME_ALREADY_STARTING("game.already-starting"),
