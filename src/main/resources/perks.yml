@@ -1,5 +1,95 @@
+# This is a list of perks that you can buy in the shop.
+# You can define the cost, description, and the action that will be executed when you buy the perk.
+# You can define multiple actions for one perk.
+
+# All the amounts or BONUSES needs to be defined as a range [], if you want direct count, then just write one in [].
+# All the chances are in %, so if you want 50% chance, then write 50 in the chance field.
+# All the durations are in seconds.
+
+# How to create a perk?
+#     '&cStrength I': # perk name
+#       display-item: IRON_SWORD # item that will be displayed in the shop
+#       cost: 100 # cost of the perk
+#       description: # description of the perk
+#         - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+#         - '&7There is %item-chance% that gives you %item-amount%x %item-name%.'
+#       EFFECT: # effect action
+#         STRENGTH: # effect name
+#           level: 1 # effect level
+#           duration: 10 # effect duration in seconds
+#       ITEM: # item action
+#         GOLDEN_APPLE: # item name
+#           amount: [ 1 ] # item amount
+#           chance: 100 # item chance
+#       BONUS: # bonus action
+#         coins: [ 50 ] # bonus coins
+#         uhc-exp: [ 50 ] # bonus uhc exp
+#         exp: [ 50 ] # bonus exp
+
+# Descriptions:
+#     EFFECT:
+#     - %effect% - effect name
+#     - %effect-level% - effect level
+#     - %effect-duration% - effect duration
+
+#     ITEM:
+#     - %item-name% - item name
+#     - %item-chance% - item chance
+#     - %item-amount% - item amount
+
+#     BONUS:
+#     - %bonus-coins% - bonus coins
+#     - %bonus-uhc-exp% - bonus uhc exp
+#     - %bonus-exp% - bonus exp
+
+# Actions type:
+#     ITEM - gives you an item
+#     EFFECT - gives you an effect
+#     BONUS - gives you a coins, uhc exp and exp bonus
+
 perks:
-  Killer:
+  '&cStrength I':
     display-item: IRON_SWORD
     cost: 100
-    actions: [ "[EFFECT] STRENGTH 5 1" ]
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      STRENGTH:
+        level: 1
+        duration: 10 # seconds
+  '&dSpeed I':
+    display-item: SUGAR
+    cost: 100
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      SPEED:
+        level: 2
+        duration: 15 # seconds
+  '&6Golden Apple':
+    display-item: GOLDEN_APPLE
+    cost: 50
+    description:
+      - '&7There is %item-chance% that gives you %item-amount%x %item-name%.'
+    ITEM:
+      GOLDEN_APPLE:
+        amount: [ 1, 2 ] # gives you random amount of golden apples between 1 and 2
+        chance: 50 # 50% chance to get this item
+  '&5Ender Pearl':
+    display-item: ENDER_PEARL
+    cost: 50
+    description:
+      - '&7There is %item-chance% that gives you %item-amount%x %item-name%.'
+    ITEM:
+      ENDER_PEARL:
+        amount: [ 1, 2 ] # gives you random amount of golden apples between 1 and 2
+        chance: 30 # 30% chance to get this item
+  '&eRich Man':
+    display-item: GOLD_INGOT
+    cost: 100
+    description:
+      - '&7You will get extra bonus %bonus-coins% %currency%, %bonus-uhc-exp% uhc exp and %bonus-exp% exp.'
+    BONUS:
+      coins: [ 50, 100 ] # gives you random amount of coins between 50 and 100
+      uhc-exp: [ 50, 100 ] # gives you random amount of uhc exp between 50 and 100
+      exp: [ 50, 100 ] # gives you random amount of exp between 50 and 100

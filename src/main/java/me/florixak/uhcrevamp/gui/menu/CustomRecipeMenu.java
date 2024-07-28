@@ -32,7 +32,7 @@ public class CustomRecipeMenu extends Menu {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public void handleMenuClicks(InventoryClickEvent event) {
         Material backMaterial = XMaterial.matchXMaterial(GameValues.INVENTORY.BACK_ITEM).get().parseMaterial();
         if (event.getCurrentItem().getType() != backMaterial) return;
         close();

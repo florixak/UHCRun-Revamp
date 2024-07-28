@@ -131,7 +131,7 @@ public class GameManager {
         getCustomDropManager().loadDrops();
         getTeamManager().loadTeams();
         getKitsManager().loadKits();
-        // TODO getPerksManager().loadPerks();
+        getPerksManager().loadPerks();
 
         getTaskManager().runGameChecking();
         getTaskManager().runScoreboardUpdate();

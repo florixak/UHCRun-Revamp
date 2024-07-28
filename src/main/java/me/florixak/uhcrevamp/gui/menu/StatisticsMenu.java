@@ -27,11 +27,11 @@ public class StatisticsMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 3 * GameValues.COLUMNS;
+        return GameValues.INVENTORY.STATS_SLOTS;
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public void handleMenuClicks(InventoryClickEvent event) {
         handleStatistics(event);
     }
 

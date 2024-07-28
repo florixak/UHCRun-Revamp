@@ -18,6 +18,8 @@ Messages:
   offline-player: "&c[!] &fThis player is offline!"
   only-for-player: "%prefix% This can use only player!"
   no-money: "&c[!] &fYou do not have enough money!"
+  currency: "coins"
+  purchase-cancel: "&c[!] &fPurchase cancelled!"
   cant-use-now: "&c[!] &fYou can not use it right now!"
 
   cant-break: "&c[!] &fYou can not break blocks right now!"
@@ -78,7 +80,7 @@ Messages:
   kits:
     selected: "&a[!] &fKit %kit% &fwas selected!"
     disabled: "&c[!] &fKits are currently disabled!"
-    cost: "&fPrize: &e%cost% %currency%"
+    cost: "&fCost: &e%cost% %currency%"
     inventory-selected: "&aSelected"
     inventory-click-to-select: "&eClick to select"
     scoreboard-disabled: "Disabled"
@@ -89,16 +91,15 @@ Messages:
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
     disabled: "&c[!] &fPerks are currently disabled!"
-    cost: "&e[!] &fPrize: %cost% %currency%"
+    cost: "&fCost: &e%cost% %currency%"
     inventory-selected: "&aSelected"
     inventory-click-to-select: "&eClick to select"
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (Perk %perk%)"
+    money-deduct: "&e[!] &f%previous-money% - %perk-cost% = %money% %currency% (Perk %perk%)"
 
   rewards:
-    currency: "coins"
     win:
       - "&7---------- %prefix% &7----------"
       - " &a+%money-for-game% &f%currency% for win"

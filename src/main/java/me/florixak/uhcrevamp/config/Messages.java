@@ -20,6 +20,8 @@ public enum Messages {
     ONLY_PLAYER("only-for-player"),
     NO_MONEY("no-money"),
     MONEY("money"),
+    CURRENCY("currency"),
+    CANCELLED_PURCHASE("purchase-cancel"),
     CANT_USE_NOW("cant-use-now"),
 
     CANT_PLACE("cant-place"),
@@ -55,8 +57,6 @@ public enum Messages {
     GAME_FULL("game.full"),
 
     KICK_DUE_RESERVED_SLOT("game.kick-due-reserved-slot"),
-
-    CURRENCY("rewards.currency"),
 
     REWARDS_WIN("rewards.win"),
     REWARDS_LOSE("rewards.lose"),
@@ -100,12 +100,6 @@ public enum Messages {
     TEAM_NONE("teams.none"),
     TEAM_SOLO("teams.solo"),
     TEAM_NO_FRIENDLY_FIRE("teams.no-friendly-fire"),
-
-    NICK_NICKED("nick.nicked"),
-    NICK_UNNICKED("nick.unnicked"),
-    NICK_NOT_NICKED("nick.not-nicked"),
-    NICK_MIN_CHARS("nick.min-chars"),
-    NICK_OCCUPIED("nick.occupied"),
 
     SETUP_SET_WAIT_LOBBY("setup.waiting-lobby-set"),
     SETUP_DEL_WAIT_LOBBY("setup.waiting-lobby-removed"),

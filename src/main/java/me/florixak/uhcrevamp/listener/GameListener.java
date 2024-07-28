@@ -107,11 +107,11 @@ public class GameListener implements Listener {
         if (killer != null) {
             killer.addKill();
             killer.getPlayer().giveExp((int) GameValues.REWARDS.EXP_FOR_KILL);
-            gameManager.getPerksManager().givePerk(killer);
+            killer.getPerk().givePerk(killer);
 
             killer.sendMessage(Messages.REWARDS_KILL.toString()
                     .replace("%player%", victim.getName())
-                    .replace("%money%", String.valueOf(GameValues.REWARDS.MONEY_FOR_ASSIST))
+                    .replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
                     .replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
 
             Utils.broadcast(Messages.KILL.toString()

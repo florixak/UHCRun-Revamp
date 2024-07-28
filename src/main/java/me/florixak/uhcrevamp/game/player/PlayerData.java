@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
+import me.florixak.uhcrevamp.game.perks.Perk;
 import me.florixak.uhcrevamp.hook.VaultHook;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -23,7 +24,7 @@ public class PlayerData {
     private final FileConfiguration playerData;
 
     private final List<Kit> boughtKitsList;
-//    private final ArrayList<Perk> boughtPerks;
+    private final List<Perk> boughtPerksList;
 
     private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
     private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
@@ -41,6 +42,7 @@ public class PlayerData {
         this.uhcExpForKills = 0;
         this.uhcExpForAssists = 0;
         this.boughtKitsList = new ArrayList<>();
+        this.boughtPerksList = new ArrayList<>();
 
         initializeData();
     }
@@ -48,6 +50,7 @@ public class PlayerData {
     public void initializeData() {
         setInitialData();
         loadBoughtKits();
+        loadBoughtPerks();
     }
 
     public void setInitialData() {
@@ -72,6 +75,7 @@ public class PlayerData {
         playerData.set(path + ".deaths", 0);
         playerData.set(path + ".games-played", 0);
         playerData.set(path + ".kits", new ArrayList<>());
+        playerData.set(path + ".perks", new ArrayList<>());
         playerData.set(path + ".displayed-top", "wins");
 
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -121,7 +125,7 @@ public class PlayerData {
             gameManager.getData().addWin(uhcPlayer.getUUID());
         }
 
-        double money = GameValues.REWARDS.MONEY_FOR_WIN;
+        double money = GameValues.REWARDS.COINS_FOR_WIN;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_WIN;
 
         depositMoney(money);
@@ -147,7 +151,7 @@ public class PlayerData {
             gameManager.getData().addLose(uhcPlayer.getUUID());
         }
 
-        double money = GameValues.REWARDS.MONEY_FOR_LOSE;
+        double money = GameValues.REWARDS.COINS_FOR_LOSE;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
 
         depositMoney(money);
@@ -173,7 +177,7 @@ public class PlayerData {
             gameManager.getData().addKill(uhcPlayer.getUUID(), amount);
         }
 
-        double money = GameValues.REWARDS.MONEY_FOR_KILL;
+        double money = GameValues.REWARDS.COINS_FOR_KILL;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
 
         depositMoney(money);
@@ -199,7 +203,7 @@ public class PlayerData {
             gameManager.getData().addAssist(uhcPlayer.getUUID(), amount);
         }
 
-        double money = GameValues.REWARDS.MONEY_FOR_ASSIST;
+        double money = GameValues.REWARDS.COINS_FOR_ASSIST;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
 
         depositMoney(money);
@@ -262,6 +266,45 @@ public class PlayerData {
     private void saveKits() {
         List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
         playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", kitsNameList);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+    }
+
+    public void buyPerk(Perk perk) {
+        if (!perk.isFree() && uhcPlayer.getData().getMoney() < perk.getCost()) {
+            uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
+            return;
+        }
+        boughtPerksList.add(perk);
+        withdrawMoney(perk.getCost());
+        savePerks();
+        String perkCost = String.valueOf(perk.getCost());
+        String money = String.valueOf(getMoney());
+        String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + perk.getCost());
+        uhcPlayer.sendMessage(Messages.PERKS_MONEY_DEDUCT.toString().toString(), "%previous-money%", prevMoney, "%money%", money, "%perk%", perk.getDisplayName(), "%perk-cost%", perkCost);
+        uhcPlayer.setPerk(perk);
+    }
+
+    public boolean hasPerkBought(Perk perk) {
+        return boughtPerksList.contains(perk);
+    }
+
+    public void loadBoughtPerks() {
+        List<String> boughtPerksList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".perks");
+
+        for (String perkName : boughtPerksList) {
+            Perk perk = gameManager.getPerksManager().getPerk(perkName);
+            if (perk != null) this.boughtPerksList.add(perk);
+        }
+        savePerks();
+    }
+
+    public List<Perk> getPerks() {
+        return boughtPerksList;
+    }
+
+    private void savePerks() {
+        List<String> perksNameList = boughtPerksList.stream().map(Perk::getName).collect(Collectors.toList());
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".perks", perksNameList);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 

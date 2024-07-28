@@ -41,8 +41,6 @@ public class UHCPlayer {
     private Location deathLoc;
 
     private String displayedStat;
-    private Kit selectedKit;
-    private Perk selectedPerk;
 
     public UHCPlayer(UUID uuid, String name) {
         this.uuid = uuid;
@@ -61,8 +59,6 @@ public class UHCPlayer {
         this.damageTrackers = new HashMap<>();
 
         this.displayedStat = "Wins";
-        this.selectedKit = null;
-        this.selectedPerk = null;
     }
 
     public UUID getUUID() {
@@ -162,12 +158,7 @@ public class UHCPlayer {
     public void setKit(Kit kit) {
         if (this.kit == kit) return;
         this.kit = kit;
-        sendMessage(Messages.KITS_SELECTED.toString()
-                .replace("%kit%", kit.getDisplayName()));
-    }
-
-    public void setSelectedKit(Kit selectedKit) {
-        this.selectedKit = selectedKit;
+        sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
     }
 
     public boolean hasPerk() {
@@ -181,10 +172,7 @@ public class UHCPlayer {
     public void setPerk(Perk perk) {
         if (this.perk == perk) return;
         this.perk = perk;
-    }
-
-    public void setSelectedPerk(Perk selectedPerk) {
-        this.selectedPerk = selectedPerk;
+        sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
     }
 
     public void setDeathLocation(Location deathLoc) {
@@ -306,8 +294,8 @@ public class UHCPlayer {
         getPlayer().giveExp(exp);
     }
 
-    public void addPotion(XPotion potion, int duration, int power) {
-        getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration, power), "Cannot create potion from null."));
+    public void addEffect(XPotion potion, int duration, int level) {
+        getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration, level), "Cannot create potion from null."));
     }
 
     public void clearPotions() {
@@ -340,6 +328,10 @@ public class UHCPlayer {
 
     public void openInventory(Inventory inventory) {
         getPlayer().openInventory(inventory);
+    }
+
+    public void closeInventory() {
+        getPlayer().closeInventory();
     }
 
     public void sendHotBarMessage(String message) {

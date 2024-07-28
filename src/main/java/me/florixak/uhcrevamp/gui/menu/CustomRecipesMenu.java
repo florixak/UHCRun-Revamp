@@ -9,7 +9,6 @@ import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.gui.MenuUtils;
 import me.florixak.uhcrevamp.gui.PaginatedMenu;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
-import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
@@ -21,25 +20,19 @@ public class CustomRecipesMenu extends PaginatedMenu {
     private final List<CustomRecipe> recipesList;
 
     public CustomRecipesMenu(MenuUtils menuUtils) {
-        super(menuUtils);
+        super(menuUtils, GameValues.INVENTORY.CUSTOM_RECIPES_TITLE);
         this.uhcPlayer = menuUtils.getUHCPlayer();
         this.recipeManager = GameManager.getGameManager().getRecipeManager();
         this.recipesList = recipeManager.getRecipeList();
     }
 
     @Override
-    public String getMenuName() {
-        int pages = recipesList.size() / maxItemsPerPage + 1;
-        return TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE) + " - Page " + (currentPage + 1) + " of " + pages;
-    }
-
-    @Override
     public int getSlots() {
-        return 6 * GameValues.COLUMNS;
+        return GameValues.INVENTORY.CUSTOM_RECIPES_SLOTS;
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
         } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {

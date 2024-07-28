@@ -100,7 +100,7 @@ settings:
 
   # Perk settings
   perks:
-    enabled: false # Enable perks
+    enabled: true # Enable perks
     bought-forever: true # Perks are bought permanently
 
   # Statistics settings
@@ -143,22 +143,22 @@ settings:
   # Reward settings
   rewards:
     kill:
-      money: 30 # Money reward for a kill
+      coins: 30 # Money reward for a kill
       exp: 60 # Experience reward for a kill
       uhc-exp: 60 # UHC experience reward for a kill
     assist:
-      money: 10 # Money reward for an assist
+      coins: 10 # Money reward for an assist
       exp: 0 # Experience reward for an assist
       uhc-exp: 20 # UHC experience reward for an assist
     win:
-      money: 150 # Money reward for a win
+      coins: 150 # Money reward for a win
       uhc-exp: 300 # UHC experience reward for a win
     lose:
-      money: 50 # Money reward for a loss
+      coins: 50 # Money reward for a loss
       uhc-exp: 150 # UHC experience reward for a loss
     activity:
       enabled: true # Enable activity rewards
-      money: 10 # Money reward for activity
+      coins: 10 # Money reward for activity
       uhc-exp: 20 # UHC experience reward for activity
       period: 300 # Time period in seconds for activity rewards
     level-up:
@@ -187,38 +187,44 @@ settings:
     # Available menu - teams, kits, perks, custom-crafts, statistics
     teams:
       enabled: true # Enable teams menu
-      display-name: "&aTeams" # Display name for teams menu
+      display-name: "&fTeams&8" # Display name for teams menu
       display-item: WHITE_WOOL # Display item for teams menu
       slot: 0 # Slot for teams menu
+      slots: 36 # Number of slots for teams menu
     kits:
       enabled: true # Enable kits menu
-      display-name: "&aKits" # Display name for kits menu
+      display-name: "&fKits&8" # Display name for kits menu
       display-item: IRON_PICKAXE # Display item for kits menu
       slot: 3 # Slot for kits menu
+      slots: 45 # Number of slots for kits menu
     perks:
       enabled: true # Enable perks menu
-      display-name: "&aPerks" # Display name for perks menu
+      display-name: "&fPerks&8" # Display name for perks menu
       display-item: ARROW # Display item for perks menu
       slot: 5 # Slot for perks menu
+      slots: 45 # Number of slots for perks menu
     custom-recipes:
       enabled: true # Enable custom recipes menu
-      display-name: "&aCustom Recipes" # Display name for custom recipes menu
+      display-name: "&fCustom Recipes&8" # Display name for custom recipes menu
       display-item: CRAFTING_TABLE # Display item for custom recipes menu
       slot: 4 # Slot for custom recipes menu
+      slots: 45 # Number of slots for custom recipes menu
     statistics:
       enabled: true # Enable statistics menu
-      display-name: "&aProfile" # Display name for statistics menu
+      display-name: "&fProfile" # Display name for statistics menu
       display-item: PLAYER_HEAD # Display item for statistics menu
       slot: 8 # Slot for statistics menu
+      slots: 36 # Number of slots for statistics menu
     confirm-purchase:
       enabled: true # Enable confirm purchase menu
       display-name: "&6Are you sure?" # Display name for confirm purchase menu
-      confirm: "&aConfirm" # Text for confirm button
+      confirm: "&aConfirm (%cost% %currency%)" # Text for confirm button
       confirm-item: EMERALD_BLOCK # Item for confirm button
       cancel: "&cCancel" # Text for cancel button
       cancel-item: REDSTONE_BLOCK # Item for cancel button
       slot: -1 # Slot for confirm purchase menu, -1 = not in the hotbar menu
-      back-item: BARRIER # Item for back button
+      slots: 27 # Number of slots for confirm purchase menu
+      back-item: DARK_OAK_BUTTON # Item for back button
 
   # MySQL database
   mysql:

@@ -89,14 +89,14 @@ public class GameValues {
     public static class RewardConfig {
         public final double BASE_REWARD = getConfigDouble("settings.rewards.base-reward", 100);
         public final double REWARD_COEFFICIENT = getConfigDouble("settings.rewards.reward-coefficient", 1);
-        public final double MONEY_FOR_WIN = getConfigDouble("settings.rewards.win.money", 0);
+        public final double COINS_FOR_WIN = getConfigDouble("settings.rewards.win.coins", 0);
         public final double UHC_EXP_FOR_WIN = getConfigInt("settings.rewards.win.uhc-exp", 0);
-        public final double MONEY_FOR_LOSE = getConfigDouble("settings.rewards.lose.money", 0);
+        public final double COINS_FOR_LOSE = getConfigDouble("settings.rewards.lose.coins", 0);
         public final double UHC_EXP_FOR_LOSE = getConfigInt("settings.rewards.lose.uhc-exp", 0);
-        public final double MONEY_FOR_KILL = getConfigDouble("settings.rewards.kill.money", 0);
+        public final double COINS_FOR_KILL = getConfigDouble("settings.rewards.kill.coins", 0);
         public final double UHC_EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.uhc-exp", 0);
         public final double EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.exp", 0);
-        public final double MONEY_FOR_ASSIST = getConfigDouble("settings.rewards.assist.money", 0);
+        public final double COINS_FOR_ASSIST = getConfigDouble("settings.rewards.assist.coins", 0);
         public final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.uhc-exp", 0);
     }
 
@@ -120,6 +120,13 @@ public class GameValues {
         public final String CANCEL_PURCHASE_ITEM = getConfigString("settings.inventories.confirm-purchase.cancel-item", "BARRIER");
         public final String BACK_ITEM = getConfigString("settings.inventories.confirm-purchase.back-item", "BARRIER");
 
+        public final int KITS_SLOTS = getConfigInt("settings.inventories.kits.slots", 45);
+        public final int PERKS_SLOTS = getConfigInt("settings.inventories.perks.slots", 45);
+        public final int CUSTOM_RECIPES_SLOTS = getConfigInt("settings.inventories.custom-recipes.slots", 45);
+        public final int STATS_SLOTS = getConfigInt("settings.inventories.statistics.slots", 45);
+        public final int TEAMS_SLOTS = getConfigInt("settings.inventories.teams.slots", 45);
+        public final int CONFIRM_PURCHASE_SLOTS = getConfigInt("settings.inventories.confirm-purchase.slots", 9);
+
         public final String TEAMS_DIS_ITEM = getConfigString("settings.inventories.teams.display-item", "BARRIER");
         public final String KITS_DIS_ITEM = getConfigString("settings.inventories.kits.display-item", "BARRIER");
         public final String PERKS_DIS_ITEM = getConfigString("settings.inventories.perks.display-item", "BARRIER");
@@ -128,7 +135,7 @@ public class GameValues {
     }
 
     public static class ScoreboardConfig {
-        
+
     }
 
     public static class TablistConfig {

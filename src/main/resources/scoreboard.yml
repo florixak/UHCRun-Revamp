@@ -13,6 +13,7 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKit: &a%kit%"
+    - "&fPerk: &a%perk%"
     - ""
     - "&7%sb-footer%"
 
@@ -26,6 +27,7 @@ scoreboard:
     - ""
     - "&fTeam: &a%team%"
     - "&fKit: &a%kit%"
+    - "&fPerk: &a%perk%"
     - ""
     - "&7%sb-footer%"
 

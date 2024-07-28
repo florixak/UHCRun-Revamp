@@ -26,24 +26,18 @@ public class KitsMenu extends PaginatedMenu {
     private final List<Kit> kitsList;
 
     public KitsMenu(MenuUtils menuUtils) {
-        super(menuUtils);
+        super(menuUtils, GameValues.INVENTORY.KITS_TITLE);
         this.uhcPlayer = menuUtils.getUHCPlayer();
         this.kitsList = GameManager.getGameManager().getKitsManager().getKitsList();
     }
 
     @Override
-    public String getMenuName() {
-        int pages = kitsList.size() / maxItemsPerPage + 1;
-        return TextUtils.color(GameValues.INVENTORY.CUSTOM_RECIPES_TITLE) + " - Page " + (currentPage + 1) + " of " + pages;
-    }
-
-    @Override
     public int getSlots() {
-        return 6 * GameValues.COLUMNS;
+        return GameValues.INVENTORY.KITS_SLOTS;
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public void handleMenuClicks(InventoryClickEvent event) {
         if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
             close();
         } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {
@@ -121,7 +115,7 @@ public class KitsMenu extends PaginatedMenu {
     }
 
     private void handleKitSelection(InventoryClickEvent event) {
-        Kit selectedKit = GameManager.getGameManager().getKitsManager().getKitsList().get(event.getSlot());
+        Kit selectedKit = kitsList.get(event.getSlot());
         close();
 
         if (!GameValues.KITS.BOUGHT_FOREVER) {

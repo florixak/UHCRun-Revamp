@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.gui.menu;
 
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
@@ -16,6 +17,7 @@ public class ConfirmPurchaseMenu extends Menu {
     private final UHCPlayer uhcPlayer;
     private final Kit kitToBuy;
     private final Perk perkToBuy;
+    private double moneyToWithdraw = 0;
 
     public ConfirmPurchaseMenu(MenuUtils menuUtils) {
         super(menuUtils);
@@ -31,32 +33,38 @@ public class ConfirmPurchaseMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 27;
+        return GameValues.INVENTORY.CONFIRM_PURCHASE_SLOTS;
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public void handleMenuClicks(InventoryClickEvent event) {
 
         uhcPlayer.getPlayer().closeInventory();
 
         if (event.getSlot() == 11) {
             if (kitToBuy != null) {
                 uhcPlayer.getData().buyKit(menuUtils.getSelectedKitToBuy());
+                menuUtils.setSelectedKitToBuy(null);
             } else if (perkToBuy != null) {
-                //uhcPlayer.getData().buyPerk(perk);
+                uhcPlayer.getData().buyPerk(menuUtils.getSelectedPerkToBuy());
+                menuUtils.setSelectedPerkToBuy(null);
             } else {
                 uhcPlayer.getData().withdrawMoney(0);
             }
         } else if (event.getSlot() == 15) {
-            menuUtils.getOwner().sendMessage(TextUtils.color("&cYou have cancelled the purchase!"));
+            uhcPlayer.sendMessage(Messages.CANCELLED_PURCHASE.toString());
         }
     }
 
     @Override
     public void setMenuItems() {
+        moneyToWithdraw = kitToBuy != null ? kitToBuy.getCost() : perkToBuy.getCost();
+
         inventory.setItem(11, ItemUtils.createItem(
                 XMaterial.matchXMaterial(GameValues.INVENTORY.CONFIRM_PURCHASE_ITEM).get().parseMaterial(),
-                TextUtils.color(GameValues.INVENTORY.CONFIRM_PURCHASE_NAME),
+                TextUtils.color(GameValues.INVENTORY.CONFIRM_PURCHASE_NAME
+                        .replace("%cost%", String.valueOf(moneyToWithdraw))
+                        .replace("%currency%", Messages.CURRENCY.toString())),
                 1,
                 null)
         );
