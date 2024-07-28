@@ -28,7 +28,7 @@ public class CustomRecipeMenu extends Menu {
 
     @Override
     public int getSlots() {
-        return 45;
+        return 54;
     }
 
     @Override

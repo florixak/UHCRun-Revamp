@@ -46,11 +46,14 @@ public abstract class PaginatedMenu extends Menu {
 
     //Set the border and menu buttons for the menu
     public void addMenuBorder() {
-        inventory.setItem(getSlots() - 6, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Previous"), 1, null));
+        if (index > 0)
+            inventory.setItem(getSlots() - 6, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Previous"), 1, null));
 
         inventory.setItem(getSlots() - 5, ItemUtils.createItem(XMaterial.BARRIER.parseMaterial(), TextUtils.color("&cClose"), 1, null));
 
-        inventory.setItem(getSlots() - 4, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Next"), 1, null));
+        if (index + 1 < getMaxPages())
+            inventory.setItem(getSlots() - 4, ItemUtils.createItem(XMaterial.DARK_OAK_BUTTON.parseMaterial(), TextUtils.color("&6Next"), 1, null));
+
 
 //        for (int i = 0; i < 10; i++) {
 //            if (inventory.getItem(i) == null) {
