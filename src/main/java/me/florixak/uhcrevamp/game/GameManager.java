@@ -278,7 +278,7 @@ public class GameManager {
         return this.mysql;
     }
 
-    public SQLGetter getData() {
+    public SQLGetter getDatabase() {
         return this.data;
     }
 

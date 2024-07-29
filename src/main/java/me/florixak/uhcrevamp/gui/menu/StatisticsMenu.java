@@ -6,6 +6,7 @@ import me.florixak.uhcrevamp.game.statistics.StatisticsManager;
 import me.florixak.uhcrevamp.gui.Menu;
 import me.florixak.uhcrevamp.gui.MenuUtils;
 import me.florixak.uhcrevamp.utils.ItemUtils;
+import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -32,13 +33,24 @@ public class StatisticsMenu extends Menu {
 
     @Override
     public void handleMenuClicks(InventoryClickEvent event) {
-        handleStatistics(event);
+        if (event.getCurrentItem().getType().equals(XMaterial.BARRIER.parseMaterial())) {
+            close();
+        } else if (event.getCurrentItem().getType().equals(XMaterial.DARK_OAK_BUTTON.parseMaterial())) {
+            handleStatistics(event);
+        }
+
     }
 
     @Override
     public void setMenuItems() {
         getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, StatisticsManager.getPlayerStats(uhcPlayer));
         getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, StatisticsManager.getTopStats(uhcPlayer));
+
+        inventory.setItem(getSlots() - 5, ItemUtils.createItem(
+                XMaterial.matchXMaterial(GameValues.INVENTORY.CLOSE_ITEM).get().parseMaterial(),
+                TextUtils.color(GameValues.INVENTORY.CLOSE_TITLE),
+                1,
+                null));
     }
 
     private void handleStatistics(InventoryClickEvent event) {

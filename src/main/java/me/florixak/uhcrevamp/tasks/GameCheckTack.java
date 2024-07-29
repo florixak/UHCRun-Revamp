@@ -5,7 +5,6 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameCheckTack extends BukkitRunnable {
@@ -22,12 +21,10 @@ public class GameCheckTack extends BukkitRunnable {
     }
 
     public boolean isGameEnd() {
-        Bukkit.getLogger().info("Creating isGameEnd()");
         return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
     }
 
     public boolean canStart() {
-        Bukkit.getLogger().info("Creating canStart()");
         return gameManager.getPlayerManager().getPlayers().size() >= GameValues.GAME.PLAYERS_TO_START;
     }
 
