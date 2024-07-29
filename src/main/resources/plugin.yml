@@ -27,7 +27,7 @@ commands:
     aliases: [ kit ]
     description: Opens kits gui
   recipes:
-    aliases: [ crafts, customrecipes ]
+    aliases: [ crafts, recipe ]
     description: Opens recipes gui
   statistics:
     aliases: [ stats ]
