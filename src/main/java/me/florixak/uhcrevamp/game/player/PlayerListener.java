@@ -7,8 +7,8 @@ import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.Permissions;
 import me.florixak.uhcrevamp.listener.events.GameKillEvent;
 import me.florixak.uhcrevamp.utils.Utils;
+import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +29,7 @@ public class PlayerListener implements Listener {
         boolean isPlaying = gameManager.isPlaying();
         boolean isFull = gameManager.isGameFull();
         boolean isEnding = gameManager.isEnding();
+        
         if (isEnding) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Messages.GAME_ENDED.toString());
         } else if (!isPlaying && isFull) {
@@ -51,12 +52,16 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void handleJoin(PlayerJoinEvent event) {
-
-        Player p = event.getPlayer();
         event.setJoinMessage(null);
+        Player p = event.getPlayer();
 
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
-        gameManager.getPlayerManager().addPlayer(uhcPlayer);
+        UHCPlayer uhcPlayer;
+        if (gameManager.getPlayerManager().doesPlayerExist(p)) {
+            uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p);
+        } else {
+            uhcPlayer = gameManager.getPlayerManager().newUHCPlayer(p);
+        }
+
         gameManager.getScoreboardManager().setScoreboard(p);
 //        gameManager.getTaskManager().getPlayingTimeTask().playerJoined(uhcPlayer);
 
@@ -67,23 +72,10 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        p.setGameMode(GameMode.ADVENTURE);
-        p.setHealth(p.getMaxHealth());
-        p.setFoodLevel(20);
-        p.giveExp(-p.getTotalExperience());
-        p.setTotalExperience(0);
-        p.setLevel(0);
+        gameManager.getPlayerManager().setPlayerWaitsAtLobby(uhcPlayer);
 
-        p.teleport(gameManager.getLobbyManager().getLocation("waiting"));
-
-        uhcPlayer.clearInventory();
-        gameManager.getKitsManager().getLobbyKit(uhcPlayer);
-
-        Utils.broadcast(Messages.JOIN.toString()
-                .replace("%player%", p.getDisplayName())
-                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
-        p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + GameValues.GAME.PLAYERS_TO_START));
+        Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.JOIN.toString(), p));
+        Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.PLAYERS_TO_START.toString(), p));
     }
 
     @EventHandler
@@ -95,19 +87,15 @@ public class PlayerListener implements Listener {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
         gameManager.getScoreboardManager().removeScoreboard(uhcPlayer.getPlayer());
 
-
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
-            Utils.broadcast(Messages.QUIT.toString()
-                    .replace("%player%", uhcPlayer.getName())
-                    .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size() - 1)));
             uhcPlayer.leaveTeam();
-        } else if (!GameValues.GAME.STATS_ADD_ON_END && gameManager.isPlaying()) {
+            gameManager.getPlayerManager().getPlayersList().remove(uhcPlayer);
+            Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.QUIT.toString(), p));
+        } else if (gameManager.isPlaying() && !gameManager.isEnding()) {
             uhcPlayer.getData().addDeaths(1);
             uhcPlayer.getData().addLose(1);
             uhcPlayer.getData().setGamesPlayed();
         }
-
-        gameManager.getPlayerManager().removePlayer(uhcPlayer);
     }
 
     @EventHandler
@@ -132,7 +120,7 @@ public class PlayerListener implements Listener {
     public void handleItemDrop(PlayerDropItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
+        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.isEnding()) {
             event.setCancelled(true);
         }
     }
@@ -142,7 +130,7 @@ public class PlayerListener implements Listener {
     public void handleItemPickUp(PlayerPickupItemEvent event) {
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(event.getPlayer().getUniqueId());
 
-        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
+        if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.isEnding()) {
             event.setCancelled(true);
         }
     }

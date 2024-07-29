@@ -3,6 +3,7 @@ package me.florixak.uhcrevamp.commands;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class ReviveCommand implements CommandExecutor {
             uhcPlayer.revive();
             sender.sendMessage("You revived yourself!");
         } else if (args.length == 1) {
-            UHCPlayer target = gameManager.getPlayerManager().getUHCPlayer(args[0]);
+            UHCPlayer target = gameManager.getPlayerManager().getUHCPlayer(Bukkit.getPlayer(args[0]));
             if (!target.isOnline()) {
                 sender.sendMessage(Messages.OFFLINE_PLAYER.toString());
                 return true;

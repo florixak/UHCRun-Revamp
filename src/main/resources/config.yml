@@ -31,6 +31,7 @@ settings:
     explode-block-destroy: true # Allow explosions to destroy blocks
     custom-drops: true # Enable custom item drops
     random-drops: false # Enable random item drops (in development)
+    max-ore-per-chunk: 10 # Maximum number of ores per chunk
 
     players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message

@@ -14,6 +14,9 @@ import me.florixak.uhcrevamp.game.player.PlayerListener;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.game.teams.TeamManager;
+import me.florixak.uhcrevamp.game.worldGenerator.OreGenManager;
+import me.florixak.uhcrevamp.game.worldGenerator.OreGeneratorListener;
+import me.florixak.uhcrevamp.game.worldGenerator.WorldGeneratorListener;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldManager;
 import me.florixak.uhcrevamp.gui.MenuManager;
 import me.florixak.uhcrevamp.listener.ChatListener;
@@ -23,6 +26,7 @@ import me.florixak.uhcrevamp.listener.InventoryClickListener;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.manager.*;
 import me.florixak.uhcrevamp.manager.scoreboard.ScoreboardManager;
+import me.florixak.uhcrevamp.manager.scoreboard.TabManager;
 import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
 import me.florixak.uhcrevamp.tasks.*;
@@ -103,14 +107,8 @@ public class GameManager {
     }
 
     public void loadNewGame() {
-        setGameState(GameState.LOBBY);
-
-        registerCommands();
-        registerListeners();
-
-        setPvP(false);
-
         connectToDatabase();
+        setGameState(GameState.LOBBY);
 
         if (Bukkit.getWorld(getLobbyManager().getWorld("waiting")) == null) {
             getWorldManager().createWorld("UHCLobby");
@@ -118,12 +116,14 @@ public class GameManager {
         if (Bukkit.getWorld(getLobbyManager().getWorld("ending")) == null) {
             getWorldManager().createWorld("UHCLobby");
         }
-        getOreGenManager().loadOres();
 
+        registerCommands();
+        registerListeners();
+
+        getOreGenManager().loadOres();
         getWorldManager().createNewUHCWorld();
 
         getBorderManager().setBorder();
-//        getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadDrops();
@@ -134,6 +134,8 @@ public class GameManager {
         getTaskManager().runGameCheckTask();
         getTaskManager().runScoreboardUpdateTask();
 //        getTaskManager().runPlayingTimeTask();
+
+        setPvP(false);
     }
 
     public GameState getGameState() {
@@ -156,7 +158,7 @@ public class GameManager {
                 break;
 
             case MINING:
-                getPlayerManager().getOnlinePlayers().forEach(UHCPlayer::ready);
+                getPlayerManager().getPlayers().forEach(UHCPlayer::ready);
                 getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
                 getTaskManager().startMiningTask();
@@ -271,7 +273,7 @@ public class GameManager {
     }
 
     public boolean isGameFull() {
-        return playerManager.getOnlinePlayers().size() >= playerManager.getMaxPlayers();
+        return playerManager.getPlayers().size() >= playerManager.getMaxPlayers();
     }
 
     public MySQL getSQL() {
@@ -314,6 +316,8 @@ public class GameManager {
         listeners.add(new ChatListener(gameManager));
         listeners.add(new InteractListener(gameManager));
         listeners.add(new InventoryClickListener(gameManager));
+        listeners.add(new OreGeneratorListener(gameManager));
+        listeners.add(new WorldGeneratorListener());
 
         for (Listener listener : listeners) {
             Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);

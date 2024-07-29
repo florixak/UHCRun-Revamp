@@ -154,7 +154,7 @@ public class PlaceholderUtil {
         if (text.contains("%max-online%"))
             text = text.replace("%max-online%", String.valueOf(gameManager.getPlayerManager().getMaxPlayers()));
 
-        if (text.contains("%min-online%"))
+        if (text.contains("%players-to-start%"))
             text = text.replace("%min_online%", String.valueOf(GameValues.GAME.PLAYERS_TO_START));
 
         if (text.contains("%currency%")) {

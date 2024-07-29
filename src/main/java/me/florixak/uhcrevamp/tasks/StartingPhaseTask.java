@@ -30,14 +30,14 @@ public class StartingPhaseTask extends BukkitRunnable {
         if (countdown <= 0) {
             cancel();
             Utils.broadcast(Messages.GAME_STARTED.toString());
-            gameManager.getPlayerManager().getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playGameStartedSound(player.getPlayer()));
+            gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartedSound(player.getPlayer()));
             gameManager.setGameState(GameState.MINING);
             return;
         }
 
         if (countdown <= startingMessageAt) {
             Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
-            gameManager.getPlayerManager().getOnlinePlayers().forEach(player -> gameManager.getSoundManager().playGameStartingSound(player.getPlayer()));
+            gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartingSound(player.getPlayer()));
         }
 
         countdown--;

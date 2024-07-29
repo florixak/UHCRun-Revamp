@@ -3,7 +3,6 @@ package me.florixak.uhcrevamp.game.worldGenerator;
 import me.florixak.uhcrevamp.game.GameValues;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
@@ -36,11 +35,6 @@ public class WorldManager {
         WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
         //worldCreator.generator(new CustomWorldGenerator());
         World world = Bukkit.createWorld(worldCreator);
-
-        Location center = new Location(world, world.getSpawnLocation().getX(), 0, world.getSpawnLocation().getZ()); // Define the center
-        int radius = 500; // Define the radius
-        LimitedRegion limitedRegion = new LimitedRegion(center, radius);
-        //world.getPopulators().add(new OrePopulator(limitedRegion));
 
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("announceAdvancements", "false");

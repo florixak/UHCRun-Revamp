@@ -70,7 +70,7 @@ public class GameListener implements Listener {
                     message = message.replace("%winner%", winner)
                             .replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None")
                             .replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
-                            .replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM.TEAM_MODE ? topKiller.getTeam().getDisplayName() : "")
+                            .replace("%top-killer-" + (i + 1) + "-team%", isUHCPlayer && GameValues.TEAM.TEAM_MODE ? topKiller.getTeam() != null ? topKiller.getTeam().getDisplayName() : "" : "")
                             .replace("%top-killer-" + (i + 1) + "-uhc-level%", isUHCPlayer ? String.valueOf(topKiller.getData().getUHCLevel()) : "0");
                 }
                 message = message.replace("%prefix%", Messages.PREFIX.toString());
@@ -80,7 +80,7 @@ public class GameListener implements Listener {
         }
 
         // Statistics
-        for (UHCPlayer player : playerManager.getOnlinePlayers()) {
+        for (UHCPlayer player : playerManager.getPlayers()) {
 
             player.getData().addWinOrLose();
 

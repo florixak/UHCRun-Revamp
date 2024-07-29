@@ -13,7 +13,7 @@ public class BoardsUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        gameManager.getPlayerManager().getOnlinePlayers().forEach(uhcP -> gameManager.getScoreboardManager().updateScoreboard(uhcP.getUUID()));
-        gameManager.getPlayerManager().getOnlinePlayers().forEach(uhcP -> gameManager.getTabManager().setPlayerList(uhcP.getPlayer()));
+        gameManager.getPlayerManager().getPlayers().forEach(uhcP -> gameManager.getScoreboardManager().updateScoreboard(uhcP.getUUID()));
+        gameManager.getPlayerManager().getPlayers().forEach(uhcP -> gameManager.getTabManager().setPlayerList(uhcP.getPlayer()));
     }
 }

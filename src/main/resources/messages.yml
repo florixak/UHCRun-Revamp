@@ -59,7 +59,7 @@ Messages:
     deathmatch: "&6[!] &fDeathmatch has started!"
 
     border-shrink: "&c[!] &fBorder has begun to shrink! Be careful!"
-    players-to-start: "&6[!] &fGame needs minimal %min-players% players to start!"
+    players-to-start: "&6[!] &fGame needs minimal %players-to-start% players to start!"
     not-enough-players: "&c[!] &fNot enough players to start!"
 
     ended: "&c[!] &fGame has ended!"

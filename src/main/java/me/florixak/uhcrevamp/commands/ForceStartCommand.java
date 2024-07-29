@@ -3,7 +3,6 @@ package me.florixak.uhcrevamp.commands;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
-import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,10 +34,10 @@ public class ForceStartCommand implements CommandExecutor {
             sender.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
         } else {
-            if (gameManager.getPlayerManager().getOnlinePlayers().size() < GameValues.GAME.PLAYERS_TO_START) {
-                sender.sendMessage(Messages.NOT_ENOUGH_PLAYERS.toString());
-                return true;
-            }
+//            if (gameManager.getPlayerManager().getOnlinePlayers().size() < 2) {
+//                sender.sendMessage(Messages.NOT_ENOUGH_PLAYERS.toString());
+//                return true;
+//            }
 
         }
 

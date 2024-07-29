@@ -158,7 +158,6 @@ public class GameValues {
     public static class GameSettings {
         public final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);
         public final boolean CUSTOM_DROPS_ENABLED = getConfigBoolean("settings.game.custom-drops", true);
-        public final boolean STATS_ADD_ON_END = getConfigBoolean("settings.statistics.add-up-game-ends", false);
         public final boolean EXPLOSIONS_DISABLED = getConfigBoolean("settings.game.no-explosions", true);
         public final boolean RANDOM_DROPS_ENABLED = getConfigBoolean("settings.game.random-drops", false);
         public final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
@@ -172,6 +171,7 @@ public class GameValues {
         public final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
         public final List<String> DISABLED_IN_MINING = getConfigStringList("settings.game.disabled-in-mining");
         public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.resistance", 10);
+        public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
     }
 
     public static class AddonConfig {

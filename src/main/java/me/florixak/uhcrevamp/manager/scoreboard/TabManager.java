@@ -1,4 +1,4 @@
-package me.florixak.uhcrevamp.manager;
+package me.florixak.uhcrevamp.manager.scoreboard;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
@@ -17,10 +17,9 @@ public class TabManager {
 
     public void setPlayerList(Player p) {
         if (!GameValues.TABLIST.ENABLED) return;
+        if (p == null) return;
 
-        if (!ProtocolLibHook.hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) {
-            return;
-        }
+        if (!ProtocolLibHook.hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
 
         ProtocolManager pm = ProtocolLibHook.getProtocolManager();
         final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);

@@ -2,18 +2,16 @@ package me.florixak.uhcrevamp.game.worldGenerator;
 
 import org.bukkit.Material;
 
-public class OreGenerator {
+public class GeneratedOre {
 
     private final Material material;
     private final int minVein;
     private final int maxVein;
-    private final int spawnAmount;
 
-    public OreGenerator(Material material, int minVein, int maxVein, int spawnAmount) {
+    public GeneratedOre(Material material, int minVein, int maxVein) {
         this.material = material;
         this.minVein = minVein;
         this.maxVein = maxVein;
-        this.spawnAmount = spawnAmount;
     }
 
     public Material getMaterial() {
@@ -26,9 +24,5 @@ public class OreGenerator {
 
     public int getMaxVein() {
         return this.maxVein;
-    }
-
-    public int getSpawnAmount() {
-        return this.spawnAmount;
     }
 }

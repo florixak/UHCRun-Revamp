@@ -123,7 +123,7 @@ public class KitsManager {
         return this.kitsList;
     }
 
-    public void getLobbyKit(UHCPlayer p) {
+    public void giveLobbyKit(UHCPlayer p) {
         ConfigurationSection section = config.getConfigurationSection("settings.inventories");
         if (section == null) return;
         for (String selector : section.getKeys(false)) {

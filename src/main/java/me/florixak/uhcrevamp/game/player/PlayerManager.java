@@ -7,12 +7,11 @@ import me.florixak.uhcrevamp.game.statistics.TopStatistics;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlayerManager {
@@ -25,59 +24,98 @@ public class PlayerManager {
         this.players = new ArrayList<>();
     }
 
-    public void addPlayer(UHCPlayer p) {
-        if (players.contains(p)) return;
-        this.players.add(p);
+    public boolean doesPlayerExist(Player player) {
+        if (getUHCPlayer(player.getUniqueId()) != null) return true;
+        return false;
     }
 
-    public void removePlayer(UHCPlayer p) {
-        if (!players.contains(p)) return;
-        this.players.remove(p);
+    public UHCPlayer getUHCPlayer(UUID uuid) {
+        for (UHCPlayer uhcPlayer : getPlayersList()) {
+            if (uhcPlayer.getUUID().equals(uuid)) {
+                return uhcPlayer;
+            }
+        }
+        return null;
+    }
+
+    public UHCPlayer getUhcPlayer(String name) {
+        for (UHCPlayer uhcPlayer : getPlayersList()) {
+            if (uhcPlayer.getName().equals(name)) {
+                return uhcPlayer;
+            }
+        }
+        return null;
+    }
+
+
+    public UHCPlayer getUHCPlayer(Player player) {
+        return getUHCPlayer(player.getUniqueId());
+    }
+
+    public UHCPlayer getOrCreateUHCPlayer(Player player) {
+        if (doesPlayerExist(player)) {
+            return getUHCPlayer(player);
+        } else {
+            return newUHCPlayer(player);
+        }
+    }
+
+    public synchronized UHCPlayer newUHCPlayer(Player player) {
+        return newUHCPlayer(player.getUniqueId(), player.getName());
+    }
+
+    public synchronized UHCPlayer newUHCPlayer(UUID uuid, String name) {
+        UHCPlayer newPlayer = new UHCPlayer(uuid, name);
+        getPlayersList().add(newPlayer);
+        return newPlayer;
     }
 
     public List<UHCPlayer> getPlayers() {
         return this.players;
     }
 
-    public List<UHCPlayer> getOnlinePlayers() {
-        return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
+    public Set<UHCPlayer> getAlivePlayers() {
+        return players.stream()
+                .filter(UHCPlayer::isAlive)
+                .filter(UHCPlayer::isOnline)
+                .collect(Collectors.toSet());
     }
 
-    public List<UHCPlayer> getAlivePlayers() {
-        return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
+    public Set<UHCPlayer> getAllAlivePlayers() {
+        return players.stream()
+                .filter(UHCPlayer::isAlive)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<UHCPlayer> getOnlinePlayers() {
+        return players.stream()
+                .filter(UHCPlayer::isOnline)
+                .collect(Collectors.toSet());
+    }
+
+    public synchronized List<UHCPlayer> getPlayersList() {
+        return players;
     }
 
     public List<UHCPlayer> getDeadPlayers() {
-        return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
+        return players.stream().filter(UHCPlayer::isDead).filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
 
     public List<UHCPlayer> getSpectatorPlayers() {
-        return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
-    }
-
-    public UHCPlayer getUHCPlayer(UUID uuid) {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(null);
-    }
-
-    public UHCPlayer getUHCPlayer(String name) {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
-    }
-
-    public UHCPlayer getOrCreateUHCPlayer(UUID uuid) {
-        return getPlayers().stream().filter(uhcPlayer -> uhcPlayer.getUUID().equals(uuid)).findFirst().orElse(new UHCPlayer(uuid, Bukkit.getPlayer(uuid).getName()));
+        return players.stream().filter(UHCPlayer::isSpectator).filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
 
     public UHCPlayer getRandomOnlineUHCPlayer() {
-        return getOnlinePlayers().get(RandomUtils.getRandom().nextInt(getOnlinePlayers().size()));
+        return getPlayers().get(RandomUtils.getRandom().nextInt(getPlayers().size()));
     }
 
     public UHCPlayer getUHCPlayerWithoutPerm(String perm) {
-        List<UHCPlayer> onlineListWithoutPerm = getOnlinePlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
+        List<UHCPlayer> onlineListWithoutPerm = getPlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
         return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
     }
 
     public UHCPlayer getWinnerPlayer() {
-        return getAlivePlayers().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
+        return players.stream().filter(UHCPlayer::isWinner).filter(UHCPlayer::isOnline).findFirst().orElse(null);
     }
 
     public void setUHCWinner() {
@@ -151,6 +189,20 @@ public class PlayerManager {
 
     public int getMaxPlayers() {
         return GameValues.TEAM.TEAM_SIZE * gameManager.getTeamManager().getTeamsList().size();
+    }
+
+    public void setPlayerWaitsAtLobby(UHCPlayer uhcPlayer) {
+        Player p = uhcPlayer.getPlayer();
+        p.setHealth(p.getMaxHealth());
+        p.setFoodLevel(20);
+        p.setExhaustion(20);
+        p.setExp(0);
+        p.setGameMode(GameMode.ADVENTURE);
+
+        p.teleport(gameManager.getLobbyManager().getLocation("waiting"));
+
+        uhcPlayer.clearInventory();
+        gameManager.getKitsManager().giveLobbyKit(uhcPlayer);
     }
 
     public void onDisable() {
