@@ -30,13 +30,12 @@ public class OreGeneratorListener implements Listener {
         this.targetWorldName = GameValues.WORLD_NAME;
         this.maxOresPerChunk = GameValues.GAME.MAX_ORE_PER_CHUNK;
         this.oresList = gameManager.getOreGenManager().getOreGeneratorList();
-        this.notSpawnIn = oreGenConfig.getStringList("not-spawn-in").stream()
+        this.notSpawnIn = oreGenConfig.getStringList("not-generate-in").stream()
                 .map(XMaterial::matchXMaterial)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(XMaterial::parseMaterial)
                 .collect(Collectors.toList());
-        Bukkit.getLogger().info("Not Spawn In: " + notSpawnIn.toString());
     }
 
     private static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
@@ -75,7 +74,8 @@ public class OreGeneratorListener implements Listener {
         if (!world.getName().equalsIgnoreCase(targetWorldName)) {
             return;
         }
-        System.out.println("World " + targetWorldName + " loaded. Generating ores...");
+//        Bukkit.getLogger().info("Not Generate In: " + notSpawnIn.toString());
+        Bukkit.getLogger().info("World " + targetWorldName + " loaded. Generating ores...");
         for (Chunk chunk : world.getLoadedChunks()) {
             for (int i = 0; i < maxOresPerChunk; i++) {
                 int x = RandomUtils.getRandom().nextInt(16);
@@ -90,6 +90,6 @@ public class OreGeneratorListener implements Listener {
                 generateVein(generatedOre.getMaterial(), startBlock, RandomUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
             }
         }
-        System.out.println("Ores generated in world " + targetWorldName);
+        Bukkit.getLogger().info("Ores generated in world " + targetWorldName);
     }
 }

@@ -197,10 +197,13 @@ public class PlayerManager {
         p.setFoodLevel(20);
         p.setExhaustion(20);
         p.setExp(0);
+        p.setLevel(0);
+        p.setFireTicks(0);
         p.setGameMode(GameMode.ADVENTURE);
 
         p.teleport(gameManager.getLobbyManager().getLocation("waiting"));
 
+        uhcPlayer.clearPotions();
         uhcPlayer.clearInventory();
         gameManager.getKitsManager().giveLobbyKit(uhcPlayer);
     }

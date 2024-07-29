@@ -38,17 +38,16 @@ public class VaultHook {
         return economy.getBalance(target);
     }
 
-    public static String withdraw(Player target, double amount) {
+    public static String withdraw(String target, double amount) {
         if (!hasEconomy())
             return "ERROR";
 
         return economy.withdrawPlayer(target, amount).errorMessage;
     }
 
-    public static String deposit(Player target, double amount) {
+    public static String deposit(String target, double amount) {
         if (!hasEconomy())
             return "ERROR";
-
         return economy.depositPlayer(target, amount).errorMessage;
     }
 

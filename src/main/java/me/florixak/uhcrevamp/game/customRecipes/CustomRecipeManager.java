@@ -9,8 +9,6 @@ import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XPotion;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import me.florixak.uhcrevamp.versions.VersionUtils;
-import me.florixak.uhcrevamp.versions.VersionUtils_1_20;
-import me.florixak.uhcrevamp.versions.VersionUtils_1_8;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -97,9 +95,10 @@ public class CustomRecipeManager {
 
             CustomRecipe customRecipe = new CustomRecipe(result, matrix);
             customRecipeList.add(customRecipe);
-
-            removeRecipe(result.getType());
-            VersionUtils recipeUtils = getVersionUtils();
+            if (result.getType().name().contains("PICKAXE")) {
+                removeRecipe(result.getType());
+            }
+            VersionUtils recipeUtils = UHCRevamp.getInstance().getVersionUtils();
 
             if (UHCRevamp.useOldMethods) {
                 for (int dataValue = 0; dataValue <= 5; dataValue++) { // 0 to 5 for different wood types
@@ -135,7 +134,7 @@ public class CustomRecipeManager {
                     }
                 }
             } else {
-                for (Material plank : getVersionUtils().getWoodPlankValues()) {
+                for (Material plank : UHCRevamp.getInstance().getVersionUtils().getWoodPlankValues()) {
                     for (int i = 0; i < rows.size(); i++) {
                         for (int j = 0; j < rows.get(i).length(); j++) {
                             char ingredientChar = rows.get(i).charAt(j);
@@ -181,14 +180,6 @@ public class CustomRecipeManager {
                 recipes.remove();
 //                Bukkit.getLogger().info("Removed recipe for: " + material);
             }
-        }
-    }
-
-    public VersionUtils getVersionUtils() {
-        if (UHCRevamp.useOldMethods) {
-            return new VersionUtils_1_8();
-        } else {
-            return new VersionUtils_1_20();
         }
     }
 

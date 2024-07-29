@@ -1,8 +1,10 @@
 package me.florixak.uhcrevamp.game.customDrop;
 
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.RandomUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.versions.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -118,19 +120,24 @@ public class CustomDrop {
                 deathEvent.getDrops().clear();
                 deathEvent.setDroppedExp(0);
                 p.giveExp(getExp());
-
                 dropItem(loc);
             }
         }
     }
 
     private void dropItem(Location loc) {
-        Material drop = getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()));
+        Material drop = XMaterial.matchXMaterial(getDrops().get(RandomUtils.getRandom().nextInt(getDrops().size()))).parseMaterial();
         if (drop != XMaterial.AIR.parseMaterial()) {
-
-            // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
             int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : RandomUtils.randomInteger(getMinAmount(), getMaxAmount());
             ItemStack dropItem = new ItemStack(drop, amount);
+            if (drop == XMaterial.LAPIS_LAZULI.parseMaterial()) {
+                VersionUtils versionUtils = UHCRevamp.getInstance().getVersionUtils();
+                dropItem = versionUtils.getLapis();
+            }
+            if (material == XMaterial.REDSTONE_ORE.parseMaterial()) {
+                Bukkit.getLogger().info("Redstone ore drop: " + dropItem.toString());
+            }
+            // int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
 
             Location location = loc.add(0.5, 0.5, 0.5);
             Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropItem);

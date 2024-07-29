@@ -86,13 +86,13 @@ public class PlayerData {
 
     public void depositMoney(double amount) {
         if (VaultHook.hasEconomy()) {
-            VaultHook.deposit(uhcPlayer.getPlayer(), amount);
+            VaultHook.deposit(uhcPlayer.getName(), amount);
         }
     }
 
     public void withdrawMoney(double amount) {
         if (VaultHook.hasEconomy()) {
-            VaultHook.withdraw(uhcPlayer.getPlayer(), amount);
+            VaultHook.withdraw(uhcPlayer.getName(), amount);
         }
     }
 
@@ -103,7 +103,7 @@ public class PlayerData {
         return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".wins", GameValues.ERROR_INT_VALUE);
     }
 
-    public void addWin(int amount) {
+    private void addWin(int amount) {
         if (amount == 0) return;
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins() + amount);
@@ -129,7 +129,7 @@ public class PlayerData {
         return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".losses", GameValues.ERROR_INT_VALUE);
     }
 
-    public void addLose(int amount) {
+    private void addLose(int amount) {
 
         double money = GameValues.REWARDS.COINS_FOR_LOSE;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
@@ -155,7 +155,7 @@ public class PlayerData {
         return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".kills", GameValues.ERROR_INT_VALUE);
     }
 
-    public void addKills(int amount) {
+    private void addKills(int amount) {
         double money = GameValues.REWARDS.COINS_FOR_KILL;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
 
@@ -180,7 +180,7 @@ public class PlayerData {
         return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".assists", GameValues.ERROR_INT_VALUE);
     }
 
-    public void addAssists(int amount) {
+    private void addAssists(int amount) {
         double money = GameValues.REWARDS.COINS_FOR_ASSIST;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
 
@@ -207,7 +207,7 @@ public class PlayerData {
         return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".deaths", GameValues.ERROR_INT_VALUE);
     }
 
-    public void addDeaths(int amount) {
+    private void addDeaths(int amount) {
 
         if (gameManager.isDatabaseConnected()) {
             gameManager.getDatabase().addDeath(uhcPlayer.getUUID(), amount);
@@ -302,7 +302,7 @@ public class PlayerData {
         return (getWins() + getLosses());
     }
 
-    public void setGamesPlayed() {
+    private void setGamesPlayed() {
         if (gameManager.isDatabaseConnected()) {
             gameManager.getDatabase().setGamesPlayed(uhcPlayer.getUUID(), getGamesPlayed());
             return;
@@ -408,20 +408,18 @@ public class PlayerData {
 
     }
 
-    public void addWinOrLose() {
+    private void addWinOrLose() {
         if (uhcPlayer.isWinner()) addWin(1);
         else addLose(1);
         setGamesPlayed();
     }
 
-//    public void addStatistics() {
-//        depositMoney(moneyForGameResult + moneyForKills);
-//        addUHCExp(uhcExpForGameResult + uhcExpForKills);
-//        addKills(uhcPlayer.getKills());
-//        addAssists(uhcPlayer.getAssists());
-//        addDeaths(uhcPlayer.isWinner() ? 0 : 1);
-//        addWinOrLose();
-//    }
+    public void addStatistics() {
+        addWinOrLose();
+        addKills(uhcPlayer.getKills());
+        addAssists(uhcPlayer.getAssists());
+        addDeaths(uhcPlayer.isDead() ? 1 : 0);
+    }
 
     public void addActivityRewards() {
         double money = GameValues.ACTIVITY_REWARDS.MONEY;

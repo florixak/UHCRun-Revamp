@@ -55,11 +55,24 @@ custom-drops:
       exp: 80
       drops:
         NETHER_WART: [ 2, 5 ]
+        BREWING_STAND: [ 1 ]
+        GLOWSTONE_DUST: [ 2, 6 ]
+        BLAZE_POWDER: [ 2, 6 ]
+    GLOWING_REDSTONE_ORE:
+      exp: 80
+      drops:
+        NETHER_WART: [ 2, 5 ]
+        BREWING_STAND: [ 1 ]
+        GLOWSTONE_DUST: [ 2, 6 ]
+        BLAZE_POWDER: [ 2, 6 ]
     DEEPSLATE_REDSTONE_ORE:
       exp: 80
       drops:
         NETHER_WART: [ 2, 5 ]
-    LAPIS_ORE:
+        BREWING_STAND: [ 1 ]
+        GLOWSTONE_DUST: [ 2, 6 ]
+        BLAZE_POWDER: [ 2, 6 ]
+    LAPIS_LAZULI_ORE:
       exp: 60
       drops:
         BOOK: [ 1, 3 ]
@@ -109,6 +122,10 @@ custom-drops:
       exp: 70
       drops:
         GOLDEN_APPLE: [ 2 ]
+    SHORT_GRASS:
+      exp: 0
+      drops:
+        BREAD: [ 0, 1 ]
     TALL_GRASS:
       exp: 0
       drops:

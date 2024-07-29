@@ -252,6 +252,7 @@ public class UHCPlayer {
     }
 
     public void die() {
+        setState(PlayerState.DEAD);
         setDeathLocation(getPlayer().getLocation());
 
         getPlayer().spigot().respawn();

@@ -152,6 +152,7 @@ settings:
 
   # Reward settings
   rewards:
+    multiplier: 1.0 # Multiplier for rewards (coins, experience) 2 = double rewards, 3 = triple rewards
     kill:
       coins: 30 # Money reward for a kill
       exp: 60 # Experience reward for a kill

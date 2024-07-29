@@ -29,7 +29,7 @@ public class PlayerListener implements Listener {
         boolean isPlaying = gameManager.isPlaying();
         boolean isFull = gameManager.isGameFull();
         boolean isEnding = gameManager.isEnding();
-        
+
         if (isEnding) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Messages.GAME_ENDED.toString());
         } else if (!isPlaying && isFull) {
@@ -90,12 +90,13 @@ public class PlayerListener implements Listener {
         if (gameManager.getGameState().equals(GameState.LOBBY) || gameManager.getGameState().equals(GameState.STARTING)) {
             uhcPlayer.leaveTeam();
             gameManager.getPlayerManager().getPlayersList().remove(uhcPlayer);
-            Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.QUIT.toString(), p));
-        } else if (gameManager.isPlaying() && !gameManager.isEnding()) {
-            uhcPlayer.getData().addDeaths(1);
-            uhcPlayer.getData().addLose(1);
-            uhcPlayer.getData().setGamesPlayed();
+            Utils.broadcast(Messages.QUIT.toString().replace("%player%", uhcPlayer.getName()));
         }
+//        else if (gameManager.isPlaying() && !gameManager.isEnding()) {
+//            uhcPlayer.getData().addDeaths(1);
+//            uhcPlayer.getData().addLose(1);
+//            uhcPlayer.getData().setGamesPlayed();
+//        }
     }
 
     @EventHandler

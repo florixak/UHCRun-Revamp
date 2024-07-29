@@ -1,6 +1,7 @@
 package me.florixak.uhcrevamp.versions;
 
 import me.florixak.uhcrevamp.UHCRevamp;
+import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,11 @@ public class VersionUtils_1_20 implements VersionUtils {
                 Material.DARK_OAK_PLANKS,
                 Material.CRIMSON_PLANKS,
                 Material.WARPED_PLANKS);
+    }
+
+    @Override
+    public ItemStack getLapis() {
+        return new ItemStack(XMaterial.LAPIS_LAZULI.parseMaterial());
     }
 
     @Override

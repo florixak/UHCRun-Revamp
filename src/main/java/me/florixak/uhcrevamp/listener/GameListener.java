@@ -59,8 +59,6 @@ public class GameListener implements Listener {
         List<UHCPlayer> topKillers = playerManager.getTopKillers();
         List<String> commands = config.getStringList("settings.end-game-commands");
 
-        gameManager.getPlayerManager().setUHCWinner();
-
         // Game results and top killers
         if (!gameResults.isEmpty()) {
             for (String message : gameResults) {
@@ -82,8 +80,8 @@ public class GameListener implements Listener {
         // Statistics
         for (UHCPlayer player : playerManager.getPlayers()) {
 
-            player.getData().addWinOrLose();
-
+            player.getData().addStatistics();
+            if (player.getPlayer() == null) continue;
             player.clearInventory();
             player.setGameMode(GameMode.ADVENTURE);
             player.teleport(gameManager.getLobbyManager().getLocation("ending"));
@@ -137,13 +135,6 @@ public class GameListener implements Listener {
                     .replace("%player%", victim.getName()));
         }
 
-
-        if (killer != null) {
-            killer.getData().addKills(1);
-        }
-        victim.getData().addDeaths(1);
-
-
         if (GameValues.TEAM.TEAM_MODE && !victim.getTeam().isAlive()) {
             Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
         }
@@ -179,9 +170,11 @@ public class GameListener implements Listener {
             return;
         }
 
-        if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
-            CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
-            customDrop.dropBlockItem(event);
+        if (GameValues.GAME.CUSTOM_DROPS_ENABLED) {
+            if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
+                CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+                customDrop.dropBlockItem(event);
+            }
         }
     }
 

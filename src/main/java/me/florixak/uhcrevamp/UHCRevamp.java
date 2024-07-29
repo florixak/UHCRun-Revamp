@@ -3,6 +3,9 @@ package me.florixak.uhcrevamp;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.hook.*;
 import me.florixak.uhcrevamp.utils.CustomLogFilter;
+import me.florixak.uhcrevamp.versions.VersionUtils;
+import me.florixak.uhcrevamp.versions.VersionUtils_1_20;
+import me.florixak.uhcrevamp.versions.VersionUtils_1_8;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -64,6 +67,14 @@ public final class UHCRevamp extends JavaPlugin {
 
         if (nmsVer.contains("v1_8") || nmsVer.startsWith("v1_7_")) {
             useOldMethods = true;
+        }
+    }
+
+    public VersionUtils getVersionUtils() {
+        if (UHCRevamp.useOldMethods) {
+            return new VersionUtils_1_8();
+        } else {
+            return new VersionUtils_1_20();
         }
     }
 

@@ -1,31 +1,31 @@
-# Literally you can add every block you want, diamond blocks, bedrock everything...
+# This configuration file defines the settings for ore generation in the game.
 
-# ! WARNING !
-# "min-vein" - min 0, minimum blocks generated at one place
-# "max-vein" - max 10 (recommended), maximum blocks generated at one place
-
-not-spawn-in:
+# The "not-generate-in" section specifies the blocks where ores should not be generated.
+# In this example, ores will not be generated in water blocks.
+not-generate-in:
   - "WATER"
 
+# The "ore-generation" section defines the settings for each type of ore.
+# For each ore type, the "min-vein" and "max-vein" settings specify the minimum and maximum number of ore blocks that can be generated in a single vein.
 ore-generation:
   COAL_ORE:
-    min-vein: 3
-    max-vein: 6
+    min-vein: 3  # Minimum number of coal ore blocks in a vein
+    max-vein: 6  # Maximum number of coal ore blocks in a vein
   IRON_ORE:
-    min-vein: 3
-    max-vein: 5
+    min-vein: 3  # Minimum number of iron ore blocks in a vein
+    max-vein: 5  # Maximum number of iron ore blocks in a vein
   GOLD_ORE:
-    min-vein: 3
-    max-vein: 5
+    min-vein: 3  # Minimum number of gold ore blocks in a vein
+    max-vein: 5  # Maximum number of gold ore blocks in a vein
   DIAMOND_ORE:
-    min-vein: 2
-    max-vein: 4
+    min-vein: 2  # Minimum number of diamond ore blocks in a vein
+    max-vein: 4  # Maximum number of diamond ore blocks in a vein
   REDSTONE_ORE:
-    min-vein: 3
-    max-vein: 5
+    min-vein: 3  # Minimum number of redstone ore blocks in a vein
+    max-vein: 5  # Maximum number of redstone ore blocks in a vein
   EMERALD_ORE:
-    min-vein: 2
-    max-vein: 5
+    min-vein: 2  # Minimum number of emerald ore blocks in a vein
+    max-vein: 5  # Maximum number of emerald ore blocks in a vein
   OBSIDIAN:
-    min-vein: 2
-    max-vein: 3
+    min-vein: 2  # Minimum number of obsidian blocks in a vein
+    max-vein: 3  # Maximum number of obsidian blocks in a vein

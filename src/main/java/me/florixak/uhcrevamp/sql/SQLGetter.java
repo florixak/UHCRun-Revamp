@@ -1,8 +1,7 @@
 package me.florixak.uhcrevamp.sql;
 
-import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
-import org.bukkit.configuration.file.FileConfiguration;
+import me.florixak.uhcrevamp.game.GameValues;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -19,16 +18,15 @@ public class SQLGetter {
     public SQLGetter(GameManager gameManager) {
         this.conn = gameManager.getSQL().getConnection();
 
-        this.table = "uhcrun";
+        this.table = "uhcrevamp";
         createTable();
     }
 
     public void createTable() {
         PreparedStatement ps;
-        FileConfiguration config = GameManager.getGameManager().getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-        int firstUHCLevel = config.getInt("settings.statistics.player-level.first-level", 0);
-        double firstRequiredUHCExp = config.getDouble("settings.statistics.player-level.first-required-exp", 100);
+        int firstUHCLevel = GameValues.STATISTICS.FIRST_UHC_LEVEL;
+        double firstRequiredUHCExp = GameValues.STATISTICS.FIRST_REQUIRED_EXP;
 
         try {
             ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + table + " "

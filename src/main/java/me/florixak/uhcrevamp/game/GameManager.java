@@ -188,6 +188,7 @@ public class GameManager {
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEndSound(player));
 
+                gameManager.getPlayerManager().setUHCWinner();
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
                 //getTaskManager().stopPlayingTimeTask();
                 getTaskManager().startEndingTask();

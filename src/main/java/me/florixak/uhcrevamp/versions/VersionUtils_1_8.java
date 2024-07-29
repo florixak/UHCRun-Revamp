@@ -15,6 +15,11 @@ public class VersionUtils_1_8 implements VersionUtils {
     }
 
     @Override
+    public ItemStack getLapis() {
+        return new ItemStack(Material.valueOf("INK_SACK"), 1, (short) 4);
+    }
+
+    @Override
     public ShapedRecipe createRecipe(ItemStack item, String key) {
         return new ShapedRecipe(item);
     }

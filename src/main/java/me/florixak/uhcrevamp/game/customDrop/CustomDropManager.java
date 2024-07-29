@@ -51,29 +51,22 @@ public class CustomDropManager {
             int minAmount = 1;
             int maxAmount = 1;
 
-            ConfigurationSection section = customDropConfig.getConfigurationSection("custom-drops.blocks." + blockName + ".drops");
-            if (section != null) {
-                for (String dropName : section.getKeys(false)) {
-                    Optional<XMaterial> dropMaterialOpt = XMaterial.matchXMaterial(dropName);
-                    if (!dropMaterialOpt.isPresent()) continue; // Skip if drop material is not present
-
-                    Material drop = dropMaterialOpt.get().parseMaterial();
-                    if (drop == null) continue; // Skip if drop material cannot be parsed
-
-                    List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.blocks." + blockName + ".drops." + dropName);
-                    drops.add(drop);
-                    // Simplify amount handling
-                    if (!amountList.isEmpty()) {
-                        minAmount = Collections.min(amountList);
-                        maxAmount = Collections.max(amountList);
-                    }
+            ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockName + ".drops");
+            if (blockSection != null && blockSection.getKeys(false) != null) {
+                for (String drop : blockSection.getKeys(false)) {
+                    Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
+                    List<Integer> amountList = blockSection.getIntegerList(drop);
+                    drops.add(b);
+                    int[] minMax = calculateMinMaxAmount(amountList);
+                    minAmount = minMax[0];
+                    maxAmount = minMax[1];
+//                    Bukkit.getLogger().info("Loaded custom drop for block: " + blockName + " min: " + minAmount + " max: " + maxAmount);
                 }
             }
             int xp = customDropConfig.getInt("custom-drops.blocks." + blockName + ".exp");
 
             CustomDrop customDrop = new CustomDrop(material, drops, minAmount, maxAmount, xp);
             this.blockDrops.add(customDrop);
-//            Bukkit.getLogger().info("Loaded custom drop for block: " + blockName);
         }
     }
 
@@ -81,44 +74,46 @@ public class CustomDropManager {
     public void loadMobDrops() {
         if (!GameValues.GAME.CUSTOM_DROPS_ENABLED) return;
 
-        for (String entity : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
-            EntityType entityType = XEntityType.valueOf(entity.toUpperCase()).get();
+        for (String entityName : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
+            EntityType entityType = XEntityType.valueOf(entityName.toUpperCase()).get();
 
             List<Material> drops = new ArrayList<>();
             int minAmount = 1;
             int maxAmount = 1;
 
-            ConfigurationSection section = customDropConfig.getConfigurationSection("custom-drops.mobs." + entity + ".drops");
+            ConfigurationSection section = customDropConfig.getConfigurationSection("custom-drops.mobs." + entityName + ".drops");
 
             if (section != null && section.getKeys(false) != null) {
                 for (String drop : section.getKeys(false)) {
                     Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
-                    List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.mobs." + entity + ".drops." + drop);
+                    List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.mobs." + entityName + ".drops." + drop);
                     drops.add(b);
-                    if (amountList.size() == 1 && amountList.get(0) <= 0) {
-                        minAmount = 0;
-                        maxAmount = 0;
-                    } else if (amountList.size() == 1 && amountList.get(0) > 0) {
-                        minAmount = amountList.get(0);
-                        maxAmount = amountList.get(0);
-                    } else if (amountList.size() >= 2) {
-                        int min = Collections.min(amountList);
-                        int max = Collections.max(amountList);
-                        if (min < 0 || max < 0) {
-                            minAmount = 0;
-                            maxAmount = 0;
-                        } else {
-                            minAmount = min;
-                            maxAmount = max;
-                        }
-                    }
+                    int[] minMax = calculateMinMaxAmount(amountList);
+                    minAmount = minMax[0];
+                    maxAmount = minMax[1];
+//                    Bukkit.getLogger().info("Loaded custom drop for mob: " + entityName + " min: " + minAmount + " max: " + maxAmount);
                 }
             }
-            int xp = customDropConfig.getInt("custom-drops.mobs." + entity + ".exp");
+            int xp = customDropConfig.getInt("custom-drops.mobs." + entityName + ".exp");
 
             CustomDrop customDrop = new CustomDrop(entityType, drops, minAmount, maxAmount, xp);
             this.mobDrops.add(customDrop);
         }
+    }
+
+    private int[] calculateMinMaxAmount(List<Integer> amountList) {
+        int minAmount = 1;
+        int maxAmount = 1;
+
+        if (amountList.size() == 1) {
+            int amount = amountList.get(0);
+            minAmount = maxAmount = Math.max(amount, 0);
+        } else if (amountList.size() >= 2) {
+            minAmount = Math.max(Collections.min(amountList), 0);
+            maxAmount = Math.max(Collections.max(amountList), 0);
+        }
+
+        return new int[]{minAmount, maxAmount};
     }
 
 

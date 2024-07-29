@@ -7,7 +7,7 @@ public class GameEndEvent extends Event {
 
     public static final HandlerList handlers = new HandlerList();
 
-    private String winner;
+    private final String winner;
 
     public GameEndEvent(String winner) {
         this.winner = winner;

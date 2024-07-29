@@ -5,7 +5,6 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XPotion;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +72,7 @@ public class PerksManager {
             }
             Perk perk = new Perk(perkName, perkName, displayItem, cost, description, bonuses, effects, items);
             addPerk(perk);
-            Bukkit.getLogger().info(perks.size() + ". Loaded perk: " + perkName + " with cost: " + cost + " and " + effects.size() + " effects, " + items.size() + " items and " + bonuses.size() + " bonuses.");
+//            Bukkit.getLogger().info(perks.size() + ". Loaded perk: " + perkName + " with cost: " + cost + " and " + effects.size() + " effects, " + items.size() + " items and " + bonuses.size() + " bonuses.");
         }
     }
 
