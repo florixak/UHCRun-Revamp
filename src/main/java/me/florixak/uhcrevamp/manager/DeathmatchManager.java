@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.manager;
 
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
+import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -65,17 +66,13 @@ public class DeathmatchManager {
     public void prepareDeathmatch() {
         gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
         gameManager.getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
-        gameManager.getPlayerManager().getSpectatorList().stream()
+        gameManager.getPlayerManager().getSpectatorPlayers().stream()
                 .filter(UHCPlayer::isOnline)
                 .forEach(uhcPlayer -> uhcPlayer.teleport(getTeleportLocation()));
 
-        if (getPVPResistCD() > 0) {
+        if (GameValues.GAME.RESISTANCE_COUNTDOWN > 0) {
             gameManager.setPvP(false);
-            gameManager.getTaskManager().startDeathmatchResist();
+            gameManager.getTaskManager().startResistanceTask();
         }
-    }
-
-    public int getPVPResistCD() {
-        return config.getInt(path + ".pvp-resistance-countdown");
     }
 }

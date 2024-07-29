@@ -37,8 +37,12 @@ public class UHCPlayer {
     private Kit kit;
     private Perk perk;
     private boolean hasWon;
+    private long timePlayed;
     private final Map<UUID, Long> damageTrackers;
     private Location deathLoc;
+
+    private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
+    private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
 
     private String displayedStat;
 
@@ -59,6 +63,15 @@ public class UHCPlayer {
         this.damageTrackers = new HashMap<>();
 
         this.displayedStat = "Wins";
+
+        this.moneyForGameResult = 0;
+        this.moneyForKills = 0;
+        this.moneyForAssists = 0;
+        this.moneyForActivity = 0;
+        this.uhcExpForGameResult = 0;
+        this.uhcExpForKills = 0;
+        this.uhcExpForAssists = 0;
+        this.uhcExpForActivity = 0;
     }
 
     public UUID getUUID() {
@@ -181,6 +194,14 @@ public class UHCPlayer {
         this.deathLoc = deathLoc;
     }
 
+    public long getTimePlayed() {
+        return this.timePlayed;
+    }
+
+    public void addTimePlayed(long time) {
+        this.timePlayed += time;
+    }
+
     public Location getDeathLocation() {
         return this.deathLoc;
     }
@@ -197,6 +218,7 @@ public class UHCPlayer {
         if (GameValues.TEAM.TEAM_MODE && !hasTeam()) {
             GameManager.getGameManager().getTeamManager().joinRandomTeam(this);
         } else if (!GameValues.TEAM.TEAM_MODE) {
+
             UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
             GameManager.getGameManager().getTeamManager().addTeam(uhcTeam);
             setTeam(uhcTeam);
@@ -270,6 +292,70 @@ public class UHCPlayer {
 
     public void clearDamageTrackers() {
         damageTrackers.clear();
+    }
+
+    public void addMoneyForGameResult(double money) {
+        this.moneyForGameResult += money;
+    }
+
+    public void addMoneyForKills(double money) {
+        this.moneyForKills += money;
+    }
+
+    public void addMoneyForAssists(double money) {
+        this.moneyForAssists += money;
+    }
+
+    public void addMoneyForActivity(double money) {
+        this.moneyForActivity += money;
+    }
+
+    public void addUHCExpForGameResult(double uhcExp) {
+        this.uhcExpForGameResult += uhcExp;
+    }
+
+    public void addUHCExpForKills(double uhcExp) {
+        this.uhcExpForKills += uhcExp;
+    }
+
+    public void addUHCExpForAssists(double uhcExp) {
+        this.uhcExpForAssists += uhcExp;
+    }
+
+    public void addUHCExpForActivity(double uhcExp) {
+        this.uhcExpForActivity += uhcExp;
+    }
+
+    public double getMoneyForGameResult() {
+        return this.moneyForGameResult;
+    }
+
+    public double getMoneyForKills() {
+        return this.moneyForKills;
+    }
+
+    public double getMoneyForAssists() {
+        return this.moneyForAssists;
+    }
+
+    public double getMoneyForActivity() {
+        return this.moneyForActivity;
+    }
+
+    public double getUHCExpForGameResult() {
+        return this.uhcExpForGameResult;
+    }
+
+    public double getUHCExpForKills() {
+        return this.uhcExpForKills;
+    }
+
+    public double getUHCExpForAssists() {
+        return this.uhcExpForAssists;
+    }
+
+    public double getUHCExpForActivity() {
+        return uhcExpForActivity;
     }
 
     public boolean hasPermission(String permission) {

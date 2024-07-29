@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.commands;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
+import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.gui.MenuManager;
@@ -35,10 +36,11 @@ public class TeamCommand implements CommandExecutor {
             return true;
         }
 
-        if (gameManager.isPlaying()) {
+        if (gameManager.isPlaying() || !GameValues.TEAM.TEAM_MODE) {
             p.sendMessage(Messages.CANT_USE_NOW.toString());
             return true;
         }
+
         if (args[0].equalsIgnoreCase("leave")) {
 
             if (!uhcPlayer.hasTeam()) {

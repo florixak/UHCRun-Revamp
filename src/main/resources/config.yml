@@ -11,7 +11,7 @@ settings:
     use-LuckPerms: false # Enable integration with LuckPerms for permission management
     use-ProtocolLib: true # Enable integration with ProtocolLib for enhanced compatibility
     use-PlaceholderAPI: true # Enable integration with PlaceholderAPI for custom placeholders
-    use-HeadDatabase: false # Enable integration with HeadDatabase (in development)
+    use-HeadDatabase: false # Enable integration with HeadDatabase (Coming soon)
 
   # MySQL database
   mysql:
@@ -32,7 +32,7 @@ settings:
     custom-drops: true # Enable custom item drops
     random-drops: false # Enable random item drops (in development)
 
-    min-players: 2 # Minimum number of players to start the game
+    players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message
 
     # Countdowns for different game phases

@@ -78,6 +78,14 @@ public class PlaceholderUtil {
                 text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
             }
 
+//            if (text.contains("%time-played%")) {
+//                text = text.replace("%time-played%", TimeUtils.getFormattedTime(uhcPlayer.getTimePlayed()));
+//            }
+//
+//            if (text.contains("%full-time-played%")) {
+//                text = text.replace("%time-played%", TimeUtils.getFormattedTime(uhcPlayer.getData().getTimePlayed()));
+//            }
+
             if (text.contains("%kit%")) {
                 if (GameValues.KITS.ENABLED) {
                     if (uhcPlayer.hasKit()) {
@@ -115,39 +123,39 @@ public class PlaceholderUtil {
             }
 
             if (text.contains("%money-for-game%")) {
-                text = text.replace("%money-for-game%", String.valueOf(uhcPlayer.getData().getMoneyForGameResult()));
+                text = text.replace("%money-for-game%", String.valueOf(uhcPlayer.getMoneyForGameResult()));
             }
             if (text.contains("%money-for-kills%")) {
-                text = text.replace("%money-for-kills%", String.valueOf(uhcPlayer.getData().getMoneyForKills()));
+                text = text.replace("%money-for-kills%", String.valueOf(uhcPlayer.getMoneyForKills()));
             }
             if (text.contains("%money-for-assists%")) {
-                text = text.replace("%money-for-assists%", String.valueOf(uhcPlayer.getData().getMoneyForAssists()));
+                text = text.replace("%money-for-assists%", String.valueOf(uhcPlayer.getMoneyForAssists()));
             }
             if (text.contains("%money-for-activity%")) {
-                text = text.replace("%money-for-activity%", String.valueOf(uhcPlayer.getData().getMoneyForActivity()));
+                text = text.replace("%money-for-activity%", String.valueOf(uhcPlayer.getMoneyForActivity()));
             }
             if (text.contains("%uhc-exp-for-game%")) {
-                text = text.replace("%uhc-exp-for-game%", String.valueOf(uhcPlayer.getData().getUhcExpForGameResult()));
+                text = text.replace("%uhc-exp-for-game%", String.valueOf(uhcPlayer.getUHCExpForGameResult()));
             }
             if (text.contains("%uhc-exp-for-kills%")) {
-                text = text.replace("%uhc-exp-for-kills%", String.valueOf(uhcPlayer.getData().getUhcExpForKills()));
+                text = text.replace("%uhc-exp-for-kills%", String.valueOf(uhcPlayer.getUHCExpForKills()));
             }
             if (text.contains("%uhc-exp-for-assists%")) {
-                text = text.replace("%uhc-exp-for-assists%", String.valueOf(uhcPlayer.getData().getUhcExpForAssists()));
+                text = text.replace("%uhc-exp-for-assists%", String.valueOf(uhcPlayer.getUHCExpForAssists()));
             }
             if (text.contains("%uhc-exp-for-activity%")) {
-                text = text.replace("%uhc-exp-for-activity%", String.valueOf(uhcPlayer.getData().getUhcExpForActivity()));
+                text = text.replace("%uhc-exp-for-activity%", String.valueOf(uhcPlayer.getUHCExpForActivity()));
             }
         }
 
         if (text.contains("%online%"))
-            text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size()));
+            text = text.replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size()));
 
         if (text.contains("%max-online%"))
             text = text.replace("%max-online%", String.valueOf(gameManager.getPlayerManager().getMaxPlayers()));
 
         if (text.contains("%min-online%"))
-            text = text.replace("%min_online%", String.valueOf(GameValues.GAME.MIN_PLAYERS));
+            text = text.replace("%min_online%", String.valueOf(GameValues.GAME.PLAYERS_TO_START));
 
         if (text.contains("%currency%")) {
             text = text.replace("%currency%", Messages.CURRENCY.toString());
@@ -163,15 +171,15 @@ public class PlaceholderUtil {
         }
 
         if (text.contains("%alive%")) {
-            text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAliveList().size()));
+            text = text.replace("%alive%", String.valueOf(gameManager.getPlayerManager().getAlivePlayers().size()));
         }
 
         if (text.contains("%dead%")) {
-            text = text.replace("%dead%", String.valueOf(gameManager.getPlayerManager().getDeadList().size()));
+            text = text.replace("%dead%", String.valueOf(gameManager.getPlayerManager().getDeadPlayers().size()));
         }
 
         if (text.contains("%spectators%")) {
-            text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectatorList().size()));
+            text = text.replace("%spectators%", String.valueOf(gameManager.getPlayerManager().getSpectatorPlayers().size()));
         }
 
         // TODO were alive

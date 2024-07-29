@@ -26,21 +26,11 @@ public class PlayerData {
     private final List<Kit> boughtKitsList;
     private final List<Perk> boughtPerksList;
 
-    private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
-    private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
-
     public PlayerData(UHCPlayer uhcPlayer) {
         this.uhcPlayer = uhcPlayer;
         this.gameManager = GameManager.getGameManager();
         this.playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
 
-        this.moneyForGameResult = 0;
-        this.moneyForKills = 0;
-        this.moneyForAssists = 0;
-        this.moneyForActivity = 0;
-        this.uhcExpForGameResult = 0;
-        this.uhcExpForKills = 0;
-        this.uhcExpForAssists = 0;
         this.boughtKitsList = new ArrayList<>();
         this.boughtPerksList = new ArrayList<>();
 
@@ -76,6 +66,7 @@ public class PlayerData {
         playerData.set(path + ".games-played", 0);
         playerData.set(path + ".kits", new ArrayList<>());
         playerData.set(path + ".perks", new ArrayList<>());
+//        playerData.set(path + ".time-played", 0);
         playerData.set(path + ".displayed-top", "wins");
 
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
@@ -130,8 +121,8 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
-        this.moneyForGameResult += money;
-        this.uhcExpForGameResult += exp;
+        uhcPlayer.addMoneyForGameResult(money);
+        uhcPlayer.addUHCExpForGameResult(exp);
     }
 
     public int getLosses() {
@@ -156,8 +147,8 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
-        this.moneyForGameResult += money;
-        this.uhcExpForGameResult += exp;
+        uhcPlayer.addMoneyForGameResult(money);
+        uhcPlayer.addUHCExpForGameResult(exp);
     }
 
     public int getKills() {
@@ -182,8 +173,8 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
-        this.moneyForKills += money;
-        this.uhcExpForKills += exp;
+        uhcPlayer.addMoneyForKills(money);
+        uhcPlayer.addUHCExpForKills(exp);
     }
 
     public int getAssists() {
@@ -210,8 +201,8 @@ public class PlayerData {
 
         depositMoney(money);
         addUHCExp(exp);
-        this.moneyForAssists += money;
-        this.uhcExpForAssists += exp;
+        uhcPlayer.addMoneyForAssists(money);
+        uhcPlayer.addUHCExpForAssists(exp);
     }
 
     public int getDeaths() {
@@ -325,6 +316,15 @@ public class PlayerData {
         }
     }
 
+    public long getTimePlayed() {
+        return playerData.getLong("player-data." + uhcPlayer.getUUID() + ".time-played", 0);
+    }
+
+    public void addTimePlayed() {
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".time-played", getTimePlayed() + uhcPlayer.getTimePlayed());
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+    }
+
     public int getUHCLevel() {
         if (gameManager.isDatabaseConnected()) {
             return gameManager.getData().getUHCLevel(uhcPlayer.getUUID());
@@ -396,38 +396,6 @@ public class PlayerData {
         return getRequiredUHCExp() * GameValues.STATISTICS.EXP_MULTIPLIER;
     }
 
-    public double getMoneyForGameResult() {
-        return moneyForGameResult;
-    }
-
-    public double getMoneyForKills() {
-        return moneyForKills;
-    }
-
-    public double getMoneyForAssists() {
-        return moneyForAssists;
-    }
-
-    public double getMoneyForActivity() {
-        return moneyForActivity;
-    }
-
-    public double getUhcExpForGameResult() {
-        return uhcExpForGameResult;
-    }
-
-    public double getUhcExpForKills() {
-        return uhcExpForKills;
-    }
-
-    public double getUhcExpForAssists() {
-        return uhcExpForAssists;
-    }
-
-    public double getUhcExpForActivity() {
-        return uhcExpForActivity;
-    }
-
     public String getDisplayedTop() {
         if (gameManager.isDatabaseConnected()) {
             return gameManager.getData().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
@@ -467,8 +435,8 @@ public class PlayerData {
         double money = GameValues.ACTIVITY_REWARDS.MONEY;
         double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
 
-        this.moneyForActivity += money;
-        this.uhcExpForActivity += uhcExp;
+        uhcPlayer.addMoneyForActivity(money);
+        uhcPlayer.addUHCExpForActivity(uhcExp);
 
         depositMoney(money);
         addUHCExp(uhcExp);

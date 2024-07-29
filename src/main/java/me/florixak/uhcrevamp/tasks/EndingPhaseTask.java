@@ -4,11 +4,11 @@ import me.florixak.uhcrevamp.game.GameValues;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class EndingCD extends BukkitRunnable {
+public class EndingPhaseTask extends BukkitRunnable {
 
     private static int countdown;
 
-    public EndingCD() {
+    public EndingPhaseTask() {
         countdown = GameValues.GAME.ENDING_COUNTDOWN;
     }
 

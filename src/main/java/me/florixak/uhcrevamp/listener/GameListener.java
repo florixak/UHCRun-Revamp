@@ -59,6 +59,8 @@ public class GameListener implements Listener {
         List<UHCPlayer> topKillers = playerManager.getTopKillers();
         List<String> commands = config.getStringList("settings.end-game-commands");
 
+        gameManager.getPlayerManager().setUHCWinner();
+
         // Game results and top killers
         if (!gameResults.isEmpty()) {
             for (String message : gameResults) {
@@ -78,7 +80,7 @@ public class GameListener implements Listener {
         }
 
         // Statistics
-        for (UHCPlayer player : playerManager.getOnlineList()) {
+        for (UHCPlayer player : playerManager.getOnlinePlayers()) {
 
             player.getData().addWinOrLose();
 

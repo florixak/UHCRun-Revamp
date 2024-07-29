@@ -8,12 +8,12 @@ import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class PvPCD extends BukkitRunnable {
+public class PvPPhaseTask extends BukkitRunnable {
 
     private final GameManager gameManager;
     private static int countdown;
 
-    public PvPCD(GameManager gameManager) {
+    public PvPPhaseTask(GameManager gameManager) {
         this.gameManager = gameManager;
         countdown = GameValues.GAME.PVP_COUNTDOWN;
     }
@@ -39,7 +39,7 @@ public class PvPCD extends BukkitRunnable {
             Utils.broadcast(Messages.DEATHMATCH_IN.toString()
                     .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
 
-            gameManager.getPlayerManager().getOnlineList()
+            gameManager.getPlayerManager().getOnlinePlayers()
                     .forEach(uhcPlayer -> gameManager.getSoundManager().playDeathmatchStartingSound(uhcPlayer.getPlayer()));
         }
         gameManager.getBorderManager().shrinkBorder();

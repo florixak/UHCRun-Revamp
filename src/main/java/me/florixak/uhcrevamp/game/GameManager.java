@@ -123,7 +123,7 @@ public class GameManager {
         getWorldManager().createNewUHCWorld();
 
         getBorderManager().setBorder();
-        //getOreGenManager().generateOres();
+//        getOreGenManager().generateOres();
 
         getRecipeManager().registerRecipes();
         getCustomDropManager().loadDrops();
@@ -131,9 +131,9 @@ public class GameManager {
         getKitsManager().loadKits();
         getPerksManager().loadPerks();
 
-        getTaskManager().runGameChecking();
-        getTaskManager().runScoreboardUpdate();
-        getTaskManager().runActivityRewards();
+        getTaskManager().runGameCheckTask();
+        getTaskManager().runScoreboardUpdateTask();
+//        getTaskManager().runPlayingTimeTask();
     }
 
     public GameState getGameState() {
@@ -150,34 +150,33 @@ public class GameManager {
                 break;
 
             case STARTING:
-                getTaskManager().startStartingCD();
+                getTaskManager().startStartingTask();
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartingSound(player));
                 break;
 
             case MINING:
-                getPlayerManager().getOnlineList().forEach(UHCPlayer::ready);
+                getPlayerManager().getOnlinePlayers().forEach(UHCPlayer::ready);
                 getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
 
-                getTaskManager().startMiningCD();
+                getTaskManager().startMiningTask();
                 Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.MINING.toString(), null));
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameStartedSound(player));
                 break;
 
             case PVP:
                 if (GameValues.GAME.TELEPORT_AFTER_MINING) {
-                    getTeamManager().teleportAfterMining();
+                    getTeamManager().teleportTeamsAfterMining();
                 }
-                setPvP(true);
-                getTaskManager().startPvPCD();
+                gameManager.getTaskManager().startResistanceTask();
+                getTaskManager().startPvPTask();
 
-                Utils.broadcast(Messages.PVP.toString());
                 Utils.broadcast(Messages.BORDER_SHRINK.toString());
                 break;
 
             case DEATHMATCH:
                 getDeathmatchManager().prepareDeathmatch();
-                getTaskManager().startDeathmatchCD();
+                getTaskManager().startDeathmatchTask();
 
                 Utils.broadcast(Messages.DEATHMATCH.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDeathmatchSound(player));
@@ -187,9 +186,9 @@ public class GameManager {
                 Utils.broadcast(Messages.GAME_ENDED.toString());
                 Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEndSound(player));
 
-                getPlayerManager().setUHCWinner();
                 plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
-                getTaskManager().startEndingCD();
+                //getTaskManager().stopPlayingTimeTask();
+                getTaskManager().startEndingTask();
                 break;
         }
     }
@@ -199,15 +198,15 @@ public class GameManager {
             case LOBBY:
                 return -1;
             case STARTING:
-                return StartingCD.getCountdown();
+                return StartingPhaseTask.getCountdown();
             case MINING:
-                return MiningCD.getCountdown();
+                return MiningPhaseTask.getCountdown();
             case PVP:
-                return PvPCD.getCountdown();
+                return PvPPhaseTask.getCountdown();
             case DEATHMATCH:
-                return DeathmatchCD.getCountdown();
+                return DeathmatchPhaseTask.getCountdown();
             case ENDING:
-                return EndingCD.getCountdown();
+                return EndingPhaseTask.getCountdown();
             default:
                 return 0;
         }
@@ -272,7 +271,7 @@ public class GameManager {
     }
 
     public boolean isGameFull() {
-        return playerManager.getOnlineList().size() >= playerManager.getMaxPlayers();
+        return playerManager.getOnlinePlayers().size() >= playerManager.getMaxPlayers();
     }
 
     public MySQL getSQL() {

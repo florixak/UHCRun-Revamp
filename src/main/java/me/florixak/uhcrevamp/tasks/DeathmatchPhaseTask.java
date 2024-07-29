@@ -5,12 +5,12 @@ import me.florixak.uhcrevamp.game.GameState;
 import me.florixak.uhcrevamp.game.GameValues;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DeathmatchCD extends BukkitRunnable {
+public class DeathmatchPhaseTask extends BukkitRunnable {
 
     private final GameManager gameManager;
     private static int countdown;
 
-    public DeathmatchCD(GameManager gameManager) {
+    public DeathmatchPhaseTask(GameManager gameManager) {
         this.gameManager = gameManager;
         countdown = GameValues.GAME.DEATHMATCH_COUNTDOWN;
     }

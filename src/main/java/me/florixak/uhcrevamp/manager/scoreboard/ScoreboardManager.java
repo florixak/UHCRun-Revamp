@@ -43,175 +43,45 @@ public class ScoreboardManager {
         this.ending = config.getStringList("scoreboard.ending");
     }
 
-    public void createWaitingSb(Player p) {
-        players.put(p.getUniqueId(), updateWaitingSb(p.getUniqueId()));
-    }
-
-    public ScoreHelper updateWaitingSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.waiting.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.waiting) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
-    private void createStartingSb(Player p) {
-        players.put(p.getUniqueId(), updateStartingSb(p.getUniqueId()));
-    }
-
-    private ScoreHelper updateStartingSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.starting.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.starting) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
-    private void createMiningSb(Player p) {
-        players.put(p.getUniqueId(), updateMiningSb(p.getUniqueId()));
-    }
-
-    private ScoreHelper updateMiningSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.mining.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.mining) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
-    private void createPvPSb(Player p) {
-        players.put(p.getUniqueId(), updatePvPSb(p.getUniqueId()));
-    }
-
-    private ScoreHelper updatePvPSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.pvp.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.pvp) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
-    private void createDeathmatchSb(Player p) {
-        players.put(p.getUniqueId(), updateDeathmatchSb(p.getUniqueId()));
-    }
-
-    private ScoreHelper updateDeathmatchSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.deathmatch.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.deathmatch) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
-    private void createEndingSb(Player p) {
-        players.put(p.getUniqueId(), updateEndingSb(p.getUniqueId()));
-    }
-
-    private ScoreHelper updateEndingSb(UUID uuid) {
-
-        Player p = Bukkit.getPlayer(uuid);
-
-        if (p == null) return null;
-
-        int sb = this.ending.size();
-
-        ScoreHelper helper = players.get(p.getUniqueId());
-        if (helper == null) helper = new ScoreHelper(p);
-        helper.setTitle(title);
-
-        for (String text : this.ending) {
-            helper.setSlot(sb, text);
-            sb--;
-        }
-        return helper;
-    }
-
     public void setScoreboard(Player p) {
+        if (!players.containsKey(p.getUniqueId())) {
+            players.put(p.getUniqueId(), updateScoreboard(p.getUniqueId()));
+        }
+    }
+
+    public ScoreHelper updateScoreboard(UUID uuid) {
+
+        Player p = Bukkit.getPlayer(uuid);
+        if (p == null) return null;
+
+        ScoreHelper helper = players.get(p.getUniqueId());
+        if (helper == null) helper = new ScoreHelper(p);
+        helper.setTitle(title);
         switch (gameManager.getGameState()) {
             case LOBBY:
-                createWaitingSb(p);
+                helper.setSlotsFromList(this.waiting);
                 break;
             case STARTING:
-                createStartingSb(p);
+                helper.setSlotsFromList(this.starting);
                 break;
             case MINING:
-                createMiningSb(p);
+                helper.setSlotsFromList(this.mining);
                 break;
             case PVP:
-                createPvPSb(p);
+                helper.setSlotsFromList(this.pvp);
                 break;
             case DEATHMATCH:
-                createDeathmatchSb(p);
+                helper.setSlotsFromList(this.deathmatch);
                 break;
             case ENDING:
-                createEndingSb(p);
+                helper.setSlotsFromList(this.ending);
                 break;
         }
+        return helper;
     }
 
     public String getFooter() {
         return footer;
-    }
-
-    private void removeFromMap(Player p) {
-        if (players.containsKey(p.getUniqueId())) {
-            players.remove(p.getUniqueId());
-        }
     }
 
     public void removeScoreboard(Player p) {

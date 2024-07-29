@@ -57,6 +57,8 @@ public class PlayerListener implements Listener {
 
         UHCPlayer uhcPlayer = gameManager.getPlayerManager().getOrCreateUHCPlayer(p.getUniqueId());
         gameManager.getPlayerManager().addPlayer(uhcPlayer);
+        gameManager.getScoreboardManager().setScoreboard(p);
+//        gameManager.getTaskManager().getPlayingTimeTask().playerJoined(uhcPlayer);
 
         boolean isPlaying = gameManager.isPlaying();
 
@@ -79,9 +81,9 @@ public class PlayerListener implements Listener {
 
         Utils.broadcast(Messages.JOIN.toString()
                 .replace("%player%", p.getDisplayName())
-                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlineList().size())));
+                .replace("%online%", String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size())));
         p.sendMessage(Messages.PLAYERS_TO_START.toString()
-                .replace("%min-players%", "" + GameValues.GAME.MIN_PLAYERS));
+                .replace("%min-players%", "" + GameValues.GAME.PLAYERS_TO_START));
     }
 
     @EventHandler

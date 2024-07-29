@@ -17,13 +17,10 @@ import java.util.stream.Collectors;
 
 public class TeamManager {
 
-    private final GameManager gameManager;
     private final FileConfiguration teamsConfig;
-
     private final List<UHCTeam> teamsList;
 
     public TeamManager(GameManager gameManager) {
-        this.gameManager = gameManager;
 
         this.teamsConfig = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
         this.teamsList = new ArrayList<>();
@@ -80,20 +77,6 @@ public class TeamManager {
         gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
     }*/
 
-    private UHCTeam findFreeTeam() {
-        UHCTeam emptyTeam = null;
-        for (UHCTeam team : this.teamsList) {
-            if (team.getMembers().isEmpty()) {
-                emptyTeam = team;
-            } else if (!team.isFull()) {
-                emptyTeam = team;
-            } else {
-                return null;
-            }
-        }
-        return emptyTeam;
-    }
-
     public void joinRandomTeam(UHCPlayer uhcPlayer) {
         if (uhcPlayer.hasTeam()) return;
         UHCTeam team = findFreeTeam();
@@ -111,7 +94,7 @@ public class TeamManager {
         return null;
     }
 
-    public void teleportAfterMining() {
+    public void teleportTeamsAfterMining() {
 
         for (UHCTeam team : getLivingTeams()) {
             Player p = team.getLeader().getPlayer();
@@ -122,6 +105,20 @@ public class TeamManager {
 
             team.teleport(location);
         }
+    }
+
+    private UHCTeam findFreeTeam() {
+        UHCTeam emptyTeam = null;
+        for (UHCTeam team : this.teamsList) {
+            if (team.getMembers().isEmpty()) {
+                emptyTeam = team;
+            } else if (!team.isFull()) {
+                emptyTeam = team;
+            } else {
+                return null;
+            }
+        }
+        return emptyTeam;
     }
 
     public boolean exists(String teamName) {

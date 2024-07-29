@@ -161,7 +161,7 @@ public class ItemUtils {
 
         if (meta != null) {
             if (customName != null && !customName.isEmpty()) {
-                meta.setDisplayName(TextUtils.color("&f" + customName + " " + (amplifier) + " (" + (duration) + "s)"));
+                meta.setDisplayName(TextUtils.color("&f" + customName));
                 ArrayList<String> lore = new ArrayList<>();
                 lore.add(TextUtils.color("&7" + TextUtils.toNormalCamelText(XPotion.matchXPotion(effectType).name()) + " " + (amplifier) + " (" + (duration) + "s)"));
                 meta.setLore(lore);

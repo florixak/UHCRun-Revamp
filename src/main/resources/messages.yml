@@ -86,7 +86,7 @@ Messages:
     inventory-click-to-select: "&eClick to select"
     scoreboard-disabled: "Disabled"
     selected-none: "None"
-    money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
+    money-deduct-info: "&e[!] &fCoins for kit will be deducted after game starts!"
     money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (kit %kit%)"
 
   perks:

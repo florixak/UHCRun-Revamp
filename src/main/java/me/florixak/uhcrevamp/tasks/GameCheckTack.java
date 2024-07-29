@@ -8,16 +8,27 @@ import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GameChecking extends BukkitRunnable {
+public class GameCheckTack extends BukkitRunnable {
 
     private final GameManager gameManager;
+    private final boolean canStart;
+    private final boolean gameEnd;
 
-    private final int minPlayers;
-
-    public GameChecking(GameManager gameManager) {
+    public GameCheckTack(GameManager gameManager) {
         this.gameManager = gameManager;
 
-        this.minPlayers = GameValues.GAME.MIN_PLAYERS;
+        this.canStart = canStart();
+        this.gameEnd = isGameEnd();
+    }
+
+    public boolean isGameEnd() {
+        Bukkit.getLogger().info("Creating isGameEnd()");
+        return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
+    }
+
+    public boolean canStart() {
+        Bukkit.getLogger().info("Creating canStart()");
+        return gameManager.getPlayerManager().getPlayers().size() >= GameValues.GAME.PLAYERS_TO_START;
     }
 
     @Override
@@ -25,16 +36,13 @@ public class GameChecking extends BukkitRunnable {
 
         switch (gameManager.getGameState()) {
             case LOBBY:
-                if (Bukkit.getOnlinePlayers().size() >= minPlayers) {
+                if (canStart) {
                     gameManager.setGameState(GameState.STARTING);
                 }
                 break;
             case STARTING:
-//                if (gameManager.isForceStarted()) {
-//                    return;
-//                }
-                if (Bukkit.getOnlinePlayers().size() < minPlayers) {
-                    gameManager.getTaskManager().stopStartingCD();
+                if (!canStart) {
+                    gameManager.getTaskManager().stopStartingTask();
                     Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
                     gameManager.setGameState(GameState.LOBBY);
                 }
@@ -42,10 +50,7 @@ public class GameChecking extends BukkitRunnable {
             case MINING:
             case PVP:
             case DEATHMATCH:
-//                if (gameManager.isForceStarted()) {
-//                    return;
-//                }
-                if (gameManager.getPlayerManager().getAliveList().size() < minPlayers) {
+                if (gameEnd) {
                     gameManager.setGameState(GameState.ENDING);
                 }
                 break;

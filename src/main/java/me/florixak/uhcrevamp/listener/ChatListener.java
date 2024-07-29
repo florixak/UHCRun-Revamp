@@ -53,18 +53,18 @@ public class ChatListener implements Listener {
         String finalFormat = format;
 
         if (!gameManager.isPlaying()) {
-            pm.getOnlineList().forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
+            pm.getOnlinePlayers().forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
             return;
         }
         if (uhcPlayer.isSpectator()) {
-            pm.getSpectatorList().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
+            pm.getSpectatorPlayers().stream().filter(UHCPlayer::isOnline).forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
             return;
         }
         if (GameValues.TEAM.TEAM_MODE && !message.startsWith("!")) {
             uhcPlayer.getTeam().sendMessage(TextUtils.color(format));
             return;
         }
-        pm.getOnlineList().forEach(uhcPlayers -> uhcPlayers.sendMessage(TextUtils.color("&6[GLOBAL] ") + finalFormat.replaceFirst("!", "")));
+        pm.getOnlinePlayers().forEach(uhcPlayers -> uhcPlayers.sendMessage(TextUtils.color("&6[GLOBAL] ") + finalFormat.replaceFirst("!", "")));
     }
 
     @EventHandler

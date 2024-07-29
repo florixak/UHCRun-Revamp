@@ -8,13 +8,13 @@ import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MiningCD extends BukkitRunnable {
+public class MiningPhaseTask extends BukkitRunnable {
 
     private final GameManager gameManager;
 
     private static int countdown;
 
-    public MiningCD(GameManager gameManager) {
+    public MiningPhaseTask(GameManager gameManager) {
         this.gameManager = gameManager;
         countdown = GameValues.GAME.MINING_COUNTDOWN;
     }

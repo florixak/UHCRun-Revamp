@@ -39,19 +39,19 @@ public class PlayerManager {
         return this.players;
     }
 
-    public List<UHCPlayer> getOnlineList() {
+    public List<UHCPlayer> getOnlinePlayers() {
         return getPlayers().stream().filter(UHCPlayer::isOnline).collect(Collectors.toList());
     }
 
-    public List<UHCPlayer> getAliveList() {
+    public List<UHCPlayer> getAlivePlayers() {
         return getPlayers().stream().filter(UHCPlayer::isAlive).collect(Collectors.toList());
     }
 
-    public List<UHCPlayer> getDeadList() {
+    public List<UHCPlayer> getDeadPlayers() {
         return getPlayers().stream().filter(UHCPlayer::isDead).collect(Collectors.toList());
     }
 
-    public List<UHCPlayer> getSpectatorList() {
+    public List<UHCPlayer> getSpectatorPlayers() {
         return getPlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
 
@@ -68,20 +68,20 @@ public class PlayerManager {
     }
 
     public UHCPlayer getRandomOnlineUHCPlayer() {
-        return getOnlineList().get(RandomUtils.getRandom().nextInt(getOnlineList().size()));
+        return getOnlinePlayers().get(RandomUtils.getRandom().nextInt(getOnlinePlayers().size()));
     }
 
     public UHCPlayer getUHCPlayerWithoutPerm(String perm) {
-        List<UHCPlayer> onlineListWithoutPerm = getOnlineList().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
+        List<UHCPlayer> onlineListWithoutPerm = getOnlinePlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
         return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
     }
 
     public UHCPlayer getWinnerPlayer() {
-        return getAliveList().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
+        return getAlivePlayers().stream().filter(UHCPlayer::isWinner).findFirst().orElse(null);
     }
 
     public void setUHCWinner() {
-        UHCPlayer winner = getAliveList().stream()
+        UHCPlayer winner = getAlivePlayers().stream()
                 .filter(UHCPlayer::isOnline)
                 .max(Comparator.comparingInt(UHCPlayer::getKills))
                 .orElse(null);

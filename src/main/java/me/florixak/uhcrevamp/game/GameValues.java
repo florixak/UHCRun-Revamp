@@ -14,7 +14,6 @@ public class GameValues {
     private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
     public static final int ERROR_INT_VALUE = -1;
-    public static final int COLUMNS = 9;
 
     public static final String WORLD_NAME = "UHCWorld";
 
@@ -136,7 +135,9 @@ public class GameValues {
     }
 
     public static class ScoreboardConfig {
-
+        public final boolean ENABLED = getConfigBoolean("settings.scoreboard.enabled", true);
+        public final String TITLE = getConfigString("settings.scoreboard.title", "&2&lUHC");
+        public final List<String> WAITING = getConfigStringList("settings.scoreboard.lines");
     }
 
     public static class TablistConfig {
@@ -162,7 +163,7 @@ public class GameValues {
         public final boolean RANDOM_DROPS_ENABLED = getConfigBoolean("settings.game.random-drops", false);
         public final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
         public final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
-        public final int MIN_PLAYERS = getConfigInt("settings.game.min-players", 2);
+        public final int PLAYERS_TO_START = getConfigInt("settings.game.players-to-start", 2);
         public final int STARTING_COUNTDOWN = getConfigInt("settings.game.countdowns.starting", 20);
         public final int STARTING_MESSAGE_AT = getConfigInt("settings.game.starting-message-at", 10);
         public final int MINING_COUNTDOWN = getConfigInt("settings.game.countdowns.mining", 600);
@@ -170,6 +171,7 @@ public class GameValues {
         public final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);
         public final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
         public final List<String> DISABLED_IN_MINING = getConfigStringList("settings.game.disabled-in-mining");
+        public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.resistance", 10);
     }
 
     public static class AddonConfig {
