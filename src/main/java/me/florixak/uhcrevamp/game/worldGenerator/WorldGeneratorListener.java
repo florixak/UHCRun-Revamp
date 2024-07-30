@@ -1,6 +1,7 @@
 package me.florixak.uhcrevamp.game.worldGenerator;
 
 import me.florixak.uhcrevamp.game.GameValues;
+import me.florixak.uhcrevamp.utils.XSeries.XBiome;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -22,8 +23,9 @@ public class WorldGeneratorListener implements Listener {
         for (Chunk chunk : world.getLoadedChunks()) {
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    Biome biome = chunk.getBlock(x, 0, z).getBiome();
-                    if (biome.toString().toUpperCase().contains("OCEAN")) {
+                    Biome biome = XBiome.matchXBiome(chunk.getBlock(x, 0, z).getBiome()).getBiome();
+                    if (GameValues.GAME.DISABLED_BIOMES.contains(biome.name())) {
+//                        Bukkit.getLogger().info("Disabling biome " + biome.name());
                         for (int y = 0; y < world.getMaxHeight(); y++) {
                             chunk.getBlock(x, y, z).setBiome(Biome.PLAINS);
                         }

@@ -51,4 +51,8 @@ public class ConfigManager {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    public void saveFile(ConfigType type) {
+        getFile(type).save();
+    }
+
 }

@@ -23,9 +23,11 @@ public class MySQL {
         this.database = database;
         this.user = user;
         this.password = password;
+
+        connect();
     }
 
-    public void connect() {
+    private void connect() {
         try {
             this.conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
             UHCRevamp.getInstance().getLogger().info(TextUtils.color("&aMySQL connected!"));

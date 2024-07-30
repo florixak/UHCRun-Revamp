@@ -32,6 +32,7 @@ Messages:
     kick-due-reserved-slot: "You were kicked because player with reserved slot joined!"
 
     kill: "&6[†] &f%player% wak killed by %killer%!"
+    new-killstreak: "&6[!] &fCongratulations! You broke your killstreak with %kills% kills!"
     death: "&6[†] &f%player% died!"
 
     shot-hp: "&6[!] &f%player% has &c%hp%❤"
@@ -72,7 +73,6 @@ Messages:
     full: "&c[!] &fTeam is full!"
     already-in-team: "&c[!] &fYou are already in this team!"
     not-in-team: "&c[!] &fYou are not in any team!"
-    no-teams: "%prefix% &cThere are no set teams, please contact STAFF member!"
     defeated: "&6[!] &cTeam %team% &cwas defeated!"
     none: "None"
     solo: "Solo"
@@ -154,9 +154,7 @@ Messages:
       - "&e/recipes &7(Aliases: /crafts, /customrecipes) - Opens the custom recipes GUI, displaying all available custom crafting recipes."
       - "&e/statistics &7(Aliases: /stats) - Opens the player statistics GUI, showing detailed player stats and achievements."
       - "&e/revive - Revives a dead player, bringing them back into the game."
-      - "&e/uhc waiting-lobby set/remove - Admin commands to set waiting lobby."
-      - "&e/uhc ending-lobby set/remove - Admin commands to set ending lobby."
-      - "&e/uhc deathmatch set/remove - Admin commands to set center of deathmatch."
+      - "&e/uhc set/remove waiting-lobby/ending-lobby/deathmatch - Admin commands to manage locations"
     player:
       - "&6Player Commands Help:"
       - "&e/team &7(Aliases: /teams) - Opens the team management GUI, allowing players to join teams."

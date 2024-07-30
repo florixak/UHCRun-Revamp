@@ -447,7 +447,18 @@ public class UHCPlayer {
         this.assists = 0;
         this.kit = null;
         this.perk = null;
-        getTeam().removeMember(this);
+        if (hasTeam()) getTeam().removeMember(this);
+        this.team = null;
         this.deathLoc = null;
+        this.timePlayed = 0;
+        this.damageTrackers.clear();
+        this.moneyForGameResult = 0;
+        this.moneyForKills = 0;
+        this.moneyForAssists = 0;
+        this.moneyForActivity = 0;
+        this.uhcExpForGameResult = 0;
+        this.uhcExpForKills = 0;
+        this.uhcExpForAssists = 0;
+        this.uhcExpForActivity = 0;
     }
 }

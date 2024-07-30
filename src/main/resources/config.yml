@@ -60,9 +60,9 @@ settings:
       - ENTITY_EXPLOSION
       - BLOCK_EXPLOSION
 
-  #    disabled-biomes:
-  #      - OCEAN
-  #      - DEEP_OCEAN
+    disabled-biomes:
+      - OCEAN
+      - DEEP_OCEAN
 
   # Deathmatch settings
   deathmatch:
@@ -71,22 +71,24 @@ settings:
     border-size: 40.0 # Size of the deathmatch border
     pvp-resistance-countdown: 10 # PvP resistance time in seconds, -1 to disable
     location: # Center location of deathmatch
+      custom: false
       world: "UHCWorld"
       x: 0.0
-      y: 75.0
+      y: 75.0 # if custom false you can ignore it
       z: 0.0
 
   # Lobby settings
+  # Rename your lobby files to these world names, or set it manually
   lobby:
     waiting:
-      world: "UHCLobby"
+      world: "UHCWaitingLobby"
       x: 0
-      y: 60
+      y: 10
       z: 0
     ending:
-      world: "UHCLobby"
+      world: "UHCEndingLobby"
       x: 0
-      y: 60
+      y: 10
       z: 0
 
   # Border settings

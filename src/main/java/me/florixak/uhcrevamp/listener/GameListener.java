@@ -79,11 +79,11 @@ public class GameListener implements Listener {
         // Statistics
         for (UHCPlayer player : playerManager.getPlayers()) {
 
-            player.getData().addStatistics();
+            player.getData().saveStatistics();
             if (player.getPlayer() == null) continue;
             player.clearInventory();
             player.setGameMode(GameMode.ADVENTURE);
-            player.teleport(gameManager.getLobbyManager().getLocation("ending"));
+            player.teleport(gameManager.getLobbyManager().getEndingLobbyLocation());
 
             player.getData().showStatistics();
         }

@@ -110,12 +110,7 @@ public class GameManager {
         connectToDatabase();
         setGameState(GameState.LOBBY);
 
-        if (Bukkit.getWorld(getLobbyManager().getWorld("waiting")) == null) {
-            getWorldManager().createWorld("UHCLobby");
-        }
-        if (Bukkit.getWorld(getLobbyManager().getWorld("ending")) == null) {
-            getWorldManager().createWorld("UHCLobby");
-        }
+        getLobbyManager().checkLobbies();
 
         registerCommands();
         registerListeners();
@@ -286,24 +281,30 @@ public class GameManager {
     }
 
     private void connectToDatabase() {
-        String path = "settings.mysql";
-        if (config == null || !config.getBoolean(path + ".enabled", false)) return;
+        try {
+            String path = "settings.mysql";
+            if (config == null || !config.getBoolean(path + ".enabled", false)) return;
 
-        String host = config.getString(path + ".host", "localhost");
-        String port = config.getString(path + ".port", "3306");
-        String database = config.getString(path + ".database", "uhcrevamp");
-        String username = config.getString(path + ".username", "root");
-        String password = config.getString(path + ".password", "");
+            String host = config.getString(path + ".host", "localhost");
+            String port = config.getString(path + ".port", "3306");
+            String database = config.getString(path + ".database", "uhcrevamp");
+            String username = config.getString(path + ".username", "root");
+            String password = config.getString(path + ".password", "");
 
-        Bukkit.getLogger().info("Connecting to MySQL database...");
+            Bukkit.getLogger().info("Connecting to MySQL database...");
 
-        this.mysql = new MySQL(host, port, database, username, password);
-        this.mysql.connect();
-        this.data = new SQLGetter(this);
+            this.mysql = new MySQL(host, port, database, username, password);
+            if (this.mysql.hasConnection()) {
+                this.data = new SQLGetter(this);
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().info("Failed to connect to MySQL database!");
+        }
+
     }
 
     private void disconnectDatabase() {
-        if (config.getBoolean("settings.mysql.enabled", false) && mysql != null) {
+        if (config.getBoolean("settings.mysql.enabled", false) && mysql != null && mysql.hasConnection()) {
             mysql.disconnect();
         }
     }

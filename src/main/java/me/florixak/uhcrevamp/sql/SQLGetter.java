@@ -2,7 +2,6 @@ package me.florixak.uhcrevamp.sql;
 
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -42,6 +41,7 @@ public class SQLGetter {
                     + "wins INT(100) DEFAULT 0,"
                     + "losses INT(100) DEFAULT 0,"
                     + "kills INT(100) DEFAULT 0,"
+                    + "killstreak INT(100) DEFAULT 0,"
                     + "assists INT(100) DEFAULT 0,"
                     + "deaths INT(100) DEFAULT 0,"
                     + "displayed_top VARCHAR(100) DEFAULT 'Wins',"
@@ -115,19 +115,6 @@ public class SQLGetter {
         return 0;
     }
 
-    public void setUHCLevel(UUID uuid, int level) {
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_level=? WHERE uuid=?");
-            ps.setInt(1, level);
-            ps.setString(2, uuid.toString());
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addUHCExp(UUID uuid, double exp) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
@@ -160,19 +147,6 @@ public class SQLGetter {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
             ps.setDouble(1, exp);
-            ps.setString(2, uuid.toString());
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addRequiredUHCExp(UUID uuid, double exp) {
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET required_uhc_exp=? WHERE uuid=?");
-            ps.setDouble(1, getRequiredUHCExp(uuid) + exp);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -238,19 +212,6 @@ public class SQLGetter {
         return 0;
     }
 
-    public void setWins(UUID uuid, int wins) {
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET wins=? WHERE uuid=?");
-            ps.setInt(1, wins);
-            ps.setString(2, uuid.toString());
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addLose(UUID uuid) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET losses=? WHERE uuid=?");
@@ -277,19 +238,6 @@ public class SQLGetter {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    public void setLosses(UUID uuid, int losses) {
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET losses=? WHERE uuid=?");
-            ps.setInt(1, losses);
-            ps.setString(2, uuid.toString());
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void addKill(UUID uuid, int kills) {
@@ -320,10 +268,10 @@ public class SQLGetter {
         return 0;
     }
 
-    public void setKills(UUID uuid, int kills) {
+    public void setKillstreak(UUID uuid, int killstreak) {
         try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET kills=? WHERE uuid=?");
-            ps.setInt(1, kills);
+            PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET killstreak=? WHERE uuid=?");
+            ps.setInt(1, killstreak);
             ps.setString(2, uuid.toString());
 
             ps.executeUpdate();
@@ -331,6 +279,21 @@ public class SQLGetter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getKillstreak(UUID uuid) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT killstreak FROM " + table + " WHERE uuid=?");
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("killstreak");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public void addAssist(UUID uuid, int assists) {
@@ -451,8 +414,8 @@ public class SQLGetter {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String kits = rs.getString("kits");
-                List<String> kitsList = Arrays.asList(kits.split(","));
-                Bukkit.getLogger().info(kitsList.toString());
+                List<String> kitsList = Arrays.asList(kits.split(", "));
+//                Bukkit.getLogger().info(kitsList.toString());
                 return kitsList;
             }
         } catch (SQLException e) {
@@ -489,8 +452,8 @@ public class SQLGetter {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String perks = rs.getString("perks");
-                List<String> perksList = Arrays.asList(perks.split(","));
-                Bukkit.getLogger().info(perksList.toString());
+                List<String> perksList = Arrays.asList(perks.split(", "));
+//                Bukkit.getLogger().info(perksList.toString());
                 return perksList;
             }
         } catch (SQLException e) {

@@ -51,35 +51,35 @@ public class UHCCommand implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("waiting-lobby")) {
+        if (args[0].equalsIgnoreCase("set")) {
             if (args.length == 1) {
                 p.sendMessage(Messages.INVALID_CMD.toString());
-            } else if (args[1].equalsIgnoreCase("set")) {
-                lobbyM.setLobby("waiting", loc);
+            } else if (args[1].equalsIgnoreCase("waiting-lobby")) {
+                lobbyM.setWaitingLobbyLocation(loc);
                 p.sendMessage(Messages.SETUP_SET_WAIT_LOBBY.toString());
-            } else if (args[1].contains("remove") || args[1].contains("delete")) {
-                lobbyM.deleteLobby("waiting");
-                p.sendMessage(Messages.SETUP_DEL_WAIT_LOBBY.toString());
-            }
-        } else if (args[0].equalsIgnoreCase("ending-lobby")) {
-            if (args.length == 1) {
-                p.sendMessage(Messages.INVALID_CMD.toString());
-            } else if (args[1].equalsIgnoreCase("set")) {
-                lobbyM.setLobby("ending", loc);
+            } else if (args[1].equalsIgnoreCase("ending-lobby")) {
+                lobbyM.setEndingLobbyLocation(loc);
                 p.sendMessage(Messages.SETUP_SET_END_LOBBY.toString());
-            } else if (args[1].contains("remove") || args[1].contains("delete")) {
-                lobbyM.deleteLobby("ending");
-                p.sendMessage(Messages.SETUP_DEL_END_LOBBY.toString());
-            }
-        } else if (args[0].equalsIgnoreCase("deathmatch")) {
-            if (args.length == 1) {
-                p.sendMessage(Messages.INVALID_CMD.toString());
-            } else if (args[1].equalsIgnoreCase("set")) {
+            } else if (args[1].equalsIgnoreCase("deathmatch")) {
                 deathmatchM.setDeathmatchLocation(loc);
                 p.sendMessage(Messages.SETUP_SET_DEATHMATCH.toString());
-            } else if (args[1].contains("remove") || args[1].contains("delete")) {
+            } else {
+                p.sendMessage(Messages.INVALID_CMD.toString());
+            }
+        } else if (args[0].equalsIgnoreCase("remove")) {
+            if (args.length == 1) {
+                p.sendMessage(Messages.INVALID_CMD.toString());
+            } else if (args[1].equalsIgnoreCase("waiting-lobby")) {
+                lobbyM.removeWaitingLobby();
+                p.sendMessage(Messages.SETUP_DEL_WAIT_LOBBY.toString());
+            } else if (args[1].equalsIgnoreCase("ending-lobby")) {
+                lobbyM.removeEndingLobby();
+                p.sendMessage(Messages.SETUP_DEL_END_LOBBY.toString());
+            } else if (args[1].equalsIgnoreCase("deathmatch")) {
                 deathmatchM.resetDeathmatchLocation();
                 p.sendMessage(Messages.SETUP_RESET_DEATHMATCH.toString());
+            } else {
+                p.sendMessage(Messages.INVALID_CMD.toString());
             }
         } else {
             p.sendMessage(Messages.INVALID_CMD.toString());

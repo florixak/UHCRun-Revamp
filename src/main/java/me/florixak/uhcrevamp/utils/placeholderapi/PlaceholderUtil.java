@@ -74,6 +74,10 @@ public class PlaceholderUtil {
                 text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
             }
 
+            if (text.contains("%killstreak%")) {
+                text = text.replace("%killstreak%", String.valueOf(uhcPlayer.getData().getKillstreak()));
+            }
+
             if (text.contains("%assists%")) {
                 text = text.replace("%assists%", String.valueOf(uhcPlayer.getAssists()));
             }

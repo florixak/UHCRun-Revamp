@@ -201,7 +201,7 @@ public class PlayerManager {
         p.setFireTicks(0);
         p.setGameMode(GameMode.ADVENTURE);
 
-        p.teleport(gameManager.getLobbyManager().getLocation("waiting"));
+        p.teleport(gameManager.getLobbyManager().getWaitingLobbyLocation());
 
         uhcPlayer.clearPotions();
         uhcPlayer.clearInventory();
@@ -209,6 +209,9 @@ public class PlayerManager {
     }
 
     public void onDisable() {
+        for (UHCPlayer uhcPlayer : getPlayersList()) {
+            uhcPlayer.reset();
+        }
         this.players.clear();
     }
 }

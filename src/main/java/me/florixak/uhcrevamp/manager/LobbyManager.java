@@ -4,64 +4,97 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class LobbyManager {
 
     private final GameManager gameManager;
-    private final FileConfiguration lobbyConfig;
-
-    private String configPath;
+    private final FileConfiguration config;
+    private final String waitingLobbyName;
+    private final String endingLobbyName;
 
     public LobbyManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.lobbyConfig = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
-        this.configPath = "settings.lobby.";
+        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+        waitingLobbyName = config.getString("settings.lobby.waiting.world", "UHCWaitingLobby");
+        endingLobbyName = config.getString("settings.lobby.ending.world", "UHCEndingLobby");
     }
 
-    public void setLobby(String lobbyType, Location loc) {
-
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".world", loc.getWorld().getName());
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".x", loc.getX());
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".y", loc.getY());
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".z", loc.getZ());
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".yaw", loc.getYaw());
-        lobbyConfig.set(configPath + lobbyType.toLowerCase() + ".pitch", loc.getPitch());
-
-        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
+    public void checkLobbies() {
+        if (!worldExists(waitingLobbyName) || !worldExists(endingLobbyName)) {
+            Bukkit.getLogger().info("Waiting: " + waitingLobbyName + " Ending:" + endingLobbyName);
+            Bukkit.getLogger().info("One or more lobbies do not exist, creating them...");
+            gameManager.getWorldManager().createLobbyWorld(waitingLobbyName);
+            if (waitingLobbyName.equals(endingLobbyName)) return;
+            gameManager.getWorldManager().createLobbyWorld(endingLobbyName);
+        }
     }
 
-    public Location getLocation(String lobbyType) {
-        Location loc = new Location(Bukkit.getWorld("UHCLobby"), 0.0, Bukkit.getWorld("UHCLobby").getHighestBlockYAt(0, 0), 0.0);
-
-        if (!existsLobby(lobbyType)
-                || Bukkit.getWorld(getWorld("waiting")) == null
-                || Bukkit.getWorld(getWorld("ending")) == null)
-            return loc;
-
-        loc = new Location(
-                Bukkit.getWorld(lobbyConfig.getString(configPath + lobbyType.toLowerCase() + ".world", "lobby")),
-                lobbyConfig.getDouble(configPath + lobbyType.toLowerCase() + ".x"),
-                lobbyConfig.getDouble(configPath + lobbyType.toLowerCase() + ".y"),
-                lobbyConfig.getDouble(configPath + lobbyType.toLowerCase() + ".z"),
-                (float) lobbyConfig.getDouble(configPath + lobbyType.toLowerCase() + ".yaw"),
-                (float) lobbyConfig.getDouble(configPath + lobbyType.toLowerCase() + ".pitch"));
-
-        return loc;
+    public void setWaitingLobbyLocation(Location location) {
+        config.set("settings.lobby.waiting.world", location.getWorld().getName());
+        config.set("settings.lobby.waiting.x", location.getX());
+        config.set("settings.lobby.waiting.y", location.getY());
+        config.set("settings.lobby.waiting.z", location.getZ());
+        config.set("settings.lobby.waiting.yaw", location.getYaw());
+        config.set("settings.lobby.waiting.pitch", location.getPitch());
+        gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
     }
 
-    public String getWorld(String lobbyType) {
-        return lobbyConfig.getString(configPath + lobbyType.toLowerCase() + ".world");
+    public void removeWaitingLobby() {
+        config.set("settings.lobby.waiting.world", "UHCWaitingLobby");
+        config.set("settings.lobby.waiting.x", 0);
+        config.set("settings.lobby.waiting.y", 10);
+        config.set("settings.lobby.waiting.z", 0);
+        config.set("settings.lobby.waiting.yaw", 0);
+        config.set("settings.lobby.waiting.pitch", 0);
+        gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
     }
 
-    public boolean existsLobby(String lobbyType) {
-        return lobbyConfig.getConfigurationSection(configPath + lobbyType.toLowerCase()) != null;
+    public Location getWaitingLobbyLocation() {
+        return new Location(
+                Bukkit.getWorld(waitingLobbyName),
+                config.getDouble("settings.lobby.waiting.x"),
+                config.getDouble("settings.lobby.waiting.y"),
+                config.getDouble("settings.lobby.waiting.z"),
+                (float) config.getDouble("settings.lobby.waiting.yaw"),
+                (float) config.getDouble("settings.lobby.waiting.pitch")
+        );
     }
 
-    public void deleteLobby(String lobbyType) {
-        if (existsLobby(lobbyType)) return;
-        lobbyConfig.set("lobby." + lobbyType.toLowerCase(), null);
-        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
+    public void setEndingLobbyLocation(Location location) {
+        config.set("settings.lobby.ending.world", location.getWorld().getName());
+        config.set("settings.lobby.ending.x", location.getX());
+        config.set("settings.lobby.ending.y", location.getY());
+        config.set("settings.lobby.ending.z", location.getZ());
+        config.set("settings.lobby.ending.yaw", location.getYaw());
+        config.set("settings.lobby.ending.pitch", location.getPitch());
+        gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
+    }
+
+    public void removeEndingLobby() {
+        config.set("settings.lobby.ending.world", "UHCEndingLobby");
+        config.set("settings.lobby.ending.x", 0);
+        config.set("settings.lobby.ending.y", 10);
+        config.set("settings.lobby.ending.z", 0);
+        config.set("settings.lobby.ending.yaw", 0);
+        config.set("settings.lobby.ending.pitch", 0);
+        gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
+    }
+
+    public Location getEndingLobbyLocation() {
+        return new Location(
+                Bukkit.getWorld(waitingLobbyName),
+                config.getDouble("settings.lobby.ending.x"),
+                config.getDouble("settings.lobby.ending.y"),
+                config.getDouble("settings.lobby.ending.z"),
+                (float) config.getDouble("settings.lobby.ending.yaw"),
+                (float) config.getDouble("settings.lobby.ending.pitch")
+        );
+    }
+
+    private boolean worldExists(String worldName) {
+        World world = Bukkit.getWorld(worldName);
+        return world != null;
     }
 }
-

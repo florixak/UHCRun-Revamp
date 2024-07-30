@@ -58,6 +58,7 @@ public class PlayerData {
         playerData.set(path + ".wins", 0);
         playerData.set(path + ".losses", 0);
         playerData.set(path + ".kills", 0);
+        playerData.set(path + ".killstreak", 0);
         playerData.set(path + ".assists", 0);
         playerData.set(path + ".deaths", 0);
         playerData.set(path + ".kits", new ArrayList<>());
@@ -104,13 +105,11 @@ public class PlayerData {
 
     private void addWin(int amount) {
 
-        double money = GameValues.REWARDS.COINS_FOR_WIN;
-        double exp = GameValues.REWARDS.UHC_EXP_FOR_WIN;
+        double money = GameValues.REWARDS.COINS_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
+        double uhcExp = GameValues.REWARDS.UHC_EXP_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
 
-        depositMoney(money);
-        addUHCExp(exp);
         uhcPlayer.addMoneyForGameResult(money);
-        uhcPlayer.addUHCExpForGameResult(exp);
+        uhcPlayer.addUHCExpForGameResult(uhcExp);
 
         if (gameManager.isDatabaseConnected()) {
             gameManager.getDatabase().addWin(uhcPlayer.getUUID());
@@ -129,12 +128,9 @@ public class PlayerData {
     }
 
     private void addLose(int amount) {
-
         double money = GameValues.REWARDS.COINS_FOR_LOSE;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
 
-        depositMoney(money);
-        addUHCExp(exp);
         uhcPlayer.addMoneyForGameResult(money);
         uhcPlayer.addUHCExpForGameResult(exp);
 
@@ -158,8 +154,6 @@ public class PlayerData {
         double money = GameValues.REWARDS.COINS_FOR_KILL;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
 
-        depositMoney(money);
-        addUHCExp(exp);
         uhcPlayer.addMoneyForKills(money);
         uhcPlayer.addUHCExpForKills(exp);
 
@@ -169,6 +163,22 @@ public class PlayerData {
         }
 
         playerData.set("player-data." + uhcPlayer.getUUID() + ".kills", getKills() + amount);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+    }
+
+    public int getKillstreak() {
+        if (gameManager.isDatabaseConnected()) {
+            return gameManager.getDatabase().getKillstreak(uhcPlayer.getUUID());
+        }
+        return playerData.getInt("player-data." + uhcPlayer.getUUID() + ".killstreak", GameValues.ERROR_INT_VALUE);
+    }
+
+    public void setKillstreak(int amount) {
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getDatabase().setKillstreak(uhcPlayer.getUUID(), amount);
+            return;
+        }
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".killstreak", amount);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
@@ -183,8 +193,6 @@ public class PlayerData {
         double money = GameValues.REWARDS.COINS_FOR_ASSIST;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
 
-        depositMoney(money);
-        addUHCExp(exp);
         uhcPlayer.addMoneyForAssists(money);
         uhcPlayer.addUHCExpForAssists(exp);
 
@@ -426,13 +434,6 @@ public class PlayerData {
         else addLose(1);
     }
 
-    public void addStatistics() {
-        addGameResult();
-        addKills(uhcPlayer.getKills());
-        addAssists(uhcPlayer.getAssists());
-        addDeaths(uhcPlayer.isDead() ? 1 : 0);
-    }
-
     public void addActivityRewards() {
         double money = GameValues.ACTIVITY_REWARDS.MONEY;
         double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
@@ -444,6 +445,26 @@ public class PlayerData {
         addUHCExp(uhcExp);
 
         uhcPlayer.sendMessage(Messages.REWARDS_ACTIVITY.toString().replace("%money%", String.valueOf(money)).replace("%uhc-exp%", String.valueOf(uhcExp)));
+    }
+
+    public void saveStatistics() {
+        addGameResult();
+        if (uhcPlayer.getKills() > 0) addKills(uhcPlayer.getKills());
+        if (uhcPlayer.getAssists() > 0) addAssists(uhcPlayer.getAssists());
+        if (uhcPlayer.isDead()) addDeaths(1);
+
+        if (uhcPlayer.getKills() > getKillstreak()) {
+            setKillstreak(uhcPlayer.getKills());
+            uhcPlayer.sendMessage(PlaceholderUtil.setPlaceholders(Messages.KILLSTREAK_NEW.toString(), uhcPlayer.getPlayer()));
+        }
+
+        double money = uhcPlayer.getMoneyForGameResult() + uhcPlayer.getMoneyForKills() + uhcPlayer.getMoneyForAssists() + uhcPlayer.getMoneyForActivity();
+        double uhcExp = uhcPlayer.getUHCExpForGameResult() + uhcPlayer.getUHCExpForKills() + uhcPlayer.getUHCExpForAssists() + uhcPlayer.getUHCExpForActivity();
+        money *= GameValues.REWARDS.MULTIPLIER;
+        uhcExp *= GameValues.REWARDS.MULTIPLIER;
+
+        depositMoney(money);
+        addUHCExp(uhcExp);
     }
 
     public void showStatistics() {

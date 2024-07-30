@@ -85,18 +85,18 @@ public class GameValues {
     }
 
     public static class RewardConfig {
-        private final double MULTIPLIER = getConfigDouble("settings.rewards.multiplier", 1);
+        public final double MULTIPLIER = getConfigDouble("settings.rewards.multiplier", 1);
         public final double BASE_REWARD = getConfigDouble("settings.rewards.base-reward", 100);
         public final double REWARD_COEFFICIENT = getConfigDouble("settings.rewards.reward-coefficient", 1);
-        public final double COINS_FOR_WIN = getConfigDouble("settings.rewards.win.coins", 0) * MULTIPLIER;
-        public final double UHC_EXP_FOR_WIN = getConfigInt("settings.rewards.win.uhc-exp", 0) * MULTIPLIER;
-        public final double COINS_FOR_LOSE = getConfigDouble("settings.rewards.lose.coins", 0) * MULTIPLIER;
-        public final double UHC_EXP_FOR_LOSE = getConfigInt("settings.rewards.lose.uhc-exp", 0) * MULTIPLIER;
-        public final double COINS_FOR_KILL = getConfigDouble("settings.rewards.kill.coins", 0) * MULTIPLIER;
-        public final double UHC_EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.uhc-exp", 0) * MULTIPLIER;
-        public final double EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.exp", 0) * MULTIPLIER;
-        public final double COINS_FOR_ASSIST = getConfigDouble("settings.rewards.assist.coins", 0) * MULTIPLIER;
-        public final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.uhc-exp", 0) * MULTIPLIER;
+        public final double COINS_FOR_WIN = getConfigDouble("settings.rewards.win.coins", 0);
+        public final double UHC_EXP_FOR_WIN = getConfigInt("settings.rewards.win.uhc-exp", 0);
+        public final double COINS_FOR_LOSE = getConfigDouble("settings.rewards.lose.coins", 0);
+        public final double UHC_EXP_FOR_LOSE = getConfigInt("settings.rewards.lose.uhc-exp", 0);
+        public final double COINS_FOR_KILL = getConfigDouble("settings.rewards.kill.coins", 0);
+        public final double UHC_EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.uhc-exp", 0);
+        public final double EXP_FOR_KILL = getConfigDouble("settings.rewards.kill.exp", 0);
+        public final double COINS_FOR_ASSIST = getConfigDouble("settings.rewards.assist.coins", 0);
+        public final double UHC_EXP_FOR_ASSIST = getConfigDouble("settings.rewards.assist.uhc-exp", 0);
     }
 
     public static class InventoryConfig {

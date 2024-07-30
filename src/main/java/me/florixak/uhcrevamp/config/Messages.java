@@ -32,6 +32,7 @@ public enum Messages {
 
     KILL("player.kill"),
     KILL_REWARDS("player.kill"),
+    KILLSTREAK_NEW("player.new-killstreak"),
     DEATH("player.death"),
 
     PVP("game.pvp"),
@@ -97,7 +98,6 @@ public enum Messages {
     TEAM_ALREADY_IN("teams.already-in-team"),
     TEAM_NOT_IN("teams.not-in-team"),
     TEAM_DEFEATED("teams.defeated"),
-    TEAM_NO_TEAMS("teams.no-teams"),
     TEAM_NONE("teams.none"),
     TEAM_SOLO("teams.solo"),
     TEAM_NO_FRIENDLY_FIRE("teams.no-friendly-fire"),

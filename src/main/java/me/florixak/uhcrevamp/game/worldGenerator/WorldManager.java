@@ -62,4 +62,20 @@ public class WorldManager {
         WorldCreator c = new WorldCreator(name);
         World world = c.createWorld();
     }
+
+    public void createLobbyWorld(String lobbyName) {
+        try {
+            File world = new File(Bukkit.getWorldContainer(), lobbyName);
+//            FileUtils.deleteDirectory(world);
+            world.mkdirs();
+
+            new File(world, "data").mkdirs();
+            new File(world, "datapacks").mkdirs();
+            new File(world, "playerdata").mkdirs();
+            new File(world, "aoi").mkdirs();
+            new File(world, "region").mkdirs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
