@@ -19,7 +19,7 @@ of features to create the great UHC experience.
 - **ProtocolLib Integration**: Ensure compatibility and performance with ProtocolLib, enhancing the player experience.
 - **Custom Kits, Perks, Drops, and Recipes**: Customize kits, loot drops, and crafting recipes for a unique gameplay
   experience.
-- **Custom Ore generation**: You do not like standard amount of ore generating? Customize it to suit your preference.
+- **Custom Ore Generation**: You do not like standard amount of ore generating? Customize it to suit your preference.
 
 ## Prerequisites
 
