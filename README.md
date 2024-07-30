@@ -20,6 +20,7 @@ of features to create the great UHC experience.
 - **Custom Kits, Perks, Drops, and Recipes**: Customize kits, loot drops, and crafting recipes for a unique gameplay
   experience.
 - **Custom Ore Generation**: You do not like standard amount of ore generating? Customize it to suit your preferences.
+- **MySQL Support**: Save player data in the database and always have it at hand.
 
 ## Prerequisites
 
