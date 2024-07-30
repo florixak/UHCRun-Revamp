@@ -287,20 +287,23 @@ public class GameManager {
 
     private void connectToDatabase() {
         String path = "settings.mysql";
-        if (!config.getBoolean(path + ".enabled", false)) return;
+        if (config == null || !config.getBoolean(path + ".enabled", false)) return;
 
         String host = config.getString(path + ".host", "localhost");
         String port = config.getString(path + ".port", "3306");
-        String database = config.getString(path + ".database", "uhcrun");
+        String database = config.getString(path + ".database", "uhcrevamp");
         String username = config.getString(path + ".username", "root");
         String password = config.getString(path + ".password", "");
 
+        Bukkit.getLogger().info("Connecting to MySQL database...");
+
         this.mysql = new MySQL(host, port, database, username, password);
+        this.mysql.connect();
         this.data = new SQLGetter(this);
     }
 
     private void disconnectDatabase() {
-        if (config.getBoolean("settings.MySQL.enabled", false)) {
+        if (config.getBoolean("settings.mysql.enabled", false) && mysql != null) {
             mysql.disconnect();
         }
     }

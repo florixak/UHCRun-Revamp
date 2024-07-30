@@ -23,8 +23,6 @@ public class MySQL {
         this.database = database;
         this.user = user;
         this.password = password;
-
-        connect();
     }
 
     public void connect() {
@@ -32,7 +30,8 @@ public class MySQL {
             this.conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
             UHCRevamp.getInstance().getLogger().info(TextUtils.color("&aMySQL connected!"));
         } catch (SQLException e) {
-            UHCRevamp.getInstance().getLogger().info(TextUtils.color("&cMySQL can not be connected!"));
+            UHCRevamp.getInstance().getLogger().severe(TextUtils.color("&cMySQL can not be connected!"));
+            e.printStackTrace();
         }
     }
 
@@ -47,11 +46,10 @@ public class MySQL {
     }
 
     public boolean hasConnection() {
-        return this.conn != null ? true : false;
+        return this.conn != null;
     }
 
     public Connection getConnection() {
-
         if (this.conn != null) {
             return this.conn;
         }

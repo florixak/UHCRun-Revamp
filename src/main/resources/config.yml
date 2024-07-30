@@ -14,6 +14,7 @@ settings:
     use-HeadDatabase: false # Enable integration with HeadDatabase (Coming soon)
 
   # MySQL database
+  # Warning: Do not forget to create %database% before starting the server
   mysql:
     enabled: false # Enable MySQL database integration
     host: "localhost" # MySQL server host
@@ -58,6 +59,10 @@ settings:
       - FALLING_BLOCK
       - ENTITY_EXPLOSION
       - BLOCK_EXPLOSION
+
+  #    disabled-biomes:
+  #      - OCEAN
+  #      - DEEP_OCEAN
 
   # Deathmatch settings
   deathmatch:

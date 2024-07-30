@@ -60,7 +60,6 @@ public class PlayerData {
         playerData.set(path + ".kills", 0);
         playerData.set(path + ".assists", 0);
         playerData.set(path + ".deaths", 0);
-        playerData.set(path + ".games-played", 0);
         playerData.set(path + ".kits", new ArrayList<>());
         playerData.set(path + ".perks", new ArrayList<>());
 //        playerData.set(path + ".time-played", 0);
@@ -104,14 +103,6 @@ public class PlayerData {
     }
 
     private void addWin(int amount) {
-        if (amount == 0) return;
-
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins() + amount);
-        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-
-        if (gameManager.isDatabaseConnected()) {
-            gameManager.getDatabase().addWin(uhcPlayer.getUUID());
-        }
 
         double money = GameValues.REWARDS.COINS_FOR_WIN;
         double exp = GameValues.REWARDS.UHC_EXP_FOR_WIN;
@@ -120,6 +111,14 @@ public class PlayerData {
         addUHCExp(exp);
         uhcPlayer.addMoneyForGameResult(money);
         uhcPlayer.addUHCExpForGameResult(exp);
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getDatabase().addWin(uhcPlayer.getUUID());
+            return;
+        }
+
+        playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins() + amount);
+        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public int getLosses() {
@@ -239,21 +238,32 @@ public class PlayerData {
     }
 
     public void loadBoughtKits() {
-        List<String> boughtKitsList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
+        List<String> boughtKitsList;
+
+        if (gameManager.isDatabaseConnected()) {
+            boughtKitsList = gameManager.getDatabase().getBoughtKits(uhcPlayer.getUUID());
+        } else {
+            boughtKitsList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
+        }
 
         for (String kitName : boughtKitsList) {
             Kit kit = gameManager.getKitsManager().getKit(kitName);
             if (kit != null) this.boughtKitsList.add(kit);
         }
-        saveKits();
     }
 
-    public List<Kit> getKits() {
+    public List<Kit> getPlayersKits() {
         return boughtKitsList;
     }
 
     private void saveKits() {
         List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getDatabase().setBoughtKits(uhcPlayer.getUUID(), kitsNameList.toString().replace("[", "").replace("]", ""));
+            return;
+        }
+
         playerData.set("player-data." + uhcPlayer.getUUID() + ".kits", kitsNameList);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
@@ -279,36 +289,38 @@ public class PlayerData {
     }
 
     public void loadBoughtPerks() {
-        List<String> boughtPerksList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".perks");
+        List<String> boughtPerksList;
+
+        if (gameManager.isDatabaseConnected()) {
+            boughtPerksList = gameManager.getDatabase().getBoughtPerks(uhcPlayer.getUUID());
+        } else {
+            boughtPerksList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".perks");
+        }
 
         for (String perkName : boughtPerksList) {
             Perk perk = gameManager.getPerksManager().getPerk(perkName);
             if (perk != null) this.boughtPerksList.add(perk);
         }
-        savePerks();
     }
 
-    public List<Perk> getPerks() {
+    public List<Perk> getPlayersPerks() {
         return boughtPerksList;
     }
 
     private void savePerks() {
         List<String> perksNameList = boughtPerksList.stream().map(Perk::getName).collect(Collectors.toList());
+
+        if (gameManager.isDatabaseConnected()) {
+            gameManager.getDatabase().setBoughtPerks(uhcPlayer.getUUID(), perksNameList.toString().replace("[", "").replace("]", ""));
+            return;
+        }
+
         playerData.set("player-data." + uhcPlayer.getUUID() + ".perks", perksNameList);
         gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
-    public int getGamesPlayed() {
+    public int getPlayedGames() {
         return (getWins() + getLosses());
-    }
-
-    private void setGamesPlayed() {
-        if (gameManager.isDatabaseConnected()) {
-            gameManager.getDatabase().setGamesPlayed(uhcPlayer.getUUID(), getGamesPlayed());
-            return;
-        }
-        playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", getGamesPlayed());
-        gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
     }
 
     public long getTimePlayed() {
@@ -342,6 +354,7 @@ public class PlayerData {
 
         double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * getUHCLevel();
         depositMoney(reward);
+        if (uhcPlayer.getPlayer() == null) return;
         gameManager.getSoundManager().playUHCLevelUpSound(uhcPlayer.getPlayer());
         uhcPlayer.sendMessage(Messages.LEVEL_UP.toString().replace("%uhc-level%", String.valueOf(getUHCLevel())).replace("%previous-uhc-level%", String.valueOf(getPreviousUHCLevel())));
         uhcPlayer.sendMessage(Messages.REWARDS_LEVEL_UP.toString().replace("%money%", String.valueOf(reward)).replace("%prev-level%", String.valueOf(getPreviousUHCLevel())).replace("%new-level%", String.valueOf(getUHCLevel())));
@@ -408,14 +421,13 @@ public class PlayerData {
 
     }
 
-    private void addWinOrLose() {
+    private void addGameResult() {
         if (uhcPlayer.isWinner()) addWin(1);
         else addLose(1);
-        setGamesPlayed();
     }
 
     public void addStatistics() {
-        addWinOrLose();
+        addGameResult();
         addKills(uhcPlayer.getKills());
         addAssists(uhcPlayer.getAssists());
         addDeaths(uhcPlayer.isDead() ? 1 : 0);

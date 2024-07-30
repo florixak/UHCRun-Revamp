@@ -91,12 +91,9 @@ public class PlayerListener implements Listener {
             uhcPlayer.leaveTeam();
             gameManager.getPlayerManager().getPlayersList().remove(uhcPlayer);
             Utils.broadcast(Messages.QUIT.toString().replace("%player%", uhcPlayer.getName()));
+        } else if (gameManager.isPlaying() && !gameManager.isEnding()) {
+            uhcPlayer.setState(PlayerState.DEAD);
         }
-//        else if (gameManager.isPlaying() && !gameManager.isEnding()) {
-//            uhcPlayer.getData().addDeaths(1);
-//            uhcPlayer.getData().addLose(1);
-//            uhcPlayer.getData().setGamesPlayed();
-//        }
     }
 
     @EventHandler

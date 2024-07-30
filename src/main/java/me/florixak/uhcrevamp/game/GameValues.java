@@ -173,6 +173,7 @@ public class GameValues {
         public final List<String> DISABLED_IN_MINING = getConfigStringList("settings.game.disabled-in-mining");
         public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.resistance", 10);
         public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
+        public final List<String> DISABLED_BIOMES = getConfigStringList("settings.game.disabled-biomes");
     }
 
     public static class AddonConfig {

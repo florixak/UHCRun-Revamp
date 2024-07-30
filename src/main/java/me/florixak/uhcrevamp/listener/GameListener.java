@@ -22,7 +22,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -363,11 +362,12 @@ public class GameListener implements Listener {
         // Iterate over all custom crafts to find a match
         for (CustomRecipe customRecipe : gameManager.getRecipeManager().getRecipeList()) {
             if (customRecipe.matches(matrix2D)) {
-                event.setResult(Event.Result.DENY);
+//                event.setResult(Event.Result.DENY);
                 event.setCurrentItem(customRecipe.getResult());
-                Bukkit.getLogger().info("Crafted custom item: " + customRecipe.getResult().getType());
+//                Bukkit.getLogger().info("Crafted custom item: " + customRecipe.getResult().getType());
                 return; // Stop checking after finding the first matching recipe
             }
         }
+        // This code will not be executed if a match is found
     }
 }

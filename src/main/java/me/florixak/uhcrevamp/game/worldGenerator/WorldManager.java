@@ -1,8 +1,10 @@
 package me.florixak.uhcrevamp.game.worldGenerator;
 
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.game.GameValues;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
@@ -33,12 +35,17 @@ public class WorldManager {
         removeWorld();
 
         WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
-        //worldCreator.generator(new CustomWorldGenerator());
         World world = Bukkit.createWorld(worldCreator);
+        if (UHCRevamp.useOldMethods) {
+            world.setGameRuleValue("doDaylightCycle", "false");
+            world.setGameRuleValue("announceAdvancements", "false");
+            world.setGameRuleValue("doWeatherCycle", "false");
+        } else {
+            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        }
 
-        world.setGameRuleValue("doDaylightCycle", "false");
-        world.setGameRuleValue("announceAdvancements", "false");
-        world.setGameRuleValue("doWeatherCycle", "false");
     }
 
     private void removeWorld() {
