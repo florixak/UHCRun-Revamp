@@ -3,7 +3,8 @@ version: '${project.version}'
 main: me.florixak.uhcrevamp.UHCRevamp
 api-version: 1.13
 author: FloriXak
-softdepend: [ ProtocolLib, PlaceholderAPI, Vault, LuckPerms ]
+depend: [ PlaceholderAPI ]
+softdepend: [ ProtocolLib, Vault, LuckPerms ]
 
 commands:
   uhc:
@@ -26,6 +27,9 @@ commands:
   kits:
     aliases: [ kit ]
     description: Opens kits gui
+  perks:
+    aliases: [ perk ]
+    description: Opens perks gui
   recipes:
     aliases: [ crafts, recipe ]
     description: Opens recipes gui

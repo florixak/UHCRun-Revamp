@@ -40,10 +40,10 @@ settings:
     # Countdowns for different game phases
     countdowns:
       starting: 15 # Countdown for game start in seconds
-      mining: 600 # Countdown for mining phase in seconds
-      pvp: 600 # Countdown for PvP phase in seconds
-      deathmatch: 300 # Countdown for deathmatch phase in seconds
-      ending: 15 # Countdown for game ending in seconds
+      mining: 600 # Lenght of mining phase in seconds
+      pvp: 600 # Lenght of pvp phase in seconds
+      deathmatch: 300 # Lenght of deathmatch phase in seconds
+      ending: 15 # Countdown for game end in seconds
 
     # List of damage causes disabled during mining phase
     #   CONTACT, ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, PROJECTILE, SUFFOCATION, FALL,
@@ -66,7 +66,6 @@ settings:
 
   # Deathmatch settings
   deathmatch:
-    enabled: true # Enable deathmatch phase
     start-at: 3 # Number of players to start deathmatch, -1 for automatic
     border-size: 40.0 # Size of the deathmatch border
     pvp-resistance-countdown: 10 # PvP resistance time in seconds, -1 to disable
@@ -245,6 +244,12 @@ settings:
       slot: -1 # Slot for confirm purchase menu, -1 = not in the hotbar menu
       slots: 27 # Number of slots for confirm purchase menu
 
+  title:
+    enabled: true # Enable title messages like victory or lose
+    fade-in: 2 # Fade in time in seconds
+    stay: 3 # Stay time in seconds
+    fade-out: 2 # Fade out time in seconds
+
   sounds:
     started:
       sound: ENTITY_PLAYER_LEVELUP
@@ -299,8 +304,10 @@ settings:
     # %message% - Sent message
     # %level% - Player level
 
-    lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in the lobby
-    in-game-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in-game
+    lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in the lobby or in the solo mode
+    global-format: "&6[GLOBAL] &7[%uhc-level%] %team% &7%player% » %message%" # Format for global chat messages, with ! before message and teams enabled
+    teams-format: "&6[TEAM] &7[%uhc-level%] %team% &7%player% » %message%" # Format for team chat messages
+    solo-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in-game
     dead-format: "&8[SPECTATOR] &7[%uhc-level%] %team% &7%player% » %message%" # Format for chat messages from dead players
 
     blocked-commands: # List of commands blocked in chat

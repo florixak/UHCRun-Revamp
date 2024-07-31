@@ -15,7 +15,7 @@ scoreboard:
     - "&fKit: &a%kit%"
     - "&fPerk: &a%perk%"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"
 
   starting:
     - ""
@@ -29,7 +29,7 @@ scoreboard:
     - "&fKit: &a%kit%"
     - "&fPerk: &a%perk%"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"
 
   mining:
     - ""
@@ -41,7 +41,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"
 
   pvp:
     - ""
@@ -53,7 +53,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"
 
   deathmatch:
     - ""
@@ -65,7 +65,7 @@ scoreboard:
     - "&fKills: &a%kills%"
     - "&fAssists: &a%assists%"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"
 
   ending:
     - ""
@@ -76,4 +76,4 @@ scoreboard:
     - ""
     - "Thx for playing!"
     - ""
-    - "&7%sb-footer%"
+    - "&7%scoreboard-footer%"

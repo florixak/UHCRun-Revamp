@@ -77,6 +77,7 @@ Messages:
     none: "None"
     solo: "Solo"
     no-friendly-fire: "&c[!] &fFriendly fire is disabled!"
+    all-teams-full: "&c[!] &fAll teams are full! So you have become spectator!"
 
   kits:
     selected: "&a[!] &fKit %kit% &fwas selected!"
@@ -141,6 +142,14 @@ Messages:
     - "&l3. &7[%top-killer-3-uhc-level%] %top-killer-3-team% &a%top-killer-3% &7- &f%top-killer-3-kills% kills"
     - " "
     - "&7--------------------------------"
+
+  title:
+    victory:
+      title: "&aVictory!"
+      subtitle: "&fYou won the game!"
+    lose:
+      title: "&cDefeat!"
+      subtitle: "&fYou lost the game!"
 
   help:
     admin:

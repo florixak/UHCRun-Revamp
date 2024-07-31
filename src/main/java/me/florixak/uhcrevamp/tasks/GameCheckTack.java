@@ -3,37 +3,69 @@ package me.florixak.uhcrevamp.tasks;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameState;
+import me.florixak.uhcrevamp.game.GameValues;
+import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameCheckTack extends BukkitRunnable {
 
-    private final GameManager gameManager;
+	private final GameManager gameManager;
 
-    public GameCheckTack(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+	public GameCheckTack(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
 
-    public boolean isGameEnd() {
+	public boolean isGameEnd() {
 //        return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
-        return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
-    }
+		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
+	}
 
-    public boolean canStart() {
-//        return GameValues.TEAM.TEAM_MODE ?
-        return !gameManager.getPlayerManager().getOnlinePlayers().isEmpty();
-    }
+	public boolean canStart() {
+		int minPlayers = GameValues.GAME.PLAYERS_TO_START;
+		int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
+		boolean teamMode = GameValues.TEAM.TEAM_MODE;
 
-    @Override
-    public void run() {
-        boolean gameEnd = isGameEnd();
-        boolean canStart = canStart();
+//		if (teamMode) return areTeamsValid();
+		return playersOnline >= minPlayers;
+	}
 
-        switch (gameManager.getGameState()) {
-            case LOBBY:
-                if (canStart) {
-                    gameManager.setGameState(GameState.STARTING);
-                }
+	private boolean areTeamsValid() {
+		int maxPlayersPerTeam = GameValues.TEAM.TEAM_SIZE;
+		int minPlayersToStart = GameValues.GAME.PLAYERS_TO_START;
+		int totalPlayers = gameManager.getPlayerManager().getOnlinePlayers().size();
+		int totalTeams = gameManager.getTeamManager().getTeamsList().size();
+
+		// Check if there are enough players to start
+		if (totalPlayers < minPlayersToStart) {
+			return false;
+		}
+
+		// Ensure not all players are in the same team
+		if (totalPlayers > maxPlayersPerTeam) {
+			return false;
+		}
+
+		// Check if any team exceeds the maximum allowed size
+		for (UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
+			if (team.getMembers().size() > maxPlayersPerTeam) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public void run() {
+		boolean gameEnd = isGameEnd();
+		boolean canStart = canStart();
+
+		switch (gameManager.getGameState()) {
+			case LOBBY:
+				if (canStart) {
+					gameManager.setGameState(GameState.STARTING);
+				}
 //                if (!gameManager.getPlayerManager().getPlayers().isEmpty()) {
 //                    Bukkit.getLogger().info(gameManager.getPlayerManager().getPlayers().size() + ". Name: "
 //                                    + gameManager.getPlayerManager().getPlayers().get(0).getName() + " Activity: "
@@ -47,23 +79,23 @@ public class GameCheckTack extends BukkitRunnable {
 //                    );
 //
 //                }
-                break;
-            case STARTING:
-                if (!canStart) {
-                    gameManager.getTaskManager().stopStartingTask();
-                    Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
-                    gameManager.setGameState(GameState.LOBBY);
-                }
-                break;
-            case MINING:
-            case PVP:
-            case DEATHMATCH:
-                if (gameEnd) {
-                    gameManager.setGameState(GameState.ENDING);
-                }
-                break;
-            case ENDING:
-                break;
-        }
-    }
+				break;
+			case STARTING:
+				if (!canStart) {
+					gameManager.getTaskManager().cancelStartingTask();
+					Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
+					gameManager.setGameState(GameState.LOBBY);
+				}
+				break;
+			case MINING:
+			case PVP:
+			case DEATHMATCH:
+				if (gameEnd) {
+					gameManager.setGameState(GameState.ENDING);
+				}
+				break;
+			case ENDING:
+				break;
+		}
+	}
 }

@@ -8,26 +8,36 @@ of features to create the great UHC experience.
 ## Features
 
 - **Customizable Game Settings**: Tailor every aspect of the game to your liking, from border sizes to loot drops.
-- **Advanced Player Tracking**: Keep tabs on players with sophisticated tracking systems, ensuring fair play and
-  competitive integrity.
-- **Team Management**: Easily create and manage teams, with support for team-based objectives and scoring.
+- **SOLO and TEAMS mode**: Easily create and manage teams, with support for team-based objectives and scoring.
+- **MySQL Support**: Save player data in the database and always have it at hand.
+- **Custom Ore Generation**: You do not like standard amount of ore generating? Customize it to suit your preferences.
+- **Custom Kits, Perks, Drops, and Recipes**: Customize kits, perks, loot drops, and crafting recipes for a unique
+  gameplay
+  experience.
+- **UHC Level**: Level up your UHC level by playing to have the biggest level on the server.
+- **Scoreboard**: Display game information to players with a customizable in-game scoreboard.
+- **Workbench and Anvil GUI**: Allow players to craft and repair items remotely with virtual workbench and anvil
+- **Statistics and Achievements**: Track player performance with detailed statistics and achievements.
+- **Revive Players**: Bring dead players back into the game with the revive command.
+- **Spectator Mode**: Allow players to spectate games and events, enhancing the viewing experience.
+- **Reserved Slots**: Allow VIP players to join the server when it is full, ensuring they always have access.
+- **Customizable Messages**: All messages can be changed in config file.
+
+  ######
+
 - **PlaceholderAPI Support**: Enhance your server's UI with custom placeholders, providing players with real-time game
   information.
 - **Economy Integration**: Reward players for their performance in games with in-game currency, integrating seamlessly
   with Vault.
 - **LuckPerms Support**: Utilize advanced permission management to control access to game features and commands.
 - **ProtocolLib Integration**: Ensure compatibility and performance with ProtocolLib, enhancing the player experience.
-- **Custom Kits, Perks, Drops, and Recipes**: Customize kits, loot drops, and crafting recipes for a unique gameplay
-  experience.
-- **Custom Ore Generation**: You do not like standard amount of ore generating? Customize it to suit your preferences.
-- **MySQL Support**: Save player data in the database and always have it at hand.
 
 ## Prerequisites
 
 - Minecraft server version 1.8 or higher
 - Java 8 or higher
 - PlaceholderAPI plugin (for placeholder support)
-- (Optional) Vault plugin (for economy integration)
+- Vault plugin (for economy integration)
 - (Optional) LuckPerms plugin (for permission management)
 - (Optional) ProtocolLib plugin (for enhanced compatibility)
 
@@ -81,6 +91,8 @@ available commands, their descriptions, and the required permissions:
     - Description: Opens the team management GUI, allowing players to create, join, or manage teams.
 - `/kits` (Aliases: `/kit`)
     - Description: Opens the kits selection GUI, where players can choose from available kits.
+- `/perks` (Aliases: `/perk`)
+    - Description: Opens the perks selection GUI, where players can choose from available perks.
 - `/recipes` (Aliases: `/crafts`, `/customrecipes`)
     - Description: Opens the custom recipes GUI, displaying all available custom crafting recipes.
 - `/statistics` (Aliases: `/stats`)

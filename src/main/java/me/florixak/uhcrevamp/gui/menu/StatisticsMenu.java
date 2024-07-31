@@ -46,6 +46,7 @@ public class StatisticsMenu extends Menu {
         getInventory().setItem(GameValues.STATISTICS.PLAYER_STATS_SLOT, StatisticsManager.getPlayerStats(uhcPlayer));
         getInventory().setItem(GameValues.STATISTICS.TOP_SLOT, StatisticsManager.getTopStats(uhcPlayer));
 
+
         inventory.setItem(getSlots() - 5, ItemUtils.createItem(
                 XMaterial.matchXMaterial(GameValues.INVENTORY.CLOSE_ITEM).get().parseMaterial(),
                 TextUtils.color(GameValues.INVENTORY.CLOSE_TITLE),
