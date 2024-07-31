@@ -3,9 +3,7 @@ package me.florixak.uhcrevamp.game.worldGenerator;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.utils.NearestSolidBlockFinder;
-import me.florixak.uhcrevamp.utils.RandomUtils;
-import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.MathUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,30 +14,24 @@ import org.bukkit.event.world.WorldLoadEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class OreGeneratorListener implements Listener {
 
 	private final String targetWorldName;
 	private final int maxOresPerChunk;
 	private final List<GeneratedOre> oresList;
-	private final List<Material> notSpawnIn;
+	private final List<String> notSpawnIn;
 
 	public OreGeneratorListener(GameManager gameManager) {
 		FileConfiguration oreGenConfig = gameManager.getConfigManager().getFile(ConfigType.ORE_GENERATION).getConfig();
 		this.targetWorldName = GameValues.WORLD_NAME;
 		this.maxOresPerChunk = GameValues.GAME.MAX_ORE_PER_CHUNK;
 		this.oresList = gameManager.getOreGenManager().getOreGeneratorList();
-		this.notSpawnIn = oreGenConfig.getStringList("not-generate-in").stream()
-				.map(XMaterial::matchXMaterial)
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.map(XMaterial::parseMaterial)
-				.collect(Collectors.toList());
+		this.notSpawnIn = oreGenConfig.getStringList("not-generate-in");
 	}
 
-	private static void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
+	private void generateVein(final Material material, final Block startBlock, final int nbrBlocks) {
+		if (notSpawnIn.contains(material.name())) return;
 		final List<Block> blocks = getAdjacentsBlocks(startBlock, nbrBlocks);
 
 		for (final Block block : blocks) {
@@ -47,13 +39,13 @@ public class OreGeneratorListener implements Listener {
 		}
 	}
 
-	private static List<Block> getAdjacentsBlocks(final Block startBlock, final int nbrBlocks) {
+	private List<Block> getAdjacentsBlocks(final Block startBlock, final int nbrBlocks) {
 		int failedAttempts = 0;
 		final List<Block> adjacentBlocks = new ArrayList<>();
 		adjacentBlocks.add(startBlock);
 		while (adjacentBlocks.size() < nbrBlocks && failedAttempts < 25) {
-			final Block block = adjacentBlocks.get(RandomUtils.randomInteger(0, adjacentBlocks.size() - 1));
-			final BlockFace face = RandomUtils.randomAdjacentFace();
+			final Block block = adjacentBlocks.get(MathUtils.randomInteger(0, adjacentBlocks.size() - 1));
+			final BlockFace face = MathUtils.randomAdjacentFace();
 			final Location blockLocation = block.getLocation();
 			if ((blockLocation.getBlockY() <= 1 && face.equals(BlockFace.DOWN)) || (blockLocation.getBlockY() >= 255 && face.equals(BlockFace.UP))) {
 				++failedAttempts;
@@ -79,17 +71,15 @@ public class OreGeneratorListener implements Listener {
 		Bukkit.getLogger().info("World " + targetWorldName + " loaded. Generating ores...");
 		for (Chunk chunk : world.getLoadedChunks()) {
 			for (int i = 0; i < maxOresPerChunk; i++) {
-				int x = RandomUtils.getRandom().nextInt(16);
-				int z = RandomUtils.getRandom().nextInt(16);
+				int x = MathUtils.getRandom().nextInt(16);
+				int z = MathUtils.getRandom().nextInt(16);
 				int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
-				int y = RandomUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
+				int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
 				Block startBlock = chunk.getBlock(x, y, z);
-				while (notSpawnIn.contains(startBlock.getType())) {
-					startBlock = NearestSolidBlockFinder.findNearestSolidBlock(startBlock);
-					if (startBlock == null) break;
+				if (!notSpawnIn.contains(startBlock.getType().name())) {
+					GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
+					generateVein(generatedOre.getMaterial(), startBlock, MathUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
 				}
-				GeneratedOre generatedOre = oresList.get(RandomUtils.getRandom().nextInt(oresList.size()));
-				generateVein(generatedOre.getMaterial(), startBlock, RandomUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
 			}
 		}
 		Bukkit.getLogger().info("Ores generated in world " + targetWorldName);

@@ -4,7 +4,6 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class LobbyManager {
@@ -22,7 +21,7 @@ public class LobbyManager {
 	}
 
 	public void checkLobbies() {
-		if (!worldExists(waitingLobbyName)) {
+		if (!gameManager.getWorldManager().worldExists(waitingLobbyName)) {
 			gameManager.getWorldManager().loadWorldIfExists(waitingLobbyName);
 
 			if (getWaitingLobbyLocation() != null) {
@@ -32,7 +31,7 @@ public class LobbyManager {
 		if (waitingLobbyName.equals(endingLobbyName)) {
 			return;
 		}
-		if (!worldExists(endingLobbyName)) {
+		if (!gameManager.getWorldManager().worldExists(endingLobbyName)) {
 			gameManager.getWorldManager().loadWorldIfExists(endingLobbyName);
 
 			if (getEndingLobbyLocation() != null) {
@@ -103,8 +102,5 @@ public class LobbyManager {
 		);
 	}
 
-	private boolean worldExists(String worldName) {
-		World world = Bukkit.getWorld(worldName);
-		return world != null;
-	}
+
 }

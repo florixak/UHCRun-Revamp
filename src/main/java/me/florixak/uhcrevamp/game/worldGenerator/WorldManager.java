@@ -19,11 +19,14 @@ public class WorldManager {
 			world.setGameRuleValue("doDaylightCycle", "false");
 			world.setGameRuleValue("announceAdvancements", "false");
 			world.setGameRuleValue("doWeatherCycle", "false");
+			world.setGameRuleValue("spawnRadius", "0");
 		} else {
 			world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 			world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+			world.setGameRule(GameRule.SPAWN_RADIUS, 0);
 		}
+
 
 	}
 
@@ -54,5 +57,10 @@ public class WorldManager {
 		} else {
 			createLobbyWorld(worldName);
 		}
+	}
+
+	public boolean worldExists(String worldName) {
+		World world = Bukkit.getWorld(worldName);
+		return world != null;
 	}
 }

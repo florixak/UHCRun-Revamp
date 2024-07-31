@@ -4,6 +4,8 @@
 # In this example, ores will not be generated in water blocks.
 not-generate-in:
   - "WATER"
+  - "AIR"
+  - "LAVA"
 
 # The "ore-generation" section defines the settings for each type of ore.
 # For each ore type, the "min-vein" and "max-vein" settings specify the minimum and maximum number of ore blocks that can be generated in a single vein.

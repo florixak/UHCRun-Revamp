@@ -6,10 +6,12 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.statistics.TopStatistics;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
-import me.florixak.uhcrevamp.utils.RandomUtils;
+import me.florixak.uhcrevamp.utils.MathUtils;
+import me.florixak.uhcrevamp.utils.TeleportUtils;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -110,12 +112,12 @@ public class PlayerManager {
 	}
 
 	public UHCPlayer getRandomOnlineUHCPlayer() {
-		return getPlayers().get(RandomUtils.getRandom().nextInt(getPlayers().size()));
+		return getPlayers().get(MathUtils.getRandom().nextInt(getPlayers().size()));
 	}
 
 	public UHCPlayer getUHCPlayerWithoutPerm(String perm) {
 		List<UHCPlayer> onlineListWithoutPerm = getPlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
-		return onlineListWithoutPerm.get(RandomUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
+		return onlineListWithoutPerm.get(MathUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
 	}
 
 	public UHCPlayer getWinnerPlayer() {
@@ -225,17 +227,12 @@ public class PlayerManager {
 		uhcPlayer.getPlayer().setFoodLevel(20);
 		uhcPlayer.getPlayer().setExhaustion(0);
 
+		uhcPlayer.clearPotions();
 		uhcPlayer.clearInventory();
 
 		if (GameValues.TEAM.TEAM_MODE && !uhcPlayer.hasTeam()) {
 			gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
 		}
-//		else if (!GameValues.TEAM.TEAM_MODE) {
-////			UHCTeam uhcTeam = new UHCTeam(Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName()), uhcPlayer.getName(), "&f", 1);
-//			UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
-//			gameManager.getTeamManager().addTeam(uhcTeam);
-//			uhcPlayer.setTeam(uhcTeam);
-//		}
 
 		if (uhcPlayer.hasKit()) {
 			if (!GameValues.KITS.BOUGHT_FOREVER) {
@@ -245,9 +242,34 @@ public class PlayerManager {
 						.replace("%current-money%", String.valueOf(uhcPlayer.getData().getMoney())
 						), uhcPlayer.getPlayer())
 				);
-
 			}
 			uhcPlayer.getKit().giveKit(uhcPlayer);
+		}
+	}
+
+//	public void revivePlayer(UHCPlayer uhcPlayer) {
+//		uhcPlayer.revive();
+//		uhcPlayer.setKit(null);
+//		uhcPlayer.setPerk(null);
+//		setPlayerForGame(uhcPlayer);
+//	}
+
+	public void teleportInToGame() {
+		for (UHCPlayer uhcPlayer : getAlivePlayers()) {
+			Location location = TeleportUtils.getSafeLocation();
+			uhcPlayer.setSpawnLocation(location);
+			uhcPlayer.teleport(location);
+		}
+	}
+
+	public void teleportAfterMining() {
+		for (UHCPlayer uhcPlayer : getAlivePlayers()) {
+			Location location = uhcPlayer.getPlayer().getLocation();
+
+			double y = location.getWorld().getHighestBlockYAt(location);
+			location.setY(y);
+
+			uhcPlayer.teleport(location);
 		}
 	}
 

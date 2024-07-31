@@ -175,7 +175,7 @@ public class GameValues {
 		public final int DEATHMATCH_COUNTDOWN = getConfigInt("settings.game.countdowns.deathmatch", 300);
 		public final int ENDING_COUNTDOWN = getConfigInt("settings.game.countdowns.ending", 20);
 		public final List<String> DISABLED_IN_MINING = getConfigStringList("settings.game.disabled-in-mining");
-		public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.resistance", 10);
+		public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.pvp-resistance", 10);
 		public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
 		public final List<String> DISABLED_BIOMES = getConfigStringList("settings.game.disabled-biomes");
 	}

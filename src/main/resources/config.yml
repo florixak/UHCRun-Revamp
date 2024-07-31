@@ -32,7 +32,7 @@ settings:
     explode-block-destroy: true # Allow explosions to destroy blocks
     custom-drops: true # Enable custom item drops
     random-drops: false # Enable random item drops (in development)
-    max-ore-per-chunk: 10 # Maximum number of ores per chunk
+    max-ore-per-chunk: 30 # Maximum number of ores per chunk
 
     players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message
@@ -44,6 +44,7 @@ settings:
       pvp: 600 # Lenght of pvp phase in seconds
       deathmatch: 300 # Lenght of deathmatch phase in seconds
       ending: 15 # Countdown for game end in seconds
+      pvp-resistance: 10 # PvP resistance time in seconds
 
     # List of damage causes disabled during mining phase
     #   CONTACT, ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, PROJECTILE, SUFFOCATION, FALL,
@@ -68,12 +69,11 @@ settings:
   deathmatch:
     start-at: 3 # Number of players to start deathmatch, -1 for automatic
     border-size: 40.0 # Size of the deathmatch border
-    pvp-resistance-countdown: 10 # PvP resistance time in seconds, -1 to disable
     location: # Center location of deathmatch
-      custom: false
       world: "UHCWorld"
+      # If you have default "UHCWorld" you can ingore x, y and z
       x: 0.0
-      y: 75.0 # if custom false you can ignore it
+      y: 75.0
       z: 0.0
 
   # Lobby settings
@@ -253,47 +253,47 @@ settings:
   sounds:
     started:
       sound: ENTITY_PLAYER_LEVELUP
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     starting:
       sound: BLOCK_STONE_BUTTON_CLICK_ON
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     win:
       sound: ENTITY_FIREWORK_ROCKET_BLAST
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     game-end:
       sound: ENTITY_PLAYER_LEVELUP
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     deathmatch:
       sound: ENTITY_ENDER_DRAGON_GROWL
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     deathmatch-starting:
       sound: BLOCK_STONE_BUTTON_CLICK_ON
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     uhc-level-up:
       sound: ENTITY_PLAYER_LEVELUP
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     kill:
       sound: ENTITY_LIGHTNING_BOLT_IMPACT
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     select:
       sound: ENTITY_EXPERIENCE_ORB_PICKUP
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     buy:
       sound: BLOCK_NOTE_BLOCK_PLING
-      volume: 1.0
+      volume: 0.5
       pitch: 1.0
     purchase-cancel:
-      sound: BLOCK_ANVIL_BREAK
-      volume: 1.0
+      sound: BLOCK_ANVIL_DESTROY
+      volume: 0.5
       pitch: 1.0
 
   # Chat

@@ -9,31 +9,31 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ResistanceTask extends BukkitRunnable {
 
-    private final GameManager gameManager;
-    private static int countdown;
+	private final GameManager gameManager;
+	private static int countdown;
 
-    public ResistanceTask(GameManager gameManager) {
-        this.gameManager = gameManager;
-        ResistanceTask.countdown = GameValues.GAME.RESISTANCE_COUNTDOWN;
-    }
+	public ResistanceTask(GameManager gameManager) {
+		this.gameManager = gameManager;
+		ResistanceTask.countdown = GameValues.GAME.RESISTANCE_COUNTDOWN;
+	}
 
-    public static int getCountdown() {
-        return countdown;
-    }
+	public static int getCountdown() {
+		return countdown;
+	}
 
-    @Override
-    public void run() {
-        if (countdown <= 0) {
-            cancel();
-            gameManager.setPvP(true);
-            Utils.broadcast(Messages.PVP.toString());
-            return;
-        }
+	@Override
+	public void run() {
+		if (countdown <= 0) {
+			cancel();
+			gameManager.setResistance(false);
+			Utils.broadcast(Messages.PVP.toString());
+			return;
+		}
 
-        if (countdown <= 10) {
-            Utils.broadcast(Messages.PVP_IN.toString()
-                    .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
-        }
-        countdown--;
-    }
+		if (countdown <= 10) {
+			Utils.broadcast(Messages.PVP_IN.toString()
+					.replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
+		}
+		countdown--;
+	}
 }

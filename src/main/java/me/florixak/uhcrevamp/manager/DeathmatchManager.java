@@ -4,75 +4,95 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
+import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class DeathmatchManager {
 
-    private final GameManager gameManager;
-    private final FileConfiguration config;
-    private final String path;
+	private final GameManager gameManager;
+	private final FileConfiguration config;
+	private final String path;
 
-    public DeathmatchManager(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+	private final String deathmatchWorld;
 
-        this.path = "settings.deathmatch";
-    }
+	public DeathmatchManager(GameManager gameManager) {
+		this.gameManager = gameManager;
+		this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
-    public Location getDeathmatchLocation() {
-        return new Location(
-                Bukkit.getWorld(config.getString(path + ".location.world", "world")),
-                config.getDouble(path + ".location.x", 0.0),
-                config.getDouble(path + ".location.y", 75.0),
-                config.getDouble(path + ".location.z", 0.0));
-    }
+		this.path = "settings.deathmatch";
+		this.deathmatchWorld = config.getString(path + ".location.world", "UHCWorld");
+	}
 
-    public void setDeathmatchLocation(Location location) {
-        config.set(path + ".location.world", location.getWorld().getName());
-        config.set(path + ".location.x", location.getX());
-        config.set(path + ".location.y", location.getY());
-        config.set(path + ".location.z", location.getZ());
-        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
-    }
+	public void checkDeathmatch() {
+		if (deathmatchWorld.equals("UHCWorld")) return;
+		if (!gameManager.getWorldManager().worldExists(deathmatchWorld)) {
+			gameManager.getWorldManager().loadWorldIfExists(deathmatchWorld);
 
-    public void resetDeathmatchLocation() {
-        config.set(path + ".location.world", "world");
-        config.set(path + ".location.x", 0.0);
-        config.set(path + ".location.y", 75.0);
-        config.set(path + ".location.z", 0.0);
-        gameManager.getConfigManager().getFile(ConfigType.SETTINGS).save();
-    }
+			if (getDeathmatchLocation() != null) {
+				Bukkit.getLogger().info("World " + deathmatchWorld + " is loaded.");
+			}
+		}
+	}
 
-    public double getDeathmatchBorderSize() {
-        return config.getDouble(path + ".border-size", 40.0);
-    }
+	public Location getDeathmatchLocation() {
+		return new Location(
+				Bukkit.getWorld(config.getString(path + ".location.world", "UHCWorld")),
+				config.getDouble(path + ".location.x", 0.0),
+				config.getDouble(path + ".location.y", 75.0),
+				config.getDouble(path + ".location.z", 0.0));
+	}
 
-    public boolean isDeathmatchEnabled() {
-        return config.getBoolean(path + ".enabled", true);
-    }
+	public void setDeathmatchLocation(Location location) {
+		config.set(path + ".location.world", location.getWorld().getName());
+		config.set(path + ".location.x", location.getX());
+		config.set(path + ".location.y", location.getY());
+		config.set(path + ".location.z", location.getZ());
+		gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
+	}
 
-    public Location getTeleportLocation() {
-        Location loc = getDeathmatchLocation();
+	public void resetDeathmatchLocation() {
+		config.set(path + ".location.world", "world");
+		config.set(path + ".location.x", 0.0);
+		config.set(path + ".location.y", 75.0);
+		config.set(path + ".location.z", 0.0);
+		gameManager.getConfigManager().saveFile(ConfigType.SETTINGS);
+	}
 
-        return new Location(loc.getWorld(),
-                (loc.getX() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getX() + 5))) / 2.2,
-                loc.getWorld().getHighestBlockYAt(loc),
-                (loc.getZ() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getZ() + 5))) / 2.2
-        );
-    }
+	public double getDeathmatchBorderSize() {
+		return config.getDouble(path + ".border-size", 40.0);
+	}
 
-    public void prepareDeathmatch() {
-        gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
-        gameManager.getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(getTeleportLocation()));
-        gameManager.getPlayerManager().getSpectatorPlayers().stream()
-                .filter(UHCPlayer::isOnline)
-                .forEach(uhcPlayer -> uhcPlayer.teleport(getTeleportLocation()));
+	public boolean isDeathmatchEnabled() {
+		return config.getBoolean(path + ".enabled", true);
+	}
 
-        if (GameValues.GAME.RESISTANCE_COUNTDOWN > 0) {
-            gameManager.setPvP(false);
-            gameManager.getTaskManager().startResistanceTask();
-        }
-    }
+	public Location getTeleportLocation() {
+		Location loc = getDeathmatchLocation();
+
+		return new Location(loc.getWorld(),
+				(loc.getX() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getX() + 5))) / 2.2,
+				loc.getWorld().getHighestBlockYAt((int) loc.getX(), (int) loc.getZ()),
+				(loc.getZ() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getZ() + 5))) / 2.2
+		);
+	}
+
+	public void prepareDeathmatch() {
+		gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
+
+		if (GameValues.TEAM.TEAM_MODE) {
+			for (UHCTeam team : gameManager.getTeamManager().getLivingTeams()) {
+				team.teleport(getTeleportLocation());
+			}
+		} else {
+			for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
+				uhcPlayer.teleport(getTeleportLocation());
+			}
+		}
+
+		if (GameValues.GAME.RESISTANCE_COUNTDOWN > 0) {
+			gameManager.getTaskManager().startResistanceTask();
+		}
+	}
 }

@@ -56,8 +56,13 @@ public class TaskManager {
 	}
 
 	public void startResistanceTask() {
+		gameManager.setResistance(true);
 		this.resistanceTask = new ResistanceTask(gameManager);
 		this.resistanceTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
+	}
+
+	public ResistanceTask getResistanceTask() {
+		return resistanceTask;
 	}
 
 	public void startEndingTask() {

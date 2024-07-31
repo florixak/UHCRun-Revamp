@@ -12,7 +12,7 @@ import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.listener.events.GameKillEvent;
-import me.florixak.uhcrevamp.utils.RandomUtils;
+import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -117,7 +117,9 @@ public class GameListener implements Listener {
 		if (killer != null) {
 			killer.addKill();
 			killer.getPlayer().giveExp((int) GameValues.REWARDS.EXP_FOR_KILL);
-			killer.getPerk().givePerk(killer);
+			if (killer.hasPerk()) {
+				killer.getPerk().givePerk(killer);
+			}
 
 			killer.sendMessage(Messages.REWARDS_KILL.toString()
 					.replace("%player%", victim.getName())
@@ -168,7 +170,7 @@ public class GameListener implements Listener {
 			block.getDrops().clear();
 			event.setExpToDrop(0);
 
-			int randomMaterialIndex = RandomUtils.getRandom().nextInt(XMaterial.values().length);
+			int randomMaterialIndex = MathUtils.getRandom().nextInt(XMaterial.values().length);
 			Material material = XMaterial.values()[randomMaterialIndex].parseMaterial();
 			if (material == null) return;
 
@@ -181,6 +183,14 @@ public class GameListener implements Listener {
 		}
 
 		if (GameValues.GAME.CUSTOM_DROPS_ENABLED) {
+			if (!gameManager.getCustomDropManager().getAppleChanceMap().isEmpty() && block.getType().name().contains("LEAVES")) {
+				ItemStack apple = new ItemStack(gameManager.getCustomDropManager().pickAppleToDrop(gameManager.getCustomDropManager().getAppleChanceMap()));
+				if (apple.getType().equals(XMaterial.AIR.parseMaterial())) return;
+				Location location = block.getLocation().add(0.5, 0.5, 0.5);
+				Bukkit.getWorld(block.getWorld().getName()).dropItem(location, apple);
+				return;
+			}
+
 			if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
 				CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
 				customDrop.dropBlockItem(event);
@@ -212,7 +222,7 @@ public class GameListener implements Listener {
 
 		if (!(event.getEntity() instanceof Player)) return;
 
-		if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) {
+		if (!gameManager.isPlaying() || gameManager.isEnding() || gameManager.isResistance()) {
 			event.setCancelled(true);
 			return;
 		}
@@ -254,7 +264,7 @@ public class GameListener implements Listener {
 			return;
 		}
 
-		if (gameManager.getGameState().equals(GameState.MINING) || !gameManager.isPvP()) {
+		if (gameManager.getGameState().equals(GameState.MINING) || gameManager.isResistance()) {
 			if (!(event.getEntity() instanceof Player)) return;
 			event.setCancelled(true);
 			return;
@@ -264,7 +274,7 @@ public class GameListener implements Listener {
 			Player entity = (Player) event.getEntity();
 			UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
 
-			if (uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.TEAM.FRIENDLY_FIRE) {
+			if (GameValues.TEAM.TEAM_MODE && uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.TEAM.FRIENDLY_FIRE) {
 				event.setCancelled(true);
 				uhcPlayerD.sendMessage(Messages.TEAM_NO_FRIENDLY_FIRE.toString());
 			}
@@ -300,7 +310,7 @@ public class GameListener implements Listener {
 			event.setCancelled(true);
 		}
 		if (gameManager.isPlaying()) {
-			p.setExhaustion(p.getExhaustion() * 0.5f);
+			p.setExhaustion(0);
 		}
 	}
 

@@ -17,8 +17,8 @@ public class GameCheckTack extends BukkitRunnable {
 	}
 
 	public boolean isGameEnd() {
-//        return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
-		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
+		return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
+//		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
 	}
 
 	public boolean canStart() {

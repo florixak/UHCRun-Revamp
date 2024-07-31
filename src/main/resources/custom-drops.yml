@@ -2,6 +2,11 @@
 # number after material is amount, you can use static number - [8], or interval - ([1, 5])
 
 custom-drops:
+  apples: # drops from breaking leaves
+    APPLE:
+      chance: 15 # The chance of dropping an apple when breaking a block (in percent)
+    GOLDEN_APPLE:
+      chance: 3 # The chance of dropping a golden apple when breaking a block (in percent)
   mobs:
     CHICKEN:
       exp: 5
@@ -146,43 +151,7 @@ custom-drops:
       exp: 20
       drops:
         OAK_PLANKS: [ 4 ]
-    ACACIA_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    AZALEA_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    BIRCH_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    DARK_OAK_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    FLOWERING_AZALEA_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    JUNGLE_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    MANGROVE_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    OAK_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
-    SPRUCE_LEAVES:
-      exp: 0
-      drops:
-        APPLE: [ 0, 0, 1 ]
     PUMPKIN:
       exp: 5
       drops:
-        PUMPKIN_PIE: [ 1, 2 ]
+        APPLE: [ 0, 0, 0, 0, 1 ]

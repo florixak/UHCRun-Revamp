@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
+import me.florixak.uhcrevamp.utils.TeleportUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -98,8 +99,17 @@ public class TeamManager {
 		return null;
 	}
 
-	public void teleportTeamsAfterMining() {
+	public void teleportInToGame() {
+		for (UHCTeam team : getLivingTeams()) {
+			Location location = TeleportUtils.getSafeLocation();
+			for (UHCPlayer member : team.getMembers()) {
+				member.setSpawnLocation(location);
+			}
+			team.teleport(location);
+		}
+	}
 
+	public void teleportAfterMining() {
 		for (UHCTeam team : getLivingTeams()) {
 			Player p = team.getLeader().getPlayer();
 			Location location = p.getLocation();

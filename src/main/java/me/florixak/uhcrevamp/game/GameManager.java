@@ -29,7 +29,6 @@ import me.florixak.uhcrevamp.manager.scoreboard.TabManager;
 import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
 import me.florixak.uhcrevamp.tasks.*;
-import me.florixak.uhcrevamp.utils.TeleportUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XSound;
@@ -76,7 +75,7 @@ public class GameManager {
 	private final WorldManager worldManager;
 	private final MenuManager menuManager;
 
-	private boolean pvp;
+	private boolean resistance;
 
 	public GameManager(UHCRevamp plugin) {
 		this.plugin = plugin;
@@ -116,7 +115,6 @@ public class GameManager {
 
 		getOreGenManager().loadOres();
 		getWorldManager().createNewUHCWorld();
-		getWorldManager().removeOceans();
 
 		getBorderManager().setBorder();
 
@@ -131,7 +129,7 @@ public class GameManager {
 		getTaskManager().runScoreboardUpdateTask();
 //        getTaskManager().runPlayingTimeTask();
 
-		setPvP(false);
+		setResistance(false);
 	}
 
 	public GameState getGameState() {
@@ -143,7 +141,6 @@ public class GameManager {
 		this.gameState = gameState;
 
 		switch (gameState) {
-
 			case LOBBY:
 				break;
 
@@ -155,10 +152,11 @@ public class GameManager {
 
 			case MINING:
 				getPlayerManager().getOnlinePlayers().forEach(uhcPlayer -> getPlayerManager().setPlayerForGame(uhcPlayer));
+
 				if (GameValues.TEAM.TEAM_MODE) {
-					getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
+					getTeamManager().teleportInToGame();
 				} else {
-					getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.teleport(TeleportUtils.getSafeLocation()));
+					getPlayerManager().teleportInToGame();
 				}
 
 				getTaskManager().startMiningTask();
@@ -168,9 +166,13 @@ public class GameManager {
 
 			case PVP:
 				if (GameValues.GAME.TELEPORT_AFTER_MINING) {
-					getTeamManager().teleportTeamsAfterMining();
+					if (GameValues.TEAM.TEAM_MODE) {
+						getTeamManager().teleportAfterMining();
+					} else {
+						getPlayerManager().teleportAfterMining();
+					}
 				}
-				gameManager.getTaskManager().startResistanceTask();
+				getTaskManager().startResistanceTask();
 				getTaskManager().startPvPTask();
 
 				Utils.broadcast(Messages.BORDER_SHRINK.toString());
@@ -188,7 +190,7 @@ public class GameManager {
 				Utils.broadcast(Messages.GAME_ENDED.toString());
 				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEndSound(player));
 
-				gameManager.getPlayerManager().setUHCWinner();
+				getPlayerManager().setUHCWinner();
 				plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
 				//getTaskManager().stopPlayingTimeTask();
 				getTaskManager().startEndingTask();
@@ -238,12 +240,12 @@ public class GameManager {
 		return gameState.equals(GameState.ENDING);
 	}
 
-	public boolean isPvP() {
-		return this.pvp;
+	public boolean isResistance() {
+		return this.resistance;
 	}
 
-	public void setPvP(boolean b) {
-		this.pvp = b;
+	public void setResistance(boolean b) {
+		this.resistance = b;
 	}
 
 	public void clearDrops() {
@@ -327,7 +329,7 @@ public class GameManager {
 		listeners.add(new InteractListener(gameManager));
 		listeners.add(new InventoryClickListener(gameManager));
 		listeners.add(new OreGeneratorListener(gameManager));
-		listeners.add(new WorldGeneratorListener(worldManager));
+		listeners.add(new WorldGeneratorListener());
 
 		for (Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);

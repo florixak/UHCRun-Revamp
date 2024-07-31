@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.game.player;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
+import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
@@ -38,7 +39,7 @@ public class UHCPlayer {
 	private boolean hasWon;
 	private long timePlayed;
 	private final Map<UUID, Long> damageTrackers;
-	private Location deathLoc;
+	private Location spawnLoc;
 
 	private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
 	private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
@@ -58,7 +59,7 @@ public class UHCPlayer {
 		this.kit = null;
 		this.perk = null;
 		this.team = null;
-		this.deathLoc = null;
+		this.spawnLoc = null;
 		this.damageTrackers = new HashMap<>();
 
 		this.displayedStat = "Wins";
@@ -189,8 +190,12 @@ public class UHCPlayer {
 		GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
 	}
 
-	public void setDeathLocation(Location deathLoc) {
-		this.deathLoc = deathLoc;
+	public void setSpawnLocation(Location spawnLoc) {
+		this.spawnLoc = spawnLoc;
+	}
+
+	public Location getSpawnLocation() {
+		return this.spawnLoc;
 	}
 
 	public long getTimePlayed() {
@@ -199,10 +204,6 @@ public class UHCPlayer {
 
 	public void addTimePlayed(long time) {
 		this.timePlayed += time;
-	}
-
-	public Location getDeathLocation() {
-		return this.deathLoc;
 	}
 
 	public void revive() {
@@ -216,26 +217,20 @@ public class UHCPlayer {
 		clearInventory();
 
 		//if (kit != null) getKit().giveKit(this);
-		teleport(deathLoc == null ? TeleportUtils.getSafeLocation() : deathLoc);
+		teleport(spawnLoc == null ? TeleportUtils.getSafeLocation() : spawnLoc);
 	}
 
 	public void die() {
 		setState(PlayerState.DEAD);
-		setDeathLocation(getPlayer().getLocation());
 
 		getPlayer().spigot().respawn();
 
 		getPlayer().setHealth(getPlayer().getMaxHealth());
 		getPlayer().setFoodLevel(20);
+		getPlayer().setExhaustion(0);
 		getPlayer().setFireTicks(0);
 		clearPotions();
 		clearInventory();
-
-		teleport(new Location(
-				Bukkit.getWorld(getDeathLocation().getWorld().getName()),
-				getDeathLocation().getX() + 0,
-				getDeathLocation().getY() + 10,
-				getDeathLocation().getZ() + 0));
 
 		setSpectator();
 	}
@@ -243,9 +238,9 @@ public class UHCPlayer {
 	public void setSpectator() {
 		if (state != PlayerState.DEAD) {
 			setState(PlayerState.SPECTATOR);
-			teleport(getPlayer().getLocation().getWorld().getBlockAt(0, 100, 0).getLocation());
 		}
 		setGameMode(GameMode.SPECTATOR);
+		teleport(new Location(Bukkit.getWorld(GameValues.WORLD_NAME), 0, 100, 0));
 	}
 
 
@@ -411,7 +406,7 @@ public class UHCPlayer {
 		this.perk = null;
 		if (hasTeam()) getTeam().removeMember(this);
 		this.team = null;
-		this.deathLoc = null;
+		this.spawnLoc = null;
 		this.timePlayed = 0;
 		this.damageTrackers.clear();
 		this.moneyForGameResult = 0;

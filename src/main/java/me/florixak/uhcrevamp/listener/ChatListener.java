@@ -51,23 +51,29 @@ public class ChatListener implements Listener {
 
 		String message = p.hasPermission(Permissions.COLOR_CHAT.getPerm()) ? TextUtils.color(event.getMessage()) : event.getMessage();
 		format = PlaceholderUtil.setPlaceholders(format.replace("%message%", isGlobal ? message.replace("!", "") : message), p);
-		final String finalFormat = format;
+		final String finalFormat = TextUtils.color(format);
 
 		switch (uhcPlayer.getState()) {
 			case LOBBY:
 				if (!gameManager.isPlaying()) {
-					pm.getOnlinePlayers().forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
+					for (UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
+						uhcPlayers.sendMessage(finalFormat);
+					}
 				}
 				break;
 			case DEAD:
 			case SPECTATOR:
-				pm.getSpectatorPlayers().forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
+				for (UHCPlayer spectator : pm.getSpectatorPlayers()) {
+					spectator.sendMessage(finalFormat);
+				}
 				break;
 			case ALIVE:
 				if (isTeamMode && !isGlobal) {
-					uhcPlayer.getTeam().sendMessage(TextUtils.color(format));
+					uhcPlayer.getTeam().sendMessage(format);
 				} else {
-					pm.getOnlinePlayers().forEach(uhcPlayers -> uhcPlayer.sendMessage(TextUtils.color(finalFormat)));
+					for (UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
+						uhcPlayers.sendMessage(finalFormat);
+					}
 				}
 				break;
 			default:
