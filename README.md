@@ -81,6 +81,9 @@ available commands, their descriptions, and the required permissions:
 - `/forcestart` (Aliases: `/start`)
     - Description: Immediately starts the UHC game, bypassing minimal needed players.
     - Permission: `uhcrevamp.forcestart`
+- `/forceskip` (Aliases: `/skip`)
+    - Description: Skips the current phase of the game, moving to the next phase.
+    - Permission: `uhcrevamp.forceskip`
 - `/workbench` (Aliases: `/wb`, `/craftingtable`)
     - Description: Opens a virtual crafting table for the player, allowing remote crafting.
     - Permission: `uhcrevamp.workbench`
@@ -109,6 +112,8 @@ available commands, their descriptions, and the required permissions:
     - Description: Allows the player to join the server when it is full.
 - `uhcrevamp.spectate`
     - Description: Allows the player to join and spectate playing games.
+- `uhcrevamp.vip`
+    - Description: Grants VIP permissions to the player, such as reserved slots and color chat.
 
 ## Usage
 

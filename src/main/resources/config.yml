@@ -191,7 +191,7 @@ settings:
     header: "&2&lUHC&a&lRevamp\n" # Header text for tablist
     solo-mode-player-list: "&7[%uhc-level%] &f%player%" # Player list format for solo mode
     team-mode-player-list: "&7[%uhc-level%] %team% &f%player%" # Player list format for team mode
-    footer: "\n&7www.github.com/florixak" # Footer text for tablist
+    footer: "\n&7Created by FloriXak" # Footer text for tablist
 
   # Selectors
   inventories:

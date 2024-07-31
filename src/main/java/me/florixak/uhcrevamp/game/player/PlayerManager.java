@@ -204,7 +204,7 @@ public class PlayerManager {
 		Player p = uhcPlayer.getPlayer();
 		p.setHealth(p.getMaxHealth());
 		p.setFoodLevel(20);
-		p.setExhaustion(20);
+		p.setExhaustion(0);
 		p.setExp(0);
 		p.setLevel(0);
 		p.setFireTicks(0);
@@ -223,18 +223,19 @@ public class PlayerManager {
 		uhcPlayer.setGameMode(GameMode.SURVIVAL);
 		uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getMaxHealth());
 		uhcPlayer.getPlayer().setFoodLevel(20);
-		uhcPlayer.getPlayer().setExhaustion(20);
+		uhcPlayer.getPlayer().setExhaustion(0);
 
 		uhcPlayer.clearInventory();
 
 		if (GameValues.TEAM.TEAM_MODE && !uhcPlayer.hasTeam()) {
 			gameManager.getTeamManager().joinRandomTeam(uhcPlayer);
-		} else if (!GameValues.TEAM.TEAM_MODE) {
-//			UHCTeam uhcTeam = new UHCTeam(Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName()), uhcPlayer.getName(), "&f", 1);
-			UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
-			gameManager.getTeamManager().addTeam(uhcTeam);
-			uhcPlayer.setTeam(uhcTeam);
 		}
+//		else if (!GameValues.TEAM.TEAM_MODE) {
+////			UHCTeam uhcTeam = new UHCTeam(Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName()), uhcPlayer.getName(), "&f", 1);
+//			UHCTeam uhcTeam = new UHCTeam(null, "", "&f", 1);
+//			gameManager.getTeamManager().addTeam(uhcTeam);
+//			uhcPlayer.setTeam(uhcTeam);
+//		}
 
 		if (uhcPlayer.hasKit()) {
 			if (!GameValues.KITS.BOUGHT_FOREVER) {

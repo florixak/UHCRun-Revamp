@@ -1,7 +1,7 @@
 scoreboard:
   enabled: true
   title: "&2&lUHC&a&lRevamp"
-  footer: "&7www.github.com/florixak"
+  footer: "&7Created by FloriXak"
 
   waiting:
     - ""

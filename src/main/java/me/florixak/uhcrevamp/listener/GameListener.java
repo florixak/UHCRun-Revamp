@@ -296,7 +296,11 @@ public class GameListener implements Listener {
 		UHCPlayer player = playerManager.getUHCPlayer(p.getUniqueId());
 		if (!gameManager.isPlaying() || player.isDead() || gameManager.isEnding()) {
 			p.setFoodLevel(20);
+			p.setExhaustion(0);
 			event.setCancelled(true);
+		}
+		if (gameManager.isPlaying()) {
+			p.setExhaustion(p.getExhaustion() * 0.5f);
 		}
 	}
 

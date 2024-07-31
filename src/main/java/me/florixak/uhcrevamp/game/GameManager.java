@@ -116,6 +116,7 @@ public class GameManager {
 
 		getOreGenManager().loadOres();
 		getWorldManager().createNewUHCWorld();
+		getWorldManager().removeOceans();
 
 		getBorderManager().setBorder();
 
@@ -154,7 +155,11 @@ public class GameManager {
 
 			case MINING:
 				getPlayerManager().getOnlinePlayers().forEach(uhcPlayer -> getPlayerManager().setPlayerForGame(uhcPlayer));
-				getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
+				if (GameValues.TEAM.TEAM_MODE) {
+					getTeamManager().getTeamsList().forEach(uhcTeam -> uhcTeam.teleport(TeleportUtils.getSafeLocation()));
+				} else {
+					getPlayerManager().getAlivePlayers().forEach(uhcPlayer -> uhcPlayer.teleport(TeleportUtils.getSafeLocation()));
+				}
 
 				getTaskManager().startMiningTask();
 				Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.MINING.toString(), null));
@@ -322,7 +327,7 @@ public class GameManager {
 		listeners.add(new InteractListener(gameManager));
 		listeners.add(new InventoryClickListener(gameManager));
 		listeners.add(new OreGeneratorListener(gameManager));
-		listeners.add(new WorldGeneratorListener());
+		listeners.add(new WorldGeneratorListener(worldManager));
 
 		for (Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
