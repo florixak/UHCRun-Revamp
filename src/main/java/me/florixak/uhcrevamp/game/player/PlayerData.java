@@ -124,7 +124,7 @@ public class PlayerData {
 		loadBoughtPerks();
 	}
 
-	public boolean hasData() {
+	private boolean hasData() {
 		if (gameManager.isDatabaseConnected()) {
 			return gameManager.getDatabase().exists(uhcPlayer.getUUID());
 		}
@@ -145,20 +145,32 @@ public class PlayerData {
 	public void depositMoney(double amount) {
 		if (VaultHook.hasEconomy()) {
 			VaultHook.deposit(uhcPlayer.getName(), amount);
+			return;
 		}
-		playerData.set("player-data." + uhcPlayer.getUUID() + ".money", getMoney() + amount);
+		money += amount;
+		if (gameManager.isDatabaseConnected()) {
+			gameManager.getDatabase().setMoney(uhcPlayer.getUUID(), money);
+			return;
+		}
+		playerData.set("player-data." + uhcPlayer.getUUID() + ".money", money);
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
 	public void withdrawMoney(double amount) {
 		if (VaultHook.hasEconomy()) {
 			VaultHook.withdraw(uhcPlayer.getName(), amount);
+			return;
 		}
-		playerData.set("player-data." + uhcPlayer.getUUID() + ".money", getMoney() - amount);
+		money -= amount;
+		if (gameManager.isDatabaseConnected()) {
+			gameManager.getDatabase().setMoney(uhcPlayer.getUUID(), money);
+			return;
+		}
+		playerData.set("player-data." + uhcPlayer.getUUID() + ".money", money);
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	public boolean hasEnoughMoney(double amount) {
+	private boolean hasEnoughMoney(double amount) {
 		return getMoney() >= amount;
 	}
 
@@ -227,7 +239,7 @@ public class PlayerData {
 		return killstreak;
 	}
 
-	public void setKillstreak(int amount) {
+	private void setKillstreak(int amount) {
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setKillstreak(uhcPlayer.getUUID(), amount);
 			return;
@@ -293,7 +305,7 @@ public class PlayerData {
 		return boughtKitsList.contains(kit);
 	}
 
-	public void loadBoughtKits() {
+	private void loadBoughtKits() {
 		List<String> boughtKitsList;
 
 		if (gameManager.isDatabaseConnected()) {
@@ -344,7 +356,7 @@ public class PlayerData {
 		return boughtPerksList.contains(perk);
 	}
 
-	public void loadBoughtPerks() {
+	private void loadBoughtPerks() {
 		List<String> boughtPerksList;
 
 		if (gameManager.isDatabaseConnected()) {
@@ -387,7 +399,8 @@ public class PlayerData {
 		playerData.set("player-data." + uhcPlayer.getUUID() + ".time-played", getTimePlayed() + uhcPlayer.getTimePlayed());
 		gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 	}*/
-	
+
+	/* UHC Level System */
 	public void addUHCExp(double amount) {
 		uhcExp += amount;
 		if (gameManager.isDatabaseConnected()) {
@@ -446,11 +459,11 @@ public class PlayerData {
 		return requiredUhcExp;
 	}
 
-	// Set the required experience for the next level
 	private double setRequiredUHCExp() {
 		return requiredUhcExp * GameValues.STATISTICS.EXP_MULTIPLIER;
 	}
 
+	/* Top System */
 	public String getDisplayedTop() {
 		if (gameManager.isDatabaseConnected()) {
 			return gameManager.getDatabase().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
@@ -472,22 +485,10 @@ public class PlayerData {
 
 	}
 
+	/* Statistics */
 	private void addGameResult() {
 		if (uhcPlayer.isWinner()) addWin(1);
 		else addLose(1);
-	}
-
-	public void addActivityRewards() {
-		double money = GameValues.ACTIVITY_REWARDS.MONEY;
-		double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
-
-		uhcPlayer.addMoneyForActivity(money);
-		uhcPlayer.addUHCExpForActivity(uhcExp);
-
-		depositMoney(money);
-		addUHCExp(uhcExp);
-
-		uhcPlayer.sendMessage(Messages.REWARDS_ACTIVITY.toString().replace("%money%", String.valueOf(money)).replace("%uhc-exp%", String.valueOf(uhcExp)));
 	}
 
 	public void saveStatistics() {
@@ -518,4 +519,18 @@ public class PlayerData {
 			uhcPlayer.sendMessage(TextUtils.color(message));
 		}
 	}
+
+	public void addActivityRewards() {
+		double money = GameValues.ACTIVITY_REWARDS.MONEY;
+		double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
+
+		uhcPlayer.addMoneyForActivity(money);
+		uhcPlayer.addUHCExpForActivity(uhcExp);
+
+		depositMoney(money);
+		addUHCExp(uhcExp);
+
+		uhcPlayer.sendMessage(Messages.REWARDS_ACTIVITY.toString().replace("%money%", String.valueOf(money)).replace("%uhc-exp%", String.valueOf(uhcExp)));
+	}
+
 }

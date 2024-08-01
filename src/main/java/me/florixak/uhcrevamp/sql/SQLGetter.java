@@ -103,6 +103,19 @@ public class SQLGetter {
 		return null;
 	}
 
+	public void setMoney(UUID uuid, double money) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET money=? WHERE uuid=?");
+			ps.setDouble(1, money);
+			ps.setString(2, uuid.toString());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public double getMoney(UUID uuid) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT money FROM " + table + " WHERE uuid=?");
