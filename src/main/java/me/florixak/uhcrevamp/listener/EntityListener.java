@@ -65,7 +65,6 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
-
 		if (!(event.getDamager() instanceof Player)) {
 			if (!gameManager.isPlaying()) {
 				event.setCancelled(true);
@@ -110,8 +109,11 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void handleProjectileHit(EntityDamageByEntityEvent event) {
+		if (!gameManager.isPlaying()) {
+			event.setCancelled(true);
+			return;
+		}
 		if (!GameValues.GAME.PROJECTILE_HIT_HP_ENABLED) return;
-		if (!gameManager.isPlaying()) return;
 		if (!(event.getEntity() instanceof Player)) return;
 
 		if (event.getDamager() instanceof Snowball) {
@@ -129,6 +131,20 @@ public class EntityListener implements Listener {
 			Player shooter = (Player) arrow.getShooter();
 			Player enemy = (Player) event.getEntity();
 			handleProjectileHit(shooter, enemy);
+		} else if (event.getDamager() instanceof FishHook) {
+			FishHook fishHook = (FishHook) event.getDamager();
+			if (!(fishHook.getShooter() instanceof Player)) return;
+
+			Player shooter = (Player) fishHook.getShooter();
+			Player enemy = (Player) event.getEntity();
+			handleProjectileHit(shooter, enemy);
+		} else if (event.getDamager() instanceof Egg) {
+			Egg egg = (Egg) event.getDamager();
+			if (!(egg.getShooter() instanceof Player)) return;
+
+			Player shooter = (Player) egg.getShooter();
+			Player enemy = (Player) event.getEntity();
+			handleProjectileHit(shooter, enemy);
 		}
 	}
 
@@ -138,7 +154,12 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void handleMonsterTargeting(EntityTargetEvent event) {
-		if (event.getEntity() instanceof Monster) {
+		if (!gameManager.isPlaying()) {
+			event.setCancelled(true);
+			return;
+		}
+		if (event.getEntity() instanceof Monster || event.getEntity() instanceof Slime) {
+			if (GameValues.GAME.MONSTERS_ATTACK) return;
 			if (event.getTarget() instanceof Player) {
 				event.setCancelled(true);
 			}
@@ -146,7 +167,25 @@ public class EntityListener implements Listener {
 	}
 
 	@EventHandler
+	public void handleMonsterSpawning(CreatureSpawnEvent event) {
+		if (!gameManager.isPlaying()) {
+			event.setCancelled(true);
+			return;
+		}
+		if (event.getEntity() instanceof Monster || event.getEntity() instanceof Slime) {
+			if (GameValues.GAME.SPAWN_MONSTERS) return;
+			if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
 	public void handleExplode(EntityExplodeEvent event) {
+		if (!gameManager.isPlaying()) {
+			event.setCancelled(true);
+			return;
+		}
 		if (GameValues.GAME.EXPLOSIONS_DISABLED) event.setCancelled(true);
 	}
 }

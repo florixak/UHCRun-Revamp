@@ -167,6 +167,8 @@ public class GameValues {
 		public final boolean RANDOM_DROPS_ENABLED = getConfigBoolean("settings.game.random-drops", false);
 		public final boolean NETHER_ENABLED = getConfigBoolean("settings.game.allow-nether", false);
 		public final boolean PROJECTILE_HIT_HP_ENABLED = getConfigBoolean("settings.game.projectile-hit-hp", false);
+		public final boolean SPAWN_MONSTERS = getConfigBoolean("settings.game.spawn-monsters", false);
+		public final boolean MONSTERS_ATTACK = getConfigBoolean("settings.game.monsters-attack", false);
 		public final int PLAYERS_TO_START = getConfigInt("settings.game.players-to-start", 2);
 		public final int STARTING_COUNTDOWN = getConfigInt("settings.game.countdowns.starting", 20);
 		public final int STARTING_MESSAGE_AT = getConfigInt("settings.game.starting-message-at", 10);

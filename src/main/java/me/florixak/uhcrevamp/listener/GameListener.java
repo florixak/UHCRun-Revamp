@@ -22,13 +22,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -238,15 +236,6 @@ public class GameListener implements Listener {
 		}
 		if (gameManager.isPlaying()) {
 			p.setExhaustion(0);
-		}
-	}
-
-	@EventHandler
-	public void handleMonsterSpawning(CreatureSpawnEvent event) {
-		if (event.getEntity() instanceof Monster) {
-			if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
-				event.setCancelled(true);
-			}
 		}
 	}
 

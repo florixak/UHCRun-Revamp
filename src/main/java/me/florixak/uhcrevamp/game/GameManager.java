@@ -326,7 +326,7 @@ public class GameManager {
 		listeners.add(new InteractListener(this));
 		listeners.add(new InventoryClickListener(this));
 		listeners.add(new OreGeneratorListener(this));
-		listeners.add(new WorldGeneratorListener());
+		listeners.add(new WorldGeneratorListener(this));
 
 		for (Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);

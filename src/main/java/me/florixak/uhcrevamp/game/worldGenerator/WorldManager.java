@@ -16,18 +16,25 @@ public class WorldManager {
 		WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
 		World world = Bukkit.createWorld(worldCreator);
 		if (UHCRevamp.useOldMethods) {
-			world.setGameRuleValue("doDaylightCycle", "false");
-			world.setGameRuleValue("announceAdvancements", "false");
-			world.setGameRuleValue("doWeatherCycle", "false");
-			world.setGameRuleValue("spawnRadius", "0");
+			setOldGameRules(world);
 		} else {
-			world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-			world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-			world.setGameRule(GameRule.SPAWN_RADIUS, 0);
+			try {
+				world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+				world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+				world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+				world.setGameRule(GameRule.SPAWN_RADIUS, 0);
+			} catch (NoSuchMethodError e) {
+				Bukkit.getLogger().info("Failed to set game rules using new method. Using old method.");
+				setOldGameRules(world);
+			}
 		}
+	}
 
-
+	private void setOldGameRules(World world) {
+		world.setGameRuleValue("doDaylightCycle", "false");
+		world.setGameRuleValue("announceAdvancements", "false");
+		world.setGameRuleValue("doWeatherCycle", "false");
+		world.setGameRuleValue("spawnRadius", "0");
 	}
 
 	private void removeWorld() {

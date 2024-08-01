@@ -11,7 +11,6 @@ settings:
     use-LuckPerms: false # Enable integration with LuckPerms for permission management
     use-ProtocolLib: true # Enable integration with ProtocolLib for enhanced compatibility
     use-PlaceholderAPI: true # Enable integration with PlaceholderAPI for custom placeholders
-    use-HeadDatabase: false # Enable integration with HeadDatabase (Coming soon)
 
   # MySQL database
   # Warning: Do not forget to create %database% before starting the server
@@ -31,8 +30,11 @@ settings:
     no-explosions: false # Globally disable explosions
     explode-block-destroy: true # Allow explosions to destroy blocks
     custom-drops: true # Enable custom item drops
-    random-drops: false # Enable random item drops (in development)
-    max-ore-per-chunk: 30 # Maximum number of ores per chunk
+    random-drops: false # Enable random item drops (in development, coming in the future)
+    spawn-monsters: false # Allow monsters to spawn
+    monsters-attack: false # Allow monsters to attack players
+
+    max-ore-per-chunk: 40 # Maximum number of ores per chunk
 
     players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message
@@ -100,7 +102,7 @@ settings:
   # Team settings
   teams:
     team-mode: true # Enable team mode
-    max-size: 3 # Maximum team size
+    max-size: 2 # Maximum team size
     friendly-fire: false # Allow friendly fire within teams
 
   # Death chest settings - in progress

@@ -4,6 +4,7 @@ import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.utils.MathUtils;
+import me.florixak.uhcrevamp.utils.XSeries.XBiome;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -76,7 +77,9 @@ public class OreGeneratorListener implements Listener {
 				int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
 				int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
 				Block startBlock = chunk.getBlock(x, y, z);
-				if (!notSpawnIn.contains(startBlock.getType().name())) {
+				if (!notSpawnIn.contains(startBlock.getType().name())
+						&& !startBlock.getBiome().equals(XBiome.OCEAN.getBiome())
+						&& !startBlock.getBiome().equals(XBiome.DEEP_OCEAN.getBiome())) {
 					GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
 					generateVein(generatedOre.getMaterial(), startBlock, MathUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
 				}
