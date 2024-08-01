@@ -20,7 +20,7 @@ public class TaskManager {
 	private ResistanceTask resistanceTask;
 	private EndingPhaseTask endingPhaseTask;
 
-	private GameCheckTack gameCheckTack;
+	private GameCheckTask gameCheckTask;
 	private BoardsUpdateTask boardsUpdateTask;
 	private PlayerTimeTask playerTimeTask;
 
@@ -29,12 +29,17 @@ public class TaskManager {
 	}
 
 	public void startStartingTask() {
+//		if (this.startingPhaseTask != null) this.startingPhaseTask.cancel();
 		this.startingPhaseTask = new StartingPhaseTask(gameManager);
 		this.startingPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}
 
 	public void cancelStartingTask() {
-		if (startingPhaseTask == null) this.startingPhaseTask.cancel();
+		if (startingPhaseTask != null) this.startingPhaseTask.cancel();
+	}
+
+	public StartingPhaseTask getStartingPhaseTask() {
+		return startingPhaseTask;
 	}
 
 	public void startMiningTask() {
@@ -43,10 +48,18 @@ public class TaskManager {
 		this.miningPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}
 
+	public MiningPhaseTask getMiningPhaseTask() {
+		return miningPhaseTask;
+	}
+
 	public void startPvPTask() {
 		if (miningPhaseTask != null) miningPhaseTask.cancel();
 		this.pvpCD = new PvPPhaseTask(gameManager);
 		this.pvpCD.runTaskTimer(UHCRevamp.getInstance(), delay, period);
+	}
+
+	public PvPPhaseTask getPvPTask() {
+		return pvpCD;
 	}
 
 	public void startDeathmatchTask() {
@@ -55,7 +68,12 @@ public class TaskManager {
 		this.deathmatchPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}
 
+	public DeathmatchPhaseTask getDeathmatchTask() {
+		return deathmatchPhaseTask;
+	}
+
 	public void startResistanceTask() {
+		if (resistanceTask != null) resistanceTask.cancel();
 		gameManager.setResistance(true);
 		this.resistanceTask = new ResistanceTask(gameManager);
 		this.resistanceTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
@@ -72,9 +90,17 @@ public class TaskManager {
 		this.endingPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}
 
+	public EndingPhaseTask getEndingTask() {
+		return endingPhaseTask;
+	}
+
 	public void runGameCheckTask() {
-		this.gameCheckTack = new GameCheckTack(gameManager);
-		this.gameCheckTack.runTaskTimer(UHCRevamp.getInstance(), delay, period);
+		this.gameCheckTask = new GameCheckTask(gameManager);
+		this.gameCheckTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
+	}
+
+	public GameCheckTask getGameCheckTask() {
+		return gameCheckTask;
 	}
 
 	public void runScoreboardUpdateTask() {
@@ -102,7 +128,7 @@ public class TaskManager {
 		if (deathmatchPhaseTask != null) deathmatchPhaseTask.cancel();
 		if (resistanceTask != null) resistanceTask.cancel();
 		if (endingPhaseTask != null) endingPhaseTask.cancel();
-		if (gameCheckTack != null) gameCheckTack.cancel();
+		if (gameCheckTask != null) gameCheckTask.cancel();
 		if (boardsUpdateTask != null) boardsUpdateTask.cancel();
 		if (playerTimeTask != null) playerTimeTask.cancel();
 	}

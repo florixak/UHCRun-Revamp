@@ -1,5 +1,6 @@
 # enable in config.yml file
 # number after material is amount, you can use static number - [8], or interval - ([1, 5])
+# Warning: LAPIS_LAZULI does not drop in 1.8
 
 custom-drops:
   apples: # drops from breaking leaves
@@ -7,6 +8,7 @@ custom-drops:
       chance: 15 # The chance of dropping an apple when breaking a block (in percent)
     GOLDEN_APPLE:
       chance: 3 # The chance of dropping a golden apple when breaking a block (in percent)
+
   mobs:
     CHICKEN:
       exp: 5
@@ -77,16 +79,18 @@ custom-drops:
         BREWING_STAND: [ 1 ]
         GLOWSTONE_DUST: [ 2, 6 ]
         BLAZE_POWDER: [ 2, 6 ]
-    LAPIS_LAZULI_ORE:
+    LAPIS_ORE:
       exp: 60
       drops:
         BOOK: [ 1, 3 ]
-        LAPIS_LAZULI: [ 2, 6 ]
+        PAPER: [ 1, 3 ]
+        LEATHER: [ 1, 3 ]
     DEEPSLATE_LAPIS_ORE:
       exp: 60
       drops:
         BOOK: [ 1, 3 ]
-        LAPIS_LAZULI: [ 2, 6 ]
+        PAPER: [ 1, 3 ]
+        LEATHER: [ 1, 3 ]
     DIAMOND_ORE:
       exp: 70
       drops:

@@ -26,8 +26,8 @@ public class VersionUtils_1_20 implements VersionUtils {
 	}
 
 	@Override
-	public ItemStack getLapis() {
-		return new ItemStack(XMaterial.LAPIS_LAZULI.parseMaterial());
+	public ItemStack getLapis(int amount) {
+		return new ItemStack(XMaterial.LAPIS_LAZULI.parseMaterial(), amount);
 	}
 
 	@Override

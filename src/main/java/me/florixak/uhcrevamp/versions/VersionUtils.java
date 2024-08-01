@@ -11,7 +11,7 @@ public interface VersionUtils {
 
 	Set<Material> getWoodPlankValues();
 
-	ItemStack getLapis();
+	ItemStack getLapis(int amount);
 
 	ShapedRecipe createRecipe(ItemStack item, String key);
 

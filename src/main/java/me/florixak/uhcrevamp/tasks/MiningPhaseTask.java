@@ -10,33 +10,33 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MiningPhaseTask extends BukkitRunnable {
 
-    private final GameManager gameManager;
+	private final GameManager gameManager;
 
-    private static int countdown;
+	private int countdown;
 
-    public MiningPhaseTask(GameManager gameManager) {
-        this.gameManager = gameManager;
-        countdown = GameValues.GAME.MINING_COUNTDOWN;
-    }
+	public MiningPhaseTask(GameManager gameManager) {
+		this.gameManager = gameManager;
+		countdown = GameValues.GAME.MINING_COUNTDOWN;
+	}
 
-    public static int getCountdown() {
-        return countdown;
-    }
+	public int getCountdown() {
+		return countdown;
+	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
 
-        if (countdown <= 0) {
-            cancel();
-            gameManager.setGameState(GameState.PVP);
-            return;
-        }
+		if (countdown <= 0) {
+			cancel();
+			gameManager.setGameState(GameState.PVP);
+			return;
+		}
 
-        if (countdown <= 10) {
-            Utils.broadcast(Messages.PVP_IN.toString()
-                    .replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
-        }
-        countdown--;
-    }
+		if (countdown <= 10) {
+			Utils.broadcast(Messages.PVP_IN.toString()
+					.replace("%countdown%", TimeUtils.getFormattedTime(countdown)));
+		}
+		countdown--;
+	}
 
 }

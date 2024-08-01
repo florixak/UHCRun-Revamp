@@ -76,6 +76,7 @@ public class CustomDropManager {
 			if (blockSection != null && blockSection.getKeys(false) != null) {
 				for (String drop : blockSection.getKeys(false)) {
 					Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
+//					Bukkit.getLogger().info("Loaded custom drop for block: " + blockName + " drop: " + b);
 					List<Integer> amountList = blockSection.getIntegerList(drop);
 					drops.add(b);
 					int[] minMax = calculateMinMaxAmount(amountList);
@@ -170,6 +171,22 @@ public class CustomDropManager {
 		if (material != null) {
 			for (CustomDrop customDrop : blockDrops) {
 				if (customDrop.getMaterial().equals(material)) {
+					return customDrop;
+				}
+			}
+		}
+		return null;
+	}
+
+	public CustomDrop getCustomBlockDrop(String material, boolean ore) {
+		for (CustomDrop customDrop : blockDrops) {
+			if (ore) {
+				if (customDrop.getMaterial().name().toUpperCase().contains(material.toUpperCase()) && customDrop.getMaterial().name().contains("ORE")) {
+//					Bukkit.getLogger().info(customDrop.getMaterial().name() + " was found in custom drops");
+					return customDrop;
+				}
+			} else {
+				if (customDrop.getMaterial().name().toUpperCase().contains(material.toUpperCase())) {
 					return customDrop;
 				}
 			}

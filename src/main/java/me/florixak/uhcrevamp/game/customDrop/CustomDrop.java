@@ -4,7 +4,6 @@ import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
-import me.florixak.uhcrevamp.versions.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,7 +21,7 @@ public class CustomDrop {
 
 	private final Material material;
 	private final EntityType entityType;
-	private final List<Material> drops;
+	private List<Material> drops;
 	private final int minAmount;
 	private final int maxAmount;
 	private final int exp;
@@ -70,6 +69,10 @@ public class CustomDrop {
 		return this.drops;
 	}
 
+	public void addDrop(Material drop) {
+		this.drops.add(drop);
+	}
+
 	public int getExp() {
 		return this.exp;
 	}
@@ -82,7 +85,7 @@ public class CustomDrop {
 		return this.maxAmount;
 	}
 
-	public void dropBlockItem(BlockBreakEvent breakEvent) {
+	public void dropItem(BlockBreakEvent breakEvent) {
 		if (breakEvent != null) {
 			Player p = breakEvent.getPlayer();
 			Block block = breakEvent.getBlock();
@@ -100,6 +103,35 @@ public class CustomDrop {
 				breakEvent.setExpToDrop(0);
 
 				dropItem(loc);
+			}
+		}
+	}
+
+	public void dropLapis(BlockBreakEvent breakEvent) {
+		if (breakEvent != null) {
+			Player p = breakEvent.getPlayer();
+			Block block = breakEvent.getBlock();
+
+			int exp = getExp();
+			if (exp > 0) {
+				p.giveExp(exp);
+				GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
+			}
+
+			if (hasDrops()) {
+				block.setType(XMaterial.AIR.parseMaterial());
+				block.getDrops().clear();
+				breakEvent.setExpToDrop(0);
+
+				Location location = block.getLocation().add(0.5, 0.5, 0.5);
+				if (!drops.isEmpty()) {
+					Material randomDrop = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).parseMaterial();
+					if (randomDrop == null && UHCRevamp.useOldMethods) {
+						Bukkit.getWorld(block.getWorld().getName()).dropItem(location, new ItemStack(Material.AIR));
+					} else {
+						Bukkit.getWorld(block.getWorld().getName()).dropItem(location, new ItemStack(randomDrop, MathUtils.randomInteger(getMinAmount(), getMaxAmount())));
+					}
+				}
 			}
 		}
 	}
@@ -122,21 +154,18 @@ public class CustomDrop {
 	}
 
 	private void dropItem(Location loc) {
-		Material drop = XMaterial.matchXMaterial(getDrops().get(MathUtils.getRandom().nextInt(getDrops().size()))).parseMaterial();
-		if (drop != XMaterial.AIR.parseMaterial()) {
-			int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : MathUtils.randomInteger(getMinAmount(), getMaxAmount());
-			ItemStack dropItem = new ItemStack(drop, amount);
-			if (drop == XMaterial.LAPIS_LAZULI.parseMaterial()) {
-				VersionUtils versionUtils = UHCRevamp.getInstance().getVersionUtils();
-				dropItem = versionUtils.getLapis();
+		try {
+			List<Material> drops = getDrops();
+			Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).parseMaterial();
+			if (dropMaterial != XMaterial.AIR.parseMaterial()) {
+				int amount = MathUtils.randomInteger(getMinAmount(), getMaxAmount());
+				ItemStack drop = new ItemStack(dropMaterial, amount);
+				Location location = loc.add(0.5, 0.5, 0.5);
+				Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop);
 			}
-			if (material == XMaterial.REDSTONE_ORE.parseMaterial()) {
-				Bukkit.getLogger().info("Redstone ore drop: " + dropItem.toString());
-			}
-			// int amount = getMinAmount() == getMaxAmount() ? getMinAmount() : getMinAmount() + (int)(Math.random() * ((getMaxAmount()-getMinAmount())+1));
-
-			Location location = loc.add(0.5, 0.5, 0.5);
-			Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropItem);
+		} catch (NullPointerException e) {
+			Bukkit.getLogger().info("Failed to drop item from " + getMaterial().name());
 		}
+
 	}
 }

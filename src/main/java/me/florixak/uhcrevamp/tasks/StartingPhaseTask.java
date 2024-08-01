@@ -10,36 +10,36 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class StartingPhaseTask extends BukkitRunnable {
 
-    private final GameManager gameManager;
-    private static int countdown;
-    private final int startingMessageAt;
+	private final GameManager gameManager;
+	private int countdown;
+	private final int startingMessageAt;
 
-    public StartingPhaseTask(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.startingMessageAt = GameValues.GAME.STARTING_MESSAGE_AT;
-        countdown = GameValues.GAME.STARTING_COUNTDOWN;
-    }
+	public StartingPhaseTask(GameManager gameManager) {
+		this.gameManager = gameManager;
+		this.startingMessageAt = GameValues.GAME.STARTING_MESSAGE_AT;
+		countdown = GameValues.GAME.STARTING_COUNTDOWN;
+	}
 
-    public static int getCountdown() {
-        return countdown;
-    }
+	public int getCountdown() {
+		return countdown;
+	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
 
-        if (countdown <= 0) {
-            cancel();
-            Utils.broadcast(Messages.GAME_STARTED.toString());
-            gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartedSound(player.getPlayer()));
-            gameManager.setGameState(GameState.MINING);
-            return;
-        }
+		if (countdown <= 0) {
+			cancel();
+			Utils.broadcast(Messages.GAME_STARTED.toString());
+			gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartedSound(player.getPlayer()));
+			gameManager.setGameState(GameState.MINING);
+			return;
+		}
 
-        if (countdown <= startingMessageAt) {
-            Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
-            gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartingSound(player.getPlayer()));
-        }
+		if (countdown <= startingMessageAt) {
+			Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.GAME_STARTING.toString(), null));
+			gameManager.getPlayerManager().getPlayers().forEach(player -> gameManager.getSoundManager().playGameStartingSound(player.getPlayer()));
+		}
 
-        countdown--;
-    }
+		countdown--;
+	}
 }

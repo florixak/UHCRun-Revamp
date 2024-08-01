@@ -22,17 +22,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.*;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -190,10 +188,27 @@ public class GameListener implements Listener {
 				Bukkit.getWorld(block.getWorld().getName()).dropItem(location, apple);
 				return;
 			}
-
+			if (UHCRevamp.useOldMethods) {
+				if (block.getType().name().contains("REDSTONE") && block.getType().name().contains("ORE")) {
+					CustomDrop redstoneOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("REDSTONE", true);
+					if (redstoneOreDrop != null) {
+						redstoneOreDrop.dropItem(event);
+						return;
+					}
+					return;
+				} else if (block.getType().name().contains("LAPIS") && block.getType().name().contains("ORE")) {
+					CustomDrop lapisOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("LAPIS", true);
+					if (lapisOreDrop != null) {
+//						lapisOreDrop.dropLapis(event);
+						lapisOreDrop.dropItem(event);
+						return;
+					}
+					return;
+				}
+			}
 			if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
 				CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
-				customDrop.dropBlockItem(event);
+				customDrop.dropItem(event);
 			}
 		}
 	}
@@ -201,103 +216,15 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void handleBlockPlace(BlockPlaceEvent event) {
 		UHCPlayer uhcPlayer = playerManager.getUHCPlayer(event.getPlayer().getUniqueId());
-		if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
+		if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.isEnding()) {
 			uhcPlayer.sendMessage(Messages.CANT_PLACE.toString());
 			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler
-	public void handleEntityDrop(EntityDeathEvent event) {
-		if (!(event.getEntity() instanceof Animals)) return;
-
-		if (gameManager.getCustomDropManager().hasMobCustomDrop(event.getEntityType())) {
-			CustomDrop customDrop = gameManager.getCustomDropManager().getCustomMobDrop(event.getEntityType());
-			customDrop.dropMobItem(event);
-		}
-	}
-
-	@EventHandler
-	public void handleDamage(EntityDamageEvent event) {
-
-		if (!(event.getEntity() instanceof Player)) return;
-
-		if (!gameManager.isPlaying() || gameManager.isEnding() || gameManager.isResistance()) {
-			event.setCancelled(true);
-			return;
-		}
-
-		DamageCause cause = event.getCause();
-
-		if (gameManager.getGameState() == GameState.MINING) {
-			if (gameManager.getCurrentCountdown() >= (GameValues.GAME.MINING_COUNTDOWN - 60)) {
-				if (cause.equals(DamageCause.FALL)) {
-					event.setCancelled(true);
-				}
-			}
-			List<String> disabledCauses = GameValues.GAME.DISABLED_IN_MINING;
-			if (!disabledCauses.isEmpty()) {
-				for (String causeName : disabledCauses) {
-					if (cause.name().equalsIgnoreCase(causeName)) {
-						event.setCancelled(true);
-					}
-				}
-			}
-		}
-	}
-
-	@EventHandler
-	public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
-
-		if (!(event.getDamager() instanceof Player)) {
-			if (!gameManager.isPlaying()) {
-				event.setCancelled(true);
-			}
-			return;
-		}
-
-		Player damager = (Player) event.getDamager();
-		UHCPlayer uhcPlayerD = playerManager.getUHCPlayer(damager.getUniqueId());
-
-		if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.isEnding()) {
-			event.setCancelled(true);
-			return;
-		}
-
-		if (gameManager.getGameState().equals(GameState.MINING) || gameManager.isResistance()) {
-			if (!(event.getEntity() instanceof Player)) return;
-			event.setCancelled(true);
-			return;
-		}
-
-		if (event.getEntity() instanceof Player) {
-			Player entity = (Player) event.getEntity();
-			UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
-
-			if (GameValues.TEAM.TEAM_MODE && uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.TEAM.FRIENDLY_FIRE) {
-				event.setCancelled(true);
-				uhcPlayerD.sendMessage(Messages.TEAM_NO_FRIENDLY_FIRE.toString());
-			}
-		}
-	}
-
-	@EventHandler
 	public void handleWeatherChange(WeatherChangeEvent event) {
 		event.setCancelled(true);
-	}
-
-	@EventHandler
-	public void handleBucketEmpty(PlayerBucketEmptyEvent event) {
-		if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) {
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void handleBucketFill(PlayerBucketFillEvent event) {
-		if (!gameManager.isPlaying() || gameManager.getGameState().equals(GameState.ENDING)) {
-			event.setCancelled(true);
-		}
 	}
 
 	@EventHandler
@@ -315,64 +242,12 @@ public class GameListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleHealthRegain(EntityRegainHealthEvent event) {
-		if (!(event.getEntity() instanceof Player)) return;
-		RegainReason reason = event.getRegainReason();
-
-		if (reason.equals(RegainReason.SATIATED)) {
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void handleProjectileHit(EntityDamageByEntityEvent event) {
-		if (!GameValues.GAME.PROJECTILE_HIT_HP_ENABLED) return;
-		if (!gameManager.isPlaying()) return;
-		if (!(event.getEntity() instanceof Player)) return;
-
-		if (event.getDamager() instanceof Snowball) {
-			Snowball snowball = (Snowball) event.getDamager();
-			if (!(snowball.getShooter() instanceof Player)) return;
-
-			Player shooter = (Player) snowball.getShooter();
-			Player enemy = (Player) event.getEntity();
-			handleProjectileHit(shooter, enemy);
-
-		} else if (event.getDamager() instanceof Arrow) {
-			Arrow arrow = (Arrow) event.getDamager();
-			if (!(arrow.getShooter() instanceof Player)) return;
-
-			Player shooter = (Player) arrow.getShooter();
-			Player enemy = (Player) event.getEntity();
-			handleProjectileHit(shooter, enemy);
-		}
-	}
-
-	private void handleProjectileHit(Player shooter, Player enemy) {
-		shooter.sendMessage(Messages.SHOT_HP.toString().replace("%player%", enemy.getDisplayName()).replace("%hp%", String.valueOf(enemy.getHealth())));
-	}
-
-	@EventHandler
-	public void handleMonsterTargeting(EntityTargetEvent event) {
-		if (event.getEntity() instanceof Monster) {
-			if (event.getTarget() instanceof Player) {
-				event.setCancelled(true);
-			}
-		}
-	}
-
-	@EventHandler
 	public void handleMonsterSpawning(CreatureSpawnEvent event) {
 		if (event.getEntity() instanceof Monster) {
 			if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
 				event.setCancelled(true);
 			}
 		}
-	}
-
-	@EventHandler
-	public void handleExplode(EntityExplodeEvent event) {
-		if (GameValues.GAME.EXPLOSIONS_DISABLED) event.setCancelled(true);
 	}
 
 	@EventHandler

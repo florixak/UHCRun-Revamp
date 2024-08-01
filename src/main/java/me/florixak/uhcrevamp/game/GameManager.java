@@ -18,17 +18,13 @@ import me.florixak.uhcrevamp.game.worldGenerator.OreGeneratorListener;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldGeneratorListener;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldManager;
 import me.florixak.uhcrevamp.gui.MenuManager;
-import me.florixak.uhcrevamp.listener.ChatListener;
-import me.florixak.uhcrevamp.listener.GameListener;
-import me.florixak.uhcrevamp.listener.InteractListener;
-import me.florixak.uhcrevamp.listener.InventoryClickListener;
+import me.florixak.uhcrevamp.listener.*;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.manager.*;
 import me.florixak.uhcrevamp.manager.scoreboard.ScoreboardManager;
 import me.florixak.uhcrevamp.manager.scoreboard.TabManager;
 import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
-import me.florixak.uhcrevamp.tasks.*;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XSound;
@@ -198,20 +194,20 @@ public class GameManager {
 		}
 	}
 
-	public int getCurrentCountdown() {
+	public synchronized int getCurrentCountdown() {
 		switch (gameState) {
 			case LOBBY:
 				return -1;
 			case STARTING:
-				return StartingPhaseTask.getCountdown();
+				return getTaskManager().getStartingPhaseTask().getCountdown();
 			case MINING:
-				return MiningPhaseTask.getCountdown();
+				return getTaskManager().getMiningPhaseTask().getCountdown();
 			case PVP:
-				return PvPPhaseTask.getCountdown();
+				return getTaskManager().getPvPTask().getCountdown();
 			case DEATHMATCH:
-				return DeathmatchPhaseTask.getCountdown();
+				return getTaskManager().getDeathmatchTask().getCountdown();
 			case ENDING:
-				return EndingPhaseTask.getCountdown();
+				return getTaskManager().getEndingTask().getCountdown();
 			default:
 				return 0;
 		}
@@ -323,12 +319,13 @@ public class GameManager {
 	private void registerListeners() {
 		List<Listener> listeners = new ArrayList<>();
 
-		listeners.add(new GameListener(gameManager));
-		listeners.add(new PlayerListener(gameManager));
-		listeners.add(new ChatListener(gameManager));
-		listeners.add(new InteractListener(gameManager));
-		listeners.add(new InventoryClickListener(gameManager));
-		listeners.add(new OreGeneratorListener(gameManager));
+		listeners.add(new GameListener(this));
+		listeners.add(new EntityListener(this));
+		listeners.add(new PlayerListener(this));
+		listeners.add(new ChatListener(this));
+		listeners.add(new InteractListener(this));
+		listeners.add(new InventoryClickListener(this));
+		listeners.add(new OreGeneratorListener(this));
 		listeners.add(new WorldGeneratorListener());
 
 		for (Listener listener : listeners) {

@@ -6,24 +6,24 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class EndingPhaseTask extends BukkitRunnable {
 
-    private static int countdown;
+	private int countdown;
 
-    public EndingPhaseTask() {
-        countdown = GameValues.GAME.ENDING_COUNTDOWN;
-    }
+	public EndingPhaseTask() {
+		countdown = GameValues.GAME.ENDING_COUNTDOWN;
+	}
 
-    public static int getCountdown() {
-        return countdown;
-    }
+	public int getCountdown() {
+		return countdown;
+	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
 
-        if (countdown <= 0) {
-            cancel();
-            Bukkit.shutdown();
-            return;
-        }
-        countdown--;
-    }
+		if (countdown <= 0) {
+			cancel();
+			Bukkit.shutdown();
+			return;
+		}
+		countdown--;
+	}
 }

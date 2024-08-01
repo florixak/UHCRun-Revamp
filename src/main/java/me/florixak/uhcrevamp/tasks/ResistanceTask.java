@@ -10,14 +10,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class ResistanceTask extends BukkitRunnable {
 
 	private final GameManager gameManager;
-	private static int countdown;
+	private int countdown;
 
 	public ResistanceTask(GameManager gameManager) {
 		this.gameManager = gameManager;
-		ResistanceTask.countdown = GameValues.GAME.RESISTANCE_COUNTDOWN;
+		this.countdown = GameValues.GAME.RESISTANCE_COUNTDOWN;
 	}
 
-	public static int getCountdown() {
+	public int getCountdown() {
 		return countdown;
 	}
 

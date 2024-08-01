@@ -25,6 +25,9 @@ ore-generation:
   REDSTONE_ORE:
     min-vein: 3  # Minimum number of redstone ore blocks in a vein
     max-vein: 5  # Maximum number of redstone ore blocks in a vein
+  LAPIS_ORE:
+    min-vein: 2  # Minimum number of lapis ore blocks in a vein
+    max-vein: 4  # Maximum number of lapis ore blocks in a vein
   EMERALD_ORE:
     min-vein: 2  # Minimum number of emerald ore blocks in a vein
     max-vein: 5  # Maximum number of emerald ore blocks in a vein

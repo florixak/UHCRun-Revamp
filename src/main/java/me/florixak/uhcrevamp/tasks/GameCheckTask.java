@@ -8,17 +8,17 @@ import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GameCheckTack extends BukkitRunnable {
+public class GameCheckTask extends BukkitRunnable {
 
 	private final GameManager gameManager;
 
-	public GameCheckTack(GameManager gameManager) {
+	public GameCheckTask(GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	public boolean isGameEnd() {
-		return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
-//		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
+//		return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
+		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
 	}
 
 	public boolean canStart() {

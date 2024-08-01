@@ -7,27 +7,27 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathmatchPhaseTask extends BukkitRunnable {
 
-    private final GameManager gameManager;
-    private static int countdown;
+	private final GameManager gameManager;
+	private int countdown;
 
-    public DeathmatchPhaseTask(GameManager gameManager) {
-        this.gameManager = gameManager;
-        countdown = GameValues.GAME.DEATHMATCH_COUNTDOWN;
-    }
+	public DeathmatchPhaseTask(GameManager gameManager) {
+		this.gameManager = gameManager;
+		countdown = GameValues.GAME.DEATHMATCH_COUNTDOWN;
+	}
 
-    public static int getCountdown() {
-        return countdown;
-    }
+	public int getCountdown() {
+		return countdown;
+	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
 
-        if (countdown <= 0) {
-            cancel();
-            gameManager.setGameState(GameState.ENDING);
-            return;
-        }
-        gameManager.getBorderManager().shrinkBorder();
-        countdown--;
-    }
+		if (countdown <= 0) {
+			cancel();
+			gameManager.setGameState(GameState.ENDING);
+			return;
+		}
+		gameManager.getBorderManager().shrinkBorder();
+		countdown--;
+	}
 }

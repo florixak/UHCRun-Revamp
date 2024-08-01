@@ -84,17 +84,18 @@
     </repositories>
 
     <dependencies>
-        <!--        <dependency>-->
-        <!--            <groupId>org.spigotmc</groupId>-->
-        <!--            <artifactId>spigot-api</artifactId>-->
-        <!--            <version>1.8.8-R0.1-SNAPSHOT</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.20.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>spigot</groupId>
+            <artifactId>spigot-server</artifactId>
+            <version>1.8.8</version>
+            <scope>system</scope>
+            <systemPath>I:/Programming/Java/Minecraft/Servers/Server 1.8.8/spigot-1.8.8.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

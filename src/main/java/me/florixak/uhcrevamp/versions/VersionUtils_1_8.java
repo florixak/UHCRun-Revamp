@@ -21,8 +21,8 @@ public class VersionUtils_1_8 implements VersionUtils {
 	}
 
 	@Override
-	public ItemStack getLapis() {
-		return new ItemStack(Material.valueOf("INK_SACK"), 1, (short) 4);
+	public ItemStack getLapis(int amount) {
+		return new ItemStack(Material.valueOf("INK_SACK"), amount, (short) 4);
 	}
 
 	@Override
