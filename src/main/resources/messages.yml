@@ -38,7 +38,7 @@ Messages:
     shot-hp: "&6[!] &f%player% has &c%hp%❤"
 
     uhc-level:
-      level-up: "&a[LEVEL UP] &f%previous-uhc-level% → %uhc-level%"
+      level-up: "&a[LEVEL UP] &f%previous-uhc-level% → %new-uhc-level%"
 
   game:
     solo: "SOLO"

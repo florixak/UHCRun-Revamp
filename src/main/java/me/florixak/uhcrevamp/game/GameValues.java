@@ -180,6 +180,7 @@ public class GameValues {
 		public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.pvp-resistance", 10);
 		public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
 		public final List<String> DISABLED_BIOMES = getConfigStringList("settings.game.disabled-biomes");
+		public final double STARTING_MONEY = getConfigDouble("settings.game.starting-money", 0);
 	}
 
 	public static class AddonConfig {

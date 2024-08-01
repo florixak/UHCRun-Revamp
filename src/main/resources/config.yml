@@ -39,6 +39,8 @@ settings:
     players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message
 
+    starting-money: 100 # Starting money for each player
+
     # Countdowns for different game phases
     countdowns:
       starting: 15 # Countdown for game start in seconds
