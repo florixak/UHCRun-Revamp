@@ -200,7 +200,7 @@ public class GameListener implements Listener {
 //						lapisOreDrop.dropLapis(event);
 						lapisOreDrop.dropItem(event);
 						if (UHCRevamp.useOldMethods)
-							UHCRevamp.getInstance().getVersionUtils().giveLapis(p, 12);
+							UHCRevamp.getInstance().getVersionUtils().giveLapis(p, MathUtils.randomInteger(6, 12));
 						return;
 					}
 					return;
