@@ -1,11 +1,11 @@
 package me.florixak.uhcrevamp.utils.placeholderapi;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
-import me.florixak.uhcrevamp.hook.LuckPermsHook;
 import me.florixak.uhcrevamp.manager.BorderManager;
 import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -132,7 +132,7 @@ public class PlaceholderUtil {
 			}
 
 			if (text.contains("%luckperms-prefix%")) {
-				text = text.replace("%luckperms-prefix%", LuckPermsHook.getPrefix(p));
+				text = text.replace("%luckperms-prefix%", UHCRevamp.getInstance().getLuckPermsHook().getPrefix(p));
 			}
 
 			if (text.contains("%money-for-game%")) {

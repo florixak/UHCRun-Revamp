@@ -159,8 +159,9 @@ public class GameListener implements Listener {
 			uhcPlayer.sendMessage(Messages.CANT_BREAK.toString());
 			return;
 		}
-
-		gameManager.timber(block);
+		if (GameValues.GAME.ENABLE_TREE_CAPITATOR) {
+			gameManager.timber(block, event);
+		}
 
 		if (GameValues.GAME.RANDOM_DROPS_ENABLED) {
 			block.getDrops().clear();
@@ -197,10 +198,9 @@ public class GameListener implements Listener {
 				} else if (block.getType().name().contains("LAPIS") && block.getType().name().contains("ORE")) {
 					CustomDrop lapisOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("LAPIS", true);
 					if (lapisOreDrop != null) {
-//						lapisOreDrop.dropLapis(event);
 						lapisOreDrop.dropItem(event);
-						if (UHCRevamp.useOldMethods)
-							UHCRevamp.getInstance().getVersionUtils().giveLapis(p, MathUtils.randomInteger(6, 12));
+//						if (UHCRevamp.useOldMethods)
+//							UHCRevamp.getInstance().getVersionUtils().giveLapis(p, MathUtils.randomInteger(6, 12));
 						return;
 					}
 					return;

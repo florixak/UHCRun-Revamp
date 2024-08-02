@@ -84,6 +84,15 @@ perks:
       ENDER_PEARL:
         amount: [ 1, 2 ] # gives you random amount of golden apples between 1 and 2
         chance: 30 # 30% chance to get this item
+  '&aHealth Boost':
+    display-item: POPPY
+    cost: 120
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      HEALTH_BOOST:
+        level: 2
+        duration: 10 # seconds
   '&eRich Man':
     display-item: GOLD_INGOT
     cost: 100
@@ -93,3 +102,48 @@ perks:
       coins: [ 50, 100 ] # gives you random amount of coins between 50 and 100
       uhc-exp: [ 50, 100 ] # gives you random amount of uhc exp between 50 and 100
       exp: [ 50, 100 ] # gives you random amount of exp between 50 and 100
+  '&2Haste':
+    display-item: GOLDEN_PICKAXE
+    cost: 110
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      HASTE:
+        level: 2
+        duration: 60 # seconds
+  '&4Fire Resistance':
+    display-item: LAVA_BUCKET
+    cost: 100
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      FIRE_RESISTANCE:
+        level: 1
+        duration: 150 # seconds
+  '&3Invisibility':
+    display-item: GLASS_BOTTLE
+    cost: 150
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      INVISIBILITY:
+        level: 1
+        duration: 90 # seconds
+  '&7Resistance':
+    display-item: IRON_CHESTPLATE
+    cost: 130
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      DAMAGE_RESISTANCE:
+        level: 1
+        duration: 12 # seconds
+  '&8Absorption':
+    display-item: GOLDEN_CHESTPLATE
+    cost: 140
+    description:
+      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
+    EFFECT:
+      ABSORPTION:
+        level: 2
+        duration: 180 # seconds

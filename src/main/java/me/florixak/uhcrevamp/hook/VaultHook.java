@@ -8,12 +8,13 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultHook {
 
-	private static Economy economy = null;
+	private Economy economy;
 
-	private VaultHook() {
+	public VaultHook() {
+		setupEconomy();
 	}
 
-	public static void setupEconomy() {
+	public void setupEconomy() {
 		if (!GameValues.ADDONS.CAN_USE_VAULT) return;
 		if (!hasVault()) {
 			Bukkit.getLogger().info("Vault plugin not found! Disabling Vault support.");
@@ -23,46 +24,44 @@ public class VaultHook {
 		if (rsp != null) economy = rsp.getProvider();
 	}
 
-	private static boolean hasVault() {
+	private boolean hasVault() {
 		return Bukkit.getPluginManager().getPlugin("Vault") != null;
 	}
 
-	public static boolean hasEconomy() {
+	public boolean hasEconomy() {
 		return economy != null;
 	}
 
-	public static boolean hasAccount(Player target) {
+	public boolean hasAccount(Player target) {
 		if (!hasEconomy())
 			return false;
 		return economy.hasAccount(target);
 	}
 
-	public static double getBalance(Player target) {
+	public double getBalance(Player target) {
 		if (!hasEconomy())
 			return -1.00;
 
 		return economy.getBalance(target);
 	}
 
-	public static String withdraw(String target, double amount) {
+	public String withdraw(String target, double amount) {
 		if (!hasEconomy())
 			return "ERROR";
 
 		return economy.withdrawPlayer(target, amount).errorMessage;
 	}
 
-	public static String deposit(String target, double amount) {
+	public String deposit(String target, double amount) {
 		if (!hasEconomy())
 			return "ERROR";
 		return economy.depositPlayer(target, amount).errorMessage;
 	}
 
-	public static String formatCurrencySymbol(double amount) {
+	public String formatCurrencySymbol(double amount) {
 		if (!hasEconomy())
 			return "ERROR";
 
 		return economy.format(amount);
 	}
-
-
 }

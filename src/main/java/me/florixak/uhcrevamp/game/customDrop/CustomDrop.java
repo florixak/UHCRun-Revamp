@@ -1,6 +1,5 @@
 package me.florixak.uhcrevamp.game.customDrop;
 
-import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
@@ -16,31 +15,35 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public class CustomDrop {
 
 	private final Material material;
 	private final EntityType entityType;
-	private List<Material> drops;
+	private final List<String> drops;
+	private Map<String, Integer> durabilityMap;
 	private final int minAmount;
 	private final int maxAmount;
 	private final int exp;
 
 	public CustomDrop(Material material,
-					  List<Material> drops,
+					  List<String> drops,
+					  Map<String, Integer> durabilityMap,
 					  int minAmount,
 					  int maxAmount,
 					  int exp) {
 		this.material = material;
 		this.entityType = null;
 		this.drops = drops;
+		this.durabilityMap = durabilityMap;
 		this.minAmount = minAmount;
 		this.maxAmount = maxAmount;
 		this.exp = exp;
 	}
 
 	public CustomDrop(EntityType entityType,
-					  List<Material> drops,
+					  List<String> drops,
 					  int minAmount,
 					  int maxAmount,
 					  int exp) {
@@ -65,12 +68,20 @@ public class CustomDrop {
 		return !getDrops().isEmpty() && getDrops() != null;
 	}
 
-	public List<Material> getDrops() {
+	public List<String> getDrops() {
 		return this.drops;
 	}
 
-	public void addDrop(Material drop) {
+	public void addDrop(String drop) {
 		this.drops.add(drop);
+	}
+
+	public boolean hasDurability(Material drop) {
+		return this.durabilityMap.containsKey(drop.name());
+	}
+
+	public int getDurability(Material drop) {
+		return durabilityMap.get(drop.name());
 	}
 
 	public int getExp() {
@@ -107,35 +118,6 @@ public class CustomDrop {
 		}
 	}
 
-	public void dropLapis(BlockBreakEvent breakEvent) {
-		if (breakEvent != null) {
-			Player p = breakEvent.getPlayer();
-			Block block = breakEvent.getBlock();
-
-			int exp = getExp();
-			if (exp > 0) {
-				p.giveExp(exp);
-				GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
-			}
-
-			if (hasDrops()) {
-				block.setType(XMaterial.AIR.parseMaterial());
-				block.getDrops().clear();
-				breakEvent.setExpToDrop(0);
-
-				Location location = block.getLocation().add(0.5, 0.5, 0.5);
-				if (!drops.isEmpty()) {
-					Material randomDrop = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).parseMaterial();
-					if (randomDrop == null && UHCRevamp.useOldMethods) {
-						Bukkit.getWorld(block.getWorld().getName()).dropItem(location, new ItemStack(Material.AIR));
-					} else {
-						Bukkit.getWorld(block.getWorld().getName()).dropItem(location, new ItemStack(randomDrop, MathUtils.randomInteger(getMinAmount(), getMaxAmount())));
-					}
-				}
-			}
-		}
-	}
-
 	public void dropMobItem(EntityDeathEvent deathEvent) {
 		if (deathEvent != null) {
 			Player p = deathEvent.getEntity().getKiller();
@@ -155,11 +137,15 @@ public class CustomDrop {
 
 	private void dropItem(Location loc) {
 		try {
-			List<Material> drops = getDrops();
-			Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).parseMaterial();
+			List<String> drops = getDrops();
+			Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).get().parseMaterial();
 			if (dropMaterial != XMaterial.AIR.parseMaterial()) {
 				int amount = MathUtils.randomInteger(getMinAmount(), getMaxAmount());
 				ItemStack drop = new ItemStack(dropMaterial, amount);
+				if (hasDurability(dropMaterial)) {
+					drop.setDurability((short) getDurability(dropMaterial));
+//					Bukkit.getLogger().info("Dropped item with durability: " + getDurability(dropMaterial));
+				}
 				Location location = loc.add(0.5, 0.5, 0.5);
 				Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop);
 			}

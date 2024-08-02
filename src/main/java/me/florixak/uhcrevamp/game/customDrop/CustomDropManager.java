@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class CustomDropManager {
 
 		this.blockDrops = new ArrayList<>();
 		this.mobDrops = new ArrayList<>();
-		this.appleChanceMap = new HashMap();
+		this.appleChanceMap = new HashMap<>();
 	}
 
 	public void loadDrops() {
@@ -68,18 +69,22 @@ public class CustomDropManager {
 			Material material = materialOpt.get().parseMaterial();
 			if (material == null) continue; // Skip if material cannot be parsed (not supported in 1.8.8)
 
-			List<Material> drops = new ArrayList<>();
+			List<String> drops = new ArrayList<>();
+			Map<String, Integer> durability = new HashMap<>();
 			int minAmount = 1;
 			int maxAmount = 1;
 
 			ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockName + ".drops");
 			if (blockSection != null && blockSection.getKeys(false) != null) {
 				for (String drop : blockSection.getKeys(false)) {
-					Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
-					if (b == null) continue; // Skip if material cannot be parsed (not supported in 1.8.8)
-//					Bukkit.getLogger().info("Loaded custom drop for block: " + blockName + " drop: " + b);
+					ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
 					List<Integer> amountList = blockSection.getIntegerList(drop);
-					drops.add(b);
+					if (blockSection.getConfigurationSection(drop) != null) {
+						durability.put(drop, blockSection.getInt(drop + ".durability", itemStack.getDurability()));
+//						Bukkit.getLogger().info("Durability: " + blockSection.getInt(drop + ".durability", itemStack.getDurability()));
+						amountList = blockSection.getIntegerList(drop + ".amount");
+					}
+					drops.add(itemStack.getType().name());
 					int[] minMax = calculateMinMaxAmount(amountList);
 					minAmount = minMax[0];
 					maxAmount = minMax[1];
@@ -88,7 +93,7 @@ public class CustomDropManager {
 			}
 			int xp = customDropConfig.getInt("custom-drops.blocks." + blockName + ".exp");
 
-			CustomDrop customDrop = new CustomDrop(material, drops, minAmount, maxAmount, xp);
+			CustomDrop customDrop = new CustomDrop(material, drops, durability, minAmount, maxAmount, xp);
 			this.blockDrops.add(customDrop);
 		}
 	}
@@ -99,7 +104,7 @@ public class CustomDropManager {
 		for (String entityName : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
 			EntityType entityType = XEntityType.valueOf(entityName.toUpperCase()).get();
 
-			List<Material> drops = new ArrayList<>();
+			List<String> drops = new ArrayList<>();
 			int minAmount = 1;
 			int maxAmount = 1;
 
@@ -107,9 +112,13 @@ public class CustomDropManager {
 
 			if (section != null && section.getKeys(false) != null) {
 				for (String drop : section.getKeys(false)) {
-					Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
+					ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
 					List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.mobs." + entityName + ".drops." + drop);
-					drops.add(b);
+					if (section.getConfigurationSection(drop) != null) {
+						itemStack.setDurability((short) section.getInt(drop + ".durability", itemStack.getDurability()));
+						amountList = section.getIntegerList(drop + ".amount");
+					}
+					drops.add(itemStack.getType().name());
 					int[] minMax = calculateMinMaxAmount(amountList);
 					minAmount = minMax[0];
 					maxAmount = minMax[1];

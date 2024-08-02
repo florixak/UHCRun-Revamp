@@ -1,36 +1,47 @@
 # Team creating example:
 # {team_name}:
 #   display-item: {item}
+#   durability: {durability} - for older versions if you want colored wool
 #   color: {color}
 
 teams:
   A:
     display-item: WHITE_WOOL
+    durability: 0
     color: "&f"
   B:
     display-item: MAGENTA_WOOL
+    durability: 2
     color: "&5"
   C:
     display-item: PINK_WOOL
+    durability: 6
     color: "&d"
   D:
     display-item: ORANGE_WOOL
+    durability: 1
     color: "&6"
   E:
     display-item: BLUE_WOOL
+    durability: 11
     color: "&b"
   F:
     display-item: GREEN_WOOL
+    durability: 13
     color: "&2"
   G:
     display-item: RED_WOOL
+    durability: 14
     color: "&c"
   H:
     display-item: CYAN_WOOL
+    durability: 9
     color: "&3"
   I:
     display-item: LIME_WOOL
+    durability: 5
     color: "&a"
   J:
     display-item: YELLOW_WOOL
+    durability: 4
     color: "&e"

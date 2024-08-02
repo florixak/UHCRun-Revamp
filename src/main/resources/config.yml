@@ -33,6 +33,7 @@ settings:
     random-drops: false # Enable random item drops (in development, coming in the future)
     spawn-monsters: false # Allow monsters to spawn
     monsters-attack: false # Allow monsters to attack players
+    tree-capitator: true # Enable tree capitator
 
     max-ore-per-chunk: 40 # Maximum number of ores per chunk
 

@@ -1,12 +1,12 @@
 package me.florixak.uhcrevamp.game.player;
 
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
-import me.florixak.uhcrevamp.hook.VaultHook;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 public class PlayerData {
 
+	private final UHCRevamp plugin = UHCRevamp.getInstance();
 	private final GameManager gameManager = GameManager.getGameManager();
 	private final UHCPlayer uhcPlayer;
 	private final FileConfiguration playerData;
@@ -62,9 +63,9 @@ public class PlayerData {
 	public void setInitialData() {
 		if (hasData()) return;
 
-		if (VaultHook.hasEconomy()) {
-			if (GameValues.STATISTICS.STARTING_MONEY > 0 && !VaultHook.hasAccount(uhcPlayer.getPlayer())) {
-				VaultHook.deposit(uhcPlayer.getName(), GameValues.STATISTICS.STARTING_MONEY);
+		if (plugin.getVaultHook().hasEconomy()) {
+			if (GameValues.STATISTICS.STARTING_MONEY > 0 && !plugin.getVaultHook().hasAccount(uhcPlayer.getPlayer())) {
+				plugin.getVaultHook().deposit(uhcPlayer.getName(), GameValues.STATISTICS.STARTING_MONEY);
 			}
 		}
 
@@ -138,15 +139,15 @@ public class PlayerData {
 	}
 
 	public double getMoney() {
-		if (VaultHook.hasEconomy()) {
-			return VaultHook.getBalance(uhcPlayer.getPlayer());
+		if (plugin.getVaultHook().hasEconomy()) {
+			return plugin.getVaultHook().getBalance(uhcPlayer.getPlayer());
 		}
 		return money;
 	}
 
 	public void depositMoney(double amount) {
-		if (VaultHook.hasEconomy()) {
-			VaultHook.deposit(uhcPlayer.getName(), amount);
+		if (plugin.getVaultHook().hasEconomy()) {
+			plugin.getVaultHook().deposit(uhcPlayer.getName(), amount);
 			return;
 		}
 		money += amount;
@@ -159,8 +160,8 @@ public class PlayerData {
 	}
 
 	public void withdrawMoney(double amount) {
-		if (VaultHook.hasEconomy()) {
-			VaultHook.withdraw(uhcPlayer.getName(), amount);
+		if (plugin.getVaultHook().hasEconomy()) {
+			plugin.getVaultHook().withdraw(uhcPlayer.getName(), amount);
 			return;
 		}
 		money -= amount;

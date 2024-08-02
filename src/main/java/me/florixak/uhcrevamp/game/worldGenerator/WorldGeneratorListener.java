@@ -29,7 +29,7 @@ public class WorldGeneratorListener implements Listener {
 				gameManager.getWorldManager().createNewUHCWorld();
 			}
 		} catch (Exception ignore) {
-			Bukkit.getLogger().info("Failed to create new world.");
+			
 		}
 
 	}

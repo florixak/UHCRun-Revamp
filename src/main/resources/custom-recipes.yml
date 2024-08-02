@@ -182,3 +182,15 @@ custom-recipes:
       A: GLASS_BOTTLE
       B: NETHER_WART
       C: BLAZE_POWDER
+  '&fPyroman':
+    result: WOODEN_SWORD
+    durability: 50
+    enchantments:
+      FIRE_ASPECT: 3
+    shape:
+      - "   "
+      - "ABA"
+      - "   "
+    ingredients:
+      A: LAVA_BUCKET
+      B: WOODEN_SWORD

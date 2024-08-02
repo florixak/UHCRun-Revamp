@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class UHCTeam {
 
 	private final ItemStack displayItem;
+	private int durability;
 	private final String name;
 	private final int maxSize;
 
@@ -22,8 +23,9 @@ public class UHCTeam {
 
 	private final List<UHCPlayer> members;
 
-	public UHCTeam(ItemStack displayItem, String name, String color, int maxSize) {
+	public UHCTeam(ItemStack displayItem, int durability, String name, String color, int maxSize) {
 		this.displayItem = displayItem;
+		this.durability = durability;
 		this.name = name;
 		this.maxSize = maxSize;
 		this.color = color;
@@ -40,6 +42,10 @@ public class UHCTeam {
 
 	public ItemStack getDisplayItem() {
 		return this.displayItem;
+	}
+
+	public int getDisplayItemDurability() {
+		return this.durability;
 	}
 
 	public int getMaxSize() {

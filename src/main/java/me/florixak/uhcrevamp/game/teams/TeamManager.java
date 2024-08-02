@@ -38,8 +38,9 @@ public class TeamManager {
 		for (String teamName : teamsConfig.getConfigurationSection("teams").getKeys(false)) {
 			ItemStack display_item = XMaterial.matchXMaterial(teamsConfig.getString("teams." + teamName + ".display-item", "BARRIER")
 					.toUpperCase()).get().parseItem();
+			int durability = teamsConfig.getInt("teams." + teamName + ".durability");
 			String color = teamsConfig.getString("teams." + teamName + ".color");
-			UHCTeam team = new UHCTeam(display_item, teamName, color, GameValues.TEAM.TEAM_SIZE);
+			UHCTeam team = new UHCTeam(display_item, durability, teamName, color, GameValues.TEAM.TEAM_SIZE);
 			this.teamsList.add(team);
 		}
 	}

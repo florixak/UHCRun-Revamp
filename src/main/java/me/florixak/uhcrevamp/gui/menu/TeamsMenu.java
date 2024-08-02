@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.gui.menu;
 
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
@@ -65,6 +66,9 @@ public class TeamsMenu extends PaginatedMenu {
 				lore.add(TextUtils.color("&f" + member.getName()));
 			}
 			item = ItemUtils.createItem(team.getDisplayItem().getType(), "&l" + team.getDisplayName(), 1, lore);
+			if (UHCRevamp.useOldMethods) {
+				item.setDurability((short) team.getDisplayItemDurability());
+			}
 
 			inventory.setItem(i - getStartIndex(), item);
 		}

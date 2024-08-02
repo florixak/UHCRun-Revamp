@@ -9,6 +9,7 @@
 #       items: # items included in the kit
 #         WOODEN_AXE: # item name
 #           amount: 1 # item amount
+#           durability: 0 # item durability
 #           enchantments: # item enchantments
 #             DIG_SPEED: 3 # enchantment type and level
 #             DURABILITY: 3 # enchantment type and level
@@ -180,3 +181,25 @@ kits:
         duration: 44 # 44 seconds
         amount: 2 # 2 potions
         splash: true # Splash potion
+  '&fPyromancer':
+    display-item: BLAZE_POWDER
+    cost: 180
+    items:
+      WOODEN_SWORD:
+        amount: 1
+        durability: 30
+        enchantments:
+          FIRE_ASPECT: 1
+          DURABILITY: 3
+      LEATHER_HELMET:
+        amount: 1
+        enchantments:
+          PROTECTION_FIRE: 3
+          DURABILITY: 3
+      LEATHER_BOOTS:
+        amount: 1
+        enchantments:
+          PROTECTION_FIRE: 3
+          DURABILITY: 3
+      COOKED_BEEF:
+        amount: 16

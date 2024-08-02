@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.commands.*;
 import me.florixak.uhcrevamp.config.ConfigManager;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
+import me.florixak.uhcrevamp.game.customDrop.CustomDrop;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
 import me.florixak.uhcrevamp.game.customRecipes.CustomRecipeManager;
 import me.florixak.uhcrevamp.game.deathChest.DeathChestManager;
@@ -27,7 +28,6 @@ import me.florixak.uhcrevamp.manager.scoreboard.TabManager;
 import me.florixak.uhcrevamp.sql.MySQL;
 import me.florixak.uhcrevamp.sql.SQLGetter;
 import me.florixak.uhcrevamp.utils.Utils;
-import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import me.florixak.uhcrevamp.utils.XSeries.XSound;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
@@ -38,6 +38,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -259,20 +260,27 @@ public class GameManager {
 		}
 	}
 
-	public void timber(Block block) {
+	public void timber(Block block, BlockBreakEvent event) {
 
 		if (!GameValues.WOOD_LOGS.contains(block.getType())) return;
 
 		XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
-		block.breakNaturally(new ItemStack(XMaterial.OAK_PLANKS.parseMaterial(), 4));
+		if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
+			CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+			block.getDrops().clear();
+			customDrop.dropItem(event);
+		} else {
+			block.getDrops().clear();
+			block.breakNaturally(new ItemStack(block.getType()));
+		}
 
-		timber(block.getLocation().add(0, 1, 0).getBlock());
-		timber(block.getLocation().add(1, 0, 0).getBlock());
-		timber(block.getLocation().add(0, 1, 1).getBlock());
+		timber(block.getLocation().add(0, 1, 0).getBlock(), event);
+		timber(block.getLocation().add(1, 0, 0).getBlock(), event);
+		timber(block.getLocation().add(0, 1, 1).getBlock(), event);
 
-		timber(block.getLocation().subtract(0, 1, 0).getBlock());
-		timber(block.getLocation().subtract(1, 0, 0).getBlock());
-		timber(block.getLocation().subtract(0, 0, 1).getBlock());
+		timber(block.getLocation().subtract(0, 1, 0).getBlock(), event);
+		timber(block.getLocation().subtract(1, 0, 0).getBlock(), event);
+		timber(block.getLocation().subtract(0, 0, 1).getBlock(), event);
 	}
 
 	public boolean isGameFull() {

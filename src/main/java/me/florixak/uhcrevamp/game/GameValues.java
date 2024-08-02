@@ -5,13 +5,37 @@ import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GameValues {
 
 	private static final GameManager gameManager = GameManager.getGameManager();
 	private static final FileConfiguration config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
+
+	public static final Set<Material> LEAVES = new HashSet<>();
+	public static final Set<Material> WOOD_LOGS = new HashSet<>();
+
+	static {
+		WOOD_LOGS.add(XMaterial.OAK_LOG.parseMaterial());
+		WOOD_LOGS.add(XMaterial.BIRCH_LOG.parseMaterial());
+		WOOD_LOGS.add(XMaterial.ACACIA_LOG.parseMaterial());
+		WOOD_LOGS.add(XMaterial.JUNGLE_LOG.parseMaterial());
+		WOOD_LOGS.add(XMaterial.SPRUCE_LOG.parseMaterial());
+		WOOD_LOGS.add(XMaterial.DARK_OAK_LOG.parseMaterial());
+
+		LEAVES.add(XMaterial.OAK_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.SPRUCE_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.BIRCH_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.JUNGLE_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.ACACIA_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.DARK_OAK_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.AZALEA_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.FLOWERING_AZALEA_LEAVES.parseMaterial());
+		LEAVES.add(XMaterial.MANGROVE_LEAVES.parseMaterial());
+	}
+
 
 	public static final int ERROR_INT_VALUE = -1;
 
@@ -33,13 +57,6 @@ public class GameValues {
 	public static final TitleConfig TITLE = new TitleConfig();
 	public static final DeathChestConfig DEATH_CHEST = new DeathChestConfig();
 
-	public static final List<Material> WOOD_LOGS = Arrays.asList(
-			XMaterial.OAK_LOG.parseMaterial(),
-			XMaterial.BIRCH_LOG.parseMaterial(),
-			XMaterial.ACACIA_LOG.parseMaterial(),
-			XMaterial.JUNGLE_LOG.parseMaterial(),
-			XMaterial.SPRUCE_LOG.parseMaterial(),
-			XMaterial.DARK_OAK_LOG.parseMaterial());
 
 	public static class GameSettings {
 		public final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);
@@ -61,6 +78,7 @@ public class GameValues {
 		public final int RESISTANCE_COUNTDOWN = getConfigInt("settings.game.countdowns.pvp-resistance", 10);
 		public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
 		public final List<String> DISABLED_BIOMES = getConfigStringList("settings.game.disabled-biomes");
+		public final boolean ENABLE_TREE_CAPITATOR = getConfigBoolean("settings.game.tree-capitator", true);
 	}
 
 	public static class ChatConfig {
