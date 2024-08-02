@@ -199,6 +199,8 @@ public class GameListener implements Listener {
 					if (lapisOreDrop != null) {
 //						lapisOreDrop.dropLapis(event);
 						lapisOreDrop.dropItem(event);
+						if (UHCRevamp.useOldMethods)
+							UHCRevamp.getInstance().getVersionUtils().giveLapis(p, 12);
 						return;
 					}
 					return;

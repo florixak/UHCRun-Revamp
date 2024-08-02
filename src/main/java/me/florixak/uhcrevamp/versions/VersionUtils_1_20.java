@@ -1,7 +1,6 @@
 package me.florixak.uhcrevamp.versions;
 
 import me.florixak.uhcrevamp.UHCRevamp;
-import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -26,8 +25,8 @@ public class VersionUtils_1_20 implements VersionUtils {
 	}
 
 	@Override
-	public ItemStack getLapis(int amount) {
-		return new ItemStack(XMaterial.LAPIS_LAZULI.parseMaterial(), amount);
+	public net.minecraft.server.v1_8_R3.ItemStack giveLapis(Player player, int amount) {
+		return null;
 	}
 
 	@Override
@@ -38,5 +37,12 @@ public class VersionUtils_1_20 implements VersionUtils {
 	@Override
 	public void sendTitle(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+	}
+
+	@Override
+	public void openAnvil(Player player) {
+		player.sendMessage("Anvil is not supported in this version. Coming soon!");
+//		Inventory anvil = Bukkit.createInventory(player, InventoryType.ANVIL);
+//		player.openInventory(anvil);
 	}
 }

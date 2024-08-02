@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
+import me.florixak.uhcrevamp.hook.LuckPermsHook;
 import me.florixak.uhcrevamp.manager.BorderManager;
 import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -62,6 +63,14 @@ public class PlaceholderUtil {
 				text = text.replace("%uhc-deaths%", String.valueOf(uhcPlayer.getData().getDeaths()));
 			}
 
+			if (text.contains("%uhc-games-played%")) {
+				text = text.replace("%uhc-games-played%", String.valueOf(uhcPlayer.getData().getGamesPlayed()));
+			}
+
+			if (text.contains("%uhc-killstreak%")) {
+				text = text.replace("%uhc-killstreak%", String.valueOf(uhcPlayer.getData().getKillstreak()));
+			}
+
 			if (text.contains("%ping%")) {
 				try {
 					text = text.replace("%ping%", String.valueOf(p.getPing()));
@@ -72,10 +81,6 @@ public class PlaceholderUtil {
 
 			if (text.contains("%kills%")) {
 				text = text.replace("%kills%", String.valueOf(uhcPlayer.getKills()));
-			}
-
-			if (text.contains("%killstreak%")) {
-				text = text.replace("%killstreak%", String.valueOf(uhcPlayer.getData().getKillstreak()));
 			}
 
 			if (text.contains("%assists%")) {
@@ -124,6 +129,10 @@ public class PlaceholderUtil {
 						text = text.replace("%team%", Messages.TEAM_NONE.toString());
 					}
 				}
+			}
+
+			if (text.contains("%luckperms-prefix%")) {
+				text = text.replace("%luckperms-prefix%", LuckPermsHook.getPrefix(p));
 			}
 
 			if (text.contains("%money-for-game%")) {

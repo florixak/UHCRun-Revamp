@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class PlayerData {
 
-	private final GameManager gameManager;
+	private final GameManager gameManager = GameManager.getGameManager();
 	private final UHCPlayer uhcPlayer;
 	private final FileConfiguration playerData;
 
@@ -32,17 +32,12 @@ public class PlayerData {
 	private int killstreak;
 	private int assists;
 	private int deaths;
-	private final List<Kit> boughtKitsList;
-	private final List<Perk> boughtPerksList;
+	private final List<Kit> boughtKitsList = new ArrayList<>();
+	private final List<Perk> boughtPerksList = new ArrayList<>();
 
 	public PlayerData(UHCPlayer uhcPlayer) {
 		this.uhcPlayer = uhcPlayer;
-		this.gameManager = GameManager.getGameManager();
 		this.playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
-
-		this.boughtKitsList = new ArrayList<>();
-		this.boughtPerksList = new ArrayList<>();
-
 		initializeData();
 	}
 
@@ -67,17 +62,25 @@ public class PlayerData {
 	public void setInitialData() {
 		if (hasData()) return;
 
+		if (VaultHook.hasEconomy()) {
+			if (GameValues.STATISTICS.STARTING_MONEY > 0 && !VaultHook.hasAccount(uhcPlayer.getPlayer())) {
+				VaultHook.deposit(uhcPlayer.getName(), GameValues.STATISTICS.STARTING_MONEY);
+			}
+		}
+
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().createPlayer(uhcPlayer.getPlayer());
+			return;
 		}
 
 		String path = "player-data." + uhcPlayer.getUUID();
 
 		playerData.set(path + ".name", uhcPlayer.getName());
-		playerData.set(path + ".money", GameValues.GAME.STARTING_MONEY);
+		playerData.set(path + ".money", GameValues.STATISTICS.STARTING_MONEY);
 		playerData.set(path + ".uhc-level", GameValues.STATISTICS.FIRST_UHC_LEVEL);
 		playerData.set(path + ".uhc-exp", 0);
 		playerData.set(path + ".required-uhc-exp", GameValues.STATISTICS.FIRST_REQUIRED_EXP);
+		playerData.set(path + ".games-played", 0);
 		playerData.set(path + ".wins", 0);
 		playerData.set(path + ".losses", 0);
 		playerData.set(path + ".kills", 0);
@@ -87,9 +90,8 @@ public class PlayerData {
 		playerData.set(path + ".kits", new ArrayList<>());
 		playerData.set(path + ".perks", new ArrayList<>());
 //        playerData.set(path + ".time-played", 0);
-		playerData.set(path + ".displayed-top", "wins");
 
-		gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
+		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
 	private void loadDataFromDatabase() {
@@ -109,7 +111,7 @@ public class PlayerData {
 	private void loadDataFromConfig() {
 		String path = "player-data." + uhcPlayer.getUUID();
 		this.playerName = playerData.getString(path + ".name");
-		this.money = playerData.getDouble(path + ".money", GameValues.ERROR_INT_VALUE);
+		this.money = playerData.getDouble(path + ".money", GameValues.STATISTICS.STARTING_MONEY);
 		this.uhcLevel = playerData.getInt(path + ".uhc-level", GameValues.ERROR_INT_VALUE);
 		this.uhcExp = playerData.getDouble(path + ".uhc-exp", GameValues.ERROR_INT_VALUE);
 		this.requiredUhcExp = playerData.getDouble(path + ".required-uhc-exp", GameValues.ERROR_INT_VALUE);
@@ -174,12 +176,26 @@ public class PlayerData {
 		return getMoney() >= amount;
 	}
 
+	public int getGamesPlayed() {
+		return (getWins() + getLosses());
+	}
+
+	public void setGamesPlayed() {
+
+		if (gameManager.isDatabaseConnected()) {
+			gameManager.getDatabase().setGamesPlayed(uhcPlayer.getUUID(), getGamesPlayed());
+			return;
+		}
+		playerData.set("player-data." + uhcPlayer.getUUID() + ".games-played", getGamesPlayed());
+		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
+	}
+
 	public int getWins() {
 		return wins;
 	}
 
-	private void addWin(int amount) {
-
+	private void addWin() {
+		wins++;
 		double money = GameValues.REWARDS.COINS_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
 		double uhcExp = GameValues.REWARDS.UHC_EXP_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
 
@@ -191,7 +207,7 @@ public class PlayerData {
 			return;
 		}
 
-		playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", getWins() + amount);
+		playerData.set("player-data." + uhcPlayer.getUUID() + ".wins", wins);
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
@@ -199,7 +215,8 @@ public class PlayerData {
 		return losses;
 	}
 
-	private void addLose(int amount) {
+	private void addLose() {
+		losses++;
 		double money = GameValues.REWARDS.COINS_FOR_LOSE;
 		double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
 
@@ -211,7 +228,7 @@ public class PlayerData {
 			return;
 		}
 
-		playerData.set("player-data." + uhcPlayer.getUUID() + ".losses", getLosses() + amount);
+		playerData.set("player-data." + uhcPlayer.getUUID() + ".losses", losses);
 		gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
 	}
 
@@ -387,10 +404,6 @@ public class PlayerData {
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	public int getPlayedGames() {
-		return (getWins() + getLosses());
-	}
-
 	/*public long getTimePlayed() {
 		return timePlayed;
 	}
@@ -463,32 +476,10 @@ public class PlayerData {
 		return requiredUhcExp * GameValues.STATISTICS.EXP_MULTIPLIER;
 	}
 
-	/* Top System */
-	public String getDisplayedTop() {
-		if (gameManager.isDatabaseConnected()) {
-			return gameManager.getDatabase().getDisplayedTop(uhcPlayer.getUUID()).toLowerCase().replace("_", "-");
-		}
-		return playerData.getString("player-data." + uhcPlayer.getUUID() + ".displayed-top", "wins").toLowerCase();
-	}
-
-	public void setDisplayedTop(String topMode) {
-		String displayedTop = getDisplayedTop();
-		if (displayedTop.equalsIgnoreCase(topMode)) return;
-
-		if (gameManager.isDatabaseConnected()) {
-			gameManager.getDatabase().setDisplayedTop(uhcPlayer.getUUID(), topMode.toLowerCase());
-			return;
-		}
-
-		playerData.set("player-data." + uhcPlayer.getUUID() + ".displayed-top", topMode.toLowerCase());
-		gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).save();
-
-	}
-
 	/* Statistics */
 	private void addGameResult() {
-		if (uhcPlayer.isWinner()) addWin(1);
-		else addLose(1);
+		if (uhcPlayer.isWinner()) addWin();
+		else addLose();
 	}
 
 	public void saveStatistics() {
@@ -507,6 +498,7 @@ public class PlayerData {
 		money *= GameValues.REWARDS.MULTIPLIER;
 		uhcExp *= GameValues.REWARDS.MULTIPLIER;
 
+		setGamesPlayed();
 		depositMoney(money);
 		addUHCExp(uhcExp);
 	}

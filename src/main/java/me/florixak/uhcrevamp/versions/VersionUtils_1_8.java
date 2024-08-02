@@ -1,8 +1,10 @@
 package me.florixak.uhcrevamp.versions;
 
 import me.florixak.uhcrevamp.utils.NMSUtils;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -21,8 +23,11 @@ public class VersionUtils_1_8 implements VersionUtils {
 	}
 
 	@Override
-	public ItemStack getLapis(int amount) {
-		return new ItemStack(Material.valueOf("INK_SACK"), amount, (short) 4);
+	public net.minecraft.server.v1_8_R3.ItemStack giveLapis(Player player, int amount) {
+		EntityPlayer p = ((CraftPlayer) player).getHandle();
+		net.minecraft.server.v1_8_R3.ItemStack lapisItem = new net.minecraft.server.v1_8_R3.ItemStack(Items.DYE, amount, (short) 4);
+		p.inventory.pickup(lapisItem);
+		return lapisItem;
 	}
 
 	@Override
@@ -58,6 +63,28 @@ public class VersionUtils_1_8 implements VersionUtils {
 			NMSUtils.sendPacket(playerConnection, packetClass, subTitlePacket);
 		} catch (Exception e) {
 			Bukkit.getLogger().info("Failed to send title.");
+		}
+	}
+
+	@Override
+	public void openAnvil(Player player) {
+		EntityPlayer p = ((CraftPlayer) player).getHandle();
+		AnvilContainer container = new AnvilContainer(p);
+		int c = p.nextContainerCounter();
+		p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, "minecraft:anvil", new ChatMessage("Repairing", new Object[]{}), 0));
+		p.activeContainer = container;
+		p.activeContainer.windowId = c;
+		p.activeContainer.addSlotListener(p);
+	}
+
+	public static class AnvilContainer extends ContainerAnvil {
+		public AnvilContainer(EntityHuman entity) {
+			super(entity.inventory, entity.world, new BlockPosition(0, 0, 0), entity);
+		}
+
+		@Override
+		public boolean a(EntityHuman entityhuman) {
+			return true;
 		}
 	}
 }

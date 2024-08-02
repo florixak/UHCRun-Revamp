@@ -136,10 +136,5 @@
             <version>5.1.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>net.wesjd</groupId>
-            <artifactId>anvilgui</artifactId>
-            <version>1.9.4-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 </project>

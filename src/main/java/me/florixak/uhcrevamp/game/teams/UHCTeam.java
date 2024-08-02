@@ -20,7 +20,7 @@ public class UHCTeam {
 
 	private final String color;
 
-	private List<UHCPlayer> members;
+	private final List<UHCPlayer> members;
 
 	public UHCTeam(ItemStack displayItem, String name, String color, int maxSize) {
 		this.displayItem = displayItem;

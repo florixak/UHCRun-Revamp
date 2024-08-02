@@ -39,8 +39,6 @@ settings:
     players-to-start: 2 # Minimum number of players to start the game
     starting-message-at: 10 # Time in seconds to display starting message
 
-    starting-money: 100 # Starting money for each player
-
     # Countdowns for different game phases
     countdowns:
       starting: 15 # Countdown for game start in seconds
@@ -125,19 +123,28 @@ settings:
 
   # Statistics settings
   statistics:
-    # Options: [ Wins, Kills, Deaths, Assists, Losses, Games-Played, UHC-Level ]
-    # Need to be in []
-    displayed-tops: [ "Wins", "Kills", "Deaths", "Assists", "Losses", "Games-Played", "UHC-Level" ] # Statistics to display in top stats
+    # Starting money for each player
+    starting-money: 100
 
     uhc-level:
       # Players will gain xp and increase their UHC level
-      enabled: true # Enable UHC level system
       first-level: 0 # Starting level
       first-required-exp: 100.0 # Experience required for first level
       exp-multiplier: 3.75 # Multiplier for experience required for each level
 
     player-stats:
+      # Placeholders for stats:
+      # %player% - Player name
+      # %uhc-level% - UHC level
+      # %required-uhc-exp% - Required UHC experience
+      # %money% - Money
+      # %uhc-wins% - UHC wins
+      # %uhc-losses% - UHC losses
+      # %uhc-kills% - UHC kills
+      # %uhc-deaths% - UHC deaths
+      # %uhc-games-played% - UHC games played
       display-item: PLAYER_HEAD # Item to display player stats
+      slot: 10 # Slot for player stats
       custom-name: "&a%player%" # Custom name for player stats
       lore:
         - "&fLevel: &a%uhc-level%"
@@ -147,18 +154,53 @@ settings:
         - "&fWins: &a%uhc-wins%"
         - "&fLosses: &a%uhc-losses%"
         - "&fKills: &a%uhc-kills%"
+        - "&fAssists: &a%uhc-assists%"
         - "&fDeaths: &a%uhc-deaths%"
+        - "&fKillstreak: &a%uhc-killstreak%"
+        - "&fGames Played: &a%uhc-games-played%"
     top-stats:
-      display-item: PAPER # Item to display top stats
-      custom-name: "&aTop Stats - %top-stats-mode%" # Custom name for top stats
+      types:
+        WINS:
+          display-name: "Wins" # Display name for top stats
+          display-item: GOLDEN_APPLE # Item to display top stats
+          slot: 12 # Slot for top stats
+        KILLS:
+          display-name: "Kills" # Display name for top stats
+          display-item: IRON_SWORD # Item to display top stats
+          slot: 13 # Slot for top stats
+        DEATHS:
+          display-name: "Deaths" # Display name for top stats
+          display-item: SKULL # Item to display top stats
+          slot: 14 # Slot for top stats
+        ASSISTS:
+          display-name: "Assists" # Display name for top stats
+          display-item: BOW # Item to display top stats
+          slot: 15 # Slot for top stats
+        LOSSES:
+          display-name: "Losses" # Display name for top stats
+          display-item: COAL # Item to display top stats
+          slot: 16 # Slot for top stats
+        KILLSTREAK:
+          display-name: "Killstreak" # Display name for top stats
+          display-item: DIAMOND_SWORD # Item to display top stats
+          slot: 21 # Slot for top stats
+        GAMES-PLAYED:
+          display-name: "Games Played" # Display name for top stats
+          display-item: PAPER # Item to display top stats
+          slot: 22 # Slot for top stats
+        UHC-LEVEL:
+          display-name: "UHC Level" # Display name for top stats
+          display-item: GOLDEN_HELMET # Item to display top stats
+          slot: 23 # Slot for top stats
+      custom-name: "&aTop 5 Players In %top-stats-mode%"
       lore:
-        - "&f1. %uhc-top-1% - %uhc-top-1-value%"
-        - "&f2. %uhc-top-2% - %uhc-top-2-value%"
-        - "&f3. %uhc-top-3% - %uhc-top-3-value%"
-        - "&f4. %uhc-top-4% - %uhc-top-4-value%"
-        - "&f5. %uhc-top-5% - %uhc-top-5-value%"
-        - " "
-        - "&7(Click to change...)"
+        - "&7-----------------------"
+        - "&a1. &f%uhc-top-1% - %uhc-top-1-value%"
+        - "&a2. &f%uhc-top-2% - %uhc-top-2-value%"
+        - "&a3. &f%uhc-top-3% - %uhc-top-3-value%"
+        - "&a4. &f%uhc-top-4% - %uhc-top-4-value%"
+        - "&a5. &f%uhc-top-5% - %uhc-top-5-value%"
+        - "&7-----------------------"
 
   # Reward settings
   rewards:
@@ -238,7 +280,7 @@ settings:
       display-name: "&fProfile" # Display name for statistics menu
       display-item: PLAYER_HEAD # Display item for statistics menu
       slot: 8 # Slot for statistics menu
-      slots: 36 # Number of slots for statistics menu
+      slots: 45 # Number of slots for statistics menu
     confirm-purchase:
       enabled: true # Enable confirm purchase menu
       confirm: "&aConfirm (%cost% %currency%)" # Text for confirm button
@@ -255,6 +297,8 @@ settings:
     fade-out: 2 # Fade out time in seconds
 
   sounds:
+    # List of sounds for different game events
+    # If you want do disable sound, set it to NONE
     started:
       sound: ENTITY_PLAYER_LEVELUP
       volume: 0.5
@@ -296,25 +340,28 @@ settings:
       volume: 0.5
       pitch: 1.0
     purchase-cancel:
-      sound: BLOCK_ANVIL_DESTROY
+      sound: BLOCK_ANVIL_BREAK
       volume: 0.5
       pitch: 1.0
 
   # Chat
   chat:
+    # Chat format placeholders:
     # %player% - Name of player
     # %uhc-level% - UHC level of player
     # %luckperms-prefix% - If luckperms are allowed in config, displays player's prefix
     # %message% - Sent message
     # %level% - Player level
-
+    # %team% - Team name
     lobby-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in the lobby or in the solo mode
-    global-format: "&6[GLOBAL] &7[%uhc-level%] %team% &7%player% » %message%" # Format for global chat messages, with ! before message and teams enabled
-    teams-format: "&6[TEAM] &7[%uhc-level%] %team% &7%player% » %message%" # Format for team chat messages
-    solo-format: "&7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for chat messages in-game
-    dead-format: "&8[SPECTATOR] &7[%uhc-level%] %team% &7%player% » %message%" # Format for chat messages from dead players
+    global-format: "&6[GLOBAL] &7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for global chat messages, with ! before message and teams enabled
+    teams-format: "&6[TEAM] &7[%uhc-level%] %team% &f%player% &7» &f%message%" # Format for team chat messages
+    solo-format: "&7[%uhc-level%] &f%player% &7» &f%message%" # Format for chat messages in-game
+    dead-format: "&7[SPECTATOR] [%uhc-level%] %team% &7%player% » %message%" # Format for chat messages from dead players
 
-    blocked-commands: # List of commands blocked in chat
+    # List of commands blocked in chat
+    # It is not perfect, it has some flaws but it works in most cases
+    blocked-commands:
       - /pl
       - /plugins
       - /lp

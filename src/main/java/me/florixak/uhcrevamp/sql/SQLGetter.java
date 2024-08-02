@@ -8,10 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SQLGetter {
 
@@ -30,22 +27,23 @@ public class SQLGetter {
 
 		int firstUHCLevel = GameValues.STATISTICS.FIRST_UHC_LEVEL;
 		double firstRequiredUHCExp = GameValues.STATISTICS.FIRST_REQUIRED_EXP;
+		double startingMoney = GameValues.STATISTICS.STARTING_MONEY;
 
 		try {
 			ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + table + " "
 					+ "(uuid VARCHAR(100) PRIMARY KEY,"
 					+ "name VARCHAR(100),"
-					+ "money DECIMAL(24,2) DEFAULT 0,"
+					+ "money DECIMAL(24,2) DEFAULT " + startingMoney + ","
 					+ "uhc_level INT(100) DEFAULT " + firstUHCLevel + ","
 					+ "uhc_exp DECIMAL(24,2) DEFAULT 0,"
 					+ "required_uhc_exp DECIMAL(24,2) DEFAULT " + firstRequiredUHCExp + ","
+					+ "games_played INT(100) DEFAULT 0,"
 					+ "wins INT(100) DEFAULT 0,"
 					+ "losses INT(100) DEFAULT 0,"
 					+ "kills INT(100) DEFAULT 0,"
 					+ "killstreak INT(100) DEFAULT 0,"
 					+ "assists INT(100) DEFAULT 0,"
 					+ "deaths INT(100) DEFAULT 0,"
-					+ "displayed_top VARCHAR(100) DEFAULT 'Wins',"
 					+ "kits VARCHAR(100) DEFAULT '',"
 					+ "perks VARCHAR(100) DEFAULT '')"
 			);
@@ -226,6 +224,34 @@ public class SQLGetter {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setGamesPlayed(UUID uuid, int gamesPlayed) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET games_played=? WHERE uuid=?");
+			ps.setInt(1, gamesPlayed);
+			ps.setString(2, uuid.toString());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int getGamesPlayed(UUID uuid) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT games_played FROM " + table + " WHERE uuid=?");
+			ps.setString(1, uuid.toString());
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("games_played");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	public void addWin(UUID uuid) {
@@ -422,34 +448,6 @@ public class SQLGetter {
 		}
 	}
 
-	public String getDisplayedTop(UUID uuid) {
-		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT displayed_top FROM " + table + " WHERE uuid=?");
-			ps.setString(1, uuid.toString());
-
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getString("displayed_top");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return "wins";
-	}
-
-	public void setDisplayedTop(UUID uuid, String topMode) {
-		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET displayed_top=? WHERE uuid=?");
-			ps.setString(1, topMode);
-			ps.setString(2, uuid.toString());
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public List<String> getBoughtKits(UUID uuid) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT kits FROM " + table + " WHERE uuid=?");
@@ -524,6 +522,23 @@ public class SQLGetter {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Map<String, Integer> getTopStatistics(String... types) {
+		Map<String, Integer> topStatistics = new HashMap<>();
+		for (String type : types) {
+			try {
+				PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " ORDER BY " + type + " DESC LIMIT 10");
+
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+					topStatistics.put(rs.getString("name"), rs.getInt(type));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return topStatistics;
 	}
 
 

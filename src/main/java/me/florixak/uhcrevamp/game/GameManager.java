@@ -12,6 +12,7 @@ import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
 import me.florixak.uhcrevamp.game.player.PlayerListener;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
+import me.florixak.uhcrevamp.game.statistics.StatisticsManager;
 import me.florixak.uhcrevamp.game.teams.TeamManager;
 import me.florixak.uhcrevamp.game.worldGenerator.OreGenManager;
 import me.florixak.uhcrevamp.game.worldGenerator.OreGeneratorListener;
@@ -55,6 +56,7 @@ public class GameManager {
 	private final ConfigManager configManager;
 	private final PlayerManager playerManager;
 	private final TeamManager teamManager;
+	private final StatisticsManager statisticsManager;
 	private final DeathmatchManager deathmatchManager;
 	private final PerksManager perksManager;
 	private final KitsManager kitsManager;
@@ -96,6 +98,7 @@ public class GameManager {
 		this.soundManager = new SoundManager();
 		this.customRecipeManager = new CustomRecipeManager(this);
 		this.menuManager = new MenuManager();
+		this.statisticsManager = new StatisticsManager(this);
 
 		this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 	}
@@ -120,6 +123,7 @@ public class GameManager {
 		getPlayerManager().setMaxPlayers();
 		getKitsManager().loadKits();
 		getPerksManager().loadPerks();
+		getStatisticsManager().loadTopStatistics();
 
 		getTaskManager().runGameCheckTask();
 		getTaskManager().runScoreboardUpdateTask();
@@ -327,6 +331,7 @@ public class GameManager {
 		listeners.add(new InventoryClickListener(this));
 		listeners.add(new OreGeneratorListener(this));
 		listeners.add(new WorldGeneratorListener(this));
+		if (!UHCRevamp.useOldMethods) listeners.add(new AnvilClickListener());
 
 		for (Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
@@ -334,17 +339,17 @@ public class GameManager {
 	}
 
 	private void registerCommands() {
-		registerCommand("uhc", new UHCCommand(gameManager));
-		registerCommand("forcestart", new ForceStartCommand(gameManager));
-		registerCommand("forceskip", new ForceSkipCommand(gameManager));
-		registerCommand("team", new TeamCommand(gameManager));
-		registerCommand("workbench", new WorkbenchCommand(gameManager));
-		registerCommand("anvil", new AnvilCommand(plugin));
-		registerCommand("kits", new KitsCommand(gameManager));
-		registerCommand("perks", new PerksCommand(gameManager));
-		registerCommand("recipes", new RecipesCommand(gameManager));
-		registerCommand("statistics", new StatisticsCommand(gameManager));
-		registerCommand("revive", new ReviveCommand(gameManager));
+		registerCommand("uhc", new UHCCommand(this));
+		registerCommand("forcestart", new ForceStartCommand(this));
+		registerCommand("forceskip", new ForceSkipCommand(this));
+		registerCommand("team", new TeamCommand(this));
+		registerCommand("workbench", new WorkbenchCommand(this));
+		registerCommand("anvil", new AnvilCommand(this));
+		registerCommand("kits", new KitsCommand(this));
+		registerCommand("perks", new PerksCommand(this));
+		registerCommand("recipes", new RecipesCommand(this));
+		registerCommand("statistics", new StatisticsCommand(this));
+		registerCommand("revive", new ReviveCommand(this));
 	}
 
 	private void registerCommand(String commandN, CommandExecutor executor) {
@@ -431,5 +436,9 @@ public class GameManager {
 
 	public MenuManager getMenuManager() {
 		return menuManager;
+	}
+
+	public StatisticsManager getStatisticsManager() {
+		return statisticsManager;
 	}
 }

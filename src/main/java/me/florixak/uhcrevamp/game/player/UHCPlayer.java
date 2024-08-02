@@ -6,7 +6,6 @@ import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
-import me.florixak.uhcrevamp.hook.LuckPermsHook;
 import me.florixak.uhcrevamp.utils.NMSUtils;
 import me.florixak.uhcrevamp.utils.TeleportUtils;
 import me.florixak.uhcrevamp.utils.XSeries.XPotion;
@@ -18,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,52 +26,27 @@ public class UHCPlayer {
 
 	private final UUID uuid;
 	private final String name;
-
 	private final PlayerData data;
+
 	private PlayerState state;
-
-	private UHCTeam team;
-
-	private int kills;
-	private int assists;
+	private int kills = 0;
+	private int assists = 0;
 	private Kit kit;
 	private Perk perk;
-	private boolean hasWon;
+	private UHCTeam team;
+	private boolean hasWon = false;
 	private long timePlayed;
-	private final Map<UUID, Long> damageTrackers;
+	private final Map<UUID, Long> damageTrackers = new HashMap<>();
 	private Location spawnLoc;
 
-	private double moneyForGameResult, moneyForKills, moneyForAssists, moneyForActivity;
-	private double uhcExpForGameResult, uhcExpForKills, uhcExpForAssists, uhcExpForActivity;
-
-	private String displayedStat;
+	private double moneyForGameResult = 0, moneyForKills = 0, moneyForAssists = 0, moneyForActivity = 0;
+	private double uhcExpForGameResult = 0, uhcExpForKills = 0, uhcExpForAssists = 0, uhcExpForActivity = 0;
 
 	public UHCPlayer(UUID uuid, String name) {
 		this.uuid = uuid;
 		this.name = name;
 		this.data = new PlayerData(this);
-
 		setState(PlayerState.LOBBY);
-
-		this.hasWon = false;
-		this.kills = 0;
-		this.assists = 0;
-		this.kit = null;
-		this.perk = null;
-		this.team = null;
-		this.spawnLoc = null;
-		this.damageTrackers = new HashMap<>();
-
-		this.displayedStat = "Wins";
-
-		this.moneyForGameResult = 0;
-		this.moneyForKills = 0;
-		this.moneyForAssists = 0;
-		this.moneyForActivity = 0;
-		this.uhcExpForGameResult = 0;
-		this.uhcExpForKills = 0;
-		this.uhcExpForAssists = 0;
-		this.uhcExpForActivity = 0;
 	}
 
 	public UUID getUUID() {
@@ -87,10 +62,6 @@ public class UHCPlayer {
 			return getData().getName();
 		}
 		return this.name;
-	}
-
-	public String getLuckPermsPrefix() {
-		return LuckPermsHook.getPrefix(getPlayer());
 	}
 
 	public boolean isOnline() {
@@ -169,10 +140,11 @@ public class UHCPlayer {
 	}
 
 	public void setKit(Kit kit) {
-		if (this.kit == kit) return;
-		this.kit = kit;
-		sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
-		GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+		if (this.kit != kit) {
+			this.kit = kit;
+			sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
+			GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+		}
 	}
 
 	public boolean hasPerk() {
@@ -184,10 +156,11 @@ public class UHCPlayer {
 	}
 
 	public void setPerk(Perk perk) {
-		if (this.perk == perk) return;
-		this.perk = perk;
-		sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
-		GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+		if (this.perk != perk) {
+			this.perk = perk;
+			sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
+			GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+		}
 	}
 
 	public void setSpawnLocation(Location spawnLoc) {
@@ -211,7 +184,7 @@ public class UHCPlayer {
 
 		getPlayer().setHealth(getPlayer().getMaxHealth());
 		getPlayer().setFoodLevel(20);
-		getPlayer().setExhaustion(20);
+		getPlayer().setExhaustion(0);
 		getPlayer().setFireTicks(0);
 		clearPotions();
 		clearInventory();
@@ -353,7 +326,10 @@ public class UHCPlayer {
 	}
 
 	public void clearPotions() {
-		getPlayer().getActivePotionEffects().clear();
+//		getPlayer().getActivePotionEffects().clear();
+		for (PotionEffect effect : getPlayer().getActivePotionEffects()) {
+			getPlayer().removePotionEffect(effect.getType());
+		}
 	}
 
 	public void kick(String message) {

@@ -76,6 +76,7 @@ public class CustomDropManager {
 			if (blockSection != null && blockSection.getKeys(false) != null) {
 				for (String drop : blockSection.getKeys(false)) {
 					Material b = XMaterial.matchXMaterial(drop).get().parseMaterial();
+					if (b == null) continue; // Skip if material cannot be parsed (not supported in 1.8.8)
 //					Bukkit.getLogger().info("Loaded custom drop for block: " + blockName + " drop: " + b);
 					List<Integer> amountList = blockSection.getIntegerList(drop);
 					drops.add(b);

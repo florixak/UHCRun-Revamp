@@ -1,10 +1,8 @@
 package me.florixak.uhcrevamp.game.player;
 
-import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.statistics.TopStatistics;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.TeleportUtils;
@@ -12,7 +10,6 @@ import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -179,18 +176,6 @@ public class PlayerManager {
 			UHCPlayer uhcPlayer = topKillers.get(i);
 			Bukkit.broadcastMessage("§7" + (i + 1) + ". §e" + uhcPlayer.getName() + " §7- §e" + uhcPlayer.getKills() + " kills");
 		}
-	}
-
-	public List<TopStatistics> getTotalTop(String type) {
-		List<TopStatistics> topTotal = new ArrayList<>();
-		FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
-		for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
-			String name = playerData.getString("player-data." + uuid + ".name");
-			int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
-			topTotal.add(new TopStatistics(name, value));
-		}
-		topTotal.sort((name1, name2) -> Integer.compare(name2.getValue(), name1.getValue()));
-		return topTotal;
 	}
 
 	public void setMaxPlayers() {

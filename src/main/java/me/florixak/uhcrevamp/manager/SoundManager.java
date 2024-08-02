@@ -10,7 +10,7 @@ public class SoundManager {
 	}
 
 	private XSound getSound(String sound) {
-		if (sound == null || sound.isEmpty()) return null;
+		if (sound.equalsIgnoreCase("NONE") || sound == null || sound.isEmpty()) return null;
 		return XSound.matchXSound(sound).orElse(null);
 	}
 

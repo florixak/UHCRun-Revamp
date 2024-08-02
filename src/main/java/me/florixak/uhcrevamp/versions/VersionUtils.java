@@ -11,10 +11,12 @@ public interface VersionUtils {
 
 	Set<Material> getWoodPlankValues();
 
-	ItemStack getLapis(int amount);
+	net.minecraft.server.v1_8_R3.ItemStack giveLapis(Player player, int amount);
 
 	ShapedRecipe createRecipe(ItemStack item, String key);
 
 	void sendTitle(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut);
+
+	void openAnvil(Player player);
 
 }
