@@ -13,7 +13,7 @@ public class PvPPhaseTask extends BukkitRunnable {
 	private final GameManager gameManager;
 	private int countdown;
 
-	public PvPPhaseTask(GameManager gameManager) {
+	public PvPPhaseTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		countdown = GameValues.GAME.PVP_COUNTDOWN;
 	}

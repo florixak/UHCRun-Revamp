@@ -24,7 +24,7 @@ public class TaskManager {
 	private BoardsUpdateTask boardsUpdateTask;
 	private PlayerTimeTask playerTimeTask;
 
-	public TaskManager(GameManager gameManager) {
+	public TaskManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 

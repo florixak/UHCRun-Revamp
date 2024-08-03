@@ -12,7 +12,7 @@ public class GameCheckTask extends BukkitRunnable {
 
 	private final GameManager gameManager;
 
-	public GameCheckTask(GameManager gameManager) {
+	public GameCheckTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
@@ -22,19 +22,19 @@ public class GameCheckTask extends BukkitRunnable {
 	}
 
 	public boolean canStart() {
-		int minPlayers = GameValues.GAME.PLAYERS_TO_START;
-		int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
-		boolean teamMode = GameValues.TEAM.TEAM_MODE;
+		final int minPlayers = GameValues.GAME.PLAYERS_TO_START;
+		final int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
+		final boolean teamMode = GameValues.TEAM.TEAM_MODE;
 
 //		if (teamMode) return areTeamsValid();
 		return playersOnline >= minPlayers;
 	}
 
 	private boolean areTeamsValid() {
-		int maxPlayersPerTeam = GameValues.TEAM.TEAM_SIZE;
-		int minPlayersToStart = GameValues.GAME.PLAYERS_TO_START;
-		int totalPlayers = gameManager.getPlayerManager().getOnlinePlayers().size();
-		int totalTeams = gameManager.getTeamManager().getTeamsList().size();
+		final int maxPlayersPerTeam = GameValues.TEAM.TEAM_SIZE;
+		final int minPlayersToStart = GameValues.GAME.PLAYERS_TO_START;
+		final int totalPlayers = gameManager.getPlayerManager().getOnlinePlayers().size();
+		final int totalTeams = gameManager.getTeamManager().getTeamsList().size();
 
 		// Check if there are enough players to start
 		if (totalPlayers < minPlayersToStart) {
@@ -47,7 +47,7 @@ public class GameCheckTask extends BukkitRunnable {
 		}
 
 		// Check if any team exceeds the maximum allowed size
-		for (UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
+		for (final UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
 			if (team.getMembers().size() > maxPlayersPerTeam) {
 				return false;
 			}
@@ -58,8 +58,8 @@ public class GameCheckTask extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		boolean gameEnd = isGameEnd();
-		boolean canStart = canStart();
+		final boolean gameEnd = isGameEnd();
+		final boolean canStart = canStart();
 
 		switch (gameManager.getGameState()) {
 			case LOBBY:

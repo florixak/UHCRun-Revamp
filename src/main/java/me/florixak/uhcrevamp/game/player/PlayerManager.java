@@ -22,18 +22,18 @@ public class PlayerManager {
 
 	private int maxPlayersWhenTeams;
 
-	public PlayerManager(GameManager gameManager) {
+	public PlayerManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.players = new ArrayList<>();
 	}
 
-	public boolean doesPlayerExist(Player player) {
+	public boolean doesPlayerExist(final Player player) {
 		if (getUHCPlayer(player.getUniqueId()) != null) return true;
 		return false;
 	}
 
-	public UHCPlayer getUHCPlayer(UUID uuid) {
-		for (UHCPlayer uhcPlayer : getPlayersList()) {
+	public UHCPlayer getUHCPlayer(final UUID uuid) {
+		for (final UHCPlayer uhcPlayer : getPlayersList()) {
 			if (uhcPlayer.getUUID().equals(uuid)) {
 				return uhcPlayer;
 			}
@@ -41,8 +41,8 @@ public class PlayerManager {
 		return null;
 	}
 
-	public UHCPlayer getUhcPlayer(String name) {
-		for (UHCPlayer uhcPlayer : getPlayersList()) {
+	public UHCPlayer getUhcPlayer(final String name) {
+		for (final UHCPlayer uhcPlayer : getPlayersList()) {
 			if (uhcPlayer.getName().equals(name)) {
 				return uhcPlayer;
 			}
@@ -51,11 +51,11 @@ public class PlayerManager {
 	}
 
 
-	public UHCPlayer getUHCPlayer(Player player) {
+	public UHCPlayer getUHCPlayer(final Player player) {
 		return getUHCPlayer(player.getUniqueId());
 	}
 
-	public UHCPlayer getOrCreateUHCPlayer(Player player) {
+	public UHCPlayer getOrCreateUHCPlayer(final Player player) {
 		if (doesPlayerExist(player)) {
 			return getUHCPlayer(player);
 		} else {
@@ -63,12 +63,12 @@ public class PlayerManager {
 		}
 	}
 
-	public synchronized UHCPlayer newUHCPlayer(Player player) {
+	public synchronized UHCPlayer newUHCPlayer(final Player player) {
 		return newUHCPlayer(player.getUniqueId(), player.getName());
 	}
 
-	public synchronized UHCPlayer newUHCPlayer(UUID uuid, String name) {
-		UHCPlayer newPlayer = new UHCPlayer(uuid, name);
+	public synchronized UHCPlayer newUHCPlayer(final UUID uuid, final String name) {
+		final UHCPlayer newPlayer = new UHCPlayer(uuid, name);
 		getPlayersList().add(newPlayer);
 		return newPlayer;
 	}
@@ -112,8 +112,8 @@ public class PlayerManager {
 		return getPlayers().get(MathUtils.getRandom().nextInt(getPlayers().size()));
 	}
 
-	public UHCPlayer getUHCPlayerWithoutPerm(String perm) {
-		List<UHCPlayer> onlineListWithoutPerm = getPlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
+	public UHCPlayer getUHCPlayerWithoutPerm(final String perm) {
+		final List<UHCPlayer> onlineListWithoutPerm = getPlayers().stream().filter(uhcPlayer -> !uhcPlayer.hasPermission(perm)).collect(Collectors.toList());
 		return onlineListWithoutPerm.get(MathUtils.getRandom().nextInt(onlineListWithoutPerm.size()));
 	}
 
@@ -122,7 +122,7 @@ public class PlayerManager {
 	}
 
 	public void setUHCWinner() {
-		UHCPlayer winner = getAlivePlayers().stream()
+		final UHCPlayer winner = getAlivePlayers().stream()
 				.filter(UHCPlayer::isOnline)
 				.max(Comparator.comparingInt(UHCPlayer::getKills))
 				.orElse(null);
@@ -154,13 +154,13 @@ public class PlayerManager {
 
 	public String getUHCWinner() {
 		if (GameValues.TEAM.TEAM_MODE) {
-			UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
+			final UHCTeam winnerTeam = gameManager.getTeamManager().getWinnerTeam();
 			return winnerTeam != null ? (winnerTeam.getMembers().size() == 1 ? winnerTeam.getMembers().get(0).getName() : winnerTeam.getName()) : "None";
 		}
 		return getWinnerPlayer() != null ? getWinnerPlayer().getName() : "None";
 	}
 
-	private List<UHCPlayer> findTopKillers(List<UHCPlayer> players) {
+	private List<UHCPlayer> findTopKillers(final List<UHCPlayer> players) {
 		players.sort((uhcPlayer1, uhcPlayer2) -> Integer.compare(uhcPlayer2.getKills(), uhcPlayer1.getKills()));
 		return players;
 	}
@@ -170,10 +170,10 @@ public class PlayerManager {
 	}
 
 	public void showTopKillers() {
-		List<UHCPlayer> topKillers = getTopKillers();
+		final List<UHCPlayer> topKillers = getTopKillers();
 		for (int i = 0; i < 10; i++) {
 			if (topKillers.size() <= i) break;
-			UHCPlayer uhcPlayer = topKillers.get(i);
+			final UHCPlayer uhcPlayer = topKillers.get(i);
 			Bukkit.broadcastMessage("§7" + (i + 1) + ". §e" + uhcPlayer.getName() + " §7- §e" + uhcPlayer.getKills() + " kills");
 		}
 	}
@@ -187,8 +187,8 @@ public class PlayerManager {
 		return Bukkit.getMaxPlayers();
 	}
 
-	public void setPlayerWaitsAtLobby(UHCPlayer uhcPlayer) {
-		Player p = uhcPlayer.getPlayer();
+	public void setPlayerWaitsAtLobby(final UHCPlayer uhcPlayer) {
+		final Player p = uhcPlayer.getPlayer();
 		p.setHealth(p.getMaxHealth());
 		p.setFoodLevel(20);
 		p.setExhaustion(0);
@@ -204,7 +204,7 @@ public class PlayerManager {
 		gameManager.getKitsManager().giveLobbyKit(uhcPlayer);
 	}
 
-	public void setPlayerForGame(UHCPlayer uhcPlayer) {
+	public void setPlayerForGame(final UHCPlayer uhcPlayer) {
 		uhcPlayer.setState(PlayerState.ALIVE);
 
 		uhcPlayer.setGameMode(GameMode.SURVIVAL);
@@ -240,18 +240,18 @@ public class PlayerManager {
 //	}
 
 	public void teleportInToGame() {
-		for (UHCPlayer uhcPlayer : getAlivePlayers()) {
-			Location location = TeleportUtils.getSafeLocation();
+		for (final UHCPlayer uhcPlayer : getAlivePlayers()) {
+			final Location location = TeleportUtils.getSafeLocation();
 			uhcPlayer.setSpawnLocation(location);
 			uhcPlayer.teleport(location);
 		}
 	}
 
 	public void teleportAfterMining() {
-		for (UHCPlayer uhcPlayer : getAlivePlayers()) {
-			Location location = uhcPlayer.getPlayer().getLocation();
+		for (final UHCPlayer uhcPlayer : getAlivePlayers()) {
+			final Location location = uhcPlayer.getPlayer().getLocation();
 
-			double y = location.getWorld().getHighestBlockYAt(location);
+			final double y = location.getWorld().getHighestBlockYAt(location);
 			location.setY(y);
 
 			uhcPlayer.teleport(location);
@@ -259,7 +259,7 @@ public class PlayerManager {
 	}
 
 	public void onDisable() {
-		for (UHCPlayer uhcPlayer : getPlayersList()) {
+		for (final UHCPlayer uhcPlayer : getPlayersList()) {
 			uhcPlayer.reset();
 		}
 		this.players.clear();

@@ -13,13 +13,13 @@ import static me.florixak.uhcrevamp.game.Permissions.FORCE_START;
 public class ForceStartCommand implements CommandExecutor {
 
 	private final GameManager gameManager;
-	
-	public ForceStartCommand(GameManager gameManager) {
+
+	public ForceStartCommand(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 
 		if (!sender.hasPermission(FORCE_START.getPerm())) {
 			sender.sendMessage(Messages.NO_PERM.toString());

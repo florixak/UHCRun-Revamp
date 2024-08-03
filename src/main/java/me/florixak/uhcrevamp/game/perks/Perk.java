@@ -11,7 +11,6 @@ import java.util.List;
 public class Perk {
 
 	private final String name;
-	private final String displayName;
 	private final ItemStack displayItem;
 	private final double cost;
 	private final List<String> description;
@@ -19,9 +18,8 @@ public class Perk {
 	private final List<PerkEffect> perkEffect;
 	private final List<PerkItem> perkItem;
 
-	public Perk(String name, String displayName, ItemStack displayItem, double cost, List<String> description, List<PerkBonus> perkBonus, List<PerkEffect> perkEffect, List<PerkItem> perkItem) {
+	public Perk(final String name, final ItemStack displayItem, final double cost, final List<String> description, final List<PerkBonus> perkBonus, final List<PerkEffect> perkEffect, final List<PerkItem> perkItem) {
 		this.name = name;
-		this.displayName = displayName;
 		this.displayItem = displayItem;
 		this.cost = cost;
 		this.description = description;
@@ -35,7 +33,7 @@ public class Perk {
 	}
 
 	public String getDisplayName() {
-		return TextUtils.color(this.displayName);
+		return TextUtils.color(this.name);
 	}
 
 	public ItemStack getDisplayItem() {
@@ -55,18 +53,18 @@ public class Perk {
 	}
 
 	public List<String> getDescription() {
-		List<String> formattedDescription = new ArrayList<>();
+		final List<String> formattedDescription = new ArrayList<>();
 		for (String desc : description) {
 			if (hasPerkEffect()) {
-				for (PerkEffect effect : perkEffect) {
+				for (final PerkEffect effect : perkEffect) {
 					desc = desc
 							.replace("%effect%", effect.getEffectName())
-							.replace("%effect-level%", String.valueOf(effect.getAmplifier()))
+							.replace("%effect-level%", String.valueOf(effect.getFormattedAmplifier()))
 							.replace("%effect-duration%", String.valueOf(effect.getDuration()));
 				}
 			}
 			if (hasPerkItem()) {
-				for (PerkItem item : perkItem) {
+				for (final PerkItem item : perkItem) {
 					desc = desc
 							.replace("%item-name%", TextUtils.toNormalCamelText(item.getItem().getType().toString()))
 							.replace("%item-amount%", String.valueOf(item.getFormattedAmount()))
@@ -74,7 +72,7 @@ public class Perk {
 				}
 			}
 			if (hasPerkBonus()) {
-				for (PerkBonus bonus : perkBonus) {
+				for (final PerkBonus bonus : perkBonus) {
 					desc = desc
 							.replace("%bonus-coins%", bonus.getFormattedCoins())
 							.replace("%bonus-uhc-exp%", bonus.getFormattedUhcExp())
@@ -111,19 +109,19 @@ public class Perk {
 		return perkEffect != null && !perkItem.isEmpty();
 	}
 
-	public void givePerk(UHCPlayer uhcPlayer) {
+	public void givePerk(final UHCPlayer uhcPlayer) {
 		if (hasPerkEffect()) {
-			for (PerkEffect effect : perkEffect) {
+			for (final PerkEffect effect : perkEffect) {
 				effect.giveEffect(uhcPlayer);
 			}
 		}
 		if (hasPerkItem()) {
-			for (PerkItem item : perkItem) {
+			for (final PerkItem item : perkItem) {
 				item.giveItem(uhcPlayer);
 			}
 		}
 		if (hasPerkBonus()) {
-			for (PerkBonus bonus : perkBonus) {
+			for (final PerkBonus bonus : perkBonus) {
 				bonus.giveBonus(uhcPlayer);
 			}
 		}

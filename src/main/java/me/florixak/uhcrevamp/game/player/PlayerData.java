@@ -36,7 +36,7 @@ public class PlayerData {
 	private final List<Kit> boughtKitsList = new ArrayList<>();
 	private final List<Perk> boughtPerksList = new ArrayList<>();
 
-	public PlayerData(UHCPlayer uhcPlayer) {
+	public PlayerData(final UHCPlayer uhcPlayer) {
 		this.uhcPlayer = uhcPlayer;
 		this.playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
 		initializeData();
@@ -74,7 +74,7 @@ public class PlayerData {
 			return;
 		}
 
-		String path = "player-data." + uhcPlayer.getUUID();
+		final String path = "player-data." + uhcPlayer.getUUID();
 
 		playerData.set(path + ".name", uhcPlayer.getName());
 		playerData.set(path + ".money", GameValues.STATISTICS.STARTING_MONEY);
@@ -110,7 +110,7 @@ public class PlayerData {
 	}
 
 	private void loadDataFromConfig() {
-		String path = "player-data." + uhcPlayer.getUUID();
+		final String path = "player-data." + uhcPlayer.getUUID();
 		this.playerName = playerData.getString(path + ".name");
 		this.money = playerData.getDouble(path + ".money", GameValues.STATISTICS.STARTING_MONEY);
 		this.uhcLevel = playerData.getInt(path + ".uhc-level", GameValues.ERROR_INT_VALUE);
@@ -145,7 +145,7 @@ public class PlayerData {
 		return money;
 	}
 
-	public void depositMoney(double amount) {
+	public void depositMoney(final double amount) {
 		if (plugin.getVaultHook().hasEconomy()) {
 			plugin.getVaultHook().deposit(uhcPlayer.getName(), amount);
 			return;
@@ -159,12 +159,12 @@ public class PlayerData {
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	public void withdrawMoney(double amount) {
+	public void withdrawMoney(final double amount) {
 		if (plugin.getVaultHook().hasEconomy()) {
 			plugin.getVaultHook().withdraw(uhcPlayer.getName(), amount);
 			return;
 		}
-		money -= amount;
+		this.money -= amount;
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setMoney(uhcPlayer.getUUID(), money);
 			return;
@@ -173,7 +173,7 @@ public class PlayerData {
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	private boolean hasEnoughMoney(double amount) {
+	private boolean hasEnoughMoney(final double amount) {
 		return getMoney() >= amount;
 	}
 
@@ -196,9 +196,9 @@ public class PlayerData {
 	}
 
 	private void addWin() {
-		wins++;
-		double money = GameValues.REWARDS.COINS_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
-		double uhcExp = GameValues.REWARDS.UHC_EXP_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
+		this.wins++;
+		final double money = GameValues.REWARDS.COINS_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
+		final double uhcExp = GameValues.REWARDS.UHC_EXP_FOR_WIN * GameValues.REWARDS.MULTIPLIER;
 
 		uhcPlayer.addMoneyForGameResult(money);
 		uhcPlayer.addUHCExpForGameResult(uhcExp);
@@ -218,8 +218,8 @@ public class PlayerData {
 
 	private void addLose() {
 		losses++;
-		double money = GameValues.REWARDS.COINS_FOR_LOSE;
-		double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
+		final double money = GameValues.REWARDS.COINS_FOR_LOSE;
+		final double exp = GameValues.REWARDS.UHC_EXP_FOR_LOSE;
 
 		uhcPlayer.addMoneyForGameResult(money);
 		uhcPlayer.addUHCExpForGameResult(exp);
@@ -237,9 +237,9 @@ public class PlayerData {
 		return kills;
 	}
 
-	private void addKills(int amount) {
-		double money = GameValues.REWARDS.COINS_FOR_KILL;
-		double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
+	private void addKills(final int amount) {
+		final double money = GameValues.REWARDS.COINS_FOR_KILL;
+		final double exp = GameValues.REWARDS.UHC_EXP_FOR_KILL;
 
 		uhcPlayer.addMoneyForKills(money);
 		uhcPlayer.addUHCExpForKills(exp);
@@ -257,7 +257,7 @@ public class PlayerData {
 		return killstreak;
 	}
 
-	private void setKillstreak(int amount) {
+	private void setKillstreak(final int amount) {
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setKillstreak(uhcPlayer.getUUID(), amount);
 			return;
@@ -270,9 +270,9 @@ public class PlayerData {
 		return assists;
 	}
 
-	private void addAssists(int amount) {
-		double money = GameValues.REWARDS.COINS_FOR_ASSIST;
-		double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
+	private void addAssists(final int amount) {
+		final double money = GameValues.REWARDS.COINS_FOR_ASSIST;
+		final double exp = GameValues.REWARDS.UHC_EXP_FOR_ASSIST;
 
 		uhcPlayer.addMoneyForAssists(money);
 		uhcPlayer.addUHCExpForAssists(exp);
@@ -292,7 +292,7 @@ public class PlayerData {
 		return deaths;
 	}
 
-	private void addDeaths(int amount) {
+	private void addDeaths(final int amount) {
 
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().addDeath(uhcPlayer.getUUID(), amount);
@@ -303,7 +303,7 @@ public class PlayerData {
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	public void buyKit(Kit kit) {
+	public void buyKit(final Kit kit) {
 		if (!kit.isFree() && !hasEnoughMoney(kit.getCost())) {
 			uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
 			return;
@@ -311,20 +311,20 @@ public class PlayerData {
 		boughtKitsList.add(kit);
 		withdrawMoney(kit.getCost());
 		saveKits();
-		String kitCost = String.valueOf(kit.getCost());
-		String money = String.valueOf(getMoney());
-		String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
+		final String kitCost = String.valueOf(kit.getCost());
+		final String money = String.valueOf(getMoney());
+		final String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
 		uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString(), "%previous-money%", prevMoney, "%money%", money, "%kit%", kit.getDisplayName(), "%kit-cost%", kitCost);
 		uhcPlayer.setKit(kit);
 		gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
 	}
 
-	public boolean hasKitBought(Kit kit) {
+	public boolean hasKitBought(final Kit kit) {
 		return boughtKitsList.contains(kit);
 	}
 
 	private void loadBoughtKits() {
-		List<String> boughtKitsList;
+		final List<String> boughtKitsList;
 
 		if (gameManager.isDatabaseConnected()) {
 			boughtKitsList = gameManager.getDatabase().getBoughtKits(uhcPlayer.getUUID());
@@ -332,8 +332,8 @@ public class PlayerData {
 			boughtKitsList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
 		}
 
-		for (String kitName : boughtKitsList) {
-			Kit kit = gameManager.getKitsManager().getKit(kitName);
+		for (final String kitName : boughtKitsList) {
+			final Kit kit = gameManager.getKitsManager().getKit(kitName);
 			if (kit != null) this.boughtKitsList.add(kit);
 		}
 	}
@@ -343,7 +343,7 @@ public class PlayerData {
 	}
 
 	private void saveKits() {
-		List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
+		final List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
 
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setBoughtKits(uhcPlayer.getUUID(), kitsNameList.toString().replace("[", "").replace("]", ""));
@@ -354,7 +354,7 @@ public class PlayerData {
 		gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 	}
 
-	public void buyPerk(Perk perk) {
+	public void buyPerk(final Perk perk) {
 		if (!perk.isFree() && !hasEnoughMoney(perk.getCost())) {
 			uhcPlayer.sendMessage(Messages.NO_MONEY.toString());
 			return;
@@ -362,20 +362,20 @@ public class PlayerData {
 		boughtPerksList.add(perk);
 		withdrawMoney(perk.getCost());
 		savePerks();
-		String perkCost = String.valueOf(perk.getCost());
-		String money = String.valueOf(getMoney());
-		String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + perk.getCost());
+		final String perkCost = String.valueOf(perk.getCost());
+		final String money = String.valueOf(getMoney());
+		final String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + perk.getCost());
 		uhcPlayer.sendMessage(Messages.PERKS_MONEY_DEDUCT.toString().toString(), "%previous-money%", prevMoney, "%money%", money, "%perk%", perk.getDisplayName(), "%perk-cost%", perkCost);
 		uhcPlayer.setPerk(perk);
 		gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
 	}
 
-	public boolean hasPerkBought(Perk perk) {
+	public boolean hasPerkBought(final Perk perk) {
 		return boughtPerksList.contains(perk);
 	}
 
 	private void loadBoughtPerks() {
-		List<String> boughtPerksList;
+		final List<String> boughtPerksList;
 
 		if (gameManager.isDatabaseConnected()) {
 			boughtPerksList = gameManager.getDatabase().getBoughtPerks(uhcPlayer.getUUID());
@@ -383,8 +383,8 @@ public class PlayerData {
 			boughtPerksList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".perks");
 		}
 
-		for (String perkName : boughtPerksList) {
-			Perk perk = gameManager.getPerksManager().getPerk(perkName);
+		for (final String perkName : boughtPerksList) {
+			final Perk perk = gameManager.getPerksManager().getPerk(perkName);
 			if (perk != null) this.boughtPerksList.add(perk);
 		}
 	}
@@ -394,7 +394,7 @@ public class PlayerData {
 	}
 
 	private void savePerks() {
-		List<String> perksNameList = boughtPerksList.stream().map(Perk::getName).collect(Collectors.toList());
+		final List<String> perksNameList = boughtPerksList.stream().map(Perk::getName).collect(Collectors.toList());
 
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setBoughtPerks(uhcPlayer.getUUID(), perksNameList.toString().replace("[", "").replace("]", ""));
@@ -415,7 +415,7 @@ public class PlayerData {
 	}*/
 
 	/* UHC Level System */
-	public void addUHCExp(double amount) {
+	public void addUHCExp(final double amount) {
 		uhcExp += amount;
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().addUHCExp(uhcPlayer.getUUID(), amount);
@@ -434,9 +434,9 @@ public class PlayerData {
 
 	private void increaseUHCLevel() {
 		uhcExp -= requiredUhcExp;
-		int previousLevel = uhcLevel;
+		final int previousLevel = uhcLevel;
 		uhcLevel++;
-		int newLevel = uhcLevel;
+		final int newLevel = uhcLevel;
 		requiredUhcExp = setRequiredUHCExp();
 
 		if (gameManager.isDatabaseConnected()) {
@@ -450,7 +450,7 @@ public class PlayerData {
 			gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 		}
 
-		double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * uhcLevel;
+		final double reward = GameValues.REWARDS.BASE_REWARD * GameValues.REWARDS.REWARD_COEFFICIENT * uhcLevel;
 		depositMoney(reward);
 		if (uhcPlayer.getPlayer() != null) {
 			gameManager.getSoundManager().playUHCLevelUpSound(uhcPlayer.getPlayer());
@@ -505,7 +505,7 @@ public class PlayerData {
 	}
 
 	public void showStatistics() {
-		List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
+		final List<String> rewards = uhcPlayer.isWinner() ? Messages.REWARDS_WIN.toList() : Messages.REWARDS_LOSE.toList();
 
 		for (String message : rewards) {
 			message = PlaceholderUtil.setPlaceholders(message, uhcPlayer.getPlayer());
@@ -514,8 +514,8 @@ public class PlayerData {
 	}
 
 	public void addActivityRewards() {
-		double money = GameValues.ACTIVITY_REWARDS.MONEY;
-		double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
+		final double money = GameValues.ACTIVITY_REWARDS.MONEY;
+		final double uhcExp = GameValues.ACTIVITY_REWARDS.EXP;
 
 		uhcPlayer.addMoneyForActivity(money);
 		uhcPlayer.addUHCExpForActivity(uhcExp);

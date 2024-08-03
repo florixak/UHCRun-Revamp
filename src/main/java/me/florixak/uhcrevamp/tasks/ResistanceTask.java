@@ -12,7 +12,7 @@ public class ResistanceTask extends BukkitRunnable {
 	private final GameManager gameManager;
 	private int countdown;
 
-	public ResistanceTask(GameManager gameManager) {
+	public ResistanceTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.countdown = GameValues.GAME.RESISTANCE_COUNTDOWN;
 	}

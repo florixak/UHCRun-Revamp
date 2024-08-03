@@ -19,8 +19,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.UUID;
 
 public class UHCPlayer {
 
@@ -36,13 +36,12 @@ public class UHCPlayer {
 	private UHCTeam team;
 	private boolean hasWon = false;
 	private long timePlayed;
-	private final Map<UUID, Long> damageTrackers = new HashMap<>();
 	private Location spawnLoc;
 
 	private double moneyForGameResult = 0, moneyForKills = 0, moneyForAssists = 0, moneyForActivity = 0;
 	private double uhcExpForGameResult = 0, uhcExpForKills = 0, uhcExpForAssists = 0, uhcExpForActivity = 0;
 
-	public UHCPlayer(UUID uuid, String name) {
+	public UHCPlayer(final UUID uuid, final String name) {
 		this.uuid = uuid;
 		this.name = name;
 		this.data = new PlayerData(this);
@@ -65,11 +64,11 @@ public class UHCPlayer {
 	}
 
 	public boolean isOnline() {
-		Player player = Bukkit.getPlayer(this.uuid);
+		final Player player = Bukkit.getPlayer(this.uuid);
 		return player != null;
 	}
 
-	public void setState(PlayerState state) {
+	public void setState(final PlayerState state) {
 		if (state == this.state) return;
 		this.state = state;
 	}
@@ -82,7 +81,7 @@ public class UHCPlayer {
 		return this.data;
 	}
 
-	public void setWinner(boolean win) {
+	public void setWinner(final boolean win) {
 		if (this.hasWon == win) return;
 		this.hasWon = win;
 	}
@@ -103,7 +102,7 @@ public class UHCPlayer {
 		return getState() == PlayerState.SPECTATOR || getState() == PlayerState.DEAD;
 	}
 
-	public void setTeam(UHCTeam team) {
+	public void setTeam(final UHCTeam team) {
 		this.team = team;
 	}
 
@@ -139,7 +138,7 @@ public class UHCPlayer {
 		return this.kit;
 	}
 
-	public void setKit(Kit kit) {
+	public void setKit(final Kit kit) {
 		if (this.kit != kit) {
 			this.kit = kit;
 			sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
@@ -155,7 +154,7 @@ public class UHCPlayer {
 		return this.perk;
 	}
 
-	public void setPerk(Perk perk) {
+	public void setPerk(final Perk perk) {
 		if (this.perk != perk) {
 			this.perk = perk;
 			sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
@@ -163,7 +162,7 @@ public class UHCPlayer {
 		}
 	}
 
-	public void setSpawnLocation(Location spawnLoc) {
+	public void setSpawnLocation(final Location spawnLoc) {
 		this.spawnLoc = spawnLoc;
 	}
 
@@ -175,7 +174,7 @@ public class UHCPlayer {
 		return this.timePlayed;
 	}
 
-	public void addTimePlayed(long time) {
+	public void addTimePlayed(final long time) {
 		this.timePlayed += time;
 	}
 
@@ -191,6 +190,32 @@ public class UHCPlayer {
 
 		//if (kit != null) getKit().giveKit(this);
 		teleport(spawnLoc == null ? TeleportUtils.getSafeLocation() : spawnLoc);
+	}
+
+	public void kill(final UHCPlayer victim) {
+		if (victim == null) return;
+
+		addKill();
+
+		getPlayer().giveExp((int) GameValues.REWARDS.EXP_FOR_KILL);
+		if (hasPerk()) {
+			getPerk().givePerk(this);
+		}
+		sendMessage(Messages.REWARDS_KILL.toString()
+				.replace("%player%", victim.getName())
+				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
+				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
+	}
+
+	public void assist(final UHCPlayer victim) {
+		if (victim == null) return;
+
+		addAssist();
+
+		sendMessage(Messages.REWARDS_ASSIST.toString()
+				.replace("%player%", victim.getName())
+				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
+				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
 	}
 
 	public void die() {
@@ -216,52 +241,35 @@ public class UHCPlayer {
 		teleport(new Location(Bukkit.getWorld(GameValues.WORLD_NAME), 0, 100, 0));
 	}
 
-
-	//    Assists
-	public void addDamage(UUID damager, long time) {
-		damageTrackers.put(damager, time);
-	}
-
-	public List<UUID> getAssistants(long deathTime, long assistWindow, UUID killer) {
-		return damageTrackers.entrySet().stream()
-				.filter(entry -> entry.getValue() + assistWindow > deathTime && !entry.getKey().equals(killer))
-				.map(Map.Entry::getKey)
-				.collect(Collectors.toList());
-	}
-
-	public void clearDamageTrackers() {
-		damageTrackers.clear();
-	}
-
-	public void addMoneyForGameResult(double money) {
+	public void addMoneyForGameResult(final double money) {
 		this.moneyForGameResult += money;
 	}
 
-	public void addMoneyForKills(double money) {
+	public void addMoneyForKills(final double money) {
 		this.moneyForKills += money;
 	}
 
-	public void addMoneyForAssists(double money) {
+	public void addMoneyForAssists(final double money) {
 		this.moneyForAssists += money;
 	}
 
-	public void addMoneyForActivity(double money) {
+	public void addMoneyForActivity(final double money) {
 		this.moneyForActivity += money;
 	}
 
-	public void addUHCExpForGameResult(double uhcExp) {
+	public void addUHCExpForGameResult(final double uhcExp) {
 		this.uhcExpForGameResult += uhcExp;
 	}
 
-	public void addUHCExpForKills(double uhcExp) {
+	public void addUHCExpForKills(final double uhcExp) {
 		this.uhcExpForKills += uhcExp;
 	}
 
-	public void addUHCExpForAssists(double uhcExp) {
+	public void addUHCExpForAssists(final double uhcExp) {
 		this.uhcExpForAssists += uhcExp;
 	}
 
-	public void addUHCExpForActivity(double uhcExp) {
+	public void addUHCExpForActivity(final double uhcExp) {
 		this.uhcExpForActivity += uhcExp;
 	}
 
@@ -297,11 +305,11 @@ public class UHCPlayer {
 		return uhcExpForActivity;
 	}
 
-	public boolean hasPermission(String permission) {
+	public boolean hasPermission(final String permission) {
 		return getPlayer().hasPermission(permission);
 	}
 
-	public void teleport(Location loc) {
+	public void teleport(final Location loc) {
 		if (loc == null) return;
 		getPlayer().teleport(loc);
 	}
@@ -310,43 +318,43 @@ public class UHCPlayer {
 		getPlayer().getInventory().clear();
 
 		//clear player armor
-		ItemStack[] emptyArmor = new ItemStack[4];
+		final ItemStack[] emptyArmor = new ItemStack[4];
 		for (int i = 0; i < emptyArmor.length; i++) {
 			emptyArmor[i] = new ItemStack(Material.AIR);
 		}
 		getPlayer().getInventory().setArmorContents(emptyArmor);
 	}
 
-	public void giveExp(int exp) {
+	public void giveExp(final int exp) {
 		getPlayer().giveExp(exp);
 	}
 
-	public void addEffect(XPotion potion, int duration, int level) {
+	public void addEffect(final XPotion potion, final int duration, final int level) {
 		getPlayer().addPotionEffect(Objects.requireNonNull(potion.buildPotionEffect(duration * 20, level), "Cannot create potion from null."));
 	}
 
 	public void clearPotions() {
 //		getPlayer().getActivePotionEffects().clear();
-		for (PotionEffect effect : getPlayer().getActivePotionEffects()) {
+		for (final PotionEffect effect : getPlayer().getActivePotionEffects()) {
 			getPlayer().removePotionEffect(effect.getType());
 		}
 	}
 
-	public void kick(String message) {
+	public void kick(final String message) {
 		if (message == null || message.isEmpty() || !isOnline()) return;
 		getPlayer().kickPlayer(TextUtils.color(message));
 	}
 
-	public void setGameMode(GameMode gameMode) {
+	public void setGameMode(final GameMode gameMode) {
 		getPlayer().setGameMode(gameMode);
 	}
 
-	public void sendMessage(String message) {
+	public void sendMessage(final String message) {
 		if (message == null || message.isEmpty() || !isOnline()) return;
 		getPlayer().sendMessage(TextUtils.color(message));
 	}
 
-	public void sendMessage(String message, String... replacements) {
+	public void sendMessage(final String message, final String... replacements) {
 		if (message == null || message.isEmpty() || !isOnline() || replacements.length % 2 != 0) return;
 
 		String messageToSend = TextUtils.color(message);
@@ -356,7 +364,7 @@ public class UHCPlayer {
 		sendMessage(messageToSend);
 	}
 
-	public void openInventory(Inventory inventory) {
+	public void openInventory(final Inventory inventory) {
 		getPlayer().openInventory(inventory);
 	}
 
@@ -364,7 +372,7 @@ public class UHCPlayer {
 		getPlayer().closeInventory();
 	}
 
-	public void sendHotBarMessage(String message) {
+	public void sendHotBarMessage(final String message) {
 		if (message == null || message.isEmpty() || !isOnline()) return;
 		NMSUtils.sendHotBarMessageViaNMS(getPlayer(), TextUtils.color(message));
 	}
@@ -384,7 +392,6 @@ public class UHCPlayer {
 		this.team = null;
 		this.spawnLoc = null;
 		this.timePlayed = 0;
-		this.damageTrackers.clear();
 		this.moneyForGameResult = 0;
 		this.moneyForKills = 0;
 		this.moneyForAssists = 0;
@@ -393,5 +400,14 @@ public class UHCPlayer {
 		this.uhcExpForKills = 0;
 		this.uhcExpForAssists = 0;
 		this.uhcExpForActivity = 0;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj instanceof UHCPlayer) {
+			final UHCPlayer player = (UHCPlayer) obj;
+			return player.getUUID().equals(this.getUUID());
+		}
+		return false;
 	}
 }

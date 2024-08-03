@@ -12,42 +12,42 @@ import java.util.Set;
 
 public class NearestSolidBlockFinder {
 
-    private static final Vector[] DIRECTIONS = {
-            new Vector(1, 0, 0), new Vector(-1, 0, 0),
-            new Vector(0, 1, 0), new Vector(0, -1, 0),
-            new Vector(0, 0, 1), new Vector(0, 0, -1)
-    };
+	private static final Vector[] DIRECTIONS = {
+			new Vector(1, 0, 0), new Vector(-1, 0, 0),
+			new Vector(0, 1, 0), new Vector(0, -1, 0),
+			new Vector(0, 0, 1), new Vector(0, 0, -1)
+	};
 
-    public static Block findNearestSolidBlock(Block startBlock) {
-        if (startBlock == null) return null;
+	public static Block findNearestSolidBlock(final Block startBlock) {
+		if (startBlock == null) return null;
 
-        Queue<Block> queue = new LinkedList<>();
-        Set<Block> visited = new HashSet<>();
+		final Queue<Block> queue = new LinkedList<>();
+		final Set<Block> visited = new HashSet<>();
 
-        queue.add(startBlock);
-        visited.add(startBlock);
+		queue.add(startBlock);
+		visited.add(startBlock);
 
-        while (!queue.isEmpty()) {
-            Block currentBlock = queue.poll();
+		while (!queue.isEmpty()) {
+			final Block currentBlock = queue.poll();
 
-            if (isSolid(currentBlock)) {
-                return currentBlock;
-            }
+			if (isSolid(currentBlock)) {
+				return currentBlock;
+			}
 
-            for (Vector direction : DIRECTIONS) {
-                Block adjacentBlock = currentBlock.getRelative(direction.getBlockX(), direction.getBlockY(), direction.getBlockZ());
-                if (!visited.contains(adjacentBlock)) {
-                    queue.add(adjacentBlock);
-                    visited.add(adjacentBlock);
-                }
-            }
-        }
+			for (final Vector direction : DIRECTIONS) {
+				final Block adjacentBlock = currentBlock.getRelative(direction.getBlockX(), direction.getBlockY(), direction.getBlockZ());
+				if (!visited.contains(adjacentBlock)) {
+					queue.add(adjacentBlock);
+					visited.add(adjacentBlock);
+				}
+			}
+		}
 
-        return null; // No solid block found
-    }
+		return null; // No solid block found
+	}
 
-    private static boolean isSolid(Block block) {
-        Material type = block.getType();
-        return type.isSolid() && type != XMaterial.WATER.parseMaterial() && type != XMaterial.AIR.parseMaterial() && type != XMaterial.CAVE_AIR.parseMaterial() && type != XMaterial.VOID_AIR.parseMaterial();
-    }
+	private static boolean isSolid(final Block block) {
+		final Material type = block.getType();
+		return type.isSolid() && type != XMaterial.WATER.parseMaterial() && type != XMaterial.AIR.parseMaterial() && type != XMaterial.CAVE_AIR.parseMaterial() && type != XMaterial.VOID_AIR.parseMaterial();
+	}
 }

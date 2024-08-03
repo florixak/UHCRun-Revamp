@@ -13,7 +13,7 @@ public class LobbyManager {
 	private final String waitingLobbyName;
 	private final String endingLobbyName;
 
-	public LobbyManager(GameManager gameManager) {
+	public LobbyManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 		waitingLobbyName = config.getString("settings.lobby.waiting.world", "UHCWaitingLobby");
@@ -40,7 +40,7 @@ public class LobbyManager {
 		}
 	}
 
-	public void setWaitingLobbyLocation(Location location) {
+	public void setWaitingLobbyLocation(final Location location) {
 		config.set("settings.lobby.waiting.world", location.getWorld().getName());
 		config.set("settings.lobby.waiting.x", location.getX());
 		config.set("settings.lobby.waiting.y", location.getY());
@@ -71,7 +71,7 @@ public class LobbyManager {
 		);
 	}
 
-	public void setEndingLobbyLocation(Location location) {
+	public void setEndingLobbyLocation(final Location location) {
 		config.set("settings.lobby.ending.world", location.getWorld().getName());
 		config.set("settings.lobby.ending.x", location.getX());
 		config.set("settings.lobby.ending.y", location.getY());

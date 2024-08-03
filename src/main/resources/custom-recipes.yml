@@ -125,6 +125,19 @@ custom-recipes:
     ingredients:
       A: IRON_INGOT
       B: STICK
+  '&fPower Bow':
+    result: BOW
+    durability: 192
+    enchantments:
+      POWER: 1
+    shape:
+      - " A "
+      - "ACB"
+      - " A "
+    ingredients:
+      A: STICK
+      B: STRING
+      C: ARROW
   '&fArrow Bundle':
     result: ARROW
     amount: 16
@@ -136,7 +149,7 @@ custom-recipes:
       A: FLINT
       B: STICK
       C: FEATHER
-  '&5Light Bookshelf':
+  '&fLight Bookshelf':
     result: BOOKSHELF
     amount: 1
     shape:
@@ -146,7 +159,7 @@ custom-recipes:
     ingredients:
       A: BOOK
       B: WOOD_PLANKS
-  '&5Light Enchanting Table':
+  '&fLight Enchanting Table':
     result: ENCHANTING_TABLE
     amount: 1
     shape:
@@ -182,7 +195,7 @@ custom-recipes:
       A: GLASS_BOTTLE
       B: NETHER_WART
       C: BLAZE_POWDER
-  '&fPyroman':
+  '&fPyro Sword':
     result: WOODEN_SWORD
     durability: 50
     enchantments:

@@ -1,14 +1,52 @@
-# Here you can edit game messages
+# Configuration for messages, here you can change all the messages
 
+# You can use placeholders in messages
 # -----------------------------------------
 # If you want to use color codes use & symbol
 # And if replace does not work, it means that it is not supported for that message
-# %prefix% - prefix
-# %player% - player name
-# %online% - current online number
-# %countdown% - countdown in phase
-# %money% - money for action (not for all)
+# Placeholder Information
+# The following placeholders can be used by players:
+# %player% - The player's name
+# %uhc-level% - The player's UHC level
+# %uhc-exp% - The player's UHC experience points
+# %required-uhc-exp% - The required UHC experience points for the next level
+# %money% - The player's money
+# %uhc-wins% - The player's UHC wins
+# %uhc-losses% - The player's UHC losses
+# %uhc-kills% - The player's UHC kills
+# %uhc-assists% - The player's UHC assists
+# %uhc-deaths% - The player's UHC deaths
+# %uhc-games-played% - The number of UHC games the player has played
+# %uhc-killstreak% - The player's highest UHC killstreak
+# %ping% - The player's ping
+# %kills% - The player's kills in the current game
+# %assists% - The player's assists in the current game
+# %kit% - The player's selected kit
+# %perk% - The player's selected perk
+# %team% - The player's team name
+# %luckperms-prefix% - The player's LuckPerms prefix - Requires LuckPerms plugin
+# %money-for-game% - The money earned by the player for the game result
+# %money-for-kills% - The money earned by the player for kills
+# %money-for-assists% - The money earned by the player for assists
+# %money-for-activity% - The money earned by the player for activity
+# %uhc-exp-for-game% - The UHC experience points earned by the player for the game result
+# %uhc-exp-for-kills% - The UHC experience points earned by the player for kills
+# %uhc-exp-for-assists% - The UHC experience points earned by the player for assists
+# %uhc-exp-for-activity% - The UHC experience points earned by the player for activity
+# %online% - The number of online players
+# %max-online% - The maximum number of players allowed online
+# %players-to-start% - The number of players required to start the game
+# %currency% - The currency symbol or name
+# %countdown% - The formatted countdown time
+# %border% - The current border size
+# %alive% - The number of alive players
+# %dead% - The number of dead players
+# %spectators% - The number of spectator players
+# %winner% - The name of the winning player or team
+# %scoreboard-footer% - The footer text of the scoreboard
+# %game-mode% - The current game mode (solo or teams)
 # -----------------------------------------
+
 
 Messages:
   prefix: "&2UHC&aRevamp"
@@ -31,7 +69,7 @@ Messages:
 
     kick-due-reserved-slot: "You were kicked because player with reserved slot joined!"
 
-    kill: "&6[†] &f%player% wak killed by %killer%!"
+    kill: "&6[†] &f%player% was killed by %killer%!"
     new-killstreak: "&6[!] &fCongratulations! You broke your killstreak with %kills% kills!"
     death: "&6[†] &f%player% died!"
 
@@ -88,7 +126,7 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fCoins for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (kit %kit%)"
+    money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (kit %kit%&f)"
 
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
@@ -99,7 +137,11 @@ Messages:
     scoreboard-disabled: "Disabled"
     selected-none: "None"
     money-deduct-info: "&e[!] &fMoney for kit will be deducted after game starts!"
-    money-deduct: "&e[!] &f%previous-money% - %perk-cost% = %money% %currency% (Perk %perk%)"
+    money-deduct: "&e[!] &f%previous-money% - %perk-cost% = %money% %currency% (Perk %perk%&f)"
+    received:
+      effect: "&a[!] &fObtained %effect% %effect-level% for %effect-duration% seconds!"
+      item: "&a[!] &fYou got lucky! You have received %item%!"
+      bonus: "&a[!] &f+%bonus-coins% %currency%, +%bonus-uhc-exp% UHC exp and +%bonus-exp% exp!"
 
   rewards:
     win:

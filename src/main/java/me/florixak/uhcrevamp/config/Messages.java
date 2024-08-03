@@ -91,6 +91,9 @@ public enum Messages {
 	PERKS_MONEY_DEDUCT_INFO("perks.money-deduct-info"),
 	PERKS_MONEY_DEDUCT("perks.money-deduct"),
 	PERKS_COST("perks.cost"),
+	PERKS_EFFECT_RECEIVED("perks.received.effect"),
+	PERKS_ITEM_RECEIVED("perks.received.item"),
+	PERKS_BONUS_RECEIVED("perks.received.bonus"),
 
 	LEVEL_UP("player.uhc-level.level-up"),
 
@@ -116,26 +119,26 @@ public enum Messages {
 	SETUP_RESET_DEATHMATCH("setup.deathmatch-reset");
 
 	private static FileConfiguration config;
-	private String path;
+	private final String path;
 
-	Messages(String path) {
+	Messages(final String path) {
 		this.path = path;
 	}
 
-	public static void setConfiguration(FileConfiguration c) {
+	public static void setConfiguration(final FileConfiguration c) {
 		config = c;
 	}
 
 	@Override
 	public String toString() {
-		String message = config.getString("Messages." + this.path);
+		final String message = config.getString("Messages." + this.path);
 
 		if (message == null || message.isEmpty()) {
 			return TextUtils.color("&cMessage not found! &7(" + this.path + ")");
 		}
 
-		String prefix = config.getString("Messages." + PREFIX.getPath());
-		String currency = config.getString("Messages." + CURRENCY.getPath());
+		final String prefix = config.getString("Messages." + PREFIX.getPath());
+		final String currency = config.getString("Messages." + CURRENCY.getPath());
 		return TextUtils.color(message
 				.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : "")
 				.replace("%currency%", currency != null && !currency.isEmpty() ? currency : "")
@@ -160,10 +163,10 @@ public enum Messages {
     }*/
 
 	public List<String> toList() {
-		List<String> messages = new ArrayList<>();
+		final List<String> messages = new ArrayList<>();
 
-		String prefix = config.getString("Messages." + PREFIX.getPath());
-		for (String message : config.getStringList("Messages." + this.path)) {
+		final String prefix = config.getString("Messages." + PREFIX.getPath());
+		for (final String message : config.getStringList("Messages." + this.path)) {
 			if (message != null && !message.isEmpty()) {
 				messages.add(TextUtils.color(message
 						.replace("%prefix%", prefix != null && !prefix.isEmpty() ? prefix : "")));

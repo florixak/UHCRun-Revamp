@@ -29,9 +29,9 @@ public class ItemUtils {
 	 * @param lore     The lore of the item.
 	 * @return The created ItemStack.
 	 */
-	public static ItemStack createItem(Material material, String name, int amount, List<String> lore) {
-		ItemStack item = new ItemStack(material);
-		ItemMeta meta = item.getItemMeta();
+	public static ItemStack createItem(final Material material, final String name, int amount, final List<String> lore) {
+		final ItemStack item = new ItemStack(material);
+		final ItemMeta meta = item.getItemMeta();
 		if (meta == null) return item;
 
 		if (name != null) meta.setDisplayName(TextUtils.color(name));
@@ -48,7 +48,7 @@ public class ItemUtils {
 	 * @param item The ItemStack to check.
 	 * @return True if the item has meta, false otherwise.
 	 */
-	public static boolean hasItemMeta(ItemStack item) {
+	public static boolean hasItemMeta(final ItemStack item) {
 		return item.hasItemMeta();
 	}
 
@@ -58,8 +58,8 @@ public class ItemUtils {
 	 * @param item       The leather armor ItemStack.
 	 * @param armorColor The color to set.
 	 */
-	public static void setArmorItemMeta(ItemStack item, Color armorColor) {
-		LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+	public static void setArmorItemMeta(final ItemStack item, final Color armorColor) {
+		final LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
 		if (armorColor != null) meta.setColor(armorColor);
 		item.setItemMeta(meta);
 	}
@@ -71,7 +71,7 @@ public class ItemUtils {
 	 * @param enchantment  The enchantment to add.
 	 * @param enchantLevel The level of the enchantment.
 	 */
-	public static void addEnchant(ItemStack item, Enchantment enchantment, int enchantLevel) {
+	public static void addEnchant(final ItemStack item, final Enchantment enchantment, final int enchantLevel) {
 		item.addUnsafeEnchantment(enchantment, enchantLevel);
 	}
 
@@ -82,8 +82,8 @@ public class ItemUtils {
 	 * @param enchantment  The enchantment to add.
 	 * @param enchantLevel The level of the enchantment.
 	 */
-	public static void addBookEnchantment(ItemStack item, Enchantment enchantment, int enchantLevel) {
-		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+	public static void addBookEnchantment(final ItemStack item, final Enchantment enchantment, final int enchantLevel) {
+		final EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 		meta.addStoredEnchant(enchantment, enchantLevel, true);
 		item.setItemMeta(meta);
 	}
@@ -93,8 +93,8 @@ public class ItemUtils {
 	 *
 	 * @param item The ItemStack to add the glow effect to.
 	 */
-	public static void addGlow(ItemStack item) {
-		ItemMeta meta = item.getItemMeta();
+	public static void addGlow(final ItemStack item) {
+		final ItemMeta meta = item.getItemMeta();
 		meta.addEnchant(XEnchantment.UNBREAKING.getEnchant(), 1, false);
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		item.setItemMeta(meta);
@@ -105,8 +105,8 @@ public class ItemUtils {
 	 *
 	 * @param item The ItemStack to remove attributes from.
 	 */
-	public static void removeAttributes(ItemStack item) {
-		ItemMeta meta = item.getItemMeta();
+	public static void removeAttributes(final ItemStack item) {
+		final ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		item.setItemMeta(meta);
 	}
@@ -117,9 +117,9 @@ public class ItemUtils {
 	 * @param item The ItemStack to get enchantments from.
 	 * @return A list of enchantments on the item.
 	 */
-	public static List<Enchantment> getEnchantments(ItemStack item) {
-		List<Enchantment> enchantments = new ArrayList<>();
-		for (Enchantment enchant : item.getEnchantments().keySet()) {
+	public static List<Enchantment> getEnchantments(final ItemStack item) {
+		final List<Enchantment> enchantments = new ArrayList<>();
+		for (final Enchantment enchant : item.getEnchantments().keySet()) {
 			enchantments.add(enchant);
 		}
 		return enchantments;
@@ -133,13 +133,13 @@ public class ItemUtils {
 	 * @param line2 The second line of lore.
 	 * @param line3 The third line of lore.
 	 */
-	public static void addLore(ItemStack item, String line1, String line2, String line3) {
-		List<String> lore = new ArrayList<>();
+	public static void addLore(final ItemStack item, final String line1, final String line2, final String line3) {
+		final List<String> lore = new ArrayList<>();
 		if (line1 != null) lore.add(TextUtils.color(line1));
 		if (line2 != null) lore.add(TextUtils.color(line2));
 		if (line3 != null) lore.add(TextUtils.color(line3));
 
-		ItemMeta meta = item.getItemMeta();
+		final ItemMeta meta = item.getItemMeta();
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 	}
@@ -154,15 +154,15 @@ public class ItemUtils {
 	 * @param amplifier  The amplifier of the effect (starting from 1).
 	 * @return The created potion ItemStack.
 	 */
-	public static ItemStack createPotionItem(PotionEffectType effectType, String customName, int amount, int duration, int amplifier, boolean splash) {
-		Material potionMaterial = splash ? XMaterial.SPLASH_POTION.parseMaterial() : XMaterial.POTION.parseMaterial();
-		ItemStack potion = new ItemStack(potionMaterial, amount);
-		PotionMeta meta = (PotionMeta) potion.getItemMeta();
+	public static ItemStack createPotionItem(final PotionEffectType effectType, final String customName, final int amount, final int duration, final int amplifier, final boolean splash) {
+		final Material potionMaterial = splash ? XMaterial.SPLASH_POTION.parseMaterial() : XMaterial.POTION.parseMaterial();
+		final ItemStack potion = new ItemStack(potionMaterial, amount);
+		final PotionMeta meta = (PotionMeta) potion.getItemMeta();
 
 		if (meta != null) {
 			if (customName != null && !customName.isEmpty()) {
 				meta.setDisplayName(TextUtils.color("&f" + customName));
-				ArrayList<String> lore = new ArrayList<>();
+				final ArrayList<String> lore = new ArrayList<>();
 				lore.add(TextUtils.color("&7" + TextUtils.toNormalCamelText(XPotion.matchXPotion(effectType).name()) + " " + (amplifier) + " (" + (duration) + "s)"));
 				meta.setLore(lore);
 			} else
@@ -180,11 +180,11 @@ public class ItemUtils {
 	 * @param item The ItemStack to check.
 	 * @return True if the item is a potion, false otherwise.
 	 */
-	public static boolean isPotion(ItemStack item) {
+	public static boolean isPotion(final ItemStack item) {
 		if (item == null) {
 			return false;
 		}
-		Material type = XMaterial.matchXMaterial(item).parseMaterial();
+		final Material type = XMaterial.matchXMaterial(item).parseMaterial();
 		return type == XMaterial.POTION.parseMaterial() || type == XMaterial.SPLASH_POTION.parseMaterial() || type == XMaterial.LINGERING_POTION.parseMaterial();
 	}
 
@@ -194,7 +194,7 @@ public class ItemUtils {
 	 * @param effectType The potion effect type.
 	 * @return The color associated with the potion effect type.
 	 */
-	public static Color getPotionColor(PotionEffectType effectType) {
+	public static Color getPotionColor(final PotionEffectType effectType) {
 		if (effectType == null) return Color.WHITE;
 
 		switch (effectType.getName().toUpperCase()) {
@@ -255,7 +255,7 @@ public class ItemUtils {
 	 * @param item The ItemStack to get attack damage from.
 	 * @return The attack damage of the item.
 	 */
-	public static double getAttackDamage(ItemStack item) {
+	public static double getAttackDamage(final ItemStack item) {
 		switch (XMaterial.matchXMaterial(item)) {
 			default:
 				return 0.25;

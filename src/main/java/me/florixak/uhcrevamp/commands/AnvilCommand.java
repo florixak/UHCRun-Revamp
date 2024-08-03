@@ -10,22 +10,23 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static me.florixak.uhcrevamp.game.Permissions.ANVIL;
+import static me.florixak.uhcrevamp.game.Permissions.VIP;
 
 public class AnvilCommand implements CommandExecutor {
 
 	private final GameManager gameManager;
 
-	public AnvilCommand(GameManager gameManager) {
+	public AnvilCommand(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		if (!(sender instanceof Player)) return true;
 
-		Player p = (Player) sender;
+		final Player p = (Player) sender;
 
-		if (!p.hasPermission(ANVIL.getPerm())) {
+		if (!p.hasPermission(ANVIL.getPerm()) && !p.hasPermission(VIP.getPerm())) {
 			p.sendMessage(Messages.NO_PERM.toString());
 			return true;
 		}
@@ -35,9 +36,9 @@ public class AnvilCommand implements CommandExecutor {
 			return true;
 		}
 		try {
-			VersionUtils versionUtils = UHCRevamp.getInstance().getVersionUtils();
+			final VersionUtils versionUtils = UHCRevamp.getInstance().getVersionUtils();
 			versionUtils.openAnvil(p);
-		} catch (NoSuchMethodError e) {
+		} catch (final NoSuchMethodError e) {
 			p.sendMessage(Messages.CANT_USE_NOW.toString());
 		}
 

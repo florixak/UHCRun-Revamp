@@ -293,23 +293,23 @@ public class GameValues {
 		public static final float PURCHASE_CANCEL_PITCH = (float) getConfigDouble("settings.sounds.purchase-cancel.pitch", 1.0);
 	}
 
-	private static boolean getConfigBoolean(String path, boolean def) {
+	private static boolean getConfigBoolean(final String path, final boolean def) {
 		return config.getBoolean(path, def);
 	}
 
-	private static String getConfigString(String path, String def) {
+	private static String getConfigString(final String path, final String def) {
 		return config.getString(path, def);
 	}
 
-	private static int getConfigInt(String path, int def) {
+	private static int getConfigInt(final String path, final int def) {
 		return config.getInt(path, def);
 	}
 
-	private static double getConfigDouble(String path, double def) {
+	private static double getConfigDouble(final String path, final double def) {
 		return config.getDouble(path, def);
 	}
 
-	private static List<String> getConfigStringList(String path) {
+	private static List<String> getConfigStringList(final String path) {
 		return config.getStringList(path);
 	}
 }

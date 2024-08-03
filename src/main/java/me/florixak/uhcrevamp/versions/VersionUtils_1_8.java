@@ -23,54 +23,54 @@ public class VersionUtils_1_8 implements VersionUtils {
 	}
 
 	@Override
-	public net.minecraft.server.v1_8_R3.ItemStack giveLapis(Player player, int amount) {
-		EntityPlayer p = ((CraftPlayer) player).getHandle();
-		net.minecraft.server.v1_8_R3.ItemStack lapisItem = new net.minecraft.server.v1_8_R3.ItemStack(Items.DYE, amount, (short) 4);
+	public net.minecraft.server.v1_8_R3.ItemStack giveLapis(final Player player, final int amount) {
+		final EntityPlayer p = ((CraftPlayer) player).getHandle();
+		final net.minecraft.server.v1_8_R3.ItemStack lapisItem = new net.minecraft.server.v1_8_R3.ItemStack(Items.DYE, amount, (short) 4);
 		p.inventory.pickup(lapisItem);
 		return lapisItem;
 	}
 
 	@Override
-	public ShapedRecipe createRecipe(ItemStack item, String key) {
+	public ShapedRecipe createRecipe(final ItemStack item, final String key) {
 		return new ShapedRecipe(item);
 	}
 
 	@Override
-	public void sendTitle(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	public void sendTitle(final Player player, final String title, final String subTitle, final int fadeIn, final int stay, final int fadeOut) {
 		try {
-			Object handle = player.getClass().getMethod("getHandle").invoke(player);
-			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			final Object handle = player.getClass().getMethod("getHandle").invoke(player);
+			final Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 
-			Class<?> packetPlayOutTitleClass = NMSUtils.getNMSClass("PacketPlayOutTitle");
-			Class<?> packetClass = NMSUtils.getNMSClass("Packet");
-			Class<?> chatComponentTextClass = NMSUtils.getNMSClass("ChatComponentText");
-			Class<?> iChatBaseComponentClass = NMSUtils.getNMSClass("IChatBaseComponent");
-			Class<?> enumTitleActionClass = packetPlayOutTitleClass.getDeclaredClasses()[0];
+			final Class<?> packetPlayOutTitleClass = NMSUtils.getNMSClass("PacketPlayOutTitle");
+			final Class<?> packetClass = NMSUtils.getNMSClass("Packet");
+			final Class<?> chatComponentTextClass = NMSUtils.getNMSClass("ChatComponentText");
+			final Class<?> iChatBaseComponentClass = NMSUtils.getNMSClass("IChatBaseComponent");
+			final Class<?> enumTitleActionClass = packetPlayOutTitleClass.getDeclaredClasses()[0];
 
-			Constructor<?> chatComponentTextConstructor = chatComponentTextClass.getConstructor(String.class);
-			Object titleComponent = chatComponentTextConstructor.newInstance(title);
-			Object subTitleComponent = chatComponentTextConstructor.newInstance(subTitle);
+			final Constructor<?> chatComponentTextConstructor = chatComponentTextClass.getConstructor(String.class);
+			final Object titleComponent = chatComponentTextConstructor.newInstance(title);
+			final Object subTitleComponent = chatComponentTextConstructor.newInstance(subTitle);
 
-			Method valueOf = enumTitleActionClass.getMethod("valueOf", String.class);
-			Object titleEnum = valueOf.invoke(null, "TITLE");
-			Object subTitleEnum = valueOf.invoke(null, "SUBTITLE");
+			final Method valueOf = enumTitleActionClass.getMethod("valueOf", String.class);
+			final Object titleEnum = valueOf.invoke(null, "TITLE");
+			final Object subTitleEnum = valueOf.invoke(null, "SUBTITLE");
 
-			Constructor<?> packetPlayOutTitleConstructor = packetPlayOutTitleClass.getConstructor(enumTitleActionClass, iChatBaseComponentClass, int.class, int.class, int.class);
-			Object titlePacket = packetPlayOutTitleConstructor.newInstance(titleEnum, titleComponent, fadeIn, stay, fadeOut);
-			Object subTitlePacket = packetPlayOutTitleConstructor.newInstance(subTitleEnum, subTitleComponent, fadeIn, stay, fadeOut);
+			final Constructor<?> packetPlayOutTitleConstructor = packetPlayOutTitleClass.getConstructor(enumTitleActionClass, iChatBaseComponentClass, int.class, int.class, int.class);
+			final Object titlePacket = packetPlayOutTitleConstructor.newInstance(titleEnum, titleComponent, fadeIn, stay, fadeOut);
+			final Object subTitlePacket = packetPlayOutTitleConstructor.newInstance(subTitleEnum, subTitleComponent, fadeIn, stay, fadeOut);
 
 			NMSUtils.sendPacket(playerConnection, packetClass, titlePacket);
 			NMSUtils.sendPacket(playerConnection, packetClass, subTitlePacket);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Bukkit.getLogger().info("Failed to send title.");
 		}
 	}
 
 	@Override
-	public void openAnvil(Player player) {
-		EntityPlayer p = ((CraftPlayer) player).getHandle();
-		AnvilContainer container = new AnvilContainer(p);
-		int c = p.nextContainerCounter();
+	public void openAnvil(final Player player) {
+		final EntityPlayer p = ((CraftPlayer) player).getHandle();
+		final AnvilContainer container = new AnvilContainer(p);
+		final int c = p.nextContainerCounter();
 		p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, "minecraft:anvil", new ChatMessage("Repairing", new Object[]{}), 0));
 		p.activeContainer = container;
 		p.activeContainer.windowId = c;
@@ -78,12 +78,12 @@ public class VersionUtils_1_8 implements VersionUtils {
 	}
 
 	public static class AnvilContainer extends ContainerAnvil {
-		public AnvilContainer(EntityHuman entity) {
+		public AnvilContainer(final EntityHuman entity) {
 			super(entity.inventory, entity.world, new BlockPosition(0, 0, 0), entity);
 		}
 
 		@Override
-		public boolean a(EntityHuman entityhuman) {
+		public boolean a(final EntityHuman entityhuman) {
 			return true;
 		}
 	}

@@ -27,12 +27,12 @@ public class CustomDrop {
 	private final int maxAmount;
 	private final int exp;
 
-	public CustomDrop(Material material,
-					  List<String> drops,
-					  Map<String, Integer> durabilityMap,
-					  int minAmount,
-					  int maxAmount,
-					  int exp) {
+	public CustomDrop(final Material material,
+					  final List<String> drops,
+					  final Map<String, Integer> durabilityMap,
+					  final int minAmount,
+					  final int maxAmount,
+					  final int exp) {
 		this.material = material;
 		this.entityType = null;
 		this.drops = drops;
@@ -42,11 +42,11 @@ public class CustomDrop {
 		this.exp = exp;
 	}
 
-	public CustomDrop(EntityType entityType,
-					  List<String> drops,
-					  int minAmount,
-					  int maxAmount,
-					  int exp) {
+	public CustomDrop(final EntityType entityType,
+					  final List<String> drops,
+					  final int minAmount,
+					  final int maxAmount,
+					  final int exp) {
 		this.entityType = entityType;
 		this.material = null;
 		this.drops = drops;
@@ -72,15 +72,19 @@ public class CustomDrop {
 		return this.drops;
 	}
 
-	public void addDrop(String drop) {
+	public void addDrop(final String drop) {
 		this.drops.add(drop);
 	}
 
-	public boolean hasDurability(Material drop) {
+	public Map<String, Integer> getDurabilityMap() {
+		return durabilityMap;
+	}
+
+	public boolean hasDurability(final Material drop) {
 		return this.durabilityMap.containsKey(drop.name());
 	}
 
-	public int getDurability(Material drop) {
+	public int getDurability(final Material drop) {
 		return durabilityMap.get(drop.name());
 	}
 
@@ -96,13 +100,13 @@ public class CustomDrop {
 		return this.maxAmount;
 	}
 
-	public void dropItem(BlockBreakEvent breakEvent) {
+	public void dropItem(final BlockBreakEvent breakEvent) {
 		if (breakEvent != null) {
-			Player p = breakEvent.getPlayer();
-			Block block = breakEvent.getBlock();
-			Location loc = block.getLocation();
+			final Player p = breakEvent.getPlayer();
+			final Block block = breakEvent.getBlock();
+			final Location loc = block.getLocation();
 
-			int exp = getExp();
+			final int exp = getExp();
 			if (exp > 0) {
 				p.giveExp(exp);
 				GameManager.getGameManager().getSoundManager().playOreDestroySound(p);
@@ -118,11 +122,11 @@ public class CustomDrop {
 		}
 	}
 
-	public void dropMobItem(EntityDeathEvent deathEvent) {
+	public void dropMobItem(final EntityDeathEvent deathEvent) {
 		if (deathEvent != null) {
-			Player p = deathEvent.getEntity().getKiller();
-			Entity entity = deathEvent.getEntity();
-			Location loc = entity.getLocation();
+			final Player p = deathEvent.getEntity().getKiller();
+			final Entity entity = deathEvent.getEntity();
+			final Location loc = entity.getLocation();
 
 			if (p == null) return;
 
@@ -135,21 +139,21 @@ public class CustomDrop {
 		}
 	}
 
-	private void dropItem(Location loc) {
+	private void dropItem(final Location loc) {
 		try {
-			List<String> drops = getDrops();
-			Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).get().parseMaterial();
+			final List<String> drops = getDrops();
+			final Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).get().parseMaterial();
 			if (dropMaterial != XMaterial.AIR.parseMaterial()) {
-				int amount = MathUtils.randomInteger(getMinAmount(), getMaxAmount());
-				ItemStack drop = new ItemStack(dropMaterial, amount);
+				final int amount = MathUtils.randomInteger(getMinAmount(), getMaxAmount());
+				final ItemStack drop = new ItemStack(dropMaterial, amount);
 				if (hasDurability(dropMaterial)) {
 					drop.setDurability((short) getDurability(dropMaterial));
 //					Bukkit.getLogger().info("Dropped item with durability: " + getDurability(dropMaterial));
 				}
-				Location location = loc.add(0.5, 0.5, 0.5);
+				final Location location = loc.add(0.5, 0.5, 0.5);
 				Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop);
 			}
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			Bukkit.getLogger().info("Failed to drop item from " + getMaterial().name());
 		}
 

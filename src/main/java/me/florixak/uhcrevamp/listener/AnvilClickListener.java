@@ -13,29 +13,29 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class AnvilClickListener implements Listener {
 
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
+	public void onInventoryClick(final InventoryClickEvent event) {
 
 		if (!(event.getInventory() instanceof AnvilInventory)) return;
 
-		AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
+		final AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
 
-		ItemStack leftItem = anvilInventory.getItem(0);
-		ItemStack rightItem = anvilInventory.getItem(1);
-		String newName = anvilInventory.getRenameText();
+		final ItemStack leftItem = anvilInventory.getItem(0);
+		final ItemStack rightItem = anvilInventory.getItem(1);
+		final String newName = anvilInventory.getRenameText();
 
-		ItemStack combinedItem = combineItems(leftItem, rightItem, newName);
+		final ItemStack combinedItem = combineItems(leftItem, rightItem, newName);
 		if (combinedItem != null) {
 			event.setCurrentItem(combinedItem);
 		}
 
 	}
 
-	private ItemStack combineItems(ItemStack item1, ItemStack item2, String newName) {
+	private ItemStack combineItems(final ItemStack item1, final ItemStack item2, final String newName) {
 		try {
-			ItemStack combinedItem = new ItemStack(item1.getType());
+			final ItemStack combinedItem = new ItemStack(item1.getType());
 
 			// Combine the durability of both items
-			int newDurability = item1.getDurability() + item2.getDurability();
+			final int newDurability = item1.getDurability() + item2.getDurability();
 			combinedItem.setDurability((short) newDurability);
 
 			// Combine enchantments
@@ -43,7 +43,7 @@ public class AnvilClickListener implements Listener {
 			combinedItem.addUnsafeEnchantments(item2.getEnchantments());
 
 			// Handle custom names
-			ItemMeta meta = combinedItem.getItemMeta();
+			final ItemMeta meta = combinedItem.getItemMeta();
 			if (meta != null) {
 				if (newName != null && !newName.isEmpty()) {
 					meta.setDisplayName(newName);
@@ -68,7 +68,7 @@ public class AnvilClickListener implements Listener {
 			}
 
 			return combinedItem;
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 			return XMaterial.matchXMaterial(Material.BARRIER).parseItem();
 		}
 	}

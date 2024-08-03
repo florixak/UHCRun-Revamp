@@ -17,13 +17,13 @@ public class PlaceholderUtil {
 
 	public static boolean PAPI;
 
-	public static String setPlaceholders(String text, Player p) {
+	public static String setPlaceholders(String text, final Player p) {
 
-		GameManager gameManager = GameManager.getGameManager();
-		BorderManager borderManager = gameManager.getBorderManager();
+		final GameManager gameManager = GameManager.getGameManager();
+		final BorderManager borderManager = gameManager.getBorderManager();
 
 		if (p != null) {
-			UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+			final UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
 			if (text.contains("%player%"))
 				text = text.replace("%player%", uhcPlayer.getName());
@@ -35,7 +35,7 @@ public class PlaceholderUtil {
 				text = text.replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()));
 
 			if (text.contains("%required-uhc-exp%")) {
-				DecimalFormat format = new DecimalFormat("#######0");
+				final DecimalFormat format = new DecimalFormat("#######0");
 				text = text.replace("%required-uhc-exp%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
 			}
 
@@ -74,7 +74,7 @@ public class PlaceholderUtil {
 			if (text.contains("%ping%")) {
 				try {
 					text = text.replace("%ping%", String.valueOf(p.getPing()));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					text = text.replace("%ping%", "0");
 				}
 			}
@@ -179,8 +179,7 @@ public class PlaceholderUtil {
 		}
 
 		if (text.contains("%border%")) {
-			DecimalFormat format = new DecimalFormat("#######0");
-			text = text.replace("%border%", "+" + format.format(borderManager.getSize()) + " -" + format.format(borderManager.getSize()));
+			text = text.replace("%border%", "+" + TextUtils.formatToZeroDecimal(borderManager.getSize()) + " -" + TextUtils.formatToZeroDecimal(borderManager.getSize()));
 		}
 
 		if (text.contains("%alive%")) {

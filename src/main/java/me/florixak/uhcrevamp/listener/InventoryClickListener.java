@@ -14,12 +14,12 @@ public class InventoryClickListener implements Listener {
 
 	private final GameManager gameManager;
 
-	public InventoryClickListener(GameManager gameManager) {
+	public InventoryClickListener(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	@EventHandler
-	public void handleInventoryClick(InventoryClickEvent event) {
+	public void handleInventoryClick(final InventoryClickEvent event) {
 		if (event.getClickedInventory() == null || isNull(event.getCurrentItem()) || event.getClickedInventory() instanceof AnvilInventory)
 			return;
 
@@ -27,18 +27,18 @@ public class InventoryClickListener implements Listener {
 			event.setCancelled(true);
 		}
 
-		InventoryHolder holder = event.getInventory().getHolder();
+		final InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Menu) {
 			event.setCancelled(true);
 			if (event.getCurrentItem() == null) {
 				return;
 			}
-			Menu menu = (Menu) holder;
+			final Menu menu = (Menu) holder;
 			menu.handleMenuClicks(event);
 		}
 	}
 
-	private boolean isNull(ItemStack item) {
+	private boolean isNull(final ItemStack item) {
 		return item == null || item.getType().equals(XMaterial.AIR.parseMaterial());
 	}
 }

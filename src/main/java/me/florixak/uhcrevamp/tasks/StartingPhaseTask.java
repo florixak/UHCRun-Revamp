@@ -14,7 +14,7 @@ public class StartingPhaseTask extends BukkitRunnable {
 	private int countdown;
 	private final int startingMessageAt;
 
-	public StartingPhaseTask(GameManager gameManager) {
+	public StartingPhaseTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.startingMessageAt = GameValues.GAME.STARTING_MESSAGE_AT;
 		countdown = GameValues.GAME.STARTING_COUNTDOWN;

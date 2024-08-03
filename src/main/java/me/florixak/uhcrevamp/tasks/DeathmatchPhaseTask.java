@@ -10,7 +10,7 @@ public class DeathmatchPhaseTask extends BukkitRunnable {
 	private final GameManager gameManager;
 	private int countdown;
 
-	public DeathmatchPhaseTask(GameManager gameManager) {
+	public DeathmatchPhaseTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		countdown = GameValues.GAME.DEATHMATCH_COUNTDOWN;
 	}

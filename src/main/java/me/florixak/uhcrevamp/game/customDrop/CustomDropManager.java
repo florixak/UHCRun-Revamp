@@ -22,7 +22,7 @@ public class CustomDropManager {
 	private final List<CustomDrop> mobDrops;
 	private final Map<Material, Integer> appleChanceMap;
 
-	public CustomDropManager(GameManager gameManager) {
+	public CustomDropManager(final GameManager gameManager) {
 		this.customDropConfig = gameManager.getConfigManager().getFile(ConfigType.CUSTOM_DROPS).getConfig();
 
 		this.blockDrops = new ArrayList<>();
@@ -37,18 +37,18 @@ public class CustomDropManager {
 	}
 
 	public void loadAppleDropper() {
-		ConfigurationSection appleSection = customDropConfig.getConfigurationSection("custom-drops.apples");
+		final ConfigurationSection appleSection = customDropConfig.getConfigurationSection("custom-drops.apples");
 		if (appleSection == null) return;
 		int chances = 0;
 
-		for (String appleName : appleSection.getKeys(false)) {
-			Optional<XMaterial> materialOpt = XMaterial.matchXMaterial(appleName.toUpperCase());
+		for (final String appleName : appleSection.getKeys(false)) {
+			final Optional<XMaterial> materialOpt = XMaterial.matchXMaterial(appleName.toUpperCase());
 			if (!materialOpt.isPresent()) continue; // Skip if material is not present
 
-			Material material = materialOpt.get().parseMaterial();
+			final Material material = materialOpt.get().parseMaterial();
 			if (material == null) continue; // Skip if material cannot be parsed (not supported in 1.8.8)
 
-			int chance = customDropConfig.getInt("custom-drops.apples." + appleName + ".chance");
+			final int chance = customDropConfig.getInt("custom-drops.apples." + appleName + ".chance");
 			chances += chance;
 			this.appleChanceMap.put(material, chance);
 		}
@@ -59,25 +59,25 @@ public class CustomDropManager {
 	public void loadOreDrops() {
 		if (!GameValues.GAME.CUSTOM_DROPS_ENABLED) return;
 
-		ConfigurationSection blocksSection = customDropConfig.getConfigurationSection("custom-drops.blocks");
+		final ConfigurationSection blocksSection = customDropConfig.getConfigurationSection("custom-drops.blocks");
 		if (blocksSection == null) return;
 
-		for (String blockName : blocksSection.getKeys(false)) {
-			Optional<XMaterial> materialOpt = XMaterial.matchXMaterial(blockName.toUpperCase());
+		for (final String blockName : blocksSection.getKeys(false)) {
+			final Optional<XMaterial> materialOpt = XMaterial.matchXMaterial(blockName.toUpperCase());
 			if (!materialOpt.isPresent()) continue; // Skip if material is not present
 
-			Material material = materialOpt.get().parseMaterial();
+			final Material material = materialOpt.get().parseMaterial();
 			if (material == null) continue; // Skip if material cannot be parsed (not supported in 1.8.8)
 
-			List<String> drops = new ArrayList<>();
-			Map<String, Integer> durability = new HashMap<>();
+			final List<String> drops = new ArrayList<>();
+			final Map<String, Integer> durability = new HashMap<>();
 			int minAmount = 1;
 			int maxAmount = 1;
 
-			ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockName + ".drops");
-			if (blockSection != null && blockSection.getKeys(false) != null) {
-				for (String drop : blockSection.getKeys(false)) {
-					ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
+			final ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockName + ".drops");
+			if (blockSection != null) {
+				for (final String drop : blockSection.getKeys(false)) {
+					final ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
 					List<Integer> amountList = blockSection.getIntegerList(drop);
 					if (blockSection.getConfigurationSection(drop) != null) {
 						durability.put(drop, blockSection.getInt(drop + ".durability", itemStack.getDurability()));
@@ -85,15 +85,15 @@ public class CustomDropManager {
 						amountList = blockSection.getIntegerList(drop + ".amount");
 					}
 					drops.add(itemStack.getType().name());
-					int[] minMax = calculateMinMaxAmount(amountList);
+					final int[] minMax = calculateMinMaxAmount(amountList);
 					minAmount = minMax[0];
 					maxAmount = minMax[1];
 //                    Bukkit.getLogger().info("Loaded custom drop for block: " + blockName + " min: " + minAmount + " max: " + maxAmount);
 				}
 			}
-			int xp = customDropConfig.getInt("custom-drops.blocks." + blockName + ".exp");
+			final int xp = customDropConfig.getInt("custom-drops.blocks." + blockName + ".exp");
 
-			CustomDrop customDrop = new CustomDrop(material, drops, durability, minAmount, maxAmount, xp);
+			final CustomDrop customDrop = new CustomDrop(material, drops, durability, minAmount, maxAmount, xp);
 			this.blockDrops.add(customDrop);
 		}
 	}
@@ -101,43 +101,39 @@ public class CustomDropManager {
 	public void loadMobDrops() {
 		if (!GameValues.GAME.CUSTOM_DROPS_ENABLED) return;
 
-		for (String entityName : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
-			EntityType entityType = XEntityType.valueOf(entityName.toUpperCase()).get();
+		for (final String entityName : customDropConfig.getConfigurationSection("custom-drops.mobs").getKeys(false)) {
+			final EntityType entityType = XEntityType.valueOf(entityName.toUpperCase()).get();
 
-			List<String> drops = new ArrayList<>();
+			final List<String> drops = new ArrayList<>();
 			int minAmount = 1;
 			int maxAmount = 1;
 
-			ConfigurationSection section = customDropConfig.getConfigurationSection("custom-drops.mobs." + entityName + ".drops");
+			final ConfigurationSection section = customDropConfig.getConfigurationSection("custom-drops.mobs." + entityName + ".drops");
 
 			if (section != null && section.getKeys(false) != null) {
-				for (String drop : section.getKeys(false)) {
-					ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
-					List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.mobs." + entityName + ".drops." + drop);
-					if (section.getConfigurationSection(drop) != null) {
-						itemStack.setDurability((short) section.getInt(drop + ".durability", itemStack.getDurability()));
-						amountList = section.getIntegerList(drop + ".amount");
-					}
+				for (final String drop : section.getKeys(false)) {
+					final ItemStack itemStack = new ItemStack(XMaterial.matchXMaterial(drop).get().parseMaterial());
+					final List<Integer> amountList = customDropConfig.getIntegerList("custom-drops.mobs." + entityName + ".drops." + drop);
 					drops.add(itemStack.getType().name());
-					int[] minMax = calculateMinMaxAmount(amountList);
+					final int[] minMax = calculateMinMaxAmount(amountList);
 					minAmount = minMax[0];
 					maxAmount = minMax[1];
 //                    Bukkit.getLogger().info("Loaded custom drop for mob: " + entityName + " min: " + minAmount + " max: " + maxAmount);
 				}
 			}
-			int xp = customDropConfig.getInt("custom-drops.mobs." + entityName + ".exp");
+			final int xp = customDropConfig.getInt("custom-drops.mobs." + entityName + ".exp");
 
-			CustomDrop customDrop = new CustomDrop(entityType, drops, minAmount, maxAmount, xp);
+			final CustomDrop customDrop = new CustomDrop(entityType, drops, minAmount, maxAmount, xp);
 			this.mobDrops.add(customDrop);
 		}
 	}
 
-	private int[] calculateMinMaxAmount(List<Integer> amountList) {
+	private int[] calculateMinMaxAmount(final List<Integer> amountList) {
 		int minAmount = 1;
 		int maxAmount = 1;
 
 		if (amountList.size() == 1) {
-			int amount = amountList.get(0);
+			final int amount = amountList.get(0);
 			minAmount = maxAmount = Math.max(amount, 0);
 		} else if (amountList.size() >= 2) {
 			minAmount = Math.max(Collections.min(amountList), 0);
@@ -147,12 +143,12 @@ public class CustomDropManager {
 		return new int[]{minAmount, maxAmount};
 	}
 
-	public Material pickAppleToDrop(Map<Material, Integer> applesWithChances) {
-		int totalChance = applesWithChances.values().stream().mapToInt(Integer::intValue).sum();
-		int randomChance = MathUtils.getRandom().nextInt(totalChance);
+	public Material pickAppleToDrop(final Map<Material, Integer> applesWithChances) {
+		final int totalChance = applesWithChances.values().stream().mapToInt(Integer::intValue).sum();
+		final int randomChance = MathUtils.getRandom().nextInt(totalChance);
 
 		int cumulativeChance = 0;
-		for (Map.Entry<Material, Integer> entry : applesWithChances.entrySet()) {
+		for (final Map.Entry<Material, Integer> entry : applesWithChances.entrySet()) {
 			cumulativeChance += entry.getValue();
 			if (randomChance < cumulativeChance) {
 				return entry.getKey();
@@ -166,9 +162,9 @@ public class CustomDropManager {
 	}
 
 
-	public CustomDrop getCustomMobDrop(EntityType entityType) {
+	public CustomDrop getCustomMobDrop(final EntityType entityType) {
 		if (entityType != null) {
-			for (CustomDrop customDrop : mobDrops) {
+			for (final CustomDrop customDrop : mobDrops) {
 				if (customDrop.getEntityType().equals(entityType)) {
 					return customDrop;
 				}
@@ -177,9 +173,9 @@ public class CustomDropManager {
 		return null;
 	}
 
-	public CustomDrop getCustomBlockDrop(Material material) {
+	public CustomDrop getCustomBlockDrop(final Material material) {
 		if (material != null) {
-			for (CustomDrop customDrop : blockDrops) {
+			for (final CustomDrop customDrop : blockDrops) {
 				if (customDrop.getMaterial().equals(material)) {
 					return customDrop;
 				}
@@ -188,8 +184,8 @@ public class CustomDropManager {
 		return null;
 	}
 
-	public CustomDrop getCustomBlockDrop(String material, boolean ore) {
-		for (CustomDrop customDrop : blockDrops) {
+	public CustomDrop getCustomBlockDrop(final String material, final boolean ore) {
+		for (final CustomDrop customDrop : blockDrops) {
 			if (ore) {
 				if (customDrop.getMaterial().name().toUpperCase().contains(material.toUpperCase()) && customDrop.getMaterial().name().contains("ORE")) {
 //					Bukkit.getLogger().info(customDrop.getMaterial().name() + " was found in custom drops");
@@ -204,17 +200,21 @@ public class CustomDropManager {
 		return null;
 	}
 
-	public boolean hasMobCustomDrop(EntityType entityType) {
+	public boolean hasMobCustomDrop(final EntityType entityType) {
 		if (entityType == null) return false;
 		return getCustomMobDrop(entityType) != null;
 	}
 
-	public boolean hasBlockCustomDrop(Material material) {
+	public boolean hasBlockCustomDrop(final Material material) {
 		if (material == null) return false;
 		return getCustomBlockDrop(material) != null;
 	}
 
 	public void onDisable() {
+		for (final CustomDrop customDrop : blockDrops) {
+			customDrop.getDurabilityMap().clear();
+			customDrop.getDrops().clear();
+		}
 		blockDrops.clear();
 		mobDrops.clear();
 		appleChanceMap.clear();

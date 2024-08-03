@@ -13,8 +13,8 @@ public class WorldManager {
 	public void createNewUHCWorld() {
 		removeWorld();
 
-		WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
-		World world = Bukkit.createWorld(worldCreator);
+		final WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
+		final World world = Bukkit.createWorld(worldCreator);
 		if (UHCRevamp.useOldMethods) {
 			setOldGameRules(world);
 		} else {
@@ -23,14 +23,14 @@ public class WorldManager {
 				world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 				world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
 				world.setGameRule(GameRule.SPAWN_RADIUS, 0);
-			} catch (NoSuchMethodError e) {
+			} catch (final NoSuchMethodError e) {
 				Bukkit.getLogger().info("Failed to set game rules using new method. Using old method.");
 				setOldGameRules(world);
 			}
 		}
 	}
 
-	private void setOldGameRules(World world) {
+	private void setOldGameRules(final World world) {
 		world.setGameRuleValue("doDaylightCycle", "false");
 		world.setGameRuleValue("announceAdvancements", "false");
 		world.setGameRuleValue("doWeatherCycle", "false");
@@ -39,35 +39,35 @@ public class WorldManager {
 
 	private void removeWorld() {
 		try {
-			File world = new File(Bukkit.getWorldContainer(), GameValues.WORLD_NAME);
+			final File world = new File(Bukkit.getWorldContainer(), GameValues.WORLD_NAME);
 			FileUtils.deleteDirectory(world);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void createLobbyWorld(String lobbyName) {
-		WorldCreator c = new WorldCreator(lobbyName);
+	public void createLobbyWorld(final String lobbyName) {
+		final WorldCreator c = new WorldCreator(lobbyName);
 		c.type(WorldType.FLAT);
-		World world = c.createWorld();
+		final World world = c.createWorld();
 	}
 
-	public boolean doesWorldExist(String worldName) {
-		File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
+	public boolean doesWorldExist(final String worldName) {
+		final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
 		return worldFolder.exists() && worldFolder.isDirectory();
 	}
 
-	public void loadWorldIfExists(String worldName) {
+	public void loadWorldIfExists(final String worldName) {
 		if (doesWorldExist(worldName) && Bukkit.getWorld(worldName) == null) {
-			WorldCreator creator = new WorldCreator(worldName);
+			final WorldCreator creator = new WorldCreator(worldName);
 			Bukkit.createWorld(creator);
 		} else {
 			createLobbyWorld(worldName);
 		}
 	}
 
-	public boolean worldExists(String worldName) {
-		World world = Bukkit.getWorld(worldName);
+	public boolean worldExists(final String worldName) {
+		final World world = Bukkit.getWorld(worldName);
 		return world != null;
 	}
 }

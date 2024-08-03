@@ -12,15 +12,15 @@ import org.bukkit.event.world.WorldLoadEvent;
 
 public class WorldGeneratorListener implements Listener {
 
-	private GameManager gameManager;
+	private final GameManager gameManager;
 
-	public WorldGeneratorListener(GameManager gameManager) {
+	public WorldGeneratorListener(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	@EventHandler
-	public void onWorldLoad(WorldLoadEvent event) {
-		World world = event.getWorld();
+	public void onWorldLoad(final WorldLoadEvent event) {
+		final World world = event.getWorld();
 		if (!world.getName().equalsIgnoreCase(GameValues.WORLD_NAME)) return;
 		try {
 			if (isOceanBiomeFound(world)) {
@@ -28,17 +28,17 @@ public class WorldGeneratorListener implements Listener {
 				Bukkit.unloadWorld(world, false);
 				gameManager.getWorldManager().createNewUHCWorld();
 			}
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 			
 		}
 
 	}
 
-	private boolean isOceanBiomeFound(World world) {
-		for (Chunk chunk : world.getLoadedChunks()) {
+	private boolean isOceanBiomeFound(final World world) {
+		for (final Chunk chunk : world.getLoadedChunks()) {
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
-					XBiome xBiome = XBiome.matchXBiome(chunk.getBlock(x, world.getHighestBlockYAt(x, z), z).getBiome());
+					final XBiome xBiome = XBiome.matchXBiome(chunk.getBlock(x, world.getHighestBlockYAt(x, z), z).getBiome());
 					if (xBiome.isSupported() && GameValues.GAME.DISABLED_BIOMES.contains(xBiome.getBiome().name())) {
 						return true;
 					}

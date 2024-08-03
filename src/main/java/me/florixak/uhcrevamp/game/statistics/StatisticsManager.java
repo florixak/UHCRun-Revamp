@@ -30,7 +30,7 @@ public class StatisticsManager {
 	public List<TopStatistics> uhcLevelTopList;
 	public List<TopStatistics> gamesPlayedTopList;
 
-	public StatisticsManager(GameManager gameManager) {
+	public StatisticsManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
@@ -45,20 +45,20 @@ public class StatisticsManager {
 		this.gamesPlayedTopList = getTotalTopOf("Games-Played");
 	}
 
-	public List<TopStatistics> getTotalTopOf(String type) {
-		List<TopStatistics> topTotal = new ArrayList<>();
+	public List<TopStatistics> getTotalTopOf(final String type) {
+		final List<TopStatistics> topTotal = new ArrayList<>();
 
 		if (gameManager.isDatabaseConnected()) {
-			Map<String, Integer> topStatistics = gameManager.getDatabase().getTopStatistics(type.toLowerCase());
+			final Map<String, Integer> topStatistics = gameManager.getDatabase().getTopStatistics(type.toLowerCase());
 			if (topStatistics != null) {
 				topTotal.addAll(topStatistics.entrySet().stream().map(entry -> new TopStatistics(entry.getKey(), entry.getValue())).collect(Collectors.toList()));
 			}
 		} else {
-			FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
+			final FileConfiguration playerData = gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig();
 			if (playerData.getConfigurationSection("player-data") == null) return topTotal;
-			for (String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
-				String name = playerData.getString("player-data." + uuid + ".name");
-				int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
+			for (final String uuid : playerData.getConfigurationSection("player-data").getKeys(false)) {
+				final String name = playerData.getString("player-data." + uuid + ".name");
+				final int value = playerData.getInt("player-data." + uuid + "." + type.toLowerCase());
 				topTotal.add(new TopStatistics(name, value));
 			}
 		}
@@ -67,7 +67,7 @@ public class StatisticsManager {
 		return topTotal;
 	}
 
-	public List<TopStatistics> getTopStatistics(String type) {
+	public List<TopStatistics> getTopStatistics(final String type) {
 		switch (type) {
 			case "Wins":
 				return winTopList;
@@ -90,7 +90,7 @@ public class StatisticsManager {
 		}
 	}
 
-	public String getTopStatsDisplayItem(String type) {
+	public String getTopStatsDisplayItem(final String type) {
 		switch (type) {
 			case "Wins":
 				return GameValues.STATISTICS.TOP_WINS_ITEM;
@@ -113,7 +113,7 @@ public class StatisticsManager {
 		}
 	}
 
-	public String getTopStatsDisplayName(String type) {
+	public String getTopStatsDisplayName(final String type) {
 		switch (type) {
 			case "Wins":
 				return GameValues.STATISTICS.TOP_WINS_NAME;
@@ -168,18 +168,18 @@ public class StatisticsManager {
 		return gamesPlayedTopList;
 	}
 
-	public static ItemStack getPlayerStatsItem(UHCPlayer uhcPlayer) {
-		ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
+	public static ItemStack getPlayerStatsItem(final UHCPlayer uhcPlayer) {
+		final ItemStack playerStatsItem = XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
 				.get().parseItem() == null || GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.equalsIgnoreCase("PLAYER_HEAD")
 				? Utils.getPlayerHead(uhcPlayer.getPlayer(), uhcPlayer.getName())
 				: XMaterial.matchXMaterial(GameValues.STATISTICS.PLAYER_STATS_DIS_ITEM.toUpperCase())
 				.get().parseItem();
 
-		String playerStatsName = GameValues.STATISTICS.PLAYER_STATS_CUST_NAME != null
+		final String playerStatsName = GameValues.STATISTICS.PLAYER_STATS_CUST_NAME != null
 				? GameValues.STATISTICS.PLAYER_STATS_CUST_NAME
 				: uhcPlayer.getName();
 
-		List<String> playerStatsLore = new ArrayList<>();
+		final List<String> playerStatsLore = new ArrayList<>();
 
 		for (String text : GameValues.STATISTICS.PLAYER_STATS_LORE) {
 			text = PlaceholderUtil.setPlaceholders(text, uhcPlayer.getPlayer());
@@ -192,21 +192,21 @@ public class StatisticsManager {
 				playerStatsLore);
 	}
 
-	public static ItemStack getTopStatsItem(String topType) {
-		ItemStack topStatsItem = XMaterial.matchXMaterial(GameManager.getGameManager().getStatisticsManager().getTopStatsDisplayItem(topType)).get().parseItem();
-		String topStatsName = GameValues.STATISTICS.TOP_STATS_CUST_NAME != null
+	public static ItemStack getTopStatsItem(final String topType) {
+		final ItemStack topStatsItem = XMaterial.matchXMaterial(GameManager.getGameManager().getStatisticsManager().getTopStatsDisplayItem(topType)).get().parseItem();
+		final String topStatsName = GameValues.STATISTICS.TOP_STATS_CUST_NAME != null
 				? GameValues.STATISTICS.TOP_STATS_CUST_NAME
 				: "TOP STATS";
 
-		List<String> topStatsLore = new ArrayList<>();
-		List<TopStatistics> totalTopList = GameManager.getGameManager().getStatisticsManager().getTopStatistics(topType);
+		final List<String> topStatsLore = new ArrayList<>();
+		final List<TopStatistics> totalTopList = GameManager.getGameManager().getStatisticsManager().getTopStatistics(topType);
 
 		if (totalTopList != null) {
 			for (String lore : GameValues.STATISTICS.TOP_STATS_LORE) {
 				for (int j = 0; j < GameValues.STATISTICS.TOP_STATS_LORE.size(); j++) {
 					if (totalTopList.size() > j) {
-						String name = totalTopList.get(j).getName();
-						int value = totalTopList.get(j).getValue();
+						final String name = totalTopList.get(j).getName();
+						final int value = totalTopList.get(j).getValue();
 						lore = lore
 								.replace("%uhc-top-" + (j + 1) + "%", name != null ? name : "None")
 								.replace("%uhc-top-" + (j + 1) + "-value%", name != null ? String.valueOf(value) : String.valueOf(0));

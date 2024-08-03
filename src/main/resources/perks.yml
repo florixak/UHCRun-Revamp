@@ -84,20 +84,21 @@ perks:
       ENDER_PEARL:
         amount: [ 1, 2 ] # gives you random amount of golden apples between 1 and 2
         chance: 30 # 30% chance to get this item
-  '&aHealth Boost':
+  '&aRegeneration':
     display-item: POPPY
     cost: 120
     description:
       - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
     EFFECT:
-      HEALTH_BOOST:
+      REGENERATION:
         level: 2
         duration: 10 # seconds
   '&eRich Man':
     display-item: GOLD_INGOT
     cost: 100
     description:
-      - '&7You will get extra bonus %bonus-coins% %currency%, %bonus-uhc-exp% uhc exp and %bonus-exp% exp.'
+      - '&7Extra bonus %bonus-coins% %currency%,'
+      - '$7%bonus-uhc-exp% uhc exp and %bonus-exp% exp.'
     BONUS:
       coins: [ 50, 100 ] # gives you random amount of coins between 50 and 100
       uhc-exp: [ 50, 100 ] # gives you random amount of uhc exp between 50 and 100
@@ -109,7 +110,7 @@ perks:
       - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
     EFFECT:
       HASTE:
-        level: 2
+        level: 1
         duration: 60 # seconds
   '&4Fire Resistance':
     display-item: LAVA_BUCKET
@@ -138,12 +139,3 @@ perks:
       DAMAGE_RESISTANCE:
         level: 1
         duration: 12 # seconds
-  '&8Absorption':
-    display-item: GOLDEN_CHESTPLATE
-    cost: 140
-    description:
-      - '&7Gives you %effect% %effect-level% for %effect-duration% seconds.'
-    EFFECT:
-      ABSORPTION:
-        level: 2
-        duration: 180 # seconds

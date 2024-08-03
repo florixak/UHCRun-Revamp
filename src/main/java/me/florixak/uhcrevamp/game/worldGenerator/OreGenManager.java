@@ -12,49 +12,49 @@ import java.util.List;
 
 public class OreGenManager {
 
-    private final FileConfiguration oreGenConfig;
+	private final FileConfiguration oreGenConfig;
 
-    private final List<GeneratedOre> oreGenList;
+	private final List<GeneratedOre> oreGenList;
 
-    public OreGenManager(GameManager gameManager) {
-        this.oreGenConfig = gameManager.getConfigManager().getFile(ConfigType.ORE_GENERATION).getConfig();
+	public OreGenManager(final GameManager gameManager) {
+		this.oreGenConfig = gameManager.getConfigManager().getFile(ConfigType.ORE_GENERATION).getConfig();
 
-        this.oreGenList = new ArrayList<>();
-    }
+		this.oreGenList = new ArrayList<>();
+	}
 
-    public void loadOres() {
-        ConfigurationSection section = oreGenConfig.getConfigurationSection("ore-generation");
-        if (section == null || section.getKeys(false) == null) return;
+	public void loadOres() {
+		final ConfigurationSection section = oreGenConfig.getConfigurationSection("ore-generation");
+		if (section == null || section.getKeys(false) == null) return;
 
-        for (String materialN : section.getKeys(false)) {
-            Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
-            Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
+		for (final String materialN : section.getKeys(false)) {
+			final Material matchMaterial = XMaterial.matchXMaterial(materialN.toUpperCase()).get().parseMaterial();
+			final Material material = matchMaterial != null ? matchMaterial : XMaterial.STONE.parseMaterial();
 
-            if (canSkip(material)) return;
+			if (canSkip(material)) return;
 
 //            int spawnAmount = oreGenConfig.getInt("ore-generation." + materialN + ".spawn-amount", 0);
-            int minVein = oreGenConfig.getInt("ore-generation." + materialN + ".min-vein", 0);
-            int maxVein = oreGenConfig.getInt("ore-generation." + materialN + ".max-vein", 0);
+			final int minVein = oreGenConfig.getInt("ore-generation." + materialN + ".min-vein", 0);
+			int maxVein = oreGenConfig.getInt("ore-generation." + materialN + ".max-vein", 0);
 
-            if (minVein <= 0 || maxVein <= 0) return;
-            if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
+			if (minVein <= 0 || maxVein <= 0) return;
+			if (minVein == maxVein || maxVein < minVein) maxVein = minVein;
 
-            GeneratedOre oreGen = new GeneratedOre(material, minVein, maxVein);
-            oreGenList.add(oreGen);
-        }
-    }
+			final GeneratedOre oreGen = new GeneratedOre(material, minVein, maxVein);
+			oreGenList.add(oreGen);
+		}
+	}
 
-    public List<GeneratedOre> getOreGeneratorList() {
-        return this.oreGenList;
-    }
+	public List<GeneratedOre> getOreGeneratorList() {
+		return this.oreGenList;
+	}
 
-    private boolean canSkip(Material material) {
-        for (GeneratedOre oreGen : oreGenList) {
-            if (oreGen.getMaterial().equals(material)
-                    || material.equals(XMaterial.STONE.parseMaterial())) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean canSkip(final Material material) {
+		for (final GeneratedOre oreGen : oreGenList) {
+			if (oreGen.getMaterial().equals(material)
+					|| material.equals(XMaterial.STONE.parseMaterial())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

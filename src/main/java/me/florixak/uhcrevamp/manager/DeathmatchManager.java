@@ -17,7 +17,7 @@ public class DeathmatchManager {
 
 	private final String deathmatchWorld;
 
-	public DeathmatchManager(GameManager gameManager) {
+	public DeathmatchManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
@@ -44,7 +44,7 @@ public class DeathmatchManager {
 				config.getDouble(path + ".location.z", 0.0));
 	}
 
-	public void setDeathmatchLocation(Location location) {
+	public void setDeathmatchLocation(final Location location) {
 		config.set(path + ".location.world", location.getWorld().getName());
 		config.set(path + ".location.x", location.getX());
 		config.set(path + ".location.y", location.getY());
@@ -69,7 +69,7 @@ public class DeathmatchManager {
 	}
 
 	public Location getTeleportLocation() {
-		Location loc = getDeathmatchLocation();
+		final Location loc = getDeathmatchLocation();
 
 		return new Location(loc.getWorld(),
 				(loc.getX() + (int) (Math.random() * ((getDeathmatchBorderSize() - 1) - loc.getX() + 5))) / 2.2,
@@ -82,11 +82,11 @@ public class DeathmatchManager {
 		gameManager.getBorderManager().setSize(getDeathmatchBorderSize());
 
 		if (GameValues.TEAM.TEAM_MODE) {
-			for (UHCTeam team : gameManager.getTeamManager().getLivingTeams()) {
+			for (final UHCTeam team : gameManager.getTeamManager().getLivingTeams()) {
 				team.teleport(getTeleportLocation());
 			}
 		} else {
-			for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
+			for (final UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
 				uhcPlayer.teleport(getTeleportLocation());
 			}
 		}

@@ -5,7 +5,6 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class LuckPermsHook {
@@ -16,13 +15,14 @@ public class LuckPermsHook {
 	}
 
 	public void setupLuckPerms() {
-		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-			if (plugin.getName().contains("LuckPerms")) {
-				RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-				if (provider != null) luckPerms = provider.getProvider();
+		try {
+			final RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+			if (provider != null) luckPerms = provider.getProvider();
+
+			if (!hasLuckPerms() && GameValues.ADDONS.CAN_USE_LUCKPERMS) {
+				Bukkit.getLogger().info("LuckPerms not found! Disabling LuckPerms support.");
 			}
-		}
-		if (!hasLuckPerms() && GameValues.ADDONS.CAN_USE_LUCKPERMS) {
+		} catch (final Exception e) {
 			Bukkit.getLogger().info("LuckPerms not found! Disabling LuckPerms support.");
 		}
 	}
@@ -31,21 +31,29 @@ public class LuckPermsHook {
 		return luckPerms != null;
 	}
 
-	public String getPrefix(Player player) {
+	public String getPrefix(final Player player) {
 		if (!hasLuckPerms())
 			return "";
 
-		User user = luckPerms.getUserManager().getUser(player.getUniqueId());
-		String prefix = user.getCachedData().getMetaData().getPrefix();
+		final User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+		if (user == null)
+			return "";
+		final String prefix = user.getCachedData().getMetaData().getPrefix();
+		if (prefix == null)
+			return "";
 		return prefix;
 	}
 
-	public String getSuffix(Player player) {
+	public String getSuffix(final Player player) {
 		if (!hasLuckPerms())
 			return "";
 
-		User user = luckPerms.getUserManager().getUser(player.getUniqueId());
-		String prefix = user.getCachedData().getMetaData().getSuffix();
-		return prefix;
+		final User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+		if (user == null)
+			return "";
+		final String suffix = user.getCachedData().getMetaData().getSuffix();
+		if (suffix == null)
+			return "";
+		return suffix;
 	}
 }

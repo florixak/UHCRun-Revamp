@@ -6,12 +6,12 @@ import java.util.HashMap;
 
 public class MenuManager {
 
-    private static final HashMap<UHCPlayer, MenuUtils> menuUtilsMap = new HashMap<>();
+	private static final HashMap<UHCPlayer, MenuUtils> menuUtilsMap = new HashMap<>();
 
-    public static MenuUtils getMenuUtils(UHCPlayer uhcPlayer) {
-        if (!menuUtilsMap.containsKey(uhcPlayer)) {
-            menuUtilsMap.put(uhcPlayer, new MenuUtils(uhcPlayer));
-        }
-        return menuUtilsMap.get(uhcPlayer);
-    }
+	public static MenuUtils getMenuUtils(final UHCPlayer uhcPlayer) {
+		if (!menuUtilsMap.containsKey(uhcPlayer)) {
+			menuUtilsMap.put(uhcPlayer, new MenuUtils(uhcPlayer));
+		}
+		return menuUtilsMap.get(uhcPlayer);
+	}
 }

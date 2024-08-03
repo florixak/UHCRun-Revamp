@@ -5,24 +5,24 @@ import org.bukkit.event.HandlerList;
 
 public class GameEndEvent extends Event {
 
-    public static final HandlerList handlers = new HandlerList();
+	public static final HandlerList handlers = new HandlerList();
 
-    private final String winner;
+	private final String winner;
 
-    public GameEndEvent(String winner) {
-        this.winner = winner;
-    }
+	public GameEndEvent(final String winner) {
+		this.winner = winner;
+	}
 
-    public String getWinner() {
-        return this.winner;
-    }
+	public String getWinner() {
+		return this.winner;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

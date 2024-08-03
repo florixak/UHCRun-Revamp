@@ -5,7 +5,7 @@ import me.florixak.uhcrevamp.commands.*;
 import me.florixak.uhcrevamp.config.ConfigManager;
 import me.florixak.uhcrevamp.config.ConfigType;
 import me.florixak.uhcrevamp.config.Messages;
-import me.florixak.uhcrevamp.game.customDrop.CustomDrop;
+import me.florixak.uhcrevamp.game.assists.DamageTrackerManager;
 import me.florixak.uhcrevamp.game.customDrop.CustomDropManager;
 import me.florixak.uhcrevamp.game.customRecipes.CustomRecipeManager;
 import me.florixak.uhcrevamp.game.deathChest.DeathChestManager;
@@ -73,10 +73,11 @@ public class GameManager {
 	private final OreGenManager oreGenManager;
 	private final WorldManager worldManager;
 	private final MenuManager menuManager;
+	private final DamageTrackerManager damageTrackerManager;
 
 	private boolean resistance;
 
-	public GameManager(UHCRevamp plugin) {
+	public GameManager(final UHCRevamp plugin) {
 		this.plugin = plugin;
 		gameManager = this;
 
@@ -100,6 +101,7 @@ public class GameManager {
 		this.customRecipeManager = new CustomRecipeManager(this);
 		this.menuManager = new MenuManager();
 		this.statisticsManager = new StatisticsManager(this);
+		this.damageTrackerManager = new DamageTrackerManager();
 
 		this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 	}
@@ -137,7 +139,7 @@ public class GameManager {
 		return this.gameState;
 	}
 
-	public void setGameState(GameState gameState) {
+	public void setGameState(final GameState gameState) {
 		if (this.gameState == gameState) return;
 		this.gameState = gameState;
 
@@ -220,6 +222,7 @@ public class GameManager {
 
 	public void onDisable() {
 		getDeathChestManager().onDisable();
+		getDamageTrackerManager().onDisable();
 		getCustomDropManager().onDisable();
 		getRecipeManager().onDisable();
 		getTeamManager().onDisable();
@@ -245,34 +248,34 @@ public class GameManager {
 		return this.resistance;
 	}
 
-	public void setResistance(boolean b) {
+	public void setResistance(final boolean b) {
 		this.resistance = b;
 	}
 
 	public void clearDrops() {
 		if (Bukkit.getWorld(GameValues.WORLD_NAME) == null) return;
-		List<Entity> entList = Bukkit.getWorld(GameValues.WORLD_NAME).getEntities();
+		final List<Entity> entList = Bukkit.getWorld(GameValues.WORLD_NAME).getEntities();
 
-		for (Entity current : entList) {
+		for (final Entity current : entList) {
 			if (current instanceof Item) {
 				current.remove();
 			}
 		}
 	}
 
-	public void timber(Block block, BlockBreakEvent event) {
+	public void timber(final Block block, final BlockBreakEvent event) {
 
 		if (!GameValues.WOOD_LOGS.contains(block.getType())) return;
 
 		XSound.play(block.getLocation(), XSound.BLOCK_WOOD_BREAK.toString());
-		if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
-			CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
-			block.getDrops().clear();
-			customDrop.dropItem(event);
-		} else {
-			block.getDrops().clear();
-			block.breakNaturally(new ItemStack(block.getType()));
-		}
+//		if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
+//			CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+//			block.getDrops().clear();
+//			customDrop.dropItem(event);
+//		} else {
+		block.getDrops().clear();
+		block.breakNaturally(new ItemStack(block.getType()));
+//		}
 
 		timber(block.getLocation().add(0, 1, 0).getBlock(), event);
 		timber(block.getLocation().add(1, 0, 0).getBlock(), event);
@@ -297,14 +300,14 @@ public class GameManager {
 
 	private void connectToDatabase() {
 		try {
-			String path = "settings.mysql";
+			final String path = "settings.mysql";
 			if (config == null || !config.getBoolean(path + ".enabled", false)) return;
 
-			String host = config.getString(path + ".host", "localhost");
-			String port = config.getString(path + ".port", "3306");
-			String database = config.getString(path + ".database", "uhcrevamp");
-			String username = config.getString(path + ".username", "root");
-			String password = config.getString(path + ".password", "");
+			final String host = config.getString(path + ".host", "localhost");
+			final String port = config.getString(path + ".port", "3306");
+			final String database = config.getString(path + ".database", "uhcrevamp");
+			final String username = config.getString(path + ".username", "root");
+			final String password = config.getString(path + ".password", "");
 
 			Bukkit.getLogger().info("Connecting to MySQL database...");
 
@@ -312,7 +315,7 @@ public class GameManager {
 			if (this.mysql.hasConnection()) {
 				this.data = new SQLGetter(this);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Bukkit.getLogger().info("Failed to connect to MySQL database!");
 		}
 
@@ -329,7 +332,7 @@ public class GameManager {
 	}
 
 	private void registerListeners() {
-		List<Listener> listeners = new ArrayList<>();
+		final List<Listener> listeners = new ArrayList<>();
 
 		listeners.add(new GameListener(this));
 		listeners.add(new EntityListener(this));
@@ -341,7 +344,7 @@ public class GameManager {
 		listeners.add(new WorldGeneratorListener(this));
 		if (!UHCRevamp.useOldMethods) listeners.add(new AnvilClickListener());
 
-		for (Listener listener : listeners) {
+		for (final Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
 		}
 	}
@@ -360,8 +363,8 @@ public class GameManager {
 		registerCommand("revive", new ReviveCommand(this));
 	}
 
-	private void registerCommand(String commandN, CommandExecutor executor) {
-		PluginCommand command = plugin.getCommand(commandN);
+	private void registerCommand(final String commandN, final CommandExecutor executor) {
+		final PluginCommand command = plugin.getCommand(commandN);
 
 		if (command == null) {
 			plugin.getLogger().info("Error in registering command! (" + command + ")");
@@ -448,5 +451,9 @@ public class GameManager {
 
 	public StatisticsManager getStatisticsManager() {
 		return statisticsManager;
+	}
+
+	public DamageTrackerManager getDamageTrackerManager() {
+		return damageTrackerManager;
 	}
 }

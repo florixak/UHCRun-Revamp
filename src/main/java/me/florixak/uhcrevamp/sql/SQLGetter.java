@@ -15,7 +15,7 @@ public class SQLGetter {
 	private final Connection conn;
 	private final String table;
 
-	public SQLGetter(GameManager gameManager) {
+	public SQLGetter(final GameManager gameManager) {
 		this.conn = gameManager.getSQL().getConnection();
 
 		this.table = "uhcrevamp";
@@ -23,11 +23,11 @@ public class SQLGetter {
 	}
 
 	public void createTable() {
-		PreparedStatement ps;
+		final PreparedStatement ps;
 
-		int firstUHCLevel = GameValues.STATISTICS.FIRST_UHC_LEVEL;
-		double firstRequiredUHCExp = GameValues.STATISTICS.FIRST_REQUIRED_EXP;
-		double startingMoney = GameValues.STATISTICS.STARTING_MONEY;
+		final int firstUHCLevel = GameValues.STATISTICS.FIRST_UHC_LEVEL;
+		final double firstRequiredUHCExp = GameValues.STATISTICS.FIRST_REQUIRED_EXP;
+		final double startingMoney = GameValues.STATISTICS.STARTING_MONEY;
 
 		try {
 			ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + table + " "
@@ -48,493 +48,493 @@ public class SQLGetter {
 					+ "perks VARCHAR(100) DEFAULT '')"
 			);
 			ps.executeUpdate();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void createPlayer(Player p) {
+	public void createPlayer(final Player p) {
 		try {
-			UUID uuid = p.getUniqueId();
+			final UUID uuid = p.getUniqueId();
 
 			if (!exists(uuid)) {
-				PreparedStatement ps2 = conn.prepareStatement("INSERT IGNORE INTO " + table + " (uuid,name) VALUES (?,?)");
+				final PreparedStatement ps2 = conn.prepareStatement("INSERT IGNORE INTO " + table + " (uuid,name) VALUES (?,?)");
 				ps2.setString(1, uuid.toString());
 				ps2.setString(2, p.getName());
 				ps2.executeUpdate();
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean exists(UUID uuid) {
+	public boolean exists(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return true;
 			}
 			return false;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	public String getName(UUID uuid) {
+	public String getName(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getString("name");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public void setMoney(UUID uuid, double money) {
+	public void setMoney(final UUID uuid, final double money) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET money=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET money=? WHERE uuid=?");
 			ps.setDouble(1, money);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public double getMoney(UUID uuid) {
+	public double getMoney(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT money FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT money FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getDouble("money");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0.00;
 	}
 
-	public void addUHCLevel(UUID uuid) {
+	public void addUHCLevel(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_level=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_level=? WHERE uuid=?");
 			ps.setInt(1, getUHCLevel(uuid) + 1);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getUHCLevel(UUID uuid) {
+	public int getUHCLevel(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT uhc_level FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT uhc_level FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("uhc_level");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void addUHCExp(UUID uuid, double exp) {
+	public void addUHCExp(final UUID uuid, final double exp) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
 			ps.setDouble(1, getUHCExp(uuid) + exp);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public double getUHCExp(UUID uuid) {
+	public double getUHCExp(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT uhc_exp FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT uhc_exp FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("uhc_exp");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void setUHCExp(UUID uuid, double exp) {
+	public void setUHCExp(final UUID uuid, final double exp) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET uhc_exp=? WHERE uuid=?");
 			ps.setDouble(1, exp);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public double getRequiredUHCExp(UUID uuid) {
+	public double getRequiredUHCExp(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT required_uhc_exp FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT required_uhc_exp FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("required_uhc_exp");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void setRequiredUHCExp(UUID uuid, double exp) {
+	public void setRequiredUHCExp(final UUID uuid, final double exp) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET required_uhc_exp=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET required_uhc_exp=? WHERE uuid=?");
 			ps.setDouble(1, exp);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setGamesPlayed(UUID uuid, int gamesPlayed) {
+	public void setGamesPlayed(final UUID uuid, final int gamesPlayed) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET games_played=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET games_played=? WHERE uuid=?");
 			ps.setInt(1, gamesPlayed);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getGamesPlayed(UUID uuid) {
+	public int getGamesPlayed(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT games_played FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT games_played FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("games_played");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void addWin(UUID uuid) {
+	public void addWin(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET wins=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET wins=? WHERE uuid=?");
 			ps.setInt(1, getWins(uuid) + 1);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getWins(UUID uuid) {
+	public int getWins(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT wins FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT wins FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("wins");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void addLose(UUID uuid) {
+	public void addLose(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET losses=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET losses=? WHERE uuid=?");
 			ps.setInt(1, getLosses(uuid) + 1);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getLosses(UUID uuid) {
+	public int getLosses(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT losses FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT losses FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("losses");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void addKill(UUID uuid, int kills) {
+	public void addKill(final UUID uuid, final int kills) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET kills=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET kills=? WHERE uuid=?");
 			ps.setInt(1, getKills(uuid) + kills);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getKills(UUID uuid) {
+	public int getKills(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT kills FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT kills FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("kills");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void setKillstreak(UUID uuid, int killstreak) {
+	public void setKillstreak(final UUID uuid, final int killstreak) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET killstreak=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET killstreak=? WHERE uuid=?");
 			ps.setInt(1, killstreak);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getKillstreak(UUID uuid) {
+	public int getKillstreak(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT killstreak FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT killstreak FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("killstreak");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void addAssist(UUID uuid, int assists) {
+	public void addAssist(final UUID uuid, final int assists) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET assists=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET assists=? WHERE uuid=?");
 			ps.setInt(1, getAssists(uuid) + assists);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getAssists(UUID uuid) {
+	public int getAssists(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT assists FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT assists FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("assists");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void setAssists(UUID uuid, int assists) {
+	public void setAssists(final UUID uuid, final int assists) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET assists=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET assists=? WHERE uuid=?");
 			ps.setInt(1, assists);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void addDeath(UUID uuid, int deaths) {
+	public void addDeath(final UUID uuid, final int deaths) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET deaths=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET deaths=? WHERE uuid=?");
 			ps.setInt(1, getDeaths(uuid) + deaths);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getDeaths(UUID uuid) {
+	public int getDeaths(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT deaths FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT deaths FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("deaths");
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	public void setDeaths(UUID uuid, int deaths) {
+	public void setDeaths(final UUID uuid, final int deaths) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET deaths=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET deaths=? WHERE uuid=?");
 			ps.setInt(1, deaths);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public List<String> getBoughtKits(UUID uuid) {
+	public List<String> getBoughtKits(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT kits FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT kits FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				String kits = rs.getString("kits");
-				List<String> kitsList = Arrays.asList(kits.split(", "));
+				final String kits = rs.getString("kits");
+				final List<String> kitsList = Arrays.asList(kits.split(", "));
 //                Bukkit.getLogger().info(kitsList.toString());
 				return kitsList;
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
 	}
 
-	public void addBoughtKit(UUID uuid, String kit) {
-		List<String> kits = getBoughtKits(uuid);
+	public void addBoughtKit(final UUID uuid, final String kit) {
+		final List<String> kits = getBoughtKits(uuid);
 		if (!kits.contains(kit)) {
 			kits.add(kit);
 			setBoughtKits(uuid, String.join(",", kits));
 		}
 	}
 
-	public void setBoughtKits(UUID uuid, String kits) {
+	public void setBoughtKits(final UUID uuid, final String kits) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET kits=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET kits=? WHERE uuid=?");
 			ps.setString(1, kits);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public List<String> getBoughtPerks(UUID uuid) {
+	public List<String> getBoughtPerks(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT perks FROM " + table + " WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("SELECT perks FROM " + table + " WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 
-			ResultSet rs = ps.executeQuery();
+			final ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				String perks = rs.getString("perks");
-				List<String> perksList = Arrays.asList(perks.split(", "));
+				final String perks = rs.getString("perks");
+				final List<String> perksList = Arrays.asList(perks.split(", "));
 //                Bukkit.getLogger().info(perksList.toString());
 				return perksList;
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
 	}
 
-	public void addBoughtPerk(UUID uuid, String perk) {
-		List<String> perks = getBoughtPerks(uuid);
+	public void addBoughtPerk(final UUID uuid, final String perk) {
+		final List<String> perks = getBoughtPerks(uuid);
 		if (!perks.contains(perk)) {
 			perks.add(perk);
 			setBoughtPerks(uuid, String.join(",", perks));
 		}
 	}
 
-	public void setBoughtPerks(UUID uuid, String perks) {
+	public void setBoughtPerks(final UUID uuid, final String perks) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET perks=? WHERE uuid=?");
+			final PreparedStatement ps = conn.prepareStatement("UPDATE " + table + " SET perks=? WHERE uuid=?");
 			ps.setString(1, perks);
 			ps.setString(2, uuid.toString());
 
 			ps.executeUpdate();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Map<String, Integer> getTopStatistics(String... types) {
-		Map<String, Integer> topStatistics = new HashMap<>();
-		for (String type : types) {
+	public Map<String, Integer> getTopStatistics(final String... types) {
+		final Map<String, Integer> topStatistics = new HashMap<>();
+		for (final String type : types) {
 			try {
-				PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " ORDER BY " + type + " DESC LIMIT 10");
+				final PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " ORDER BY " + type + " DESC LIMIT 10");
 
-				ResultSet rs = ps.executeQuery();
+				final ResultSet rs = ps.executeQuery();
 				while (rs.next()) {
 					topStatistics.put(rs.getString("name"), rs.getInt(type));
 				}
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -544,19 +544,19 @@ public class SQLGetter {
 
 	public void emptyTable() {
 		try {
-			PreparedStatement ps = conn.prepareStatement("TRUNCATE " + table);
+			final PreparedStatement ps = conn.prepareStatement("TRUNCATE " + table);
 			ps.executeUpdate();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void removeUUID(UUID uuid) {
+	public void removeUUID(final UUID uuid) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("DELETE FROM " + table + " WHERE 'uuid'=?");
+			final PreparedStatement ps = conn.prepareStatement("DELETE FROM " + table + " WHERE 'uuid'=?");
 			ps.setString(1, uuid.toString());
 			ps.executeUpdate();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 	}

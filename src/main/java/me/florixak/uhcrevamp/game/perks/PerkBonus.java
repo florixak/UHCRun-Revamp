@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.game.perks;
 
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -12,7 +13,7 @@ public class PerkBonus {
 	private final List<Double> uhcExp;
 	private final List<Integer> exp;
 
-	public PerkBonus(List<Double> coins, List<Double> uhcExp, List<Integer> exp) {
+	public PerkBonus(final List<Double> coins, final List<Double> uhcExp, final List<Integer> exp) {
 		this.coins = coins;
 		this.uhcExp = uhcExp;
 		this.exp = exp;
@@ -48,14 +49,15 @@ public class PerkBonus {
 		return getExp().get(0) + "-" + getExp().get(1);
 	}
 
-	public void giveBonus(UHCPlayer uhcPlayer) {
-		double randomCoins = getCoins().get(0) + (getCoins().get(1) - getCoins().get(0)) * MathUtils.getRandom().nextDouble();
-		double randomUHCExp = getUhcExp().get(0) + (getUhcExp().get(1) - getUhcExp().get(0)) * MathUtils.getRandom().nextDouble();
-		int randomExp = MathUtils.randomInteger(getExp().get(0), getExp().get(1));
+	public void giveBonus(final UHCPlayer uhcPlayer) {
+		final double randomCoins = getCoins().get(0) + (getCoins().get(1) - getCoins().get(0)) * MathUtils.getRandom().nextDouble();
+		final double randomUHCExp = getUhcExp().get(0) + (getUhcExp().get(1) - getUhcExp().get(0)) * MathUtils.getRandom().nextDouble();
+		final int randomExp = MathUtils.randomInteger(getExp().get(0), getExp().get(1));
+
 		uhcPlayer.getData().depositMoney(randomCoins);
 		uhcPlayer.getData().addUHCExp(randomUHCExp);
 		uhcPlayer.giveExp(randomExp);
-		uhcPlayer.sendMessage(TextUtils.color("&aYou have received a bonus! &eCoins: &6" + randomCoins + " &eUHC Exp: &6" + randomUHCExp + " &eExp: &6" + randomExp));
+		uhcPlayer.sendMessage(Messages.PERKS_BONUS_RECEIVED.toString().replace("%coins%", TextUtils.formatToOneDecimal(randomCoins)).replace("%uhcExp%", TextUtils.formatToOneDecimal(randomUHCExp)).replace("%exp%", String.valueOf(randomExp)));
 	}
 
 }

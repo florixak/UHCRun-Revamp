@@ -1,7 +1,9 @@
 # This is the main configuration file of UHCRevamp
 # I am going to improve some things in the future.
 # I hope you will like it!
-# If you have problems contact me: https://github.com/florixak
+# If you have problems contact me:
+#   - discord: florixak
+#   - github: https://github.com/florixak
 
 settings:
 
@@ -209,17 +211,17 @@ settings:
     kill:
       coins: 30 # Money reward for a kill
       exp: 60 # Experience reward for a kill
-      uhc-exp: 60 # UHC experience reward for a kill
+      uhc-exp: 25 # UHC experience reward for a kill
     assist:
       coins: 10 # Money reward for an assist
       exp: 0 # Experience reward for an assist
-      uhc-exp: 20 # UHC experience reward for an assist
+      uhc-exp: 10 # UHC experience reward for an assist
     win:
       coins: 150 # Money reward for a win
-      uhc-exp: 300 # UHC experience reward for a win
+      uhc-exp: 200 # UHC experience reward for a win
     lose:
       coins: 50 # Money reward for a loss
-      uhc-exp: 150 # UHC experience reward for a loss
+      uhc-exp: 50 # UHC experience reward for a loss
     activity:
       enabled: true # Enable activity rewards
       coins: 10 # Money reward for activity

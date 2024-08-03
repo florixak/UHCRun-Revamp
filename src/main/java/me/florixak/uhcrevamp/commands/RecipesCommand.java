@@ -14,34 +14,34 @@ import org.bukkit.entity.Player;
 
 public class RecipesCommand implements CommandExecutor {
 
-    private final GameManager gameManager;
+	private final GameManager gameManager;
 
-    public RecipesCommand(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+	public RecipesCommand(final GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+	@Override
+	public boolean onCommand(final CommandSender sender, final Command command, final String s, final String[] args) {
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.ONLY_PLAYER.toString());
-            return true;
-        }
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Messages.ONLY_PLAYER.toString());
+			return true;
+		}
 
-        Player p = (Player) sender;
-        UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+		final Player p = (Player) sender;
+		final UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
 
-        if (args.length == 0) {
-            new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-        } else if (args.length == 1) {
-            CustomRecipe recipe = gameManager.getRecipeManager().getRecipe(XMaterial.matchXMaterial(args[0]).get().parseItem());
-            if (recipe == null) {
-                new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-                return true;
-            }
-        } else {
-            new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-        }
-        return true;
-    }
+		if (args.length == 0) {
+			new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+		} else if (args.length == 1) {
+			final CustomRecipe recipe = gameManager.getRecipeManager().getRecipe(XMaterial.matchXMaterial(args[0]).get().parseItem());
+			if (recipe == null) {
+				new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+				return true;
+			}
+		} else {
+			new CustomRecipesMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+		}
+		return true;
+	}
 }

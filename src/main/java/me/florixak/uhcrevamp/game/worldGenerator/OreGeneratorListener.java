@@ -23,8 +23,8 @@ public class OreGeneratorListener implements Listener {
 	private final List<GeneratedOre> oresList;
 	private final List<String> notSpawnIn;
 
-	public OreGeneratorListener(GameManager gameManager) {
-		FileConfiguration oreGenConfig = gameManager.getConfigManager().getFile(ConfigType.ORE_GENERATION).getConfig();
+	public OreGeneratorListener(final GameManager gameManager) {
+		final FileConfiguration oreGenConfig = gameManager.getConfigManager().getFile(ConfigType.ORE_GENERATION).getConfig();
 		this.targetWorldName = GameValues.WORLD_NAME;
 		this.maxOresPerChunk = GameValues.GAME.MAX_ORE_PER_CHUNK;
 		this.oresList = gameManager.getOreGenManager().getOreGeneratorList();
@@ -63,24 +63,24 @@ public class OreGeneratorListener implements Listener {
 	}
 
 	@EventHandler
-	public void onWorldLoad(WorldLoadEvent event) {
-		World world = event.getWorld();
+	public void onWorldLoad(final WorldLoadEvent event) {
+		final World world = event.getWorld();
 		if (!world.getName().equalsIgnoreCase(targetWorldName)) {
 			return;
 		}
 //        Bukkit.getLogger().info("Not Generate In: " + notSpawnIn.toString());
 		Bukkit.getLogger().info("World " + targetWorldName + " loaded. Generating ores...");
-		for (Chunk chunk : world.getLoadedChunks()) {
+		for (final Chunk chunk : world.getLoadedChunks()) {
 			for (int i = 0; i < maxOresPerChunk; i++) {
-				int x = MathUtils.getRandom().nextInt(16);
-				int z = MathUtils.getRandom().nextInt(16);
-				int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
-				int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
-				Block startBlock = chunk.getBlock(x, y, z);
+				final int x = MathUtils.getRandom().nextInt(16);
+				final int z = MathUtils.getRandom().nextInt(16);
+				final int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
+				final int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
+				final Block startBlock = chunk.getBlock(x, y, z);
 				if (!notSpawnIn.contains(startBlock.getType().name())
 						&& !startBlock.getBiome().equals(XBiome.OCEAN.getBiome())
 						&& !startBlock.getBiome().equals(XBiome.DEEP_OCEAN.getBiome())) {
-					GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
+					final GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
 					generateVein(generatedOre.getMaterial(), startBlock, MathUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
 				}
 			}

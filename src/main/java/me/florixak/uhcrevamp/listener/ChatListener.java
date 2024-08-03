@@ -4,7 +4,6 @@ import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.game.Permissions;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
@@ -20,19 +19,19 @@ public class ChatListener implements Listener {
 
 	private final GameManager gameManager;
 
-	public ChatListener(GameManager gameManager) {
+	public ChatListener(final GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
 
 	@EventHandler
-	public void handlePlayerChat(AsyncPlayerChatEvent event) {
+	public void handlePlayerChat(final AsyncPlayerChatEvent event) {
 		event.setCancelled(true);
-		PlayerManager pm = gameManager.getPlayerManager();
+		final PlayerManager pm = gameManager.getPlayerManager();
 
-		Player p = event.getPlayer();
-		UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
-		boolean isTeamMode = GameValues.TEAM.TEAM_MODE;
-		boolean isGlobal = gameManager.isPlaying() && isTeamMode && event.getMessage().startsWith("!");
+		final Player p = event.getPlayer();
+		final UHCPlayer uhcPlayer = pm.getUHCPlayer(event.getPlayer().getUniqueId());
+		final boolean isTeamMode = GameValues.TEAM.TEAM_MODE;
+		final boolean isGlobal = gameManager.isPlaying() && isTeamMode && event.getMessage().startsWith("!");
 
 		String format = GameValues.CHAT.LOBBY_FORMAT;
 		if (gameManager.isPlaying()) {
@@ -46,24 +45,22 @@ public class ChatListener implements Listener {
 				format = GameValues.CHAT.SOLO_FORMAT;
 			}
 		}
-
 		if (format == null || format.isEmpty()) return;
-
-		String message = p.hasPermission(Permissions.COLOR_CHAT.getPerm()) ? TextUtils.color(event.getMessage()) : event.getMessage();
+		final String message = event.getMessage();
 		format = PlaceholderUtil.setPlaceholders(format.replace("%message%", isGlobal ? message.replace("!", "") : message), p);
 		final String finalFormat = TextUtils.color(format);
 
 		switch (uhcPlayer.getState()) {
 			case LOBBY:
 				if (!gameManager.isPlaying()) {
-					for (UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
+					for (final UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
 						uhcPlayers.sendMessage(finalFormat);
 					}
 				}
 				break;
 			case DEAD:
 			case SPECTATOR:
-				for (UHCPlayer spectator : pm.getSpectatorPlayers()) {
+				for (final UHCPlayer spectator : pm.getSpectatorPlayers()) {
 					spectator.sendMessage(finalFormat);
 				}
 				break;
@@ -71,7 +68,7 @@ public class ChatListener implements Listener {
 				if (isTeamMode && !isGlobal) {
 					uhcPlayer.getTeam().sendMessage(format);
 				} else {
-					for (UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
+					for (final UHCPlayer uhcPlayers : pm.getOnlinePlayers()) {
 						uhcPlayers.sendMessage(finalFormat);
 					}
 				}
@@ -83,10 +80,10 @@ public class ChatListener implements Listener {
 	}
 
 	@EventHandler
-	public void handlePlayerCommand(PlayerCommandPreprocessEvent event) {
-		Player p = event.getPlayer();
-		String msg = event.getMessage();
-		String args[] = msg.split(" ");
+	public void handlePlayerCommand(final PlayerCommandPreprocessEvent event) {
+		final Player p = event.getPlayer();
+		final String msg = event.getMessage();
+		final String[] args = msg.split(" ");
 
 		if (GameValues.CHAT.BLOCKED_COMMANDS.contains(event.getMessage().toLowerCase())) {
 			event.setCancelled(true);

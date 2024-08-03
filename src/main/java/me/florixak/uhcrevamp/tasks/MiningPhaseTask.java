@@ -14,7 +14,7 @@ public class MiningPhaseTask extends BukkitRunnable {
 
 	private int countdown;
 
-	public MiningPhaseTask(GameManager gameManager) {
+	public MiningPhaseTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		countdown = GameValues.GAME.MINING_COUNTDOWN;
 	}

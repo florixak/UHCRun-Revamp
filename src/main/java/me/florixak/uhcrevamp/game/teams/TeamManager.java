@@ -21,7 +21,7 @@ public class TeamManager {
 	private final FileConfiguration teamsConfig;
 	private final List<UHCTeam> teamsList;
 
-	public TeamManager(GameManager gameManager) {
+	public TeamManager(final GameManager gameManager) {
 
 		this.teamsConfig = gameManager.getConfigManager().getFile(ConfigType.TEAMS).getConfig();
 		this.teamsList = new ArrayList<>();
@@ -35,17 +35,17 @@ public class TeamManager {
 			return;
 		}
 
-		for (String teamName : teamsConfig.getConfigurationSection("teams").getKeys(false)) {
-			ItemStack display_item = XMaterial.matchXMaterial(teamsConfig.getString("teams." + teamName + ".display-item", "BARRIER")
+		for (final String teamName : teamsConfig.getConfigurationSection("teams").getKeys(false)) {
+			final ItemStack display_item = XMaterial.matchXMaterial(teamsConfig.getString("teams." + teamName + ".display-item", "BARRIER")
 					.toUpperCase()).get().parseItem();
-			int durability = teamsConfig.getInt("teams." + teamName + ".durability");
-			String color = teamsConfig.getString("teams." + teamName + ".color");
-			UHCTeam team = new UHCTeam(display_item, durability, teamName, color, GameValues.TEAM.TEAM_SIZE);
+			final int durability = teamsConfig.getInt("teams." + teamName + ".durability");
+			final String color = teamsConfig.getString("teams." + teamName + ".color");
+			final UHCTeam team = new UHCTeam(display_item, durability, teamName, color, GameValues.TEAM.TEAM_SIZE);
 			this.teamsList.add(team);
 		}
 	}
 
-	public UHCTeam getTeam(String name) {
+	public UHCTeam getTeam(final String name) {
 		return teamsList.stream().filter(team -> team.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 
@@ -61,7 +61,7 @@ public class TeamManager {
 		return teamsList.stream().filter(UHCTeam::isAlive).collect(Collectors.toList());
 	}
 
-	public void addTeam(UHCTeam team) {
+	public void addTeam(final UHCTeam team) {
 		if (exists(team.getName()) || team == null) return;
 		this.teamsList.add(team);
 	}
@@ -79,9 +79,9 @@ public class TeamManager {
         gameManager.getConfigManager().getFile(ConfigType.TEAMS).save();
     }*/
 
-	public void joinRandomTeam(UHCPlayer uhcPlayer) {
+	public void joinRandomTeam(final UHCPlayer uhcPlayer) {
 		if (uhcPlayer.hasTeam()) return;
-		UHCTeam team = findFreeTeam();
+		final UHCTeam team = findFreeTeam();
 		if (team == null) {
 			uhcPlayer.setSpectator();
 			return;
@@ -90,8 +90,8 @@ public class TeamManager {
 	}
 
 	public UHCTeam getWinnerTeam() {
-		for (UHCTeam team : getLivingTeams()) {
-			for (UHCPlayer member : team.getMembers()) {
+		for (final UHCTeam team : getLivingTeams()) {
+			for (final UHCPlayer member : team.getMembers()) {
 				if (member.isWinner()) {
 					return team;
 				}
@@ -101,9 +101,9 @@ public class TeamManager {
 	}
 
 	public void teleportInToGame() {
-		for (UHCTeam team : getLivingTeams()) {
-			Location location = TeleportUtils.getSafeLocation();
-			for (UHCPlayer member : team.getMembers()) {
+		for (final UHCTeam team : getLivingTeams()) {
+			final Location location = TeleportUtils.getSafeLocation();
+			for (final UHCPlayer member : team.getMembers()) {
 				member.setSpawnLocation(location);
 			}
 			team.teleport(location);
@@ -111,11 +111,11 @@ public class TeamManager {
 	}
 
 	public void teleportAfterMining() {
-		for (UHCTeam team : getLivingTeams()) {
-			Player p = team.getLeader().getPlayer();
-			Location location = p.getLocation();
+		for (final UHCTeam team : getLivingTeams()) {
+			final Player p = team.getLeader().getPlayer();
+			final Location location = p.getLocation();
 
-			double y = location.getWorld().getHighestBlockYAt(location);
+			final double y = location.getWorld().getHighestBlockYAt(location);
 			location.setY(y);
 
 			team.teleport(location);
@@ -124,7 +124,7 @@ public class TeamManager {
 
 	private UHCTeam findFreeTeam() {
 		UHCTeam emptyTeam = null;
-		for (UHCTeam team : this.teamsList) {
+		for (final UHCTeam team : this.teamsList) {
 			if (team.getMembers().isEmpty()) {
 				emptyTeam = team;
 			} else if (!team.isFull()) {
@@ -136,7 +136,7 @@ public class TeamManager {
 		return emptyTeam;
 	}
 
-	public boolean exists(String teamName) {
+	public boolean exists(final String teamName) {
 		return teamsList.contains(getTeam(teamName));
 	}
 

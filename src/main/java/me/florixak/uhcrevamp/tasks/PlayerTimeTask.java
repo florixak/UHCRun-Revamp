@@ -9,36 +9,36 @@ import java.util.UUID;
 
 public class PlayerTimeTask extends BukkitRunnable {
 
-    private final GameManager gameManager;
+	private final GameManager gameManager;
 
-    private final long rewardInterval;
-    private final HashMap<UUID, Long> lastRewardTimes;
+	private final long rewardInterval;
+	private final HashMap<UUID, Long> lastRewardTimes;
 
-    public PlayerTimeTask(GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.lastRewardTimes = new HashMap<>();
-        this.rewardInterval = 1 * 60 * 1000;
+	public PlayerTimeTask(final GameManager gameManager) {
+		this.gameManager = gameManager;
+		this.lastRewardTimes = new HashMap<>();
+		this.rewardInterval = 1 * 60 * 1000;
 
-    }
+	}
 
-    @Override
-    public void run() {
-        if (gameManager.isPlaying()) return;
-        rewardActivePlayers();
-    }
+	@Override
+	public void run() {
+		if (gameManager.isPlaying()) return;
+		rewardActivePlayers();
+	}
 
-    public HashMap<UUID, Long> getLastRewardTimes() {
-        return lastRewardTimes;
-    }
+	public HashMap<UUID, Long> getLastRewardTimes() {
+		return lastRewardTimes;
+	}
 
-    private void rewardActivePlayers() {
-        long currentTime = System.currentTimeMillis();
-        for (UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
-            long lastRewardTime = lastRewardTimes.getOrDefault(uhcPlayer.getUUID(), 0L);
+	private void rewardActivePlayers() {
+		final long currentTime = System.currentTimeMillis();
+		for (final UHCPlayer uhcPlayer : gameManager.getPlayerManager().getAlivePlayers()) {
+			final long lastRewardTime = lastRewardTimes.getOrDefault(uhcPlayer.getUUID(), 0L);
 
-            if (currentTime - lastRewardTime >= rewardInterval) {
-                lastRewardTimes.put(uhcPlayer.getUUID(), currentTime);
-            }
-        }
-    }
+			if (currentTime - lastRewardTime >= rewardInterval) {
+				lastRewardTimes.put(uhcPlayer.getUUID(), currentTime);
+			}
+		}
+	}
 }

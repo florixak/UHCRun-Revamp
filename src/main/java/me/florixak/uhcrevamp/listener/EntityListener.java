@@ -19,23 +19,23 @@ public class EntityListener implements Listener {
 	private final GameManager gameManager;
 	private final PlayerManager playerManager;
 
-	public EntityListener(GameManager gameManager) {
+	public EntityListener(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.playerManager = gameManager.getPlayerManager();
 	}
 
 	@EventHandler
-	public void handleEntityDrop(EntityDeathEvent event) {
+	public void handleEntityDrop(final EntityDeathEvent event) {
 		if (!(event.getEntity() instanceof Animals)) return;
 
 		if (gameManager.getCustomDropManager().hasMobCustomDrop(event.getEntityType())) {
-			CustomDrop customDrop = gameManager.getCustomDropManager().getCustomMobDrop(event.getEntityType());
+			final CustomDrop customDrop = gameManager.getCustomDropManager().getCustomMobDrop(event.getEntityType());
 			customDrop.dropMobItem(event);
 		}
 	}
 
 	@EventHandler
-	public void handleDamage(EntityDamageEvent event) {
+	public void handleDamage(final EntityDamageEvent event) {
 
 		if (!(event.getEntity() instanceof Player)) return;
 
@@ -44,7 +44,7 @@ public class EntityListener implements Listener {
 			return;
 		}
 
-		EntityDamageEvent.DamageCause cause = event.getCause();
+		final EntityDamageEvent.DamageCause cause = event.getCause();
 
 		if (gameManager.getGameState() == GameState.MINING) {
 			if (gameManager.getCurrentCountdown() >= (GameValues.GAME.MINING_COUNTDOWN - 60)) {
@@ -52,9 +52,9 @@ public class EntityListener implements Listener {
 					event.setCancelled(true);
 				}
 			}
-			List<String> disabledCauses = GameValues.GAME.DISABLED_IN_MINING;
+			final List<String> disabledCauses = GameValues.GAME.DISABLED_IN_MINING;
 			if (!disabledCauses.isEmpty()) {
-				for (String causeName : disabledCauses) {
+				for (final String causeName : disabledCauses) {
 					if (cause.name().equalsIgnoreCase(causeName)) {
 						event.setCancelled(true);
 					}
@@ -64,43 +64,64 @@ public class EntityListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleEntityHitEntity(EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof Player)) {
-			if (!gameManager.isPlaying()) {
-				event.setCancelled(true);
+	public void handleEntityHitEntity(final EntityDamageByEntityEvent event) {
+		if (!(event.getDamager() instanceof Player)) { // if damager not player
+			if (!gameManager.isPlaying()) { // if not playing
+				event.setCancelled(true); // disable event
 			}
 			return;
 		}
 
-		Player damager = (Player) event.getDamager();
-		UHCPlayer uhcPlayerD = playerManager.getUHCPlayer(damager.getUniqueId());
+		final Player damager = (Player) event.getDamager();
+		final UHCPlayer uhcPlayerD = playerManager.getUHCPlayer(damager.getUniqueId());
 
-		if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.isEnding()) {
-			event.setCancelled(true);
+		if (!gameManager.isPlaying() || uhcPlayerD.isDead() || gameManager.isEnding()) { // if not playing, dead or ending
+			event.setCancelled(true); // disable event
 			return;
 		}
 
-		if (gameManager.getGameState().equals(GameState.MINING) || gameManager.isResistance()) {
-			if (!(event.getEntity() instanceof Player)) return;
-			event.setCancelled(true);
+		if (gameManager.getGameState().equals(GameState.MINING) || gameManager.isResistance()) { // if mining or resistance
+			if (!(event.getEntity() instanceof Player)) return; // if entity not player
+			event.setCancelled(true); // disable event
 			return;
 		}
 
 		if (event.getEntity() instanceof Player) {
-			Player entity = (Player) event.getEntity();
-			UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
+			final Player entity = (Player) event.getEntity();
+			final UHCPlayer uhcPlayerE = playerManager.getUHCPlayer(entity.getUniqueId());
 
 			if (GameValues.TEAM.TEAM_MODE && uhcPlayerD.getTeam() == uhcPlayerE.getTeam() && !GameValues.TEAM.FRIENDLY_FIRE) {
 				event.setCancelled(true);
 				uhcPlayerD.sendMessage(Messages.TEAM_NO_FRIENDLY_FIRE.toString());
+				return;
+			}
+
+			if (gameManager.getDamageTrackerManager().isInTracker(uhcPlayerE)) { // if in tracker
+				if (uhcPlayerD.equals(gameManager.getDamageTrackerManager().getAttacker(uhcPlayerE))) { // if attacker
+					uhcPlayerE.sendMessage("Damager is still the same."); // send message
+					return;
+				}
+				uhcPlayerE.sendMessage("New Damager! You have been damaged by " + uhcPlayerD.getName() + "."); // send message
+				final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(uhcPlayerE); // get attackerage
+				gameManager.getDamageTrackerManager().removeFromTracker(uhcPlayerE); // remove from tracker
+				gameManager.getDamageTrackerManager().addTrackerOn(uhcPlayerE, uhcPlayerD); // add tracker
+				if (gameManager.getDamageTrackerManager().isInAssist(uhcPlayerE)) { // if in assist
+					gameManager.getDamageTrackerManager().removeFromAssist(uhcPlayerE); // remove from assist
+				}
+				uhcPlayerE.sendMessage("Old Damager " + attacker.getName() + " is now assistant!");
+				gameManager.getDamageTrackerManager().addAssist(uhcPlayerE, attacker); // add assist
+				uhcPlayerE.sendMessage("Test of assistant: " + gameManager.getDamageTrackerManager().getAssistant(uhcPlayerE).getName());
+			} else {
+				uhcPlayerE.sendMessage("You have been damaged by " + uhcPlayerD.getName() + "."); // send message
+				gameManager.getDamageTrackerManager().addTrackerOn(uhcPlayerE, uhcPlayerD); // add tracker
 			}
 		}
 	}
 
 	@EventHandler
-	public void handleHealthRegain(EntityRegainHealthEvent event) {
+	public void handleHealthRegain(final EntityRegainHealthEvent event) {
 		if (!(event.getEntity() instanceof Player)) return;
-		EntityRegainHealthEvent.RegainReason reason = event.getRegainReason();
+		final EntityRegainHealthEvent.RegainReason reason = event.getRegainReason();
 
 		if (reason.equals(EntityRegainHealthEvent.RegainReason.SATIATED)) {
 			event.setCancelled(true);
@@ -108,7 +129,7 @@ public class EntityListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleProjectileHit(EntityDamageByEntityEvent event) {
+	public void handleProjectileHit(final EntityDamageByEntityEvent event) {
 		if (!gameManager.isPlaying()) {
 			event.setCancelled(true);
 			return;
@@ -117,43 +138,43 @@ public class EntityListener implements Listener {
 		if (!(event.getEntity() instanceof Player)) return;
 
 		if (event.getDamager() instanceof Snowball) {
-			Snowball snowball = (Snowball) event.getDamager();
+			final Snowball snowball = (Snowball) event.getDamager();
 			if (!(snowball.getShooter() instanceof Player)) return;
 
-			Player shooter = (Player) snowball.getShooter();
-			Player enemy = (Player) event.getEntity();
+			final Player shooter = (Player) snowball.getShooter();
+			final Player enemy = (Player) event.getEntity();
 			handleProjectileHit(shooter, enemy);
 
 		} else if (event.getDamager() instanceof Arrow) {
-			Arrow arrow = (Arrow) event.getDamager();
+			final Arrow arrow = (Arrow) event.getDamager();
 			if (!(arrow.getShooter() instanceof Player)) return;
 
-			Player shooter = (Player) arrow.getShooter();
-			Player enemy = (Player) event.getEntity();
+			final Player shooter = (Player) arrow.getShooter();
+			final Player enemy = (Player) event.getEntity();
 			handleProjectileHit(shooter, enemy);
 		} else if (event.getDamager() instanceof FishHook) {
-			FishHook fishHook = (FishHook) event.getDamager();
+			final FishHook fishHook = (FishHook) event.getDamager();
 			if (!(fishHook.getShooter() instanceof Player)) return;
 
-			Player shooter = (Player) fishHook.getShooter();
-			Player enemy = (Player) event.getEntity();
+			final Player shooter = (Player) fishHook.getShooter();
+			final Player enemy = (Player) event.getEntity();
 			handleProjectileHit(shooter, enemy);
 		} else if (event.getDamager() instanceof Egg) {
-			Egg egg = (Egg) event.getDamager();
+			final Egg egg = (Egg) event.getDamager();
 			if (!(egg.getShooter() instanceof Player)) return;
 
-			Player shooter = (Player) egg.getShooter();
-			Player enemy = (Player) event.getEntity();
+			final Player shooter = (Player) egg.getShooter();
+			final Player enemy = (Player) event.getEntity();
 			handleProjectileHit(shooter, enemy);
 		}
 	}
 
-	private void handleProjectileHit(Player shooter, Player enemy) {
+	private void handleProjectileHit(final Player shooter, final Player enemy) {
 		shooter.sendMessage(Messages.SHOT_HP.toString().replace("%player%", enemy.getDisplayName()).replace("%hp%", String.valueOf(enemy.getHealth())));
 	}
 
 	@EventHandler
-	public void handleMonsterTargeting(EntityTargetEvent event) {
+	public void handleMonsterTargeting(final EntityTargetEvent event) {
 		if (!gameManager.isPlaying()) {
 			event.setCancelled(true);
 			return;
@@ -167,7 +188,7 @@ public class EntityListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleMonsterSpawning(CreatureSpawnEvent event) {
+	public void handleMonsterSpawning(final CreatureSpawnEvent event) {
 		if (!gameManager.isPlaying()) {
 			event.setCancelled(true);
 			return;
@@ -181,7 +202,7 @@ public class EntityListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleExplode(EntityExplodeEvent event) {
+	public void handleExplode(final EntityExplodeEvent event) {
 		if (!gameManager.isPlaying()) {
 			event.setCancelled(true);
 			return;

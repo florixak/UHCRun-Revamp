@@ -15,6 +15,7 @@ import me.florixak.uhcrevamp.listener.events.GameKillEvent;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.Utils;
 import me.florixak.uhcrevamp.utils.XSeries.XMaterial;
+import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -33,7 +34,6 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.UUID;
 
 public class GameListener implements Listener {
 
@@ -41,26 +41,26 @@ public class GameListener implements Listener {
 	private final FileConfiguration config;
 	private final PlayerManager playerManager;
 
-	public GameListener(GameManager gameManager) {
+	public GameListener(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 		this.playerManager = gameManager.getPlayerManager();
 	}
 
 	@EventHandler
-	public void handleGameEnd(GameEndEvent event) {
+	public void handleGameEnd(final GameEndEvent event) {
 
-		String winner = event.getWinner();
-		List<String> gameResults = Messages.GAME_RESULTS.toList();
-		List<UHCPlayer> topKillers = playerManager.getTopKillers();
-		List<String> commands = config.getStringList("settings.end-game-commands");
+		final String winner = event.getWinner();
+		final List<String> gameResults = Messages.GAME_RESULTS.toList();
+		final List<UHCPlayer> topKillers = playerManager.getTopKillers();
+		final List<String> commands = config.getStringList("settings.end-game-commands");
 
 		// Game results and top killers
 		if (!gameResults.isEmpty()) {
 			for (String message : gameResults) {
 				for (int i = 0; i < gameResults.size(); i++) {
-					UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
-					boolean isUHCPlayer = topKiller != null;
+					final UHCPlayer topKiller = i < topKillers.size() && topKillers.get(i) != null ? topKillers.get(i) : null;
+					final boolean isUHCPlayer = topKiller != null;
 					message = message.replace("%winner%", winner)
 							.replace("%top-killer-" + (i + 1) + "%", isUHCPlayer ? topKiller.getName() : "None")
 							.replace("%top-killer-" + (i + 1) + "-kills%", isUHCPlayer ? String.valueOf(topKiller.getKills()) : "0")
@@ -74,7 +74,7 @@ public class GameListener implements Listener {
 		}
 
 		// Statistics
-		for (UHCPlayer player : playerManager.getPlayers()) {
+		for (final UHCPlayer player : playerManager.getPlayers()) {
 
 			player.getData().saveStatistics();
 			if (player.getPlayer() == null) continue;
@@ -84,9 +84,9 @@ public class GameListener implements Listener {
 
 			player.getData().showStatistics();
 			if (GameValues.TITLE.ENABLED) {
-				int fadeIn = GameValues.TITLE.FADE_IN * 20;
-				int stay = GameValues.TITLE.STAY * 20;
-				int fadeOut = GameValues.TITLE.FADE_OUT * 20;
+				final int fadeIn = GameValues.TITLE.FADE_IN * 20;
+				final int stay = GameValues.TITLE.STAY * 20;
+				final int fadeOut = GameValues.TITLE.FADE_OUT * 20;
 				if (player.isWinner())
 					UHCRevamp.getInstance().getVersionUtils().sendTitle(player.getPlayer(), Messages.TITLE_WIN.toString(), Messages.SUBTITLE_WIN.toString(), fadeIn, stay, fadeOut);
 				else {
@@ -97,62 +97,47 @@ public class GameListener implements Listener {
 
 		// End game commands
 		if (!commands.isEmpty()) {
-			for (String command : commands) {
+			for (final String command : commands) {
 				Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
 			}
 		}
 	}
 
 	@EventHandler
-	public void handleGameKill(GameKillEvent event) {
-		UHCPlayer killer = event.getKiller();
-		UHCPlayer victim = event.getVictim();
+	public void handleGameKill(final GameKillEvent event) {
+		final UHCPlayer killer = event.getKiller();
+		final UHCPlayer victim = event.getVictim();
 
-		victim.die();
-
-		if (killer != null) {
-			killer.addKill();
-			killer.getPlayer().giveExp((int) GameValues.REWARDS.EXP_FOR_KILL);
-			if (killer.hasPerk()) {
-				killer.getPerk().givePerk(killer);
+		if (killer == null) {
+			Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.DEATH.toString(), victim.getPlayer()));
+			if (gameManager.getDamageTrackerManager().isInTracker(victim)) {
+				final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(victim);
+				gameManager.getDamageTrackerManager().onDead(victim);
+				attacker.kill(victim);
 			}
-
-			killer.sendMessage(Messages.REWARDS_KILL.toString()
-					.replace("%player%", victim.getName())
-					.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
-					.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
-
-			Utils.broadcast(Messages.KILL.toString()
-					.replace("%player%", victim.getName())
-					.replace("%killer%", killer.getName()));
-
-			long deathTime = System.currentTimeMillis();
-			long assistWindow = 60000; // 60 seconds before death
-			List<UUID> assistants = victim.getAssistants(deathTime, assistWindow, killer.getUUID());
-
-			for (UUID assistantId : assistants) {
-				UHCPlayer assistant = playerManager.getUHCPlayer(assistantId);
-				if (assistant != null) {
-					assistant.addAssist();
-				}
-			}
-
-			victim.clearDamageTrackers();
-		} else {
-			Utils.broadcast(Messages.DEATH.toString()
-					.replace("%player%", victim.getName()));
+			return;
 		}
 
-		if (GameValues.TEAM.TEAM_MODE && !victim.getTeam().isAlive()) {
-			Utils.broadcast(Messages.TEAM_DEFEATED.toString().replace("%team%", victim.getTeam().getDisplayName()));
+		if (gameManager.getDamageTrackerManager().isInTracker(victim)) {
+			final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(victim);
+			final UHCPlayer assistant = gameManager.getDamageTrackerManager().getAssistant(victim);
+			gameManager.getDamageTrackerManager().onDead(victim);
+
+			if (assistant != null) {
+				assistant.assist(victim);
+			}
+			attacker.kill(victim);
 		}
+		Utils.broadcast(Messages.KILL.toString()
+				.replace("%player%", victim.getName())
+				.replace("%killer%", killer.getName()));
 	}
 
 	@EventHandler
-	public void handleBlockBreak(BlockBreakEvent event) {
-		Player p = event.getPlayer();
-		UHCPlayer uhcPlayer = playerManager.getUHCPlayer(p.getUniqueId());
-		Block block = event.getBlock();
+	public void handleBlockBreak(final BlockBreakEvent event) {
+		final Player p = event.getPlayer();
+		final UHCPlayer uhcPlayer = playerManager.getUHCPlayer(p.getUniqueId());
+		final Block block = event.getBlock();
 
 		if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.getGameState().equals(GameState.ENDING)) {
 			event.setCancelled(true);
@@ -167,13 +152,13 @@ public class GameListener implements Listener {
 			block.getDrops().clear();
 			event.setExpToDrop(0);
 
-			int randomMaterialIndex = MathUtils.getRandom().nextInt(XMaterial.values().length);
-			Material material = XMaterial.values()[randomMaterialIndex].parseMaterial();
+			final int randomMaterialIndex = MathUtils.getRandom().nextInt(XMaterial.values().length);
+			final Material material = XMaterial.values()[randomMaterialIndex].parseMaterial();
 			if (material == null) return;
 
-			ItemStack dropIs = new ItemStack(material);
-			Location loc = block.getLocation();
-			Location location = loc.add(0.5, 0.5, 0.5);
+			final ItemStack dropIs = new ItemStack(material);
+			final Location loc = block.getLocation();
+			final Location location = loc.add(0.5, 0.5, 0.5);
 
 			Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, dropIs);
 			return;
@@ -181,22 +166,22 @@ public class GameListener implements Listener {
 
 		if (GameValues.GAME.CUSTOM_DROPS_ENABLED) {
 			if (!gameManager.getCustomDropManager().getAppleChanceMap().isEmpty() && block.getType().name().contains("LEAVES")) {
-				ItemStack apple = new ItemStack(gameManager.getCustomDropManager().pickAppleToDrop(gameManager.getCustomDropManager().getAppleChanceMap()));
+				final ItemStack apple = new ItemStack(gameManager.getCustomDropManager().pickAppleToDrop(gameManager.getCustomDropManager().getAppleChanceMap()));
 				if (apple.getType().equals(XMaterial.AIR.parseMaterial())) return;
-				Location location = block.getLocation().add(0.5, 0.5, 0.5);
+				final Location location = block.getLocation().add(0.5, 0.5, 0.5);
 				Bukkit.getWorld(block.getWorld().getName()).dropItem(location, apple);
 				return;
 			}
 			if (UHCRevamp.useOldMethods) {
 				if (block.getType().name().contains("REDSTONE") && block.getType().name().contains("ORE")) {
-					CustomDrop redstoneOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("REDSTONE", true);
+					final CustomDrop redstoneOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("REDSTONE", true);
 					if (redstoneOreDrop != null) {
 						redstoneOreDrop.dropItem(event);
 						return;
 					}
 					return;
 				} else if (block.getType().name().contains("LAPIS") && block.getType().name().contains("ORE")) {
-					CustomDrop lapisOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("LAPIS", true);
+					final CustomDrop lapisOreDrop = gameManager.getCustomDropManager().getCustomBlockDrop("LAPIS", true);
 					if (lapisOreDrop != null) {
 						lapisOreDrop.dropItem(event);
 //						if (UHCRevamp.useOldMethods)
@@ -207,15 +192,15 @@ public class GameListener implements Listener {
 				}
 			}
 			if (gameManager.getCustomDropManager().hasBlockCustomDrop(block.getType())) {
-				CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
+				final CustomDrop customDrop = gameManager.getCustomDropManager().getCustomBlockDrop(block.getType());
 				customDrop.dropItem(event);
 			}
 		}
 	}
 
 	@EventHandler
-	public void handleBlockPlace(BlockPlaceEvent event) {
-		UHCPlayer uhcPlayer = playerManager.getUHCPlayer(event.getPlayer().getUniqueId());
+	public void handleBlockPlace(final BlockPlaceEvent event) {
+		final UHCPlayer uhcPlayer = playerManager.getUHCPlayer(event.getPlayer().getUniqueId());
 		if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.isEnding()) {
 			uhcPlayer.sendMessage(Messages.CANT_PLACE.toString());
 			event.setCancelled(true);
@@ -223,14 +208,14 @@ public class GameListener implements Listener {
 	}
 
 	@EventHandler
-	public void handleWeatherChange(WeatherChangeEvent event) {
+	public void handleWeatherChange(final WeatherChangeEvent event) {
 		event.setCancelled(true);
 	}
 
 	@EventHandler
-	public void handleHunger(FoodLevelChangeEvent event) {
-		Player p = (Player) event.getEntity();
-		UHCPlayer player = playerManager.getUHCPlayer(p.getUniqueId());
+	public void handleHunger(final FoodLevelChangeEvent event) {
+		final Player p = (Player) event.getEntity();
+		final UHCPlayer player = playerManager.getUHCPlayer(p.getUniqueId());
 		if (!gameManager.isPlaying() || player.isDead() || gameManager.isEnding()) {
 			p.setFoodLevel(20);
 			p.setExhaustion(0);
@@ -242,16 +227,16 @@ public class GameListener implements Listener {
 	}
 
 	@EventHandler
-	public void onCraftItem(CraftItemEvent event) {
-		ItemStack[] matrix1D = event.getInventory().getMatrix();
-		ItemStack[][] matrix2D = new ItemStack[3][3]; // Assuming a 3x3 crafting table
+	public void onCraftItem(final CraftItemEvent event) {
+		final ItemStack[] matrix1D = event.getInventory().getMatrix();
+		final ItemStack[][] matrix2D = new ItemStack[3][3]; // Assuming a 3x3 crafting table
 
 		// Convert 1D array to 2D array safely
 		for (int i = 0; i < matrix1D.length && i < 9; i++) { // Ensure not to exceed bounds of either array
 			matrix2D[i / 3][i % 3] = matrix1D[i];
 		}
 		// Iterate over all custom crafts to find a match
-		for (CustomRecipe customRecipe : gameManager.getRecipeManager().getRecipeList()) {
+		for (final CustomRecipe customRecipe : gameManager.getRecipeManager().getRecipeList()) {
 			if (customRecipe.matches(matrix2D)) {
 //                event.setResult(Event.Result.DENY);
 				event.setCurrentItem(customRecipe.getResult());

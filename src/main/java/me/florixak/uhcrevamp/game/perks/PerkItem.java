@@ -1,5 +1,6 @@
 package me.florixak.uhcrevamp.game.perks;
 
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.utils.MathUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
@@ -14,7 +15,7 @@ public class PerkItem {
 	private final List<Integer> amount;
 	private final int chance;
 
-	public PerkItem(ItemStack item, List<Integer> amount, int chance) {
+	public PerkItem(final ItemStack item, final List<Integer> amount, final int chance) {
 		this.item = item;
 		this.amount = amount;
 		this.chance = chance;
@@ -43,10 +44,10 @@ public class PerkItem {
 		return chance;
 	}
 
-	public void giveItem(UHCPlayer uhcPlayer) {
-		int num = MathUtils.randomInteger(1, 100);
+	public void giveItem(final UHCPlayer uhcPlayer) {
+		final int num = MathUtils.randomInteger(1, 100);
 		if (num > chance) return;
-		uhcPlayer.sendMessage(TextUtils.color("&aYou got lucky! You have received a perk item! " + getDisplayName()));
+		uhcPlayer.sendMessage(Messages.PERKS_ITEM_RECEIVED.toString().replace("%item%", getDisplayName()));
 		uhcPlayer.getPlayer().getInventory().addItem(item);
 	}
 }
