@@ -134,7 +134,15 @@ public class CustomDrop {
 				deathEvent.getDrops().clear();
 				deathEvent.setDroppedExp(0);
 				p.giveExp(getExp());
-				dropItem(loc);
+
+				final List<String> drops = getDrops();
+				final Material dropMaterial = XMaterial.matchXMaterial(drops.get(MathUtils.getRandom().nextInt(drops.size()))).get().parseMaterial();
+				if (dropMaterial != XMaterial.AIR.parseMaterial()) {
+					final int amount = MathUtils.randomInteger(getMinAmount(), getMaxAmount());
+					final ItemStack drop = new ItemStack(dropMaterial, amount);
+					final Location location = loc.add(0.5, 0.5, 0.5);
+					Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop);
+				}
 			}
 		}
 	}
@@ -154,7 +162,7 @@ public class CustomDrop {
 				Bukkit.getWorld(loc.getWorld().getName()).dropItem(location, drop);
 			}
 		} catch (final NullPointerException e) {
-			Bukkit.getLogger().info("Failed to drop item from " + getMaterial().name());
+			Bukkit.getLogger().info("Failed to drop item from.");
 		}
 
 	}

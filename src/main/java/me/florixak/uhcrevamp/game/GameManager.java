@@ -188,7 +188,7 @@ public class GameManager {
 				getTaskManager().startDeathmatchTask();
 
 				Utils.broadcast(Messages.DEATHMATCH.toString());
-				getBorderManager().startShrinking(1.0, GameValues.GAME.DEATHMATCH_COUNTDOWN);
+				getBorderManager().startShrinking(1.0, GameValues.GAME.DEATHMATCH_COUNTDOWN / 2); // minimum border size to config + coefficient
 				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDeathmatchSound(player));
 				break;
 

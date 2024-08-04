@@ -83,10 +83,9 @@ public class PlayerListener implements Listener {
 		Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.JOIN.toString(), p));
 		Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.PLAYERS_TO_START.toString(), p));
 
-		if (!gameManager.isStarting() && gameManager.getPlayerManager().getOnlinePlayers().size() >= GameValues.GAME.PLAYERS_TO_START) {
-			gameManager.setGameState(GameState.STARTING);
-		}
-
+//		if (!gameManager.isStarting() && gameManager.getPlayerManager().getOnlinePlayers().size() >= GameValues.GAME.PLAYERS_TO_START) {
+//			gameManager.setGameState(GameState.STARTING);
+//		}
 	}
 
 	@EventHandler

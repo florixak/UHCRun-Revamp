@@ -38,7 +38,6 @@ public class PvPPhaseTask extends BukkitRunnable {
 			gameManager.getPlayerManager().getPlayers()
 					.forEach(uhcPlayer -> gameManager.getSoundManager().playDeathmatchStartingSound(uhcPlayer.getPlayer()));
 		}
-//		gameManager.getBorderManager().shrinkBorder();
 		countdown--;
 
 		if (countdown > 10 && gameManager.getPlayerManager().getOnlinePlayers().size() <= GameValues.GAME.START_DEATHMATCH_AT) {

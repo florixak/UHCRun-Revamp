@@ -14,26 +14,31 @@ public class GameCheckTask extends BukkitRunnable {
 
 	public GameCheckTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
-//		this.delayCountdown = GameValues.GAME.STARTING_DELAY;
 	}
 
 	public boolean isGameEnd() {
-//		return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
-		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
+		return GameValues.TEAM.TEAM_MODE ? gameManager.getTeamManager().getLivingTeams().size() < 2 : gameManager.getPlayerManager().getAlivePlayers().size() < 2;
+//		return gameManager.getPlayerManager().getAlivePlayers().isEmpty();
 	}
 
 	public boolean canStart() {
 		final int minPlayers = GameValues.GAME.PLAYERS_TO_START;
 		final int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
 		if (GameValues.TEAM.TEAM_MODE) {
-			return playersOnline >= minPlayers && allPlayersNotInOneTeam();
+			return validTeamsToStartGame();
 		}
 		return playersOnline >= minPlayers;
 	}
 
-	private boolean allPlayersNotInOneTeam() {
+	private boolean validTeamsToStartGame() {
+		final int minPlayers = GameValues.GAME.PLAYERS_TO_START;
+		final int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
+
+		if (playersOnline < minPlayers) {
+			return false;
+		}
 		for (final UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
-			if (team.getMembers().size() == gameManager.getPlayerManager().getOnlinePlayers().size()) {
+			if (team.getMembers().size() == playersOnline) {
 				return false;
 			}
 		}
