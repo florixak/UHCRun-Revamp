@@ -2,7 +2,6 @@ package me.florixak.uhcrevamp.commands;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
-import me.florixak.uhcrevamp.game.perks.Perk;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.gui.MenuManager;
 import me.florixak.uhcrevamp.gui.menu.PerksMenu;
@@ -35,18 +34,7 @@ public class PerksCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length == 0) {
-			new PerksMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-		} else if (args.length == 1) {
-			final Perk perk = gameManager.getPerksManager().getPerk(args[0]);
-			if (perk == null) {
-				new PerksMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-				return true;
-			}
-			uhcPlayer.setPerk(perk);
-		} else {
-			new PerksMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-		}
+		new PerksMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
 		return true;
 	}
 }

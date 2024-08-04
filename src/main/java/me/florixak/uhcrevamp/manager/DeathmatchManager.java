@@ -22,7 +22,7 @@ public class DeathmatchManager {
 		this.config = gameManager.getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 
 		this.path = "settings.deathmatch";
-		this.deathmatchWorld = config.getString(path + ".location.world", "UHCWorld");
+		this.deathmatchWorld = config.getString(path + ".location.world", GameValues.WORLD_NAME);
 	}
 
 	public void checkDeathmatch() {
@@ -53,7 +53,7 @@ public class DeathmatchManager {
 	}
 
 	public void resetDeathmatchLocation() {
-		config.set(path + ".location.world", "world");
+		config.set(path + ".location.world", GameValues.WORLD_NAME);
 		config.set(path + ".location.x", 0.0);
 		config.set(path + ".location.y", 75.0);
 		config.set(path + ".location.z", 0.0);
@@ -61,11 +61,7 @@ public class DeathmatchManager {
 	}
 
 	public double getDeathmatchBorderSize() {
-		return config.getDouble(path + ".border-size", 40.0);
-	}
-
-	public boolean isDeathmatchEnabled() {
-		return config.getBoolean(path + ".enabled", true);
+		return GameValues.BORDER.DEATHMATCH_SIZE;
 	}
 
 	public Location getTeleportLocation() {

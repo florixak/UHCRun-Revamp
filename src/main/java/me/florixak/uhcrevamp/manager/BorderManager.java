@@ -15,7 +15,8 @@ public class BorderManager {
 	public void setBorder() {
 		wb = Bukkit.getWorld(GameValues.WORLD_NAME).getWorldBorder();
 		wb.setCenter(0, 0);
-		wb.setSize(GameValues.BORDER.INIT_BORDER_SIZE);
+		wb.setSize(GameValues.BORDER.INIT_SIZE);
+		wb.setDamageAmount(GameValues.BORDER.BORDER_DAMAGE);
 	}
 
 	public void removeBorder() {
@@ -26,17 +27,21 @@ public class BorderManager {
 		wb.setSize(size);
 	}
 
+	public void setSize(final double size, final int countdown) {
+		wb.setSize(size, countdown);
+	}
+
 	public double getSize() {
 		return wb.getSize();
 	}
 
 	public double getMaxSize() {
-		return GameValues.BORDER.INIT_BORDER_SIZE;
+		return GameValues.BORDER.INIT_SIZE;
 	}
 
-	public double getSpeed() {
-		return GameValues.BORDER.BORDER_SPEED;
-	}
+//	public double getSpeed() {
+//		return GameValues.BORDER.BORDER_SPEED;
+//	}
 
 	public boolean exists() {
 		return wb != null && wb.getSize() == getMaxSize();
@@ -51,7 +56,7 @@ public class BorderManager {
 		if (!exists()) setBorder();
 	}
 
-	public void shrinkBorder() {
-		setSize(getSize() - getSpeed());
+	public void startShrinking(final double size, final int countdown) {
+		setSize(size, countdown);
 	}
 }

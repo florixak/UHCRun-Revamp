@@ -177,8 +177,10 @@ public class GameManager {
 				}
 				getTaskManager().startResistanceTask();
 				getTaskManager().startPvPTask();
+				getBorderManager().startShrinking(GameValues.BORDER.DEATHMATCH_SIZE, GameValues.GAME.PVP_COUNTDOWN * 2);
 
 				Utils.broadcast(Messages.BORDER_SHRINK.toString());
+				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playPvPStarted(player));
 				break;
 
 			case DEATHMATCH:
@@ -186,12 +188,13 @@ public class GameManager {
 				getTaskManager().startDeathmatchTask();
 
 				Utils.broadcast(Messages.DEATHMATCH.toString());
+				getBorderManager().startShrinking(1.0, GameValues.GAME.DEATHMATCH_COUNTDOWN);
 				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playDeathmatchSound(player));
 				break;
 
 			case ENDING:
 				Utils.broadcast(Messages.GAME_ENDED.toString());
-				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameEndSound(player));
+				Bukkit.getOnlinePlayers().forEach(player -> getSoundManager().playGameOverSound(player));
 
 				getPlayerManager().setUHCWinner();
 				plugin.getServer().getPluginManager().callEvent(new GameEndEvent(getPlayerManager().getUHCWinner()));
@@ -201,7 +204,7 @@ public class GameManager {
 		}
 	}
 
-	public synchronized int getCurrentCountdown() {
+	public int getCurrentCountdown() {
 		switch (gameState) {
 			case LOBBY:
 				return -1;
@@ -217,6 +220,21 @@ public class GameManager {
 				return getTaskManager().getEndingTask().getCountdown();
 			default:
 				return 0;
+		}
+	}
+
+	public int getCurrentNotStartedCountdown() {
+		switch (gameState) {
+			case STARTING:
+				return GameValues.GAME.STARTING_COUNTDOWN;
+			case MINING:
+				return GameValues.GAME.MINING_COUNTDOWN;
+			case PVP:
+				return GameValues.GAME.PVP_COUNTDOWN;
+			case DEATHMATCH:
+				return GameValues.GAME.DEATHMATCH_COUNTDOWN;
+			default:
+				return -1;
 		}
 	}
 

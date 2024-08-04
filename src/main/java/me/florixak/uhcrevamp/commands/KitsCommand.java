@@ -2,7 +2,6 @@ package me.florixak.uhcrevamp.commands;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
-import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.gui.MenuManager;
 import me.florixak.uhcrevamp.gui.menu.KitsMenu;
@@ -35,18 +34,8 @@ public class KitsCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length == 0) {
-			new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-		} else if (args.length == 1) {
-			final Kit kit = gameManager.getKitsManager().getKit(args[0]);
-			if (kit == null) {
-				new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-				return true;
-			}
-			uhcPlayer.setKit(kit);
-		} else {
-			new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
-		}
+		new KitsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+
 		return true;
 	}
 }

@@ -87,9 +87,11 @@ public class GameListener implements Listener {
 				final int fadeIn = GameValues.TITLE.FADE_IN * 20;
 				final int stay = GameValues.TITLE.STAY * 20;
 				final int fadeOut = GameValues.TITLE.FADE_OUT * 20;
-				if (player.isWinner())
+				if (player.isWinner()) {
+					gameManager.getSoundManager().playWinSound(player.getPlayer());
 					UHCRevamp.getInstance().getVersionUtils().sendTitle(player.getPlayer(), Messages.TITLE_WIN.toString(), Messages.SUBTITLE_WIN.toString(), fadeIn, stay, fadeOut);
-				else {
+				} else {
+					gameManager.getSoundManager().playGameOverSound(player.getPlayer());
 					UHCRevamp.getInstance().getVersionUtils().sendTitle(player.getPlayer(), Messages.TITLE_LOSE.toString(), Messages.SUBTITLE_LOSE.toString(), fadeIn, stay, fadeOut);
 				}
 			}

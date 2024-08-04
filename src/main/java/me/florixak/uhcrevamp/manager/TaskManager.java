@@ -29,7 +29,10 @@ public class TaskManager {
 	}
 
 	public void startStartingTask() {
-//		if (this.startingPhaseTask != null) this.startingPhaseTask.cancel();
+		if (this.startingPhaseTask != null) {
+			this.startingPhaseTask.cancel();
+			Bukkit.getLogger().info("Starting task was already running, cancelling it.");
+		}
 		this.startingPhaseTask = new StartingPhaseTask(gameManager);
 		this.startingPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}

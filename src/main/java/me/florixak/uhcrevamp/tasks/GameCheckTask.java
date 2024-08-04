@@ -14,6 +14,7 @@ public class GameCheckTask extends BukkitRunnable {
 
 	public GameCheckTask(final GameManager gameManager) {
 		this.gameManager = gameManager;
+//		this.delayCountdown = GameValues.GAME.STARTING_DELAY;
 	}
 
 	public boolean isGameEnd() {
@@ -24,64 +25,32 @@ public class GameCheckTask extends BukkitRunnable {
 	public boolean canStart() {
 		final int minPlayers = GameValues.GAME.PLAYERS_TO_START;
 		final int playersOnline = gameManager.getPlayerManager().getOnlinePlayers().size();
-		final boolean teamMode = GameValues.TEAM.TEAM_MODE;
-
-//		if (teamMode) return areTeamsValid();
+		if (GameValues.TEAM.TEAM_MODE) {
+			return playersOnline >= minPlayers && allPlayersNotInOneTeam();
+		}
 		return playersOnline >= minPlayers;
 	}
 
-	private boolean areTeamsValid() {
-		final int maxPlayersPerTeam = GameValues.TEAM.TEAM_SIZE;
-		final int minPlayersToStart = GameValues.GAME.PLAYERS_TO_START;
-		final int totalPlayers = gameManager.getPlayerManager().getOnlinePlayers().size();
-		final int totalTeams = gameManager.getTeamManager().getTeamsList().size();
-
-		// Check if there are enough players to start
-		if (totalPlayers < minPlayersToStart) {
-			return false;
-		}
-
-		// Ensure not all players are in the same team
-		if (totalPlayers > maxPlayersPerTeam) {
-			return false;
-		}
-
-		// Check if any team exceeds the maximum allowed size
+	private boolean allPlayersNotInOneTeam() {
 		for (final UHCTeam team : gameManager.getTeamManager().getTeamsList()) {
-			if (team.getMembers().size() > maxPlayersPerTeam) {
+			if (team.getMembers().size() == gameManager.getPlayerManager().getOnlinePlayers().size()) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
 	@Override
 	public void run() {
-		final boolean gameEnd = isGameEnd();
-		final boolean canStart = canStart();
 
 		switch (gameManager.getGameState()) {
 			case LOBBY:
-				if (canStart) {
+				if (canStart() && !gameManager.isStarting()) {
 					gameManager.setGameState(GameState.STARTING);
 				}
-//                if (!gameManager.getPlayerManager().getPlayers().isEmpty()) {
-//                    Bukkit.getLogger().info(gameManager.getPlayerManager().getPlayers().size() + ". Name: "
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getName() + " Activity: "
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getUHCExpForActivity() + " Kills: "
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getKills() + " Assists: "
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getAssists() + " Perk: "
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getKit().getName() + " Money for kills:"
-//                                    + gameManager.getPlayerManager().getPlayers().get(0).getMoneyForKills() + " "
-//                            // team nelze použít
-//                            // lze kity, perky, uuid, name,
-//                    );
-//
-//                }
 				break;
 			case STARTING:
-				if (!canStart) {
+				if (!canStart()) {
 					gameManager.getTaskManager().cancelStartingTask();
 					Utils.broadcast(Messages.GAME_STARTING_CANCELED.toString());
 					gameManager.setGameState(GameState.LOBBY);
@@ -90,7 +59,7 @@ public class GameCheckTask extends BukkitRunnable {
 			case MINING:
 			case PVP:
 			case DEATHMATCH:
-				if (gameEnd) {
+				if (isGameEnd()) {
 					gameManager.setGameState(GameState.ENDING);
 				}
 				break;

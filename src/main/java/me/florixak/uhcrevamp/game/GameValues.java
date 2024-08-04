@@ -79,6 +79,7 @@ public class GameValues {
 		public final int MAX_ORE_PER_CHUNK = getConfigInt("settings.game.max-ore-per-chunk", 10);
 		public final List<String> DISABLED_BIOMES = getConfigStringList("settings.game.disabled-biomes");
 		public final boolean ENABLE_TREE_CAPITATOR = getConfigBoolean("settings.game.tree-capitator", true);
+		public final int START_DEATHMATCH_AT = getConfigInt("settings.deathmatch.start-at", 3);
 	}
 
 	public static class ChatConfig {
@@ -93,11 +94,6 @@ public class GameValues {
 	public static class BungeeCordConfig {
 		public final boolean ENABLED = getConfigBoolean("settings.bungeecord.enabled", false);
 		public final String LOBBY_SERVER = getConfigString("settings.bungeecord.lobby-server", "lobby");
-	}
-
-	public static class BorderConfig {
-		public final double INIT_BORDER_SIZE = getConfigDouble("settings.border.size", 300);
-		public final double BORDER_SPEED = getConfigDouble("settings.border.speed", 0);
 	}
 
 	public static class TeamConfig {
@@ -224,6 +220,13 @@ public class GameValues {
 		public final String TEAM_MODE = getConfigString("settings.tablist.team-mode-player-list", "%team% &f%player%");
 	}
 
+	public static class BorderConfig {
+		public final double INIT_SIZE = getConfigDouble("settings.border.init-size", 300);
+		public final double DEATHMATCH_SIZE = getConfigDouble("settings.deathmatch.border-size", 40);
+		public final double BORDER_DAMAGE = getConfigDouble("settings.border.damage", 1);
+//		public final double BORDER_SPEED = getConfigDouble("settings.border.speed", 0);
+	}
+
 	public static class ActivityRewardConfig {
 		public final boolean ENABLED = getConfigBoolean("settings.rewards.activity.enabled", true);
 		public final int INTERVAL = getConfigInt("settings.rewards.activity.period", 300);
@@ -261,13 +264,17 @@ public class GameValues {
 		public static final float STARTING_VOLUME = (float) getConfigDouble("settings.sounds.starting.volume", 0.5);
 		public static final float STARTING_PITCH = (float) getConfigDouble("settings.sounds.starting.pitch", 1.0);
 
+		public static final String PVP_STARTED_SOUND = getConfigString("settings.sounds.pvp-started.sound", "NONE");
+		public static final float PVP_STARTED_VOLUME = (float) getConfigDouble("settings.sounds.pvp-started.volume", 0.5);
+		public static final float PVP_STARTED_PITCH = (float) getConfigDouble("settings.sounds.pvp-started.pitch", 1.0);
+
 		public static final String WIN_SOUND = getConfigString("settings.sounds.win.sound", "NONE");
 		public static final float WIN_VOLUME = (float) getConfigDouble("settings.sounds.win.volume", 0.5);
 		public static final float WIN_PITCH = (float) getConfigDouble("settings.sounds.win.pitch", 1.0);
 
-		public static final String GAME_END_SOUND = getConfigString("settings.sounds.game-end.sound", "NONE");
-		public static final float GAME_END_VOLUME = (float) getConfigDouble("settings.sounds.game-end.volume", 0.5);
-		public static final float GAME_END_PITCH = (float) getConfigDouble("settings.sounds.game-end.pitch", 1.0);
+		public static final String GAME_OVER_SOUND = getConfigString("settings.sounds.game-over.sound", "NONE");
+		public static final float GAME_OVER_VOLUME = (float) getConfigDouble("settings.sounds.game-over.volume", 0.5);
+		public static final float GAME_OVER_PITCH = (float) getConfigDouble("settings.sounds.game-over.pitch", 1.0);
 
 		public static final String DEATHMATCH_SOUND = getConfigString("settings.sounds.deathmatch.sound", "NONE");
 		public static final float DEATHMATCH_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch.volume", 0.5);
@@ -285,13 +292,21 @@ public class GameValues {
 		public static final float KILL_VOLUME = (float) getConfigDouble("settings.sounds.kill.volume", 0.5);
 		public static final float KILL_PITCH = (float) getConfigDouble("settings.sounds.kill.pitch", 1.0);
 
-		public static final String SELECT_SOUND = getConfigString("settings.sounds.select.sound", "NONE");
-		public static final float SELECT_VOLUME = (float) getConfigDouble("settings.sounds.select.volume", 0.5);
-		public static final float SELECT_PITCH = (float) getConfigDouble("settings.sounds.select.pitch", 1.0);
+		public static final String DEATH_SOUND = getConfigString("settings.sounds.death.sound", "NONE");
+		public static final float DEATH_VOLUME = (float) getConfigDouble("settings.sounds.death.volume", 0.5);
+		public static final float DEATH_PITCH = (float) getConfigDouble("settings.sounds.death.pitch", 1.0);
 
-		public static final String BUY_SOUND = getConfigString("settings.sounds.buy.sound", "NONE");
-		public static final float BUY_VOLUME = (float) getConfigDouble("settings.sounds.buy.volume", 0.5);
-		public static final float BUY_PITCH = (float) getConfigDouble("settings.sounds.buy.pitch", 1.0);
+		public static final String ASSIST_SOUND = getConfigString("settings.sounds.assist.sound", "NONE");
+		public static final float ASSIST_VOLUME = (float) getConfigDouble("settings.sounds.assist.volume", 0.5);
+		public static final float ASSIST_PITCH = (float) getConfigDouble("settings.sounds.assist.pitch", 1.0);
+
+		public static final String SELECT_SOUND = getConfigString("settings.sounds.select-buy.sound", "NONE");
+		public static final float SELECT_VOLUME = (float) getConfigDouble("settings.select-buy.select.volume", 0.5);
+		public static final float SELECT_PITCH = (float) getConfigDouble("settings.select-buy.select.pitch", 1.0);
+
+//		public static final String BUY_SOUND = getConfigString("settings.sounds.buy.sound", "NONE");
+//		public static final float BUY_VOLUME = (float) getConfigDouble("settings.sounds.buy.volume", 0.5);
+//		public static final float BUY_PITCH = (float) getConfigDouble("settings.sounds.buy.pitch", 1.0);
 
 		public static final String PURCHASE_CANCEL_SOUND = getConfigString("settings.sounds.purchase-cancel.sound", "NONE");
 		public static final float PURCHASE_CANCEL_VOLUME = (float) getConfigDouble("settings.sounds.purchase-cancel.volume", 0.5);

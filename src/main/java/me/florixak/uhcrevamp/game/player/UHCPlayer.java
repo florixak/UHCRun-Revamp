@@ -142,7 +142,7 @@ public class UHCPlayer {
 		if (this.kit != kit) {
 			this.kit = kit;
 			sendMessage(Messages.KITS_SELECTED.toString().replace("%kit%", kit.getDisplayName()));
-			GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+			GameManager.getGameManager().getSoundManager().playSelectBuySound(getPlayer());
 		}
 	}
 
@@ -158,7 +158,7 @@ public class UHCPlayer {
 		if (this.perk != perk) {
 			this.perk = perk;
 			sendMessage(Messages.PERKS_SELECTED.toString().replace("%perk%", perk.getDisplayName()));
-			GameManager.getGameManager().getSoundManager().playSelectSound(getPlayer());
+			GameManager.getGameManager().getSoundManager().playSelectBuySound(getPlayer());
 		}
 	}
 
@@ -196,7 +196,6 @@ public class UHCPlayer {
 		if (victim == null) return;
 
 		addKill();
-
 		getPlayer().giveExp((int) GameValues.REWARDS.EXP_FOR_KILL);
 		if (hasPerk()) {
 			getPerk().givePerk(this);
@@ -205,6 +204,7 @@ public class UHCPlayer {
 				.replace("%player%", victim.getName())
 				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
 				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
+		GameManager.getGameManager().getSoundManager().playKillSound(getPlayer());
 	}
 
 	public void assist(final UHCPlayer victim) {
@@ -216,6 +216,7 @@ public class UHCPlayer {
 				.replace("%player%", victim.getName())
 				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
 				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
+		GameManager.getGameManager().getSoundManager().playAssistSound(getPlayer());
 	}
 
 	public void die() {
@@ -231,6 +232,7 @@ public class UHCPlayer {
 		clearInventory();
 
 		setSpectator();
+		GameManager.getGameManager().getSoundManager().playDeathSound(getPlayer());
 	}
 
 	public void setSpectator() {

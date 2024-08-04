@@ -31,7 +31,7 @@ custom-drops:
     RABBIT:
       exp: 5
       drops:
-        COOKED_RABBIT: [ 1, 2 ]
+        COOKED_BEEF: [ 1, 2 ]
 
   blocks:
     COAL_ORE:

@@ -27,7 +27,7 @@ public class DeathmatchPhaseTask extends BukkitRunnable {
 			gameManager.setGameState(GameState.ENDING);
 			return;
 		}
-		gameManager.getBorderManager().shrinkBorder();
+//		gameManager.getBorderManager().shrinkBorder();
 		countdown--;
 	}
 }

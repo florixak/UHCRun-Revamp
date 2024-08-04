@@ -9,6 +9,7 @@ import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -314,7 +315,7 @@ public class PlayerData {
 		final String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + kit.getCost());
 		uhcPlayer.sendMessage(Messages.KITS_MONEY_DEDUCT.toString(), "%previous-money%", prevMoney, "%money%", money, "%kit%", kit.getDisplayName(), "%kit-cost%", kitCost);
 		uhcPlayer.setKit(kit);
-		gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
+		gameManager.getSoundManager().playSelectBuySound(uhcPlayer.getPlayer());
 	}
 
 	public boolean hasKitBought(final Kit kit) {
@@ -334,6 +335,7 @@ public class PlayerData {
 			final Kit kit = gameManager.getKitsManager().getKit(kitName);
 			if (kit != null) this.boughtKitsList.add(kit);
 		}
+		Bukkit.getLogger().info("Loaded kits: " + boughtKitsList);
 	}
 
 	public List<Kit> getBoughtKits() {
@@ -344,7 +346,7 @@ public class PlayerData {
 		final List<String> kitsNameList = boughtKitsList.stream().map(Kit::getName).collect(Collectors.toList());
 
 		if (gameManager.isDatabaseConnected()) {
-			gameManager.getDatabase().setBoughtKits(uhcPlayer.getUUID(), kitsNameList.toString().replace("[", "").replace("]", ""));
+			gameManager.getDatabase().setBoughtKits(uhcPlayer.getUUID(), String.join(", ", kitsNameList));
 			return;
 		}
 
@@ -365,7 +367,7 @@ public class PlayerData {
 		final String prevMoney = String.valueOf(uhcPlayer.getData().getMoney() + perk.getCost());
 		uhcPlayer.sendMessage(Messages.PERKS_MONEY_DEDUCT.toString().toString(), "%previous-money%", prevMoney, "%money%", money, "%perk%", perk.getDisplayName(), "%perk-cost%", perkCost);
 		uhcPlayer.setPerk(perk);
-		gameManager.getSoundManager().playSelectSound(uhcPlayer.getPlayer());
+		gameManager.getSoundManager().playSelectBuySound(uhcPlayer.getPlayer());
 	}
 
 	public boolean hasPerkBought(final Perk perk) {

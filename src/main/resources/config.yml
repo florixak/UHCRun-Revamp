@@ -77,7 +77,7 @@ settings:
   # Deathmatch settings
   deathmatch:
     start-at: 3 # Number of players to start deathmatch, -1 for automatic
-    border-size: 40.0 # Size of the deathmatch border
+    border-size: 40.0 # Init size of the deathmatch border
     location: # Center location of deathmatch
       world: "UHCWorld"
       # If you have default "UHCWorld" you can ingore x, y and z
@@ -85,26 +85,11 @@ settings:
       y: 75.0
       z: 0.0
 
-  # Lobby settings
-  # Rename your lobby files to these world names, or set it manually
-  lobby:
-    waiting:
-      world: "UHCWaitingLobby"
-      x: 0
-      y: 10
-      z: 0
-    ending:
-      world: "UHCEndingLobby"
-      x: 0
-      y: 10
-      z: 0
-
   # Border settings
   border:
-    size: 450 # Size of the game border
+    init-size: 450 # Size of the game border
     damage: 1 # Damage taken when outside the border
-    warning-distance: 10 # Distance from the border to show warning
-    speed: 0.2 # Speed at which the border shrinks
+  #    warning-distance: 10 # Distance from the border to show warning
 
   # Team settings
   teams:
@@ -127,6 +112,20 @@ settings:
   perks:
     enabled: true # Enable perks
     bought-forever: true # Perks are bought permanently
+
+  # Lobby settings
+  # Rename your lobby files to these world names, or set it manually
+  lobby:
+    waiting:
+      world: "UHCWaitingLobby"
+      x: 0
+      y: 10
+      z: 0
+    ending:
+      world: "UHCEndingLobby"
+      x: 0
+      y: 10
+      z: 0
 
   # Statistics settings
   statistics:
@@ -314,12 +313,16 @@ settings:
       sound: BLOCK_STONE_BUTTON_CLICK_ON
       volume: 0.5
       pitch: 1.0
+    pvp-started:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume: 0.5
+      pitch: 1.0
     win:
       sound: ENTITY_FIREWORK_ROCKET_BLAST
       volume: 0.5
       pitch: 1.0
-    game-end:
-      sound: ENTITY_PLAYER_LEVELUP
+    game-over:
+      sound: ENTITY_ENDER_DRAGON_GROWL
       volume: 0.5
       pitch: 1.0
     deathmatch:
@@ -338,12 +341,16 @@ settings:
       sound: ENTITY_LIGHTNING_BOLT_IMPACT
       volume: 0.5
       pitch: 1.0
-    select:
-      sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    death:
+      sound: ENTITY_WITHER_DEATH
       volume: 0.5
       pitch: 1.0
-    buy:
-      sound: BLOCK_NOTE_BLOCK_PLING
+    assist:
+      sound: NONE
+      volume: 0.5
+      pitch: 1.0
+    select-buy: # Sound for selecting and buying kits, perks
+      sound: ENTITY_EXPERIENCE_ORB_PICKUP
       volume: 0.5
       pitch: 1.0
     purchase-cancel:

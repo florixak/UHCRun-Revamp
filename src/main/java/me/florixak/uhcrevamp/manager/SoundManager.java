@@ -34,14 +34,19 @@ public class SoundManager {
 		playSound(sound, player, GameValues.Sounds.STARTED_VOLUME, GameValues.Sounds.STARTED_PITCH);
 	}
 
+	public void playPvPStarted(final Player player) {
+		final XSound sound = getSound(GameValues.Sounds.PVP_STARTED_SOUND);
+		playSound(sound, player, GameValues.Sounds.PVP_STARTED_VOLUME, GameValues.Sounds.PVP_STARTED_PITCH);
+	}
+
 	public void playWinSound(final Player player) {
 		final XSound sound = getSound(GameValues.Sounds.WIN_SOUND);
 		playSound(sound, player, GameValues.Sounds.WIN_VOLUME, GameValues.Sounds.WIN_PITCH);
 	}
 
-	public void playGameEndSound(final Player player) {
-		final XSound sound = getSound(GameValues.Sounds.GAME_END_SOUND);
-		playSound(sound, player, GameValues.Sounds.GAME_END_VOLUME, GameValues.Sounds.GAME_END_PITCH);
+	public void playGameOverSound(final Player player) {
+		final XSound sound = getSound(GameValues.Sounds.GAME_OVER_SOUND);
+		playSound(sound, player, GameValues.Sounds.GAME_OVER_VOLUME, GameValues.Sounds.GAME_OVER_PITCH);
 	}
 
 	public void playDeathmatchSound(final Player player) {
@@ -64,15 +69,19 @@ public class SoundManager {
 		playSound(sound, player, GameValues.Sounds.KILL_VOLUME, GameValues.Sounds.KILL_PITCH);
 	}
 
-	public void playSelectSound(final Player player) {
-		final XSound sound = getSound(GameValues.Sounds.SELECT_SOUND);
-		playSound(sound, player, GameValues.Sounds.SELECT_VOLUME, GameValues.Sounds.SELECT_PITCH);
-
+	public void playAssistSound(final Player player) {
+		final XSound sound = getSound(GameValues.Sounds.ASSIST_SOUND);
+		playSound(sound, player, GameValues.Sounds.ASSIST_VOLUME, GameValues.Sounds.ASSIST_PITCH);
 	}
 
-	public void playBuySound(final Player player) {
-		final XSound sound = getSound(GameValues.Sounds.BUY_SOUND);
-		playSound(sound, player, GameValues.Sounds.BUY_VOLUME, GameValues.Sounds.BUY_PITCH);
+	public void playDeathSound(final Player player) {
+		final XSound sound = getSound(GameValues.Sounds.DEATH_SOUND);
+		playSound(sound, player, GameValues.Sounds.DEATH_VOLUME, GameValues.Sounds.DEATH_PITCH);
+	}
+
+	public void playSelectBuySound(final Player player) {
+		final XSound sound = getSound(GameValues.Sounds.SELECT_SOUND);
+		playSound(sound, player, GameValues.Sounds.SELECT_VOLUME, GameValues.Sounds.SELECT_PITCH);
 	}
 
 	public void playPurchaseCancelSound(final Player player) {

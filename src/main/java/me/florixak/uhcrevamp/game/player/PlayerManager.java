@@ -1,5 +1,8 @@
 package me.florixak.uhcrevamp.game.player;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
@@ -255,6 +258,19 @@ public class PlayerManager {
 			location.setY(y);
 
 			uhcPlayer.teleport(location);
+		}
+	}
+
+	public void sendPlayersToBungeeLobby() {
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			try {
+				final ByteArrayDataOutput out = ByteStreams.newDataOutput();
+				out.writeUTF("Connect");
+				out.writeUTF(GameValues.BUNGEECORD.LOBBY_SERVER);
+				player.sendPluginMessage(UHCRevamp.getInstance(), "BungeeCord", out.toByteArray());
+			} catch (final Exception e) {
+				Bukkit.getLogger().info("Failed to send " + player.getName() + " to the lobby server.");
+			}
 		}
 	}
 

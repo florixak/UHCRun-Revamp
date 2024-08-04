@@ -42,7 +42,12 @@ public final class UHCRevamp extends JavaPlugin {
 		this.gameManager = new GameManager(this);
 
 		if (GameValues.BUNGEECORD.ENABLED) {
-			getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+			try {
+				getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+				getLogger().info("Registered BungeeCord channel.");
+			} catch (final Exception e) {
+				getLogger().warning("Failed to register BungeeCord channel.");
+			}
 		}
 
 		vaultHook = new VaultHook();
