@@ -15,7 +15,7 @@ public class DeathChestManager {
 
 	private final List<DeathChest> deathChests;
 
-	public DeathChestManager(GameManager gameManager) {
+	public DeathChestManager(final GameManager gameManager) {
 		this.gameManager = gameManager;
 		this.deathChests = new ArrayList<>();
 	}
@@ -28,14 +28,14 @@ public class DeathChestManager {
 		return getExpireTime() != -1;
 	}
 
-	public void createDeathChest(Player p, List<ItemStack> items) {
+	public void createDeathChest(final Player p, final List<ItemStack> items) {
 		if (gameManager.getPlayerManager().getAlivePlayers().size() <= 1) return;
-		UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
-		DeathChest deathChest = new DeathChest(uhcPlayer, uhcPlayer.getSpawnLocation(), items, canExpire());
-		this.deathChests.add(deathChest);
+		final UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+//		DeathChest deathChest = new DeathChest(uhcPlayer, uhcPlayer.getSpawnLocation(), items, canExpire());
+//		this.deathChests.add(deathChest);
 	}
 
-	public void removeDeathChest(DeathChest deathChest) {
+	public void removeDeathChest(final DeathChest deathChest) {
 		if (deathChest == null) return;
 		deathChest.removeChest();
 		this.deathChests.remove(deathChest);
@@ -43,7 +43,7 @@ public class DeathChestManager {
 
 	public void onDisable() {
 		if (deathChests == null || deathChests.isEmpty()) return;
-		for (DeathChest deathChest : deathChests) {
+		for (final DeathChest deathChest : deathChests) {
 			removeDeathChest(deathChest);
 		}
 	}

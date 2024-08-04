@@ -123,16 +123,9 @@ public class TeamManager {
 	}
 
 	private UHCTeam findFreeTeam() {
-		UHCTeam emptyTeam = null;
-		for (final UHCTeam team : this.teamsList) {
-			if (team.getMembers().isEmpty()) {
-				emptyTeam = team;
-			} else if (!team.isFull()) {
-				emptyTeam = team;
-			} else {
-				return null;
-			}
-		}
+		final List<UHCTeam> freeTeams = teamsList.stream().filter(team -> !team.isFull()).collect(Collectors.toList());
+		final UHCTeam emptyTeam = freeTeams.stream().filter(team -> team.getMembers().isEmpty()).findFirst().orElse(null);
+		if (emptyTeam == null) return freeTeams.stream().findFirst().orElse(null);
 		return emptyTeam;
 	}
 

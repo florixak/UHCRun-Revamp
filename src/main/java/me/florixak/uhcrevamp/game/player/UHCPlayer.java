@@ -180,6 +180,8 @@ public class UHCPlayer {
 
 	public void revive() {
 		setState(PlayerState.ALIVE);
+		setGameMode(GameMode.SURVIVAL);
+		teleport(spawnLoc == null ? TeleportUtils.getSafeLocation() : spawnLoc);
 
 		getPlayer().setHealth(getPlayer().getMaxHealth());
 		getPlayer().setFoodLevel(20);
@@ -187,9 +189,7 @@ public class UHCPlayer {
 		getPlayer().setFireTicks(0);
 		clearPotions();
 		clearInventory();
-
 		//if (kit != null) getKit().giveKit(this);
-		teleport(spawnLoc == null ? TeleportUtils.getSafeLocation() : spawnLoc);
 	}
 
 	public void kill(final UHCPlayer victim) {
@@ -202,8 +202,8 @@ public class UHCPlayer {
 		}
 		sendMessage(Messages.REWARDS_KILL.toString()
 				.replace("%player%", victim.getName())
-				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
-				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
+				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_KILL))
+				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_KILL)));
 		GameManager.getGameManager().getSoundManager().playKillSound(getPlayer());
 	}
 

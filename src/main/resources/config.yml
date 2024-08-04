@@ -89,6 +89,8 @@ settings:
   border:
     init-size: 450 # Size of the game border
     damage: 1 # Damage taken when outside the border
+    minimum-size: 1
+    shrink-speed: 2
   #    warning-distance: 10 # Distance from the border to show warning
 
   # Team settings
@@ -217,7 +219,7 @@ settings:
       uhc-exp: 25 # UHC experience reward for a kill
     assist:
       coins: 10 # Money reward for an assist
-      exp: 0 # Experience reward for an assist
+      exp: 5 # Experience reward for an assist
       uhc-exp: 10 # UHC experience reward for an assist
     win:
       coins: 150 # Money reward for a win
