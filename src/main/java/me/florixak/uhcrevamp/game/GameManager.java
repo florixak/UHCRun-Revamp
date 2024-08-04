@@ -223,21 +223,6 @@ public class GameManager {
 		}
 	}
 
-	public int getCurrentNotStartedCountdown() {
-		switch (gameState) {
-			case STARTING:
-				return GameValues.GAME.STARTING_COUNTDOWN;
-			case MINING:
-				return GameValues.GAME.MINING_COUNTDOWN;
-			case PVP:
-				return GameValues.GAME.PVP_COUNTDOWN;
-			case DEATHMATCH:
-				return GameValues.GAME.DEATHMATCH_COUNTDOWN;
-			default:
-				return -1;
-		}
-	}
-
 	public void onDisable() {
 		getDeathChestManager().onDisable();
 		getDamageTrackerManager().onDisable();

@@ -50,6 +50,9 @@ public class PlayerData {
 		else
 			loadDataFromConfig();
 
+		loadBoughtKits();
+		loadBoughtPerks();
+
 		if (uhcLevel == 0) {
 			uhcLevel = GameValues.STATISTICS.FIRST_UHC_LEVEL;
 		}
@@ -123,9 +126,6 @@ public class PlayerData {
 		this.killstreak = playerData.getInt(path + ".killstreak", GameValues.ERROR_INT_VALUE);
 		this.assists = playerData.getInt(path + ".assists", GameValues.ERROR_INT_VALUE);
 		this.deaths = playerData.getInt(path + ".deaths", GameValues.ERROR_INT_VALUE);
-
-		loadBoughtKits();
-		loadBoughtPerks();
 	}
 
 	private boolean hasData() {
@@ -323,15 +323,14 @@ public class PlayerData {
 	}
 
 	private void loadBoughtKits() {
-		final List<String> boughtKitsList;
+		final List<String> kitsInString;
 
 		if (gameManager.isDatabaseConnected()) {
-			boughtKitsList = gameManager.getDatabase().getBoughtKits(uhcPlayer.getUUID());
+			kitsInString = gameManager.getDatabase().getBoughtKits(uhcPlayer.getUUID());
 		} else {
-			boughtKitsList = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
+			kitsInString = playerData.getStringList("player-data." + uhcPlayer.getUUID() + ".kits");
 		}
-
-		for (final String kitName : boughtKitsList) {
+		for (final String kitName : kitsInString) {
 			final Kit kit = gameManager.getKitsManager().getKit(kitName);
 			if (kit != null) this.boughtKitsList.add(kit);
 		}
@@ -347,6 +346,7 @@ public class PlayerData {
 
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().setBoughtKits(uhcPlayer.getUUID(), String.join(", ", kitsNameList));
+			Bukkit.getLogger().info("Saved kits: " + kitsNameList);
 			return;
 		}
 
