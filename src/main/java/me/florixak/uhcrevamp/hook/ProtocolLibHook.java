@@ -8,10 +8,14 @@ public class ProtocolLibHook {
 
     private static ProtocolManager protocolManager;
 
-    public static void setupProtocolLib() {
+    public ProtocolLibHook() {
+        setupProtocolLib();
+    }
+
+    private void setupProtocolLib() {
         try {
             if (!hasProtocolLib()) {
-                Bukkit.getLogger().info("ProtocolLib plugin not found! Please download it.");
+                Bukkit.getLogger().info("ProtocolLib plugin not found! Disabling ProtocolLib Support.");
                 return;
             }
             protocolManager = ProtocolLibrary.getProtocolManager();
@@ -21,11 +25,11 @@ public class ProtocolLibHook {
 
     }
 
-    public static ProtocolManager getProtocolManager() {
+    public ProtocolManager getProtocolManager() {
         return protocolManager;
     }
 
-    public static boolean hasProtocolLib() {
+    public boolean hasProtocolLib() {
         return Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
     }
 }

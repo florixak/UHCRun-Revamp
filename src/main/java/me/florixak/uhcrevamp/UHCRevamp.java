@@ -23,6 +23,7 @@ public final class UHCRevamp extends JavaPlugin {
 	private GameManager gameManager;
 
 	private VaultHook vaultHook;
+	private ProtocolLibHook protocolLibHook;
 	private LuckPermsHook luckPermsHook;
 	private PAPIHook papiHook;
 
@@ -37,7 +38,6 @@ public final class UHCRevamp extends JavaPlugin {
 		getLogger().info("Version: " + getDescription().getVersion());
 
 		checkNMSVersion();
-		ProtocolLibHook.setupProtocolLib();
 
 		this.gameManager = new GameManager(this);
 
@@ -50,6 +50,7 @@ public final class UHCRevamp extends JavaPlugin {
 			}
 		}
 
+		protocolLibHook = new ProtocolLibHook();
 		vaultHook = new VaultHook();
 		luckPermsHook = new LuckPermsHook();
 		papiHook = new PAPIHook();
@@ -82,6 +83,10 @@ public final class UHCRevamp extends JavaPlugin {
 		vaultHook.setupEconomy();
 		luckPermsHook.setupLuckPerms();
 		papiHook.setupPlaceholderAPI();
+	}
+
+	public ProtocolLibHook getProtocolLibHook() {
+		return protocolLibHook;
 	}
 
 	public VaultHook getVaultHook() {

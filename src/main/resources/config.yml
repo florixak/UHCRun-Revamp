@@ -78,6 +78,7 @@ settings:
   deathmatch:
     start-at: 3 # Number of players to start deathmatch, -1 for automatic
     border-size: 40.0 # Init size of the deathmatch border
+    border-speed: 2 # deathmatch cooldown / border speed = time for border to close
     location: # Center location of deathmatch
       world: "UHCWorld"
       # If you have default "UHCWorld" you can ingore x, y and z
@@ -89,8 +90,8 @@ settings:
   border:
     init-size: 450 # Size of the game border
     damage: 1 # Damage taken when outside the border
-    minimum-size: 1
-    shrink-speed: 2
+    minimum-size: 1 # Minimal size
+    speed: 2 # deathmatch cooldown / %border-speed%
   #    warning-distance: 10 # Distance from the border to show warning
 
   # Team settings

@@ -119,10 +119,8 @@ public class GameValues {
 		public final String PLAYER_STATS_DIS_ITEM = getConfigString("settings.statistics.player-stats.display-item", "STONE");
 		public final String PLAYER_STATS_CUST_NAME = getConfigString("settings.statistics.player-stats.custom-name", "YOUR STATS");
 		public final List<String> PLAYER_STATS_LORE = getConfigStringList("settings.statistics.player-stats.lore");
-		public final String TOP_STATS_DIS_ITEM = getConfigString("settings.statistics.top-stats.display-item", "PAPER");
 		public final String TOP_STATS_CUST_NAME = getConfigString("settings.statistics.top-stats.custom-name", "TOP STATS");
 		public final List<String> TOP_STATS_LORE = getConfigStringList("settings.statistics.top-stats.lore");
-		public final List<String> DISPLAYED_TOPS = getConfigStringList("settings.statistics.displayed-tops");
 		public final double STARTING_MONEY = getConfigDouble("settings.game.starting-money", 0);
 
 		public final int PLAYER_STATS_SLOT = getConfigInt("settings.statistics.player-stats.slot", 10);
@@ -224,6 +222,7 @@ public class GameValues {
 		public final double INIT_SIZE = getConfigDouble("settings.border.init-size", 300);
 		public final double DEATHMATCH_SIZE = getConfigDouble("settings.deathmatch.border-size", 40);
 		public final double BORDER_DAMAGE = getConfigDouble("settings.border.damage", 1);
+		public final double BORDER_SPEED = getConfigDouble("settings.border.speed", 2);
 //		public final double BORDER_SPEED = getConfigDouble("settings.border.speed", 0);
 	}
 
@@ -239,7 +238,6 @@ public class GameValues {
 		public final boolean CAN_USE_LUCKPERMS = getConfigBoolean("settings.addons.use-LuckPerms", true);
 		public final boolean CAN_USE_PLACEHOLDERAPI = getConfigBoolean("settings.addons.use-PlaceholderAPI", true);
 		public final boolean CAN_USE_PROTOCOLLIB = getConfigBoolean("settings.addons.use-ProtocolLib", true);
-		public final boolean CAN_USE_HEADDATABASE = getConfigBoolean("settings.addons.use-HeadDatabase", false);
 	}
 
 	public static class DeathChestConfig {

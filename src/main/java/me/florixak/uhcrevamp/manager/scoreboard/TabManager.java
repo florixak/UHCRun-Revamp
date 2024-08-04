@@ -4,8 +4,8 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.game.GameValues;
-import me.florixak.uhcrevamp.hook.ProtocolLibHook;
 import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.entity.Player;
@@ -19,9 +19,9 @@ public class TabManager {
 		if (!GameValues.TABLIST.ENABLED) return;
 		if (p == null) return;
 
-		if (!ProtocolLibHook.hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
+		if (!UHCRevamp.getInstance().getProtocolLibHook().hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
 
-		final ProtocolManager pm = ProtocolLibHook.getProtocolManager();
+		final ProtocolManager pm = UHCRevamp.getInstance().getProtocolLibHook().getProtocolManager();
 		final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
 
 		pc.getChatComponents()
