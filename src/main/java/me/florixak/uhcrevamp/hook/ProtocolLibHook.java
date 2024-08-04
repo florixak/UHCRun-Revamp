@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.hook;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import me.florixak.uhcrevamp.game.GameValues;
 import org.bukkit.Bukkit;
 
 public class ProtocolLibHook {
@@ -13,6 +14,7 @@ public class ProtocolLibHook {
     }
 
     private void setupProtocolLib() {
+        if (!GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
         try {
             if (!hasProtocolLib()) {
                 Bukkit.getLogger().info("ProtocolLib plugin not found! Disabling ProtocolLib Support.");
