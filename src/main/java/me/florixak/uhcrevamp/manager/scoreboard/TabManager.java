@@ -19,7 +19,7 @@ public class TabManager {
 		if (!GameValues.TABLIST.ENABLED) return;
 		if (p == null) return;
 
-		if (!UHCRevamp.getInstance().getProtocolLibHook().hasProtocolLib() || !GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
+		if (!GameValues.ADDONS.CAN_USE_PROTOCOLLIB) return;
 
 		final ProtocolManager pm = UHCRevamp.getInstance().getProtocolLibHook().getProtocolManager();
 		final PacketContainer pc = pm.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
