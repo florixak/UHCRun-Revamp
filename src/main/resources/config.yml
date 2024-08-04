@@ -14,6 +14,10 @@ settings:
     use-ProtocolLib: true # Enable integration with ProtocolLib for enhanced compatibility
     use-PlaceholderAPI: true # Enable integration with PlaceholderAPI for custom placeholders
 
+  bungeecord:
+    enabled: false # Enable BungeeCord support
+    lobby-server: "lobby" # Name of the lobby server
+
   # MySQL database
   # Warning: Do not forget to create %database% before starting the server
   mysql:

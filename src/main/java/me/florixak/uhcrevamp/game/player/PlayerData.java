@@ -277,8 +277,6 @@ public class PlayerData {
 		uhcPlayer.addMoneyForAssists(money);
 		uhcPlayer.addUHCExpForAssists(exp);
 
-		uhcPlayer.sendMessage("[DEBUG MESSAGE] You have got assist!");
-
 		if (gameManager.isDatabaseConnected()) {
 			gameManager.getDatabase().addAssist(uhcPlayer.getUUID(), amount);
 			return;

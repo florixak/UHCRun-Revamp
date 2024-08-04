@@ -128,6 +128,10 @@ Messages:
     money-deduct-info: "&e[!] &fCoins for kit will be deducted after game starts!"
     money-deduct: "&e[!] &f%previous-money% - %kit-cost% = %money% %currency% (kit %kit%&f)"
 
+  statistics:
+    reset-all: "&a[!] &fAll statistics have been reset!"
+    reset: "&a[!] &fStatistics for %player% have been reset!"
+
   perks:
     selected: "&a[!] &fPerk %perk% &fwas selected!"
     disabled: "&c[!] &fPerks are currently disabled!"

@@ -35,14 +35,14 @@ public class StatisticsManager {
 	}
 
 	public void loadTopStatistics() {
-		this.winTopList = getTotalTopOf("Wins");
-		this.killTopList = getTotalTopOf("Kills");
-		this.assistTopList = getTotalTopOf("Assists");
-		this.deathTopList = getTotalTopOf("Deaths");
-		this.lossTopList = getTotalTopOf("Losses");
-		this.killstreakTopList = getTotalTopOf("Killstreak");
-		this.uhcLevelTopList = getTotalTopOf("UHC-Level");
-		this.gamesPlayedTopList = getTotalTopOf("Games-Played");
+		this.winTopList = getTotalTopOf("wins");
+		this.killTopList = getTotalTopOf("kills");
+		this.assistTopList = getTotalTopOf("assists");
+		this.deathTopList = getTotalTopOf("deaths");
+		this.lossTopList = getTotalTopOf("losses");
+		this.killstreakTopList = getTotalTopOf("killstreak");
+		this.uhcLevelTopList = getTotalTopOf("uhc_level");
+		this.gamesPlayedTopList = getTotalTopOf("games_played");
 	}
 
 	public List<TopStatistics> getTotalTopOf(final String type) {
@@ -133,6 +133,24 @@ public class StatisticsManager {
 				return GameValues.STATISTICS.TOP_GAMES_PLAYED_NAME;
 			default:
 				return "TOP STATS";
+		}
+	}
+
+	public void resetStatistics() {
+		if (gameManager.isDatabaseConnected()) {
+			gameManager.getDatabase().emptyTable();
+		} else {
+			gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig().set("player-data", null);
+			gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
+		}
+	}
+
+	public void resetStatistics(final UHCPlayer uhcPlayer) {
+		if (gameManager.isDatabaseConnected()) {
+			gameManager.getDatabase().resetPlayer(uhcPlayer.getUUID());
+		} else {
+			gameManager.getConfigManager().getFile(ConfigType.PLAYER_DATA).getConfig().set("player-data." + uhcPlayer.getUUID(), null);
+			gameManager.getConfigManager().saveFile(ConfigType.PLAYER_DATA);
 		}
 	}
 

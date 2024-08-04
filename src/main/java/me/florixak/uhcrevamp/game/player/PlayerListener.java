@@ -129,17 +129,11 @@ public class PlayerListener implements Listener {
 	public void handleDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage(null);
 
-		final UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
-		uhcVictim.die();
-
-		if (GameValues.TEAM.TEAM_MODE && !uhcVictim.getTeam().isAlive()) {
-			Utils.broadcast(Messages.TEAM_DEFEATED.toString()
-					.replace("%team%", uhcVictim.getTeam().getDisplayName()));
-		}
 		UHCPlayer uhcKiller = null;
 		if (event.getEntity().getKiller() instanceof Player) {
 			uhcKiller = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getKiller().getUniqueId());
 		}
+		final UHCPlayer uhcVictim = gameManager.getPlayerManager().getUHCPlayer(event.getEntity().getPlayer().getUniqueId());
 
         /*if (GameValues.DEATH_CHEST.ENABLED) {
             gameManager.getDeathChestManager().createDeathChest(event.getEntity().getPlayer(), event.getDrops());

@@ -31,6 +31,8 @@ public class StatisticsCommand implements CommandExecutor {
 
 		if (args.length == 0) {
 			new StatisticsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+		} else {
+			p.sendMessage(Messages.INVALID_CMD.toString());
 		}
 		return true;
 	}

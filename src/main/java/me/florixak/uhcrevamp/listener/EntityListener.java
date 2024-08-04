@@ -98,21 +98,21 @@ public class EntityListener implements Listener {
 
 			if (gameManager.getDamageTrackerManager().isInTracker(uhcPlayerE)) { // if in tracker
 				if (uhcPlayerD.equals(gameManager.getDamageTrackerManager().getAttacker(uhcPlayerE))) { // if attacker
-					uhcPlayerE.sendMessage("Damager is still the same."); // send message
+//					uhcPlayerE.sendMessage("Damager is still the same."); // send message
 					return;
 				}
-				uhcPlayerE.sendMessage("New Damager! You have been damaged by " + uhcPlayerD.getName() + "."); // send message
+//				uhcPlayerE.sendMessage("New Damager! You have been damaged by " + uhcPlayerD.getName() + "."); // send message
 				final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(uhcPlayerE); // get attackerage
 				gameManager.getDamageTrackerManager().removeFromTracker(uhcPlayerE); // remove from tracker
 				gameManager.getDamageTrackerManager().addTrackerOn(uhcPlayerE, uhcPlayerD); // add tracker
 				if (gameManager.getDamageTrackerManager().isInAssist(uhcPlayerE)) { // if in assist
 					gameManager.getDamageTrackerManager().removeFromAssist(uhcPlayerE); // remove from assist
 				}
-				uhcPlayerE.sendMessage("Old Damager " + attacker.getName() + " is now assistant!");
+//				uhcPlayerE.sendMessage("Old Damager " + attacker.getName() + " is now assistant!");
 				gameManager.getDamageTrackerManager().addAssist(uhcPlayerE, attacker); // add assist
-				uhcPlayerE.sendMessage("Test of assistant: " + gameManager.getDamageTrackerManager().getAssistant(uhcPlayerE).getName());
+//				uhcPlayerE.sendMessage("Test of assistant: " + gameManager.getDamageTrackerManager().getAssistant(uhcPlayerE).getName());
 			} else {
-				uhcPlayerE.sendMessage("You have been damaged by " + uhcPlayerD.getName() + "."); // send message
+//				uhcPlayerE.sendMessage("You have been damaged by " + uhcPlayerD.getName() + "."); // send message
 				gameManager.getDamageTrackerManager().addTrackerOn(uhcPlayerE, uhcPlayerD); // add tracker
 			}
 		}

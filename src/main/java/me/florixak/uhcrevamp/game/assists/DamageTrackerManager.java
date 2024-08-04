@@ -22,8 +22,8 @@ public class DamageTrackerManager {
 	public void addTrackerOn(final UHCPlayer victim, final UHCPlayer attacker) {
 		trackerMap.put(victim, attacker);
 		trackerCooldown.put(victim, ASSIST_COOLDOWN);
-		attacker.sendMessage("Damaged " + victim.getName() + ", will receive assist if they die within few minutes.");
-		victim.sendMessage("You have been damaged by " + attacker.getName() + ".");
+//		attacker.sendMessage("Damaged " + victim.getName() + ", tracker is on you.");
+//		victim.sendMessage("You have been damaged by " + attacker.getName() + ".");
 
 		runCooldown(victim, attacker, trackerCooldown, trackerMap);
 	}
@@ -62,12 +62,8 @@ public class DamageTrackerManager {
 	}
 
 	public void onDead(final UHCPlayer victim) {
-		if (isInTracker(victim)) {
-			removeFromTracker(victim);
-		}
-		if (isInAssist(victim)) {
-			removeFromAssist(victim);
-		}
+		removeFromTracker(victim);
+		removeFromAssist(victim);
 	}
 
 	public void onDisable() {

@@ -131,8 +131,17 @@ public class PlaceholderUtil {
 				}
 			}
 
+			if (text.contains("%hp%") || text.contains("%health%")) {
+				text = text.replace("%hp%", String.valueOf(p.getHealth()));
+				text = text.replace("%health%", String.valueOf(p.getHealth()));
+			}
+
 			if (text.contains("%luckperms-prefix%")) {
 				text = text.replace("%luckperms-prefix%", UHCRevamp.getInstance().getLuckPermsHook().getPrefix(p));
+			}
+
+			if (text.contains("%luckperms-suffix%")) {
+				text = text.replace("%luckperms-suffix%", UHCRevamp.getInstance().getLuckPermsHook().getSuffix(p));
 			}
 
 			if (text.contains("%money-for-game%")) {

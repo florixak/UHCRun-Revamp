@@ -1,6 +1,7 @@
 package me.florixak.uhcrevamp;
 
 import me.florixak.uhcrevamp.game.GameManager;
+import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.hook.LuckPermsHook;
 import me.florixak.uhcrevamp.hook.PAPIHook;
 import me.florixak.uhcrevamp.hook.ProtocolLibHook;
@@ -39,6 +40,11 @@ public final class UHCRevamp extends JavaPlugin {
 		ProtocolLibHook.setupProtocolLib();
 
 		this.gameManager = new GameManager(this);
+
+		if (GameValues.BUNGEECORD.ENABLED) {
+			getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		}
+
 		vaultHook = new VaultHook();
 		luckPermsHook = new LuckPermsHook();
 		papiHook = new PAPIHook();
@@ -50,6 +56,9 @@ public final class UHCRevamp extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		getGameManager().onDisable();
+		if (GameValues.BUNGEECORD.ENABLED) {
+			getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+		}
 	}
 
 	public String getAuthor() {

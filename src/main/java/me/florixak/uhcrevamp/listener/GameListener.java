@@ -108,7 +108,15 @@ public class GameListener implements Listener {
 		final UHCPlayer killer = event.getKiller();
 		final UHCPlayer victim = event.getVictim();
 
+		victim.die();
+
+		if (GameValues.TEAM.TEAM_MODE && !victim.getTeam().isAlive()) {
+			Utils.broadcast(Messages.TEAM_DEFEATED.toString()
+					.replace("%team%", victim.getTeam().getDisplayName()));
+		}
+
 		if (killer == null) {
+			Bukkit.getLogger().info("Killer is null");
 			Utils.broadcast(PlaceholderUtil.setPlaceholders(Messages.DEATH.toString(), victim.getPlayer()));
 			if (gameManager.getDamageTrackerManager().isInTracker(victim)) {
 				final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(victim);
@@ -118,16 +126,15 @@ public class GameListener implements Listener {
 			return;
 		}
 
-		if (gameManager.getDamageTrackerManager().isInTracker(victim)) {
-			final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(victim);
-			final UHCPlayer assistant = gameManager.getDamageTrackerManager().getAssistant(victim);
-			gameManager.getDamageTrackerManager().onDead(victim);
+		final UHCPlayer attacker = gameManager.getDamageTrackerManager().getAttacker(victim);
+		final UHCPlayer assistant = gameManager.getDamageTrackerManager().getAssistant(victim);
 
-			if (assistant != null) {
-				assistant.assist(victim);
-			}
-			attacker.kill(victim);
+		if (assistant != null) {
+			assistant.assist(victim);
 		}
+		attacker.kill(victim);
+		gameManager.getDamageTrackerManager().onDead(victim);
+
 		Utils.broadcast(Messages.KILL.toString()
 				.replace("%player%", victim.getName())
 				.replace("%killer%", killer.getName()));

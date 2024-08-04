@@ -524,23 +524,32 @@ public class SQLGetter {
 		}
 	}
 
-	public Map<String, Integer> getTopStatistics(final String... types) {
+	public Map<String, Integer> getTopStatistics(final String type) {
 		final Map<String, Integer> topStatistics = new HashMap<>();
-		for (final String type : types) {
-			try {
-				final PreparedStatement ps = conn.prepareStatement("SELECT name FROM " + table + " ORDER BY " + type + " DESC LIMIT 10");
-
-				final ResultSet rs = ps.executeQuery();
-				while (rs.next()) {
-					topStatistics.put(rs.getString("name"), rs.getInt(type));
-				}
-			} catch (final SQLException e) {
-				e.printStackTrace();
+		try {
+			final PreparedStatement ps = conn.prepareStatement("SELECT name, " + type + " FROM " + table + " ORDER BY " + type + " DESC LIMIT 10");
+			final ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				topStatistics.put(rs.getString("name"), rs.getInt(type));
 			}
+		} catch (final SQLException e) {
+			e.printStackTrace();
 		}
 		return topStatistics;
 	}
 
+	public boolean isTableEmpty() {
+		try {
+			final PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM " + table);
+			final ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) == 0;
+			}
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public void emptyTable() {
 		try {
@@ -551,7 +560,7 @@ public class SQLGetter {
 		}
 	}
 
-	public void removeUUID(final UUID uuid) {
+	public void resetPlayer(final UUID uuid) {
 		try {
 			final PreparedStatement ps = conn.prepareStatement("DELETE FROM " + table + " WHERE 'uuid'=?");
 			ps.setString(1, uuid.toString());

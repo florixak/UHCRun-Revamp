@@ -56,7 +56,7 @@ public class GameValues {
 	public static final ScoreboardConfig SCOREBOARD = new ScoreboardConfig();
 	public static final TitleConfig TITLE = new TitleConfig();
 	public static final DeathChestConfig DEATH_CHEST = new DeathChestConfig();
-
+	public static final BungeeCordConfig BUNGEECORD = new BungeeCordConfig();
 
 	public static class GameSettings {
 		public final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);
@@ -88,6 +88,11 @@ public class GameValues {
 		public final String LOBBY_FORMAT = getConfigString("settings.chat.lobby-format", "");
 		public final String GLOBAL_FORMAT = getConfigString("settings.chat.global-format", "");
 		public final List<String> BLOCKED_COMMANDS = getConfigStringList("settings.chat.blocked-commands");
+	}
+
+	public static class BungeeCordConfig {
+		public final boolean ENABLED = getConfigBoolean("settings.bungeecord.enabled", false);
+		public final String LOBBY_SERVER = getConfigString("settings.bungeecord.lobby-server", "lobby");
 	}
 
 	public static class BorderConfig {

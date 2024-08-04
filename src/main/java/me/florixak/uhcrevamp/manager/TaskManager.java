@@ -86,7 +86,7 @@ public class TaskManager {
 	public void startEndingTask() {
 		if (deathmatchPhaseTask != null) deathmatchPhaseTask.cancel();
 		if (resistanceTask != null) resistanceTask.cancel();
-		this.endingPhaseTask = new EndingPhaseTask();
+		this.endingPhaseTask = new EndingPhaseTask(gameManager);
 		this.endingPhaseTask.runTaskTimer(UHCRevamp.getInstance(), delay, period);
 	}
 
