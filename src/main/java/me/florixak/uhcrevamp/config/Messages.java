@@ -113,6 +113,9 @@ public enum Messages {
 	TEAM_NO_FRIENDLY_FIRE("teams.no-friendly-fire"),
 	TEAM_ALL_FULL("teams.all-teams-full"),
 
+	QUEST_COMPLETED("quests.completed"),
+	QUEST_REWARD("quests.reward"),
+
 	SETUP_SET_WAIT_LOBBY("setup.waiting-lobby-set"),
 	SETUP_DEL_WAIT_LOBBY("setup.waiting-lobby-removed"),
 	SETUP_SET_END_LOBBY("setup.ending-lobby-set"),

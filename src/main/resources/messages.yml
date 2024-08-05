@@ -147,6 +147,10 @@ Messages:
       item: "&a[!] &fYou got lucky! You have received %item%!"
       bonus: "&a[!] &f+%bonus-coins% %currency%, +%bonus-uhc-exp% UHC exp and +%bonus-exp% exp!"
 
+  quests:
+    completed: "&a[!] &fYou have completed the quest %quest%!"
+    reward: "&a[!] &fYou have received %reward% %currency% and %exp% exp!"
+
   rewards:
     win:
       - "&7---------- %prefix% &7----------"

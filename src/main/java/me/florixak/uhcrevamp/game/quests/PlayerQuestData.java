@@ -1,6 +1,7 @@
 package me.florixak.uhcrevamp.game.quests;
 
 import me.florixak.uhcrevamp.config.ConfigType;
+import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import org.bukkit.Material;
@@ -119,16 +120,19 @@ public class PlayerQuestData {
 		addCompletedQuest(quest.getId());
 		questProgress.remove(quest.getId());
 		quest.giveReward(uhcPlayer);
-		//Messages.QUEST_COMPLETED.send(uhcPlayer.getPlayer(), "%quest%", quest.getName());
-		uhcPlayer.sendMessage("You have completed the quest " + quest.getDisplayName());
+		uhcPlayer.sendMessage(Messages.QUEST_COMPLETED.toString().replace("%quest%", quest.getDisplayName()));
+		uhcPlayer.sendMessage(Messages.QUEST_REWARD.toString()
+				.replace("%quest%", quest.getDisplayName())
+				.replace("%money%", String.valueOf(quest.getReward().getMoney()))
+				.replace("%uhc-exp%", String.valueOf(quest.getReward().getUhcExp()))
+				.replace("%currency%", Messages.CURRENCY.toString()));
+		gameManager.getSoundManager().playQuestCompletedSound(uhcPlayer.getPlayer());
 	}
 
 	public boolean hasQuestWithTypeOf(final String questType) {
 		for (final Quest quest : gameManager.getQuestManager().getQuests()) {
-			if (isCompletedQuest(quest.getId())) {
-				continue;
-			}
-			if (quest.getQuestType().getType().equalsIgnoreCase(questType)) {
+			if (!isCompletedQuest(quest.getId())
+					&& quest.getQuestType().getType().equalsIgnoreCase(questType)) {
 				return true;
 			}
 		}

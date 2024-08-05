@@ -10,8 +10,9 @@
 #   display-item: ..
 #   type: .. (TYPES: WIN, KILL, PICKUP, BREAK, CRAFT, ASSIST)
 #   count: ..
-#   description:
-#     - "..."
+#   description: ..
+#     -
+# Give me more ideas for types and send me message on discord (florixak)
 
 quests:
   quest1:
@@ -30,11 +31,11 @@ quests:
       uhc-exp: 100
 
   quest2:
-    display-name: "&aDaily Quest 2"
-    display-item: "IRON_SWORD"
+    display-name: "&aDaily Quest 1"
+    display-item: "GOLDEN_SWORD"
     type: "KILL"
-    count: 5
-    material: IRON_SWORD
+    count: 10
+    material: GOLDEN_SWORD
     description:
       - "&aKill &f%count% &aplayers with &f%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -42,8 +43,8 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 300
-      uhc-exp: 150
+      money: 250
+      uhc-exp: 125
 
   quest3:
     display-name: "&aTrue Gardener"
@@ -139,5 +140,243 @@ quests:
     reward:
       money: 1500
       uhc-exp: 800
+
+  quest9:
+    display-name: "&aMaster Builder"
+    display-item: "BRICKS"
+    type: "CRAFT"
+    count: 100
+    material: "BRICKS"
+    description:
+      - "&aCraft &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1600
+      uhc-exp: 900
+
+  quest10:
+    display-name: "&aUltimate Survivor"
+    display-item: "SHIELD"
+    type: "WIN"
+    count: 100
+    description:
+      - "&aWin &f%count% &agames of UHC"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2000
+      uhc-exp: 1200
+
+  quest11:
+    display-name: "&aIron Collector"
+    display-item: "IRON_INGOT"
+    type: "PICKUP"
+    count: 200
+    material: "IRON_INGOT"
+    description:
+      - "&aCollect &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1800
+      uhc-exp: 1000
+
+  quest12:
+    display-name: "&aGolden Hoarder"
+    display-item: "GOLD_INGOT"
+    type: "PICKUP"
+    count: 150
+    material: "GOLD_INGOT"
+    description:
+      - "&aCollect &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1700
+      uhc-exp: 950
+
+  quest13:
+    display-name: "&aDiamond Collector"
+    display-item: "DIAMOND"
+    type: "PICKUP"
+    count: 50
+    material: "DIAMOND"
+    description:
+      - "&aCollect &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2500
+      uhc-exp: 1500
+
+  quest14:
+    display-name: "&aMonster Slayer"
+    display-item: "IRON_SWORD"
+    type: "KILL"
+    count: 200
+    material: "IRON_SWORD"
+    description:
+      - "&aKill &f%count% &amonsters with &f%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2200
+      uhc-exp: 1300
+
+  quest15:
+    display-name: "&aMaster Miner"
+    display-item: "DIAMOND_PICKAXE"
+    type: "BREAK"
+    count: 500
+    material: "STONE"
+    description:
+      - "&aBreak &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 3000
+      uhc-exp: 2000
+
+  quest16:
+    display-name: "&aExpert Farmer"
+    display-item: "CARROT"
+    type: "CRAFT"
+    count: 200
+    material: "CARROT"
+    description:
+      - "&aCraft &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2500
+      uhc-exp: 1500
+
+  quest17:
+    display-name: "&aPotion Master"
+    display-item: "POTION"
+    type: "CRAFT"
+    count: 50
+    material: "POTION"
+    description:
+      - "&aCraft &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2800
+      uhc-exp: 1800
+
+  quest18:
+    display-name: "&aArchery Expert"
+    display-item: "BOW"
+    type: "KILL"
+    count: 50
+    material: "BOW"
+    description:
+      - "&aKill &f%count% &aplayers with &f%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 3000
+      uhc-exp: 2000
+
+  quest19:
+    display-name: "&aUltimate Warrior"
+    display-item: "DIAMOND_SWORD"
+    type: "KILL"
+    count: 100
+    material: "DIAMOND_SWORD"
+    description:
+      - "&aKill &f%count% &aplayers with &f%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 3500
+      uhc-exp: 2500
+  quest20:
+    display-name: "&aLumberjack"
+    display-item: "WOODEN_AXE"
+    type: "BREAK"
+    count: 500
+    material: "OAK_LOG"
+    description:
+      - "&aBreak &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2000
+      uhc-exp: 1000
+
+  quest21:
+    display-name: "&aFish Master"
+    display-item: "FISHING_ROD"
+    type: "PICKUP"
+    count: 100
+    material: RAW_FISH
+    description:
+      - "&Pickup &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1500
+      uhc-exp: 800
+
+  quest22:
+    display-name: "&aPotion Brewer"
+    display-item: "BREWING_STAND"
+    type: "CRAFT"
+    count: 50
+    material: "POTION"
+    description:
+      - "&aBrew &f%count% &apotions"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1800
+      uhc-exp: 900
+
+  quest23:
+    display-name: "&aExplorer"
+    display-item: "OBSIDIAN"
+    type: "PICKUP"
+    count: 25
+    material: "OBSIDIAN"
+    description:
+      - "&aTravel to the Nether"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 2500
+      uhc-exp: 1200
 
 players:

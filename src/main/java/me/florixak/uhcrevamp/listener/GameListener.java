@@ -240,6 +240,12 @@ public class GameListener implements Listener {
 		final ItemStack[] matrix1D = event.getInventory().getMatrix();
 		final ItemStack[][] matrix2D = new ItemStack[3][3]; // Assuming a 3x3 crafting table
 
+		Player player = (Player) event.getWhoClicked();
+		UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(player.getUniqueId());
+		if (uhcPlayer.getQuestData().hasQuestWithTypeOf("PICKUP")) {
+			uhcPlayer.getQuestData().addProgressToTypes("PICKUP", event.getRecipe().getResult().getType());
+		}
+
 		// Convert 1D array to 2D array safely
 		for (int i = 0; i < matrix1D.length && i < 9; i++) { // Ensure not to exceed bounds of either array
 			matrix2D[i / 3][i % 3] = matrix1D[i];

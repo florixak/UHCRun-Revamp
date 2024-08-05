@@ -91,6 +91,10 @@ public class UHCPlayer {
 	public void setWinner(final boolean win) {
 		if (this.hasWon == win) return;
 		this.hasWon = win;
+
+		if (getQuestData().hasQuestWithTypeOf("WIN")) {
+			getQuestData().addProgressToTypes("WIN", getPlayer().getInventory().getItemInHand().getType());
+		}
 	}
 
 	public boolean isWinner() {

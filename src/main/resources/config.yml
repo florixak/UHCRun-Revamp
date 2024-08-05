@@ -366,6 +366,10 @@ settings:
       sound: BLOCK_ANVIL_BREAK
       volume: 0.5
       pitch: 1.0
+    quest-complete:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume: 0.5
+      pitch: 1.0
 
   # Chat
   chat:

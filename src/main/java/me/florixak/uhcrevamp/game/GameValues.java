@@ -57,6 +57,8 @@ public class GameValues {
 	public static final TitleConfig TITLE = new TitleConfig();
 	public static final DeathChestConfig DEATH_CHEST = new DeathChestConfig();
 	public static final BungeeCordConfig BUNGEECORD = new BungeeCordConfig();
+	public static final QuestConfig QUESTS = new QuestConfig();
+	public static final Sounds SOUNDS = new Sounds();
 
 	public static class GameSettings {
 		public final boolean TELEPORT_AFTER_MINING = getConfigBoolean("settings.game.teleport-after-mining", true);
@@ -249,6 +251,10 @@ public class GameValues {
 		public final int HOLOGRAM_EXPIRE_TIME = getConfigInt("settings.death-chest.expire", -1);
 	}
 
+	public static class QuestConfig {
+		public final boolean ENABLED = getConfigBoolean("settings.quests.enabled", true);
+	}
+
 	public static class TitleConfig {
 		public final boolean ENABLED = getConfigBoolean("settings.title.enabled", true);
 		public final int FADE_IN = getConfigInt("settings.title.fade-in", 20);
@@ -257,61 +263,65 @@ public class GameValues {
 	}
 
 	public static class Sounds {
-		public static final String STARTED_SOUND = getConfigString("settings.sounds.started.sound", "NONE");
-		public static final float STARTED_VOLUME = (float) getConfigDouble("settings.sounds.started.volume", 0.5);
-		public static final float STARTED_PITCH = (float) getConfigDouble("settings.sounds.started.pitch", 1.0);
+		public final String STARTED_SOUND = getConfigString("settings.sounds.started.sound", "NONE");
+		public final float STARTED_VOLUME = (float) getConfigDouble("settings.sounds.started.volume", 0.5);
+		public final float STARTED_PITCH = (float) getConfigDouble("settings.sounds.started.pitch", 1.0);
 
-		public static final String STARTING_SOUND = getConfigString("settings.sounds.starting.sound", "NONE");
-		public static final float STARTING_VOLUME = (float) getConfigDouble("settings.sounds.starting.volume", 0.5);
-		public static final float STARTING_PITCH = (float) getConfigDouble("settings.sounds.starting.pitch", 1.0);
+		public final String STARTING_SOUND = getConfigString("settings.sounds.starting.sound", "NONE");
+		public final float STARTING_VOLUME = (float) getConfigDouble("settings.sounds.starting.volume", 0.5);
+		public final float STARTING_PITCH = (float) getConfigDouble("settings.sounds.starting.pitch", 1.0);
 
-		public static final String PVP_STARTED_SOUND = getConfigString("settings.sounds.pvp-started.sound", "NONE");
-		public static final float PVP_STARTED_VOLUME = (float) getConfigDouble("settings.sounds.pvp-started.volume", 0.5);
-		public static final float PVP_STARTED_PITCH = (float) getConfigDouble("settings.sounds.pvp-started.pitch", 1.0);
+		public final String PVP_STARTED_SOUND = getConfigString("settings.sounds.pvp-started.sound", "NONE");
+		public final float PVP_STARTED_VOLUME = (float) getConfigDouble("settings.sounds.pvp-started.volume", 0.5);
+		public final float PVP_STARTED_PITCH = (float) getConfigDouble("settings.sounds.pvp-started.pitch", 1.0);
 
-		public static final String WIN_SOUND = getConfigString("settings.sounds.win.sound", "NONE");
-		public static final float WIN_VOLUME = (float) getConfigDouble("settings.sounds.win.volume", 0.5);
-		public static final float WIN_PITCH = (float) getConfigDouble("settings.sounds.win.pitch", 1.0);
+		public final String WIN_SOUND = getConfigString("settings.sounds.win.sound", "NONE");
+		public final float WIN_VOLUME = (float) getConfigDouble("settings.sounds.win.volume", 0.5);
+		public final float WIN_PITCH = (float) getConfigDouble("settings.sounds.win.pitch", 1.0);
 
-		public static final String GAME_OVER_SOUND = getConfigString("settings.sounds.game-over.sound", "NONE");
-		public static final float GAME_OVER_VOLUME = (float) getConfigDouble("settings.sounds.game-over.volume", 0.5);
-		public static final float GAME_OVER_PITCH = (float) getConfigDouble("settings.sounds.game-over.pitch", 1.0);
+		public final String GAME_OVER_SOUND = getConfigString("settings.sounds.game-over.sound", "NONE");
+		public final float GAME_OVER_VOLUME = (float) getConfigDouble("settings.sounds.game-over.volume", 0.5);
+		public final float GAME_OVER_PITCH = (float) getConfigDouble("settings.sounds.game-over.pitch", 1.0);
 
-		public static final String DEATHMATCH_SOUND = getConfigString("settings.sounds.deathmatch.sound", "NONE");
-		public static final float DEATHMATCH_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch.volume", 0.5);
-		public static final float DEATHMATCH_PITCH = (float) getConfigDouble("settings.sounds.deathmatch.pitch", 1.0);
+		public final String DEATHMATCH_SOUND = getConfigString("settings.sounds.deathmatch.sound", "NONE");
+		public final float DEATHMATCH_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch.volume", 0.5);
+		public final float DEATHMATCH_PITCH = (float) getConfigDouble("settings.sounds.deathmatch.pitch", 1.0);
 
-		public static final String DEATHMATCH_STARTING_SOUND = getConfigString("settings.sounds.deathmatch-starting.sound", "NONE");
-		public static final float DEATHMATCH_STARTING_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch-starting.volume", 0.5);
-		public static final float DEATHMATCH_STARTING_PITCH = (float) getConfigDouble("settings.sounds.deathmatch-starting.pitch", 1.0);
+		public final String DEATHMATCH_STARTING_SOUND = getConfigString("settings.sounds.deathmatch-starting.sound", "NONE");
+		public final float DEATHMATCH_STARTING_VOLUME = (float) getConfigDouble("settings.sounds.deathmatch-starting.volume", 0.5);
+		public final float DEATHMATCH_STARTING_PITCH = (float) getConfigDouble("settings.sounds.deathmatch-starting.pitch", 1.0);
 
-		public static final String UHC_LEVEL_UP_SOUND = getConfigString("settings.sounds.uhc-level-up.sound", "NONE");
-		public static final float UHC_LEVEL_UP_VOLUME = (float) getConfigDouble("settings.sounds.uhc-level-up.volume", 0.5);
-		public static final float UHC_LEVEL_UP_PITCH = (float) getConfigDouble("settings.sounds.uhc-level-up.pitch", 1.0);
+		public final String UHC_LEVEL_UP_SOUND = getConfigString("settings.sounds.uhc-level-up.sound", "NONE");
+		public final float UHC_LEVEL_UP_VOLUME = (float) getConfigDouble("settings.sounds.uhc-level-up.volume", 0.5);
+		public final float UHC_LEVEL_UP_PITCH = (float) getConfigDouble("settings.sounds.uhc-level-up.pitch", 1.0);
 
-		public static final String KILL_SOUND = getConfigString("settings.sounds.kill.sound", "NONE");
-		public static final float KILL_VOLUME = (float) getConfigDouble("settings.sounds.kill.volume", 0.5);
-		public static final float KILL_PITCH = (float) getConfigDouble("settings.sounds.kill.pitch", 1.0);
+		public final String KILL_SOUND = getConfigString("settings.sounds.kill.sound", "NONE");
+		public final float KILL_VOLUME = (float) getConfigDouble("settings.sounds.kill.volume", 0.5);
+		public final float KILL_PITCH = (float) getConfigDouble("settings.sounds.kill.pitch", 1.0);
 
-		public static final String DEATH_SOUND = getConfigString("settings.sounds.death.sound", "NONE");
-		public static final float DEATH_VOLUME = (float) getConfigDouble("settings.sounds.death.volume", 0.5);
-		public static final float DEATH_PITCH = (float) getConfigDouble("settings.sounds.death.pitch", 1.0);
+		public final String DEATH_SOUND = getConfigString("settings.sounds.death.sound", "NONE");
+		public final float DEATH_VOLUME = (float) getConfigDouble("settings.sounds.death.volume", 0.5);
+		public final float DEATH_PITCH = (float) getConfigDouble("settings.sounds.death.pitch", 1.0);
 
-		public static final String ASSIST_SOUND = getConfigString("settings.sounds.assist.sound", "NONE");
-		public static final float ASSIST_VOLUME = (float) getConfigDouble("settings.sounds.assist.volume", 0.5);
-		public static final float ASSIST_PITCH = (float) getConfigDouble("settings.sounds.assist.pitch", 1.0);
+		public final String ASSIST_SOUND = getConfigString("settings.sounds.assist.sound", "NONE");
+		public final float ASSIST_VOLUME = (float) getConfigDouble("settings.sounds.assist.volume", 0.5);
+		public final float ASSIST_PITCH = (float) getConfigDouble("settings.sounds.assist.pitch", 1.0);
 
-		public static final String SELECT_SOUND = getConfigString("settings.sounds.select-buy.sound", "NONE");
-		public static final float SELECT_VOLUME = (float) getConfigDouble("settings.select-buy.select.volume", 0.5);
-		public static final float SELECT_PITCH = (float) getConfigDouble("settings.select-buy.select.pitch", 1.0);
+		public final String SELECT_SOUND = getConfigString("settings.sounds.select-buy.sound", "NONE");
+		public final float SELECT_VOLUME = (float) getConfigDouble("settings.select-buy.select.volume", 0.5);
+		public final float SELECT_PITCH = (float) getConfigDouble("settings.select-buy.select.pitch", 1.0);
 
-//		public static final String BUY_SOUND = getConfigString("settings.sounds.buy.sound", "NONE");
-//		public static final float BUY_VOLUME = (float) getConfigDouble("settings.sounds.buy.volume", 0.5);
-//		public static final float BUY_PITCH = (float) getConfigDouble("settings.sounds.buy.pitch", 1.0);
+//		public final String BUY_SOUND = getConfigString("settings.sounds.buy.sound", "NONE");
+//		public final float BUY_VOLUME = (float) getConfigDouble("settings.sounds.buy.volume", 0.5);
+//		public final float BUY_PITCH = (float) getConfigDouble("settings.sounds.buy.pitch", 1.0);
 
-		public static final String PURCHASE_CANCEL_SOUND = getConfigString("settings.sounds.purchase-cancel.sound", "NONE");
-		public static final float PURCHASE_CANCEL_VOLUME = (float) getConfigDouble("settings.sounds.purchase-cancel.volume", 0.5);
-		public static final float PURCHASE_CANCEL_PITCH = (float) getConfigDouble("settings.sounds.purchase-cancel.pitch", 1.0);
+		public final String PURCHASE_CANCEL_SOUND = getConfigString("settings.sounds.purchase-cancel.sound", "NONE");
+		public final float PURCHASE_CANCEL_VOLUME = (float) getConfigDouble("settings.sounds.purchase-cancel.volume", 0.5);
+		public final float PURCHASE_CANCEL_PITCH = (float) getConfigDouble("settings.sounds.purchase-cancel.pitch", 1.0);
+
+		public final String QUEST_COMPLETE_SOUND = getConfigString("settings.sounds.quest-complete.sound", "NONE");
+		public final float QUEST_COMPLETE_VOLUME = (float) getConfigDouble("settings.sounds.quest-complete.volume", 0.5);
+		public final float QUEST_COMPLETE_PITCH = (float) getConfigDouble("settings.sounds.quest-complete.pitch", 1.0);
 	}
 
 	private static boolean getConfigBoolean(final String path, final boolean def) {

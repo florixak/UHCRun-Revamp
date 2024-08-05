@@ -157,6 +157,11 @@ public class PlayerListener implements Listener {
 
 		if (!gameManager.isPlaying() || uhcPlayer.isDead() || gameManager.isEnding()) {
 			event.setCancelled(true);
+			return;
+		}
+
+		if (uhcPlayer.getQuestData().hasQuestWithTypeOf("PICKUP")) {
+			uhcPlayer.getQuestData().addProgressToTypes("PICKUP", event.getItem().getItemStack().getType());
 		}
 	}
 
