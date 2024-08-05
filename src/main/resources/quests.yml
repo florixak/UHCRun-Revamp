@@ -3,16 +3,22 @@
 # description, and rewards (money and UHC experience points).
 # The players section is used to store the progress of each player's quests.
 # The progress is stored in the following format:
-
+#
 # How to create quest:
-# quest1:
-#   display-name: ".."
-#   display-item: ..
-#   type: .. (TYPES: WIN, KILL, PICKUP, BREAK, CRAFT, ASSIST)
-#   count: ..
-#   description: ..
+# quest1: (id needs to be different)
+#   display-name: "..."
+#   display-item: "..." (if empty then BOOK)
+#   type: "..." (TYPES: WIN, KILL, PICKUP, BREAK, CRAFT, ASSIST)
+#   count: ... (goal)
+#   materiaL "..." (optional, if needed - item in hand)
+#   description:
+#       - "..."
+#       - "..."
+#   reward:
+#     money: ...
+#     uhc-exp: ...
 #     -
-# Give me more ideas for types and send me message on discord (florixak)
+# You can give me more ideas for types and send me message on discord! (florixak)
 
 quests:
   quest1:
