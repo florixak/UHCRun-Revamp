@@ -5,6 +5,7 @@ import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.kits.Kit;
 import me.florixak.uhcrevamp.game.perks.Perk;
+import me.florixak.uhcrevamp.game.quests.PlayerQuestData;
 import me.florixak.uhcrevamp.game.teams.UHCTeam;
 import me.florixak.uhcrevamp.utils.NMSUtils;
 import me.florixak.uhcrevamp.utils.TeleportUtils;
@@ -27,6 +28,7 @@ public class UHCPlayer {
 	private final UUID uuid;
 	private final String name;
 	private final PlayerData data;
+	private final PlayerQuestData questData;
 
 	private PlayerState state;
 	private int kills = 0;
@@ -35,7 +37,7 @@ public class UHCPlayer {
 	private Perk perk;
 	private UHCTeam team;
 	private boolean hasWon = false;
-	private long timePlayed;
+	private long timePlayed = 0;
 	private Location spawnLoc;
 
 	private double moneyForGameResult = 0, moneyForKills = 0, moneyForAssists = 0, moneyForActivity = 0;
@@ -45,6 +47,7 @@ public class UHCPlayer {
 		this.uuid = uuid;
 		this.name = name;
 		this.data = new PlayerData(this);
+		this.questData = new PlayerQuestData(this);
 		setState(PlayerState.LOBBY);
 	}
 
@@ -79,6 +82,10 @@ public class UHCPlayer {
 
 	public PlayerData getData() {
 		return this.data;
+	}
+
+	public PlayerQuestData getQuestData() {
+		return this.questData;
 	}
 
 	public void setWinner(final boolean win) {
@@ -205,18 +212,25 @@ public class UHCPlayer {
 				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_KILL))
 				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_KILL)));
 		GameManager.getGameManager().getSoundManager().playKillSound(getPlayer());
+
+		if (getQuestData().hasQuestWithTypeOf("KILL")) {
+			getQuestData().addProgressToTypes("KILL", getPlayer().getInventory().getItemInHand().getType());
+		}
 	}
 
 	public void assist(final UHCPlayer victim) {
 		if (victim == null) return;
 
 		addAssist();
-
 		sendMessage(Messages.REWARDS_ASSIST.toString()
 				.replace("%player%", victim.getName())
 				.replace("%money%", String.valueOf(GameValues.REWARDS.COINS_FOR_ASSIST))
 				.replace("%uhc-exp%", String.valueOf(GameValues.REWARDS.UHC_EXP_FOR_ASSIST)));
 		GameManager.getGameManager().getSoundManager().playAssistSound(getPlayer());
+
+		if (getQuestData().hasQuestWithTypeOf("ASSIST")) {
+			getQuestData().addProgressToTypes("ASSIST", getPlayer().getInventory().getItemInHand().getType());
+		}
 	}
 
 	public void die() {
@@ -402,6 +416,8 @@ public class UHCPlayer {
 		this.uhcExpForKills = 0;
 		this.uhcExpForAssists = 0;
 		this.uhcExpForActivity = 0;
+		getQuestData().getCompletedQuests().clear();
+		getQuestData().getQuestProgress().clear();
 	}
 
 	@Override

@@ -40,6 +40,8 @@ public enum Messages {
 	TITLE_LOSE("title.lose.title"),
 	SUBTITLE_LOSE("title.lose.subtitle"),
 
+	QUESTS_COMPLETED("quests.completed"),
+
 	PVP("game.pvp"),
 	PVP_IN("game.pvp-in"),
 	MINING("game.mining"),

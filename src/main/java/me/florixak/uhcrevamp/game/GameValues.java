@@ -174,6 +174,7 @@ public class GameValues {
 		public final String PERKS_TITLE = getConfigString("settings.inventories.perks.display-name", "Perks");
 		public final String CUSTOM_RECIPES_TITLE = getConfigString("settings.inventories.custom-recipes.display-name", "Custom Recipes");
 		public final String STATS_TITLE = getConfigString("settings.inventories.statistics.display-name", "Statistics");
+		public final String QUESTS_TITLE = getConfigString("settings.inventories.quests.display-name", "Quests");
 
 		public final boolean CONFIRM_PURCHASE_ENABLED = getConfigBoolean("settings.inventories.confirm-purchase.enabled", true);
 		public final String CONFIRM_PURCHASE_NAME = getConfigString("settings.inventories.confirm-purchase.confirm", "&aConfirm");
@@ -196,12 +197,14 @@ public class GameValues {
 		public final int STATS_SLOTS = getConfigInt("settings.inventories.statistics.slots", 45);
 		public final int TEAMS_SLOTS = getConfigInt("settings.inventories.teams.slots", 45);
 		public final int CONFIRM_PURCHASE_SLOTS = getConfigInt("settings.inventories.confirm-purchase.slots", 9);
+		public final int QUESTS_SLOTS = getConfigInt("settings.inventories.quests.slots", 45);
 
 		public final String TEAMS_DIS_ITEM = getConfigString("settings.inventories.teams.display-item", "BARRIER");
 		public final String KITS_DIS_ITEM = getConfigString("settings.inventories.kits.display-item", "BARRIER");
 		public final String PERKS_DIS_ITEM = getConfigString("settings.inventories.perks.display-item", "BARRIER");
 		public final String CUSTOM_RECIPES_DIS_ITEM = getConfigString("settings.inventories.custom-recipes.display-item", "BARRIER");
 		public final String STATS_DIS_ITEM = getConfigString("settings.inventories.statistics.display-item", "BARRIER");
+		public final String QUESTS_DIS_ITEM = getConfigString("settings.inventories.quests.display-item", "BARRIER");
 	}
 
 	public static class ScoreboardConfig {

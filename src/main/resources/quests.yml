@@ -1,0 +1,143 @@
+# This file contains the configuration for quests.
+# Each quest has a display name, display item, type, count, material (if applicable),
+# description, and rewards (money and UHC experience points).
+# The players section is used to store the progress of each player's quests.
+# The progress is stored in the following format:
+
+# How to create quest:
+# quest1:
+#   display-name: ".."
+#   display-item: ..
+#   type: .. (TYPES: WIN, KILL, PICKUP, BREAK, CRAFT, ASSIST)
+#   count: ..
+#   description:
+#     - "..."
+
+quests:
+  quest1:
+    display-name: "&aTrue King"
+    display-item: "GOLDEN_APPLE"
+    type: "WIN"
+    count: 50
+    description:
+      - "&aWin &f%count% &agames of UHC"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 200
+      uhc-exp: 100
+
+  quest2:
+    display-name: "&aDaily Quest 2"
+    display-item: "IRON_SWORD"
+    type: "KILL"
+    count: 5
+    material: IRON_SWORD
+    description:
+      - "&aKill &f%count% &aplayers with &f%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 300
+      uhc-exp: 150
+
+  quest3:
+    display-name: "&aTrue Gardener"
+    display-item: "APPLE"
+    type: "PICKUP"
+    count: 128
+    material: APPLE
+    description:
+      - "&aPickup &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 500
+      uhc-exp: 300
+
+  quest4:
+    display-name: "&bDiamond Miner"
+    display-item: "DIAMOND_ORE"
+    type: "BREAK"
+    count: 98
+    material: DIAMOND_ORE
+    description:
+      - "&aBreak &f%count% &aof &f%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 700
+      uhc-exp: 400
+
+  quest5:
+    display-name: "&bTrue Farmer"
+    display-item: "WHEAT"
+    type: "CRAFT"
+    count: 64
+    material: WHEAT
+    description:
+      - "&aCraft &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 900
+      uhc-exp: 500
+
+  quest6:
+    display-name: "&bTrue Miner"
+    display-item: "IRON_INGOT"
+    type: "PICKUP"
+    count: 32
+    material: IRON_INGOT
+    description:
+      - "&aSmelt &f%count% &a%material%"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1100
+      uhc-exp: 600
+
+  quest7:
+    display-name: "&bTrue Hunter"
+    display-item: "BOW"
+    type: "KILL"
+    count: 10
+    material: "BOW"
+    description:
+      - "&aKill &f%count% &aplayers with a bow"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1300
+      uhc-exp: 700
+
+  quest8:
+    display-name: "&eYou Are Really Kindhearted!"
+    display-item: BOOK
+    type: "ASSIST"
+    count: 10
+    description:
+      - "&aAssist in &f%count% &akills"
+      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
+      - " "
+      - "&aProgress: &f%progress%/%count%"
+      - "&f%status%"
+    reward:
+      money: 1500
+      uhc-exp: 800
+
+players:

@@ -69,22 +69,26 @@ public class OreGeneratorListener implements Listener {
 			return;
 		}
 //        Bukkit.getLogger().info("Not Generate In: " + notSpawnIn.toString());
-		Bukkit.getLogger().info("World " + targetWorldName + " loaded. Generating ores...");
-		for (final Chunk chunk : world.getLoadedChunks()) {
-			for (int i = 0; i < maxOresPerChunk; i++) {
-				final int x = MathUtils.getRandom().nextInt(16);
-				final int z = MathUtils.getRandom().nextInt(16);
-				final int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
-				final int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
-				final Block startBlock = chunk.getBlock(x, y, z);
-				if (!notSpawnIn.contains(startBlock.getType().name())
-						&& !startBlock.getBiome().equals(XBiome.OCEAN.getBiome())
-						&& !startBlock.getBiome().equals(XBiome.DEEP_OCEAN.getBiome())) {
-					final GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
-					generateVein(generatedOre.getMaterial(), startBlock, MathUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
+		try {
+			Bukkit.getLogger().info("World " + targetWorldName + " loaded. Generating ores...");
+			for (final Chunk chunk : world.getLoadedChunks()) {
+				for (int i = 0; i < maxOresPerChunk; i++) {
+					final int x = MathUtils.getRandom().nextInt(16);
+					final int z = MathUtils.getRandom().nextInt(16);
+					final int highestY = chunk.getBlock(x, 0, z).getWorld().getHighestBlockYAt(chunk.getBlock(x, 0, z).getLocation());
+					final int y = MathUtils.getRandom().nextInt(highestY - 10); // Ensure ores are generated below the highest block
+					final Block startBlock = chunk.getBlock(x, y, z);
+					if (!notSpawnIn.contains(startBlock.getType().name())
+							&& !startBlock.getBiome().equals(XBiome.OCEAN.getBiome())
+							&& !startBlock.getBiome().equals(XBiome.DEEP_OCEAN.getBiome())) {
+						final GeneratedOre generatedOre = oresList.get(MathUtils.getRandom().nextInt(oresList.size()));
+						generateVein(generatedOre.getMaterial(), startBlock, MathUtils.randomInteger(generatedOre.getMinVein(), generatedOre.getMaxVein())); // Generate a vein of ores
+					}
 				}
 			}
+			Bukkit.getLogger().info("Ores generated in world " + targetWorldName);
+		} catch (final Exception e) {
+			Bukkit.getLogger().info("Failed to generate ores in world " + targetWorldName);
 		}
-		Bukkit.getLogger().info("Ores generated in world " + targetWorldName);
 	}
 }

@@ -2,6 +2,7 @@ package me.florixak.uhcrevamp.commands;
 
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
+import me.florixak.uhcrevamp.game.quests.Quest;
 import me.florixak.uhcrevamp.manager.DeathmatchManager;
 import me.florixak.uhcrevamp.manager.LobbyManager;
 import org.bukkit.Location;
@@ -105,6 +106,21 @@ public class UHCCommand implements CommandExecutor {
 //				}
 //			}
 //		}
+
+		if (args[0].equalsIgnoreCase("getquest")) {
+			if (args.length == 1) {
+				p.sendMessage(Messages.INVALID_CMD.toString());
+			} else {
+				final Quest quest = gameManager.getQuestManager().getQuest(args[1]);
+				if (quest == null) {
+					p.sendMessage("Quest " + args[1] + " does not exist!");
+					return true;
+				}
+				p.sendMessage(gameManager.getQuestManager().getQuest(args[1]).getDisplayName() + " exists!");
+				p.sendMessage("Progress increased by 1");
+				gameManager.getPlayerManager().getUHCPlayer(p).getQuestData().addProgressToTypes(quest.getId(), null);
+			}
+		}
 		return true;
 	}
 }

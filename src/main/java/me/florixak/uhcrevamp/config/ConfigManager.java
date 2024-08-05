@@ -28,6 +28,7 @@ public class ConfigManager {
 		registerFile(ConfigType.CUSTOM_DROPS, new ConfigHandler(plugin, "custom-drops"));
 		registerFile(ConfigType.CUSTOM_RECIPES, new ConfigHandler(plugin, "custom-recipes"));
 		registerFile(ConfigType.ORE_GENERATION, new ConfigHandler(plugin, "ore-generation"));
+		registerFile(ConfigType.QUESTS, new ConfigHandler(plugin, "quests"));
 
 		configurations.values().forEach(ConfigHandler::saveDefaultConfig);
 

@@ -502,6 +502,7 @@ public class PlayerData {
 		setGamesPlayed();
 		depositMoney(money);
 		addUHCExp(uhcExp);
+		uhcPlayer.getQuestData().savePlayerQuestData();
 	}
 
 	public void showStatistics() {

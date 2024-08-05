@@ -284,6 +284,12 @@ settings:
       display-item: CRAFTING_TABLE # Display item for custom recipes menu
       slot: 4 # Slot for custom recipes menu
       slots: 45 # Number of slots for custom recipes menu
+    quests:
+      enabled: true # Enable quests menu
+      display-name: "&fQuests&8" # Display name for quests menu
+      display-item: BOOK # Display item for quests menu
+      slot: 7 # Slot for quests menu
+      slots: 45 # Number of slots for quests menu
     statistics:
       enabled: true # Enable statistics menu
       display-name: "&fProfile" # Display name for statistics menu

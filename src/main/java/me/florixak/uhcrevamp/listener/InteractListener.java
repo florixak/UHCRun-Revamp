@@ -56,6 +56,10 @@ public class InteractListener implements Listener {
 						TextUtils.color(GameValues.INVENTORY.STATS_TITLE))) {
 					new StatisticsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
 				}
+				if (item.getItemMeta().getDisplayName().equalsIgnoreCase(
+						TextUtils.color(GameValues.INVENTORY.QUESTS_TITLE))) {
+					new QuestsMenu(MenuManager.getMenuUtils(uhcPlayer)).open();
+				}
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import me.florixak.uhcrevamp.game.kits.KitsManager;
 import me.florixak.uhcrevamp.game.perks.PerksManager;
 import me.florixak.uhcrevamp.game.player.PlayerListener;
 import me.florixak.uhcrevamp.game.player.PlayerManager;
+import me.florixak.uhcrevamp.game.quests.QuestManager;
 import me.florixak.uhcrevamp.game.statistics.StatisticsManager;
 import me.florixak.uhcrevamp.game.teams.TeamManager;
 import me.florixak.uhcrevamp.game.worldGenerator.OreGenManager;
@@ -74,6 +75,7 @@ public class GameManager {
 	private final WorldManager worldManager;
 	private final MenuManager menuManager;
 	private final DamageTrackerManager damageTrackerManager;
+	private final QuestManager questManager;
 
 	private boolean resistance;
 
@@ -102,6 +104,7 @@ public class GameManager {
 		this.menuManager = new MenuManager();
 		this.statisticsManager = new StatisticsManager(this);
 		this.damageTrackerManager = new DamageTrackerManager();
+		this.questManager = new QuestManager(this);
 
 		this.config = getConfigManager().getFile(ConfigType.SETTINGS).getConfig();
 	}
@@ -127,6 +130,7 @@ public class GameManager {
 		getKitsManager().loadKits();
 		getPerksManager().loadPerks();
 		getStatisticsManager().loadTopStatistics();
+		getQuestManager().load();
 
 		getTaskManager().runGameCheckTask();
 		getTaskManager().runScoreboardUpdateTask();
@@ -231,6 +235,7 @@ public class GameManager {
 		getTeamManager().onDisable();
 		getPlayerManager().onDisable();
 		getTaskManager().onDisable();
+		getQuestManager().onDisable();
 		clearDrops();
 		disconnectDatabase();
 	}
@@ -458,5 +463,9 @@ public class GameManager {
 
 	public DamageTrackerManager getDamageTrackerManager() {
 		return damageTrackerManager;
+	}
+
+	public QuestManager getQuestManager() {
+		return questManager;
 	}
 }
