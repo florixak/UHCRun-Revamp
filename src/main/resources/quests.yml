@@ -23,7 +23,7 @@
 quests:
   quest1:
     display-name: "&aTrue King"
-    display-item: "GOLDEN_APPLE"
+    display-item: GOLDEN_APPLE
     type: "WIN"
     count: 50
     description:
@@ -38,7 +38,7 @@ quests:
 
   quest2:
     display-name: "&aDaily Quest 1"
-    display-item: "GOLDEN_SWORD"
+    display-item: GOLDEN_SWORD
     type: "KILL"
     count: 10
     material: GOLDEN_SWORD
@@ -54,7 +54,7 @@ quests:
 
   quest3:
     display-name: "&aTrue Gardener"
-    display-item: "APPLE"
+    display-item: APPLE
     type: "PICKUP"
     count: 128
     material: APPLE
@@ -70,7 +70,7 @@ quests:
 
   quest4:
     display-name: "&bDiamond Miner"
-    display-item: "DIAMOND_ORE"
+    display-item: DIAMOND_ORE
     type: "BREAK"
     count: 98
     material: DIAMOND_ORE
@@ -86,7 +86,7 @@ quests:
 
   quest5:
     display-name: "&bTrue Farmer"
-    display-item: "WHEAT"
+    display-item: WHEAT
     type: "CRAFT"
     count: 64
     material: WHEAT
@@ -102,7 +102,7 @@ quests:
 
   quest6:
     display-name: "&bTrue Miner"
-    display-item: "IRON_INGOT"
+    display-item: IRON_INGOT
     type: "PICKUP"
     count: 32
     material: IRON_INGOT
@@ -118,7 +118,7 @@ quests:
 
   quest7:
     display-name: "&bTrue Hunter"
-    display-item: "BOW"
+    display-item: BOW
     type: "KILL"
     count: 10
     material: "BOW"
@@ -148,11 +148,11 @@ quests:
       uhc-exp: 800
 
   quest9:
-    display-name: "&aMaster Builder"
-    display-item: "BRICKS"
+    display-name: "&aMaster Miner"
+    display-item: IRON_PICKAXE
     type: "CRAFT"
     count: 100
-    material: "BRICKS"
+    material: IRON_PICKAXE
     description:
       - "&aCraft &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -165,7 +165,7 @@ quests:
 
   quest10:
     display-name: "&aUltimate Survivor"
-    display-item: "SHIELD"
+    display-item: DIAMOND_CHESTPLATE
     type: "WIN"
     count: 100
     description:
@@ -183,7 +183,7 @@ quests:
     display-item: "IRON_INGOT"
     type: "PICKUP"
     count: 200
-    material: "IRON_INGOT"
+    material: IRON_INGOT
     description:
       - "&aCollect &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -199,7 +199,7 @@ quests:
     display-item: "GOLD_INGOT"
     type: "PICKUP"
     count: 150
-    material: "GOLD_INGOT"
+    material: GOLD_INGOT
     description:
       - "&aCollect &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -215,7 +215,7 @@ quests:
     display-item: "DIAMOND"
     type: "PICKUP"
     count: 50
-    material: "DIAMOND"
+    material: DIAMOND
     description:
       - "&aCollect &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -231,7 +231,7 @@ quests:
     display-item: "IRON_SWORD"
     type: "KILL"
     count: 200
-    material: "IRON_SWORD"
+    material: IRON_SWORD
     description:
       - "&aKill &f%count% &amonsters with &f%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -247,7 +247,7 @@ quests:
     display-item: "DIAMOND_PICKAXE"
     type: "BREAK"
     count: 500
-    material: "STONE"
+    material: STONE
     description:
       - "&aBreak &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -260,10 +260,10 @@ quests:
 
   quest16:
     display-name: "&aExpert Farmer"
-    display-item: "CARROT"
+    display-item: GOLDEN_CARROT
     type: "CRAFT"
     count: 200
-    material: "CARROT"
+    material: GOLDEN_CARROT
     description:
       - "&aCraft &f%count% &a%material%"
       - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
@@ -273,22 +273,6 @@ quests:
     reward:
       money: 2500
       uhc-exp: 1500
-
-  quest17:
-    display-name: "&aPotion Master"
-    display-item: "POTION"
-    type: "CRAFT"
-    count: 50
-    material: "POTION"
-    description:
-      - "&aCraft &f%count% &a%material%"
-      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
-      - " "
-      - "&aProgress: &f%progress%/%count%"
-      - "&f%status%"
-    reward:
-      money: 2800
-      uhc-exp: 1800
 
   quest18:
     display-name: "&aArchery Expert"
@@ -321,21 +305,6 @@ quests:
     reward:
       money: 3500
       uhc-exp: 2500
-  quest20:
-    display-name: "&aLumberjack"
-    display-item: "WOODEN_AXE"
-    type: "BREAK"
-    count: 500
-    material: "OAK_LOG"
-    description:
-      - "&aBreak &f%count% &a%material%"
-      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
-      - " "
-      - "&aProgress: &f%progress%/%count%"
-      - "&f%status%"
-    reward:
-      money: 2000
-      uhc-exp: 1000
 
   quest21:
     display-name: "&aFish Master"
@@ -352,22 +321,6 @@ quests:
     reward:
       money: 1500
       uhc-exp: 800
-
-  quest22:
-    display-name: "&aPotion Brewer"
-    display-item: "BREWING_STAND"
-    type: "CRAFT"
-    count: 50
-    material: "POTION"
-    description:
-      - "&aBrew &f%count% &apotions"
-      - "&aReward: &f%money% &a%currency%&a, &f%uhc-exp% &aUHC exp"
-      - " "
-      - "&aProgress: &f%progress%/%count%"
-      - "&f%status%"
-    reward:
-      money: 1800
-      uhc-exp: 900
 
   quest23:
     display-name: "&aExplorer"
