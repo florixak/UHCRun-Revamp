@@ -116,6 +116,13 @@ public enum Messages {
 	QUEST_COMPLETED("quests.completed"),
 	QUEST_REWARD("quests.reward"),
 
+	REVIVED_YOU("revive.you-revived"),
+	REVIVE_YOU_ALIVE("revive.you-already-alive"),
+	REVIVE_YOU_NOT_DEAD("revive.you-not-dead"),
+	REVIVE_PLAYER_REVIVED("revive.player-revived"),
+	REVIVE_PLAYER_ALIVE("revive.player-already-alive"),
+	REVIVE_PLAYER_NOT_DEAD("revive.player-not-dead"),
+
 	SETUP_SET_WAIT_LOBBY("setup.waiting-lobby-set"),
 	SETUP_DEL_WAIT_LOBBY("setup.waiting-lobby-removed"),
 	SETUP_SET_END_LOBBY("setup.ending-lobby-set"),
@@ -137,7 +144,6 @@ public enum Messages {
 	@Override
 	public String toString() {
 		final String message = config.getString("Messages." + this.path);
-
 		if (message == null || message.isEmpty()) {
 			return TextUtils.color("&cMessage not found! &7(" + this.path + ")");
 		}

@@ -151,6 +151,14 @@ Messages:
     completed: "&a[!] &fYou have completed the quest %quest%!"
     reward: "&a[!] &fYou have received %reward% %currency% and %exp% exp!"
 
+  revive:
+    you-revived: "&a[!] &fYou have been revived!"
+    you-already-alive: "&c[!] &fYou are already alive!"
+    you-not-dead: "&c[!] &fYou are not dead!"
+    player-revived: "&a[!] &f%player% has been revived!"
+    player-already-alive: "&c[!] &f%player% is already alive!"
+    player-not-dead: "&c[!] &%player% is not dead!"
+
   rewards:
     win:
       - "&7---------- %prefix% &7----------"

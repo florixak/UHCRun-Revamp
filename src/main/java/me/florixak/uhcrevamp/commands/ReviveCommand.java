@@ -3,6 +3,7 @@ package me.florixak.uhcrevamp.commands;
 import me.florixak.uhcrevamp.config.Messages;
 import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
+import me.florixak.uhcrevamp.utils.placeholderapi.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,32 +35,32 @@ public class ReviveCommand implements CommandExecutor {
 
 		if (args.length == 0) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("Console cannot revive herself...");
+				sender.sendMessage(Messages.ONLY_PLAYER.toString());
 				return true;
 			}
 			final UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(((Player) sender).getUniqueId());
 
 			if (uhcPlayer.isAlive()) {
-				sender.sendMessage("You are alive!");
+				sender.sendMessage(PlaceholderUtil.setPlaceholders(Messages.REVIVE_YOU_ALIVE.toString(), (Player) sender));
 				return true;
 			}
 			uhcPlayer.revive();
-			sender.sendMessage("You revived yourself!");
+			sender.sendMessage(PlaceholderUtil.setPlaceholders(Messages.REVIVED_YOU.toString(), (Player) sender));
 		} else if (args.length == 1) {
 			final UHCPlayer target = gameManager.getPlayerManager().getUHCPlayer(Bukkit.getPlayer(args[0]));
 			if (!target.isOnline()) {
-				sender.sendMessage(Messages.OFFLINE_PLAYER.toString());
+				sender.sendMessage(PlaceholderUtil.setPlaceholders(Messages.OFFLINE_PLAYER.toString(), target.getPlayer()));
 				return true;
 			}
 			if (target.isAlive()) {
-				sender.sendMessage("Player is alive!");
+				sender.sendMessage(PlaceholderUtil.setPlaceholders(Messages.REVIVE_PLAYER_ALIVE.toString(), target.getPlayer()));
 				return true;
 			}
 			target.revive();
-			target.sendMessage("You were revived by " + sender.getName());
-			sender.sendMessage(target.getName() + " was revived!");
+			target.sendMessage(Messages.REVIVED_YOU.toString());
+			sender.sendMessage(PlaceholderUtil.setPlaceholders(Messages.REVIVE_PLAYER_REVIVED.toString(), target.getPlayer()));
 		} else {
-			sender.sendMessage("Wrong usage... /revive %player%");
+			sender.sendMessage(Messages.INVALID_CMD.toString());
 		}
 		return true;
 	}
