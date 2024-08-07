@@ -12,6 +12,7 @@ public class LuckPermsHook {
 	private LuckPerms luckPerms = null;
 
 	public LuckPermsHook() {
+		setupLuckPerms();
 	}
 
 	public void setupLuckPerms() {

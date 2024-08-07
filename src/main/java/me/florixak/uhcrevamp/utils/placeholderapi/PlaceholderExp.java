@@ -15,7 +15,7 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
 	private final UHCRevamp plugin;
 
-	public PlaceholderExp(UHCRevamp plugin) {
+	public PlaceholderExp(final UHCRevamp plugin) {
 		this.plugin = plugin;
 	}
 
@@ -45,8 +45,8 @@ public class PlaceholderExp extends PlaceholderExpansion {
 	}
 
 	@Override
-	public String onPlaceholderRequest(Player p, String params) {
-		UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
+	public String onPlaceholderRequest(final Player p, final String params) {
+		final UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
 
 		if (params.equalsIgnoreCase("uhc-author")) {
 			return getAuthor();
@@ -64,18 +64,18 @@ public class PlaceholderExp extends PlaceholderExpansion {
 			return Messages.CURRENCY.toString();
 		}
 
-		if (params.equalsIgnoreCase("uhc-player")) {
-			return uhcPlayer.getName();
-		}
-
 		if (params.equalsIgnoreCase("uhc-world")) {
-			return p.getWorld().getName();
+			return GameValues.WORLD_NAME;
 		}
 
 		if (params.equalsIgnoreCase("uhc-border-size")) {
-			DecimalFormat format = new DecimalFormat("#######0");
-			String formattedBorderSize = "+" + format.format(plugin.getGameManager().getBorderManager().getSize()) + " -" + format.format(plugin.getGameManager().getBorderManager().getSize());
+			final DecimalFormat format = new DecimalFormat("#######0");
+			final String formattedBorderSize = "+" + format.format(plugin.getGameManager().getBorderManager().getSize()) + " -" + format.format(plugin.getGameManager().getBorderManager().getSize());
 			return formattedBorderSize;
+		}
+
+		if (params.equalsIgnoreCase("uhc-player")) {
+			return uhcPlayer.getName();
 		}
 
 		if (params.equalsIgnoreCase("uhc-countdown")) {

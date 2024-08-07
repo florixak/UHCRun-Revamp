@@ -15,8 +15,6 @@ import java.text.DecimalFormat;
 
 public class PlaceholderUtil {
 
-	public static boolean PAPI;
-
 	public static String setPlaceholders(String text, final Player p) {
 
 		final GameManager gameManager = GameManager.getGameManager();
@@ -234,9 +232,8 @@ public class PlaceholderUtil {
         }catch (Exception ex) {
             ex.printStackTrace();
         }*/
-
-		if (PAPI && p != null) text = PlaceholderAPI.setPlaceholders(p, text);
-
+		if (UHCRevamp.getInstance().getPapiHook().hasPlaceholderAPI() && p != null)
+			return PlaceholderAPI.setPlaceholders(p, text);
 		return text;
 	}
 }

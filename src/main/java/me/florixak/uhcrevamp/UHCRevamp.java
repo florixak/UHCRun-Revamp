@@ -49,13 +49,11 @@ public final class UHCRevamp extends JavaPlugin {
 				getLogger().warning("Failed to register BungeeCord channel.");
 			}
 		}
-
+		papiHook = new PAPIHook(this);
 		protocolLibHook = new ProtocolLibHook();
 		vaultHook = new VaultHook();
 		luckPermsHook = new LuckPermsHook();
-		papiHook = new PAPIHook();
 
-		registerDependency();
 		getGameManager().loadNewGame();
 	}
 
@@ -77,12 +75,6 @@ public final class UHCRevamp extends JavaPlugin {
 
 	public GameManager getGameManager() {
 		return gameManager;
-	}
-
-	private void registerDependency() {
-		vaultHook.setupEconomy();
-		luckPermsHook.setupLuckPerms();
-		papiHook.setupPlaceholderAPI();
 	}
 
 	public ProtocolLibHook getProtocolLibHook() {
