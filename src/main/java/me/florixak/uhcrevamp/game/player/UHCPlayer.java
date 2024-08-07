@@ -192,7 +192,7 @@ public class UHCPlayer {
 	public void revive() {
 		setState(PlayerState.ALIVE);
 		setGameMode(GameMode.SURVIVAL);
-		teleport(spawnLoc == null ? TeleportUtils.getSafeLocation() : spawnLoc);
+		teleport(TeleportUtils.getSafeLocation());
 
 		getPlayer().setHealth(getPlayer().getMaxHealth());
 		getPlayer().setFoodLevel(20);

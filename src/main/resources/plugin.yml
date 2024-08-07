@@ -3,8 +3,8 @@ version: '${project.version}'
 main: me.florixak.uhcrevamp.UHCRevamp
 api-version: 1.13
 author: FloriXak
-depend: [ PlaceholderAPI, Vault ]
-softdepend: [ ProtocolLib, LuckPerms ]
+depend: [ PlaceholderAPI ]
+softdepend: [ ProtocolLib, LuckPerms, Vault ]
 
 commands:
   uhc:
@@ -38,3 +38,6 @@ commands:
     description: Opens players statistics
   revive:
     description: Revives dead player
+  quests:
+    aliases: [ quest ]
+    description: Opens quests gui

@@ -369,6 +369,7 @@ public class GameManager {
 		registerCommand("recipes", new RecipesCommand(this));
 		registerCommand("statistics", new StatisticsCommand(this));
 		registerCommand("revive", new ReviveCommand(this));
+		registerCommand("quests", new QuestsCommand(this));
 	}
 
 	private void registerCommand(final String commandN, final CommandExecutor executor) {
