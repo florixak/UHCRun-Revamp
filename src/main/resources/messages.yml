@@ -53,8 +53,8 @@ Messages:
 
   invalid-command: "&c[!] &fInvalid command! Use help: /uhc help"
   no-perm: "&c[!] &fYou do not have permissions!"
-  offline-player: "&c[!] &fThis player is offline!"
-  only-for-player: "%prefix% This can use only player!"
+  offline-player: "&c[!] &f%player% is offline!"
+  only-for-player: "%prefix% &fThis can be used only by player!"
   no-money: "&c[!] &fYou do not have enough money!"
   currency: "coins"
   purchase-cancel: "&c[!] &fPurchase cancelled!"
