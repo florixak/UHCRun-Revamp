@@ -47,7 +47,6 @@ public class GameCheckTask extends BukkitRunnable {
 
 	@Override
 	public void run() {
-
 		switch (gameManager.getGameState()) {
 			case LOBBY:
 				if (canStart() && !gameManager.isStarting()) {

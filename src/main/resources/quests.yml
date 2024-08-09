@@ -23,7 +23,7 @@
 quests:
   quest1:
     display-name: "&aTrue King"
-    display-item: GOLDEN_APPLE
+    display-item: BOOK
     type: "WIN"
     count: 50
     description:
@@ -33,14 +33,14 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 200
-      uhc-exp: 100
+      money: 1200
+      uhc-exp: 1100
 
   quest2:
     display-name: "&aDaily Quest 1"
-    display-item: GOLDEN_SWORD
+    display-item: BOOK
     type: "KILL"
-    count: 10
+    count: 25
     material: GOLDEN_SWORD
     description:
       - "&aKill &f%count% &aplayers with &f%material%"
@@ -49,12 +49,12 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 250
-      uhc-exp: 125
+      money: 1250
+      uhc-exp: 1125
 
   quest3:
     display-name: "&aTrue Gardener"
-    display-item: APPLE
+    display-item: BOOK
     type: "PICKUP"
     count: 128
     material: APPLE
@@ -65,12 +65,12 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 500
-      uhc-exp: 300
+      money: 1500
+      uhc-exp: 1300
 
   quest4:
     display-name: "&bDiamond Miner"
-    display-item: DIAMOND_ORE
+    display-item: BOOK
     type: "BREAK"
     count: 98
     material: DIAMOND_ORE
@@ -81,12 +81,12 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 700
-      uhc-exp: 400
+      money: 1700
+      uhc-exp: 1400
 
   quest5:
     display-name: "&bTrue Farmer"
-    display-item: WHEAT
+    display-item: BOOK
     type: "CRAFT"
     count: 64
     material: WHEAT
@@ -97,12 +97,12 @@ quests:
       - "&aProgress: &f%progress%/%count%"
       - "&f%status%"
     reward:
-      money: 900
-      uhc-exp: 500
+      money: 1900
+      uhc-exp: 1500
 
   quest6:
     display-name: "&bTrue Miner"
-    display-item: IRON_INGOT
+    display-item: BOOK
     type: "PICKUP"
     count: 32
     material: IRON_INGOT
@@ -114,11 +114,11 @@ quests:
       - "&f%status%"
     reward:
       money: 1100
-      uhc-exp: 600
+      uhc-exp: 1600
 
   quest7:
     display-name: "&bTrue Hunter"
-    display-item: BOW
+    display-item: BOOK
     type: "KILL"
     count: 10
     material: "BOW"
@@ -149,7 +149,7 @@ quests:
 
   quest9:
     display-name: "&aMaster Miner"
-    display-item: IRON_PICKAXE
+    display-item: BOOK
     type: "CRAFT"
     count: 100
     material: IRON_PICKAXE
@@ -165,7 +165,7 @@ quests:
 
   quest10:
     display-name: "&aUltimate Survivor"
-    display-item: DIAMOND_CHESTPLATE
+    display-item: BOOK
     type: "WIN"
     count: 100
     description:
@@ -180,7 +180,7 @@ quests:
 
   quest11:
     display-name: "&aIron Collector"
-    display-item: "IRON_INGOT"
+    display-item: BOOK
     type: "PICKUP"
     count: 200
     material: IRON_INGOT
@@ -196,7 +196,7 @@ quests:
 
   quest12:
     display-name: "&aGolden Hoarder"
-    display-item: "GOLD_INGOT"
+    display-item: BOOK
     type: "PICKUP"
     count: 150
     material: GOLD_INGOT
@@ -212,7 +212,7 @@ quests:
 
   quest13:
     display-name: "&aDiamond Collector"
-    display-item: "DIAMOND"
+    display-item: BOOK
     type: "PICKUP"
     count: 50
     material: DIAMOND
@@ -228,7 +228,7 @@ quests:
 
   quest14:
     display-name: "&aMonster Slayer"
-    display-item: "IRON_SWORD"
+    display-item: BOOK
     type: "KILL"
     count: 200
     material: IRON_SWORD
@@ -244,7 +244,7 @@ quests:
 
   quest15:
     display-name: "&aMaster Miner"
-    display-item: "DIAMOND_PICKAXE"
+    display-item: BOOK
     type: "BREAK"
     count: 500
     material: STONE
@@ -260,7 +260,7 @@ quests:
 
   quest16:
     display-name: "&aExpert Farmer"
-    display-item: GOLDEN_CARROT
+    display-item: BOOK
     type: "CRAFT"
     count: 200
     material: GOLDEN_CARROT
@@ -276,7 +276,7 @@ quests:
 
   quest18:
     display-name: "&aArchery Expert"
-    display-item: "BOW"
+    display-item: BOOK
     type: "KILL"
     count: 50
     material: "BOW"
@@ -291,8 +291,8 @@ quests:
       uhc-exp: 2000
 
   quest19:
-    display-name: "&aUltimate Warrior"
-    display-item: "DIAMOND_SWORD"
+    display-name: "&eUltimate Warrior"
+    display-item: BOOK
     type: "KILL"
     count: 100
     material: "DIAMOND_SWORD"
@@ -307,8 +307,8 @@ quests:
       uhc-exp: 2500
 
   quest21:
-    display-name: "&aFish Master"
-    display-item: "FISHING_ROD"
+    display-name: "&eFish Master"
+    display-item: BOOK
     type: "PICKUP"
     count: 100
     material: RAW_FISH
@@ -323,8 +323,8 @@ quests:
       uhc-exp: 800
 
   quest23:
-    display-name: "&aExplorer"
-    display-item: "OBSIDIAN"
+    display-name: "&eExplorer"
+    display-item: BOOK
     type: "PICKUP"
     count: 25
     material: "OBSIDIAN"

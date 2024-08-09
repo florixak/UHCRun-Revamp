@@ -53,7 +53,7 @@ public final class UHCRevamp extends JavaPlugin {
 		protocolLibHook = new ProtocolLibHook();
 		vaultHook = new VaultHook();
 		luckPermsHook = new LuckPermsHook();
-
+		
 		getGameManager().loadNewGame();
 	}
 

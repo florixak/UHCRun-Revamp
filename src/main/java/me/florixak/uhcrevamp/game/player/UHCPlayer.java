@@ -392,6 +392,14 @@ public class UHCPlayer {
 		getPlayer().closeInventory();
 	}
 
+	public int getPing() {
+		try {
+			return Integer.parseInt(getPlayer().getClass().getMethod("getPing").invoke(getPlayer()).toString());
+		} catch (final Exception e) {
+			return 0;
+		}
+	}
+
 	public void sendHotBarMessage(final String message) {
 		if (message == null || message.isEmpty() || !isOnline()) return;
 		NMSUtils.sendHotBarMessageViaNMS(getPlayer(), TextUtils.color(message));

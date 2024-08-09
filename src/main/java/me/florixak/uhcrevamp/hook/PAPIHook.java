@@ -19,7 +19,7 @@ public class PAPIHook {
 			return;
 		}
 		if (!hasPlaceholderAPI()) {
-			Bukkit.getLogger().info("PlaceholderAPI plugin not found! Please download it, if you want to use it or disable in config.");
+			Bukkit.getLogger().info("PlaceholderAPI plugin not found! Disabling PAPI support.");
 			return;
 		}
 		new PlaceholderExp(plugin).register();

@@ -148,7 +148,7 @@ Messages:
       bonus: "&a[!] &f+%bonus-coins% %currency%, +%bonus-uhc-exp% UHC exp and +%bonus-exp% exp!"
 
   quests:
-    completed: "&a[!] &fYou have completed the quest %quest%!"
+    completed: "&a[!] &fYou have completed the quest &f%quest%&f!"
     reward: "&a[!] &fYou have received %reward% %currency% and %exp% exp!"
 
   revive:

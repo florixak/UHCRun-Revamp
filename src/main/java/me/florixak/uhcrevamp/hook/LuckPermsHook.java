@@ -16,11 +16,13 @@ public class LuckPermsHook {
 	}
 
 	public void setupLuckPerms() {
+		if (!Bukkit.getServer().getPluginManager().isPluginEnabled("LuckPerms") || GameValues.ADDONS.CAN_USE_LUCKPERMS)
+			return;
 		try {
 			final RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
 			if (provider != null) luckPerms = provider.getProvider();
 
-			if (!hasLuckPerms() && GameValues.ADDONS.CAN_USE_LUCKPERMS) {
+			if (!hasLuckPerms()) {
 				Bukkit.getLogger().info("LuckPerms not found! Disabling LuckPerms support.");
 			}
 		} catch (final Exception e) {

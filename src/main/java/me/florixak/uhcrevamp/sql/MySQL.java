@@ -1,7 +1,7 @@
 package me.florixak.uhcrevamp.sql;
 
-import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,9 +30,9 @@ public class MySQL {
 	private void connect() {
 		try {
 			this.conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", user, password);
-			UHCRevamp.getInstance().getLogger().info(TextUtils.color("&aMySQL connected!"));
+			Bukkit.getLogger().info(TextUtils.color("&aMySQL connected!"));
 		} catch (final SQLException e) {
-			UHCRevamp.getInstance().getLogger().severe(TextUtils.color("&cMySQL can not be connected!"));
+			Bukkit.getLogger().severe(TextUtils.color("&cMySQL can not be connected!"));
 			e.printStackTrace();
 		}
 	}

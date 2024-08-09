@@ -11,12 +11,11 @@ import me.florixak.uhcrevamp.utils.TimeUtils;
 import me.florixak.uhcrevamp.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 
-import java.text.DecimalFormat;
-
 public class PlaceholderUtil {
 
 	public static String setPlaceholders(String text, final Player p) {
 
+		final UHCRevamp plugin = UHCRevamp.getInstance();
 		final GameManager gameManager = GameManager.getGameManager();
 		final BorderManager borderManager = gameManager.getBorderManager();
 
@@ -26,6 +25,10 @@ public class PlaceholderUtil {
 			if (text.contains("%player%"))
 				text = text.replace("%player%", uhcPlayer.getName());
 
+			if (text.contains("%ping%")) {
+				text = text.replace("%ping%", String.valueOf(uhcPlayer.getPing()));
+			}
+
 			if (text.contains("%uhc-level%"))
 				text = text.replace("%uhc-level%", String.valueOf(uhcPlayer.getData().getUHCLevel()));
 
@@ -33,8 +36,7 @@ public class PlaceholderUtil {
 				text = text.replace("%uhc-exp%", String.valueOf(uhcPlayer.getData().getUHCExp()));
 
 			if (text.contains("%required-uhc-exp%")) {
-				final DecimalFormat format = new DecimalFormat("#######0");
-				text = text.replace("%required-uhc-exp%", format.format(uhcPlayer.getData().getRequiredUHCExp()));
+				text = text.replace("%required-uhc-exp%", TextUtils.formatToOneDecimal(uhcPlayer.getData().getRequiredUHCExp()));
 			}
 
 			if (text.contains("%money%")) {
@@ -95,11 +97,7 @@ public class PlaceholderUtil {
 
 			if (text.contains("%kit%")) {
 				if (GameValues.KITS.ENABLED) {
-					if (uhcPlayer.hasKit()) {
-						text = text.replace("%kit%", uhcPlayer.getKit().getDisplayName());
-					} else {
-						text = text.replace("%kit%", Messages.KITS_SELECTED_NONE.toString());
-					}
+					text = text.replace("%kit%", uhcPlayer.hasKit() ? uhcPlayer.getKit().getDisplayName() : Messages.KITS_SELECTED_NONE.toString());
 				} else {
 					text = text.replace("%kit%", Messages.KITS_SB_DISABLED.toString());
 				}
@@ -107,11 +105,7 @@ public class PlaceholderUtil {
 
 			if (text.contains("%perk%")) {
 				if (GameValues.PERKS.ENABLED) {
-					if (uhcPlayer.hasPerk()) {
-						text = text.replace("%perk%", uhcPlayer.getPerk().getName());
-					} else {
-						text = text.replace("%perk%", Messages.PERKS_SELECTED_NONE.toString());
-					}
+					text = text.replace("%perk%", uhcPlayer.hasPerk() ? uhcPlayer.getPerk().getName() : Messages.PERKS_SELECTED_NONE.toString());
 				} else {
 					text = text.replace("%perk%", Messages.PERKS_SB_DISABLED.toString());
 				}
@@ -121,11 +115,7 @@ public class PlaceholderUtil {
 				if (!GameValues.TEAM.TEAM_MODE) {
 					text = text.replace("%team%", Messages.TEAM_SOLO.toString());
 				} else {
-					if (uhcPlayer.hasTeam()) {
-						text = text.replace("%team%", TextUtils.color(uhcPlayer.getTeam().getDisplayName()));
-					} else {
-						text = text.replace("%team%", Messages.TEAM_NONE.toString());
-					}
+					text = text.replace("%team%", uhcPlayer.hasTeam() ? TextUtils.color(uhcPlayer.getTeam().getDisplayName()) : Messages.TEAM_NONE.toString());
 				}
 			}
 
@@ -135,11 +125,11 @@ public class PlaceholderUtil {
 			}
 
 			if (text.contains("%luckperms-prefix%")) {
-				text = text.replace("%luckperms-prefix%", UHCRevamp.getInstance().getLuckPermsHook().getPrefix(p));
+				text = text.replace("%luckperms-prefix%", plugin.getLuckPermsHook().getPrefix(p));
 			}
 
 			if (text.contains("%luckperms-suffix%")) {
-				text = text.replace("%luckperms-suffix%", UHCRevamp.getInstance().getLuckPermsHook().getSuffix(p));
+				text = text.replace("%luckperms-suffix%", plugin.getLuckPermsHook().getSuffix(p));
 			}
 
 			if (text.contains("%money-for-game%")) {
@@ -214,13 +204,8 @@ public class PlaceholderUtil {
 		}
 
 		if (text.contains("%game-mode%")) {
-			if (!GameValues.TEAM.TEAM_MODE) {
-				text = text.replace("%game-mode%", Messages.GAME_SOLO.toString());
-			} else {
-				text = text.replace("%game-mode%", Messages.GAME_TEAMS.toString());
-			}
+			text = text.replace("%game-mode%", GameValues.TEAM.TEAM_MODE ? Messages.GAME_TEAMS.toString() : Messages.GAME_SOLO.toString());
 		}
-
 
         /*try {
             final String BUNGEEPATTERN = "%bungeecord(\w+)%";
@@ -232,7 +217,9 @@ public class PlaceholderUtil {
         }catch (Exception ex) {
             ex.printStackTrace();
         }*/
-		if (UHCRevamp.getInstance().getPapiHook().hasPlaceholderAPI() && p != null)
+		if (UHCRevamp.getInstance().getPapiHook().hasPlaceholderAPI()
+				&& GameValues.ADDONS.CAN_USE_PLACEHOLDERAPI
+				&& p != null)
 			return PlaceholderAPI.setPlaceholders(p, text);
 		return text;
 	}

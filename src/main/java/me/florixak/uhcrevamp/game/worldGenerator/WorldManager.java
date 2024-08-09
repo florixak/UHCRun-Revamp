@@ -15,6 +15,7 @@ public class WorldManager {
 
 		final WorldCreator worldCreator = new WorldCreator(GameValues.WORLD_NAME).environment(World.Environment.NORMAL);
 		final World world = Bukkit.createWorld(worldCreator);
+		//setOldGameRules(world);
 		if (UHCRevamp.useOldMethods) {
 			setOldGameRules(world);
 		} else {
@@ -23,7 +24,7 @@ public class WorldManager {
 				world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 				world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
 				world.setGameRule(GameRule.SPAWN_RADIUS, 0);
-			} catch (final NoSuchMethodError e) {
+			} catch (final Exception e) {
 				Bukkit.getLogger().info("Failed to set game rules using new method. Using old method.");
 				setOldGameRules(world);
 			}

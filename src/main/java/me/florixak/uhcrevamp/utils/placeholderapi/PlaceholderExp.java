@@ -3,6 +3,7 @@ package me.florixak.uhcrevamp.utils.placeholderapi;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.florixak.uhcrevamp.UHCRevamp;
 import me.florixak.uhcrevamp.config.Messages;
+import me.florixak.uhcrevamp.game.GameManager;
 import me.florixak.uhcrevamp.game.GameValues;
 import me.florixak.uhcrevamp.game.player.UHCPlayer;
 import me.florixak.uhcrevamp.utils.TimeUtils;
@@ -13,10 +14,10 @@ import java.text.DecimalFormat;
 
 public class PlaceholderExp extends PlaceholderExpansion {
 
-	private final UHCRevamp plugin;
+	private final GameManager gameManager;
 
 	public PlaceholderExp(final UHCRevamp plugin) {
-		this.plugin = plugin;
+		gameManager = plugin.getGameManager();
 	}
 
 	@Override
@@ -46,132 +47,138 @@ public class PlaceholderExp extends PlaceholderExpansion {
 
 	@Override
 	public String onPlaceholderRequest(final Player p, final String params) {
-		final UHCPlayer uhcPlayer = plugin.getGameManager().getPlayerManager().getUHCPlayer(p.getUniqueId());
+		final String placeholder = params.toLowerCase();
 
-		if (params.equalsIgnoreCase("uhc-author")) {
+		if (p != null) {
+
+			final UHCPlayer uhcPlayer = gameManager.getPlayerManager().getUHCPlayer(p.getUniqueId());
+
+			if (placeholder.equals("uhc-player")) {
+				return uhcPlayer.getName();
+			}
+
+			if (placeholder.equals("uhc-team")) {
+				if (!GameValues.TEAM.TEAM_MODE) return "";
+				if (!uhcPlayer.hasTeam()) return Messages.TEAM_NONE.toString();
+				return TextUtils.color(uhcPlayer.getTeam().getDisplayName());
+			}
+
+			if (placeholder.equals("uhc-kills")) {
+				return String.valueOf(uhcPlayer.getKills());
+			}
+
+			if (placeholder.equals("uhc-killstreak")) {
+				return String.valueOf(uhcPlayer.getData().getKillstreak());
+			}
+
+			if (placeholder.equals("uhc-assists")) {
+				return String.valueOf(uhcPlayer.getAssists());
+			}
+
+			if (placeholder.equals("uhc-level")) {
+				return String.valueOf(uhcPlayer.getData().getUHCLevel());
+			}
+
+			if (placeholder.equals("uhc-exp")) {
+				return String.valueOf(uhcPlayer.getData().getUHCExp());
+			}
+
+			if (placeholder.equals("uhc-required-exp")) {
+				return String.valueOf(uhcPlayer.getData().getRequiredUHCExp());
+			}
+
+			if (placeholder.equals("uhc-ping")) {
+				return String.valueOf(uhcPlayer.getPing());
+			}
+
+			if (placeholder.equals("uhc-money")) {
+				return String.valueOf(uhcPlayer.getData().getMoney());
+			}
+
+			if (placeholder.equals("uhc-total-kills")) {
+				return String.valueOf(uhcPlayer.getData().getKills());
+			}
+
+			if (placeholder.equals("uhc-total-deaths")) {
+				return String.valueOf(uhcPlayer.getData().getDeaths());
+			}
+
+			if (placeholder.equals("uhc-total-wins")) {
+				return String.valueOf(uhcPlayer.getData().getWins());
+			}
+
+			if (placeholder.equals("uhc-total-losses")) {
+				return String.valueOf(uhcPlayer.getData().getLosses());
+			}
+
+			if (placeholder.equals("uhc-games-played")) {
+				return String.valueOf(uhcPlayer.getData().getGamesPlayed());
+			}
+		}
+
+		if (placeholder.equals("uhc-author")) {
 			return getAuthor();
 		}
 
-		if (params.equalsIgnoreCase("uhc-version")) {
+		if (placeholder.equals("uhc-version")) {
 			return getVersion();
 		}
 
-		if (params.equalsIgnoreCase("uhc-prefix")) {
+		if (placeholder.equals("uhc-prefix")) {
 			return Messages.PREFIX.toString();
 		}
 
-		if (params.equalsIgnoreCase("uhc-currency")) {
+		if (placeholder.equals("uhc-currency")) {
 			return Messages.CURRENCY.toString();
 		}
 
-		if (params.equalsIgnoreCase("uhc-world")) {
+		if (placeholder.equals("uhc-world")) {
 			return GameValues.WORLD_NAME;
 		}
 
-		if (params.equalsIgnoreCase("uhc-border-size")) {
+		if (placeholder.equals("uhc-border-size")) {
 			final DecimalFormat format = new DecimalFormat("#######0");
-			final String formattedBorderSize = "+" + format.format(plugin.getGameManager().getBorderManager().getSize()) + " -" + format.format(plugin.getGameManager().getBorderManager().getSize());
-			return formattedBorderSize;
+			return "+" + format.format(gameManager.getBorderManager().getSize()) +
+					" -" + format.format(gameManager.getBorderManager().getSize());
 		}
 
-		if (params.equalsIgnoreCase("uhc-player")) {
-			return uhcPlayer.getName();
+		if (placeholder.equals("uhc-countdown")) {
+			return TimeUtils.getFormattedTime(gameManager.getCurrentCountdown());
 		}
 
-		if (params.equalsIgnoreCase("uhc-countdown")) {
-			return TimeUtils.getFormattedTime(plugin.getGameManager().getCurrentCountdown());
+		if (placeholder.equals("uhc-players")) {
+			return String.valueOf(gameManager.getPlayerManager().getOnlinePlayers().size());
 		}
 
-		if (params.equalsIgnoreCase("uhc-players")) {
-			return String.valueOf(plugin.getGameManager().getPlayerManager().getOnlinePlayers().size());
+		if (placeholder.equals("uhc-max-players")) {
+			return String.valueOf(gameManager.getPlayerManager().getMaxPlayers());
 		}
 
-		if (params.equalsIgnoreCase("uhc-max-players")) {
-			return String.valueOf(plugin.getGameManager().getPlayerManager().getMaxPlayers());
-		}
-
-		if (params.equalsIgnoreCase("uhc-players-to-start")) {
+		if (placeholder.equals("uhc-players-to-start")) {
 			return String.valueOf(GameValues.GAME.PLAYERS_TO_START);
 		}
 
-		if (params.equalsIgnoreCase("uhc-alive-players")) {
-			return String.valueOf(plugin.getGameManager().getPlayerManager().getAlivePlayers().size());
+		if (placeholder.equals("uhc-alive-players")) {
+			return String.valueOf(gameManager.getPlayerManager().getAlivePlayers().size());
 		}
 
-		if (params.equalsIgnoreCase("uhc-dead-players")) {
-			return String.valueOf(plugin.getGameManager().getPlayerManager().getDeadPlayers().size());
+		if (placeholder.equals("uhc-dead-players")) {
+			return String.valueOf(gameManager.getPlayerManager().getDeadPlayers().size());
 		}
 
-		if (params.equalsIgnoreCase("uhc-spectators")) {
-			return String.valueOf(plugin.getGameManager().getPlayerManager().getSpectatorPlayers().size());
+		if (placeholder.equals("uhc-spectators")) {
+			return String.valueOf(gameManager.getPlayerManager().getSpectatorPlayers().size());
 		}
 
-		if (params.equalsIgnoreCase("uhc-winner")) {
-			return plugin.getGameManager().getPlayerManager().getUHCWinner();
+		if (placeholder.equals("uhc-winner")) {
+			return gameManager.getPlayerManager().getUHCWinner();
 		}
 
-		if (params.equalsIgnoreCase("uhc-team")) {
-			if (!GameValues.TEAM.TEAM_MODE) return "";
-			if (!uhcPlayer.hasTeam()) return Messages.TEAM_NONE.toString();
-			return TextUtils.color(uhcPlayer.getTeam().getDisplayName());
-		}
-
-		if (params.equalsIgnoreCase("uhc-mode")) {
+		if (placeholder.equals("uhc-mode")) {
 			if (GameValues.TEAM.TEAM_MODE) return Messages.GAME_TEAMS.toString();
 			return Messages.GAME_SOLO.toString();
 		}
 
-		if (params.equalsIgnoreCase("uhc-kills")) {
-			return String.valueOf(uhcPlayer.getKills());
-		}
-
-		if (params.equalsIgnoreCase("uhc-killstreak")) {
-			return String.valueOf(uhcPlayer.getData().getKillstreak());
-		}
-
-		if (params.equalsIgnoreCase("uhc-assists")) {
-			return String.valueOf(uhcPlayer.getAssists());
-		}
-
-		if (params.equalsIgnoreCase("uhc-level")) {
-			return String.valueOf(uhcPlayer.getData().getUHCLevel());
-		}
-
-		if (params.equalsIgnoreCase("uhc-exp")) {
-			return String.valueOf(uhcPlayer.getData().getUHCExp());
-		}
-
-		if (params.equalsIgnoreCase("uhc-required-exp")) {
-			return String.valueOf(uhcPlayer.getData().getRequiredUHCExp());
-		}
-
-		if (params.equalsIgnoreCase("uhc-ping")) {
-			return String.valueOf(p.getPing());
-		}
-
-		if (params.equalsIgnoreCase("uhc-money")) {
-			return String.valueOf(uhcPlayer.getData().getMoney());
-		}
-
-		if (params.equalsIgnoreCase("uhc-total-kills")) {
-			return String.valueOf(uhcPlayer.getData().getKills());
-		}
-
-		if (params.equalsIgnoreCase("uhc-total-deaths")) {
-			return String.valueOf(uhcPlayer.getData().getDeaths());
-		}
-
-		if (params.equalsIgnoreCase("uhc-total-wins")) {
-			return String.valueOf(uhcPlayer.getData().getWins());
-		}
-
-		if (params.equalsIgnoreCase("uhc-total-losses")) {
-			return String.valueOf(uhcPlayer.getData().getDeaths());
-		}
-
-		if (params.equalsIgnoreCase("uhc-games-played")) {
-			return String.valueOf(uhcPlayer.getData().getGamesPlayed());
-		}
 		return null;
 	}
 }

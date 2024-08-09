@@ -20,7 +20,6 @@ import me.florixak.uhcrevamp.game.worldGenerator.OreGenManager;
 import me.florixak.uhcrevamp.game.worldGenerator.OreGeneratorListener;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldGeneratorListener;
 import me.florixak.uhcrevamp.game.worldGenerator.WorldManager;
-import me.florixak.uhcrevamp.gui.MenuManager;
 import me.florixak.uhcrevamp.listener.*;
 import me.florixak.uhcrevamp.listener.events.GameEndEvent;
 import me.florixak.uhcrevamp.manager.*;
@@ -73,7 +72,6 @@ public class GameManager {
 	private final DeathChestManager deathChestManager;
 	private final OreGenManager oreGenManager;
 	private final WorldManager worldManager;
-	private final MenuManager menuManager;
 	private final DamageTrackerManager damageTrackerManager;
 	private final QuestManager questManager;
 
@@ -101,7 +99,6 @@ public class GameManager {
 		this.oreGenManager = new OreGenManager(this);
 		this.soundManager = new SoundManager();
 		this.customRecipeManager = new CustomRecipeManager(this);
-		this.menuManager = new MenuManager();
 		this.statisticsManager = new StatisticsManager(this);
 		this.damageTrackerManager = new DamageTrackerManager();
 		this.questManager = new QuestManager(this);
@@ -317,8 +314,6 @@ public class GameManager {
 			final String username = config.getString(path + ".username", "root");
 			final String password = config.getString(path + ".password", "");
 
-			Bukkit.getLogger().info("Connecting to MySQL database...");
-
 			this.mysql = new MySQL(host, port, database, username, password);
 			if (this.mysql.hasConnection()) {
 				this.data = new SQLGetter(this);
@@ -452,10 +447,6 @@ public class GameManager {
 
 	public WorldManager getWorldManager() {
 		return worldManager;
-	}
-
-	public MenuManager getMenuManager() {
-		return menuManager;
 	}
 
 	public StatisticsManager getStatisticsManager() {

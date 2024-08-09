@@ -162,4 +162,8 @@ public class TextUtils {
 	public static String formatToOneDecimal(double number) {
 		return String.format("%.1f", number);
 	}
+
+	public static String formatToTwoDecimals(double number) {
+		return String.format("%.2f", number);
+	}
 }
